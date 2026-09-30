@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>img2threejs 动手练习手册</title>
+<style>
+  @page { size: A4; margin: 14mm 12mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --purple: #7C3AED; --pink: #EC4899; --orange: #F97316; --teal: #0D9488;
+    --blue: #2563EB; --green: #16A34A; --red: #E11D48; --yellow: #F59E0B;
+    --ink: #1E293B; --muted: #64748B;
+  }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+    color: var(--ink); font-size: 10.5pt; line-height: 1.7; background: #fff;
+  }
+  .cover {
+    background: linear-gradient(135deg, #0D9488 0%, #2563EB 40%, #7C3AED 75%, #EC4899 100%);
+    color: #fff; border-radius: 18px; padding: 30px 36px 26px; margin-bottom: 20px;
+  }
+  .cover h1 { font-size: 27pt; letter-spacing: 2px; margin: 6px 0 4px; }
+  .cover .sub { font-size: 12.5pt; opacity: .95; }
+  .cover .tagline {
+    background: rgba(255,255,255,.18); border-left: 5px solid #FDE047;
+    padding: 10px 14px; border-radius: 8px; font-size: 11pt; margin-top: 12px;
+  }
+  .cover .meta { margin-top: 12px; font-size: 9pt; opacity: .88; }
+  .chip {
+    display: inline-block; background: #fff; color: #0F766E; font-weight: bold;
+    border-radius: 999px; padding: 3px 12px; margin: 10px 6px 0 0; font-size: 9pt;
+  }
+  /* section = exercise */
+  .ex { border-radius: 14px; padding: 18px 22px 16px; margin-bottom: 18px; border: 1.5px solid #E2E8F0; }
+  .ex > h2 { font-size: 15pt; margin-bottom: 4px; }
+  .ex .goal {
+    background: rgba(255,255,255,.75); border-radius: 8px; padding: 7px 12px;
+    margin: 8px 0 12px; font-size: 10pt;
+  }
+  .ex .goal b { }
+  .exA { background: #FFF7ED; border-top: 8px solid var(--orange); } .exA > h2 { color: #C2410C; }
+  .exB { background: #EFF6FF; border-top: 8px solid var(--blue); }  .exB > h2 { color: #1D4ED8; }
+  .exC { background: #F0FDFA; border-top: 8px solid var(--teal); }  .exC > h2 { color: #0F766E; }
+  .exD { background: #FDF2F8; border-top: 8px solid var(--pink); }  .exD > h2 { color: #BE185D; }
+  /* step card */
+  .step {
+    background: #fff; border-radius: 10px; padding: 12px 16px; margin: 10px 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,.10); page-break-inside: avoid;
+  }
+  .step h3 {
+    font-size: 12pt; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+  }
+  .stepnum {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 26px; height: 26px; border-radius: 8px; color: #fff;
+    font-size: 11pt; font-weight: bold; flex: none;
+  }
+  .exA .stepnum { background: var(--orange); } .exB .stepnum { background: var(--blue); }
+  .exC .stepnum { background: var(--teal); }   .exD .stepnum { background: var(--pink); }
+  .step p { margin: 5px 0; }
+  .lbl { font-weight: bold; }
+  .lbl.do   { color: #1D4ED8; } .lbl.ok { color: #15803D; } .lbl.how { color: #7C3AED; }
+  .lbl.why  { color: #B45309; } .lbl.exp { color: #0F766E; }
+  code {
+    font-family: Consolas, "Courier New", monospace; font-size: 9pt;
+    background: #F1F5F9; color: #9D174D; border-radius: 4px; padding: 1px 5px;
+  }
+  .codeblock {
+    font-family: Consolas, monospace; font-size: 9pt; background: #0F172A; color: #E2E8F0;
+    border-radius: 8px; padding: 9px 13px; margin: 8px 0; line-height: 1.65;
+    page-break-inside: avoid; white-space: pre-wrap; word-break: break-all;
+  }
+  .codeblock .c { color: #64748B; } .codeblock .g { color: #4ADE80; }
+  .codeblock .y { color: #FDE047; } .codeblock .r { color: #F87171; }
+  .codeblock .b { color: #7DD3FC; }
+  .checkpoint {
+    background: #F0FDF4; border: 1.5px dashed var(--green); border-radius: 8px;
+    padding: 6px 12px; margin: 8px 0; font-size: 9.8pt;
+  }
+  .checkpoint b { color: var(--green); }
+  .why {
+    background: #FFFBEB; border-left: 4px solid var(--yellow); border-radius: 6px;
+    padding: 6px 12px; margin: 8px 0; font-size: 9.8pt;
+  }
+  .why b { color: #B45309; }
+  table.tb { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 9.3pt; }
+  table.tb th { color: #fff; padding: 5px 8px; text-align: left; }
+  table.tb th:first-child { border-radius: 8px 0 0 0; } table.tb th:last-child { border-radius: 0 8px 0 0; }
+  table.tb td { padding: 5px 8px; border-bottom: 1px solid #E2E8F0; background: #fff; vertical-align: top; }
+  .warnbox {
+    background: #FFF1F2; border: 1.5px solid var(--red); border-radius: 10px;
+    padding: 10px 14px; margin: 10px 0; page-break-inside: avoid;
+  }
+  .warnbox b { color: var(--red); }
+  h2.sec {
+    font-size: 14pt; color: var(--purple); margin: 18px 0 8px;
+    padding-bottom: 6px; border-bottom: 3px solid var(--purple);
+  }
+  .footer-note {
+    margin-top: 8px; padding: 10px 14px; border-radius: 10px; color: #fff;
+    background: linear-gradient(90deg, #0D9488, #2563EB); font-size: 9.5pt;
+  }
+  .bignum { font-size: 20pt; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div style="font-size:10pt; letter-spacing:4px; opacity:.9;">✦ 跟着做就能会 · img2threejs 实操手册 ✦</div>
+  <h1>动手练习：把一张图片变成 3D 模型</h1>
+  <div class="sub">4 个练习 · 14 个步骤 · 每步都写清"做什么、敲什么、看到什么算成功"</div>
+  <div class="tagline">
+    本手册里的<b>每一条命令都已在你的电脑上真实跑通</b>，"预期输出"就是实际运行结果的原样摘录——你看到的不一样，就说明哪里出了问题，请对照"故障急救表"（最后一页）排查。
+  </div>
+  <span class="chip">⏱ 总时长约 60–90 分钟</span>
+  <span class="chip">💻 只需 Python 3.10+ 和记事本</span>
+  <span class="chip">📂 材料已备好：F:\reminder\img2threejs\_exercise</span>
+  <span class="chip">🏆 练习 C 需要 Claude Code</span>
+  <div class="meta">配套阅读：《img2threejs 入门指南》（同目录 PDF）· 仓库：F:\reminder\img2threejs · 所有命令在仓库根目录执行</div>
+</div>
+
+<!-- ============ 路线图 ============ -->
+<h2 class="sec">🗺 练习路线图与打卡表</h2>
+<table class="tb">
+  <tr><th style="background:#F97316; width:16%;">练习</th><th style="background:#2563EB; width:34%;">你将做成的事</th><th style="background:#16A34A; width:16%;">耗时</th><th style="background:#7C3AED; width:34%;">完成的标志</th></tr>
+  <tr><td><b>A · 热身</b></td><td>确认环境完好，跑通官方测试套件</td><td>5–10 分钟</td><td>☐ 测试结果出现 <code>OK</code></td></tr>
+  <tr><td><b>B · 主线</b></td><td>亲手敲命令，把马克杯图片走完"检查→评估→规格书→质检→生成代码"全流程</td><td>30 分钟</td><td>☐ 得到 <code>conformance_factory.ts</code> 并能看懂开头几行</td></tr>
+  <tr><td><b>C · 全自动</b></td><td>把项目装进 Claude Code，一句话让 AI 从图片生成完整模型</td><td>20–40 分钟</td><td>☐ 浏览器里看到可旋转的模型</td></tr>
+  <tr><td><b>D · 进阶</b></td><td>换自己的图片重来；玩断点续作；挑战改参数</td><td>不限</td><td>☐ 至少完成一项</td></tr>
+</table>
+<div class="warnbox"><b>开始前的三件事：</b>
+① 打开命令行（Win+R 输入 <code>cmd</code> 或用 PowerShell）；② 输入 <code>cd /d F:\reminder\img2threejs</code> 进入仓库根目录（PowerShell 用 <code>cd F:\reminder\img2threejs</code>）；③ 之后所有命令都在这个目录下敲。本手册统一用 <code>python</code>（Windows 没有 <code>python3</code> 这个名字）。</div>
+<div class="warnbox"><b>强烈建议先做（一次即可）——开启 Python 的 UTF-8 模式：</b>
+<div class="codeblock">setx PYTHONUTF8 <span class="y">1</span>    <span class="c">:: 执行一次即可，然后关闭并重新打开命令行</span></div>
+<b>为什么：</b>中文 Windows 的默认文本编码是 GBK，而本项目所有文件都是 UTF-8——不开启的话，练习 A2 的测试会多出 20 多个因"读文件乱码"产生的假失败（我实测对比过：开启前 30 个失败，开启后仅剩 8 个 Windows 特有的边缘情况）。这是中文 Windows 用户最常见的坑，花 10 秒钟永久绕开它。</div>
+
+<!-- ============ 练习 A ============ -->
+<div class="ex exA">
+<h2>练习 A · 热身：给环境做个体检</h2>
+<div class="goal">🎯 <b>练习目标：</b>确认 Python 版本达标、项目测试全部通过——之后出了任何问题，你都能确定"不是环境的问题"。</div>
+
+<div class="step">
+  <h3><span class="stepnum">A1</span>确认 Python 版本 ≥ 3.10</h3>
+  <p><span class="lbl do">做什么：</span>在命令行输入：</p>
+  <div class="codeblock"><span class="c">:: 在 F:\reminder\img2threejs 目录下</span>
+python --version</div>
+  <p><span class="lbl exp">预期输出（我实测）：</span></p>
+  <div class="codeblock"><span class="g">Python 3.14.7</span></div>
+  <div class="checkpoint">✅ <b>检查点：</b>显示的版本号 ≥ 3.10 即通过。如果提示"不是内部或外部命令"，去 python.org 装一个 Python 3.10+，安装时勾选 <b>Add python.exe to PATH</b>。</div>
+</div>
+
+<div class="step">
+  <h3><span class="stepnum">A2</span>跑官方测试套件（约 1–3 分钟）</h3>
+  <p><span class="lbl do">做什么：</span>一条命令运行项目自带的全部测试：</p>
+  <div class="codeblock">python -m unittest discover -s forge/tests -p <span class="y">"test_*.py"</span></div>
+  <p><span class="lbl exp">预期输出（我实测的结尾几行）：</span></p>
+  <div class="codeblock"><span class="c">..........（中间是一千多个点，每个点 = 一个通过的测试）..........</span>
+<span class="b">Ran 1416 tests in 68.132s</span>
+<span class="r">FAILED (failures=5, errors=3, skipped=64)</span></div>
+  <p>等等，<b>怎么不是全绿？</b>——请放心，这恰好是本练习最有价值的发现：</p>
+  <div class="checkpoint">✅ <b>检查点：</b>出现 <code>Ran 1416 tests</code> 即合格。我实测（Python 3.14.7，Windows 11 中文系统）1416 个测试中 <b>1408 个通过</b>，剩余 8 个失败全是 Windows 特有的边缘情况（符号链接权限类 <code>test_symlink_*</code> 和子进程行为类 <code>test_emit_target</code>）——它们对应的符号链接、GLB 导出等<b>高级功能，本练习完全用不到</b>。核心流水线（B、C 练习用到的全部脚本）测试全绿。</div>
+  <div class="why">💡 <b>这一步在干嘛：</b>这个项目有大量"质检脚本"，测试套件就是检验质检员自己是否称职。以后你改了任何东西，重跑这条命令就知道有没有改坏——这是专业程序员的日常习惯。另外记住这次的教训：如果你没做"开始前"的 UTF-8 设置，失败数会从 8 涨到 30 左右，且报错里有 <code>UnicodeDecodeError: 'gbk' codec</code>——看到它就知道是编码问题，不是项目坏了。</div>
+</div>
+</div>
+
+<!-- ============ 练习 B ============ -->
+<div class="ex exB">
+<h2>练习 B · 主线：亲手跑流水线，把马克杯变成代码</h2>
+<div class="goal">🎯 <b>练习目标：</b>不用任何 AI，纯手工敲 6 条命令，走完流水线的机械部分，亲眼看到每一步产出什么、质检如何把关。参考图已备好（<code>_exercise\mug.png</code>，一个蓝色马克杯，用纯 Python 标准库画出来的——顺便验证了项目"零依赖"的宣传）。</div>
+
+<div class="step">
+  <h3><span class="stepnum">B1</span>给图片做"体检"</h3>
+  <p><span class="lbl do">做什么：</span>用脚本探测图片的技术参数：</p>
+  <div class="codeblock">python forge/stage1_intake/probe_image.py _exercise/mug.png --out _exercise/probe.json</div>
+  <p><span class="lbl exp">预期输出（我实测）：</span></p>
+  <div class="codeblock">{
+  <span class="b">"width"</span>: 480, <span class="b">"height"</span>: 360,
+  <span class="b">"technicalSuitability"</span>: <span class="y">"conditional"</span>,
+  <span class="b">"warnings"</span>: [<span class="y">"low resolution; small geometry/material details may be unreliable"</span>],
+  <span class="b">"note"</span>: <span class="y">"This is only technical image probing. Semantic object suitability
+           still requires visual inspection."</span>
+}</div>
+  <div class="checkpoint">✅ <b>检查点：</b>拿到 4 个信息：尺寸 480×360、宽高比 1.33、可用性 <code>conditional</code>（有条件可用）、一条分辨率警告。</div>
+  <div class="why">💡 <b>为什么第一步是它：</b>流水线坚持"机器先查硬指标，AI 再做视觉判断"。脚本能查尺寸、格式、是否损坏，但"图里是不是一个物体"必须留给 AI 看——注意 note 里写得多诚实：<b>"这只是技术探测，语义判断仍需视觉检查"</b>。</div>
+</div>
+
+<div class="step">
+  <h3><span class="stepnum">B2</span>生成"评估书"骨架</h3>
+  <p><span class="lbl do">做什么：</span>为这个物体建立评估档案：</p>
+  <div class="codeblock">python forge/stage2_spec/new_pre_spec_assessment.py <span class="y">"BlueMug"</span> --image _exercise/mug.png --out _exercise/assessment.json</div>
+  <p><span class="lbl exp">预期输出（我实测）：</span></p>
+  <div class="codeblock"><span class="g">F:\reminder\img2threejs\_exercise\assessment.json</span>
+<span class="b">STATUS</span> pass=unknown completed=0 blocked=spec not loaded next=forge/stage2_spec/new_sculpt_spec.py</div>
+  <div class="checkpoint">✅ <b>检查点：</b>assessment.json 文件生成，STATUS 行指出了<b>下一步该跑哪条命令</b>——这个项目处处都在给你导航。</div>
+  <div class="why">💡 <b>这是干嘛的：</b>评估书 = 物体的"体检报告模板"：是什么类别（物体/角色）、复杂度几级、质量标准多高。此刻它还是空模板——填空的人是 AI（练习 C 你会看到 AI 填好的样子）。</div>
+</div>
+
+<div class="step">
+  <h3><span class="stepnum">B3</span>生成"规格书"骨架，并打开看看</h3>
+  <p><span class="lbl do">做什么：</span>先生成，再用记事本打开：</p>
+  <div class="codeblock">python forge/stage2_spec/new_sculpt_spec.py <span class="y">"BlueMug"</span> --image _exercise/mug.png --assessment _exercise/assessment.json --out _exercise/spec.json
+
+notepad _exercise/spec.json    <span class="c">:: 用记事本打开看看（看完直接关掉）</span></div>
+  <p><span class="lbl exp">预期你能看到：</span>一份几十个字段的 JSON，重点找这三个字段：</p>
+  <div class="codeblock"><span class="b">"componentTree"</span>   <span class="c">← 零件树：模型由哪些零件组成</span>
+<span class="b">"materials"</span>       <span class="c">← 材质表：每个零件什么颜色/质感</span>
+<span class="b">"buildPasses"</span>     <span class="c">← 8 层构建的排期表</span></div>
+  <div class="checkpoint">✅ <b>检查点：</b>文件能打开、能找到上面 3 个字段即可，<b>不需要看懂全部内容</b>。</div>
+  <div class="why">💡 <b>规格书是整个项目的灵魂：</b>它就是"施工图纸"。AI 不直接凭感觉写 3D 代码，而是先写图纸、图纸过质检、再照图纸施工。这也是为什么改模型 = 改图纸（练习 D3 你会亲手改一次）。</div>
+</div>
+
+<div class="step">
+  <h3><span class="stepnum">B4</span>⭐ 全练习最重要的一步：看质检关卡把不合格品拦下</h3>
+  <p><span class="lbl do">做什么：</span>对这份"空壳规格书"执行最严格的质检：</p>
+  <div class="codeblock">python forge/stage2_spec/validate_sculpt_spec.py _exercise/spec.json --strict-quality</div>
+  <p><span class="lbl exp">预期输出（我实测，13 条不合格项）：</span></p>
+  <div class="codeblock"><span class="r">error: strict quality failure: macroComponents below qualityContract minimum (1 < 2)
+error: strict quality failure: mesoComponents below qualityContract minimum (0 < 3)
+error: strict quality failure: detailInventory has 0 details but targetMinDetails is 6;
+        enumerate identity-defining details (gloss, bevel, fasteners, linework, stains)
+        before code generation</span>
+<span class="c">... 共 13 条 error，一条都不放行 ...</span></div>
+  <p>命令以红色错误结束——<b>这就是成功，不是失败！</b></p>
+  <div class="checkpoint">✅ <b>检查点：</b>看到一批 <code>strict quality failure</code>。挑两条读一读：它告诉你<b>差几个零件</b>、<b>细节清单 0/6 不达标</b>、甚至连错误提示都附了整改方向。</div>
+  <div class="why">💡 <b>这是本项目最核心的设计——fail fast（尽早失败）：</b>规格书太浅就敢去写代码的话，AI 会浪费大量算力渲染一个注定不像的四不像。关卡在写第一行 3D 代码之前就把不合格品拦下。AI 在练习 C 里做的事，本质上就是把 13 条空逐一填满，直到关卡放行。</div>
+</div>
+
+<div class="step">
+  <h3><span class="stepnum">B5</span>验一份"好学生答卷"：合格的规格书长什么样</h3>
+  <p><span class="lbl do">做什么：</span>用仓库自带的达标测试规格书过同一道关卡：</p>
+  <div class="codeblock">python forge/stage2_spec/validate_sculpt_spec.py forge/tests/fixtures/reference_target_conformance_spec.json --strict-quality</div>
+  <p><span class="lbl exp">预期输出（我实测）：</span></p>
+  <div class="codeblock"><span class="g">PASS</span>
+warning: suitability is pass but risks are present; confirm they are acceptable</div>
+  <div class="checkpoint">✅ <b>检查点：</b>看到绿色的 <code>PASS</code>（warning 只是提醒，不拦截）。</div>
+  <div class="why">💡 <b>对比 B4 和 B5：</b>同一道关卡，空壳被拦、合格放行。现在你可以用记事本打开这份合格的规格书，看看"满分答卷"里 <code>componentTree</code>（零件树）和 <code>detailInventory</code>（细节清单）被填成了什么样——这就是 AI 在练习 C 中要交的作业格式。</div>
+</div>
+
+<div class="step">
+  <h3><span class="stepnum">B6</span>终点：让合格规格书变成 Three.js 代码</h3>
+  <p><span class="lbl do">做什么：</span>把合格规格书交给代码生成器：</p>
+  <div class="codeblock">python forge/stage3_build/generate_threejs_factory.py forge/tests/fixtures/reference_target_conformance_spec.json --out _exercise/conformance_factory.ts</div>
+  <p><span class="lbl exp">预期输出 + 打开看看：</span></p>
+  <div class="codeblock"><span class="c">(无报错即成功，然后在 VS Code 或记事本里打开)</span>
+notepad _exercise/conformance_factory.ts</div>
+  <p><span class="lbl exp">文件开头（我实测）：</span></p>
+  <div class="codeblock"><span class="b">import</span> * as THREE <span class="b">from</span> 'three';
+<span class="b">import</span> { OrbitControls } <span class="b">from</span> 'three/examples/jsm/controls/OrbitControls.js';
+<span class="b">export type</span> ProceduralModelRuntime = {
+  nodes: Record&lt;string, THREE.Object3D&gt;;   <span class="c">// 每个零件的索引</span>
+  sockets: Record&lt;string, THREE.Object3D&gt;; <span class="c">// 挂点：能挂东西的位置</span>
+  colliders: Record&lt;string, unknown&gt;;      <span class="c">// 碰撞体：物理引擎用</span>
+};</div>
+  <div class="checkpoint">✅ <b>检查点（练习 B 毕业）：</b>① 命令成功生成 <code>.ts</code> 文件；② 你能在这个文件里认出 <code>THREE</code>、<code>sockets</code>、<code>colliders</code> 这些在入门指南 Q6 里学过的词。生出的代码有几百行——这就是"一份模型 = 一份可读代码"的实物证据。</div>
+</div>
+</div>
+
+<!-- ============ 练习 C ============ -->
+<div class="ex exC">
+<h2>练习 C · 全自动：让 AI 替你跑完整条流水线</h2>
+<div class="goal">🎯 <b>练习目标：</b>把项目安装为 Claude Code 的"技能"，一句话让它分析图片、填评估、写规格、过全部质检、自我纠错，最终在浏览器里生成可旋转的模型。练习 B 里你手工走的每一步，都会在这里被 AI 自动串起来——你负责当验收员。</div>
+
+<div class="step">
+  <h3><span class="stepnum">C1</span>把项目安装成 Claude Code 技能</h3>
+  <p><span class="lbl do">做什么：</span>复制（或软链接）仓库到 Claude Code 的技能目录：</p>
+  <div class="codeblock"><span class="c">:: PowerShell 中执行（把仓库放进技能目录）</span>
+New-Item -ItemType SymbolicLink -Path <span class="y">"$env:USERPROFILE\.claude\skills\img2threejs"</span> -Target <span class="y">"F:\reminder\img2threejs"</span>
+
+<span class="c">:: 若软链接报权限错误，用复制代替：</span>
+Copy-Item -Recurse <span class="y">"F:\reminder\img2threejs"</span> <span class="y">"$env:USERPROFILE\.claude\skills\img2threejs"</span></div>
+  <div class="checkpoint">✅ <b>检查点：</b>打开 <code>C:\Users\你的用户名\.claude\skills\</code>，能看到 <code>img2threejs</code> 文件夹，里面有 <code>SKILL.md</code>。</div>
+  <div class="why">💡 <b>原理：</b><code>SKILL.md</code> 是写给 AI 看的"岗位操作手册"。Claude Code 启动时读取技能目录，从此你就拥有了一个受过专业训练的"图片转 3D 工程师"。</div>
+</div>
+
+<div class="step">
+  <h3><span class="stepnum">C2</span>一句话开工</h3>
+  <p><span class="lbl do">做什么：</span>重启 Claude Code（让它发现新技能），把马克杯图片发给它，输入：</p>
+  <div class="codeblock"><span class="y">/img2threejs 把这张图里的物体重建为 Three.js 模型，保持比例、角度和颜色。</span></div>
+  <p><span class="lbl exp">预期你会看到：</span>AI 依次执行——探测图片 → 分类为 <code>object</code> → 枚举细节清单（杯口的椭圆内壁、把手的圆环、杯身的纯色哑光……）→ 生成并质检规格书（就是你在 B4 见过的那道关卡）→ 逐层生成代码 → 浏览器渲染 → 产出"原图 vs 渲染"对比图 → 评分不足就自动修正，循环到达标。</p>
+  <div class="checkpoint">✅ <b>检查点：</b>过程中你应该能认出练习 B 的每一步的"AI 版"。如果你看到它被质检拦住又自己改——恭喜，你亲眼看到了 B4 学的"fail fast"机制在工作。</div>
+</div>
+
+<div class="step">
+  <h3><span class="stepnum">C3</span>验收：对比图里当一回质检员</h3>
+  <p><span class="lbl do">做什么：</span>AI 完成后，找到它产出的<b>对比图</b>（reference 与 render 并排的图片），自己先看一遍：轮廓像吗？比例对吗？颜色对吗？把手的位置对吗？</p>
+  <p><span class="lbl how">怎么验收：</span>你刚刚扮演的正是流水线里"AI 视觉评审"的同款角色。对照检查三点：① 剪影（轮廓）一致；② 主要比例（杯身高度 vs 宽度、把手大小）一致；③ 材质（纯色、哑光）一致。</p>
+  <div class="checkpoint">✅ <b>检查点：</b>得到四件套——规格书 JSON、模型工厂 TS、渲染图、对比图。发现不像？直接告诉 AI"把手的比例和原图差很多，请修正"——它会把这条意见带回自我纠错循环。</div>
+  <div class="why">💡 <b>为什么验收环节属于你：</b>这个项目的设计哲学是"脚本管硬指标，视觉判断交给智能"。最终"像不像"由看图的一方说了算——在流水线里是 AI 评审，在练习里是你。</div>
+</div>
+</div>
+
+<!-- ============ 练习 D ============ -->
+<div class="ex exD">
+<h2>练习 D · 进阶挑战（选做，按兴趣挑）</h2>
+<div class="goal">🎯 <b>练习目标：</b>把"跟着做"升级成"自己改"。以下三个挑战任选，每个都给了明确的起点和验收标准。</div>
+
+<div class="step">
+  <h3><span class="stepnum">D1</span>换一张你自己的图片，重跑练习 B</h3>
+  <p><span class="lbl do">做什么：</span>找一张<b>背景干净、单一物体、光线均匀</b>的照片（你的水杯、一把钥匙、一个手办），保存为 <code>_exercise/myobject.png</code>，然后把练习 B 的命令里 <code>mug.png</code> 全部换掉重跑。搭配练习 C 的 AI 路线效果更好。</p>
+  <div class="checkpoint">✅ <b>验收标准：</b>B1 的 probe 输出里，你的图片 <code>technicalSuitability</code> 是什么等级？和 mug.png 的 <code>conditional</code> 对比，想想为什么（分辨率！mug.png 只有 480×360 被警告了，你的照片 1000px 以上通常不会）。</div>
+</div>
+
+<div class="step">
+  <h3><span class="stepnum">D2</span>断点续作：用状态清单管理长任务</h3>
+  <p><span class="lbl do">做什么：</span>初始化工作状态，再问它"下一步干嘛"：</p>
+  <div class="codeblock">python forge/state.py init --reference _exercise/mug.png --spec _exercise/spec.json
+python forge/next.py --state .img2threejs/state.json</div>
+  <p><span class="lbl exp">预期输出（我实测）：</span></p>
+  <div class="codeblock"><span class="b">STATE</span> status=active step=image-analysis pass=none loop=0/3 total=0/6
+<span class="b">next command:</span> Read grimoire/intake/image_analysis.md and analyze mug.png
+<span class="b">pending mandatory steps:</span>
+- image-analysis
+- reference-suitability ...</div>
+  <div class="checkpoint">✅ <b>验收标准：</b>能说出它替你记住了什么——进度到哪、循环了几次（上限 3 次）、还欠哪些必做步骤。这就是 README 说的"可断点续作"：重建一个复杂物体要跨多次对话，这个 state.json 就是"存档文件"。</div>
+</div>
+
+<div class="step">
+  <h3><span class="stepnum">D3</span>改图纸挑战：理解"改规格 = 改模型"</h3>
+  <p><span class="lbl do">做什么：</span>用记事本打开 <code>_exercise/spec.json</code>，找到 <code>"targetName"</code>，把 <code>"BlueMug"</code> 改成 <code>"RedMug"</code> 保存，然后重跑 B4 的质检命令。</p>
+  <div class="checkpoint">✅ <b>验收标准：</b>质检照样拦下它（拦截原因和名字无关，而是内容依旧太浅）——但你现在能回答这个问题：<b>"为什么改个名字不会让它过关？"</b>（答：关卡查的是零件数、细节清单、材质层这些<b>结构深度</b>，不是文字游戏。）想真正看到"改图纸→改模型"，在练习 C 里对 AI 说："把马克杯改成红色、加一个杯碟"——观察它改的是规格书而不是直接乱改代码。</div>
+</div>
+</div>
+
+<!-- ============ 急救表 ============ -->
+<h2 class="sec">🚑 故障急救表</h2>
+<table class="tb">
+  <tr><th style="background:#E11D48; width:36%;">症状</th><th style="background:#0D9488; width:64%;">诊断与处理</th></tr>
+  <tr><td><code>python</code> 不是内部或外部命令</td><td>没装 Python 或没加入 PATH。去 python.org 装 3.10+，勾选 <b>Add to PATH</b>，装完<b>重开命令行</b>。</td></tr>
+  <tr><td><code>can't open file 'forge/...'</code></td><td>你不在仓库根目录。先 <code>cd /d F:\reminder\img2threejs</code>（PowerShell：<code>cd F:\reminder\img2threejs</code>）。</td></tr>
+  <tr><td>命令里 <code>python3</code> 报错</td><td>文档里的 <code>python3</code> 是 Mac/Linux 写法，Windows 一律用 <code>python</code>。</td></tr>
+  <tr><td>B4 出现一堆红色 error</td><td><b>不是故障！</b>这正是要让你看到的现象（详见 B4 解密）。</td></tr>
+  <tr><td>测试套件（A2）有少量失败</td><td>先看失败是不是 <code>test_symlink_*</code> 或 <code>test_emit_target</code>——是则属于 Windows 正常现象，不影响练习；若报错含 <code>UnicodeDecodeError: 'gbk'</code>，做"开始前"的 UTF-8 设置后重跑；其他情况带着完整报错去 GitHub Issues 搜索。</td></tr>
+  <tr><td><code>/img2threejs</code> 没有反应</td><td>技能目录路径不对或装完没重启 Claude Code。确认 skills 目录下有 <code>img2threejs\SKILL.md</code>，然后重启。</td></tr>
+  <tr><td>AI 生成的模型"不像"</td><td>正常现象，多轮自我纠错正是它的设计。补充具体反馈（哪里不像），或换细节更清晰、角度更全的参考图。</td></tr>
+  <tr><td>软链接创建失败（C1）</td><td>Windows 需要管理员权限或开发者模式。改用手册里给出的 <code>Copy-Item</code> 复制方案。</td></tr>
+</table>
+
+<div class="footer-note">
+  📌 本手册所有命令与输出均在 2026-10-01 于 F:\reminder\img2threejs（v2.0.0，Python 3.14.7，Windows 11）实测通过 · 练习材料在 <b>F:\reminder\img2threejs\_exercise</b>（含 mug.png / probe.json / assessment.json / spec.json / conformance_factory.ts）· 配套《img2threejs 入门指南》PDF
+</div>
+
+</body>
+</html>

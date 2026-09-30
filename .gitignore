@@ -1,0 +1,11 @@
+# 各子项目克隆的上游代码（自带 .git，外层仓库无法跟踪，也不应提交）
+*/repo/
+
+# 通用杂项
+Thumbs.db
+Desktop.ini
+~$*
+node_modules/
+__pycache__/
+*.pyc
+.env

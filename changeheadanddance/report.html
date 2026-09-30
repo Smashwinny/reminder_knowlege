@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>MiniMax-H3 视频换人 LoRA 上手报告</title>
+<style>
+  :root{
+    --pink:#FF2E88; --orange:#FF7A00; --yellow:#FFC400; --green:#00C853;
+    --blue:#2962FF; --purple:#9C27B0; --cyan:#00BCD4; --red:#FF1744;
+    --ink:#1A1A2E; --paper:#FFFFFF; --soft:#FFF8F0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:var(--ink);background:var(--paper);font-size:13px;line-height:1.65;}
+  .page{width:210mm;min-height:296mm;padding:14mm 13mm;position:relative;page-break-after:always;overflow:hidden;}
+  .page:last-child{page-break-after:auto;}
+
+  /* ===== cover header ===== */
+  .hero{background:linear-gradient(120deg,var(--pink) 0%,var(--orange) 45%,var(--yellow) 100%);border-radius:18px;padding:26px 30px;color:#fff;position:relative;}
+  .hero::after{content:"";position:absolute;right:-30px;top:-30px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.18);}
+  .hero h1{font-size:30px;letter-spacing:1px;margin-bottom:8px;text-shadow:0 2px 6px rgba(0,0,0,.18);}
+  .hero p{font-size:14px;opacity:.96;max-width:88%;}
+  .tagline{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{background:rgba(255,255,255,.92);color:var(--pink);font-weight:bold;border-radius:999px;padding:3px 14px;font-size:11px;}
+
+  h2.sec{display:inline-block;font-size:19px;margin:22px 0 12px;padding:5px 18px 5px 14px;color:#fff;border-radius:8px;}
+  .c-pink{background:linear-gradient(90deg,var(--pink),#FF6FB5);}
+  .c-blue{background:linear-gradient(90deg,var(--blue),#6FA8FF);}
+  .c-green{background:linear-gradient(90deg,var(--green),#7DE8A2);}
+  .c-purple{background:linear-gradient(90deg,var(--purple),#CE93D8);}
+  .c-orange{background:linear-gradient(90deg,var(--orange),#FFB86B);}
+
+  /* step cards */
+  .step{border-radius:14px;padding:14px 18px;margin-bottom:12px;color:#fff;}
+  .step h3{font-size:15px;margin-bottom:6px;}
+  .step .goal{background:rgba(255,255,255,.22);border-radius:8px;padding:6px 10px;font-size:12px;margin-bottom:6px;}
+  .step .goal b{background:#fff;color:var(--ink);border-radius:5px;padding:1px 7px;margin-right:6px;font-size:11px;}
+  .step ul{margin-left:18px;font-size:12px;}
+  .step .effect{margin-top:7px;background:rgba(0,0,0,.22);border-radius:8px;padding:6px 10px;font-size:12px;}
+  .step .effect b{color:var(--yellow);}
+  .s1{background:linear-gradient(135deg,#2962FF,#00BCD4);}
+  .s2{background:linear-gradient(135deg,#9C27B0,#FF2E88);}
+  .s3{background:linear-gradient(135deg,#FF6D00,#FFC400);}
+  .s4{background:linear-gradient(135deg,#00C853,#00BCD4);}
+  .s5{background:linear-gradient(135deg,#FF1744,#FF2E88);}
+  .s6{background:linear-gradient(135deg,#2962FF,#9C27B0);}
+
+  code{background:#FFF3E0;color:#E65100;border:1px solid #FFCC80;border-radius:4px;padding:0 5px;font-family:Consolas,monospace;font-size:11.5px;}
+  .promptbox{background:#1A1A2E;color:#7CFFB2;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:11.5px;margin:8px 0;border-left:6px solid var(--green);}
+  .promptbox .zh{color:#FFD54F;display:block;margin-top:8px;border-top:1px dashed #555;padding-top:8px;}
+
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px;}
+  th{background:var(--blue);color:#fff;padding:7px 10px;text-align:left;}
+  td{padding:7px 10px;border-bottom:2px solid #E3F2FD;vertical-align:top;}
+  tr:nth-child(even) td{background:#F3F8FF;}
+  td b.p1{color:var(--pink);} td b.p2{color:var(--orange);} td b.p3{color:var(--green);}
+
+  .warn{background:#FFF3F0;border:2px dashed var(--red);border-radius:12px;padding:12px 16px;margin:12px 0;}
+  .warn b.t{color:var(--red);}
+  .warn ul{margin:6px 0 0 18px;}
+
+  .grid2{display:flex;gap:12px;}
+  .grid2>div{flex:1;border-radius:12px;padding:12px 15px;color:#fff;}
+  .g-pink{background:linear-gradient(135deg,#FF2E88,#FF7A00);}
+  .g-cyan{background:linear-gradient(135deg,#00BCD4,#2962FF);}
+
+  .footer{position:absolute;bottom:8mm;left:13mm;right:13mm;display:flex;justify-content:space-between;font-size:10px;color:#888;border-top:2px solid #FFD54F;padding-top:5px;}
+  .pageno{background:var(--yellow);color:var(--ink);font-weight:bold;border-radius:999px;padding:0 10px;}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 ============ -->
+<div class="page">
+  <div class="hero">
+    <h1>🎬 MiniMax-H3 视频换人 LoRA<br>小白上手报告</h1>
+    <p>模型：akatz-ai/MiniMax-H3-Character-Swap-LoRA · 底模：Comfy-Org/MiniMax-H3 · 平台：ComfyUI</p>
+    <div class="tagline">
+      <span class="chip">视频换人</span><span class="chip">参考图驱动</span><span class="chip">4~5 秒短镜头</span><span class="chip">实验性作品</span>
+    </div>
+  </div>
+
+  <h2 class="sec c-pink">① 这是什么？</h2>
+  <div class="grid2">
+    <div class="g-pink">
+      <b>一句话玩法</b><br>给一段<span style="background:rgba(255,255,255,.25);padding:0 4px;border-radius:4px">原视频</span>（里面有人）+ 一张<span style="background:rgba(255,255,255,.25);padding:0 4px;border-radius:4px">角色参考图</span> → 模型把视频里指定的人换成参考图角色，背景、镜头、动作全部保留。
+    </div>
+    <div class="g-cyan">
+      <b>它是什么形态</b><br>LoRA = 只有几十 MB 的「补丁」，必须搭配 MiniMax H3 底模（ref2va 版）使用，运行平台是 ComfyUI（版本 ≥ 0.30.0）。
+    </div>
+  </div>
+
+  <h2 class="sec c-orange">② 硬件与环境要求（第 0 步）</h2>
+  <table>
+    <tr><th>项目</th><th>要求</th><th>说明</th></tr>
+    <tr><td><b class="p1">显卡</b></td><td>NVIDIA，建议 24GB+ 显存</td><td>训练用 32GB 卡；RTX 3090 / 4090 体验较好</td></tr>
+    <tr><td><b class="p2">硬盘</b></td><td>至少 80~100GB 空闲</td><td>底模 + 文本编码器 + VAE 体量大</td></tr>
+    <tr><td><b class="p3">软件</b></td><td>ComfyUI Desktop ≥ 0.30.0</td><td> comfy.org/download 下载安装</td></tr>
+    <tr><td><b class="p1">CUDA</b></td><td>int8_convrot 需 PyTorch cu130</td><td>老 CUDA 版改用 <code>fp8_scaled</code> 版底模</td></tr>
+  </table>
+
+  <h2 class="sec c-blue">③ 必下载的 5 个文件（第 2 步）</h2>
+  <table>
+    <tr><th>#</th><th>文件</th><th>存放位置</th></tr>
+    <tr><td>1</td><td>底模 <code>minimax_h3_ref2va_pruned_int8_convrot.safetensors</code></td><td><code>models/diffusion_models/</code></td></tr>
+    <tr><td>2</td><td>文本编码器 <code>qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors</code></td><td><code>models/text_encoders/</code></td></tr>
+    <tr><td>3</td><td>视频 VAE <code>minimax_h3_video_vae_int8_convrot.safetensors</code></td><td><code>models/vae/</code></td></tr>
+    <tr><td>4</td><td>音频 VAE <code>minimax_h3_audio_vae_fp32.safetensors</code></td><td><code>models/vae/</code></td></tr>
+    <tr><td>5</td><td><b class="p1">换人 LoRA 本体</b>（akatz-ai 仓库 final 版 safetensors）</td><td><code>models/loras/</code></td></tr>
+  </table>
+  <p style="font-size:11.5px;color:#555">⚠️ 底模必须选 <b>ref2va</b> 版本（吃「视频 + 参考图」）；nvfp4 文本编码器不需要特殊显卡。</p>
+
+  <div class="warn"><b class="t">⛔ 作者声明的局限</b>
+    <ul><li>长镜头易漂移、硬切（跳剪）会翻车 → 只用 <b>4~5 秒</b>连续镜头</li>
+    <li>表情还原不准；仅支持<b>单人</b>替换，双人不行</li></ul>
+  </div>
+  <div class="footer"><span>MiniMax-H3 Character Swap LoRA 上手报告</span><span class="pageno">1 / 3</span></div>
+</div>
+
+<!-- ============ PAGE 2 ============ -->
+<div class="page">
+  <h2 class="sec c-purple" style="margin-top:0">④ 六步操作流程</h2>
+
+  <div class="step s1"><h3>第 1 步 · 安装 ComfyUI Desktop</h3>
+    <div class="goal"><b>目的</b>获得运行模型的节点式工作台</div>
+    <ul><li>comfy.org/download 下载 Windows 版，常规安装，确认版本 ≥ 0.30.0</li></ul>
+    <div class="effect"><b>效果</b>得到一个能跑 AI 视频的节点画布软件</div>
+  </div>
+
+  <div class="step s2"><h3>第 2 步 · 下载 5 类模型并归位</h3>
+    <div class="goal"><b>目的</b>LoRA 只是补丁，必须有底模 / 编码器 / VAE 才能跑</div>
+    <ul><li>按第 1 页表格逐个下载放入对应目录，底模认准 <b>ref2va</b></li></ul>
+    <div class="effect"><b>效果</b>弹药全部就位，ComfyUI 能识别所有模型</div>
+  </div>
+
+  <div class="step s3"><h3>第 3 步 · 打开官方模板工作流</h3>
+    <div class="goal"><b>目的</b>不搭节点，直接用现成流水线</div>
+    <ul><li>菜单 → Template Library → Video → <b>MiniMax H3: Reference to Video</b></li></ul>
+    <div class="effect"><b>效果</b>画布出现完整流程：加载模型 → 提示词 → 采样 → 保存视频</div>
+  </div>
+
+  <div class="step s4"><h3>第 4 步 · 挂载换人 LoRA（关键）</h3>
+    <div class="goal"><b>目的</b>给底模打上「会换人」的补丁</div>
+    <ul><li>双击画布搜 <b>LoraLoaderModelOnly</b> 添加（不要用带 CLIP 的普通版）</li>
+    <li>接线：UNETLoader 的 MODEL → LoRA 的 model 输入；LoRA 的 MODEL → BasicGuider</li>
+    <li>选中 character-swap 文件，<b>强度 strength = 1.0</b>；本 LoRA 不需要 Turbo 加速插件</li></ul>
+    <div class="effect"><b>效果</b>模型从普通视频生成切换为换人模式</div>
+  </div>
+
+  <div class="step s5"><h3>第 5 步 · 喂素材 + 写提示词 → 生成</h3>
+    <div class="goal"><b>目的</b>核心使用环节</div>
+    <ul><li><b>Video 1</b>：4~5 秒、24fps、无跳切、画面内只有 1 个目标人物</li>
+    <li><b>Picture 1</b>：清晰角色图（全身/大半身、背景干净，三视图设定表也可）</li>
+    <li>分辨率 16:9 用 <b>1344×768</b>（Megapixels ≈ 0.98）</li></ul>
+    <div class="effect"><b>效果</b>得到原场景原动作、人已换成你的角色的视频</div>
+  </div>
+
+  <div class="step s6"><h3>第 6 步 · 调优与排错</h3>
+    <div class="goal"><b>目的</b>玩熟的关键</div>
+    <ul><li>人没被换掉 → 提示词明确描述目标人物（衣服颜色/位置），确认强度 1.0</li>
+    <li>参考图背景入画 → 保留 "Do not show the reference sheet..." 一句</li>
+    <li>背景漂移 → 缩到 4 秒内、换无跳切素材</li></ul>
+    <div class="effect"><b>效果</b>稳定复现可用结果</div>
+  </div>
+  <div class="footer"><span>MiniMax-H3 Character Swap LoRA 上手报告</span><span class="pageno">2 / 3</span></div>
+</div>
+
+<!-- ============ PAGE 3 ============ -->
+<div class="page">
+  <h2 class="sec c-green" style="margin-top:0">⑤ 提示词模板（直接抄）</h2>
+  <div class="promptbox">
+Replace only the man in the purple shirt in &lt;Video 1&gt; with the character in &lt;Picture 1&gt;. Keep the replacement character's identity, outfit, and art style from &lt;Picture 1&gt;. Preserve the source video's camera, background, lighting, objects, and all other people. Match the target person's position, scale, pose, and movement. Do not show the reference sheet or its background.
+    <span class="zh">中文意思：只把 &lt;视频1&gt; 里穿紫衣服的男人换成 &lt;图1&gt; 的角色；保留角色长相/服装/画风；保留原视频镜头、背景、光照、物品和其他人；匹配目标的位置、大小与动作；不要把参考图本身画进画面。</span>
+  </div>
+  <div class="warn" style="border-color:var(--orange)"><b class="t" style="color:var(--orange)">💡 提示词要点</b>
+    <ul style="color:#5D4037"><li>训练时用的是<b>很短</b>的句子（如 "Swap the man in the purple shirt..."），别写太长</li>
+    <li><b>不要强加表情要求</b> —— 实测加上后换人可能直接失效</li></ul>
+  </div>
+
+  <h2 class="sec c-pink">⑥ 音频与收尾</h2>
+  <p style="font-size:12.5px">模型会顺带生成音频，但作者实测<b>不可靠</b>。收尾做法：用剪映等工具把<b style="color:var(--pink)">原视频的音频轨直接复制</b>到成片上。</p>
+
+  <h2 class="sec c-blue">⑦ 显存不够怎么办</h2>
+  <table>
+    <tr><th>方案</th><th>说明</th></tr>
+    <tr><td><b class="p3">换 fp8 底模</b></td><td>无 cu130 环境时用 <code>minimax_h3_ref2va_pruned_fp8_scaled.safetensors</code></td></tr>
+    <tr><td><b class="p2">租云 GPU</b></td><td>RunPod 等按小时计费的 24GB+ 卡，适合只想尝鲜的用户</td></tr>
+    <tr><td><b class="p1">降低预期</b></td><td>12~16GB 显存需 CPU 分载，速度慢、体验差</td></tr>
+  </table>
+
+  <h2 class="sec c-purple">⑧ 许可与合规提醒</h2>
+  <div class="warn"><b class="t">⚠️ MiniMax H3 社区许可（非 Apache 开源）</b>
+    <ul><li>标准授权<b>排除美国、欧盟、英国、韩国</b>地区</li>
+    <li>自娱自乐没问题；<b>商用前必须通读完整许可条款</b></li></ul>
+  </div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="g-cyan"><b>📌 相关链接</b><br>
+      LoRA：huggingface.co/akatz-ai/MiniMax-H3-Character-Swap-LoRA<br>
+      底模：huggingface.co/Comfy-Org/MiniMax-H3<br>
+      教程：docs.comfy.org/tutorials/video/minimax/minimax-h3
+    </div>
+    <div class="g-pink"><b>✅ 一图记住结论</b><br>
+      短镜头 + 干净参考图 + 指名道姓的短提示词 + 强度 1.0 = 最稳效果；表情与双人替换是当前硬伤。
+    </div>
+  </div>
+
+  <div class="footer"><span>生成日期 2026-10-01 · Claude Code</span><span class="pageno">3 / 3</span></div>
+</div>
+
+</body>
+</html>
