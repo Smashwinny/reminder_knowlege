@@ -5,6 +5,7 @@
 ## 核心规则
 
 - **学习方法**：使用项目级 skill `/learn-project`（`.claude/skills/learn-project/SKILL.md`）。对知识学习类、开源项目类子项目，严格按该流程执行：疑问清单 → 图文解答 → 能力清单 → 动手实验 → 彩色 PDF → 知识入库 → git 同步。
+- **注意**：该 skill 同时部署了一份用户级副本 `C:\Users\Windows\.claude\skills\learn-project\SKILL.md`（保证在任何目录开的窗口都能用）。**修改 skill 时必须同步更新两份**。
 - **目录布局**：每个子项目一个目录；克隆的上游代码放在 `<子项目名>\repo\`（被 .gitignore 排除，**不要提交**）；学习成果放子项目根目录和 `exercise\`。
 - **知识库**：`vault\` 是唯一的 Obsidian 知识库，覆盖所有项目。新概念先查重（合并/关联），再写入；每学完一个项目必须更新 `vault\00-总览.md`。
 - **PDF 偏好**：报告类产出一律彩色鲜艳、图文并茂、重点夸张的 PDF（HTML → Edge 无头打印），中文文件名需先 ASCII 临时名再改名（见 skill 第 7 步）。
