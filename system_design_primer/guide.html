@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>系统设计入门 小白指南</title>
+<style>
+  :root{
+    --pink:#FF3D7F; --orange:#FF9F1C; --green:#06D6A0; --blue:#118AB2;
+    --purple:#9B5DE5; --yellow:#FEE440; --red:#EF476F;
+    --ink:#1B1B2F; --bg:#FFFDF5;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  @page{ size:A4; margin:12mm; }
+  body{
+    font-family:"Microsoft YaHei","PingFang SC",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.75; font-size:13.5px;
+  }
+  .cover{ text-align:center; padding:70px 20px 50px; break-after:page;
+    background:linear-gradient(135deg,var(--pink),var(--orange) 40%,var(--yellow) 75%,var(--green));
+    border-radius:18px; color:#fff; }
+  .cover h1{ font-size:46px; letter-spacing:2px; text-shadow:0 3px 0 rgba(0,0,0,.18); }
+  .cover .sub{ font-size:19px; margin-top:14px; font-weight:bold; }
+  .cover .meta{ margin-top:26px; display:inline-block; background:rgba(255,255,255,.25);
+    padding:8px 22px; border-radius:30px; font-size:13px; }
+  .toc{ break-after:page; padding:10px 6px; }
+  .toc h2{ font-size:26px; color:var(--purple); border-bottom:5px solid var(--yellow); display:inline-block; padding-bottom:4px;}
+  .toc ol{ columns:2; column-gap:34px; margin-top:18px; padding-left:22px; font-size:14px;}
+  .toc li{ margin:7px 0; }
+  .toc .n{ font-weight:bold; color:#fff; border-radius:50%; display:inline-block;
+    width:22px; height:22px; text-align:center; line-height:22px; font-size:12px; margin-right:6px;}
+
+  .card{ border-radius:16px; padding:22px 26px; margin:26px 0; break-inside:avoid;
+    border-left:12px solid; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.08);}
+  .card.pink{border-color:var(--pink);} .card.orange{border-color:var(--orange);}
+  .card.green{border-color:var(--green);} .card.blue{border-color:var(--blue);}
+  .card.purple{border-color:var(--purple);} .card.red{border-color:var(--red);}
+  .qnum{ font-size:42px; font-weight:900; float:right; opacity:.9; line-height:1;}
+  .card.pink .qnum{color:var(--pink);} .card.orange .qnum{color:var(--orange);}
+  .card.green .qnum{color:var(--green);} .card.blue .qnum{color:var(--blue);}
+  .card.purple .qnum{color:var(--purple);} .card.red .qnum{color:var(--red);}
+  .card h2{ font-size:20px; margin-bottom:12px;}
+  .card p{ margin:8px 0; }
+  .hl{ background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:bold; font-size:15px; padding:0 2px;}
+  .hl2{ background:linear-gradient(transparent 55%, #FFD1DC 55%); font-weight:bold; padding:0 2px;}
+  .term{ display:inline-block; background:var(--blue); color:#fff; border-radius:5px;
+    padding:0 7px; font-size:12px; font-weight:bold; margin-right:2px;}
+  .story{ background:#FFF3E0; border:2px dashed var(--orange); border-radius:10px;
+    padding:10px 14px; margin:10px 0; font-size:13px;}
+  .story b{color:var(--orange);}
+  table{ border-collapse:collapse; width:100%; margin:10px 0; font-size:12.5px;}
+  th{ color:#fff; padding:6px 8px; text-align:left;}
+  td{ border:1.5px solid #eee; padding:5px 8px; background:#fff;}
+  .fig{ text-align:center; margin:12px 0; }
+  .figcap{ font-size:11.5px; color:#666; margin-top:3px; }
+  code{ background:#282A36; color:#50FA7B; padding:2px 7px; border-radius:5px;
+    font-family:Consolas,monospace; font-size:12px;}
+  pre{ background:#282A36; color:#F8F8F2; border-radius:10px; padding:12px 16px;
+    font-family:Consolas,monospace; font-size:12px; overflow-x:auto; margin:10px 0; line-height:1.6;}
+  pre .c{color:#6272A4;} pre .g{color:#50FA7B;} pre .y{color:#F1FA8C;} pre .p{color:#BD93F9;} pre .o{color:#FF79C6;}
+  .expect{ background:#E8FFF5; border:3px solid var(--green); border-radius:10px;
+    padding:10px 14px; margin:10px 0; font-size:13px;}
+  .expect b{ color:#00875A; }
+  .step{ border-radius:12px; margin:16px 0; break-inside:avoid; padding:16px 18px; color:#fff;}
+  .step h3{ font-size:16px; margin-bottom:6px;}
+  .step .in{ color:rgba(255,255,255,.92); }
+  .step pre{ background:rgba(0,0,0,.35); }
+  .s1{background:linear-gradient(135deg,var(--pink),#FF6B9D);}
+  .s2{background:linear-gradient(135deg,var(--orange),#FFC15E);}
+  .s3{background:linear-gradient(135deg,#0A9396,var(--green));}
+  .s4{background:linear-gradient(135deg,var(--blue),#4CC9F0);}
+  .s5{background:linear-gradient(135deg,var(--purple),#C77DFF);}
+  .step .expect{ color:var(--ink); }
+  .big{ font-size:16px; font-weight:900; }
+  h1.section{ font-size:27px; margin:34px 0 6px; padding:8px 18px; color:#fff;
+    border-radius:12px; background:linear-gradient(90deg,var(--purple),var(--pink));}
+  .goal{ background:#F3E8FF; border-radius:12px; padding:14px 18px; border-left:8px solid var(--purple); margin:12px 0;}
+  .klist li{ margin:5px 0 5px 18px;}
+  svg text{ font-family:"Microsoft YaHei",sans-serif; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>系统设计入门</h1>
+  <div class="sub">system-design-primer 小白指南 —— 从一台服务器到百万用户</div>
+  <div class="meta">学习对象：github.com/donnemartin/system-design-primer（≈180k★）<br>
+  产出日期 2026-10-01 · 配套实验：<code>exercise/system_evolution.py</code>（已实测）</div>
+</div>
+
+<div class="toc">
+  <h2>疑问即目录</h2>
+  <ol>
+    <li><span class="n" style="background:var(--pink)">1</span>"系统设计"到底是什么？和写代码有什么区别？</li>
+    <li><span class="n" style="background:var(--orange)">2</span>可扩展性为什么比"跑得快"更重要？</li>
+    <li><span class="n" style="background:var(--green)">3</span>延迟和吞吐量是什么？为什么要背"延迟数"？</li>
+    <li><span class="n" style="background:var(--blue)">4</span>一台服务器怎么一步步变成百万用户系统？</li>
+    <li><span class="n" style="background:var(--purple)">5</span>负载均衡器凭什么能"分均匀"？反向代理是什么？</li>
+    <li><span class="n" style="background:var(--red)">6</span>CAP 理论"三选二"到底在选什么？</li>
+    <li><span class="n" style="background:var(--pink)">7</span>"数据还没更新"是哪种一致性？</li>
+    <li><span class="n" style="background:var(--orange)">8</span>SQL 还是 NoSQL？怎么选不翻车？</li>
+    <li><span class="n" style="background:var(--green)">9</span>缓存为什么被称为"数据库的生命线"？</li>
+    <li><span class="n" style="background:var(--blue)">10</span>消息队列怎么让系统扛住流量洪峰？</li>
+    <li><span class="n" style="background:var(--purple)">11</span>系统设计面试的四步法怎么用？</li>
+    <li><span class="n" style="background:var(--red)">12</span>这些概念和我用过的工具有什么关系？</li>
+    <li><span class="n" style="background:var(--pink)">13</span>这个项目除了读，还能怎么用？</li>
+  </ol>
+</div>
+
+<h1 class="section">第一部分 · 疑问逐条解答</h1>
+
+<!-- ================= Q1 ================= -->
+<div class="card pink">
+  <div class="qnum">01</div>
+  <h2>"系统设计"到底是什么？和写代码有什么区别？</h2>
+  <p><span class="term">系统设计 System Design</span> = 在写代码<b>之前</b>，决定"系统由哪些零件组成、零件之间怎么连接、每个零件扛多少压力"的顶层规划。这个项目是 GitHub 上最热门的系统设计教程（约 18 万 star），有中文版，被广泛用于后端面试准备。</p>
+  <p><span class="hl">写代码解决"这个函数怎么实现对"；系统设计解决"这一千台机器怎么分工"。</span></p>
+  <div class="story"><b>故事：</b>你开了家奶茶店（一台服务器）。生意好到排队排到马路上，你有两个选择：A) 把老板娘练成三头六臂——<b>纵向扩展</b>（换更强的机器，有上限）；B) 再雇 3 个店员 + 1 个领班分派客人——<b>水平扩展</b>（加机器，几乎无上限）。系统设计研究的主要是 B 这条路上的所有问题：领班怎么排班（负载均衡）、常客直接报口味不出示订单（缓存）、先拿号后做茶（异步）。</div>
+  <div class="fig">
+  <svg viewBox="0 0 780 220" width="100%">
+    <rect x="10" y="30" width="330" height="160" rx="12" fill="#E8F4FD"/>
+    <text x="175" y="18" text-anchor="middle" font-size="14" font-weight="bold" fill="#118AB2">写代码视角（放大镜）</text>
+    <rect x="40" y="60" width="270" height="34" rx="6" fill="#118AB2"/><text x="175" y="82" text-anchor="middle" fill="#fff" font-size="13">def get_user(id): ...</text>
+    <rect x="40" y="104" width="270" height="34" rx="6" fill="#4CC9F0"/><text x="175" y="126" text-anchor="middle" fill="#fff" font-size="13">SQL: SELECT * FROM users</text>
+    <rect x="40" y="148" width="270" height="34" rx="6" fill="#89D2F0"/><text x="175" y="170" text-anchor="middle" fill="#fff" font-size="13">关心：正确、优雅、可读</text>
+    <rect x="440" y="30" width="330" height="160" rx="12" fill="#FFF0F5"/>
+    <text x="605" y="18" text-anchor="middle" font-size="14" font-weight="bold" fill="#FF3D7F">系统设计视角（望远镜）</text>
+    <rect x="470" y="60" width="80" height="34" rx="6" fill="#FF3D7F"/><text x="510" y="82" text-anchor="middle" fill="#fff" font-size="12">负载均衡</text>
+    <rect x="585" y="60" width="80" height="34" rx="6" fill="#FF6B9D"/><text x="625" y="82" text-anchor="middle" fill="#fff" font-size="12">Web×200</text>
+    <rect x="700" y="60" width="55" height="34" rx="6" fill="#FF9FBB"/><text x="727" y="82" text-anchor="middle" fill="#fff" font-size="12">缓存</text>
+    <rect x="470" y="120" width="80" height="34" rx="6" fill="#9B5DE5"/><text x="510" y="142" text-anchor="middle" fill="#fff" font-size="12">消息队列</text>
+    <rect x="585" y="120" width="80" height="34" rx="6" fill="#B98CF0"/><text x="625" y="142" text-anchor="middle" fill="#fff" font-size="12">数据库</text>
+    <rect x="700" y="120" width="55" height="34" rx="6" fill="#D4B8F7"/><text x="727" y="142" text-anchor="middle" fill="#fff" font-size="12">监控</text>
+    <text x="605" y="178" text-anchor="middle" font-size="12" fill="#888">关心：扛得住、不宕机、花钱少</text>
+  </svg>
+  <div class="figcap">图1：同一个系统的两个视角——放大镜管一行行代码，望远镜管一群机器怎么协作</div>
+  </div>
+</div>
+
+<!-- ================= Q2 ================= -->
+<div class="card orange">
+  <div class="qnum">02</div>
+  <h2>可扩展性为什么比"跑得快"更重要？</h2>
+  <p><span class="term">性能 Performance</span>：一个请求处理得多快（延迟低不高）。<span class="term">可扩展性 Scalability</span>：压力变 10 倍时，加机器能不能让系统继续撑住。</p>
+  <p><span class="hl">一个性能好但不可扩展的系统，就像一辆跑得飞快但只能坐 1 人的跑车——用户一多立刻趴窝。</span></p>
+  <div class="story"><b>例子（来自实验）：</b>我们实验里那台"2ms 处理一个请求"的服务器，容量 500 请求/秒。流量 400/s 时延迟 10ms（健康），600/s 时<b>直接崩溃、请求被丢弃</b>——它不是慢慢变慢，是断崖式崩塌。</div>
+  <div class="fig">
+  <svg viewBox="0 0 760 230" width="100%">
+    <line x1="60" y1="190" x2="720" y2="190" stroke="#333" stroke-width="2"/>
+    <line x1="60" y1="190" x2="60" y2="20" stroke="#333" stroke-width="2"/>
+    <text x="390" y="215" text-anchor="middle" font-size="13" fill="#333">到达的请求量 →</text>
+    <text x="26" y="105" font-size="13" fill="#333" transform="rotate(-90 26 105)">平均延迟 →</text>
+    <path d="M60,185 C180,182 280,175 350,150 C410,125 440,60 455,25" fill="none" stroke="#EF476F" stroke-width="4"/>
+    <text x="470" y="40" font-size="13" font-weight="bold" fill="#EF476F">不可扩展：利用率100%附近爆炸</text>
+    <path d="M60,185 C240,180 420,175 560,168 C640,164 690,162 715,161" fill="none" stroke="#06D6A0" stroke-width="4"/>
+    <text x="500" y="150" font-size="13" font-weight="bold" fill="#0A9396">可扩展：加机器,曲线继续平</text>
+    <circle cx="440" cy="100" r="6" fill="#EF476F"/>
+    <text x="380" y="88" font-size="12" fill="#EF476F">崩溃点</text>
+    <line x1="440" y1="100" x2="440" y2="190" stroke="#EF476F" stroke-dasharray="5 4"/>
+    <text x="430" y="208" font-size="12" fill="#EF476F">容量上限</text>
+  </svg>
+  <div class="figcap">图2：红线（单机）到容量就爆炸；绿线（可水平扩展）加机器后延迟保持平缓</div>
+  </div>
+  <p>配套概念：<span class="term">垂直扩展</span> 换更强的单机（简单但有物理上限、贵）；<span class="term">水平扩展</span> 加更多普通机器（主流路线，需要本指南后面所有技术来配合）。</p>
+</div>
+
+<!-- ================= Q3 ================= -->
+<div class="card green">
+  <div class="qnum">03</div>
+  <h2>延迟和吞吐量是什么？为什么要背"延迟数"？</h2>
+  <p><span class="term">延迟 Latency</span>：一个请求从发出到收到回复要多久（"快递几天到"）。<span class="term">吞吐量 Throughput</span>：单位时间能处理多少请求（"快递站每天发多少件"）。两者往往要取舍。</p>
+  <p><span class="hl">教程附录那张"每个程序员都应该知道的延迟数"是全篇最值得背的表——它决定了你每个设计决定的性价比。</span></p>
+  <div class="fig">
+  <svg viewBox="0 0 760 250" width="100%">
+    <text x="380" y="16" text-anchor="middle" font-size="13" font-weight="bold" fill="#1B1B2F">常见操作耗时（条长为对数比例）</text>
+    <g font-size="12">
+      <rect x="150" y="30"  width="30"  height="16" fill="#06D6A0"/><text x="185" y="43">L1 缓存 0.5 ns（人类尺度：1秒）</text>
+      <rect x="150" y="54"  width="70"  height="16" fill="#4CC9F0"/><text x="225" y="67">读内存 100 ns ≈ 3分钟</text>
+      <rect x="150" y="78"  width="110" height="16" fill="#118AB2"/><text x="265" y="91">SSD 随机读 150 μs ≈ 2天</text>
+      <rect x="150" y="102" width="150" height="16" fill="#9B5DE5"/><text x="305" y="115">同数据中心往返 0.5 ms ≈ 6天</text>
+      <rect x="150" y="126" width="200" height="16" fill="#FF9F1C"/><text x="355" y="139">磁盘寻道 10 ms ≈ 4个月</text>
+      <rect x="150" y="150" width="290" height="16" fill="#FF3D7F"/><text x="445" y="163">跨大洋往返 150 ms ≈ 9.5年</text>
+    </g>
+    <text x="150" y="192" font-size="12" fill="#666">（把 0.5ns 放大成"1秒"，后面操作对应的人类时间感受）</text>
+    <text x="150" y="222" font-size="13" fill="#1B1B2F" font-weight="bold">推论：内存比磁盘快 ~100倍，能放缓存就别查库；跨机房调用是"年"级奢侈品</text>
+  </svg>
+  <div class="figcap">图3：延迟数直观化——这就是为什么"少一次磁盘/网络往返"是所有架构优化的第一性原理</div>
+  </div>
+</div>
+
+<!-- ================= Q4 ================= -->
+<div class="card blue">
+  <div class="qnum">04</div>
+  <h2>一台服务器怎么一步步变成百万用户系统？</h2>
+  <p>这是教程的主线故事（第"架构演进"部分）。<span class="hl">每一步扩展都是被一个具体瓶颈逼出来的，不是为了炫技。</span></p>
+  <div class="fig">
+  <svg viewBox="0 0 780 300" width="100%">
+    <g font-size="11.5">
+    <rect x="8" y="60" width="118" height="120" rx="10" fill="#06D6A0"/>
+    <text x="67" y="82" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">① 单机</text>
+    <rect x="28" y="95" width="78" height="26" rx="5" fill="#fff"/><text x="67" y="112" text-anchor="middle">Web+DB</text>
+    <text x="67" y="150" text-anchor="middle" fill="#fff" font-size="10.5">瓶颈:web和db</text>
+    <text x="67" y="164" text-anchor="middle" fill="#fff" font-size="10.5">抢同一台机器</text>
+
+    <rect x="146" y="60" width="118" height="120" rx="10" fill="#118AB2"/>
+    <text x="205" y="82" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">② 拆分数据层</text>
+    <rect x="166" y="95" width="78" height="24" rx="5" fill="#fff"/><text x="205" y="111" text-anchor="middle">Web 服务器</text>
+    <rect x="166" y="128" width="78" height="24" rx="5" fill="#FEE440"/><text x="205" y="144" text-anchor="middle">独立 DB</text>
+    <text x="205" y="168" text-anchor="middle" fill="#fff" font-size="10.5">瓶颈:单web扛不住</text>
+
+    <rect x="284" y="60" width="118" height="120" rx="10" fill="#FF9F1C"/>
+    <text x="343" y="82" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">③ 负载均衡</text>
+    <rect x="304" y="95" width="78" height="18" rx="5" fill="#fff"/><text x="343" y="108" text-anchor="middle">LB 轮询分发</text>
+    <rect x="304" y="119" width="36" height="16" rx="3" fill="#fff"/><text x="322" y="131" text-anchor="middle">web1</text>
+    <rect x="346" y="119" width="36" height="16" rx="3" fill="#fff"/><text x="364" y="131" text-anchor="middle">web2…</text>
+    <rect x="304" y="141" width="78" height="16" rx="3" fill="#FEE440"/><text x="343" y="153" text-anchor="middle">DB</text>
+    <text x="343" y="170" text-anchor="middle" fill="#fff" font-size="10.5">瓶颈:读库太频繁</text>
+
+    <rect x="422" y="60" width="118" height="120" rx="10" fill="#FF3D7F"/>
+    <text x="481" y="82" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">④ 加缓存+CDN</text>
+    <rect x="442" y="95" width="78" height="18" rx="5" fill="#fff"/><text x="481" y="108" text-anchor="middle">CDN 静态资源</text>
+    <rect x="442" y="119" width="78" height="18" rx="5" fill="#fff"/><text x="481" y="131" text-anchor="middle">Memcached/Redis</text>
+    <rect x="442" y="143" width="78" height="14" rx="3" fill="#FEE440"/><text x="481" y="153" text-anchor="middle">DB 只处理未命中</text>
+    <text x="481" y="170" text-anchor="middle" fill="#fff" font-size="10.5">瓶颈:单库写不完</text>
+
+    <rect x="560" y="60" width="98" height="120" rx="10" fill="#9B5DE5"/>
+    <text x="609" y="82" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">⑤ 数据库扩展</text>
+    <rect x="572" y="95" width="74" height="16" rx="3" fill="#fff"/><text x="609" y="107" text-anchor="middle">主从复制</text>
+    <rect x="572" y="116" width="74" height="16" rx="3" fill="#fff"/><text x="609" y="128" text-anchor="middle">读写分离</text>
+    <rect x="572" y="137" width="74" height="16" rx="3" fill="#fff"/><text x="609" y="149" text-anchor="middle">分库分表</text>
+    <text x="609" y="168" text-anchor="middle" fill="#fff" font-size="10.5">瓶颈:慢任务堵路</text>
+
+    <rect x="678" y="60" width="94" height="120" rx="10" fill="#EF476F"/>
+    <text x="725" y="82" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">⑥ 异步+多IDC</text>
+    <rect x="688" y="95" width="74" height="16" rx="3" fill="#fff"/><text x="725" y="107" text-anchor="middle">消息队列</text>
+    <rect x="688" y="116" width="74" height="16" rx="3" fill="#fff"/><text x="725" y="128" text-anchor="middle">无状态web层</text>
+    <rect x="688" y="137" width="74" height="16" rx="3" fill="#fff"/><text x="725" y="149" text-anchor="middle">多数据中心</text>
+    <text x="725" y="168" text-anchor="middle" fill="#fff" font-size="10.5">≈百万用户架构</text>
+
+    <g fill="#555"><text x="131" y="125" text-anchor="middle" font-size="15">→</text><text x="269" y="125" text-anchor="middle" font-size="15">→</text><text x="407" y="125" text-anchor="middle" font-size="15">→</text><text x="545" y="125" text-anchor="middle" font-size="15">→</text><text x="663" y="125" text-anchor="middle" font-size="15">→</text></g>
+    <text x="390" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#118AB2">架构演进步进图（教程核心章节）</text>
+    <text x="390" y="230" text-anchor="middle" font-size="12.5" fill="#333">DNS(查地址) → CDN(静态资源就近取) → 负载均衡 → 无状态 Web 层 → 缓存 → 数据库 → 消息队列</text>
+    <text x="390" y="256" text-anchor="middle" font-size="12.5" fill="#888">每往右一步，都是为了解决左边那一步暴露的瓶颈</text>
+    </g>
+  </svg>
+  <div class="figcap">图4：六步演进——教程 README 用一整章+多张 SVG 讲这条路线，是全文的骨架</div>
+  </div>
+</div>
+
+<!-- ================= Q5 ================= -->
+<div class="card purple">
+  <div class="qnum">05</div>
+  <h2>负载均衡器凭什么能"分均匀"？反向代理是什么？</h2>
+  <p><span class="term">负载均衡器 Load Balancer</span>：站在所有服务器前面的"领班"，把请求按策略分给后面某台机器。<span class="term">反向代理 Reverse Proxy</span>：同样站在服务器前面替它们收请求——负载均衡是它最重要的用途之一，两者概念高度重叠。</p>
+  <p><b>常见分发策略：</b>轮询（挨个来）、加权轮询（能者多劳）、最少连接（谁闲给谁）、IP 哈希（同一用户固定去同一台，配合会话保持）。</p>
+  <p><span class="hl">它还兼职健康检查：某台机器挂了就把它踢出轮换，用户完全无感——这是"高可用"的第一块基石。</span></p>
+  <div class="fig">
+  <svg viewBox="0 0 760 250" width="100%">
+    <text x="90" y="40" font-size="13" fill="#1B1B2F">👥 用户请求</text>
+    <g>
+      <line x1="140" y1="36" x2="290" y2="105" stroke="#9B5DE5" stroke-width="2.5"/>
+      <line x1="140" y1="52" x2="290" y2="125" stroke="#9B5DE5" stroke-width="2.5"/>
+    </g>
+    <rect x="290" y="85" width="150" height="60" rx="10" fill="#9B5DE5"/>
+    <text x="365" y="112" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">负载均衡器</text>
+    <text x="365" y="132" text-anchor="middle" fill="#fff" font-size="11">健康检查 + 分发策略</text>
+    <line x1="440" y1="100" x2="560" y2="45"  stroke="#FF3D7F" stroke-width="2.5"/>
+    <line x1="440" y1="112" x2="560" y2="105" stroke="#FF6B9D" stroke-width="2.5"/>
+    <line x1="440" y1="126" x2="560" y2="165" stroke="#FF9F1C" stroke-width="2.5"/>
+    <line x1="440" y1="138" x2="560" y2="215" stroke="#06D6A0" stroke-width="2.5"/>
+    <g font-size="12">
+      <rect x="560" y="30" width="130" height="32" rx="7" fill="#FF3D7F"/><text x="625" y="51" text-anchor="middle" fill="#fff">Web 服务器 1</text>
+      <rect x="560" y="90" width="130" height="32" rx="7" fill="#FF6B9D"/><text x="625" y="111" text-anchor="middle" fill="#fff">Web 服务器 2</text>
+      <rect x="560" y="150" width="130" height="32" rx="7" fill="#FF9F1C"/><text x="625" y="171" text-anchor="middle" fill="#fff">Web 服务器 3</text>
+      <rect x="560" y="200" width="130" height="32" rx="7" fill="#9E9E9E" opacity=".55"/><text x="625" y="221" text-anchor="middle" fill="#fff">服务器 4（挂了,被踢出）</text>
+    </g>
+    <text x="365" y="180" text-anchor="middle" font-size="12.5" fill="#555">挂掉的那台不再收到任何流量</text>
+    <text x="365" y="200" text-anchor="middle" font-size="12.5" fill="#555">其余机器自动接手 —— 用户无感</text>
+  </svg>
+  <div class="figcap">图5：负载均衡 = 领班派活 + 自动发现"病号"并隔离</div>
+  </div>
+  <div class="story"><b>注意区分：</b>负载均衡器/反向代理站在<b>服务器这边</b>替服务器干活；教程里还提到<span class="term">正向代理</span>站在<b>用户这边</b>替用户出面（比如公司统一出口）。方向相反，名字就像镜子一样对称。</div>
+</div>
+
+<!-- ================= Q6 ================= -->
+<div class="card red">
+  <div class="qnum">06</div>
+  <h2>CAP 理论"三选二"到底在选什么？</h2>
+  <p><span class="term">一致性 Consistency</span>：所有节点同一时刻看到同一份数据。<span class="term">可用性 Availability</span>：每个请求都能得到（非报错）响应。<span class="term">分区容错性 Partition Tolerance</span>：机器之间网络断了，系统还能继续干活。</p>
+  <p><span class="hl">关键在于：网络分区不是"会不会发生"而是"何时发生"（网线、交换机、机房总会出事），所以 P 必选，真正的选择只有 C 和 A。</span></p>
+  <div class="fig">
+  <svg viewBox="0 0 720 260" width="100%">
+    <polygon points="360,20 160,220 560,220" fill="none" stroke="#EF476F" stroke-width="4"/>
+    <circle cx="360" cy="26" r="26" fill="#FF3D7F"/><text x="360" y="33" text-anchor="middle" fill="#fff" font-weight="bold" font-size="14">C</text>
+    <circle cx="170" cy="212" r="26" fill="#118AB2"/><text x="170" y="219" text-anchor="middle" fill="#fff" font-weight="bold" font-size="14">A</text>
+    <circle cx="550" cy="212" r="26" fill="#06D6A0"/><text x="550" y="219" text-anchor="middle" fill="#fff" font-weight="bold" font-size="14">P</text>
+    <text x="360" y="14" text-anchor="middle" font-size="13" font-weight="bold" fill="#FF3D7F">一致性</text>
+    <text x="120" y="245" font-size="13" font-weight="bold" fill="#118AB2">可用性</text>
+    <text x="590" y="245" font-size="13" font-weight="bold" fill="#06D6A0">分区容错(必选)</text>
+    <text x="255" y="110" font-size="12.5" fill="#333" font-weight="bold">CP 系统</text>
+    <text x="255" y="128" font-size="11.5" fill="#666">分区时拒绝服务,保数据一致</text>
+    <text x="255" y="145" font-size="11.5" fill="#666">适合:银行、支付</text>
+    <text x="470" y="110" font-size="12.5" fill="#333" font-weight="bold">AP 系统</text>
+    <text x="470" y="128" font-size="11.5" fill="#666">分区时继续服务,容忍暂时不一致</text>
+    <text x="470" y="145" font-size="11.5" fill="#666">适合:社交feed、购物车</text>
+  </svg>
+  <div class="figcap">图6：CAP 三角——P 是现实强加的必选项，CP 和 AP 是两种产品性格</div>
+  </div>
+  <div class="story"><b>例子：</b>转账时余额查询宁可不让你查（CP），也不能显示一个可能出错的旧数；朋友圈刷新时少一条新动态无所谓（AP），但不能整个刷不出来。教程原话：CP 适合"架构需要原子读写的场景"，AP 适合"继续运行但容忍脏读的场景"。</div>
+</div>
+
+<!-- ================= Q7 ================= -->
+<div class="card pink">
+  <div class="qnum">07</div>
+  <h2>"数据还没更新"是哪种一致性？</h2>
+  <p><span class="term">强一致性</span>：写入完成后，任何后续读取都能看到新值。<span class="term">最终一致性</span>：写入后短暂读旧值，但保证"最终"读到新值。<span class="term">弱一致性</span>：尽力而为，不保证什么时候能看到。</p>
+  <p><span class="hl">你改完微信头像、朋友那边过几秒才变——这就是最终一致性：它在"用户体验无感"和"系统开销小"之间做了漂亮的交换。</span></p>
+  <div class="fig">
+  <svg viewBox="0 0 760 230" width="100%">
+    <g font-size="12">
+      <rect x="20" y="80" width="130" height="60" rx="8" fill="#FF3D7F"/>
+      <text x="85" y="105" text-anchor="middle" fill="#fff" font-weight="bold">用户写入</text>
+      <text x="85" y="125" text-anchor="middle" fill="#fff">新头像 ✍</text>
+      <line x1="150" y1="95" x2="300" y2="45" stroke="#888" stroke-width="2"/>
+      <line x1="150" y1="110" x2="300" y2="115" stroke="#888" stroke-width="2"/>
+      <line x1="150" y1="128" x2="300" y2="185" stroke="#888" stroke-width="2" stroke-dasharray="6 4"/>
+      <rect x="300" y="28" width="130" height="40" rx="8" fill="#118AB2"/>
+      <text x="365" y="46" text-anchor="middle" fill="#fff">节点 A</text><text x="365" y="61" text-anchor="middle" fill="#fff" font-size="11">立刻 = 新头像 ✓</text>
+      <rect x="300" y="95" width="130" height="40" rx="8" fill="#118AB2"/>
+      <text x="365" y="113" text-anchor="middle" fill="#fff">节点 B</text><text x="365" y="128" text-anchor="middle" fill="#fff" font-size="11">同步完成 = 新头像 ✓</text>
+      <rect x="300" y="168" width="130" height="40" rx="8" fill="#7FB5CC"/>
+      <text x="365" y="186" text-anchor="middle" fill="#fff">节点 C</text><text x="365" y="201" text-anchor="middle" fill="#fff" font-size="11">复制中… 暂时旧头像</text>
+      <text x="520" y="60" font-size="12.5" fill="#333" font-weight="bold">强一致性：等所有节点都写完才返回</text>
+      <text x="520" y="80" font-size="11.5" fill="#666">慢，但绝不会读到旧值</text>
+      <text x="520" y="128" font-size="12.5" fill="#333" font-weight="bold">最终一致性：先返回成功，</text>
+      <text x="520" y="148" font-size="12.5" fill="#333" font-weight="bold">后台慢慢把 C 也追平</text>
+      <text x="520" y="168" font-size="11.5" fill="#666">快；C 上的用户可能几秒内看到旧头像</text>
+    </g>
+  </svg>
+  <div class="figcap">图7：数据多副本复制的两种节奏——"等齐了再说"vs"先答应后补课"</div>
+  </div>
+</div>
+
+<!-- ================= Q8 ================= -->
+<div class="card orange">
+  <div class="qnum">08</div>
+  <h2>SQL 还是 NoSQL？怎么选不翻车？</h2>
+  <p><span class="term">关系型数据库 RDBMS</span>（MySQL/PostgreSQL）：表格 + 行列 + SQL 查询 + <b>事务（ACID）</b>，天然强一致。<span class="term">NoSQL</span>：键值 store（Redis）、文档库（MongoDB）、宽表（Cassandra）、图库（Neo4j）等，为海量数据和高吞吐而生，通常是最终一致。</p>
+  <table>
+    <tr><th style="background:#FF9F1C">维度</th><th style="background:#118AB2">关系型 (RDBMS)</th><th style="background:#06D6A0">NoSQL</th></tr>
+    <tr><td><b>数据模型</b></td><td>表格，结构固定（schema）</td><td>键值/文档/图，结构灵活</td></tr>
+    <tr><td><b>扩展方式</b></td><td>难水平扩展（要分库分表），通常向上扩展</td><td>天生为分布式水平扩展设计</td></tr>
+    <tr><td><b>一致性</b></td><td>强（事务 ACID）</td><td>多为最终一致</td></tr>
+    <tr><td><b>适合</b></td><td>订单、账户、一切"错一点就出事"的数据</td><td>海量日志、feed 流、缓存、社交图谱</td></tr>
+    <tr><td><b>不适合</b></td><td>超大规模写、灵活多变的结构</td><td>需要复杂 join 和强事务的场景</td></tr>
+  </table>
+  <p><span class="hl">教程给的默认路线：拿不准就用关系型——它久经考验；NoSQL 是当规模逼过来时才引入的针对性武器。</span></p>
+  <div class="story"><b>记忆钩子：</b>RDBMS 像<b>规范的大酒店前台</b>（一切按登记簿来，查得慢但绝不出错）；NoSQL 像<b>灵活的便利店货架</b>（货随便摆、上货飞快，但偶尔标签还没贴好）。</div>
+</div>
+
+<!-- ================= Q9 ================= -->
+<div class="card green">
+  <div class="qnum">09</div>
+  <h2>缓存为什么被称为"数据库的生命线"？</h2>
+  <p><span class="term">缓存 Cache</span>：把"贵的计算/查询结果"暂存在便宜快速的地方（通常是内存）。有效的原因是<span class="term">局部性</span>：热门数据总被反复访问（80% 的请求打在 20% 的数据上）。</p>
+  <p><span class="hl">实验数据：10000/s 的读请求、DB 只扛 1000/s——命中率到 95% 时打到 DB 的只剩 500/s，利用率从 1000% 降到 50%。没有缓存，数据库当场去世。</span></p>
+  <div class="fig">
+  <svg viewBox="0 0 760 240" width="100%">
+    <g font-size="12">
+      <rect x="20" y="95" width="110" height="46" rx="8" fill="#06D6A0"/><text x="75" y="123" text-anchor="middle" fill="#fff" font-weight="bold">App 服务器</text>
+      <rect x="220" y="95" width="130" height="46" rx="8" fill="#FEE440"/><text x="285" y="115" text-anchor="middle" font-weight="bold">缓存 (Redis)</text><text x="285" y="131" text-anchor="middle" font-size="11">内存级 ~1ms</text>
+      <rect x="450" y="95" width="140" height="46" rx="8" fill="#118AB2"/><text x="520" y="115" text-anchor="middle" fill="#fff" font-weight="bold">数据库</text><text x="520" y="131" text-anchor="middle" fill="#fff" font-size="11">磁盘级，慢但全</text>
+      <line x1="130" y1="110" x2="220" y2="110" stroke="#0A9396" stroke-width="3"/>
+      <text x="175" y="100" text-anchor="middle" font-size="11.5" fill="#0A9396" font-weight="bold">95% 命中 ✓</text>
+      <line x1="350" y1="118" x2="450" y2="118" stroke="#EF476F" stroke-width="3" stroke-dasharray="7 4"/>
+      <text x="400" y="108" text-anchor="middle" font-size="11.5" fill="#EF476F" font-weight="bold">5% 未命中</text>
+      <text x="640" y="112" font-size="12.5" fill="#333">只有 5% 的流量</text>
+      <text x="640" y="132" font-size="12.5" fill="#333">真正打到数据库</text>
+      <text x="380" y="185" text-anchor="middle" font-size="13" fill="#1B1B2F" font-weight="bold">更新策略：缓存旁路(自己管) / 直写 / 回写(有丢失风险) / 到期驱逐(LRU)</text>
+      <text x="380" y="212" text-anchor="middle" font-size="12" fill="#888">缓存的代价：数据可能过期、要多管一层、要防"缓存雪崩"（缓存集体失效瞬间打穿 DB）</text>
+    </g>
+  </svg>
+  <div class="figcap">图9：读请求路径——缓存把数据库从"千分之十过载"救回"半负荷健康"</div>
+  </div>
+</div>
+
+<!-- ================= Q10 ================= -->
+<div class="card blue">
+  <div class="qnum">10</div>
+  <h2>消息队列怎么让系统扛住流量洪峰？</h2>
+  <p><span class="term">消息队列 Message Queue</span>：请求先入库排队，后台 worker 按自己的节奏消费。<span class="term">异步</span>：把"慢活"从用户等待路径上摘掉。<span class="term">背压 Back pressure</span>：队列太满时主动限流/拒绝，防止下游被压垮。</p>
+  <p><span class="hl">实验数据：洪峰 10 倍流量、持续 5 秒——同步架构 5 倍过载全线超时；异步架构 API 层秒级"已受理"，洪峰后约 20 秒排干积压。</span></p>
+  <div class="fig">
+  <svg viewBox="0 0 760 250" width="100%">
+    <g font-size="12">
+      <text x="90" y="30" text-anchor="middle" fill="#EF476F" font-weight="bold" font-size="13">⚡ 洪峰 10000/s</text>
+      <rect x="30" y="42" width="120" height="42" rx="8" fill="#118AB2"/><text x="90" y="68" text-anchor="middle" fill="#fff">API 入口</text>
+      <line x1="150" y1="63" x2="240" y2="63" stroke="#0A9396" stroke-width="3"/>
+      <text x="195" y="53" text-anchor="middle" font-size="11" fill="#0A9396" font-weight="bold">只入队 ~0.2ms</text>
+      <rect x="240" y="35" width="230" height="56" rx="10" fill="#FEE440"/>
+      <text x="355" y="58" text-anchor="middle" font-weight="bold">消息队列（蓄水池）</text>
+      <text x="355" y="76" text-anchor="middle" font-size="11">积压 48000 条也没关系,排队=受理</text>
+      <line x1="470" y1="63" x2="560" y2="63" stroke="#9B5DE5" stroke-width="3"/>
+      <text x="515" y="53" text-anchor="middle" font-size="11" fill="#9B5DE5" font-weight="bold">按 2000/s 消费</text>
+      <rect x="560" y="42" width="150" height="42" rx="8" fill="#9B5DE5"/><text x="635" y="68" text-anchor="middle" fill="#fff">后台 Workers</text>
+      <path d="M30,140 C60,120 90,150 120,132 C160,110 200,145 240,128 C300,105 350,150 400,125 C450,102 520,148 580,122 C630,103 680,140 730,120"
+        fill="none" stroke="#EF476F" stroke-width="3"/>
+      <text x="380" y="165" text-anchor="middle" font-size="11.5" fill="#EF476F">没有队列：到达流量直冲服务器（锯齿洪峰）</text>
+      <path d="M30,200 L730,200" stroke="#0A9396" stroke-width="4"/>
+      <text x="380" y="222" text-anchor="middle" font-size="11.5" fill="#0A9396">有队列：服务器按恒定速度消费（削峰填谷）</text>
+    </g>
+  </svg>
+  <div class="figcap">图10：消息队列 = 水库——上游随意洪峰，下游恒定泄洪；代价是"受理"不等于"完成"</div>
+  </div>
+</div>
+
+<!-- ================= Q11 ================= -->
+<div class="card purple">
+  <div class="qnum">11</div>
+  <h2>系统设计面试的四步法怎么用？</h2>
+  <p>教程的"如何处理一个系统设计面试题"给出万能框架。<span class="hl">它的本质和知识库里的 [[构建流水线与Pass]] 同构：把一个吓人的开放题拆成顺序的四个阶段，每阶段有明确的产出物。</span></p>
+  <div class="fig">
+  <svg viewBox="0 0 760 210" width="100%">
+    <g font-size="11.5">
+      <rect x="10" y="40" width="170" height="120" rx="10" fill="#FF3D7F"/>
+      <text x="95" y="64" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">① 场景/约束/假设</text>
+      <text x="95" y="88" text-anchor="middle" fill="#fff">谁用?多少人?读写比例?</text>
+      <text x="95" y="106" text-anchor="middle" fill="#fff">数据量多大?QPS 多少?</text>
+      <text x="95" y="130" text-anchor="middle" fill="#fff" font-size="10.5">产出:需求清单+估算数字</text>
+      <rect x="200" y="40" width="170" height="120" rx="10" fill="#FF9F1C"/>
+      <text x="285" y="64" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">② 高层级设计</text>
+      <text x="285" y="88" text-anchor="middle" fill="#fff">画关键组件草图</text>
+      <text x="285" y="106" text-anchor="middle" fill="#fff">客户端→LB→web→DB</text>
+      <text x="285" y="130" text-anchor="middle" fill="#fff" font-size="10.5">产出:一页架构草图</text>
+      <rect x="390" y="40" width="170" height="120" rx="10" fill="#06D6A0"/>
+      <text x="475" y="64" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">③ 设计核心组件</text>
+      <text x="475" y="88" text-anchor="middle" fill="#fff">按题目选重点深挖:</text>
+      <text x="475" y="106" text-anchor="middle" fill="#fff">数据模型?缓存?分片?</text>
+      <text x="475" y="130" text-anchor="middle" fill="#fff" font-size="10.5">产出:组件级细节</text>
+      <rect x="580" y="40" width="170" height="120" rx="10" fill="#118AB2"/>
+      <text x="665" y="64" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">④ 扩展这个设计</text>
+      <text x="665" y="88" text-anchor="middle" fill="#fff">瓶颈在哪?加副本/缓存/</text>
+      <text x="665" y="106" text-anchor="middle" fill="#fff">分片?指出权衡取舍</text>
+      <text x="665" y="130" text-anchor="middle" fill="#fff" font-size="10.5">产出:演进方向+取舍说明</text>
+      <g fill="#555"><text x="188" y="105" text-anchor="middle" font-size="16">→</text><text x="378" y="105" text-anchor="middle" font-size="16">→</text><text x="568" y="105" text-anchor="middle" font-size="16">→</text></g>
+      <text x="380" y="190" text-anchor="middle" font-size="12.5" fill="#333">"估算法 back-of-envelope"：用 2 的次方表 + 延迟数，30 秒心算出 QPS 和存储量</text>
+    </g>
+  </svg>
+  <div class="figcap">图11：四步法——每一步都有明确产出物，绝不会"不知道从哪下手"</div>
+  </div>
+  <div class="story"><b>估算法示例：</b>做一个 Twitter 克隆，3 亿月活 × 每天刷 2 次 × 每次读 100 条 → 读 QPS 量级 ≈ 10⁵~10⁶，一眼就知道"必须有缓存和多级读扩展"。数字不需要精确，<b>量级对了，设计方向就对。</b></div>
+</div>
+
+<!-- ================= Q12 ================= -->
+<div class="card red">
+  <div class="qnum">12</div>
+  <h2>这些概念和我用过的工具有什么关系？</h2>
+  <table>
+    <tr><th style="background:#EF476F">已学过的东西</th><th style="background:#118AB2">系统设计里的对应物</th><th style="background:#06D6A0">关联点</th></tr>
+    <tr><td>本地跑 Ollama 大模型</td><td>自托管服务 + 模型服务化</td><td>Ollama 就是把大模型封装成"本地 API 服务"，相当于你电脑上的微型 Web 服务层</td></tr>
+    <tr><td>LangChain / CrewAI 多智能体</td><td>微服务 + 服务发现</td><td>每个 Agent ≈ 一个独立服务；它们的协作编排 ≈ 教程讲的"应用层拆分"，只是拆的粒度更细</td></tr>
+    <tr><td>[[构建流水线与Pass]]</td><td>请求处理管线</td><td>请求经过 LB→web→缓存→DB，就是一条"各 Pass 顺序处理"的流水线</td></tr>
+    <tr><td>[[质检Gate与自我纠错循环]]</td><td>健康检查 + 限流熔断</td><td>负载均衡器定期"体检"后端 = Gate；过载时拒绝请求 = 背压式自我保护</td></tr>
+    <tr><td>[[零依赖编程]]（本次实验）</td><td>——</td><td>实验脚本只用标准库模拟排队论，同输入同输出，方便验证</td></tr>
+  </table>
+  <p><span class="hl2">一句话打通：</span>你以前学的"把大任务拆成流水线 + 设质检站"，在服务器世界里原样重演——只不过拆的对象从"代码步骤"变成了"整台机器"。</p>
+</div>
+
+<!-- ================= Q13 ================= -->
+<div class="card pink">
+  <div class="qnum">13</div>
+  <h2>这个项目除了读，还能怎么用？</h2>
+  <ul class="klist">
+    <li><b>面试速查手册</b>：主题索引按概念组织（负载均衡、CAP、缓存…每个都有"不利之处/缺陷"小节——这是它比一般博客靠谱的地方，讲每个技术都先讲代价）。</li>
+    <li><b>8 道真题 + 完整解答</b>（<code>repo/solutions/system_design/</code>）：Pastebin、Twitter 时间线、网页爬虫、Mint、社交网络数据结构、搜索键值库、Amazon 销售排名、AWS 百万用户系统，每题含草图+估算步骤。</li>
+    <li><b>抽认卡 + 互动编程挑战</b>：README 顶部链接到 Anki 卡组和 LeetCode 式题库，方便间隔复习。</li>
+    <li><b>真实架构参考</b>：附录收集了 Netflix、Twitter 等公司真实架构和工程博客，面试前扫一遍很有故事可讲。</li>
+    <li><b>多语言/多格式</b>：有简中/繁中/日文翻译，可生成 epub 离线阅读（<code>generate-epub.sh</code>）。</li>
+  </ul>
+</div>
+
+<h1 class="section">第二部分 · 这个项目给我什么</h1>
+<div class="goal">
+  <p><span class="big">能力清单：</span>① 一套完整的后端架构词汇（DNS/CDN/LB/缓存/队列/分片/一致性…）；② 一个可复用的设计方法论（四步法+估算法）；③ 8 道可模仿的完整设计案例；④ 面试/评审时的"共同语言"。</p>
+  <p><span class="big">能干什么（结合你的水平）：</span></p>
+  <ul class="klist">
+    <li>给 AI Agent 应用做<b>架构评审</b>：你的 LangChain/CrewAI 项目如果上线给别人用，用户量上来后遇到的每个坑，教程里都有对应章节。</li>
+    <li>读技术文章/架构博客时<b>不再迷路</b>——那些"水平扩展、读写分离、最终一致"的词全部有了准确定义。</li>
+    <li>后端岗位<b>系统设计面试</b>的直接备考材料（本项目最初就是为此而写）。</li>
+    <li>设计自己的 side project 时，用四步法先画架构图再动手，避免"先写代码后补架构"。</li>
+  </ul>
+</div>
+
+<h1 class="section">第三部分 · 动手实验：亲眼看见系统"演变"</h1>
+<p>实验材料：<code>exercise\system_evolution.py</code>（零依赖，只用 Python 标准库，确定性输出）。它用一个简化的排队模型（M/M/1 近似：<b>延迟 = 服务时间 ÷ (1 − 利用率)</b>），模拟"单机 → 负载均衡 → 缓存 → 异步"四个阶段。<b>所有命令和输出都已在 Windows + Python 3 实际验证。</b></p>
+<p><b>准备工作：</b>打开 PowerShell，确保 UTF-8（避免中文乱码）：<code>setx PYTHONUTF8 1</code>（设置一次即可，重开终端生效）。</p>
+
+<div class="step s1">
+  <h3>步骤 1 · 看单机如何"断崖式崩塌"</h3>
+  <p class="in"><b>操作：</b>进入实验目录并运行第一阶段：</p>
+  <pre>cd F:\reminder\system_design_primer\exercise
+python system_evolution.py single</pre>
+  <p class="in"><b>目的：</b>观察一台服务器（容量 500 请求/秒）在不同流量下的延迟。<b>实现了什么：</b>用排队公式算出各流量档位的平均延迟。</p>
+  <div class="expect"><b>✅ 预期结果：</b>打印 5 行表格。流量 400/s 时延迟 10ms、状态"危险"；600/s 时显示 <b>OVERLOAD 崩溃(请求被丢弃)</b>。重点看延迟从 4ms→10ms→20ms→崩溃的<b>非线性</b>加速。</div>
+</div>
+
+<div class="step s2">
+  <h3>步骤 2 · 负载均衡：4 台机器把过载点右移 4 倍</h3>
+  <p class="in"><b>操作：</b></p>
+  <pre>python system_evolution.py lb</pre>
+  <p class="in"><b>目的：</b>验证"水平扩展=复制机器+均衡分发"。<b>实现了什么：</b>同样的排队模型，但容量变成 4×500=2000/s。</p>
+  <div class="expect"><b>✅ 预期结果：</b>同样形状的表格，但过载点从 ~500/s 右移到 ~2000/s；2500/s 才崩溃。对比步骤 1：<b>服务器数量与容量严格成正比</b>——这就是水平扩展的本质。</div>
+</div>
+
+<div class="step s3">
+  <h3>步骤 3 · 缓存：命中率救活数据库</h3>
+  <p class="in"><b>操作：</b></p>
+  <pre>python system_evolution.py cache</pre>
+  <p class="in"><b>目的：</b>观察缓存命中率对数据库压力的放大式缓解。<b>实现了什么：</b>10000/s 读请求 × 不同命中率 → 计算真正打到 DB 的流量。</p>
+  <div class="expect"><b>✅ 预期结果：</b>命中率 0% 时 DB 利用率 <b>1000%（崩溃）</b>；命中率 95% 时利用率降到 <b>50%（健康）</b>。体会"<b>命中率的 5 个百分点 = 数据库的一半寿命</b>"这种杠杆效应。</div>
+</div>
+
+<div class="step s4">
+  <h3>步骤 4 · 异步：洪峰来了不崩，排队慢慢消化</h3>
+  <p class="in"><b>操作：</b></p>
+  <pre>python system_evolution.py burst</pre>
+  <p class="in"><b>目的：</b>对比同步 vs 异步+消息队列在 10 倍洪峰下的表现。</p>
+  <div class="expect"><b>✅ 预期结果：</b>同步架构输出 <b>5 倍过载，全部请求超时</b>；异步架构输出 API 容量 20000/s 不崩、洪峰后约 <b>20 秒排干积压</b>。理解"用户拿到的是『已受理』而不是『已办完』"这一关键取舍。</div>
+</div>
+
+<div class="step s5">
+  <h3>步骤 5 · 做你自己的实验：改参数看变化</h3>
+  <p class="in"><b>操作：</b>用任意编辑器打开 <code>system_evolution.py</code>，找到 <code>REQ_MS = 2.0</code> 改成 <code>4.0</code>（服务器变慢一倍），保存后再跑：</p>
+  <pre>python system_evolution.py single
+python system_evolution.py lb</pre>
+  <p class="in"><b>目的：</b>验证你真的理解了模型：<b>容量 = 1000 ÷ REQ_MS</b>。<b>实现了什么：</b>单机容量从 500/s 掉到 250/s。</p>
+  <div class="expect"><b>✅ 预期结果：</b>步骤 1 表格里 250/s 就进入"危险"区、500/s 就崩溃；步骤 2 的 4 台容量变成 1000/s。<b>改对了，说明排队模型你已经拿下了。</b></div>
+</div>
+
+<h1 class="section">第四部分 · 坑与结论</h1>
+<div class="goal">
+  <ul class="klist">
+    <li><b>坑：数字与结论不一致。</b>第一版实验脚本的模拟参数和文字结论对不上（表格里全部 OVERLOAD，结论却说"健康"）。修正方法：先想清楚每个阶段"要讲什么故事"，再反推参数。教训：<b>模拟器必须为叙事服务，且每个数字都要能被公式解释。</b></li>
+    <li><b>坑：利用率 80% 是隐形红线。</b>从 2ms→4ms→20ms，利用率从 50%→80%→90%，延迟翻倍再翻倍。生产系统一般在 70~80% 就报警。</li>
+    <li><b>结论 1：</b>系统设计的所有技术（LB/缓存/队列/分片）都在回答同一个问题——<b>下一个瓶颈是什么，怎么买 10 倍余量</b>。</li>
+    <li><b>结论 2：</b>每个技术都有代价（缓存=数据可能过期；异步=受理≠完成；CP=拒绝服务）。<b>系统设计能力 = 权衡取舍的能力</b>，这也是面试真正考察的东西。</li>
+    <li><b>结论 3：</b>教程的正确打开顺序 = 先读"架构演进"主线（README 前部）→ 再按主题索引补概念 → 最后用 4 步法做 1~2 道真题（solutions/ 里有完整答案对照）。</li>
+  </ul>
+</div>
+
+<p style="text-align:center;color:#888;margin:30px 0;font-size:12px;">
+system-design-primer 小白指南 · 学习方法：learn-project · 知识已入库 Obsidian vault · 2026-10-01</p>
+
+</body>
+</html>
