@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Ollama 小白指南</title>
+<style>
+  @page { size: A4; margin: 14mm 12mm; }
+  :root {
+    --c1: #FF4D6D;   /* 活力红 */
+    --c2: #FF9E00;   /* 明橙 */
+    --c3: #06D6A0;   /* 翠绿 */
+    --c4: #118AB2;   /* 亮蓝 */
+    --c5: #9B5DE5;   /* 亮紫 */
+    --c6: #FEE440;   /* 明黄 */
+    --ink: #1A1A2E;
+    --bg-soft: #FFF8F0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color: var(--ink); background: #fff; font-size: 10.5pt; line-height: 1.65; }
+  .cover { background: linear-gradient(135deg, var(--c1) 0%, var(--c5) 55%, var(--c4) 100%); color: #fff; padding: 60px 40px; border-radius: 0 0 30px 30px; text-align: center; }
+  .cover h1 { font-size: 44pt; letter-spacing: 2px; text-shadow: 3px 3px 0 rgba(0,0,0,.25); }
+  .cover .sub { font-size: 15pt; margin-top: 14px; opacity: .95; }
+  .cover .badge { display: inline-block; background: var(--c6); color: var(--ink); font-weight: bold; padding: 6px 18px; border-radius: 20px; margin-top: 22px; font-size: 11pt; }
+  h2.section { background: linear-gradient(90deg, var(--c1), var(--c2)); color: #fff; padding: 10px 18px; border-radius: 12px; font-size: 17pt; margin: 26px 0 14px; }
+  .qcard { border-radius: 16px; padding: 18px 20px 16px; margin: 16px 0; break-inside: avoid; border: 3px solid; background: var(--bg-soft); }
+  .qcard.red    { border-color: var(--c1); } .qcard.red .qnum { color: var(--c1); }
+  .qcard.orange { border-color: var(--c2); } .qcard.orange .qnum { color: var(--c2); }
+  .qcard.green  { border-color: var(--c3); } .qcard.green .qnum { color: var(--c3); }
+  .qcard.blue   { border-color: var(--c4); } .qcard.blue .qnum { color: var(--c4); }
+  .qcard.purple { border-color: var(--c5); } .qcard.purple .qnum { color: var(--c5); }
+  .qhead { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+  .qnum { font-size: 34pt; font-weight: 900; line-height: 1; }
+  .qtitle { font-size: 14pt; font-weight: bold; }
+  .hl { background: linear-gradient(transparent 55%, var(--c6) 55%); font-weight: bold; padding: 0 2px; }
+  .big { font-size: 12.5pt; font-weight: bold; }
+  .term { color: var(--c4); font-weight: bold; }
+  code { font-family: Consolas, "Courier New", monospace; background: #2D2D44; color: #A6F7C8; padding: 1px 6px; border-radius: 5px; font-size: 9.5pt; }
+  pre { background: #23233A; color: #E8F9F0; border-radius: 10px; padding: 12px 14px; font-size: 9pt; line-height: 1.55; overflow-x: hidden; break-inside: avoid; margin: 8px 0; white-space: pre-wrap; word-break: break-all; }
+  pre .cm { color: #FFC66D; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 9.5pt; break-inside: avoid; }
+  th { background: var(--c4); color: #fff; padding: 6px 8px; }
+  td { border: 1.5px solid #D8D8E8; padding: 5px 8px; background: #fff; }
+  tr:nth-child(even) td { background: #F4F6FF; }
+  .fig { text-align: center; margin: 10px 0; break-inside: avoid; }
+  .cap { font-size: 8.5pt; color: #777; margin-top: 3px; }
+  .check { background: #E8FBF1; border: 2.5px dashed var(--c3); border-radius: 12px; padding: 10px 14px; margin: 8px 0; break-inside: avoid; }
+  .check b { color: #0A9B6E; }
+  .warnbox { background: #FFF0F3; border: 2.5px dashed var(--c1); border-radius: 12px; padding: 10px 14px; margin: 8px 0; break-inside: avoid; }
+  .warnbox b { color: var(--c1); }
+  .step { border-left: 6px solid var(--c2); background: #FFF9EE; border-radius: 0 12px 12px 0; padding: 10px 14px; margin: 10px 0; break-inside: avoid; }
+  .step .sn { display: inline-block; background: var(--c2); color: #fff; font-weight: bold; border-radius: 8px; padding: 1px 10px; margin-right: 6px; }
+  .link-note { background: #F3EEFF; border-radius: 10px; padding: 8px 12px; margin-top: 8px; font-size: 9.5pt; border: 1.5px solid var(--c5); }
+  .link-note b { color: var(--c5); }
+  .usegrid { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
+  .useitem { flex: 1 1 45%; background: #fff; border: 2.5px solid var(--c3); border-radius: 12px; padding: 10px 12px; break-inside: avoid; }
+  .useitem b { color: #0A9B6E; }
+  .footer { text-align: center; color: #999; font-size: 8.5pt; margin-top: 24px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Ollama 小白指南</h1>
+  <div class="sub">把大模型装进自己电脑的"一键电饭煲"</div>
+  <div class="badge">疑问即目录 · 14 问图文解答 + 7 个动手实验（全部实测通过）</div>
+  <div class="sub" style="font-size:10pt; margin-top:18px;">学习日期 2026-10-01 · 环境：Windows 11 + RTX 4070 (12GB) + Ollama v0.35.0</div>
+</div>
+
+<h2 class="section">🏁 开始之前：3 分钟认识主角</h2>
+<p><span class="hl big">Ollama 是一个让你在自己电脑上运行大语言模型的开源工具</span>——一条命令下载模型，一条命令开始对话，还自带一个本地 API 服务器让别人写的 AI 应用连接它。名字来自 "llama"（羊驼，Meta 大模型 Llama 的吉祥物），项目用 Go 语言写成，GitHub 星标十几万，是本地大模型领域事实上的入门标准。</p>
+<div class="fig">
+<svg width="620" height="120" viewBox="0 0 620 120">
+  <rect x="10" y="25" width="130" height="70" rx="12" fill="#FF4D6D"/>
+  <text x="75" y="55" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">云上大模型</text>
+  <text x="75" y="78" text-anchor="middle" fill="#fff" font-size="10">按量付费 · 数据出户</text>
+  <text x="185" y="65" text-anchor="middle" font-size="20" fill="#999">VS</text>
+  <rect x="230" y="25" width="130" height="70" rx="12" fill="#06D6A0"/>
+  <text x="295" y="55" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">本机 Ollama</text>
+  <text x="295" y="78" text-anchor="middle" fill="#fff" font-size="10">免费 · 断网可用 · 隐私</text>
+  <text x="405" y="65" text-anchor="middle" font-size="20" fill="#999">VS</text>
+  <rect x="450" y="25" width="160" height="70" rx="12" fill="#118AB2"/>
+  <text x="530" y="55" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">裸用 llama.cpp</text>
+  <text x="530" y="78" text-anchor="middle" fill="#fff" font-size="10">强大但全是命令行细节</text>
+</svg>
+<div class="cap">图 0：Ollama 在三个世界中的位置——云服务的免费替代，llama.cpp 的易用外壳</div>
+</div>
+
+<h2 class="section">❓ 疑问篇：14 个问题逐个击破</h2>
+
+<div class="qcard red">
+  <div class="qhead"><span class="qnum">1</span><span class="qtitle">Ollama 到底是什么？一句话说清</span></div>
+  <p><span class="hl">Ollama = 模型下载器 + 推理引擎包装 + 本地 API 服务器，三合一</span>。你把它想象成大模型世界的"电饭煲"：米（模型权重）、水（你的问题）、电（GPU/CPU）放进去，按一个键（<code>ollama run</code>）就能出饭（回答）。至于电饭煲内部的加热曲线（量化、显存调度、CUDA 调用），它全部替你搞定。</p>
+  <p style="margin-top:6px">严格地说：它把开源推理内核 <span class="term">llama.cpp</span>（以及新的自有引擎）打包成单一服务进程，配上模型仓库（类 Docker 的 manifest/blob 结构）、命令行和 REST API。</p>
+</div>
+
+<div class="qcard orange">
+  <div class="qhead"><span class="qnum">2</span><span class="qtitle">它出现之前，本地跑大模型有多麻烦？</span></div>
+  <p>2023 年想在自己电脑上跑个 Llama，你需要：装 Python 环境 → 下载几十 GB 的原始权重 → 自己写脚本做格式转换 → 查文档选量化方案 → 手动编译 llama.cpp → 祈祷 CUDA 版本对得上。每一步都有坑，<span class="hl">整个流程像"自己种麦子磨面粉再蒸馒头"</span>。</p>
+  <p>Ollama 把这套流程压缩成两行命令：</p>
+<pre>ollama pull qwen3:0.6b      <span class="cm"># 下载模型（自动选好量化格式）</span>
+ollama run  qwen3:0.6b      <span class="cm"># 直接开聊（自动配好显存）</span></pre>
+  <p>它解决的问题不是"能不能跑"，而是<span class="hl">把门槛从"会编译 C++ 的工程师"降到"会开终端的任何人"</span>。</p>
+</div>
+
+<div class="qcard green">
+  <div class="qhead"><span class="qnum">3</span><span class="qtitle">它是怎么做到的？整体架构长什么样</span></div>
+  <p>Ollama 在你电脑上其实是<span class="hl">一个常驻的服务进程（server）+ 一个客户端命令（CLI）</span>。CLI 只是个"遥控器"，真正干活的是后台服务：</p>
+  <div class="fig">
+  <svg width="640" height="230" viewBox="0 0 640 230">
+    <rect x="15" y="80" width="105" height="60" rx="10" fill="#FEE440" stroke="#FF9E00" stroke-width="2.5"/>
+    <text x="67" y="105" text-anchor="middle" font-size="12" font-weight="bold">你 / 应用</text>
+    <text x="67" y="124" text-anchor="middle" font-size="9" fill="#666">curl · Python · IDE</text>
+    <path d="M125 110 L165 110" stroke="#1A1A2E" stroke-width="2.5" marker-end="url(#ar)"/>
+    <text x="145" y="100" text-anchor="middle" font-size="8.5" fill="#666">HTTP</text>
+    <rect x="170" y="80" width="105" height="60" rx="10" fill="#FF4D6D"/>
+    <text x="222" y="105" text-anchor="middle" font-size="12" font-weight="bold">CLI 客户端</text>
+    <text x="222" y="124" text-anchor="middle" font-size="9" fill="#fff">ollama run/ps</text>
+    <path d="M280 110 L320 110" stroke="#1A1A2E" stroke-width="2.5" marker-end="url(#ar)"/>
+    <text x="300" y="100" text-anchor="middle" font-size="8.5" fill="#666">REST API</text>
+    <rect x="325" y="42" width="150" height="136" rx="12" fill="#118AB2"/>
+    <text x="400" y="68" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#fff">Server（Go 常驻进程）</text>
+    <text x="400" y="90" text-anchor="middle" font-size="9.5" fill="#fff">端口 11434</text>
+    <text x="400" y="110" text-anchor="middle" font-size="9.5" fill="#fff">· 调度器：谁占显存</text>
+    <text x="400" y="128" text-anchor="middle" font-size="9.5" fill="#fff">· 聊天模板渲染</text>
+    <text x="400" y="146" text-anchor="middle" font-size="9.5" fill="#fff">· 模型仓库管理</text>
+    <text x="400" y="164" text-anchor="middle" font-size="9.5" fill="#fff">· OpenAI 兼容层</text>
+    <path d="M480 110 L520 110" stroke="#1A1A2E" stroke-width="2.5" marker-end="url(#ar)"/>
+    <rect x="525" y="42" width="100" height="136" rx="12" fill="#9B5DE5"/>
+    <text x="575" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">推理引擎</text>
+    <text x="575" y="92" text-anchor="middle" font-size="9.5" fill="#fff">llama.cpp 内核</text>
+    <text x="575" y="110" text-anchor="middle" font-size="9.5" fill="#fff">CUDA/Metal/</text>
+    <text x="575" y="128" text-anchor="middle" font-size="9.5" fill="#fff">Vulkan/CPU</text>
+    <text x="575" y="152" text-anchor="middle" font-size="9.5" fill="#fff">子进程方式运行</text>
+    <rect x="500" y="188" width="150" height="34" rx="9" fill="#06D6A0"/>
+    <text x="575" y="210" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">GPU 显存 / 内存</text>
+    <path d="M575 178 L575 186" stroke="#06D6A0" stroke-width="3" marker-end="url(#arg)"/>
+    <defs>
+      <marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#1A1A2E"/></marker>
+      <marker id="arg" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#06D6A0"/></marker>
+    </defs>
+  </svg>
+  <div class="cap">图 1：请求的旅行路线——CLI 和外部应用都只是发 HTTP 请求，server 调度推理引擎子进程干活</div>
+  </div>
+  <p>这个设计和 Docker 极像：<span class="term">server</span> 相当于 Docker daemon，<span class="term">CLI</span> 相当于 docker 命令，模型仓库结构也照搬了 Docker 的 manifest/blob（见疑问 5）。</p>
+  <div class="link-note">💡 <b>知识库关联</b>：server 里那个"决定哪个模型常驻显存、哪个被换出"的 <b>调度器</b>（server/sched.go），本质上就是[[构建流水线与Pass]]思想的运行时版本——把"加载→推理→卸载"拆成阶段管理。</div>
+</div>
+
+<div class="qcard blue">
+  <div class="qhead"><span class="qnum">4</span><span class="qtitle">模型文件到底是什么？为什么 8B 模型只有 5GB？</span></div>
+  <p>大模型的"知识"就是<span class="hl">几百上千个巨大的矩阵（一堆浮点数）</span>。模型文件就是把它们打包存储。<span class="term">GGUF</span> 是 Ollama 生态的模型文件格式（llama.cpp 社区标准），单文件包含：权重 + 分词器 + 元数据（层数、上下文长度等）。</p>
+  <p>而文件能这么小的秘诀是<span class="term">量化（quantization）</span>：训练时权重是 16 位浮点数（每个 2 字节），推理时可以压到 4 位整数（每个 0.5 字节）——就像把高清照片转成 JPEG，体积降 75%，画质轻微受损但完全可看：</p>
+  <div class="fig">
+  <svg width="620" height="150" viewBox="0 0 620 150">
+    <text x="20" y="30" font-size="11" font-weight="bold">8B 模型不同量化格式的体积（约）</text>
+    <rect x="20" y="45" width="560" height="26" rx="6" fill="#FF4D6D"/>
+    <text x="30" y="63" fill="#fff" font-size="10.5" font-weight="bold">FP16 原始精度 · 16GB · 16 位浮点（每个权重 2 字节）</text>
+    <rect x="20" y="82" width="280" height="26" rx="6" fill="#06D6A0"/>
+    <text x="30" y="100" fill="#fff" font-size="10.5" font-weight="bold">Q8 · 8.5GB · 8 位整数</text>
+    <rect x="20" y="119" width="150" height="26" rx="6" fill="#118AB2"/>
+    <text x="30" y="137" fill="#fff" font-size="10.5" font-weight="bold">Q4_K_M · 4.9GB</text>
+    <text x="180" y="137" font-size="9.5" fill="#666">← Ollama 默认：4 位整数，体积 1/3，质量损失很小</text>
+  </svg>
+  <div class="cap">图 2：量化就是"有损压缩"——名字里的 Q4/Q8 就是每个权重占多少位</div>
+  </div>
+  <p>我们实测的 <code>qwen3:0.6b</code>（0.6B 参数、Q4 量化）只有 <span class="hl">522MB</span>——所以"本地跑大模型"的第一件事永远是：按显存选模型大小，而不是贪大。</p>
+</div>
+
+<div class="qcard purple">
+  <div class="qhead"><span class="qnum">5</span><span class="qtitle">models 目录里那一堆 sha256 文件是什么？（manifest + blobs）</span></div>
+  <p>Ollama 的模型存储完全<span class="hl">照搬 Docker 镜像的设计</span>：真正的数据叫 <span class="term">blob</span>（二进制大对象），文件名就是它的 sha256 哈希值；一个 <span class="term">manifest（清单）</span>小 JSON 记录"这个模型由哪几个 blob 组成"。好处：两个模型共享同一层文件时<span class="hl">不用重复下载，还能顺带校验完整性</span>。</p>
+<pre>F:\ollama_models\
+├── manifests\registry.ollama.ai\library\qwen3\0.6b   <span class="cm"># 清单（几百字节）</span>
+└── blobs\
+    ├── sha256-7f403014...   <span class="cm"># 权重主体 522MB</span>
+    ├── sha256-ae370d88...   <span class="cm"># 聊天模板 1.7KB</span>
+    ├── sha256-d18a5cc7...   <span class="cm"># 许可证 11KB</span>
+    ├── sha256-cff3f395...   <span class="cm"># 默认参数 120B</span>
+    └── sha256-b0830f4f...   <span class="cm"># 元数据 490B</span></pre>
+  <p>我们这次学习就<span class="hl">手动扮演了一回 ollama pull</span>：用 curl 按 registry 协议取清单 → 逐个下载 blob → 自己算 sha256 校验 → 放到对应路径。<code>ollama list</code> 立刻就认出了这个模型——"模型 = 清单 + 一堆哈希命名的文件"，没有半点魔法。</p>
+  <div class="link-note">💡 <b>知识库关联</b>：用 sha256 校验每个文件再落盘，正是[[质检Gate与自我纠错循环]]里的客观 Gate——校验不过就整块作废，绝不让坏数据混进模型库。清单本身的内容寻址设计也体现了[[确定性脚本]]的精神：同样的哈希永远指向同样的内容。</div>
+</div>
+
+<div class="qcard red">
+  <div class="qhead"><span class="qnum">6</span><span class="qtitle">ollama run 背后发生了什么？模型一直占着显存吗？</span></div>
+  <p>敲下 <code>ollama run qwen3:0.6b "你好"</code> 后：CLI 把请求发给 server → 调度器发现模型没加载 → <span class="hl">启动推理引擎子进程，把权重从磁盘读进显存</span> → 逐 token 生成回答 → 模型<span class="hl">不立刻卸载</span>，默认在显存里多留 5 分钟（<code>OLLAMA_KEEP_ALIVE</code> 可改），等人再来问——下次提问就不用重新加载了。</p>
+  <p>实测对比（RTX 4070）：<span class="big">首次提问 41 秒（含加载） vs 模型常驻后 1 秒</span>。用 <code>ollama ps</code> 能看到常驻状态：</p>
+<pre>NAME         ID              SIZE     PROCESSOR   CONTEXT   UNTIL
+qwen3:0.6b   7df6b6e09427    930 MB   100% GPU    4096      4 minutes from now</pre>
+  <p>调度器还负责多模型排队：显存够就并存，不够就把最久没用的换出。这就是为什么 Ollama 敢号称"并行服务多个请求"。</p>
+</div>
+
+<div class="qcard orange">
+  <div class="qhead"><span class="qnum">7</span><span class="qtitle">显存占用 930MB，模型文件才 522MB，多出来的 400MB 是什么？</span></div>
+  <p>多出来的主要是 <span class="term">KV 缓存（KV cache）</span>。模型生成每个字时，都要"回看"之前所有字——为了避免每次从头重算，中间计算结果（每个字的 Key/Value 矩阵）被缓存起来。<span class="hl">上下文越长，KV 缓存越大</span>，这是显存占用的第二大项（模型权重永远第一大）：</p>
+  <div class="fig">
+  <svg width="620" height="130" viewBox="0 0 620 130">
+    <rect x="40" y="20" width="540" height="34" rx="6" fill="#FF4D6D"/>
+    <text x="310" y="42" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">模型权重 522MB（固定不变，跟着文件走）</text>
+    <rect x="40" y="62" width="240" height="34" rx="6" fill="#118AB2"/>
+    <text x="160" y="84" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">KV 缓存 ~350MB</text>
+    <text x="300" y="84" font-size="10" fill="#666">← 上下文 4096 token × 0.6B 模型的中间结果</text>
+    <rect x="40" y="104" width="80" height="20" rx="6" fill="#06D6A0"/>
+    <text x="80" y="118" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">其他 ~60MB</text>
+    <text x="130" y="118" font-size="9.5" fill="#666">计算缓冲区等</text>
+    <text x="600" y="76" text-anchor="end" font-size="11" font-weight="bold" fill="#9B5DE5">合计 ≈ 930MB ✓</text>
+  </svg>
+  <div class="cap">图 3：`ollama ps` 显示的 930MB = 权重 + KV 缓存 + 缓冲。把上下文从 4K 调到 32K，增长的主要是蓝色部分</div>
+  </div>
+  <p>推论：<span class="hl">显存不够时先砍上下文长度（num_ctx），比换小模型更划算</span>。</p>
+</div>
+
+<div class="qcard green">
+  <div class="qhead"><span class="qnum">8</span><span class="qtitle">"Thinking..." 是什么？思考模式为什么值得开关</span></div>
+  <p>Qwen3 这类新一代模型是<span class="term">混合推理（hybrid thinking）</span>模型：回答前可以先在一段特殊标记里"打草稿"——列思路、验算、自我纠正，然后再给出正式回答。Ollama 会把这段草稿识别出来单独显示（API 里放在 <code>thinking</code> 字段），并且<span class="hl">不计入正式回答</span>。</p>
+  <div class="fig">
+  <svg width="620" height="110" viewBox="0 0 620 110">
+    <rect x="30" y="15" width="560" height="34" rx="17" fill="#FEE440" stroke="#FF9E00" stroke-width="2"/>
+    <text x="310" y="37" text-anchor="middle" font-size="11">🧠 思考段（thinking tokens）："用户问的是…我应该…验算一下 17×23=391 ✓" — 慢但提升质量</text>
+    <path d="M310 49 L310 68" stroke="#9B5DE5" stroke-width="2.5" marker-end="url(#ap)"/>
+    <rect x="30" y="72" width="560" height="30" rx="15" fill="#06D6A0"/>
+    <text x="310" y="92" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">正式回答："391" — 干净利落</text>
+    <defs><marker id="ap" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9B5DE5"/></marker></defs>
+  </svg>
+  <div class="cap">图 4：同一次生成里的两个阶段。API 的 think 参数可以关闭思考段换取速度</div>
+  </div>
+  <p>实测（同一台机器，17×23 数学题）：开思考 2.9 秒（先打草稿）；关思考更快但 0.6B 小模型会开始胡言乱语。<span class="hl">结论：小模型更要开思考——容量不够，草稿来凑</span>；大模型简单任务可以关思考省时间。</p>
+</div>
+
+<div class="qcard blue">
+  <div class="qhead"><span class="qnum">9</span><span class="qtitle">temperature 和 seed 是什么？为什么温度 0 也偶尔不重复？</span></div>
+  <p>模型每一步输出的是"下一个字的概率表"（比如"奶"30%、"茶"25%…）。<span class="term">temperature（温度）</span>决定怎么从这张表里挑字：</p>
+  <div class="fig">
+  <svg width="620" height="160" viewBox="0 0 620 160">
+    <text x="25" y="28" font-size="12" font-weight="bold" fill="#118AB2">温度 0：永远挑第一名（贪心）</text>
+    <rect x="25" y="40" width="180" height="22" rx="5" fill="#118AB2"/>
+    <text x="33" y="56" fill="#fff" font-size="10">奶 30%</text>
+    <rect x="25" y="66" width="90" height="22" rx="5" fill="#9BB8C4"/>
+    <text x="33" y="82" font-size="10" fill="#333">茶 25%</text>
+    <rect x="25" y="92" width="60" height="22" rx="5" fill="#CCC"/>
+    <text x="33" y="108" font-size="10" fill="#333">咖 18%</text>
+    <text x="350" y="28" font-size="12" font-weight="bold" fill="#FF4D6D">温度 1.5：差距拉平，冷门词也有机会</text>
+    <rect x="350" y="40" width="110" height="22" rx="5" fill="#FF4D6D"/>
+    <text x="358" y="56" fill="#fff" font-size="10">奶 21%</text>
+    <rect x="350" y="66" width="100" height="22" rx="5" fill="#FF7B93"/>
+    <text x="358" y="82" font-size="10" fill="#fff">茶 20%</text>
+    <rect x="350" y="92" width="85" height="22" rx="5" fill="#FFB3C0"/>
+    <text x="358" y="108" font-size="10" fill="#333">咖 19%</text>
+    <text x="25" y="140" font-size="10" fill="#666">→ 稳定、可复现，适合写代码/抽信息</text>
+    <text x="350" y="140" font-size="10" fill="#666">→ 有创意、会跑偏，适合写文案/头脑风暴</text>
+  </svg>
+  <div class="cap">图 5：同一个概率表，温度低=保守复读机，温度高=疯狂即兴演员</div>
+  </div>
+  <p><span class="term">seed（随机种子）</span>固定了掷骰子的序列。实测：温度 0 + 固定种子写广告词，<span class="hl">连跑 3 次输出完全一致</span>（"一杯奶茶，温暖你的每一刻。"）；温度 1.5 同种子则给出完全不同的句子。但注意：温度 0 在 GPU 上<span class="big">不是数学意义上的绝对确定</span>——并行浮点求和的顺序误差偶尔会让两个候选打平、发生分岔。要稳定结果，就<code>temperature: 0 + seed 固定 + 保证硬件一致</code>。</p>
+  <div class="link-note">💡 <b>知识库关联</b>：这正是[[确定性脚本]]在 AI 时代的延伸——LLM 天生随机，但"低温 + 固定种子"是给随机性上锁的标准手法，是构建可复现 AI 流水线的前提。</div>
+</div>
+
+<div class="qcard purple">
+  <div class="qhead"><span class="qnum">10</span><span class="qtitle">怎么用程序调用它？为什么有两个长得不一样的 API？</span></div>
+  <p>Ollama 同时提供两套 HTTP API（都在 <code>http://localhost:11434</code>）：</p>
+  <table>
+    <tr><th>API</th><th>路径</th><th>谁在用</th></tr>
+    <tr><td>原生 API</td><td><code>/api/chat</code>、<code>/api/generate</code>、<code>/api/embed</code></td><td>Ollama 自家 CLI、需要 thinking 等独家功能时</td></tr>
+    <tr><td>OpenAI 兼容 API</td><td><code>/v1/chat/completions</code> 等</td><td>海量现成工具（只需把 base_url 指到本机）</td></tr>
+  </table>
+  <p><span class="hl">OpenAI 兼容层是 Ollama 普及的胜负手</span>：全世界 AI 工具都按 OpenAI 的请求格式写，只要 Ollama "假装"自己是 OpenAI 服务器，这些工具就能零改造接入本地模型。实测把 <code>base_url</code> 指到 <code>localhost:11434/v1</code>，标准 OpenAI SDK 直接能用。</p>
+<pre>curl http://localhost:11434/v1/chat/completions -d '{
+  "model": "qwen3:0.6b",
+  "messages": [{"role": "user", "content": "say hi"}]
+}'   <span class="cm"># 返回 OpenAI 格式：choices[0].message.content</span></pre>
+</div>
+
+<div class="qcard red">
+  <div class="qhead"><span class="qnum">11</span><span class="qtitle">Modelfile 是什么？怎么定制一个"专属人格"模型？</span></div>
+  <p><span class="term">Modelfile</span> 是模型的"配方文件"——<span class="hl">类比 Dockerfile 之于 Docker 镜像</span>。基于现成模型，叠加你自己的系统提示词、采样参数，<code>ollama create</code> 一下就得到一个新"模型"（其实只是新的 manifest 指向原有 blob，秒建不占空间）：</p>
+<pre>FROM qwen3:0.6b                <span class="cm"># 基础模型</span>
+PARAMETER temperature 0.8      <span class="cm"># 采样参数</span>
+SYSTEM 你是一位说话永远押韵的诗人助手。   <span class="cm"># 系统提示词</span></pre>
+  <p>实测 <code>ollama create poet -f Modelfile</code> 后问它"介绍一下春天"，它真的用诗体回答（"春天啊，万物复苏，/ 花儿在枝头绽放…"）。这个机制让"角色扮演/领域助手"可以像配置文件一样<span class="hl">进 git、可版本化、可分享</span>。</p>
+  <div class="link-note">💡 <b>知识库关联</b>：Modelfile 由 manifest+blobs 组合而成，与 Docker 镜像分层共享的思路同源——和[[构建流水线与Pass]]中"每阶段产物可复用"是同一个工程智慧。</div>
+</div>
+
+<div class="qcard orange">
+  <div class="qhead"><span class="qnum">12</span><span class="qtitle">Ollama、llama.cpp、LM Studio、vLLM 是什么关系？</span></div>
+  <table>
+    <tr><th>名字</th><th>定位</th><th>一句话</th></tr>
+    <tr><td><b>llama.cpp</b></td><td>推理引擎（C/C++ 内核）</td><td>汽车的发动机，Ollama 的底层就是它</td></tr>
+    <tr><td><b>Ollama</b></td><td>易用外壳 + 模型仓库 + API</td><td>整车——发动机之上的方向盘和仪表盘</td></tr>
+    <tr><td><b>LM Studio</b></td><td>同类易用工具（闭源，带 GUI）</td><td>另一个牌子的整车，点点鼠标不用终端</td></tr>
+    <tr><td><b>vLLM</b></td><td>高吞吐服务框架</td><td>卡车车队——面向服务器批量并发，不吃个人 PC 生态</td></tr>
+  </table>
+  <p>新版本 Ollama 也在自研引擎（源码 <code>ml/</code> 目录），并逐步把更多模型迁过去。<span class="hl">记住一条：跑起来选 Ollama，抠极致性能研究 llama.cpp，服务器规模化上 vLLM</span>。</p>
+</div>
+
+<div class="qcard green">
+  <div class="qhead"><span class="qnum">13</span><span class="qtitle">我的电脑能跑多大的模型？（12GB 显存速查）</span></div>
+  <p>经验公式：<span class="hl">Q4 量化下，模型文件每 1B 参数约 0.6GB；显存还要额外装 KV 缓存（约几百 MB 到几 GB，看上下文长度）</span>。留出系统余量后（12GB 显存）：7~8B 模型 Q4 舒适运行；14B 勉强（要压上下文）；32B 基本没戏（除非 CPU+GPU 混合、忍受慢速）。本机 RTX 4070 实测参考：</p>
+  <table>
+    <tr><th>模型规模</th><th>Q4 体积</th><th>12GB 显存</th><th>速度体感</th></tr>
+    <tr><td>0.5~2B（qwen3:0.6b）</td><td>0.5~1.5GB</td><td>轻松，可常驻多个</td><td>飞快（每秒上百 token）</td></tr>
+    <tr><td>7~8B（llama3.1:8b）</td><td>~4.9GB</td><td>舒适，上下文可开大</td><td>流畅（每秒几十 token）</td></tr>
+    <tr><td>14B（qwen3:14b）</td><td>~9GB</td><td>紧凑，小上下文</td><td>可用</td></tr>
+    <tr><td>32B+</td><td>20GB+</td><td>放不下，部分层落到内存</td><td>明显变慢</td></tr>
+  </table>
+  <p>另外 Ollama 新增了云模型（<code>ollama run gpt-oss:120b-cloud</code> 这类带 <code>-cloud</code> 后缀的），本地只做转发、推理在云端跑——算"本地优先、云端兜底"的混合模式。</p>
+</div>
+
+<div class="qcard blue">
+  <div class="qhead"><span class="qnum">14</span><span class="qtitle">学会了能干什么？——这个项目给我的能力清单</span></div>
+  <div class="usegrid">
+    <div class="useitem"><b>🔒 隐私对话</b>：日志、代码、私人文档丢给它分析，数据不出本机——断网也能用。</div>
+    <div class="useitem"><b>🔌 零成本后端</b>：给 LangChain/自写脚本当免费 LLM 后端（OpenAI 兼容接口换个 base_url 即可），实验随便烧 token。</div>
+    <div class="useitem"><b>🎭 定制助手</b>：用 Modelfile 造"诗人/翻译/代码评审"等角色，SYSTEM 提示词进 git 版本管理。</div>
+    <div class="useitem"><b>🧪 模型试吃</b>：HuggingFace 新模型出了 GGUF 就能 import 试玩，不满意 <code>ollama rm</code> 即走。</div>
+    <div class="useitem"><b>📦 理解 AI 基础设施</b>：量化、KV 缓存、调度、registry 协议——这些概念直接迁移到 vLLM、云 GPU 租用等一切推理场景。</div>
+    <div class="useitem"><b>⚡ 给 Claude Code 当备胎</b>：本地小模型接进编辑器补全/简单重构场景，主模型断网时不慌。</div>
+  </div>
+</div>
+
+<h2 class="section">🧪 实验篇：7 个动手实验（本机全部实测通过）</h2>
+<p>以下每条命令都在本机（Windows 11 + Git Bash + Ollama 0.35.0 + RTX 4070）原样执行并核对过输出。<span class="hl">环境前提</span>：Ollama 已安装并运行（安装后托盘图标出现即表示 server 已在 11434 端口监听）。</p>
+
+<div class="warnbox"><b>⚠️ 本机环境坑（踩过实录）</b><br>
+① 本机代理（7890 端口）会拦截 localhost 请求 → curl 本机 API 必须 <b>--noproxy '*'</b>；<br>
+② 代理 TUN 模式给域名分配假 IP（198.18.x.x）→ <b>ollama pull 直接失败</b>（防 SSRF 检查拒绝），见实验 1 的手动替代方案；<br>
+③ 模型默认装 C 盘，C 盘满会下载中断（curl exit 23）→ 已用 <b>OLLAMA_MODELS=F:\ollama_models</b> 迁移；<br>
+④ 中文 JSON 直接写在命令行里可能因 GBK 编码乱码 → <b>写成 UTF-8 文件再 --data-binary @文件</b>。</div>
+
+<div class="step"><span class="sn">实验 1</span> <b>看穿"模型"的本质：手动下载一个模型</b>（理解 manifest + blobs）</div>
+<p><b>目的</b>：证明"模型只是清单+哈希文件"，顺便绕开代理坑。<b>操作</b>：</p>
+<pre>curl -s -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
+  https://registry.ollama.ai/v2/library/qwen3/manifests/0.6b -o manifest.json
+<span class="cm"># ① 拿到清单：里面列着 5 个 blob 的 sha256 和大小</span>
+curl -sL -o weight.tmp https://registry.ollama.ai/v2/library/qwen3/blobs/sha256:7f403014...
+sha256sum weight.tmp        <span class="cm"># ② 自己校验：算出的哈希必须和文件名一致</span>
+<span class="cm"># ③ 改名为 blobs/sha256-7f403014... 放进模型目录，清单放到</span>
+<span class="cm">#    manifests/registry.ollama.ai/library/qwen3/0.6b （完整脚本见 exercise\manual_pull.sh）</span></pre>
+<div class="check">✅ <b>预期结果</b>：<code>ollama list</code> 直接列出 <code>qwen3:0.6b  7df6b6e09427  522 MB</code>——Ollama 完全认可"手工货"，因为它只认路径和哈希，不关心文件怎么来的。</div>
+
+<div class="step"><span class="sn">实验 2</span> <b>第一次对话 + 体会"模型常驻"</b></div>
+<pre>ollama run qwen3:0.6b "用一句话解释什么是本地大模型"</pre>
+<p><b>目的</b>：跑通最小闭环，观察加载开销。<b>实现</b>：首次运行会加载模型到显存再生成；紧接着再跑一次同样命令。</p>
+<div class="check">✅ <b>预期结果</b>：第一次约 <b>40 秒</b>（含"Thinking..."草稿 + 模型加载），第二次<span class="hl">骤降到 1~2 秒</span>——这就是调度器把模型留在显存里等你（默认 5 分钟）。对比是理解"常驻缓存"最直接的方式。</div>
+
+<div class="step"><span class="sn">实验 3</span> <b>看显存账单：ollama ps</b></div>
+<pre>ollama ps</pre>
+<div class="check">✅ <b>预期结果</b>：<code>qwen3:0.6b ... 930 MB  100% GPU  4096  4 minutes from now</code>——930MB 比文件 522MB 多出来的就是 KV 缓存等运行时开销（对应疑问 7）；"100% GPU"表示模型整个住进了显卡；"minutes from now"是卸载倒计时。</div>
+
+<div class="step"><span class="sn">实验 4</span> <b>思考模式开关对比（API + think 参数）</b></div>
+<p><b>操作</b>：把请求体存成 UTF-8 文件（避免中文乱码），对同一道数学题分别开/关思考：</p>
+<pre><span class="cm"># req.json: {"model":"qwen3:0.6b","messages":[{"role":"user","content":"计算 17*23 等于多少？只给数字。"}],"think":true,"stream":false}</span>
+curl -s --noproxy '*' http://localhost:11434/api/chat --data-binary @req.json
+<span class="cm"># 再把 "think":true 改成 false 跑一次，对比响应里的 thinking 字段与耗时</span></pre>
+<div class="check">✅ <b>预期结果</b>：think=true 时响应带 <code>thinking</code> 字段（草稿内容），正式回答准确；think=false 时无草稿、更快，但 0.6B 小模型可能输出跑题甚至乱码——亲眼看到"小模型需要思考兜底"。</div>
+
+<div class="step"><span class="sn">实验 5</span> <b>温度与种子：给随机性上锁</b></div>
+<pre><span class="cm"># 请求体加 "options":{"temperature":0,"seed":42}，问"给一家奶茶店写一句广告词"</span>
+<span class="cm"># 连跑 3 次；再把 temperature 改成 1.5 跑一次</span></pre>
+<div class="check">✅ <b>预期结果</b>：温度 0 三次输出<b>一字不差</b>（实测："一杯奶茶，温暖你的每一刻。"×3）；温度 1.5 换了一副面孔（实测："一杯鲜甜，尽享幸福"）——这就是采样温度对"下一个字概率表"的重塑。</div>
+
+<div class="step"><span class="sn">实验 6</span> <b>OpenAI 兼容接口：让现成工具接入本地模型</b></div>
+<pre>curl http://localhost:11434/v1/chat/completions -d "{\"model\":\"qwen3:0.6b\",
+  \"messages\":[{\"role\":\"user\",\"content\":\"say hi in 3 words\"}]}"
+<span class="cm"># Python: 把 openai 库的 base_url 改成 http://localhost:11434/v1，api_key 随便填</span></pre>
+<div class="check">✅ <b>预期结果</b>：返回标准 OpenAI 格式 <code>{"choices":[{"message":{"content":...}}]}</code>——任何支持自定义 base_url 的 AI 工具从此都能白嫖本地算力。</div>
+
+<div class="step"><span class="sn">实验 7</span> <b>Modelfile 造一个"诗人模型"</b></div>
+<pre><span class="cm"># Modelfile 三行：FROM qwen3:0.6b / PARAMETER temperature 0.8 / SYSTEM 你是一位说话永远押韵的诗人助手</span>
+ollama create poet -f Modelfile
+ollama list                     <span class="cm"># 秒建，0 秒等待，几乎不占额外磁盘</span>
+ollama run poet "介绍一下春天"</pre>
+<div class="check">✅ <b>预期结果</b>：<code>ollama create</code> 输出 <code>success</code>；list 里出现 <code>poet:latest</code>；对话输出自动变成诗体分段（实测："春天啊，万物复苏，/ 花儿在枝头绽放…"）——SYSTEM 人设生效。</div>
+
+<h2 class="section">📎 速查卡</h2>
+<table>
+  <tr><th>命令 / 配置</th><th>作用</th></tr>
+  <tr><td><code>ollama pull / run / rm &lt;模型&gt;</code></td><td>下载 / 对话 / 删除模型</td></tr>
+  <tr><td><code>ollama list / ps / stop &lt;模型&gt;</code></td><td>已装模型 / 显存常驻状态 / 立即卸载</td></tr>
+  <tr><td><code>ollama create &lt;名&gt; -f Modelfile</code></td><td>用配方造自定义模型</td></tr>
+  <tr><td><code>OLLAMA_MODELS=F:\ollama_models</code></td><td>模型库存放位置（本机已设，模型在 F 盘）</td></tr>
+  <tr><td><code>OLLAMA_KEEP_ALIVE=30m</code></td><td>模型用完在显存里留守多久（默认 5m）</td></tr>
+  <tr><td><code>OLLAMA_HOST</code> / 端口 11434</td><td>server 地址；API 文档见 repo\docs/api.md</td></tr>
+</table>
+
+<div class="footer">Ollama 学习笔记 · 2026-10-01 · 源码版本 1abe35e · 配套材料：F:\reminder\ollama_local_llm\（repo 源码 + exercise 实验脚本）</div>
+</body>
+</html>

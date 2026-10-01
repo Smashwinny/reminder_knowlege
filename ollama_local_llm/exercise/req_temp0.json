@@ -1,0 +1,1 @@
+{"model": "qwen3:0.6b", "messages": [{"role": "user", "content": "给一家奶茶店写一句广告词，只要一句。"}], "think": false, "stream": false, "options": {"temperature": 0.0, "seed": 42}}

@@ -3,7 +3,7 @@
 # 用法: bash manual_pull.sh
 set -e
 MANIFEST=F:/reminder/ollama_local_llm/exercise/qwen3_0.6b_manifest.json
-MODELS_DIR=~/.ollama/models
+MODELS_DIR=${OLLAMA_MODELS:-F:/ollama_models}
 BLOBS=$MODELS_DIR/blobs
 MAN_DIR=$MODELS_DIR/manifests/registry.ollama.ai/library/qwen3
 
@@ -31,7 +31,7 @@ import json
 m = json.load(open(r'F:\reminder\ollama_local_llm\exercise\qwen3_0.6b_manifest.json'))
 print(m['config']['digest'])
 for l in m['layers']: print(l['digest'])
-" | while read -r d; do fetch_blob "$d"; done
+" | tr -d '\r' | while read -r d; do fetch_blob "$d"; done
 
 mkdir -p "$MAN_DIR"
 cp "$MANIFEST" "$MAN_DIR/0.6b"
