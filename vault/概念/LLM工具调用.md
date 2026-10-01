@@ -17,5 +17,6 @@ tags: [概念]
 - 相关：[[ChatModel与消息类型]]（bind_tools 发菜单，ToolMessage 上菜）
 - 相关：[[Agent循环]]（工具调用是循环的驱动事件）
 - 相关：[[质检Gate与自我纠错循环]]（参数校验失败回传错误，模型自纠）
+- crewAI 视角：继承 `BaseTool` 实现 `_run` 即发一件工具；实测日志 "Tool Output: 红烧肉 12元…"，模型推荐的价格只能来自工具——调用生效的铁证
 
-**首次接触于**：[[项目笔记/langchain]]
+**首次接触于**：[[项目笔记/langchain]]（另见 [[项目笔记/crewai]]）

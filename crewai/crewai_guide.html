@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>crewAI 小白指南</title>
+<style>
+  @page { size: A4; margin: 14mm 12mm; }
+  :root {
+    --purple: #7C3AED;
+    --orange: #F97316;
+    --cyan:   #0891B2;
+    --pink:   #EC4899;
+    --green:  #16A34A;
+    --yellow: #EAB308;
+    --red:    #DC2626;
+    --hl:     #FEF08A;   /* 高亮底色 */
+    --ink:    #1E1B4B;
+    --paper:  #FFFFFF;
+    --soft:   #F5F3FF;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ink:#1E1B4B; --paper:#FFFFFF; } }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    color: var(--ink); background: var(--paper); font-size: 13.5px; line-height: 1.75;
+  }
+  .cover {
+    background: linear-gradient(135deg, #7C3AED 0%, #EC4899 55%, #F97316 100%);
+    color: #fff; border-radius: 18px; padding: 42px 36px 34px; margin-bottom: 26px;
+  }
+  .cover .kicker { display:inline-block; background: rgba(255,255,255,.22); padding: 4px 16px; border-radius: 999px; font-weight: bold; letter-spacing: 2px; font-size: 13px; }
+  .cover h1 { font-size: 46px; margin: 14px 0 6px; letter-spacing: 1px; }
+  .cover .sub { font-size: 17px; opacity: .95; }
+  .cover .meta { margin-top: 18px; font-size: 12.5px; opacity: .85; }
+  .qcard { border-radius: 16px; padding: 24px 26px 20px; margin: 22px 0; break-inside: avoid; border: 3px solid; }
+  .qcard.p1 { border-color: var(--purple); background: #FAF5FF; }
+  .qcard.p2 { border-color: var(--orange); background: #FFF7ED; }
+  .qcard.p3 { border-color: var(--cyan);    background: #ECFEFF; }
+  .qcard.p4 { border-color: var(--pink);    background: #FDF2F8; }
+  .qcard.p5 { border-color: var(--green);   background: #F0FDF4; }
+  .qnum { float: left; font-size: 52px; font-weight: 900; line-height: 1; margin-right: 16px; }
+  .p1 .qnum{ color: var(--purple);} .p2 .qnum{ color: var(--orange);} .p3 .qnum{ color: var(--cyan);}
+  .p4 .qnum{ color: var(--pink);}   .p5 .qnum{ color: var(--green);}
+  .qtitle { font-size: 20px; font-weight: 900; padding-top: 6px; }
+  .qask { margin: 10px 0 6px; font-style: italic; color: #555; font-size: 13px; }
+  .keyline { font-size: 16.5px; font-weight: 900; background: var(--hl); padding: 6px 10px; border-radius: 8px; display: inline-block; margin: 8px 0; }
+  .card h3, .qcard h3 { font-size: 15px; margin: 12px 0 4px; }
+  code.inline { background: #EDE9FE; color: #5B21B6; border-radius: 5px; padding: 1px 6px; font-family: Consolas, monospace; font-size: 12.5px; font-weight: bold; }
+  pre {
+    background: #1E1B4B; color: #E0E7FF; border-radius: 10px; padding: 14px 16px;
+    font-family: Consolas, monospace; font-size: 12px; line-height: 1.6; margin: 10px 0; overflow: hidden;
+    break-inside: avoid;
+  }
+  pre .c { color: #94A3B8; } pre .k { color: #FDE047; } pre .s { color: #86EFAC; }
+  .svgbox { background: #fff; border-radius: 12px; padding: 10px; margin: 12px 0; border: 1.5px dashed #C4B5FD; break-inside: avoid; }
+  .svgbox .cap { text-align: center; font-size: 12px; color: #6D28D9; font-weight: bold; margin-top: 4px; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 12.5px; break-inside: avoid; }
+  th { background: var(--purple); color: #fff; padding: 7px 9px; text-align: left; }
+  td { border: 1.5px solid #DDD6FE; padding: 6px 9px; background: #fff; }
+  tr:nth-child(even) td { background: #FAF5FF; }
+  .good { color: var(--green); font-weight: 900; }
+  .bad  { color: var(--red);   font-weight: 900; }
+  .warnbox { background: #FFF1F2; border: 2.5px solid var(--red); border-radius: 12px; padding: 12px 16px; margin: 12px 0; break-inside: avoid; }
+  .warnbox b.t { color: var(--red); }
+  .tipbox { background: #ECFDF5; border: 2.5px solid var(--green); border-radius: 12px; padding: 12px 16px; margin: 12px 0; break-inside: avoid; }
+  .stepcard { border-radius: 14px; border: 3px solid var(--cyan); background: #fff; margin: 16px 0; break-inside: avoid; overflow: hidden; }
+  .stepcard .head { background: linear-gradient(90deg, #0891B2, #7C3AED); color: #fff; padding: 9px 18px; font-size: 16px; font-weight: 900; }
+  .stepcard .body { padding: 14px 18px; }
+  .stepcard .four { display: grid; grid-template-columns: 92px 1fr; gap: 3px 10px; font-size: 12.8px; margin-top: 8px; }
+  .stepcard .four b { color: var(--cyan); }
+  .expect { background: #F0FDF4; border: 2.5px solid var(--green); border-radius: 10px; padding: 10px 14px; margin: 10px 0 2px; font-size: 12.5px; }
+  .expect b { color: var(--green); }
+  .flowchip { display: inline-block; background: var(--purple); color:#fff; border-radius: 999px; padding: 2px 12px; font-weight: bold; font-size: 12px; margin: 2px; }
+  .section-title {
+    font-size: 24px; font-weight: 900; color: #fff; padding: 10px 22px; border-radius: 12px;
+    margin: 30px 0 6px; break-inside: avoid;
+  }
+  .st1 { background: linear-gradient(90deg, #7C3AED, #EC4899); }
+  .st2 { background: linear-gradient(90deg, #0891B2, #16A34A); }
+  .st3 { background: linear-gradient(90deg, #F97316, #DC2626); }
+  .footnote { margin-top: 24px; font-size: 11.5px; color: #777; border-top: 2px dashed #C4B5FD; padding-top: 10px; }
+</style>
+</head>
+<body>
+
+<!-- ============ 封面 ============ -->
+<div class="cover">
+  <span class="kicker">小白指南 · 第 4 站</span>
+  <h1>crewAI：给 AI 组一支施工队</h1>
+  <div class="sub">多智能体协作框架 —— 让一群各有分工的 AI 帮你干活</div>
+  <div class="meta">上游仓库：github.com/crewAIInc/crewAI ｜ 实测版本：crewai 1.15.23（commit ca1d55abb）｜ 实测模型：GLM-4.6（Anthropic 兼容中转）｜ 2026-10-01</div>
+</div>
+
+<div style="font-size:15px; background:var(--soft); border-radius:12px; padding:14px 18px; border-left:6px solid var(--purple);">
+  <b>一句话总览：</b>crewAI 是一个开源 Python 框架，让你用「<span style="background:var(--hl); font-weight:900;">给每个 AI 写一张岗位说明书（Agent）→ 给每个岗位派一张工单（Task）→ 把工单串成一条流水线（Crew）</span>」三步，搭出一支能自动协作完成复杂任务的 AI 团队。
+</div>
+
+<!-- ============ 疑问 1 ============ -->
+<div class="qcard p1">
+  <div class="qnum">1</div>
+  <div class="qtitle">crewAI 到底是个什么东西？</div>
+  <div class="qask">"多智能体编排框架"这七个字每个都认识，连起来就不知道在说什么了。</div>
+  <span class="keyline">crewAI = 一套 Python 类库，专门用来"雇一群 AI 员工并管理他们干活"。</span>
+  <h3>拆掉术语墙</h3>
+  <p><b>智能体（Agent）</b>：一个能自己思考、自己决定"下一步干什么"、还能调用工具（搜索、查库、读文件）的 AI 程序。和你平时聊天窗里的 AI 的区别是：聊天窗 AI 只会<b>回答</b>，Agent 会<b>动手</b>。<br>
+  <b>编排（Orchestration）</b>：就是"排班 + 分活 + 传话"的管理工作。crewAI 干的就是这个管理工作。</p>
+  <div class="svgbox">
+    <svg viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="60" width="120" height="60" rx="10" fill="#7C3AED"/>
+      <text x="70" y="86" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">你</text>
+      <text x="70" y="106" text-anchor="middle" fill="#ddd" font-size="11">只说目标</text>
+      <rect x="185" y="55" width="90" height="70" rx="10" fill="#F97316"/>
+      <text x="230" y="85" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">crewAI</text>
+      <text x="230" y="104" text-anchor="middle" fill="#fff" font-size="11">包工头/编排</text>
+      <rect x="330" y="10" width="130" height="48" rx="9" fill="#EC4899"/>
+      <text x="395" y="30" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">研究员 Agent</text>
+      <text x="395" y="48" text-anchor="middle" fill="#ffe" font-size="10">查资料</text>
+      <rect x="330" y="70" width="130" height="48" rx="9" fill="#0891B2"/>
+      <text x="395" y="90" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">撰稿人 Agent</text>
+      <text x="395" y="108" text-anchor="middle" fill="#ffe" font-size="10">写文章</text>
+      <rect x="330" y="130" width="130" height="48" rx="9" fill="#16A34A"/>
+      <text x="395" y="150" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">审校 Agent</text>
+      <text x="395" y="168" text-anchor="middle" fill="#ffe" font-size="10">挑毛病</text>
+      <rect x="520" y="70" width="105" height="48" rx="9" fill="#EAB308"/>
+      <text x="572" y="90" text-anchor="middle" fill="#713F12" font-size="12" font-weight="bold">成品</text>
+      <text x="572" y="108" text-anchor="middle" fill="#713F12" font-size="10">报告/代码/…</text>
+      <line x1="130" y1="90" x2="182" y2="90" stroke="#475569" stroke-width="2.5" marker-end="url(#a1)"/>
+      <line x1="275" y1="78" x2="327" y2="40" stroke="#475569" stroke-width="2.5" marker-end="url(#a1)"/>
+      <line x1="275" y1="90" x2="327" y2="92" stroke="#475569" stroke-width="2.5" marker-end="url(#a1)"/>
+      <line x1="275" y1="102" x2="327" y2="148" stroke="#475569" stroke-width="2.5" marker-end="url(#a1)"/>
+      <line x1="460" y1="34" x2="330" y2="80" stroke="#94A3B8" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#a1)"/>
+      <line x1="460" y1="94" x2="330" y2="152" stroke="#94A3B8" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#a1)"/>
+      <line x1="460" y1="94" x2="517" y2="92" stroke="#475569" stroke-width="2.5" marker-end="url(#a1)"/>
+      <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#475569"/></marker></defs>
+    </svg>
+    <div class="cap">你只说目标，crewAI 负责排班、分活、传话、收货</div>
+  </div>
+</div>
+
+<!-- ============ 疑问 2 ============ -->
+<div class="qcard p2">
+  <div class="qnum">2</div>
+  <div class="qtitle">为什么非要"多个" AI？一个不够吗？</div>
+  <div class="qask">大模型那么聪明，把所有要求都塞进一条超长提示词不行吗？</div>
+  <span class="keyline">一个 AI 干所有活 = 一个人开饭店：既是厨师又是收银又是采购，忙中必出错。</span>
+  <h3>没有 crewAI 之前，人们怎么做？</h3>
+  <p>① <b>手写提示词链</b>：自己写代码把 A 模型的输出粘给 B 模型，中间全靠手工粘合，一处改动全部重调；② <b>单 Agent 硬扛</b>：角色越塞越多，模型开始"精神分裂"——上一段还在当研究员，下一段就忘了自己在干嘛。问题的根源：<b>上下文窗口（模型一次能"看到"的内容上限）有限，塞的角色越多，每个角色扮演得越糊</b>。</p>
+  <p>多智能体的解法：<b>把一个万能但容易犯糊的 AI，拆成几个窄而专的 AI</b>。每个 Agent 的提示词里只有自己那一个角色，注意力集中，出错率下降；还能互相校验——这也是实验里那位"研究员"自己总结的第 2 个要点。</p>
+  <div class="svgbox">
+    <svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="30" width="180" height="120" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+      <text x="110" y="58" text-anchor="middle" fill="#DC2626" font-size="14" font-weight="bold">单 Agent 硬扛</text>
+      <text x="110" y="80" text-anchor="middle" fill="#7F1D1D" font-size="11">研究员+作者+审校+…</text>
+      <text x="110" y="98" text-anchor="middle" fill="#7F1D1D" font-size="11">全塞一个提示词</text>
+      <text x="110" y="122" text-anchor="middle" fill="#DC2626" font-size="12" font-weight="bold">→ 角色混乱，一错到底</text>
+      <rect x="300" y="30" width="320" height="120" rx="12" fill="#DCFCE7" stroke="#16A34A" stroke-width="2.5"/>
+      <text x="460" y="56" text-anchor="middle" fill="#166534" font-size="14" font-weight="bold">多 Agent 分工</text>
+      <rect x="320" y="70" width="85" height="34" rx="8" fill="#22C55E"/><text x="362" y="92" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">只当研究员</text>
+      <rect x="418" y="70" width="85" height="34" rx="8" fill="#22C55E"/><text x="460" y="92" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">只当作者</text>
+      <rect x="516" y="70" width="85" height="34" rx="8" fill="#22C55E"/><text x="558" y="92" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">只当审校</text>
+      <text x="460" y="130" text-anchor="middle" fill="#166534" font-size="12" font-weight="bold">→ 各自专注 + 互相校验</text>
+      <line x1="205" y1="90" x2="295" y2="90" stroke="#475569" stroke-width="2.5" marker-end="url(#a2)"/>
+      <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#475569"/></marker></defs>
+    </svg>
+    <div class="cap">分工的本质：让每个模型的上下文里只有"一个角色"</div>
+  </div>
+</div>
+
+<!-- ============ 疑问 3 ============ -->
+<div class="qcard p3">
+  <div class="qnum">3</div>
+  <div class="qtitle">Agent 的 role / goal / backstory 是怎么回事？</div>
+  <div class="qask">就是给三个字符串变量赋值，凭什么这就算"招了个员工"？</div>
+  <span class="keyline">这三个字段最终会被拼进发给大模型的提示词——所谓"招员工"，其实是给模型发一张详细岗位说明书。</span>
+  <p><b>拆开看</b>：<code class="inline">role</code>（岗位名）让模型进入角色语境；<code class="inline">goal</code>（目标）告诉它"干成什么样算好"；<code class="inline">backstory</code>（背景故事）给它注入专业口吻和判断习惯。三段文字会被 crewAI 拼成系统提示词发给模型，模型于是持续用这个身份思考和说话。</p>
+  <div class="tipbox"><b>实验证据（步骤 3 实测）</b>：同一个任务，把研究员的 role 从"资深技术研究员"改成"武侠小说家"，产出立刻从规范要点变成满纸江湖气——<b>角色设定就是最强的风格开关</b>，改一个字符串，改的是模型的整个人格。</div>
+  <div class="svgbox">
+    <svg viewBox="0 0 640 150" xmlns="http://www.w3.org/2000/svg">
+      <rect x="15" y="35" width="120" height="80" rx="10" fill="#0891B2"/>
+      <text x="75" y="68" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">role</text>
+      <text x="75" y="90" text-anchor="middle" fill="#cffafe" font-size="11">"资深研究员"</text>
+      <rect x="160" y="35" width="120" height="80" rx="10" fill="#7C3AED"/>
+      <text x="220" y="68" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">goal</text>
+      <text x="220" y="90" text-anchor="middle" fill="#ede9fe" font-size="11">"3 个要点讲清楚"</text>
+      <rect x="305" y="35" width="130" height="80" rx="10" fill="#EC4899"/>
+      <text x="370" y="68" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">backstory</text>
+      <text x="370" y="90" text-anchor="middle" fill="#fce7f3" font-size="11">"十年调研老兵"</text>
+      <rect x="480" y="22" width="150" height="106" rx="10" fill="#1E1B4B"/>
+      <text x="555" y="52" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">系统提示词</text>
+      <text x="555" y="74" text-anchor="middle" fill="#94A3B8" font-size="10">"你是资深研究员，</text>
+      <text x="555" y="90" text-anchor="middle" fill="#94A3B8" font-size="10">目标是…，你的经历…"</text>
+      <text x="555" y="112" text-anchor="middle" fill="#FDE047" font-size="10">→ 模型入戏</text>
+      <line x1="135" y1="75" x2="157" y2="75" stroke="#475569" stroke-width="2.5" marker-end="url(#a3)"/>
+      <line x1="280" y1="75" x2="302" y2="75" stroke="#475569" stroke-width="2.5" marker-end="url(#a3)"/>
+      <line x1="435" y1="75" x2="477" y2="75" stroke="#475569" stroke-width="2.5" marker-end="url(#a3)"/>
+      <defs><marker id="a3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#475569"/></marker></defs>
+    </svg>
+    <div class="cap">Agent 三件套 = 拼一张岗位说明书发给模型</div>
+  </div>
+</div>
+
+<!-- ============ 疑问 4 ============ -->
+<div class="qcard p4">
+  <div class="qnum">4</div>
+  <div class="qtitle">Task 是什么？任务的结果怎么传给下一个人？</div>
+  <div class="qask">员工干完活，成果是怎么"交接"的？</div>
+  <span class="keyline">Task = 一张工单：description 说做什么，expected_output 定义验收标准，context 指定"开工前先读哪些工单的成果"。</span>
+  <p><code class="inline">expected_output</code> 是 crewAI 的一个亮点：它不是装饰，而是真的会被拼进提示词当<b>验收标准</b>——模型会努力把自己的输出修成那个格式。 <code class="inline">context=[t1]</code> 的意思是：t2 开工前，把 t1 的 <b>Final Answer</b> 塞进 t2 的上下文，等于把上道工序的半成品递给下道工序。这和你知识库里的 [[构建流水线与Pass]] 是同一个思想：<b>每级只加工上一级的中间产物</b>。</p>
+  <div class="svgbox">
+    <svg viewBox="0 0 640 165" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="45" width="190" height="80" rx="10" fill="#EC4899"/>
+      <text x="115" y="70" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">Task 1（研究员）</text>
+      <text x="115" y="90" text-anchor="middle" fill="#fce7f3" font-size="10.5">description + expected_output</text>
+      <text x="115" y="110" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">产出：3 个要点</text>
+      <rect x="300" y="45" width="190" height="80" rx="10" fill="#7C3AED"/>
+      <text x="395" y="70" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">Task 2（撰稿人）</text>
+      <text x="395" y="90" text-anchor="middle" fill="#ede9fe" font-size="10.5">context=[Task 1]</text>
+      <text x="395" y="110" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">产出：200 字介绍</text>
+      <rect x="540" y="58" width="85" height="52" rx="9" fill="#EAB308"/>
+      <text x="582" y="80" text-anchor="middle" fill="#713F12" font-size="11" font-weight="bold">crew.kickoff()</text>
+      <text x="582" y="98" text-anchor="middle" fill="#713F12" font-size="10">的返回值</text>
+      <line x1="210" y1="75" x2="240" y2="75" stroke="#475569" stroke-width="2.5"/>
+      <path d="M240,75 L240,60 M240,75 L240,90" stroke="#475569" stroke-width="0"/>
+      <line x1="240" y1="75" x2="297" y2="75" stroke="#475569" stroke-width="2.5" marker-end="url(#a4)"/>
+      <text x="253" y="62" text-anchor="middle" fill="#DC2626" font-size="10.5" font-weight="bold">Final Answer</text>
+      <text x="253" y="102" text-anchor="middle" fill="#475569" font-size="10">经 context 传递</text>
+      <line x1="490" y1="85" x2="537" y2="85" stroke="#475569" stroke-width="2.5" marker-end="url(#a4)"/>
+      <defs><marker id="a4" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#475569"/></marker></defs>
+    </svg>
+    <div class="cap">工单链：上一张工单的 Final Answer 就是下一张的原料</div>
+  </div>
+</div>
+
+<!-- ============ 疑问 5 ============ -->
+<div class="qcard p5">
+  <div class="qnum">5</div>
+  <div class="qtitle">Crew 和 Process：谁来决定干活顺序？</div>
+  <div class="qask">Crew 把 agent 和 task 打包之后，到底按什么顺序执行？</div>
+  <span class="keyline">Process 只有两种：sequential（按工单列表顺序传，像流水线）和 hierarchical（先派一位"经理 Agent"统筹分派）。</span>
+  <p><b>sequential</b>：完全确定，t1→t2→t3 依次执行——这就是你熟悉的流水线模式，顺序是代码写死的。<b>hierarchical</b>：crewAI 会额外造一个"经理 Agent"，它读所有任务后<b>自己决定</b>派给谁、检查谁的结果，甚至打回重做（必须配 <code class="inline">manager_llm</code>）。代价是 token 翻几倍；收益是面对"事先无法排死工序"的活更灵活。</p>
+  <div class="svgbox">
+    <svg viewBox="0 0 640 185" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="20" width="240" height="150" rx="12" fill="#F0FDF4" stroke="#16A34A" stroke-width="2.5"/>
+      <text x="140" y="46" text-anchor="middle" fill="#166534" font-size="14" font-weight="bold">sequential 顺序式</text>
+      <rect x="40" y="70" width="52" height="40" rx="8" fill="#22C55E"/><text x="66" y="95" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">t1</text>
+      <rect x="114" y="70" width="52" height="40" rx="8" fill="#22C55E"/><text x="140" y="95" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">t2</text>
+      <rect x="188" y="70" width="52" height="40" rx="8" fill="#22C55E"/><text x="214" y="95" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">t3</text>
+      <line x1="92" y1="90" x2="111" y2="90" stroke="#166534" stroke-width="2.5" marker-end="url(#a5)"/>
+      <line x1="166" y1="90" x2="185" y2="90" stroke="#166534" stroke-width="2.5" marker-end="url(#a5)"/>
+      <text x="140" y="140" text-anchor="middle" fill="#166534" font-size="11">顺序写死 · 便宜 · 可预测</text>
+      <rect x="360" y="20" width="260" height="150" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="2.5"/>
+      <text x="490" y="46" text-anchor="middle" fill="#9A3412" font-size="14" font-weight="bold">hierarchical 层级式</text>
+      <rect x="430" y="62" width="120" height="36" rx="8" fill="#F97316"/><text x="490" y="85" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">经理 Agent</text>
+      <rect x="380" y="120" width="70" height="34" rx="8" fill="#FDBA74"/><text x="415" y="142" text-anchor="middle" fill="#7C2D12" font-size="11">t1 员工</text>
+      <rect x="455" y="120" width="70" height="34" rx="8" fill="#FDBA74"/><text x="490" y="142" text-anchor="middle" fill="#7C2D12" font-size="11">t2 员工</text>
+      <rect x="530" y="120" width="70" height="34" rx="8" fill="#FDBA74"/><text x="565" y="142" text-anchor="middle" fill="#7C2D12" font-size="11">t3 员工</text>
+      <line x1="460" y1="98" x2="425" y2="117" stroke="#9A3412" stroke-width="2" marker-end="url(#a5)"/>
+      <line x1="490" y1="98" x2="490" y2="117" stroke="#9A3412" stroke-width="2" marker-end="url(#a5)"/>
+      <line x1="520" y1="98" x2="555" y2="117" stroke="#9A3412" stroke-width="2" marker-end="url(#a5)"/>
+      <line x1="425" y1="120" x2="465" y2="100" stroke="#FB923C" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="490" y="163" text-anchor="middle" fill="#9A3412" font-size="11">经理分派 + 验收（虚线=打回重做）</text>
+      <defs><marker id="a5" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#475569"/></marker></defs>
+    </svg>
+    <div class="cap">左边是流水线，右边是项目部</div>
+  </div>
+</div>
+
+<!-- ============ 疑问 6 ============ -->
+<div class="qcard p1">
+  <div class="qnum">6</div>
+  <div class="qtitle">Agent 执行任务时，底层到底发生了什么？</div>
+  <div class="qask">verbose=True 时刷屏的那些 Thought / Action / Observation 是什么？</div>
+  <span class="keyline">Agent 的执行引擎是一个循环：<b>Thought（想）→ Action（动）→ Observation（看结果）→ 再想……直到给出 Final Answer</b>。这个套路叫 ReAct。</span>
+  <p>crewAI 把"任务描述 + 岗位说明书 + 可用工具清单"打包发给模型；模型回复的可能是"我要调用某工具"（Action），框架就去真的执行工具，把结果（Observation）追加进对话再发回去；如此循环，直到模型认为完工，输出 Final Answer。你看到的"AI 在自主工作"，本质就是这个<b>由框架托管的思考-行动循环</b>。</p>
+  <div class="svgbox">
+    <svg viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg">
+      <rect x="30" y="70" width="130" height="52" rx="10" fill="#7C3AED"/>
+      <text x="95" y="92" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">Thought 想</text>
+      <text x="95" y="110" text-anchor="middle" fill="#ddd6fe" font-size="10">我需要先查菜单</text>
+      <rect x="255" y="70" width="130" height="52" rx="10" fill="#F97316"/>
+      <text x="320" y="92" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">Action 动</text>
+      <text x="320" y="110" text-anchor="middle" fill="#ffedd5" font-size="10">调用 menu_query</text>
+      <rect x="480" y="70" width="130" height="52" rx="10" fill="#0891B2"/>
+      <text x="545" y="92" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">Observation 看</text>
+      <text x="545" y="110" text-anchor="middle" fill="#cffafe" font-size="10">红烧肉12元; …</text>
+      <path d="M160,96 L252,96" stroke="#475569" stroke-width="3" marker-end="url(#a6)"/>
+      <path d="M385,96 L477,96" stroke="#475569" stroke-width="3" marker-end="url(#a6)"/>
+      <path d="M545,70 C545,20 95,20 95,67" stroke="#EC4899" stroke-width="3" fill="none" stroke-dasharray="7,5" marker-end="url(#a6)"/>
+      <text x="320" y="34" text-anchor="middle" fill="#EC4899" font-size="11.5" font-weight="bold">结果追加回上下文，继续想…（循环）</text>
+      <rect x="230" y="148" width="180" height="34" rx="8" fill="#16A34A"/>
+      <text x="320" y="170" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">够了 → Final Answer</text>
+      <path d="M545,122 C545,165 415,165 413,165" stroke="#16A34A" stroke-width="2.5" fill="none" marker-end="url(#a6)"/>
+      <defs><marker id="a6" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#475569"/></marker></defs>
+    </svg>
+    <div class="cap">ReAct 循环：所有"自主智能"都来自这三拍的反复播放</div>
+  </div>
+</div>
+
+<!-- ============ 疑问 7 ============ -->
+<div class="qcard p2">
+  <div class="qnum">7</div>
+  <div class="qtitle">工具（Tool）：只会写字的模型怎么"动手"？</div>
+  <div class="qask">模型明明只会生成文字，怎么查数据库、发请求？</div>
+  <span class="keyline">秘密是：模型只负责"说我要调哪个函数、参数是什么"，真正动手的是框架；干完把结果用文字塞回去。</span>
+  <p>流程：① 你把 Python 类（继承 <code class="inline">BaseTool</code>，实现 <code class="inline">_run</code> 方法）挂到 Agent 上；② 框架把工具的<b>名字和描述</b>翻译成文字写进提示词；③ 模型在循环里说"调用 <code class="inline">canteen_menu_query</code>"；④ 框架执行真正的 Python 函数；⑤ 结果以文字回填进上下文。模型从头到尾<b>一个字节的数据库都没碰过</b>——它只是个会点菜的顾客，厨房是框架。</p>
+  <div class="tipbox"><b>实验证据（步骤 4 实测）</b>："食堂推荐官" Agent 拿到一件菜单查询工具后，日志出现 <code class="inline">Tool Output: 红烧肉 12元; 番茄炒蛋 8元…</code>，随后推荐"番茄炒蛋 8 元 + 米饭"——<b>价格只可能来自工具返回</b>（模型自己根本不知道"本食堂"的菜价），这就是工具调用生效的铁证。</div>
+  <div class="svgbox">
+    <svg viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="45" width="150" height="70" rx="10" fill="#F97316"/>
+      <text x="95" y="72" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">LLM 模型</text>
+      <text x="95" y="94" text-anchor="middle" fill="#ffedd5" font-size="10.5">"我要调 menu_query"</text>
+      <rect x="255" y="45" width="140" height="70" rx="10" fill="#7C3AED"/>
+      <text x="325" y="72" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">crewAI 框架</text>
+      <text x="325" y="94" text-anchor="middle" fill="#ddd6fe" font-size="10.5">执行真正的 Python</text>
+      <rect x="480" y="45" width="140" height="70" rx="10" fill="#16A34A"/>
+      <text x="550" y="72" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">菜单工具 _run()</text>
+      <text x="550" y="94" text-anchor="middle" fill="#dcfce7" font-size="10.5">返回菜价字符串</text>
+      <path d="M170,80 L252,80" stroke="#475569" stroke-width="3" marker-end="url(#a7)"/>
+      <path d="M395,80 L477,80" stroke="#475569" stroke-width="3" marker-end="url(#a7)"/>
+      <path d="M550,115 C550,148 95,148 95,118" stroke="#0891B2" stroke-width="2.5" fill="none" stroke-dasharray="6,4" marker-end="url(#a7)"/>
+      <text x="322" y="143" text-anchor="middle" fill="#0891B2" font-size="11" font-weight="bold">结果变文字塞回对话 → 模型继续推理</text>
+      <defs><marker id="a7" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#475569"/></marker></defs>
+    </svg>
+    <div class="cap">模型点菜（说调用名），框架炒菜（跑函数），结果回锅（进上下文）</div>
+  </div>
+</div>
+
+<!-- ============ 疑问 8 ============ -->
+<div class="qcard p3">
+  <div class="qnum">8</div>
+  <div class="qtitle">它怎么接上我自己的模型？litellm 是干嘛的？</div>
+  <div class="qask">各家 API 格式都不一样，crewAI 每家都要写适配器吗？</div>
+  <span class="keyline">不。crewAI 把"翻译各国语言"的活外包给 litellm——一个统一网关库，模型名统一写成 <b>provider/model</b> 格式即可。</span>
+  <p><code class="inline">LLM(model="anthropic/glm-4.6", base_url=…, api_key=…)</code> 的意思是：把请求按 Anthropic 协议格式发往指定中转地址，跑的模型叫 glm-4.6。OpenAI、Gemini、Ollama 本地模型……都是换个名字的事。</p>
+  <div class="warnbox"><b class="t">⚠ 实测踩坑（值得记一辈子）</b>：crewAI 1.x 起 <b>litellm 不再默认安装</b>！裸装 <code class="inline">pip install crewai</code> 后跑非原生模型直接 <code class="inline">ImportError</code>。正确姿势：<code class="inline">pip install "crewai[litellm]"</code>。另外中文 Windows 控制台默认 GBK，crewAI 日志带 emoji 会炸，跑之前 <code class="inline">PYTHONUTF8=1</code>（实验 1 首跑日志全是乱码就是它）。</div>
+</div>
+
+<!-- ============ 疑问 9 ============ -->
+<div class="qcard p4">
+  <div class="qnum">9</div>
+  <div class="qtitle">Flow 又是什么？和 Crew 什么关系？</div>
+  <div class="qask">README 一会儿说 Crew 一会儿说 Flow，它们是竞争关系吗？</div>
+  <span class="keyline">不是竞争，是两种管理哲学：<b>Crew = 自治小组（模型自己商量怎么干）；Flow = 确定性事件流水线（代码写死谁在什么条件下被触发）</b>。</span>
+  <p>Flow 用 <code class="inline">@start</code>（起点）<code class="inline">@listen</code>（监听某方法完成就触发）<code class="inline">@router</code>（条件路由）装饰普通 Python 方法，方法之间通过共享状态（<code class="inline">self.state</code>，Pydantic 模型）传数据。<b>Flow 里的步骤可以是纯 Python（零 token）也可以内嵌一个 Crew</b>。这就是你知识库里 [[确定性脚本]] 思想的 Agent 版：<b>能确定的不要求 AI，必须 AI 的才交给 AI</b>。生产系统的标准姿势：Flow 做骨架（控制流、状态、分支），Crew 做肌肉（真正需要动脑的环节）。</p>
+  <div class="svgbox">
+    <svg viewBox="0 0 640 175" xmlns="http://www.w3.org/2000/svg">
+      <rect x="25" y="40" width="130" height="55" rx="10" fill="#EC4899"/>
+      <text x="90" y="63" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">@start 接题</text>
+      <text x="90" y="83" text-anchor="middle" fill="#fce7f3" font-size="10">收到 topic</text>
+      <rect x="255" y="40" width="130" height="55" rx="10" fill="#16A34A"/>
+      <text x="320" y="63" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">纯 Python 步骤</text>
+      <text x="320" y="83" text-anchor="middle" fill="#dcfce7" font-size="10">生成大纲 · 0 token</text>
+      <rect x="485" y="40" width="130" height="55" rx="10" fill="#7C3AED"/>
+      <text x="550" y="63" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Crew 润色</text>
+      <text x="550" y="83" text-anchor="middle" fill="#ddd6fe" font-size="10">需要动脑才叫 AI</text>
+      <path d="M155,67 L252,67" stroke="#475569" stroke-width="3" marker-end="url(#a9)"/>
+      <path d="M385,67 L482,67" stroke="#475569" stroke-width="3" marker-end="url(#a9)"/>
+      <text x="320" y="135" text-anchor="middle" fill="#6D28D9" font-size="12" font-weight="bold">@listen(receive_topic) 触发 @listen(write_draft)——事件驱动，代码说了算</text>
+      <defs><marker id="a9" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#475569"/></marker></defs>
+    </svg>
+    <div class="cap">Flow = 骨架（确定），Crew = 肌肉（智能），合体才是生产级</div>
+  </div>
+  <p style="font-size:12.5px; color:#555;">实测：step5_flow.py 全程零 LLM 调用跑通，事件链 @start → @listen → @listen 依次触发，日志逐个打印 <code class="inline">Flow Method Completed</code>。</p>
+</div>
+
+<!-- ============ 疑问 10 ============ -->
+<div class="qcard p5">
+  <div class="qnum">10</div>
+  <div class="qtitle">Memory 和 Knowledge 是什么？</div>
+  <div class="qask">AI 员工下班就失忆吗？第二天还记得昨天干了什么吗？</div>
+  <span class="keyline">Crew 可挂两层记忆：<b>Memory 管"经历"（之前跑过什么、学到了什么），Knowledge 管"资料"（你塞给它的文档，用 RAG 随查随用）</b>。</span>
+  <p><b>Memory</b>（记忆）：短期记忆让一次运行内的 Agent 共享中间结论；长期记忆把历史运行的经验存下来，下次类似任务直接复用。<b>Knowledge</b>（知识）：把 PDF、txt 等文件交给 Crew，框架切块建索引，Agent 干活时像查字典一样检索相关片段——这叫 RAG（检索增强生成）。没有它俩，Agent 是金鱼；有了，才像老员工。</p>
+  <div class="svgbox">
+    <svg viewBox="0 0 640 150" xmlns="http://www.w3.org/2000/svg">
+      <rect x="30" y="35" width="270" height="85" rx="12" fill="#F0FDF4" stroke="#16A34A" stroke-width="2.5"/>
+      <text x="165" y="62" text-anchor="middle" fill="#166534" font-size="13.5" font-weight="bold">Memory 记忆 = 经历</text>
+      <text x="165" y="86" text-anchor="middle" fill="#166534" font-size="11">短期：本次运行内的共享便签</text>
+      <text x="165" y="106" text-anchor="middle" fill="#166534" font-size="11">长期：跨次运行的经验存档</text>
+      <rect x="340" y="35" width="270" height="85" rx="12" fill="#ECFEFF" stroke="#0891B2" stroke-width="2.5"/>
+      <text x="475" y="62" text-anchor="middle" fill="#155E75" font-size="13.5" font-weight="bold">Knowledge 知识 = 资料</text>
+      <text x="475" y="86" text-anchor="middle" fill="#155E75" font-size="11">你的 PDF/网页 → 切块建索引</text>
+      <text x="475" y="106" text-anchor="middle" fill="#155E75" font-size="11">Agent 干活时检索（RAG）</text>
+    </svg>
+    <div class="cap">记忆是"我的经历"，知识是"我的图书馆"</div>
+  </div>
+</div>
+
+<!-- ============ 疑问 11 ============ -->
+<div class="qcard p1">
+  <div class="qnum">11</div>
+  <div class="qtitle">crewAI 和 LangGraph 怎么选？</div>
+  <div class="qask">听说都是做 Agent 编排的，为什么要存在两个？</div>
+  <span class="keyline">一句话：<b>crewAI 把"组队"做成默认（快）；LangGraph 把"流程图"做成默认（控）</b>。</span>
+  <table>
+    <tr><th></th><th>crewAI</th><th>LangGraph</th></tr>
+    <tr><td><b>心智模型</b></td><td>招一支角色化团队（公司）</td><td>画一张状态机流程图（图）</td></tr>
+    <tr><td><b>控制粒度</b></td><td>Crew 自治为主，Flow 补控制</td><td>每个节点每条边都你说了算</td></tr>
+    <tr><td><b>上手速度</b></td><td class="good">极快，十几行跑通</td><td>较慢，要先学图模型</td></tr>
+    <tr><td><b>适合</b></td><td>角色分工明确的协作型任务</td><td>分支/回环/人工审批多的严格流程</td></tr>
+  </table>
+  <p style="font-size:12.5px;">有趣的是你仓库里正躺着 langgraph 项目——两者都学后可以互相印证：<b>crewAI 的 Flow 本质上也是一张隐式状态图</b>，只是用装饰器代替了显式画图。</p>
+</div>
+
+<!-- ============ 能力清单 ============ -->
+<div class="section-title st1">🎁 这个项目给我什么</div>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
+  <div class="tipbox" style="margin:0;"><b>① 十几行代码搭 AI 工作组</b><br>把"研究→写作→审校"这类多角色任务自动化，不用手写任何提示词编排代码。</div>
+  <div class="tipbox" style="margin:0;"><b>② 给 Agent 装手脚</b><br>继承 BaseTool 写个 Python 函数，Agent 就能查库、调 API、读文件。</div>
+  <div class="tipbox" style="margin:0;"><b>③ 换模型像换电池</b><br>GLM、GPT、Claude、本地 Ollama，改一个字符串全队换装。</div>
+  <div class="tipbox" style="margin:0;"><b>④ 产出格式可验收</b><br>expected_output / output_pydantic 让下游拿到结构化数据而非一坨文本。</div>
+  <div class="tipbox" style="margin:0;"><b>⑤ 复杂系统有骨架</b><br>Flow 状态机 + Crew 内嵌，写出能上生产的确定性工作流。</div>
+  <div class="tipbox" style="margin:0;"><b>⑥ 结合你已学的流水线思想</b><br>sequential = [[构建流水线与Pass]] 的 AI 版，可以直接拿它重做 img2threejs 式任务拆解。</div>
+</div>
+
+<!-- ============ 实验部分 ============ -->
+<div class="section-title st2">🧪 主实验：亲手组建你的第一支 AI 工作组</div>
+<div style="background:var(--soft); border-radius:12px; padding:12px 18px; margin:10px 0 4px; font-size:13px;">
+实验目标：从零装环境 → 跑通双 Agent 流水线 → 亲眼看工具调用 → 对比 Flow。全部命令在 <b>Windows 11 + Python 3.12</b> 实测通过，直接复制即可。
+</div>
+
+<div class="stepcard">
+  <div class="head">步骤 0 · 建环境（一次即可）</div>
+  <div class="body">
+    <pre>py -3.12 -m venv .venv                      <span class="c"># crewAI 要求 Python &gt;=3.10,&lt;3.14，3.14 不行！</span>
+.venv\Scripts\python -m pip install "crewai[litellm]"   <span class="c"># 注意带 [litellm]，否则接第三方模型报 ImportError</span>
+.venv\Scripts\python -c "import crewai; print(crewai.__version__)"</pre>
+    <div class="four">
+      <b>怎么操作</b><div>在 <code class="inline">crewai\exercise\first_crew\</code> 目录依次执行上面三条。</div>
+      <b>目的</b><div>隔离出 Python 3.12 环境，装上框架 + litellm 适配层。</div>
+      <b>实现</b><div>得到 .venv 虚拟环境和 crewai 1.15.23 包。</div>
+      <b>验证</b><div>最后一条命令打印出版本号即成功。</div>
+    </div>
+    <div class="expect">✅ 预期结果：终端输出 <b>crewai 1.15.23</b>（实测如此）。若报 ImportError: litellm not …，说明漏了 [litellm] 后缀。</div>
+  </div>
+</div>
+
+<div class="stepcard">
+  <div class="head">步骤 1 · 跑通双 Agent 流水线（step2_crew.py）</div>
+  <div class="body">
+    <pre>PYTHONUTF8=1 .venv\Scripts\python step2_crew.py   <span class="c"># Git Bash；PowerShell 用 $env:PYTHONUTF8=1</span></pre>
+    <p style="font-size:12.8px;">脚本定义<b>研究员</b>和<b>撰稿人</b>两个 Agent、两张 Task（撰稿人 <code class="inline">context=[t1]</code> 接研究员的产出），Process.sequential 顺序执行，模型走 <code class="inline">anthropic/glm-4.6</code> + 中转 base_url。</p>
+    <div class="four">
+      <b>怎么操作</b><div>直接运行脚本（需先设好 ANTHROPIC_BASE_URL / ANTHROPIC_AUTH_TOKEN 环境变量）。</div>
+      <b>目的</b><div>亲眼看到两个角色接力完成一件事。</div>
+      <b>实现</b><div>日志依次出现两位 Agent 的思考过程，最后打印成品。</div>
+      <b>验证</b><div>结尾出现"最终产出："和一段完整的介绍文字。</div>
+    </div>
+    <div class="expect">✅ 预期结果：最终产出为一段 200 字以内的大白话介绍，如实测原文："想象一下小组作业：有人定计划，有人动手做，还有人负责检查。多智能体协作就是把这套办法交给 AI——让几个各有分工的 AI 组成'团队'……几个 AI 互相校验，就像同学互查作业，能少犯错，把事情办得更靠谱。"</div>
+  </div>
+</div>
+
+<div class="stepcard">
+  <div class="head">步骤 2 · 改一个角色，看人格切换（step3_role_change.py）</div>
+  <div class="body">
+    <pre>PYTHONUTF8=1 .venv\Scripts\python step3_role_change.py</pre>
+    <p style="font-size:12.8px;">和步骤 1 唯一区别：研究员的 role/goal/backstory 换成了<b>武侠小说家</b>（要求每点配一个武侠比喻）。</p>
+    <div class="four">
+      <b>怎么操作</b><div>运行脚本；再用编辑器打开对比 step2_crew.py 里 researcher 的三行设定。</div>
+      <b>目的</b><div>验证"角色设定 = 风格开关"。</div>
+      <b>实现</b><div>同样的任务，产出完全换了一种人格口吻。</div>
+      <b>验证</b><div>研究员的 3 个要点里出现武侠比喻。</div>
+    </div>
+    <div class="expect">✅ 预期结果（实测原文）：研究员要点全是武侠比喻，撰稿人成品——"就像武侠片里高手结阵：每个成员各管一摊，有的负责收集信息，有的负责分析判断，有的负责动手执行……三个臭皮匠顶个诸葛亮，分工加配合，再复杂的事也能拆开来干成。"</div>
+  </div>
+</div>
+
+<div class="stepcard">
+  <div class="head">步骤 3 · 给 Agent 发工具，看它"动手"（step4_tool.py）</div>
+  <div class="body">
+    <pre>PYTHONUTF8=1 .venv\Scripts\python step4_tool.py</pre>
+    <p style="font-size:12.8px;">"食堂推荐官" Agent 挂了一件自定义 <code class="inline">BaseTool</code>（不联网的假菜单数据库）。脚本里 <code class="inline">class MenuTool(BaseTool)</code> 的 <code class="inline">_run</code> 方法就是工具本体。</p>
+    <div class="four">
+      <b>怎么操作</b><div>运行脚本，盯着日志找 "Tool Output" 字样。</div>
+      <b>目的</b><div>理解 ReAct 循环里 Action/Observation 两拍。</div>
+      <b>实现</b><div>Agent 先查菜单再推理推荐，价格来自工具而非模型记忆。</div>
+      <b>验证</b><div>日志出现菜单内容和基于菜价的推荐。</div>
+    </div>
+    <div class="expect">✅ 预期结果（实测原文）：Tool Output: 红烧肉 12元; 番茄炒蛋 8元; 清炒时蔬 6元; 糖醋里脊 13元 → 最终产出："推荐：番茄炒蛋（8 元）+ 剩余 2 元加个米饭……"</div>
+  </div>
+</div>
+
+<div class="stepcard">
+  <div class="head">步骤 4 · Flow：一条不花 token 的流水线（step5_flow.py）</div>
+  <div class="body">
+    <pre>PYTHONUTF8=1 .venv\Scripts\python step5_flow.py</pre>
+    <p style="font-size:12.8px;">三个方法用 <code class="inline">@start</code>/<code class="inline">@listen</code> 串成事件链，中间一步是纯 Python（零 LLM 调用），体会"Crew 自治、Flow 确定性"的差异。</p>
+    <div class="four">
+      <b>怎么操作</b><div>运行脚本，对照日志数一数发生了几次 LLM 调用（答案：0 次）。</div>
+      <b>目的</b><div>感受事件驱动的确定性执行。</div>
+      <b>实现</b><div>@start 触发 @listen 触发 @listen，共享 state 层层传递。</div>
+      <b>验证</b><div>打印 [start]/[listen] 三行日志和最终大纲文本。</div>
+    </div>
+    <div class="expect">✅ 预期结果（实测原文）：Flow 最终输出: 《crewAI 与 LangGraph 的区别》写作大纲：1. 定位差异 2. 心智模型 3. 选型建议（本步为占位，未调用 LLM），且日志逐个方法打印 ✅ Flow Method Completed。</div>
+  </div>
+</div>
+
+<!-- ============ 坑清单 ============ -->
+<div class="section-title st3">🕳️ 实测踩坑清单（都是真金白银踩出来的）</div>
+<table>
+  <tr><th style="width:30%;">坑</th><th>现象 → 解法</th></tr>
+  <tr><td><b>Python 3.14 装不上</b></td><td>crewAI 要求 <code class="inline">&gt;=3.10,&lt;3.14</code>，系统默认 3.14 直接出局 → 用 <code class="inline">py -3.12 -m venv</code> 建 3.12 环境。</td></tr>
+  <tr><td><b>litellm 不默认安装</b></td><td>crewAI 1.x 起改为可选依赖，接 GLM/DeepSeek 等非原生模型报 ImportError → 装 <code class="inline">"crewai[litellm]"</code>。</td></tr>
+  <tr><td><b>GBK 控制台乱码/报错</b></td><td>日志含 🚀 emoji，GBK 编不出来刷 Sync handler error，输出成乱码 → 脚本里 <code class="inline">sys.stdout.reconfigure(encoding="utf-8")</code> + 环境变量 PYTHONUTF8=1。</td></tr>
+  <tr><td><b>中转站接入</b></td><td>Anthropic 兼容中转不用改代码 → <code class="inline">LLM(model="anthropic/模型名", base_url=中转地址, api_key=令牌)</code> 三参数即可。</td></tr>
+  <tr><td><b>限流撞车</b></td><td>多实验并行跑 + IDE/会话同时用同一个 key，中转返回 <code class="inline">rate_limit_error 1302</code>，重试耗尽后 Crew 直接报 Task Failed → <b>实验串行跑、错峰重试即可</b>，不是代码 bug。</td></tr>
+</table>
+
+<div class="footnote">
+  本指南由 Claude Code 按 learn-project 流程产出 ｜ 源码阅读：repo/lib/crewai/src/crewai/（crew.py 的 kickoff、process.py、flow/flow.py、llm.py）｜ 实验日志存于 exercise/first_crew/*.log ｜ 知识入库：vault/项目笔记/crewai.md
+</div>
+
+</body>
+</html>

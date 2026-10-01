@@ -17,5 +17,6 @@ tags: [概念]
 - 同构：[[质检Gate与自我纠错循环]]（生成→检查→报错回传→修正，用**确定性**的参数校验 Gate 驯服**不确定的** LLM）
 - 引擎：[[LangGraph与Agent编排]]（这个循环本质是一张两节点状态图）
 - 依赖：[[LLM工具调用]]、[[ChatModel与消息类型]]
+- crewAI 视角：框架里叫 ReAct（Thought→Action→Observation），verbose 日志刷屏的正是这个循环的三拍
 
-**首次接触于**：[[项目笔记/langchain]]
+**首次接触于**：[[项目笔记/langchain]]（另见 [[项目笔记/crewai]]）

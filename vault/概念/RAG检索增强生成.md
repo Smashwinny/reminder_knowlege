@@ -16,5 +16,6 @@ tags: [概念]
 **与已有概念的关联**：
 - 相关：[[提示词模板]]（检索结果要塞进模板的槽位）
 - 相关：[[ChatModel与消息类型]]（最终仍是一次 ChatModel 调用）
+- crewAI 视角：Crew 的 Knowledge（塞 PDF/txt）与 Memory（经历存档）都基于此思路；区分：**Memory 存经历，Knowledge 存资料**
 
-**首次接触于**：[[项目笔记/langchain]]
+**首次接触于**：[[项目笔记/langchain]]（另见 [[项目笔记/crewai]]）
