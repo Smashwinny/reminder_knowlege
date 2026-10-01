@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>awesome-llm-apps 小白指南</title>
+<style>
+  @page { size: A4; margin: 14mm 12mm; }
+  :root {
+    --orange: #FF4D00; --blue: #0B6CFF; --cyan: #00A3FF;
+    --purple: #8B2FFF; --green: #00B34A; --pink: #FF2D78;
+    --yellow: #FFE100; --ink: #1A1B25; --bg: #FFFFFF;
+    --soft-orange: #FFF0E6; --soft-blue: #E8F1FF; --soft-purple: #F3E8FF;
+    --soft-green: #E6F9EE; --soft-pink: #FFE8F1; --soft-yellow: #FFF9D6;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color: var(--ink);
+         margin: 0; font-size: 13.5px; line-height: 1.65; background: var(--bg); }
+  h1, h2, h3 { margin: 0; }
+  p { margin: 6px 0; }
+
+  .cover { background: linear-gradient(135deg, var(--orange) 0%, var(--pink) 55%, var(--purple) 100%);
+           color: #fff; border-radius: 18px; padding: 34px 30px; margin-bottom: 14px; }
+  .cover h1 { font-size: 34px; letter-spacing: 1px; }
+  .cover .sub { font-size: 16px; margin-top: 10px; opacity: .95; }
+  .cover .stars { display: inline-block; background: #fff; color: var(--orange);
+           font-weight: 900; font-size: 15px; border-radius: 999px; padding: 5px 16px; margin-top: 14px; }
+  .cover .meta { margin-top: 12px; font-size: 12.5px; opacity: .9; }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .toc span { border-radius: 999px; padding: 4px 12px; font-size: 11.5px; font-weight: 700; color: #fff; }
+
+  .qcard { border-radius: 16px; padding: 20px 22px; margin-bottom: 16px; break-inside: avoid; }
+  .qhead { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 8px; }
+  .qnum { font-size: 44px; font-weight: 900; line-height: 1; min-width: 58px; }
+  .qtitle { font-size: 19px; font-weight: 900; padding-top: 6px; }
+  .keybox { background: var(--yellow); border-radius: 10px; padding: 10px 14px; font-weight: 800;
+            font-size: 14.5px; margin: 10px 0; box-shadow: 3px 3px 0 rgba(0,0,0,.12); }
+  .story { background: rgba(255,255,255,.75); border-left: 5px solid var(--ink); border-radius: 8px;
+           padding: 10px 14px; margin: 10px 0; font-size: 13px; }
+  .code { background: #14161F; color: #E8F1FF; border-radius: 10px; padding: 12px 14px;
+          font-family: Consolas, "Courier New", monospace; font-size: 12px; line-height: 1.55;
+          white-space: pre-wrap; word-break: break-all; margin: 10px 0; }
+  .code .c { color: #7EE787; } .code .k { color: #FF9457; } .code .s { color: #FFD866; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 12.5px; background: #fff; border-radius: 10px; overflow: hidden; }
+  th { background: var(--ink); color: #fff; padding: 7px 10px; text-align: left; }
+  td { border-bottom: 1px solid #EEE; padding: 6px 10px; }
+  .svgbox { text-align: center; margin: 12px 0 4px; }
+  .svgbox svg { max-width: 100%; height: auto; }
+  .svgtitle { font-size: 11.5px; color: #666; margin-top: 2px; }
+  .term { font-weight: 800; border-bottom: 3px solid var(--yellow); }
+
+  .sec-title { background: var(--ink); color: #fff; border-radius: 12px; padding: 12px 20px;
+               font-size: 21px; font-weight: 900; margin: 20px 0 12px; }
+  .sec-title .em { color: var(--yellow); }
+
+  .step { border-radius: 14px; padding: 16px 18px; margin-bottom: 14px; break-inside: avoid; }
+  .step h3 { font-size: 16.5px; margin-bottom: 6px; }
+  .step .four { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; font-size: 12.8px; }
+  .step .four b { flex-shrink: 0; display: inline-block; min-width: 118px; }
+  .expect { background: #fff; border: 2.5px dashed var(--green); border-radius: 10px;
+            padding: 9px 13px; margin-top: 10px; font-size: 12.6px; }
+  .expect b { color: var(--green); }
+  .warn { background: var(--soft-yellow); border-left: 5px solid #F5A700; border-radius: 8px;
+          padding: 10px 14px; margin: 12px 0; font-size: 12.8px; }
+
+  .ability { display: flex; gap: 10px; align-items: flex-start; background: var(--soft-blue);
+             border-radius: 12px; padding: 12px 16px; margin-bottom: 9px; break-inside: avoid; }
+  .ability .ico { font-size: 24px; }
+  .ability b { color: var(--blue); }
+
+  .footer { text-align: center; font-size: 11px; color: #999; margin-top: 18px; }
+</style>
+</head>
+<body>
+
+<!-- ============ 封面 ============ -->
+<div class="cover">
+  <h1>awesome-llm-apps 小白指南</h1>
+  <div class="sub">140,000+ Star 的 AI 智能体百宝箱 —— 88 个能直接跑的现成智能体,从"会说"到"会做"</div>
+  <div class="stars">⭐ 140.4k Stars · 20.6k Forks · Apache-2.0 免费商用 · 每周更新</div>
+  <div class="meta">仓库:github.com/Shubhamsaboo/awesome-llm-apps · 本指南实验环境:Windows 11 + Python 3.14 + agno 3.0.11 + GLM-4.6(API 兼容接入点)<br>
+  学习日期:2026-10-01 · 属于「400+ 子项目学习计划」· 知识已入 Obsidian vault</div>
+</div>
+
+<div class="toc">
+  <span style="background:var(--orange)">①这是什么</span><span style="background:var(--blue)">②Agent≠聊天机器人</span><span style="background:var(--purple)">③工具调用循环</span><span style="background:var(--green)">④仓库地图</span><span style="background:var(--pink)">⑤RAG</span><span style="background:var(--cyan)">⑥多智能体团队</span><span style="background:var(--orange)">⑦MCP</span><span style="background:var(--blue)">⑧Agent Skills</span><span style="background:var(--purple)">⑨更多花样</span><span style="background:var(--green)">⑩agno框架</span><span style="background:var(--pink)">⑪记忆</span><span style="background:var(--cyan)">⑫没OpenAI key怎么跑</span><span style="background:var(--orange)">⑬能力与用法</span><span style="background:var(--ink)">🔬动手实验</span>
+</div>
+
+<!-- ============ Q1 ============ -->
+<div class="qcard" style="background:var(--soft-orange)">
+  <div class="qhead"><div class="qnum" style="color:var(--orange)">Q1</div>
+  <div class="qtitle">这是什么?一句话能说清吗?</div></div>
+  <div class="keybox">awesome-llm-apps 是一本「AI 智能体菜谱大全」:100+ 个手工构建、端到端测试过的智能体示例,克隆下来 30 秒就能跑,免费、开源、可商用。</div>
+  <p><span class="term">awesome-llm-apps</span>(直译"很棒的 LLM 应用")不是一款软件,<b>而是一个示例合集仓库</b>——类似"预制菜大礼包":每个文件夹就是一道完整的菜(一个能跑的智能体应用),带代码、带说明书(README)、带食材清单(requirements.txt)。</p>
+  <div class="story">📖 <b>类比你学过的「程序化建模」</b>:菜谱而非泥人。这个仓库也一样的思想——<b>不教你从零捏智能体,而是给你 88 份验证过的"菜谱"</b>,你挑一份改改就能上桌。vault 里「模板复用降低试错成本」这条经验在这里完全适用。</div>
+  <p>作者 Shubhamsaboo(团队 Unwind AI),口号是 <b>"Clone it, ship it, sell it"</b>(克隆、上线、拿去卖都行,Apache-2.0 协议),支持 Claude / GPT / Gemini / DeepSeek / Llama / Qwen 等几乎所有主流模型。2026 年拿下 Trendshift 当日第一。</p>
+  <div class="svgbox"><svg width="520" height="130" viewBox="0 0 520 130">
+    <rect x="200" y="40" width="120" height="70" rx="10" fill="#FF4D00"/>
+    <text x="260" y="82" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">📦 仓库</text>
+    <g font-size="11" font-weight="bold">
+      <line x1="200" y1="70" x2="110" y2="30" stroke="#FF4D00" stroke-width="2"/><text x="55" y="28" fill="#0B6CFF">🤖 旅行助手</text>
+      <line x1="320" y1="70" x2="410" y2="30" stroke="#FF4D00" stroke-width="2"/><text x="385" y="28" fill="#00B34A">📊 数据分析</text>
+      <line x1="200" y1="95" x2="105" y2="112" stroke="#FF4D00" stroke-width="2"/><text x="45" y="116" fill="#8B2FFF">🔍 深度调研</text>
+      <line x1="320" y1="95" x2="415" y2="112" stroke="#FF4D00" stroke-width="2"/><text x="390" y="116" fill="#FF2D78">🗣️ 语音客服</text>
+    </g>
+    <text x="260" y="18" text-anchor="middle" font-size="12" fill="#999">…88 个可运行示例(2026-10 实测目录数)</text>
+  </svg><div class="svgtitle">图1:一个仓库 = 一整箱现成的智能体应用</div></div>
+</div>
+
+<!-- ============ Q2 ============ -->
+<div class="qcard" style="background:var(--soft-blue)">
+  <div class="qhead"><div class="qnum" style="color:var(--blue)">Q2</div>
+  <div class="qtitle">AI 智能体(Agent)到底是什么?和聊天机器人差在哪?</div></div>
+  <div class="keybox">聊天机器人只会「说」,智能体会「说 + 做」:它能调用工具、查资料、执行动作,自己决定下一步干什么。</div>
+  <p><span class="term">AI 智能体(Agent)</span>:以大语言模型为"大脑",配上工具当"手脚",再给一个自主循环让它"想了就做、做完再想"的程序。</p>
+  <div class="story">🗣️ <b>比喻</b>:聊天机器人像<b>电话客服</b>——你问它答,答完就挂,办不了任何实事。智能体像<b>有手有脚的助理</b>——你说"帮我订下周三的机票",它自己查航班、比价格、打开订票页面、下单,然后回来汇报。<br>
+  <b>落回术语</b>:区别的本质是——聊天机器人的输出只有文字;智能体的输出可以是「<b>工具调用请求</b>」,由程序真正执行,再把结果喂回大脑继续决策。</div>
+  <div class="keybox" style="background:#fff; border:3px solid var(--blue); box-shadow:none; text-align:center; font-size:16px">
+    智能体 = 大脑(LLM) + 手脚(工具 Tools) + 循环(自主决定做几步)
+  </div>
+  <div class="svgbox"><svg width="520" height="120" viewBox="0 0 520 120">
+    <rect x="30" y="25" width="200" height="70" rx="12" fill="#0B6CFF"/>
+    <text x="130" y="55" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">聊天机器人</text>
+    <text x="130" y="78" text-anchor="middle" fill="#fff" font-size="11">只有嘴:问→答→结束</text>
+    <rect x="290" y="25" width="200" height="70" rx="12" fill="#FF2D78"/>
+    <text x="390" y="52" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">智能体 Agent</text>
+    <text x="390" y="73" text-anchor="middle" fill="#fff" font-size="11">脑 🧠 + 手 🛠️ + 循环 🔁</text>
+    <text x="390" y="88" text-anchor="middle" fill="#fff" font-size="11">问→查→算→再做→答复</text>
+    <line x1="230" y1="60" x2="290" y2="60" stroke="#999" stroke-width="2" marker-end="url(#a2)"/>
+    <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#999"/></marker></defs>
+  </svg><div class="svgtitle">图2:从「会说」到「会做」</div></div>
+</div>
+
+<!-- ============ Q3 ============ -->
+<div class="qcard" style="background:var(--soft-purple)">
+  <div class="qhead"><div class="qnum" style="color:var(--purple)">Q3</div>
+  <div class="qtitle">它是怎么「自己动手」的?—— 工具调用循环(全仓库的核心原理)</div></div>
+  <div class="keybox">关键机制叫「工具调用 / Function Calling」:LLM 不执行代码,它只「点菜」(输出函数名+参数的 JSON),真正下厨的是框架;菜端回来,它再决定下一口吃什么。</div>
+  <p><span class="term">工具调用(Function Calling)</span>:让 LLM 从一份"工具菜单"里选择"我要调哪个函数、传什么参数",由外部程序代为执行并把结果还给 LLM 的机制。</p>
+  <div class="svgbox"><svg width="540" height="300" viewBox="0 0 540 300">
+    <defs><marker id="a3" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7" fill="#8B2FFF"/></marker></defs>
+    <rect x="20"  y="15"  width="150" height="46" rx="10" fill="#0B6CFF"/><text x="95"  y="43" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">① 你提问</text>
+    <rect x="195" y="15"  width="150" height="46" rx="10" fill="#8B2FFF"/><text x="270" y="36" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">② LLM 判断</text><text x="270" y="52" text-anchor="middle" fill="#fff" font-size="10">「这题我得用计算器」</text>
+    <rect x="370" y="15"  width="150" height="46" rx="10" fill="#FF4D00"/><text x="445" y="36" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">③ 输出点菜单</text><text x="445" y="52" text-anchor="middle" fill="#fff" font-size="10">calculator("3e5*365*24*3600")</text>
+    <rect x="370" y="120" width="150" height="46" rx="10" fill="#00B34A"/><text x="445" y="141" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">④ 框架真执行</text><text x="445" y="157" text-anchor="middle" fill="#fff" font-size="10">Python 算出 9.4608e12</text>
+    <rect x="195" y="120" width="150" height="46" rx="10" fill="#F5A700"/><text x="270" y="141" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">⑤ 结果喂回 LLM</text><text x="270" y="157" text-anchor="middle" fill="#fff" font-size="10">「答案是 …」</text>
+    <rect x="20"  y="120" width="150" height="46" rx="10" fill="#FF2D78"/><text x="95"  y="141" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">⑥ 组织语言答复</text><text x="95"  y="157" text-anchor="middle" fill="#fff" font-size="10">「约 9.46 万亿公里 ✨」</text>
+    <line x1="170" y1="38" x2="193" y2="38" stroke="#8B2FFF" stroke-width="2.5" marker-end="url(#a3)"/>
+    <line x1="345" y1="38" x2="368" y2="38" stroke="#8B2FFF" stroke-width="2.5" marker-end="url(#a3)"/>
+    <line x1="445" y1="61" x2="445" y2="118" stroke="#8B2FFF" stroke-width="2.5" marker-end="url(#a3)"/>
+    <line x1="368" y1="143" x2="347" y2="143" stroke="#8B2FFF" stroke-width="2.5" marker-end="url(#a3)"/>
+    <line x1="193" y1="143" x2="172" y2="143" stroke="#8B2FFF" stroke-width="2.5" marker-end="url(#a3)"/>
+    <path d="M 95 166 L 95 210 L 270 210 L 270 170" fill="none" stroke="#FF2D78" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#a3)"/>
+    <text x="182" y="228" text-anchor="middle" font-size="11" fill="#FF2D78" font-weight="bold">如果还没做完 → 带着中间结果回到 ② 继续(循环,步数不固定)</text>
+    <rect x="20" y="245" width="500" height="44" rx="8" fill="#fff" stroke="#8B2FFF" stroke-width="1.5"/>
+    <text x="270" y="263" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#8B2FFF">🔒 安全边界:LLM 永远不直接执行代码,它只是"点菜"</text>
+    <text x="270" y="280" text-anchor="middle" font-size="10.5" fill="#555">哪些函数能上菜单、参数怎么校验,都由你的程序说了算</text>
+  </svg><div class="svgtitle">图3:工具调用循环 —— 本仓库所有 88 个示例的共同心脏</div></div>
+  <p>✅ <b>已实测验证</b>(agno 3.0.11 + GLM-4.6):问"光一年走多少公里",日志清楚显示 <code>calculator(expression=3e5 * 365 * 24 * 3600)</code>,然后 LLM 用返回值组织出「约 9.4608×10¹² 公里」;问"现在几点",它调用 <code>now_time()</code> 拿到真实时间。两问都没心算、没编时间——<b>菜单机制生效了</b>。</p>
+  <div class="story">🔗 <b>连接你的知识库</b>:这个「生成→执行→检查→修正」的循环,和 [[质检Gate与自我纠错循环]] 是同族思想;每一步工具结果就是一次客观的 Gate 检查,LLM 据此决定继续还是收工。区别在于:Gate 循环的裁判是确定性脚本,这里的裁判是<b>LLM 自己</b>读结果后决策。</div>
+</div>
+
+<!-- ============ Q4 ============ -->
+<div class="qcard" style="background:var(--soft-green)">
+  <div class="qhead"><div class="qnum" style="color:var(--green)">Q4</div>
+  <div class="qtitle">仓库里都有什么?(88 个示例的地形图)</div></div>
+  <div class="keybox">按「学什么」分四大区:<b>单智能体</b>(入门)、<b>多智能体</b>(进阶)、<b>能力插件</b>(RAG/MCP/Skills/记忆)、<b>专题应用</b>(语音/UI/游戏/微调)。</div>
+  <table>
+    <tr><th>分区(实测目录)</th><th>数量</th><th>代表示例</th><th>学到什么</th></tr>
+    <tr><td>🌱 starter_ai_agents</td><td>17</td><td>旅行助手、数据分析、CSV 问答</td><td>单文件智能体,一个 API key 就能跑</td></tr>
+    <tr><td>🚀 advanced_ai_agents</td><td>15+</td><td>深度调研、欺诈调查、VC 尽调团队</td><td>生产级:记忆、多步推理、团队协作</td></tr>
+    <tr><td>🧩 agent_skills</td><td>9</td><td>项目墓地、范围蔓延检测器</td><td>给编程智能体装"技能包"</td></tr>
+    <tr><td>📀 rag_tutorials</td><td>24</td><td>纠错式 RAG、本地 RAG、知识图谱 RAG</td><td>RAG 从最简链到智能体化</td></tr>
+    <tr><td>♾️ mcp_ai_agents</td><td>6</td><td>浏览器、GitHub、Notion 智能体</td><td>用 MCP 协议连接外部世界</td></tr>
+    <tr><td>🛰️ always_on_agents</td><td>2</td><td>HN 日报、依赖发布雷达</td><td>定时/事件驱动的后台智能体</td></tr>
+    <tr><td>🗣️ voice / 🖼️ 生成式UI / 🎮 游戏对战</td><td>10+</td><td>语音理赔、聊天生成看板、双 LLM 下棋</td><td>智能体的语音与图形界面形态</td></tr>
+    <tr><td>💾 记忆 / 💬 Chat with X / 🔧 微调 / 🧑‍🏫 框架速成</td><td>15+</td><td>带记忆的 ArXiv 助手、Chat with PDF、LoRA 微调</td><td>长对话、知识问答、模型定制</td></tr>
+  </table>
+  <div class="story">🧭 <b>怎么逛</b>:把 starter 区当「必修课」(17 个全部单文件),rag_tutorials 当「专业课」,其余按需求「选修」。每周还会上新。</div>
+</div>
+
+<!-- ============ Q5 ============ -->
+<div class="qcard" style="background:var(--soft-pink)">
+  <div class="qhead"><div class="qnum" style="color:var(--pink)">Q5</div>
+  <div class="qtitle">RAG 是什么?为什么「让 AI 读我的 PDF」不能直接把 PDF 塞给它?</div></div>
+  <div class="keybox">RAG(检索增强生成)= 先从你的资料里「检索」出最相关的几段,再把这几段塞进提示词让 LLM「生成」答案。解决的是:资料太多塞不下 + 模型没见过你的私有资料。</div>
+  <p>直接塞整本 PDF 有三个问题:<b>① 上下文窗口有限</b>(模型一次能读的字数有上限);<b>② 贵</b>(按字数收费);<b>③ 大海捞针</b>(塞得越多,模型越容易漏掉关键句)。</p>
+  <p><span class="term">嵌入(Embedding)</span>:把一段文字变成一串数字(向量),意思越相近的段落,向量越接近——于是"找相关段落"变成"找最近的向量"。</p>
+  <div class="svgbox"><svg width="540" height="250" viewBox="0 0 540 250">
+    <defs><marker id="a5" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7" fill="#FF2D78"/></marker></defs>
+    <rect x="15" y="20" width="105" height="52" rx="10" fill="#FF2D78"/><text x="67" y="42" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">📄 你的文档</text><text x="67" y="58" text-anchor="middle" fill="#fff" font-size="10">切块 chunking</text>
+    <rect x="150" y="20" width="105" height="52" rx="10" fill="#8B2FFF"/><text x="202" y="42" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">🔢 向量化</text><text x="202" y="58" text-anchor="middle" fill="#fff" font-size="10">Embedding 嵌入</text>
+    <rect x="285" y="20" width="105" height="52" rx="10" fill="#0B6CFF"/><text x="337" y="42" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">🗄️ 向量数据库</text><text x="337" y="58" text-anchor="middle" fill="#fff" font-size="10">如 Chroma 存起来</text>
+    <line x1="120" y1="46" x2="148" y2="46" stroke="#FF2D78" stroke-width="2.5" marker-end="url(#a5)"/>
+    <line x1="255" y1="46" x2="283" y2="46" stroke="#FF2D78" stroke-width="2.5" marker-end="url(#a5)"/>
+    <text x="202" y="95" text-anchor="middle" font-size="10.5" fill="#888">↑ 一次性准备(建库)</text>
+    <rect x="15" y="130" width="105" height="52" rx="10" fill="#F5A700"/><text x="67" y="152" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">❓ 提问</text><text x="67" y="168" text-anchor="middle" fill="#fff" font-size="10">问题也向量化</text>
+    <rect x="285" y="130" width="105" height="52" rx="10" fill="#00B34A"/><text x="337" y="152" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">🎯 检索 Top-K</text><text x="337" y="168" text-anchor="middle" fill="#fff" font-size="10">找最近邻的 5 段</text>
+    <rect x="425" y="130" width="100" height="52" rx="10" fill="#FF4D00"/><text x="475" y="152" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">🧠 LLM 作答</text><text x="475" y="168" text-anchor="middle" fill="#fff" font-size="10">带着证据回答</text>
+    <line x1="120" y1="156" x2="283" y2="156" stroke="#FF2D78" stroke-width="2.5" marker-end="url(#a5)"/>
+    <line x1="337" y1="74" x2="337" y2="128" stroke="#FF2D78" stroke-width="2.5" marker-end="url(#a5)"/>
+    <line x1="390" y1="156" x2="423" y2="156" stroke="#FF2D78" stroke-width="2.5" marker-end="url(#a5)"/>
+    <text x="265" y="215" text-anchor="middle" font-size="11" fill="#FF2D78" font-weight="bold">每次提问都走下面那条线:问题 → 检索 → 拿证据 → 回答(开卷考试)</text>
+  </svg><div class="svgtitle">图4:RAG 两阶段 —— 建库一次,检索无数次</div></div>
+  <div class="story">📚 <b>比喻</b>:让 LLM 直接读整本书,是逼它闭卷硬背;RAG 是<b>考试前帮它做好一盒索引卡片</b>,考到哪个知识点就抽出对应的卡片放它面前——它只需要读那几张卡片就能作答。<b>落回术语</b>:卡片盒=向量数据库,做卡片=Embedding 建库,抽卡片=Top-K 检索。</div>
+  <p>✅ <b>已实测源码</b>(repo/rag_tutorials/rag_chain/app.py,199 行):<code>Chroma 向量库 → db.as_retriever(k=5) → 提示词模板 → LLM → 输出</code>,和图 4 一一对应。该区 24 个教程 = 这条链的无数种升级(检索质量自评、查不到就转网搜、多模态、带引用……)。</p>
+</div>
+
+<!-- ============ Q6 ============ -->
+<div class="qcard" style="background:var(--soft-blue)">
+  <div class="qhead"><div class="qnum" style="color:var(--cyan)">Q6</div>
+  <div class="qtitle">多智能体团队(Multi-Agent Team)为什么要「分工」?</div></div>
+  <div class="keybox">一个智能体什么都管,指令会互相打架、工具越挂越多;拆成各管一摊的专员,再让一个「队长」汇总,效果和可维护性都更好。</div>
+  <div class="story">🏥 <b>比喻</b>:去医院不会挂一个「全科包治百病」号,而是<b>分诊台(Team)→ 各科专家(member agents)</b>。每位专家只带自己科室的工具(化验单、CT 机),诊断更准;分诊台负责听你描述、决定叫哪些科、最后汇总病历。<b>落回术语</b>:member=有专属工具和指令的子智能体,Team=带汇总模型的编排器。</div>
+  <p>✅ <b>已实测源码</b>(ai_finance_agent_team,约 60 行):<code>web_agent</code>(挂搜索引擎工具)+ <code>finance_agent</code>(挂股价工具)→ <code>Team(members=[web_agent, finance_agent])</code>。读股票分析问题时,队长自动拆分"查新闻"和"查股价"两路,再合并成报告。</p>
+  <div class="svgbox"><svg width="520" height="170" viewBox="0 0 520 170">
+    <defs><marker id="a6" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7" fill="#0B6CFF"/></marker></defs>
+    <rect x="195" y="12" width="130" height="42" rx="10" fill="#0B6CFF"/><text x="260" y="38" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">🧭 Team 队长</text>
+    <rect x="55"  y="105" width="130" height="42" rx="10" fill="#00B34A"/><text x="120" y="124" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">🔍 Web 专员</text><text x="120" y="139" text-anchor="middle" fill="#fff" font-size="9.5">工具:DuckDuckGo</text>
+    <rect x="335" y="105" width="130" height="42" rx="10" fill="#FF4D00"/><text x="400" y="124" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">💰 财务专员</text><text x="400" y="139" text-anchor="middle" fill="#fff" font-size="9.5">工具:YFinance</text>
+    <line x1="215" y1="54" x2="140" y2="103" stroke="#0B6CFF" stroke-width="2.5" marker-end="url(#a6)"/>
+    <line x1="305" y1="54" x2="380" y2="103" stroke="#0B6CFF" stroke-width="2.5" marker-end="url(#a6)"/>
+    <text x="260" y="90" text-anchor="middle" font-size="10.5" fill="#666">拆任务 ↓ 汇总 ↑</text>
+  </svg><div class="svgtitle">图5:60 行代码的金融分析团队(仓库真实示例)</div></div>
+</div>
+
+<!-- ============ Q7 ============ -->
+<div class="qcard" style="background:var(--soft-orange)">
+  <div class="qhead"><div class="qnum" style="color:var(--orange)">Q7</div>
+  <div class="qtitle">MCP 是什么?为什么全网都在说?</div></div>
+  <div class="keybox">MCP(Model Context Protocol,模型上下文协议)= AI 工具的「USB-C 接口标准」:工具做一次 MCP Server,所有支持 MCP 的智能体都能即插即用。</div>
+  <p>没有统一标准时:你有 M 个智能体、N 个工具(浏览器、GitHub、Notion……),最坏要写 <b>M×N 套对接代码</b>。有了 <span class="term">MCP</span>,工具方实现一次 MCP Server,智能体方实现一次 MCP Client,变成 <b>M+N</b>。</p>
+  <div class="svgbox"><svg width="540" height="185" viewBox="0 0 540 185">
+    <g font-size="10.5">
+      <rect x="20" y="20" width="90" height="30" rx="7" fill="#0B6CFF"/><text x="65" y="39" text-anchor="middle" fill="#fff">智能体A</text>
+      <rect x="20" y="70" width="90" height="30" rx="7" fill="#0B6CFF"/><text x="65" y="89" text-anchor="middle" fill="#fff">智能体B</text>
+      <rect x="20" y="120" width="90" height="30" rx="7" fill="#0B6CFF"/><text x="65" y="139" text-anchor="middle" fill="#fff">智能体C</text>
+      <rect x="430" y="20" width="90" height="30" rx="7" fill="#FF4D00"/><text x="475" y="39" text-anchor="middle" fill="#fff">浏览器</text>
+      <rect x="430" y="70" width="90" height="30" rx="7" fill="#FF4D00"/><text x="475" y="89" text-anchor="middle" fill="#fff">GitHub</text>
+      <rect x="430" y="120" width="90" height="30" rx="7" fill="#FF4D00"/><text x="475" y="139" text-anchor="middle" fill="#fff">Notion</text>
+    </g>
+    <g stroke="#D9D9D9" stroke-width="1.4">
+      <line x1="110" y1="35" x2="430" y2="35"/><line x1="110" y1="35" x2="430" y2="85"/><line x1="110" y1="35" x2="430" y2="135"/>
+      <line x1="110" y1="85" x2="430" y2="35"/><line x1="110" y1="85" x2="430" y2="85"/><line x1="110" y1="85" x2="430" y2="135"/>
+      <line x1="110" y1="135" x2="430" y2="35"/><line x1="110" y1="135" x2="430" y2="85"/><line x1="110" y1="135" x2="430" y2="135"/>
+    </g>
+    <text x="270" y="15" text-anchor="middle" font-size="11.5" fill="#999" font-weight="bold">没有 MCP:3×3 = 9 套对接,每加一个全重写</text>
+    <g transform="translate(0,0)">
+      <rect x="230" y="60" width="80" height="80" rx="10" fill="#00B34A"/>
+      <text x="270" y="95" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">MCP</text>
+      <text x="270" y="112" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">标准插座</text>
+      <g stroke="#00B34A" stroke-width="2.2">
+        <line x1="110" y1="75" x2="228" y2="85"/><line x1="110" y1="135" x2="228" y2="115"/><line x1="110" y1="105" x2="228" y2="100"/>
+        <line x1="312" y1="85" x2="430" y2="45"/><line x1="312" y1="115" x2="430" y2="125"/>
+      </g>
+      <text x="270" y="165" text-anchor="middle" font-size="11.5" fill="#00B34A" font-weight="bold">有了 MCP:M+N = 6 件事,各做一次</text>
+    </g>
+  </svg><div class="svgtitle">图6:MCP 把 M×N 变成 M+N</div></div>
+  <p>仓库的 <code>mcp_ai_agents/</code> 给了 6 个现成例子:自然语言开真浏览器、用嘴逛 GitHub 仓库、指挥 Notion。你现在用的 Claude Code 本身就是 MCP Client——这就是为什么"给 Claude 装个浏览器工具"只需要一行配置。</p>
+</div>
+
+<!-- ============ Q8 ============ -->
+<div class="qcard" style="background:var(--soft-purple)">
+  <div class="qhead"><div class="qnum" style="color:var(--purple)">Q8</div>
+  <div class="qtitle">Agent Skills(技能包)和工具 / MCP 有什么区别?</div></div>
+  <div class="keybox">工具是「函数代码」(给程序执行);Skill 是「方法论文档+脚本」(给 LLM 按需阅读照做);MCP 是「连接标准」。三者一层套一层,不冲突。</div>
+  <p>仓库 <code>agent_skills/</code> 的 9 个技能用一条命令装进 Claude Code / Codex / Cursor:</p>
+  <div class="code">npx skills add https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/agent_skills/project-graveyard</div>
+  <p>✅ <b>已实测目录结构</b>(project-graveyard):<code>SKILL.md</code>(frontmatter 写 name + description,正文写"什么时候用、怎么做")+ <code>scripts/</code>(可执行脚本)+ <code>references/</code>(参考资料)。每个技能还要过安全+评测 CI 门禁。</p>
+  <div class="story">😲 <b>你已经在用同款东西了</b>:你每天用的 <b>/learn-project skill 就是这个格式</b>——一个 SKILL.md 加几个文件。换句话说: awesome-llm-apps 的 agent_skills 区,就是"别人写好的、可以直接 npx 装进你 Claude Code 的新技能"。</div>
+  <table>
+    <tr><th></th><th>工具 Tool</th><th>技能 Skill</th><th>MCP</th></tr>
+    <tr><td><b>本质</b></td><td>Python 函数(代码)</td><td>Markdown 说明书 + 脚本</td><td>连接协议标准</td></tr>
+    <tr><td><b>给谁用</b></td><td>框架在运行时执行</td><td>LLM 读入上下文后照做</td><td>Client 连 Server</td></tr>
+    <tr><td><b>类比</b></td><td>厨房里的锅</td><td>菜谱卡片</td><td>燃气接口标准</td></tr>
+  </table>
+</div>
+
+<!-- ============ Q9 ============ -->
+<div class="qcard" style="background:var(--soft-green)">
+  <div class="qhead"><div class="qnum" style="color:var(--green)">Q9</div>
+  <div class="qtitle">还有什么花样?(常驻、生成式 UI、语音、游戏、微调)</div></div>
+  <table>
+    <tr><th>形态</th><th>是什么</th><th>仓库例子</th></tr>
+    <tr><td>🛰️ <b>常驻智能体</b> Always-on</td><td>不是"你问它答",而是定时/事件驱动,主动干活推送结果</td><td>每天早上把 Hacker News 排成日报发 Slack;盯依赖库发新版就提醒</td></tr>
+    <tr><td>🖼️ <b>生成式 UI</b></td><td>智能体的回答不是一段字,而是<b>现渲染的交互组件</b>:卡片、表单、图表</td><td>聊着聊着生成看板、仪表盘、行程编辑器</td></tr>
+    <tr><td>🗣️ <b>语音智能体</b></td><td>实时语音进、语音出,能打断能接电话</td><td>保险理赔语音坐席(边听边看摄像头边记录)</td></tr>
+    <tr><td>🎮 <b>游戏对战</b></td><td>两个不同 LLM 各执一色对下,验证走子合法性</td><td>双模型国际象棋、井字棋</td></tr>
+    <tr><td>🔧 <b>微调</b></td><td>拿自己的数据继续训练开源小模型</td><td>Gemma 3 / Llama 3.2 的 4-bit LoRA 微调教程</td></tr>
+  </table>
+  <p>其中「微调-LoRA」你已经在 changeheadanddance 项目(视频换人)接触过——同一个思想:<b>不换大脑,只插一张小小的"技能卡"</b>。</p>
+</div>
+
+<!-- ============ Q10 ============ -->
+<div class="qcard" style="background:var(--soft-yellow)">
+  <div class="qhead"><div class="qnum" style="color:#E09600">Q10</div>
+  <div class="qtitle">agno 框架是什么?为什么所有示例都用它?</div></div>
+  <div class="keybox"><span class="term">智能体框架</span> = 脚手架:替你管「模型对接、工具注册、消息循环、会话存储」,你只写"用哪个脑、带哪些手、守什么规矩"三件事。</div>
+  <p>没有框架时,你要自己写:HTTP 调模型的代码、把工具清单翻译成 API 要的 JSON 格式、解析模型返回的"点菜单"、执行函数、把结果按格式塞回去、循环、存聊天记录……约 200 行样板代码。用 agno 只要 6 行:</p>
+  <div class="code"><span class="k">from</span> agno.agent <span class="k">import</span> Agent
+
+agent = Agent(
+    name=<span class="s">"小助手"</span>,
+    model=Claude(id=<span class="s">"glm-4.6"</span>, ...),   <span class="c"># ① 用哪个脑</span>
+    tools=[now_time, calculator],        <span class="c"># ② 带哪些手</span>
+    instructions=[<span class="s">"计算必须用工具"</span>],    <span class="c"># ③ 守什么规矩</span>
+)</div>
+  <p>agno 还自带 <code>Team</code>(多智能体编排)、<code>SqliteDb</code>(会话/记忆存储)、<code>AgentOS</code>(一键起服务)。同类框架还有 LangChain/LangGraph、CrewAI、AG2;仓库的"框架速成课"教 Google ADK 和 OpenAI Agents SDK——<b>概念互通,换框架只是换语法</b>。</p>
+  <div class="svgbox"><svg width="520" height="120" viewBox="0 0 520 120">
+    <rect x="60" y="12" width="400" height="30" rx="8" fill="#8B2FFF"/><text x="260" y="32" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">你写的:脑 + 手 + 规矩(6 行)</text>
+    <rect x="60" y="46" width="400" height="30" rx="8" fill="#0B6CFF"/><text x="260" y="66" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">框架 agno:工具注册 · 消息循环 · 格式翻译 · 会话存储</text>
+    <rect x="60" y="80" width="400" height="30" rx="8" fill="#1A1B25"/><text x="260" y="100" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">模型 API(GLM / GPT / Claude / Llama …任选)</text>
+  </svg><div class="svgtitle">图7:框架夹在「你的三行配置」和「模型 API」之间</div></div>
+</div>
+
+<!-- ============ Q11 ============ -->
+<div class="qcard" style="background:var(--soft-pink)">
+  <div class="qhead"><div class="qnum" style="color:var(--pink)">Q11</div>
+  <div class="qtitle">「记忆(Memory)」是怎么回事?保存聊天记录不就是记忆吗?</div></div>
+  <div class="keybox">聊天记录=本次对话的"工作记忆";记忆=跨会话提炼并记住的"用户画像与偏好"。前者每开新窗口就清零,后者写进数据库,下次见面还认识你。</div>
+  <div class="story">🐟 <b>比喻</b>:只存聊天记录的助手像<b>金鱼</b>——这顿饭聊得再好,下次见面就不认识你了。有记忆的助手像<b>带笔记本的老管家</b>:服务完把你"不吃香菜、喜欢靠窗位"记进小本本(数据库),下次直接安排好。<b>落回术语</b>:短期记忆=上下文里的对话历史;长期记忆=框架从历史中提炼、存入 SqliteDb 等存储的结构化信息。</div>
+  <p>仓库写法就两行:<code>db = SqliteDb(db_file="agents.db")</code> + <code>add_history_to_context=True</code>——历史自动进库、自动带回上下文。memory 专区 6 个示例演示了"记住你的研究兴趣/旅行偏好/每人独立记忆"等玩法。</p>
+</div>
+
+<!-- ============ Q12 ============ -->
+<div class="qcard" style="background:var(--soft-blue)">
+  <div class="qhead"><div class="qnum" style="color:var(--blue)">Q12</div>
+  <div class="qtitle">没有 OpenAI key,能用国产 / 本地模型跑这些示例吗?</div></div>
+  <div class="keybox">能。三条路(本指南实测第一条):① 任何 Anthropic 兼容端点(如 GLM)→ agno 的 Claude 类 + 换 base_url;② OpenAI 兼容端点(DeepSeek/Qwen/硅基流动)→ agno 的 OpenAIChat 换 base_url;③ 完全本地 → Ollama + llama3.2/qwen,零 API key。</div>
+  <div class="code"><span class="c"># 本指南实测通过:用 GLM 的 Anthropic 兼容端点跑 agno 智能体</span>
+<span class="k">from</span> agno.models.anthropic <span class="k">import</span> Claude
+
+model = Claude(
+    id=<span class="s">"glm-4.6"</span>,
+    api_key=os.environ[<span class="s">"ANTHROPIC_AUTH_TOKEN"</span>],
+    client_params={<span class="s">"base_url"</span>: os.environ[<span class="s">"ANTHROPIC_BASE_URL"</span>]},
+)</div>
+  <div class="warn">⚠️ <b>实测踩坑记录(宝贵的三个)</b><br>
+  ① <b>agno 3.x 接口变了</b>:网上旧教程写 <code>Claude(base_url=...)</code> 会报 TypeError,3.x 要用 <code>client_params={"base_url": ...}</code>;而仓库示例还是按 2.x 写的——<b>跑仓库示例前先 pip 装兼容版本或按新 API 小改</b>。<br>
+  ② <b>限流 429</b>:GLM 接入点约每分钟 1 次请求,连续两次调用要 <code>time.sleep(65)</code>,否则报 <code>rate_limit_error 1302</code>。<br>
+  ③ <b>中文 Windows 的 GBK</b>:跑 Python 前先 <code>setx PYTHONUTF8 1</code>,否则中文输出乱码/假报错。</div>
+  <p>本地路线示例(仓库有大量 <code>local_*</code> 教程,零 key):<code>Ollama(id="llama3.2")</code>——先装 Ollama,再 <code>ollama pull llama3.2</code>(约 2GB),之后模型跑在你自己电脑上,不花钱、数据不出门。</p>
+</div>
+
+<!-- ============ Q13 ============ -->
+<div class="qcard" style="background:var(--soft-orange)">
+  <div class="qhead"><div class="qnum" style="color:var(--orange)">Q13</div>
+  <div class="qtitle">这个项目给我什么?我拿它干什么、怎么挑怎么改?</div></div>
+  <div class="keybox">一句话:88 个验证过的起点,让你做智能体应用时「改模板」而不是「从零写」。</div>
+  <div class="ability"><div class="ico">🚀</div><div><b>跳过从零搭建</b> —— 每个示例都是能跑的完整应用,改提示词、换工具、换模型就是你的第一版。</div></div>
+  <div class="ability"><div class="ico">🎓</div><div><b>四大件的最小实现教材</b> —— Agent 工具循环 / RAG / 多智能体 / MCP,每个概念都有从 30 行到生产级的渐进示例。</div></div>
+  <div class="ability"><div class="ico">🛠️</div><div><b>搭自己的自动化助手</b> —— 用国产/本地模型(已实测)做:CSV 数据问答、文档知识库、监控日报、桌游裁判……</div></div>
+  <div class="ability"><div class="ico">🧩</div><div><b>给编程智能体装技能</b> —— npx skills add 一条命令,把 9 个技能装进 Claude Code(和你自己的 skill 同格式,照着写就行)。</div></div>
+  <div class="ability"><div class="ico">💡</div><div><b>改造套路四步</b>:①挑最接近需求的 starter → ②换 model 成自己有的 key → ③换/加 tools 成自己领域的函数 → ④改 instructions 立规矩。学会了,88 个示例 = 88 块乐高。</div></div>
+</div>
+
+<!-- ============ 实验 ============ -->
+<div class="sec-title">🔬 动手实验:从零跑起你的第一个 AI 智能体(全部命令已实测)</div>
+
+<div class="step" style="background:var(--soft-blue)">
+  <h3>步骤 ① 建实验环境(虚拟环境 + 装 4 个包)</h3>
+  <div class="four">
+    <div><b>怎么操作</b><span class="code" style="display:inline; padding:2px 8px">python -m venv .venv&#10;.venv\Scripts\pip install agno anthropic streamlit icalendar</span></div>
+    <div><b>目的</b>虚拟环境隔离依赖,不污染系统 Python</div>
+    <div><b>实现了什么</b>装好 agno(智能体框架)、anthropic(官方客户端,agno 调模型要经过它)、streamlit(示例界面)、icalendar(示例用到)</div>
+    <div><b>怎么验证</b>运行 <code>.venv\Scripts\python -c "import agno, anthropic; print(agno.__version__ if hasattr(agno,'__version__') else 'ok', anthropic.__version__)"</code></div>
+  </div>
+  <div class="expect">✅ 预期结果:<b>ok 1.11.0</b>(或 agno 3.0.11 / anthropic 1.11.0 这样的版本号),无报错</div>
+</div>
+
+<div class="step" style="background:var(--soft-green)">
+  <h3>步骤 ② 配置模型接入(环境变量)</h3>
+  <div class="four">
+    <div><b>怎么操作</b>确认系统已有 <code>ANTHROPIC_BASE_URL</code> 和 <code>ANTHROPIC_AUTH_TOKEN</code> 两个环境变量(GLM 兼容端点);再执行 <code>setx PYTHONUTF8 1</code></div>
+    <div><b>目的</b>让脚本知道往哪调模型、用什么钥匙;同时解决中文 Windows 的 GBK 乱码</div>
+    <div><b>实现了什么</b>任何 Anthropic 兼容端点都能被 agno 当作"Claude"使用——key 不写进代码,安全</div>
+    <div><b>怎么验证</b><code>echo $env:ANTHROPIC_BASE_URL</code> 打印出你的接入点地址(token 不要打印出来)</div>
+  </div>
+  <div class="expect">✅ 预期结果:打印出 <b>https://…/api/anthropic</b> 之类的地址;没有这两个变量的话,去你的模型服务商后台申请</div>
+</div>
+
+<div class="step" style="background:var(--soft-purple)">
+  <h3>步骤 ③ 冒烟测试:先让"大脑"说一句话</h3>
+  <div class="four">
+    <div><b>怎么操作</b>写 <code>exercise\smoke_test.py</code>(指南附带,见右侧要点):定义 Agent(只给 model,不给工具),<code>agent.run("什么是 AI 智能体?")</code>,运行 <code>.venv\Scripts\python exercise\smoke_test.py</code></div>
+    <div><b>目的</b>验证"模型接入"这一环,排除工具因素的干扰</div>
+    <div><b>实现了什么</b>第一次真正调通 LLM API;metrics 里能看到 input/output tokens 消耗</div>
+    <div><b>怎么验证</b>看终端输出</div>
+  </div>
+  <div class="expect">✅ 预期结果:打印一句中文定义,如「AI 智能体是一种能够自主感知环境、进行推理决策并采取行动以完成特定目标的智能系统」,以及 <b>RunMetrics(input_tokens=27, output_tokens=106, …)</b></div>
+</div>
+
+<div class="step" style="background:var(--soft-orange)">
+  <h3>步骤 ④ 主实验:给大脑装上「计算器 + 时钟」两只手</h3>
+  <div class="four">
+    <div><b>怎么操作</b>写 <code>exercise\my_first_agent.py</code>:定义两个普通 Python 函数 <code>now_time()</code> 和 <code>calculator(expression)</code>,放进 <code>Agent(tools=[now_time, calculator])</code>,问它两个问题,加 <code>show_tool_calls=True</code>;<b>两个问题之间 sleep 65 秒</b>(见坑②)。运行它。</div>
+    <div><b>目的</b>亲眼看到 Q3 的"工具调用循环"真实发生,而不是听人转述</div>
+    <div><b>实现了什么</b>LLM 自己决定调哪个函数、传什么参数;框架执行后它再用结果作答</div>
+    <div><b>怎么验证</b>输出里应出现 agno 画的 <b>Thinking / Tool Calls / Response</b> 三个框</div>
+  </div>
+  <div class="expect">✅ 预期结果:问题 1 出现 <b>• calculator(expression=3e5 * 365 * 24 * 3600)</b>,答复「约 9.4608×10¹² 公里」;65 秒后问题 2 出现 <b>• now_time()</b>,答复真实当前时间(实测它还认出当天是国庆节!)</div>
+</div>
+
+<div class="step" style="background:var(--soft-pink)">
+  <h3>步骤 ⑤ 改造:发明一个你自己的工具(掷骰子)</h3>
+  <div class="four">
+    <div><b>怎么操作</b>写 <code>exercise\my_tool.py</code>:自己定义 <code>roll_dice(sides, times)</code>(用 random 真掷),挂进 Agent,instructions 里加一条"随机数必须调工具,禁止编造";问它"掷 2 个六面骰 + 1 个二十面骰"。</div>
+    <div><b>目的</b>体会 Q8 那句话:「工具就是普通 Python 函数」——你能定义任何函数,智能体就能用任何能力</div>
+    <div><b>实现了什么</b>你的第一个"自研工具";LLM 无法自己产生真随机数,必须依赖工具——这展示了工具的不可替代性</div>
+    <div><b>怎么验证</b>输出应出现 <b>• roll_dice(sides=6, times=2)</b> 等调用,且点数确实是随机的(多跑几次答案不同)</div>
+  </div>
+  <div class="expect">✅ 预期结果:工具调用框列出掷骰调用,回复报出每次点数和总和;在 instructions 里禁止编随机数后,它不再自己编</div>
+</div>
+
+<div class="warn">⚠️ <b>实验总坑位(再次提醒)</b>:① agno 3.x 用 client_params 传 base_url;② 该 API 限流约 1 次/分钟,连续调用 sleep 65;③ PYTHONUTF8=1。全部命令均于 2026-10-01 在 Windows 11 + Python 3.14 实测通过。</div>
+
+<div class="sec-title">📚 概念速查(已存入 Obsidian vault,可直接双链跳转)</div>
+<table>
+  <tr><th>概念</th><th>一句话</th><th>vault 笔记</th></tr>
+  <tr><td>AI 智能体 Agent</td><td>LLM 大脑 + 工具手脚 + 自主循环</td><td>概念/AI智能体Agent</td></tr>
+  <tr><td>工具调用 Function Calling</td><td>LLM 点菜(函数名+参数),框架下厨</td><td>概念/LLM工具调用</td></tr>
+  <tr><td>RAG 检索增强生成</td><td>先检索相关段落,再让 LLM 带证据作答</td><td>概念/RAG检索增强生成</td></tr>
+  <tr><td>多智能体团队</td><td>分工的子智能体 + 汇总的队长</td><td>概念/多智能体协作</td></tr>
+  <tr><td>MCP 协议</td><td>AI 工具的 USB-C 标准,M×N 变 M+N</td><td>概念/MCP模型上下文协议</td></tr>
+  <tr><td>Agent Skills</td><td>给 LLM 读的方法论包(SKILL.md 格式)</td><td>概念/AgentSkills技能包</td></tr>
+  <tr><td>智能体框架</td><td>管循环/注册/存储的脚手架,如 agno</td><td>概念/智能体框架</td></tr>
+</table>
+
+<div class="footer">awesome-llm-apps 小白指南 · 2026-10-01 · F:\reminder\llmknowledge · 学习方法:learn-project skill</div>
+
+</body>
+</html>

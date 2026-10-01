@@ -54,5 +54,5 @@ agent.print_response("光速约每秒 3e5 公里,一年有 365 天,光一年能�
 print("=" * 60)
 print("问题 2:现在几点了?")
 import time
-time.sleep(20)  # 避免触发 API 限流(429)
+time.sleep(65)  # 该 API 端点限流约每分钟 1 次请求,间隔不足会报 429
 agent.print_response("现在几点了?今天还能赶上晚饭吗?", show_tool_calls=True)
