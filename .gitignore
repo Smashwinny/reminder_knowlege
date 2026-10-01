@@ -16,3 +16,6 @@ __pycache__/
 vector_database_qdrant/storage/
 vector_database_qdrant/qdrant_server.log
 vector_database_qdrant/qdrant.exe
+
+# DeepTutor runtime data (contains API keys, builds, KB indexes)
+deeptutor/data/

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepTutor 小白指南</title>
+<style>
+  @page { size: A4; margin: 14mm 12mm; }
+  :root {
+    --c-main: #FF4D6D;      /* 活力红粉 主色 */
+    --c-blue: #2D9CDB;      /* 明蓝 */
+    --c-purple: #7C3AED;    /* 亮紫 */
+    --c-orange: #FF9F1C;    /* 橙 */
+    --c-green: #06D6A0;     /* 荧光绿 */
+    --c-yellow: #FFD60A;    /* 高亮黄 */
+    --c-ink: #1B1B2F;
+    --c-bg-soft: #FFF6F0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    color: var(--c-ink); background: #ffffff; font-size: 13px; line-height: 1.7;
+  }
+  .cover {
+    background: linear-gradient(135deg, #FF4D6D 0%, #FF9F1C 55%, #FFD60A 100%);
+    border-radius: 18px; padding: 34px 30px; color: #fff; margin-bottom: 18px;
+  }
+  .cover h1 { font-size: 40px; letter-spacing: 2px; text-shadow: 2px 2px 0 rgba(0,0,0,.18); }
+  .cover .sub { font-size: 17px; margin-top: 10px; font-weight: bold; }
+  .cover .meta { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .cover .meta span {
+    background: rgba(255,255,255,.92); color: var(--c-main); font-weight: bold;
+    border-radius: 999px; padding: 3px 14px; font-size: 12px;
+  }
+  .tldr {
+    background: var(--c-yellow); border: 3px solid var(--c-ink); border-radius: 14px;
+    padding: 16px 20px; margin-bottom: 20px; font-size: 14px;
+  }
+  .tldr b.hl { background: var(--c-main); color: #fff; padding: 1px 8px; border-radius: 6px; }
+  h2.sec {
+    font-size: 24px; color: #fff; background: var(--c-purple);
+    display: inline-block; padding: 6px 22px; border-radius: 12px; margin: 10px 0 14px;
+    box-shadow: 4px 4px 0 var(--c-yellow);
+  }
+  .card {
+    border: 2.5px solid var(--c-ink); border-radius: 16px; padding: 18px 20px;
+    margin-bottom: 18px; break-inside: avoid; background: #fff;
+    box-shadow: 5px 5px 0 rgba(27,27,47,.15);
+  }
+  .card .qnum {
+    display: inline-block; font-size: 34px; font-weight: 900; color: #fff;
+    background: var(--c-main); border-radius: 12px; padding: 2px 16px; margin-right: 12px;
+    vertical-align: middle;
+  }
+  .card h3 { display: inline-block; font-size: 17px; vertical-align: middle; }
+  .card .tag { float: right; font-size: 11px; color: #fff; background: var(--c-blue); border-radius: 999px; padding: 2px 12px; }
+  .card.c2 .qnum { background: var(--c-blue); }
+  .card.c3 .qnum { background: var(--c-purple); }
+  .card.c4 .qnum { background: var(--c-orange); }
+  .card.c5 .qnum { background: var(--c-green); }
+  .big {
+    font-size: 15px; font-weight: 900; background: var(--c-yellow);
+    padding: 1px 6px; border-radius: 6px;
+  }
+  .hl-green { background: var(--c-green); color: #fff; font-weight: bold; padding: 1px 6px; border-radius: 6px; }
+  .hl-pink { background: var(--c-main); color: #fff; font-weight: bold; padding: 1px 6px; border-radius: 6px; }
+  pre.code {
+    background: #1B1B2F; color: #A6FF9E; border-radius: 10px; padding: 10px 14px;
+    font-family: Consolas, monospace; font-size: 12px; margin: 8px 0; white-space: pre-wrap;
+    break-inside: avoid;
+  }
+  pre.code .cmt { color: #FFD60A; }
+  .okbox {
+    background: #E8FFF6; border: 2.5px dashed var(--c-green); border-radius: 12px;
+    padding: 10px 14px; margin-top: 8px; break-inside: avoid;
+  }
+  .okbox b { color: #058a68; }
+  .warnbox {
+    background: #FFF3E6; border: 2.5px dashed var(--c-orange); border-radius: 12px;
+    padding: 10px 14px; margin-top: 8px; break-inside: avoid;
+  }
+  .warnbox b { color: #d97706; }
+  .svgwrap { text-align: center; margin: 10px 0 4px; }
+  table.cmp { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 12.5px; }
+  table.cmp th { background: var(--c-blue); color: #fff; padding: 6px 8px; border: 1.5px solid var(--c-ink); }
+  table.cmp td { padding: 5px 8px; border: 1.5px solid var(--c-ink); background: #FDFDFF; }
+  table.cmp tr td:first-child { font-weight: bold; background: var(--c-bg-soft); }
+  .step {
+    border-left: 8px solid var(--c-blue); background: #F5FAFF; border-radius: 0 12px 12px 0;
+    padding: 12px 16px; margin: 10px 0; break-inside: avoid;
+  }
+  .step h4 { color: var(--c-blue); font-size: 15px; margin-bottom: 6px; }
+  .step .why { font-size: 12px; color: #555; margin-top: 4px; }
+  .pit {
+    background: #FFF0F3; border: 2.5px solid var(--c-main); border-radius: 14px;
+    padding: 14px 18px; margin-bottom: 14px; break-inside: avoid;
+  }
+  .pit h4 { color: var(--c-main); font-size: 14px; }
+  .grid2 { display: flex; gap: 14px; flex-wrap: wrap; }
+  .grid2 > div { flex: 1 1 320px; }
+  .cap-list li { margin: 6px 0; }
+  .footer { text-align: center; color: #888; font-size: 11px; margin-top: 16px; }
+  .link { color: var(--c-purple); font-weight: bold; }
+</style>
+</head>
+<body>
+
+<!-- ===================== 封面 ===================== -->
+<div class="cover">
+  <h1>DeepTutor 小白指南</h1>
+  <div class="sub">港大开源的 AI 家教：不是聊天框，而是一个"能力运行时"——还能把你本机的 Claude Code 叫进来一起讲题</div>
+  <div class="meta">
+    <span>HKUDS · 港大数据智能实验室</span><span>v1.6.12 · 40k★</span><span>Python 后端 + Next.js 前端</span><span>本机实测通过 ✔</span>
+  </div>
+</div>
+
+<div class="tldr">
+  <b>一句话看懂：</b>DeepTutor 把"讲题、出题、研究、画图、精读、精看视频"这些学习能力全部跑在
+  <b class="hl">同一个智能体循环</b>上，配三层长期记忆和可插拔 RAG 引擎，是一个装在你本机上的
+  <b class="hl">完整学习系统</b>。最特别的是：它能把本机的 Claude Code / Codex 等编程智能体
+  <b class="hl">当作工具调用</b>，让"会动手的管家"给"会讲题的老师"打工。
+</div>
+
+<!-- ===================== 疑问 1 ===================== -->
+<div class="card">
+  <span class="qnum">Q1</span><h3>DeepTutor 到底是什么？和"把 PDF 拖进 ChatGPT"有什么本质区别？</h3><span class="tag">这是什么</span>
+  <p>普通做法：<b>问一句答一句</b>。关掉窗口，AI 不记得你卡在哪一章、哪个知识点已经会了，下次重开还得从头讲。</p>
+  <p>DeepTutor 的做法：它是一个跑在你本机的 <span class="big">Web 应用</span>（两条命令启动），里面住着一个
+  <span class="hl-pink">有长期记忆的导师智能体</span>——你上传的教材变成可检索的知识库，你的每次提问和纠错被记成学习轨迹，
+  它据此调整讲法。它没有把功能做成一个聊天框，而是做成了一个<span class="big">能力运行时</span>：
+  讲题、出题、写报告、画图、沉浸阅读都在同一个引擎上运转。</p>
+  <table class="cmp">
+    <tr><th>维度</th><th>网页聊天框</th><th>DeepTutor</th></tr>
+    <tr><td>记忆</td><td>会话结束即忘</td><td>三层记忆，跨会话累积"你是谁、学到哪、偏好什么"</td></tr>
+    <tr><td>教材</td><td>塞上下文，塞不下就截断</td><td>建成知识库，按需检索引用到页码</td></tr>
+    <tr><td>能力</td><td>只有文本对话</td><td>出题/批改/研究/画图/精读/视频学习共享一个引擎</td></tr>
+    <tr><td>数据</td><td>在别人服务器上</td><td>全部在本机 <code>data/</code> 目录</td></tr>
+  </table>
+  <div class="svgwrap">
+  <svg width="620" height="150" viewBox="0 0 620 150" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="30" width="150" height="90" rx="12" fill="#FFE0E6" stroke="#1B1B2F" stroke-width="2"/>
+    <text x="85" y="65" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B1B2F">聊天框模式</text>
+    <text x="85" y="90" text-anchor="middle" font-size="12" fill="#555">一问一答 · 会话即弃</text>
+    <text x="215" y="80" text-anchor="middle" font-size="22" font-weight="bold" fill="#FF4D6D">VS</text>
+    <rect x="280" y="15" width="330" height="120" rx="12" fill="#E3F2FF" stroke="#1B1B2F" stroke-width="2"/>
+    <text x="445" y="42" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B1B2F">DeepTutor 能力运行时</text>
+    <rect x="300" y="55" width="88" height="30" rx="8" fill="#2D9CDB"/><text x="344" y="75" text-anchor="middle" font-size="11" fill="#fff">讲题</text>
+    <rect x="396" y="55" width="88" height="30" rx="8" fill="#7C3AED"/><text x="440" y="75" text-anchor="middle" font-size="11" fill="#fff">出题批改</text>
+    <rect x="492" y="55" width="88" height="30" rx="8" fill="#06D6A0"/><text x="536" y="75" text-anchor="middle" font-size="11" fill="#fff">研究/画图</text>
+    <rect x="300" y="95" width="180" height="30" rx="8" fill="#FF9F1C"/><text x="390" y="115" text-anchor="middle" font-size="11" fill="#fff">三层长期记忆</text>
+    <rect x="488" y="95" width="92" height="30" rx="8" fill="#FF4D6D"/><text x="534" y="115" text-anchor="middle" font-size="11" fill="#fff">可插拔 RAG</text>
+  </svg>
+  </div>
+</div>
+
+<!-- ===================== 疑问 2 ===================== -->
+<div class="card c2">
+  <span class="qnum">Q2</span><h3>"Agent-Native（智能体原生）"是什么意思？它和普通 AI 应用的架构差别在哪？</h3><span class="tag">核心思想</span>
+  <p>v1.0 重写时（约 20 万行代码），作者做了一个关键决定：<b>所有学习功能不再各写各的流水线，
+  而是全部压到同一个智能体循环上</b>。你在知识库里学的 <span class="link">[[Agent循环]]</span>——"模型读消息列表 →
+  要么回答、要么调工具 → 工具结果回填 → 再问模型"——就是整个系统的唯一心脏。</p>
+  <p><span class="big">"原生"指的是：每个功能 = 一个能力（Capability）+ 一组工具 + 一段提示词</span>，
+  挂到循环上即生效。新功能不用重写架构，写个插件就行。这和"套壳聊天应用"（一个输入框 + 一条 API 转发）是两个物种。</p>
+  <div class="svgwrap">
+  <svg width="620" height="200" viewBox="0 0 620 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="120" cy="100" r="58" fill="#FFD60A" stroke="#1B1B2F" stroke-width="2.5"/>
+    <text x="120" y="95" text-anchor="middle" font-size="13" font-weight="bold">Agent 循环</text>
+    <text x="120" y="115" text-anchor="middle" font-size="11">（唯一心脏）</text>
+    <g font-size="11" fill="#fff" text-anchor="middle">
+      <rect x="250" y="18" width="110" height="30" rx="8" fill="#FF4D6D"/><text x="305" y="37">Chat 讲题</text>
+      <rect x="250" y="56" width="110" height="30" rx="8" fill="#2D9CDB"/><text x="305" y="75">Quiz 出题</text>
+      <rect x="250" y="94" width="110" height="30" rx="8" fill="#7C3AED"/><text x="305" y="113">Research 报告</text>
+      <rect x="250" y="132" width="110" height="30" rx="8" fill="#06D6A0"/><text x="305" y="151">Reading 精读</text>
+      <rect x="450" y="18" width="130" height="30" rx="8" fill="#1B1B2F"/><text x="515" y="37">工具：RAG 检索</text>
+      <rect x="450" y="56" width="130" height="30" rx="8" fill="#1B1B2F"/><text x="515" y="75">工具：exec 执行</text>
+      <rect x="450" y="94" width="130" height="30" rx="8" fill="#1B1B2F"/><text x="515" y="113">工具：consult_subagent</text>
+      <rect x="450" y="132" width="130" height="30" rx="8" fill="#1B1B2F"/><text x="515" y="151">工具：MCP / CLI 应用</text>
+    </g>
+    <g stroke="#1B1B2F" stroke-width="2" fill="none">
+      <path d="M178 82 L 250 33"/><path d="M178 95 L 250 71"/><path d="M178 108 L 250 109"/><path d="M178 118 L 250 147"/>
+      <path d="M360 33 C 420 30 420 33 450 33"/><path d="M360 71 L 450 71"/><path d="M360 109 L 450 109"/><path d="M360 147 L 450 147"/>
+    </g>
+  </svg>
+  </div>
+  <p style="font-size:12px;color:#666">类比：普通应用像<b>每道菜一个专用厨房</b>；DeepTutor 是<b>一个中央厨房</b>，菜谱（能力）插上就能做。</p>
+</div>
+
+<!-- ===================== 疑问 3 ===================== -->
+<div class="card c3">
+  <span class="qnum">Q3</span><h3>装完之后，我的电脑上到底跑了什么？</h3><span class="tag">架构地图</span>
+  <p><code>pip install deeptutor</code> + <code>deeptutor start</code> 之后，本机会有两个服务进程：</p>
+  <pre class="code">浏览器 → <span class="cmt">前端 Next.js（端口 3782）</span> → <span class="cmt">后端 FastAPI（端口 8001）</span> → LLM / Ollama / 搜索引擎
+                                        ↓
+              F:\reminder\deeptutor\data\   <span class="cmt">← 你的全部数据：配置、记忆、知识库、产出</span></pre>
+  <p>关键是 <span class="big">data/user/settings/</span> 下那堆<b>纯 JSON/YAML 配置文件</b>——
+  <code>model_catalog.json</code>（模型和 key）、<code>system.json</code>（端口）、<code>subagent.json</code>（子智能体预算）等。
+  网页上的 Settings 页面本质就是这些文件的编辑器，所以<b>直接改文件 = 直接改配置</b>，没有隐藏状态。</p>
+  <div class="svgwrap">
+  <svg width="620" height="180" viewBox="0 0 620 180" xmlns="http://www.w3.org/2000/svg">
+    <rect x="20" y="60" width="110" height="50" rx="10" fill="#06D6A0" stroke="#1B1B2F" stroke-width="2"/>
+    <text x="75" y="82" text-anchor="middle" font-size="12" font-weight="bold">浏览器</text>
+    <text x="75" y="100" text-anchor="middle" font-size="10">你在这里学习</text>
+    <rect x="220" y="60" width="140" height="50" rx="10" fill="#2D9CDB" stroke="#1B1B2F" stroke-width="2"/>
+    <text x="290" y="82" text-anchor="middle" font-size="12" font-weight="bold">前端 :3782</text>
+    <text x="290" y="100" text-anchor="middle" font-size="10">Next.js 界面</text>
+    <rect x="450" y="60" width="150" height="50" rx="10" fill="#7C3AED" stroke="#1B1B2F" stroke-width="2"/>
+    <text x="525" y="82" text-anchor="middle" font-size="12" font-weight="bold">后端 :8001</text>
+    <text x="525" y="100" text-anchor="middle" font-size="10">FastAPI + Agent 循环</text>
+    <g stroke="#1B1B2F" stroke-width="2.5">
+      <line x1="130" y1="85" x2="220" y2="85"/><line x1="360" y1="85" x2="450" y2="85"/>
+    </g>
+    <rect x="450" y="130" width="150" height="40" rx="10" fill="#FF9F1C" stroke="#1B1B2F" stroke-width="2"/>
+    <text x="525" y="150" text-anchor="middle" font-size="11" font-weight="bold">data/ 全部本地数据</text>
+    <text x="525" y="164" text-anchor="middle" font-size="9">settings · memory · kb · outputs</text>
+    <line x1="525" y1="110" x2="525" y2="130" stroke="#1B1B2F" stroke-width="2.5"/>
+  </svg>
+  </div>
+</div>
+
+<!-- ===================== 疑问 4 ===================== -->
+<div class="card c4">
+  <span class="qnum">Q4</span><h3>"能力（Capability）"到底是什么？十种模式为什么能共享一个运行时？</h3><span class="tag">关键术语</span>
+  <p>打开源码 <code>deeptutor/capabilities/</code>，每个文件夹就是一个能力：<code>ask_questions</code>、<code>solve</code>、
+  <code>mastery</code>（ mastery path 闯关）、<code>reading</code>、<code>watching</code>、<code>subagent</code>……
+  每个<b>能力 = 三件套</b>：</p>
+  <pre class="code">能力 = <span class="cmt">协议(protocol.py)</span>：我需要哪些工具、哪些上下文（知识库/记忆/工作区）
+     + <span class="cmt">提示词</span>：这个模式下导师的人设和规则
+     + <span class="cmt">工具挂载</span>：运行时按需把工具装到循环上（比如选了知识库才挂 rag 工具）</pre>
+  <p>这在你知识库里能找到影子：<span class="link">[[构建流水线与Pass]]</span> 说"复杂工作拆成顺序阶段"，
+  DeepTutor 的做法更近一步——<span class="hl-green">阶段不是写死的，而是"能力"这个标准件</span>，
+  由注册表（<code>registry.py</code>）统一管理，像 USB 接口一样即插即用。</p>
+  <div class="okbox"><b>实测体验：</b>同一个会话里，讲完题直接"帮我出 5 道题"再"把这道题画成图"，
+  导师不用重新自我介绍、记忆不丢——因为切换的只是挂载的工具和提示词，循环本身没换。</div>
+</div>
+
+<!-- ===================== 疑问 5 ===================== -->
+<div class="card c5">
+  <span class="qnum">Q5</span><h3>三层记忆 L1 / L2 / L3 是怎么工作的？为什么不是把聊天记录全存下来？</h3><span class="tag">最有特色的设计</span>
+  <p>全存下来有两个致命问题：<b>上下文塞不下</b>、<b>噪音淹没重点</b>。DeepTutor 的方案像"日记 → 周记 → 个人简历"：</p>
+  <table class="cmp">
+    <tr><th>层</th><th>是什么</th><th>存在哪（源码实测）</th><th>类比</th></tr>
+    <tr><td>L1 轨迹层</td><td>原始事件流水账：每次提问/检索/纠错</td><td><code>trace/&lt;界面&gt;/&lt;日期&gt;.jsonl</code> 只追加</td><td>监控日志</td></tr>
+    <tr><td>L2 表层摘要</td><td>每个使用界面（chat/kb/quiz…）一份摘要</td><td><code>L2/&lt;界面&gt;.md</code> 带脚注引用</td><td>周记</td></tr>
+    <tr><td>L3 综合层</td><td>跨界面浓缩成 4 个档案：近况/画像/范围/偏好</td><td><code>L3/recent|profile|scope|preferences.md</code></td><td>个人简历</td></tr>
+  </table>
+  <p>由 <b>consolidator（LLM 驱动）</b>定期把 L1 压缩成 L2、L2 提炼成 L3；Memory Graph 把三层互相链接——
+  <span class="hl-pink">L3 里每一句"你总忘记初始化列表"都能点回 L1 的原始证据</span>，个性化可见、可编辑，不是黑箱。</p>
+  <div class="svgwrap">
+  <svg width="620" height="150" viewBox="0 0 620 150" xmlns="http://www.w3.org/2000/svg">
+    <g font-size="12" text-anchor="middle">
+      <rect x="20" y="50" width="150" height="50" rx="10" fill="#FFE0E6" stroke="#1B1B2F" stroke-width="2"/>
+      <text x="95" y="72" font-weight="bold">L1 原始轨迹</text><text x="95" y="90" font-size="10">jsonl 流水账（大量）</text>
+      <rect x="235" y="50" width="150" height="50" rx="10" fill="#FFF3C4" stroke="#1B1B2F" stroke-width="2"/>
+      <text x="310" y="72" font-weight="bold">L2 界面摘要</text><text x="310" y="90" font-size="10">每个界面一份 md</text>
+      <rect x="450" y="50" width="150" height="50" rx="10" fill="#D8FFE9" stroke="#1B1B2F" stroke-width="2"/>
+      <text x="525" y="72" font-weight="bold">L3 用户画像</text><text x="525" y="90" font-size="10">4 个档案（极少）</text>
+    </g>
+    <g stroke="#7C3AED" stroke-width="2.5" fill="#7C3AED">
+      <line x1="170" y1="70" x2="235" y2="70"/><polygon points="230,65 240,70 230,75"/>
+      <line x1="385" y1="70" x2="450" y2="70"/><polygon points="445,65 455,70 445,75"/>
+    </g>
+    <text x="202" y="58" text-anchor="middle" font-size="10" fill="#7C3AED">LLM 压缩</text>
+    <text x="417" y="58" text-anchor="middle" font-size="10" fill="#7C3AED">LLM 提炼</text>
+    <text x="310" y="130" text-anchor="middle" font-size="11" fill="#666">越往右：体积越小、密度越高、注入提示词的成本越低</text>
+  </svg>
+  </div>
+</div>
+
+<!-- ===================== 疑问 6 ===================== -->
+<div class="card">
+  <span class="qnum">Q6</span><h3>它的知识库 / RAG，和我在 langchain 里学的有什么不同？</h3><span class="tag">对比已学</span>
+  <p lang="zh-CN">基础原理一模一样（<span class="link">[[RAG检索增强生成]]</span>：切块 → 嵌入成向量 → 最近邻检索 → 塞进提示词），
+  DeepTutor 的增量在三处：</p>
+  <p>① <span class="big">引擎可插拔</span>：同一份文档可以选不同检索引擎建库——
+  <b>LlamaIndex</b>（经典向量检索，本机实测默认）、<b>GraphRAG</b>（微软的知识图谱检索，适合"全局问题"）、
+  <b>LightRAG</b>（港大自家的轻量图 RAG）、<b>PageIndex</b>（把文档建成决策树，让模型像翻目录一样推理检索）、
+  还能直连腾讯 IMA、MarginNote 4、Obsidian 库、Kiwix 离线维基包。</p>
+  <p>② <span class="big">索引版本化</span>：换嵌入模型后索引不会悄悄失配——每个索引记录"它是谁、用什么建的"，
+  换引擎要你确认重建，杜绝"向量坐标系对不上还硬查"的假结果。</p>
+  <p>③ <span class="big">解析引擎也可插拔</span>：PDF 怎么切块（MinerU / Docling / PyMuPDF4LLM / Apache Tika…）与检索分开选。</p>
+  <div class="warnbox"><b>和 langchain 实验的差别：</b>langchain 里你手写 <code>VectorStore.from_documents()</code>；
+  这里全被封装成"建库向导 + 命令行"。原理没变，<b>工程化程度不同</b>——这正是读生产级开源项目的价值。</div>
+</div>
+
+<!-- ===================== 疑问 7 ===================== -->
+<div class="card c2">
+  <span class="qnum">Q7</span><h3>它怎么把我本机的 Claude Code "叫进来"当助手？机制是什么？</h3><span class="tag">推文最大亮点</span>
+  <p>这是全项目最巧的一招，源码就三个文件（<code>capabilities/subagent/</code>，约 600 行）：</p>
+  <p>① <b>自动发现</b>：启动时扫描你机器的 PATH，认出已装的编程智能体 CLI——Claude Code、Codex、Grok CLI、
+  Kimi CLI、opencode、Gemini 等 10 种，全部列在 Settings → My Agents 里；</p>
+  <p>② <b>工具化</b>：一旦你在聊天中选了某个子智能体，运行时往循环上挂一个 <code>consult_subagent</code> 工具。
+  导师模型决定"这个问题该问谁"，填一个 <code>question</code> 参数调用它；</p>
+  <p>③ <b>无头运行 + 流式回传</b>：DeepTutor 以<b>非交互模式</b>把 CLI 拉起来（Claude Code 走
+  <code>--permission-mode bypassPermissions</code>，绝不卡在"是否允许"的确认上），子智能体的每一步工具调用
+  <b>实时流式显示在侧边栏</b>，最终答案回到导师手里；</p>
+  <p>④ <b>咨询预算</b>：默认一轮最多咨询 5 次（<code>subagent.json</code> 里 <code>consult_budget</code>，可调 1~12），
+  同一轮内多次咨询共享同一个子智能体会话，上下文连续。预算一用完，工具直接拒绝并"勒令"导师自己作答。</p>
+  <div class="svgwrap">
+  <svg width="620" height="170" viewBox="0 0 620 170" xmlns="http://www.w3.org/2000/svg">
+    <rect x="15" y="55" width="150" height="60" rx="10" fill="#FF4D6D" stroke="#1B1B2F" stroke-width="2"/>
+    <text x="90" y="80" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">DeepTutor 导师</text>
+    <text x="90" y="100" text-anchor="middle" font-size="10" fill="#fff">决定"这题问谁"</text>
+    <rect x="235" y="55" width="150" height="60" rx="10" fill="#FFD60A" stroke="#1B1B2F" stroke-width="2"/>
+    <text x="310" y="78" text-anchor="middle" font-size="12" font-weight="bold">consult_subagent 工具</text>
+    <text x="310" y="98" text-anchor="middle" font-size="10">预算 5 次 / 轮 · 会话续接</text>
+    <rect x="455" y="20" width="150" height="55" rx="10" fill="#2D9CDB" stroke="#1B1B2F" stroke-width="2"/>
+    <text x="530" y="43" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">本机 Claude Code</text>
+    <text x="530" y="61" text-anchor="middle" font-size="10" fill="#fff">真工具 · 真文件系统</text>
+    <rect x="455" y="95" width="150" height="55" rx="10" fill="#7C3AED" stroke="#1B1B2F" stroke-width="2"/>
+    <text x="530" y="118" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">Codex / Kimi / Grok…</text>
+    <text x="530" y="136" text-anchor="middle" font-size="10" fill="#fff">10 种 CLI 自动发现</text>
+    <g stroke="#1B1B2F" stroke-width="2.5" fill="#1B1B2F">
+      <line x1="165" y1="80" x2="235" y2="80"/><polygon points="230,75 240,80 230,85"/>
+      <line x1="385" y1="70" x2="455" y2="48"/><polygon points="447,42 457,46 451,55"/>
+      <line x1="385" y1="95" x2="455" y2="120"/><polygon points="447,116 457,120 451,127"/>
+    </g>
+    <text x="310" y="150" text-anchor="middle" font-size="10" fill="#666">子智能体的每一步实时流式显示在侧边栏，最终答案交回导师</text>
+  </svg>
+  </div>
+  <p style="font-size:12px;color:#666">一句话：导师是<b>会讲题的老师</b>，子智能体是<b>会动手的管家</b>——老师负责判断"该不该问、问什么"，管家负责真跑真查。</p>
+</div>
+
+<!-- ===================== 疑问 8 ===================== -->
+<div class="card c3">
+  <span class="qnum">Q8</span><h3>子智能体和"导师自己回答"有什么区别？为什么权限边界这么重要？</h3><span class="tag">安全边界</span>
+  <p>导师（LLM）只会<b>生成文字</b>；子智能体（Claude Code）在你的机器上<b>真的执行</b>——读文件、跑命令、改代码。
+  权利越大，边界越严，DeepTutor 的沙盒设计：</p>
+  <ul class="cap-list">
+    <li><b>内容工作区（Content Workspace）</b>：智能体被要求只读工作区、只往 <code>outputs/能力/会话/轮次/</code> 写文件；工作区外想复制文件要用户点"Allow once"；</li>
+    <li><b>执行沙盒</b>：优先走 Docker 隔离容器 / Linux bubblewrap，都没有才降级为"受限子进程"（Settings 里明确标着 <i>best effort</i>）；</li>
+    <li><b>密钥隔离</b>：API key 存在智能体够不到的 sandbox 作用域外。</li>
+  </ul>
+  <div class="okbox"><b>本机实测撞上的活例子：</b>让导师咨询 Claude Code"数一下 F 盘某目录有几个文件"，
+  子智能体老老实实回答"那个路径不在我的工作区里，我够不到"——
+  <span class="hl-green">边界真的拦住了它</span>，而不是嘴上说说的安全。想让它看到，把材料放进工作区即可。</div>
+</div>
+
+<!-- ===================== 疑问 9 ===================== -->
+<div class="card c4">
+  <span class="qnum">Q9</span><h3>Skills、MCP、CLI Apps 这三种扩展是什么关系？</h3><span class="tag">生态扩展</span>
+  <table class="cmp">
+    <tr><th>扩展方式</th><th>一句话解释</th><th>例子</th></tr>
+    <tr><td>Skills 技能</td><td>一段教智能体"怎么做某事"的说明书 + 配套脚本</td><td>EduHub 社区技能，<code>deeptutor skill install</code> 安装（有安全门）</td></tr>
+    <tr><td>MCP 服务器</td><td>标准协议的外部工具箱，接上就能用</td><td>你在 mcp_servers 项目里学的那些服务器</td></tr>
+    <tr><td>CLI Apps</td><td>把本机命令行程序包装成工具给智能体用</td><td>内置 101 个，如 ffmpeg、python</td></tr>
+  </table>
+  <p>三者最终都汇成一件事：<span class="big">给 Agent 循环的工具列表里加条目</span>。
+   这和你学的 <span class="link">[[LLM工具调用]]</span> 完全同构——扩展 DeepTutor = 给循环发明新工具。</p>
+</div>
+
+<!-- ===================== 疑问 10 ===================== -->
+<div class="card c5">
+  <span class="qnum">Q10</span><h3>它和我已学的 langchain Agent 是什么关系？我为什么要读它的源码？</h3><span class="tag">知识串联</span>
+  <p>你在 langchain 项目里亲手搭过最小 <span class="link">[[Agent循环]]</span>（两节点状态图）；
+  DeepTutor 就是这个循环的<b>工业化成品</b>，在每一环上都做了生产级加固：</p>
+  <table class="cmp">
+    <tr><th>环节</th><th>langchain 实验</th><th>DeepTutor</th></tr>
+    <tr><td>循环引擎</td><td>LangGraph 两节点图</td><td>自研 loop + 轮次预算 + 崩溃可恢复的流式会话</td></tr>
+    <tr><td>工具协议</td><td>@tool 装饰器</td><td>BaseTool/ToolDefinition + 按能力动态挂载</td></tr>
+    <tr><td>记忆</td><td>无</td><td>L1/L2/L3 三层 + Memory Graph</td></tr>
+    <tr><td>检索</td><td>单一 VectorStore</td><td>五引擎可插拔 + 索引版本化</td></tr>
+    <tr><td>自我纠错</td><td>参数校验回传（<span class="link">[[质检Gate与自我纠错循环]]</span>）</td><td>同类机制 + 连接探测、嵌入失配检测、doctor 体检</td></tr>
+  </table>
+  <div class="okbox"><b>读源码的性价比最高的三个文件：</b><code>capabilities/subagent/tools.py</code>（60 行看懂子智能体机制）、
+  <code>services/memory/paths.py</code> 开头（20 行看懂三层记忆布局）、
+  <code>services/rag/pipelines/</code> 目录名（一眼看懂引擎清单）。</div>
+</div>
+
+<!-- ===================== 疑问 11 ===================== -->
+<div class="card">
+  <span class="qnum">Q11</span><h3>它给我什么能力？我能拿它干什么？</h3><span class="tag">能力清单</span>
+  <div class="grid2">
+    <div>
+      <b>系统提供的能力：</b>
+      <ul class="cap-list">
+        <li>📓 <b>啃教材</b>：上传 PDF/EPUB，逐章精读 + 页码级引用问答</li>
+        <li>❓ <b>出题批改</b>：Quiz 题库 + Mastery Path 按掌握度闯关</li>
+        <li>📊 <b>研究报告</b>：Deep Research 自动检索联网写报告</li>
+        <li>🎨 <b>可视化</b>：讲解中的概念直接生成交互图表/动画</li>
+        <li>🎬 <b>视频学习</b>：贴 YouTube 链接，时间戳级提问</li>
+        <li>🤖 <b>外挂大脑</b>：把本机 Claude Code 当解题/动手外挂</li>
+      </ul>
+    </div>
+    <div>
+      <b>结合你水平的具体用法：</b>
+      <ul class="cap-list">
+        <li>把 400+ 项目清单变成一门"课程"，让它出题检验你</li>
+        <li>读 DeepTutor 自己的源码：建一个 KB，问"consult_subagent 的预算在哪强制执行"</li>
+        <li>给 langchain 笔记建库，用 Mastery Path 复盘旧概念</li>
+        <li>研究报告功能调研新项目，产出喂给 vault 入库流程</li>
+        <li>用 Obsidian 连接器直接挂上你的 vault 目录学习</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 疑问 12 ===================== -->
+<div class="card c2">
+  <span class="qnum">Q12</span><h3>动动嘴之前再确认一遍：这条链路上每个词我都懂了吗？</h3><span class="tag">术语自查表</span>
+  <table class="cmp">
+    <tr><th>术语</th><th>一句话解释</th></tr>
+    <tr><td>Capability 能力</td><td>一种学习模式的插件包 = 提示词 + 工具集 + 上下文声明，挂上循环即生效</td></tr>
+    <tr><td>L1/L2/L3 记忆</td><td>原始轨迹 → 界面摘要 → 用户画像，LLM 驱动的逐层压缩，全部可查看可编辑</td></tr>
+    <tr><td>Knowledge Base</td><td>文档经解析、嵌入后建成的可检索库，引擎可插拔、索引带版本</td></tr>
+    <tr><td>consult_subagent</td><td>把本机编程智能体 CLI 当工具调用的那座桥，带每轮咨询预算</td></tr>
+    <tr><td>Content Workspace</td><td>智能体唯一可自由读写的文件夹，产出固定在 outputs/ 下</td></tr>
+    <tr><td>model_catalog.json</td><td>所有模型连接和 key 的家，Settings 页面就是它的编辑器</td></tr>
+  </table>
+</div>
+
+<!-- ===================== 实验部分 ===================== -->
+<h2 class="sec">🧪 动手实验（全部命令本机验证过）</h2>
+
+<div class="card c3">
+  <span class="qnum">实验 A</span><h3>主实验：从零到和 AI 导师完成第一次对话（5 步）</h3>
+  <div class="step">
+    <h4>Step 1 · 安装</h4>
+    <pre class="code">pip install -U deeptutor
+python -m deeptutor --help   <span class="cmt">← 验证装好了；若 deeptutor 命令找不到，统一用 python -m deeptutor</span></pre>
+    <div class="why">目的：拿到完整 Web 应用 + CLI。要求 Python 3.11–3.14、Node.js 20+（本机 3.14.7 / v24 通过）。</div>
+    <div class="okbox"><b>✅ 预期结果：</b>末尾出现 <code>Successfully installed deeptutor-1.6.12 …</code>；--help 打印命令列表。</div>
+  </div>
+  <div class="step">
+    <h4>Step 2 · 初始化配置</h4>
+    <pre class="code">mkdir my-deeptutor &amp;&amp; cd my-deeptutor    <span class="cmt"># 这个目录就是它的"runtime home"，数据都在 data\ 下</span>
+deeptutor init</pre>
+    <div class="why">向导 5 问：后端端口（回车=8001）→ 前端端口（回车=3782）→ LLM 供应商（选编号，如 2=Anthropic）→
+    是否改 Base URL → 粘 API key → 选模型 → Embedding/搜索可按 <b>s</b> 跳过。配置落在
+    <code>data\user\settings\model_catalog.json</code>（纯 JSON，可随时手改）。</div>
+    <div class="warnbox"><b>⚠ 中转站（API relay）用户注意：</b>向导会去 <code>GET {base_url}/models</code> 拉模型列表，
+    多数中转站不支持这个接口且<b>无超时，会一直卡住</b>（实测踩坑）。解法：Ctrl+C 跳出后直接手改
+    <code>model_catalog.json</code>，把 <code>services.llm.profiles[0]</code> 的
+    <code>binding/base_url/api_key</code> 和 <code>models[0].model</code> 填上即可，重启后 doctor 会告诉你配置是否就绪。</div>
+    <div class="okbox"><b>✅ 预期结果：</b>看到 <code>Settings saved</code>；或手改后运行 <code>deeptutor doctor</code>，
+    LLM 三项检查全 <b>PASS</b>。</div>
+  </div>
+  <div class="step">
+    <h4>Step 3 · 启动</h4>
+    <pre class="code">deeptutor start    <span class="cmt"># 保持窗口开着；Ctrl+C 同时停掉前后端</span></pre>
+    <div class="okbox"><b>✅ 预期结果：</b>浏览器打开 <code>http://127.0.0.1:3782</code> 看到聊天界面；
+    新开终端 <code>curl http://127.0.0.1:8001/docs</code> 返回 200。</div>
+  </div>
+  <div class="step">
+    <h4>Step 4 · 第一问（命令行版）</h4>
+    <pre class="code">deeptutor run chat "用一句话解释什么是递归"</pre>
+    <div class="why">这是 agent 循环的裸入口，能最清楚地看到循环元数据。</div>
+    <div class="okbox"><b>✅ 预期结果：</b>得到中文回答，末尾一行元数据——
+    <code>capability=chat rounds=1 tokens=8.1k cost=$0.0016</code>（实测数字）。<b>cost 是真实成本，看着它会心疼，也就学会了省 token。</b></div>
+  </div>
+  <div class="step">
+    <h4>Step 5 · 体检</h4>
+    <pre class="code">deeptutor doctor</pre>
+    <div class="okbox"><b>✅ 预期结果：</b>表格显示 LLM 配置/凭据/端点/存储 全部 PASS，RAG 项在没建库时显示 SKIP。</div>
+  </div>
+</div>
+
+<div class="card c4">
+  <span class="qnum">实验 B</span><h3>副实验：本地嵌入 + 建第一个知识库（4 步，体验完整 RAG）</h3>
+  <div class="step">
+    <h4>Step 1 · 拉一个嵌入模型</h4>
+    <pre class="code">ollama pull nomic-embed-text    <span class="cmt"># 274MB，本地跑嵌入，不花钱不外传</span></pre>
+    <div class="warnbox"><b>⚠ 踩坑实录：</b>若报 <code>redirect target … resolves to non-public 198.18.x.x</code>，
+    是代理软件的 fake-ip DNS 把下载域名解析成了假 IP，Ollama 拒绝跳转。解法（无需管理员）：
+    从 <code>registry.ollama.ai/v2/library/nomic-embed-text/manifests/latest</code> 拿 manifest，
+    用 curl 把每个 blob 下到 <code>~\.ollama\models\blobs\sha256-&lt;hash&gt;</code>，
+    manifest 存到 <code>manifests\registry.ollama.ai\library\nomic-embed-text\latest</code>，<code>ollama list</code> 即可见。</div>
+    <div class="okbox"><b>✅ 预期结果：</b><code>ollama list</code> 列出 <code>nomic-embed-text:latest 274 MB</code>。</div>
+  </div>
+  <div class="step">
+    <h4>Step 2 · 在 Settings 里配嵌入</h4>
+    <div class="why">Settings → Providers（或直接改 model_catalog.json）：provider 选 <b>Ollama</b>，
+    endpoint 用默认 <code>http://localhost:11434/api/embed</code>，模型 <code>nomic-embed-text</code>，维度 768。</div>
+  </div>
+  <div class="step">
+    <h4>Step 3 · 建库</h4>
+    <pre class="code">deeptutor kb create python-basics --doc 你的笔记.md    <span class="cmt"># 支持 pdf/docx/md 等</span></pre>
+    <div class="okbox"><b>✅ 预期结果：</b><code>Creating KB python-basics … via LlamaIndex... Knowledge base created successfully.</code></div>
+  </div>
+  <div class="step">
+    <h4>Step 4 · 检索验证</h4>
+    <pre class="code">deeptutor kb search python-basics "深拷贝和浅拷贝的区别是什么"</pre>
+    <div class="okbox"><b>✅ 预期结果：</b>返回笔记原文的相关章节（实测精确命中"浅拷贝只复制第一层…"段落）——
+    这就是 RAG 的"开卷查资料"。</div>
+  </div>
+</div>
+
+<div class="card c5">
+  <span class="qnum">实验 C</span><h3>副实验：把本机 Claude Code 接进来当外挂（3 步）</h3>
+  <div class="step">
+    <h4>Step 1 · 确认被认出</h4>
+    <div class="why">前提：本机装了 Claude Code（<code>claude</code> 命令可用）。打开 Web 界面 →
+    Settings → My Agents，应看到 Claude Code 已被<b>自动发现</b>；确认后默认
+    <code>permission_mode=bypassPermissions</code>（无头运行不会卡在授权确认）。</div>
+  </div>
+  <div class="step">
+    <h4>Step 2 · 咨询一次</h4>
+    <div class="why">聊天界面选择该子智能体后提问，或命令行：</div>
+    <pre class="code">deeptutor run chat --tool subagent "咨询 Claude Code：解释一下你刚才用了哪些工具"</pre>
+  </div>
+  <div class="step">
+    <h4>Step 3 · 观察三件事</h4>
+    <div class="okbox"><b>✅ 预期结果：</b>① 末尾元数据 <code>tools=1 rounds=2</code>（真的调了一次工具）；
+    ② 子智能体的中间步骤在侧边栏<b>实时可见</b>；③ 问工作区外的文件路径时它会明确说"够不到"——
+    <b>亲眼看到权限边界生效</b>，比读十遍文档都有用。</div>
+  </div>
+</div>
+
+<!-- ===================== 坑清单 ===================== -->
+<h2 class="sec">🕳️ 本机踩坑实录（中文 Windows 必看）</h2>
+<div class="pit"><h4>坑 1 · 系统代理把 localhost 也劫持了</h4>
+  开着 Clash 类代理时，DeepTutor 访问本机 Ollama 会得到 <code>502 Bad Gateway</code>。
+  解法：命令行前加 <code>NO_PROXY="localhost,127.0.0.1"</code>（浏览器一般不走代理，不受影响）。</div>
+<div class="pit"><h4>坑 2 · init 向导在自定义 Base URL 时卡死</h4>
+  向导的"拉取模型列表"对不支持的端点无超时。中转站用户直接手改 <code>model_catalog.json</code>（结构见实验 A Step 2）。</div>
+<div class="pit"><h4>坑 3 · Ollama 拉模型被 fake-ip DNS 卡住</h4>
+  <code>198.18.x.x non-public</code> 错误 → 手动下载 blob 方案见实验 B Step 1。</div>
+<div class="pit"><h4>坑 4 · deeptutor 命令找不到</h4>
+  pip 装到用户目录时 exe 在 <code>%APPDATA%\Python\Python314\Scripts</code>，不在 PATH。
+  统一用 <code>python -m deeptutor …</code> 最稳。</div>
+
+<div class="footer">DeepTutor v1.6.12 · HKUDS · 本指南所有命令于 2026-10-01 在 Windows 11 + Python 3.14.7 实测通过 · arXiv: 2604.26962</div>
+</body>
+</html>

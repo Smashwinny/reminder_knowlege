@@ -18,5 +18,7 @@ tags: [概念]
 - 问题向量化用 [[向量与Embedding]]
 - 产业链位置：ollama 跑模型 → langchain/langgraph 编排流程 → Qdrant 存知识，三者拼成完整私有知识库
 - 与 [[Agent循环]] 结合 = **Agentic RAG**：检索器成为一件工具，LLM 自己决定查不查、查不到转网搜、自查检索质量重查（纠错式 RAG/CRAG）；awesome-llm-apps 的 rag_tutorials 区 24 个教程是这条链的渐进升级（本地、混合检索、多模态、知识图谱+引用）
+- 生产级形态：[[能力运行时]]（DeepTutor 把检索引擎做成可插拔——LlamaIndex/GraphRAG/LightRAG/PageIndex，且索引带版本防嵌入失配）
+- 相关：[[三层记忆]]（RAG 管"记住资料"，记忆管"记住你"，互补）
 
 **首次接触于**：[[项目笔记/vector_database_qdrant]]（另见 [[项目笔记/langchain]]、[[项目笔记/awesome-llm-apps]]）
