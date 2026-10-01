@@ -1,7 +1,7 @@
 ---
 tags: [概念]
 领域: AI / LLM 应用
-别名: [Tool Calling, Function Calling, 工具调用, bind_tools]
+别名: [Tool Calling, Function Calling, 工具调用, bind_tools, 工具调用FunctionCalling]
 首次来源: "[[项目笔记/langchain]]"
 ---
 
@@ -18,5 +18,7 @@ tags: [概念]
 - 相关：[[Agent循环]]（工具调用是循环的驱动事件）
 - 相关：[[质检Gate与自我纠错循环]]（参数校验失败回传错误，模型自纠）
 - crewAI 视角：继承 `BaseTool` 实现 `_run` 即发一件工具；实测日志 "Tool Output: 红烧肉 12元…"，模型推荐的价格只能来自工具——调用生效的铁证
+- agno 视角（awesome-llm-apps 实测）：把**普通 Python 函数**直接塞进 `Agent(tools=[now_time, calculator])` 即可，框架自动读函数签名+docstring 生成"菜单"；GLM-4.6 为数学题主动调 `calculator(expression=3e5 * 365 * 24 * 3600)`、为时间问题调 `now_time()`，不心算不编造——菜单机制生效
+- 三个易混物对比：**Tool**=函数代码（给程序执行）｜**[[AgentSkills技能包]]**=方法论文档+脚本（给 LLM 读）｜**[[MCP模型上下文协议]]**=跨应用连接标准（M×N 变 M+N，见 [[M×N集成问题]]）
 
-**首次接触于**：[[项目笔记/langchain]]（另见 [[项目笔记/crewai]]）
+**首次接触于**：[[项目笔记/langchain]]（另见 [[项目笔记/crewai]]、[[项目笔记/awesome-llm-apps]]）
