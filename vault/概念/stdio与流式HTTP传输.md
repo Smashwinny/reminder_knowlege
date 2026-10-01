@@ -20,3 +20,5 @@ tags: [概念]
 **首次接触于**：[[项目笔记/mcp_servers]]
 
 **踩坑备忘**：stdio 模式下客户端用 PATH 里的系统 python 启动子进程而依赖装在 venv → "Connection closed"；要用 sys.executable 或 venv 绝对路径。
+
+**同义/相关笔记（并行批次合并）**：[[JSON-RPC与stdio传输]]（同一主题的另一篇，侧重 JSON-RPC 报文格式）。
