@@ -187,7 +187,7 @@
 <!-- ===================== 疑问 3 ===================== -->
 <div class="card c3">
   <span class="qnum">Q3</span><h3>装完之后，我的电脑上到底跑了什么？</h3><span class="tag">架构地图</span>
-  <p><code>pip install deeptutor</code> + <code>deeptutor start</code> 之后，本机会有两个服务进程：</p>
+  <p><code>pip install deeptutor</code> + <code>python -m deeptutor start</code> 之后，本机会有两个服务进程：</p>
   <pre class="code">浏览器 → <span class="cmt">前端 Next.js（端口 3782）</span> → <span class="cmt">后端 FastAPI（端口 8001）</span> → LLM / Ollama / 搜索引擎
                                         ↓
               F:\reminder\deeptutor\data\   <span class="cmt">← 你的全部数据：配置、记忆、知识库、产出</span></pre>
@@ -422,7 +422,7 @@ python -m deeptutor --help   <span class="cmt">← 验证装好了；若 deeptut
   <div class="step">
     <h4>Step 2 · 初始化配置</h4>
     <pre class="code">mkdir my-deeptutor &amp;&amp; cd my-deeptutor    <span class="cmt"># 这个目录就是它的"runtime home"，数据都在 data\ 下</span>
-deeptutor init</pre>
+python -m deeptutor init</pre>
     <div class="why">向导 5 问：后端端口（回车=8001）→ 前端端口（回车=3782）→ LLM 供应商（选编号，如 2=Anthropic）→
     是否改 Base URL → 粘 API key → 选模型 → Embedding/搜索可按 <b>s</b> 跳过。配置落在
     <code>data\user\settings\model_catalog.json</code>（纯 JSON，可随时手改）。</div>
@@ -430,25 +430,28 @@ deeptutor init</pre>
     多数中转站不支持这个接口且<b>无超时，会一直卡住</b>（实测踩坑）。解法：Ctrl+C 跳出后直接手改
     <code>model_catalog.json</code>，把 <code>services.llm.profiles[0]</code> 的
     <code>binding/base_url/api_key</code> 和 <code>models[0].model</code> 填上即可，重启后 doctor 会告诉你配置是否就绪。</div>
-    <div class="okbox"><b>✅ 预期结果：</b>看到 <code>Settings saved</code>；或手改后运行 <code>deeptutor doctor</code>，
+    <div class="okbox"><b>✅ 预期结果：</b>看到 <code>Settings saved</code>；或手改后运行 <code>python -m deeptutor doctor</code>，
     LLM 三项检查全 <b>PASS</b>。</div>
   </div>
   <div class="step">
     <h4>Step 3 · 启动</h4>
-    <pre class="code">deeptutor start    <span class="cmt"># 保持窗口开着；Ctrl+C 同时停掉前后端</span></pre>
+    <pre class="code">python -m deeptutor start    <span class="cmt"># 保持窗口开着；Ctrl+C 同时停掉前后端</span></pre>
+    <div class="why"><b>注意：本机请统一用 <code>python -m deeptutor</code>，不要用裸命令 <code>deeptutor</code>——</b>
+    pip 把 exe 装到了用户目录 <code>%APPDATA%\Python\Python314\Scripts</code>，它不在 PATH 里，
+    裸命令会直接报"无法识别"（实测踩坑，见下方坑 4）。</div>
     <div class="okbox"><b>✅ 预期结果：</b>浏览器打开 <code>http://127.0.0.1:3782</code> 看到聊天界面；
     新开终端 <code>curl http://127.0.0.1:8001/docs</code> 返回 200。</div>
   </div>
   <div class="step">
     <h4>Step 4 · 第一问（命令行版）</h4>
-    <pre class="code">deeptutor run chat "用一句话解释什么是递归"</pre>
+    <pre class="code">python -m deeptutor run chat "用一句话解释什么是递归"</pre>
     <div class="why">这是 agent 循环的裸入口，能最清楚地看到循环元数据。</div>
     <div class="okbox"><b>✅ 预期结果：</b>得到中文回答，末尾一行元数据——
     <code>capability=chat rounds=1 tokens=8.1k cost=$0.0016</code>（实测数字）。<b>cost 是真实成本，看着它会心疼，也就学会了省 token。</b></div>
   </div>
   <div class="step">
     <h4>Step 5 · 体检</h4>
-    <pre class="code">deeptutor doctor</pre>
+    <pre class="code">python -m deeptutor doctor</pre>
     <div class="okbox"><b>✅ 预期结果：</b>表格显示 LLM 配置/凭据/端点/存储 全部 PASS，RAG 项在没建库时显示 SKIP。</div>
   </div>
 </div>
@@ -472,12 +475,12 @@ deeptutor init</pre>
   </div>
   <div class="step">
     <h4>Step 3 · 建库</h4>
-    <pre class="code">deeptutor kb create python-basics --doc 你的笔记.md    <span class="cmt"># 支持 pdf/docx/md 等</span></pre>
+    <pre class="code">python -m deeptutor kb create python-basics --doc 你的笔记.md    <span class="cmt"># 支持 pdf/docx/md 等</span></pre>
     <div class="okbox"><b>✅ 预期结果：</b><code>Creating KB python-basics … via LlamaIndex... Knowledge base created successfully.</code></div>
   </div>
   <div class="step">
     <h4>Step 4 · 检索验证</h4>
-    <pre class="code">deeptutor kb search python-basics "深拷贝和浅拷贝的区别是什么"</pre>
+    <pre class="code">python -m deeptutor kb search python-basics "深拷贝和浅拷贝的区别是什么"</pre>
     <div class="okbox"><b>✅ 预期结果：</b>返回笔记原文的相关章节（实测精确命中"浅拷贝只复制第一层…"段落）——
     这就是 RAG 的"开卷查资料"。</div>
   </div>
@@ -494,7 +497,7 @@ deeptutor init</pre>
   <div class="step">
     <h4>Step 2 · 咨询一次</h4>
     <div class="why">聊天界面选择该子智能体后提问，或命令行：</div>
-    <pre class="code">deeptutor run chat --tool subagent "咨询 Claude Code：解释一下你刚才用了哪些工具"</pre>
+    <pre class="code">python -m deeptutor run chat --tool subagent "咨询 Claude Code：解释一下你刚才用了哪些工具"</pre>
   </div>
   <div class="step">
     <h4>Step 3 · 观察三件事</h4>
@@ -513,9 +516,11 @@ deeptutor init</pre>
   向导的"拉取模型列表"对不支持的端点无超时。中转站用户直接手改 <code>model_catalog.json</code>（结构见实验 A Step 2）。</div>
 <div class="pit"><h4>坑 3 · Ollama 拉模型被 fake-ip DNS 卡住</h4>
   <code>198.18.x.x non-public</code> 错误 → 手动下载 blob 方案见实验 B Step 1。</div>
-<div class="pit"><h4>坑 4 · deeptutor 命令找不到</h4>
-  pip 装到用户目录时 exe 在 <code>%APPDATA%\Python\Python314\Scripts</code>，不在 PATH。
-  统一用 <code>python -m deeptutor …</code> 最稳。</div>
+<div class="pit"><h4>坑 4 · deeptutor 命令找不到（本机已修复）</h4>
+  pip 装到用户目录时 exe 在 <code>%APPDATA%\Python\Python314\Scripts</code>，不在 PATH，
+  裸命令 <code>deeptutor start</code> 直接报"无法识别"。两条路：① 统一用
+  <code>python -m deeptutor …</code> 最稳；② 把该 Scripts 目录加进用户 PATH（2026-10-01 已加，
+  新开终端生效）。<b>改完配置记得：start 要在 runtime home 目录里跑，且窗口保持开着。</b></div>
 
 <div class="footer">DeepTutor v1.6.12 · HKUDS · 本指南所有命令于 2026-10-01 在 Windows 11 + Python 3.14.7 实测通过 · arXiv: 2604.26962</div>
 </body>
