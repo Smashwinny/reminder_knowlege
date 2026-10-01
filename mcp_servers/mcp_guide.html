@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>awesome-mcp-servers 小白指南</title>
+<style>
+  :root{
+    --pink:#FF2E7E; --amber:#FFB300; --teal:#00B8A9; --violet:#6C4CF1;
+    --sky:#00A8E8; --lime:#7ED321; --orange:#FF6B2C;
+    --ink:#241432; --paper:#FFFFFF; --soft:#FFF6FB;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  @page{size:A4; margin:12mm;}
+  body{
+    font-family:"Microsoft YaHei","PingFang SC",sans-serif;
+    color:var(--ink); background:var(--paper); font-size:13px; line-height:1.75;
+  }
+  .hero{
+    background:linear-gradient(135deg,var(--violet) 0%,var(--pink) 55%,var(--orange) 100%);
+    color:#fff; border-radius:18px; padding:34px 30px; margin-bottom:22px;
+  }
+  .hero h1{font-size:34px; letter-spacing:1px; margin-bottom:8px; text-shadow:0 2px 0 rgba(0,0,0,.18);}
+  .hero p{font-size:15px; opacity:.96;}
+  .hero .badge-row{margin-top:14px;}
+  .hero .badge{
+    display:inline-block; background:rgba(255,255,255,.22); border:2px solid rgba(255,255,255,.75);
+    border-radius:999px; padding:3px 14px; margin:4px 6px 0 0; font-weight:700; font-size:13px;
+  }
+  .stat-strip{display:flex; gap:12px; margin:0 0 22px;}
+  .stat{
+    flex:1; border-radius:14px; color:#fff; padding:14px 10px; text-align:center;
+    box-shadow:0 4px 10px rgba(0,0,0,.12);
+  }
+  .stat b{display:block; font-size:30px; line-height:1.2;}
+  .stat span{font-size:12px; font-weight:700;}
+  .qcard{
+    border-radius:16px; padding:0; margin-bottom:26px;
+    border:3px solid; break-inside:avoid; overflow:hidden; background:var(--paper);
+  }
+  .qhead{display:flex; align-items:center; gap:14px; padding:12px 18px; color:#fff;}
+  .qnum{
+    font-size:40px; font-weight:900; line-height:1; min-width:66px; text-align:center;
+    background:rgba(255,255,255,.25); border-radius:12px; padding:6px 8px;
+    text-shadow:0 2px 3px rgba(0,0,0,.25);
+  }
+  .qhead h2{font-size:19px; font-weight:900;}
+  .qbody{padding:14px 18px 16px;}
+  .qbody p{margin-bottom:9px;}
+  .hl{
+    font-size:15px; font-weight:900; padding:1px 6px; border-radius:6px;
+    background:linear-gradient(180deg,transparent 55%,#FFE44D 55%);
+  }
+  .callout{
+    border-radius:12px; padding:10px 14px; margin:10px 0; font-size:13.5px; font-weight:700;
+  }
+  .figbox{
+    background:var(--soft); border:2px dashed var(--violet); border-radius:12px;
+    padding:10px; margin:10px 0; text-align:center;
+  }
+  .figbox .cap{font-size:11.5px; color:var(--violet); font-weight:700; margin-top:4px;}
+  pre{
+    background:#241432; color:#B9F6FF; border-radius:10px; padding:10px 14px;
+    font-family:Consolas,monospace; font-size:11.5px; line-height:1.6;
+    overflow:hidden; white-space:pre-wrap; margin:8px 0;
+  }
+  code.inline{
+    background:#FFE9F3; color:#C40058; border-radius:5px; padding:0 5px;
+    font-family:Consolas,monospace; font-weight:700; font-size:12px;
+  }
+  table{border-collapse:collapse; width:100%; margin:8px 0; font-size:12.5px;}
+  th{color:#fff; padding:6px 8px; text-align:left;}
+  td{border:1.5px solid #E8D9F0; padding:5px 8px; background:#fff;}
+  tr:nth-child(even) td{background:#FBF5FF;}
+  .section-title{
+    background:linear-gradient(90deg,var(--teal),var(--sky));
+    color:#fff; border-radius:14px; padding:12px 20px; font-size:22px; font-weight:900;
+    margin:26px 0 14px; text-shadow:0 2px 0 rgba(0,0,0,.15);
+  }
+  .step{
+    border:3px solid var(--teal); border-radius:14px; padding:12px 16px;
+    margin-bottom:14px; break-inside:avoid; background:#F0FFFD;
+  }
+  .step h3{
+    color:#00796B; font-size:15px; margin-bottom:6px;
+  }
+  .expect{
+    background:#E7FFE0; border:2px solid var(--lime); border-radius:10px;
+    padding:8px 12px; margin-top:8px; font-size:12.5px; font-weight:700; color:#2E7D0F;
+  }
+  .use-card{
+    display:inline-block; width:32%; min-width:200px; border-radius:12px; color:#fff;
+    padding:10px 12px; margin:4px 2px; vertical-align:top; box-shadow:0 3px 8px rgba(0,0,0,.14);
+    break-inside:avoid;
+  }
+  .use-card b{font-size:14px;} .use-card p{font-size:12px; margin-top:3px;}
+  .foot{
+    background:linear-gradient(135deg,var(--sky),var(--teal)); color:#fff; border-radius:14px;
+    padding:14px 20px; margin-top:20px; font-weight:700;
+  }
+  .c-pink{background:var(--pink); border-color:var(--pink);} .h-pink{background:var(--pink);}
+  .c-amber{background:var(--amber); border-color:var(--amber);} .h-amber{background:var(--amber);}
+  .c-teal{background:var(--teal); border-color:var(--teal);} .h-teal{background:var(--teal);}
+  .c-violet{background:var(--violet); border-color:var(--violet);} .h-violet{background:var(--violet);}
+  .c-sky{background:var(--sky); border-color:var(--sky);} .h-sky{background:var(--sky);}
+  .c-lime{background:#5CB811; border-color:#5CB811;} .h-lime{background:#5CB811;}
+  .c-orange{background:var(--orange); border-color:var(--orange);} .h-orange{background:var(--orange);}
+  svg{max-width:100%; height:auto;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>awesome-mcp-servers 小白指南</h1>
+  <p>GitHub 上最全的 MCP（Model Context Protocol，模型上下文协议）服务器精选清单 —— 给 AI 装上"手和脚"的工具大全。本指南按"工科毕业生第一次接触"的 12 个疑问层层展开，最后有一个亲手验证过的动手实验。</p>
+  <div class="badge-row">
+    <span class="badge">punkpeye/awesome-mcp-servers</span>
+    <span class="badge">⭐ GitHub 热门清单</span>
+    <span class="badge">含 4086 个服务器条目</span>
+    <span class="badge">约 60 个领域分类</span>
+  </div>
+</div>
+
+<div class="stat-strip">
+  <div class="stat" style="background:var(--pink);"><b>4086</b><span>收录的 MCP 服务器</span></div>
+  <div class="stat" style="background:var(--amber); color:#5B3A00;"><b>~60</b><span>领域分类目录</span></div>
+  <div class="stat" style="background:var(--teal);"><b>8</b><span>种编程语言实现</span></div>
+  <div class="stat" style="background:var(--violet);"><b>1</b><span>个协议：MCP</span></div>
+</div>
+
+<!-- ==================== Q1 ==================== -->
+<div class="qcard c-violet">
+  <div class="qhead h-violet"><div class="qnum">Q1</div><h2>MCP 到底是什么？一句话能说清吗？</h2></div>
+  <div class="qbody">
+    <p><span class="hl">MCP（Model Context Protocol，模型上下文协议）是 AI 应用的"USB-C 接口"</span>——一个开放标准，让任何大模型应用（Claude Desktop、Cursor、Claude Code……）都能用同一种方式连接外部工具和数据源。</p>
+    <div class="figbox">
+      <svg viewBox="0 0 660 190" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="20" width="170" height="46" rx="10" fill="#6C4CF1"/><text x="95" y="49" fill="#fff" font-size="15" font-weight="bold" text-anchor="middle">Claude Desktop</text>
+        <rect x="10" y="76" width="170" height="46" rx="10" fill="#00A8E8"/><text x="95" y="105" fill="#fff" font-size="15" font-weight="bold" text-anchor="middle">Cursor / IDE</text>
+        <rect x="10" y="132" width="170" height="46" rx="10" fill="#FF6B2C"/><text x="95" y="161" fill="#fff" font-size="15" font-weight="bold" text-anchor="middle">你自己写的 Agent</text>
+        <rect x="480" y="20" width="170" height="46" rx="10" fill="#FF2E7E"/><text x="565" y="49" fill="#fff" font-size="15" font-weight="bold" text-anchor="middle">文件系统</text>
+        <rect x="480" y="76" width="170" height="46" rx="10" fill="#00B8A9"/><text x="565" y="105" fill="#fff" font-size="15" font-weight="bold" text-anchor="middle">数据库 / API</text>
+        <rect x="480" y="132" width="170" height="46" rx="10" fill="#FFB300"/><text x="565" y="161" fill="#fff" font-size="15" font-weight="bold" text-anchor="middle">浏览器 / 智能家居</text>
+        <rect x="255" y="55" width="150" height="88" rx="14" fill="#241432"/>
+        <text x="330" y="92" fill="#FFD54F" font-size="18" font-weight="bold" text-anchor="middle">MCP</text>
+        <text x="330" y="116" fill="#fff" font-size="12" text-anchor="middle">统一标准接口</text>
+        <line x1="180" y1="43" x2="255" y2="80" stroke="#6C4CF1" stroke-width="4"/>
+        <line x1="180" y1="99" x2="255" y2="99" stroke="#00A8E8" stroke-width="4"/>
+        <line x1="180" y1="155" x2="255" y2="118" stroke="#FF6B2C" stroke-width="4"/>
+        <line x1="405" y1="80" x2="480" y2="43" stroke="#FF2E7E" stroke-width="4"/>
+        <line x1="405" y1="99" x2="480" y2="99" stroke="#00B8A9" stroke-width="4"/>
+        <line x1="405" y1="118" x2="480" y2="155" stroke="#FFB300" stroke-width="4"/>
+      </svg>
+      <div class="cap">图1：不管左边是谁、右边是谁，中间都用同一个 MCP 标准对话——就像所有设备都改用 USB-C 充电口</div>
+    </div>
+    <p>它由 Anthropic 在 2024 年 11 月发布并开源，现在已经是 AI 工具生态的事实标准。这份清单收录的每一个"MCP 服务器"，就是一根"插在 USB-C 上的设备"：有的让 AI 读文件，有的让 AI 查数据库，有的让 AI 操作浏览器。</p>
+  </div>
+</div>
+
+<!-- ==================== Q2 ==================== -->
+<div class="qcard c-pink">
+  <div class="qhead h-pink"><div class="qnum">Q2</div><h2>为什么需要它？没有 MCP 之前人们怎么做？</h2></div>
+  <div class="qbody">
+    <p>早期让 AI 调用外部工具，靠的是各家自己发明的 "Function Calling"（函数调用）格式。每接一个新工具，都要为<b>每一个</b> AI 应用单独写一遍对接代码。</p>
+    <div class="figbox">
+      <svg viewBox="0 0 660 210" xmlns="http://www.w3.org/2000/svg">
+        <text x="150" y="20" font-size="14" font-weight="bold" fill="#C40058" text-anchor="middle">以前：M × N 乱麻</text>
+        <rect x="30" y="35" width="100" height="34" rx="8" fill="#00A8E8"/><text x="80" y="57" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">AI 应用 A</text>
+        <rect x="30" y="85" width="100" height="34" rx="8" fill="#6C4CF1"/><text x="80" y="107" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">AI 应用 B</text>
+        <rect x="30" y="135" width="100" height="34" rx="8" fill="#FF6B2C"/><text x="80" y="157" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">AI 应用 C</text>
+        <rect x="350" y="35" width="110" height="34" rx="8" fill="#FF2E7E"/><text x="405" y="57" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">工具：文件</text>
+        <rect x="350" y="85" width="110" height="34" rx="8" fill="#00B8A9"/><text x="405" y="107" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">工具：数据库</text>
+        <rect x="350" y="135" width="110" height="34" rx="8" fill="#FFB300"/><text x="405" y="157" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">工具：浏览器</text>
+        <line x1="130" y1="52" x2="350" y2="52" stroke="#C40058" stroke-width="2.5"/><line x1="130" y1="52" x2="350" y2="102" stroke="#C40058" stroke-width="2.5"/><line x1="130" y1="52" x2="350" y2="152" stroke="#C40058" stroke-width="2.5"/>
+        <line x1="130" y1="102" x2="350" y2="52" stroke="#C40058" stroke-width="2.5"/><line x1="130" y1="102" x2="350" y2="102" stroke="#C40058" stroke-width="2.5"/><line x1="130" y1="102" x2="350" y2="152" stroke="#C40058" stroke-width="2.5"/>
+        <line x1="130" y1="152" x2="350" y2="52" stroke="#C40058" stroke-width="2.5"/><line x1="130" y1="152" x2="350" y2="102" stroke="#C40058" stroke-width="2.5"/><line x1="130" y1="152" x2="350" y2="152" stroke="#C40058" stroke-width="2.5"/>
+        <text x="540" y="20" font-size="14" font-weight="bold" fill="#2E7D0F" text-anchor="middle">现在：M + N 一根总线</text>
+        <rect x="480" y="35" width="80" height="30" rx="8" fill="#00A8E8"/><text x="520" y="55" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">应用 A</text>
+        <rect x="480" y="72" width="80" height="30" rx="8" fill="#6C4CF1"/><text x="520" y="92" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">应用 B</text>
+        <rect x="480" y="109" width="80" height="30" rx="8" fill="#FF6B2C"/><text x="520" y="129" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">应用 C</text>
+        <rect x="585" y="35" width="60" height="30" rx="8" fill="#FF2E7E"/><text x="615" y="55" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">文件</text>
+        <rect x="585" y="72" width="60" height="30" rx="8" fill="#00B8A9"/><text x="615" y="92" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">数据库</text>
+        <rect x="585" y="109" width="60" height="30" rx="8" fill="#FFB300"/><text x="615" y="129" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">浏览器</text>
+        <rect x="567" y="20" width="2" height="130" fill="#2E7D0F" transform="translate(0,0)"/>
+        <line x1="572" y1="25" x2="572" y2="150" stroke="#2E7D0F" stroke-width="6"/>
+        <line x1="560" y1="50" x2="572" y2="50" stroke="#2E7D0F" stroke-width="4"/><line x1="560" y1="87" x2="572" y2="87" stroke="#2E7D0F" stroke-width="4"/><line x1="560" y1="124" x2="572" y2="124" stroke="#2E7D0F" stroke-width="4"/>
+        <line x1="572" y1="50" x2="585" y2="50" stroke="#2E7D0F" stroke-width="4"/><line x1="572" y1="87" x2="585" y2="87" stroke="#2E7D0F" stroke-width="4"/><line x1="572" y1="124" x2="585" y2="124" stroke="#2E7D0F" stroke-width="4"/>
+        <text x="572" y="172" font-size="11" font-weight="bold" fill="#2E7D0F" text-anchor="middle">MCP 总线</text>
+      </svg>
+      <div class="cap">图2：3 个应用 × 3 个工具，以前要写 9 套对接；有了 MCP，各写一次即可（3+3）</div>
+    </div>
+    <p><span class="hl">MCP 把 "M × N" 的对接爆炸变成 "M + N"</span>：应用方只需实现一次 MCP 客户端，工具方只需实现一次 MCP 服务器，双方即插即用。这正是所有"协议"（HTTP、USB、蓝牙）的取胜逻辑——先统一语言，再谈连接。</p>
+  </div>
+</div>
+
+<!-- ==================== Q3 ==================== -->
+<div class="qcard c-teal">
+  <div class="qhead h-teal"><div class="qnum">Q3</div><h2>MCP 的整体架构是什么样的？</h2></div>
+  <div class="qbody">
+    <p>MCP 是经典的"客户-服务器"架构，但有<b>三个角色</b>，容易混淆：</p>
+    <table>
+      <tr><th style="background:var(--teal);">角色</th><th style="background:var(--teal);">是什么</th><th style="background:var(--teal);">例子</th></tr>
+      <tr><td><b>Host（宿主）</b></td><td>你直接使用的 AI 应用，负责跑大模型</td><td>Claude Desktop、Cursor、Claude Code</td></tr>
+      <tr><td><b>MCP Client（客户端）</b></td><td>宿主内部维护的连接器，<b>一个连接对应一个</b>，负责和某个服务器说话</td><td>宿主程序里内置的 MCP 模块</td></tr>
+      <tr><td><b>MCP Server（服务器）</b></td><td>独立的工具提供方，把某种能力（文件/数据库/浏览器…）包装成标准工具</td><td>本清单里的 4086 个项目</td></tr>
+    </table>
+    <div class="figbox">
+      <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="40" width="280" height="120" rx="14" fill="#E8F7FF" stroke="#00A8E8" stroke-width="3"/>
+        <text x="160" y="66" font-size="15" font-weight="bold" fill="#0077B6" text-anchor="middle">Host 宿主（Claude Desktop）</text>
+        <rect x="45" y="85" width="105" height="42" rx="8" fill="#00A8E8"/><text x="97" y="104" fill="#fff" font-size="11.5" font-weight="bold" text-anchor="middle">MCP Client ①</text><text x="97" y="119" fill="#fff" font-size="10" text-anchor="middle">连文件服务器</text>
+        <rect x="170" y="85" width="105" height="42" rx="8" fill="#6C4CF1"/><text x="222" y="104" fill="#fff" font-size="11.5" font-weight="bold" text-anchor="middle">MCP Client ②</text><text x="222" y="119" fill="#fff" font-size="10" text-anchor="middle">连数据库服务器</text>
+        <text x="160" y="150" font-size="11" fill="#0077B6" text-anchor="middle">（内部还有"大模型"负责决策）</text>
+        <rect x="400" y="30" width="220" height="60" rx="12" fill="#FF2E7E"/><text x="510" y="56" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">MCP Server：文件系统</text><text x="510" y="76" fill="#fff" font-size="11" text-anchor="middle">read / write / search …</text>
+        <rect x="400" y="110" width="220" height="60" rx="12" fill="#00B8A9"/><text x="510" y="136" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">MCP Server：数据库</text><text x="510" y="156" fill="#fff" font-size="11" text-anchor="middle">query / schema …</text>
+        <line x1="150" y1="106" x2="400" y2="60" stroke="#FF2E7E" stroke-width="3.5" stroke-dasharray="8 4"/>
+        <line x1="275" y1="106" x2="400" y2="140" stroke="#00B8A9" stroke-width="3.5" stroke-dasharray="8 4"/>
+        <text x="325" y="45" font-size="11" fill="#555" text-anchor="middle">一对一连接</text>
+      </svg>
+      <div class="cap">图3：一个 Host 里可以同时插多个 Client，每个 Client 只和一台 Server 通话</div>
+    </div>
+    <p>类比：Host 是<b>电脑</b>，Client 是<b>USB 口</b>，Server 是<b>U 盘/键盘/摄像头</b>。电脑不会直接跟 U 盘里的闪存芯片打交道，中间永远隔着标准化的接口层。</p>
+  </div>
+</div>
+
+<!-- ==================== Q4 ==================== -->
+<div class="qcard c-amber">
+  <div class="qhead h-amber"><div class="qnum">Q4</div><h2>一次对话里，工具调用到底是怎么发生的？</h2></div>
+  <div class="qbody">
+    <p>关键认知：<span class="hl">大模型本身"不会"执行任何工具——它只会"点名"</span>。真正动手的是 MCP 服务器。完整循环如下：</p>
+    <div class="figbox">
+      <svg viewBox="0 0 660 250" xmlns="http://www.w3.org/2000/svg">
+        <rect x="15" y="15" width="180" height="40" rx="10" fill="#6C4CF1"/><text x="105" y="41" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">① 你提问</text>
+        <rect x="245" y="15" width="190" height="40" rx="10" fill="#00A8E8"/><text x="340" y="35" fill="#fff" font-size="12.5" font-weight="bold" text-anchor="middle">② 模型看着工具清单</text><text x="340" y="50" fill="#fff" font-size="11" text-anchor="middle">决定"我需要 write_file"</text>
+        <rect x="470" y="15" width="175" height="40" rx="10" fill="#FF2E7E"/><text x="557" y="35" fill="#fff" font-size="12.5" font-weight="bold" text-anchor="middle">③ Client 发请求</text><text x="557" y="50" fill="#fff" font-size="11" text-anchor="middle">tools/call write_file</text>
+        <rect x="470" y="105" width="175" height="40" rx="10" fill="#FFB300"/><text x="557" y="125" fill="#fff" font-size="12.5" font-weight="bold" text-anchor="middle">④ Server 真正执行</text><text x="557" y="140" fill="#fff" font-size="11" text-anchor="middle">在磁盘上写文件</text>
+        <rect x="245" y="105" width="190" height="40" rx="10" fill="#00B8A9"/><text x="340" y="125" fill="#fff" font-size="12.5" font-weight="bold" text-anchor="middle">⑤ 结果返回给模型</text><text x="340" y="140" fill="#fff" font-size="11" text-anchor="middle">"文件已写入"</text>
+        <rect x="15" y="105" width="180" height="40" rx="10" fill="#5CB811"/><text x="105" y="125" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">⑥ 模型综合后回答你</text><text x="105" y="140" fill="#fff" font-size="11" text-anchor="middle">"已帮你创建 hello.txt"</text>
+        <path d="M195 35 L245 35" stroke="#241432" stroke-width="3" fill="none" marker-end="url(#arr)"/>
+        <path d="M435 35 L470 35" stroke="#241432" stroke-width="3" fill="none" marker-end="url(#arr)"/>
+        <path d="M557 55 L557 105" stroke="#241432" stroke-width="3" fill="none" marker-end="url(#arr)"/>
+        <path d="M470 125 L435 125" stroke="#241432" stroke-width="3" fill="none" marker-end="url(#arr)"/>
+        <path d="M245 125 L195 125" stroke="#241432" stroke-width="3" fill="none" marker-end="url(#arr)"/>
+        <text x="330" y="190" font-size="13" font-weight="bold" fill="#B8860B" text-anchor="middle">开始前还有一步：Client 先用 tools/list 问 Server "你有哪些工具"，把清单塞进模型的上下文</text>
+        <text x="330" y="215" font-size="12" fill="#666" text-anchor="middle">模型 = 点菜的顾客｜Client = 服务员｜Server = 后厨</text>
+        <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#241432"/></marker></defs>
+      </svg>
+      <div class="cap">图4：工具调用的完整生命周期——模型决策、Client 传话、Server 干活</div>
+    </div>
+    <p>注意第②步：模型选工具的依据是<b>工具的名字和描述写得好不好</b>。这也是清单里有 "TDQS（工具描述质量评分）" 教程的原因——描述含糊的工具，模型根本想不起来用。</p>
+  </div>
+</div>
+
+<!-- ==================== Q5 ==================== -->
+<div class="qcard c-sky">
+  <div class="qhead h-sky"><div class="qnum">Q5</div><h2>MCP 服务器本质上是什么？消息长什么样？</h2></div>
+  <div class="qbody">
+    <p><span class="hl">MCP 服务器本质就是一个"会说 JSON-RPC 的普通程序"</span>——没有魔法。最常见的形式是命令行进程：宿主把它作为子进程启动，通过标准输入/输出（stdio）一行一行地互发 JSON 消息（也有走 HTTP+SSE 的远程形式）。</p>
+    <p>MCP 建立在 <b>JSON-RPC 2.0</b> 之上，日常只用到三种消息：<b>请求</b>（要结果）、<b>响应</b>（给结果）、<b>通知</b>（不用回复）。实际报文： </p>
+<pre>{
+  "jsonrpc": "2.0", "id": 1, "method": "initialize",
+  "params": { "protocolVersion": "2024-11-05",
+              "clientInfo": { "name": "demo", "version": "0.1" } }
+}
+→ 服务器回： {"result": {"serverInfo": {"name": "filesystem", "version": "0.2.0"}, ...}}</pre>
+    <p>协议约定了几个核心方法，全部一眼能懂：</p>
+    <table>
+      <tr><th style="background:var(--sky);">方法</th><th style="background:var(--sky);">方向</th><th style="background:var(--sky);">作用</th></tr>
+      <tr><td><code class="inline">initialize</code></td><td>Client → Server</td><td>握手：报版本、报身份（每次连接必做）</td></tr>
+      <tr><td><code class="inline">tools/list</code></td><td>Client → Server</td><td>"你有哪些工具？"——返回名字+描述+参数表</td></tr>
+      <tr><td><code class="inline">tools/call</code></td><td>Client → Server</td><td>调用某个工具，附带参数</td></tr>
+      <tr><td><code class="inline">notifications/initialized</code></td><td>Client → Server</td><td>通知：握手完成（无需回复）</td></tr>
+    </table>
+    <p>正因为如此简单，<b>实验里我们甚至不需要任何 AI，就能直接和服务器"聊"起来</b>——后面的动手实验会亲手证明这一点。</p>
+  </div>
+</div>
+
+<!-- ==================== Q6 ==================== -->
+<div class="qcard c-lime">
+  <div class="qhead h-lime"><div class="qnum">Q6</div><h2>这份清单长什么样？4086 个条目怎么逛？</h2></div>
+  <div class="qbody">
+    <p>它就是一个超大 README.md，结构固定，五分钟能摸清：</p>
+    <div class="figbox">
+      <svg viewBox="0 0 660 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="230" y="10" width="200" height="38" rx="10" fill="#5CB811"/><text x="330" y="34" fill="#fff" font-size="13.5" font-weight="bold" text-anchor="middle">README.md 清单入口</text>
+        <line x1="330" y1="48" x2="330" y2="66" stroke="#5CB811" stroke-width="3"/>
+        <line x1="90" y1="66" x2="580" y2="66" stroke="#5CB811" stroke-width="3"/>
+        <line x1="90" y1="66" x2="90" y2="82" stroke="#5CB811" stroke-width="3"/><line x1="250" y1="66" x2="250" y2="82" stroke="#5CB811" stroke-width="3"/><line x1="410" y1="66" x2="410" y2="82" stroke="#5CB811" stroke-width="3"/><line x1="580" y1="66" x2="580" y2="82" stroke="#5CB811" stroke-width="3"/>
+        <rect x="15" y="82" width="150" height="52" rx="9" fill="#00A8E8"/><text x="90" y="102" fill="#fff" font-size="11.5" font-weight="bold" text-anchor="middle">① What is MCP? 简介</text><text x="90" y="120" fill="#fff" font-size="10.5" text-anchor="middle">+ Clients/远程服务器指引</text>
+        <rect x="175" y="82" width="150" height="52" rx="9" fill="#6C4CF1"/><text x="250" y="102" fill="#fff" font-size="11.5" font-weight="bold" text-anchor="middle">② Legend 图例</text><text x="250" y="120" fill="#fff" font-size="10.5" text-anchor="middle">读懂每个条目前的 emoji</text>
+        <rect x="335" y="82" width="150" height="52" rx="9" fill="#FF2E7E"/><text x="410" y="102" fill="#fff" font-size="11.5" font-weight="bold" text-anchor="middle">③ Server Implementations</text><text x="410" y="120" fill="#fff" font-size="10.5" text-anchor="middle">4086 个条目，按 ~60 类分组</text>
+        <rect x="500" y="82" width="150" height="52" rx="9" fill="#FFB300"/><text x="575" y="102" fill="#fff" font-size="11.5" font-weight="bold" text-anchor="middle">④ Frameworks 框架</text><text x="575" y="120" fill="#fff" font-size="10.5" text-anchor="middle">想自己写服务器从这里进</text>
+        <rect x="90" y="165" width="480" height="52" rx="9" fill="#241432"/>
+        <text x="330" y="187" fill="#FFD54F" font-size="12" font-weight="bold" text-anchor="middle">每个条目的格式：[作者/项目名](GitHub链接) + glama评分徽章 + 📇🏠🪟(语言/范围/系统) + 一句话功能</text>
+        <text x="330" y="205" fill="#B9F6FF" font-size="11" text-anchor="middle">逛法：Ctrl+F 搜你手头的问题（如 sqlite、chrome、obsidian）→ 看徽章挑靠谱的 → 点进去读它的 README</text>
+      </svg>
+      <div class="cap">图5：清单地图——别从头读，把它当"黄页"按需检索</div>
+    </div>
+    <p>它还有<b>姊妹清单</b>：<code class="inline">awesome-mcp-clients</code>（客户端）、<code class="inline">awesome-remote-mcp-servers</code>（免安装、连 URL 就用的托管服务器）、<code class="inline">awesome-mcp-devtools</code>（开发调试工具）。本清单专注于"你自己 clone 下来跑"的服务器。</p>
+  </div>
+</div>
+
+<!-- ==================== Q7 ==================== -->
+<div class="qcard c-orange">
+  <div class="qhead h-orange"><div class="qnum">Q7</div><h2>服务器有哪些典型门类？各解决什么问题？</h2></div>
+  <div class="qbody">
+    <p>约 60 个分类可以归成六大脑洞方向，每类挑一个代表感受一下：</p>
+    <table>
+      <tr><th style="background:var(--orange);">方向</th><th style="background:var(--orange);">代表分类</th><th style="background:var(--orange);">典型能力</th></tr>
+      <tr><td><b>让 AI 碰你的数据</b></td><td>File Systems、Databases、Knowledge &amp; Memory</td><td>读写本地文件、查 Postgres/SQLite、给 AI 加长期记忆（含官方 Obsidian 读取工具 seekstone）</td></tr>
+      <tr><td><b>让 AI 碰你的电脑</b></td><td>OS Automation、Command Line、Browser Automation</td><td>操作键盘鼠标、执行 shell 命令、开 Chrome 自动点网页</td></tr>
+      <tr><td><b>让 AI 碰互联网</b></td><td>Search、Social Media、E-Commerce</td><td>联网搜索、发推/发帖、查商品价格</td></tr>
+      <tr><td><b>让 AI 碰开发流程</b></td><td>Version Control、Coding Agents、Developer Tools</td><td>操作 git/GitHub、派子任务给编程 agent</td></tr>
+      <tr><td><b>让 AI 碰云服务</b></td><td>Cloud Platforms、Communication、Finance</td><td>管 AWS/阿里云、发 Slack 消息、查股票</td></tr>
+      <tr><td><b>脑洞类</b></td><td>Gaming、Home Automation、Sports、Spirituality</td><td>玩游戏、开智能灯泡、查赛程……</td></tr>
+    </table>
+    <div class="callout" style="background:#FFF3E6; border-left:6px solid var(--orange);">
+      💡 看懂门类 = 看懂整个生态的野心：<b>凡是"有 API 或有界面"的东西，都在被包成 MCP 服务器</b>。以后遇到"AI 能不能操作 X"的问题，先来这查 X 分类。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q8 ==================== -->
+<div class="qcard c-violet">
+  <div class="qhead h-violet"><div class="qnum">Q8</div><h2>条目前的 🎖️🐍🏠☁️ 是什么意思？怎么挑一个靠谱的？</h2></div>
+  <div class="qbody">
+    <p>清单定义了一套图例（Legend），每个条目前的 emoji 是它的"身份证"：</p>
+    <table>
+      <tr><th style="background:var(--violet);">维度</th><th style="background:var(--violet);">符号 → 含义</th></tr>
+      <tr><td><b>权威度</b></td><td>🎖️ = 官方实现（如 Anthropic、Aiven 官方出品，优先选）</td></tr>
+      <tr><td><b>语言</b></td><td>🐍 Python｜📇 TypeScript/JS｜🏎️ Go｜🦀 Rust｜#️⃣ C#｜☕ Java｜🌊 C/C++｜💎 Ruby</td></tr>
+      <tr><td><b>运行位置</b></td><td>🏠 本地服务（操作本机软件，如控制 Chrome）｜☁️ 云服务（调远程 API，如天气）｜📟 嵌入式</td></tr>
+      <tr><td><b>操作系统</b></td><td>🍎 macOS｜🪟 Windows｜🐧 Linux</td></tr>
+    </table>
+    <p><span class="hl">挑选漏斗：先 🎖️ 官方 → 再 🪟 确认支持 Windows → 再选顺手的语言 🐍/📇 → 最后看条目里的 glama.ai 评分徽章（机器评的工具描述质量分）</span>。清单头部还有 TDQS 教程解释这套评分——描述越清晰的工具，模型用得越准。</p>
+    <div class="figbox">
+      <svg viewBox="0 0 660 130" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="30" width="130" height="60" rx="30" fill="#FF2E7E"/><text x="85" y="58" fill="#fff" font-size="12.5" font-weight="bold" text-anchor="middle">全部 4086 个</text><text x="85" y="76" fill="#fff" font-size="11" text-anchor="middle">候选</text>
+        <rect x="180" y="34" width="120" height="52" rx="26" fill="#FF6B2C"/><text x="240" y="58" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">🎖️ 官方</text><text x="240" y="74" fill="#fff" font-size="10.5" text-anchor="middle">过滤①</text>
+        <rect x="330" y="38" width="110" height="44" rx="22" fill="#FFB300"/><text x="385" y="57" fill="#5B3A00" font-size="12" font-weight="bold" text-anchor="middle">🪟 Win支持</text><text x="385" y="73" fill="#5B3A00" font-size="10.5" text-anchor="middle">过滤②</text>
+        <rect x="470" y="42" width="100" height="36" rx="18" fill="#5CB811"/><text x="520" y="65" fill="#fff" font-size="11.5" font-weight="bold" text-anchor="middle">高评分 ✔</text>
+        <line x1="150" y1="60" x2="180" y2="60" stroke="#241432" stroke-width="3"/><line x1="300" y1="60" x2="330" y2="60" stroke="#241432" stroke-width="3"/><line x1="440" y1="60" x2="470" y2="60" stroke="#241432" stroke-width="3"/>
+        <text x="520" y="95" font-size="11" fill="#2E7D0F" text-anchor="middle">通常剩下 2~3 个，再读 README 定夺</text>
+      </svg>
+      <div class="cap">图6：三步漏斗，从 4086 缩到个位数候选</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q9 ==================== -->
+<div class="qcard c-pink">
+  <div class="qhead h-pink"><div class="qnum">Q9</div><h2>MCP 和 Function Calling、LangChain 工具是什么关系？</h2></div>
+  <div class="qbody">
+    <p>三个概念经常被混着说，其实是<b>不同层次</b>的东西：</p>
+    <div class="figbox">
+      <svg viewBox="0 0 660 150" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="20" width="180" height="100" rx="12" fill="#00A8E8"/><text x="120" y="48" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">Function Calling</text><text x="120" y="70" fill="#fff" font-size="11" text-anchor="middle">模型厂商的"原始能力"</text><text x="120" y="90" fill="#fff" font-size="11" text-anchor="middle">模型输出结构化的</text><text x="120" y="106" fill="#fff" font-size="11" text-anchor="middle">"我要调某函数"意图</text>
+        <rect x="240" y="20" width="180" height="100" rx="12" fill="#6C4CF1"/><text x="330" y="48" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">MCP</text><text x="330" y="70" fill="#fff" font-size="11" text-anchor="middle">行业统一的"接口标准"</text><text x="330" y="90" fill="#fff" font-size="11" text-anchor="middle">规定工具如何被发现、</text><text x="330" y="106" fill="#fff" font-size="11" text-anchor="middle">被描述、被调用</text>
+        <rect x="450" y="20" width="180" height="100" rx="12" fill="#FF2E7E"/><text x="540" y="48" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">LangChain 等框架</text><text x="540" y="70" fill="#fff" font-size="11" text-anchor="middle">应用层"组装车间"</text><text x="540" y="90" fill="#fff" font-size="11" text-anchor="middle">把模型+工具+流程</text><text x="540" y="106" fill="#fff" font-size="11" text-anchor="middle">拼成完整应用</text>
+        <line x1="210" y1="70" x2="240" y2="70" stroke="#241432" stroke-width="3"/><line x1="420" y1="70" x2="450" y2="70" stroke="#241432" stroke-width="3"/>
+        <text x="330" y="140" font-size="12" font-weight="bold" fill="#555" text-anchor="middle">发动机 ← 标准传动轴 → 整车厂：MCP 不取代前两者，而是夹在中间当"通用传动轴"</text>
+      </svg>
+      <div class="cap">图7：三层各司其职——能力层、标准层、应用层</div>
+    </div>
+    <p><span class="hl">模型最终"动手"靠的还是 Function Calling 这类原生能力；MCP 只是让"工具的供货方式"标准化了</span>。框架（LangChain、CrewAI）也纷纷加了对 MCP 的适配——一个 MCP 服务器写好后，可以被所有支持它的框架直接挂载，这正是协议的价值。类比知识库里已有的概念：MCP 对工具生态的意义，类似 [[构建流水线与Pass]] 里"统一接口的 Pass"——每个阶段按约定接入，流水线即可自由替换组件。</p>
+  </div>
+</div>
+
+<!-- ==================== Q10 ==================== -->
+<div class="qcard c-teal">
+  <div class="qhead h-teal"><div class="qnum">Q10</div><h2>我想自己写一个 MCP 服务器，难吗？</h2></div>
+  <div class="qbody">
+    <p>不难——这是 MCP 生态最惊喜的地方。<span class="hl">用 Python 的 FastMCP 框架，一个普通函数加一行装饰器就是一台 MCP 服务器</span>：</p>
+<pre>from fastmcp import FastMCP
+
+mcp = FastMCP("我的工具箱")
+
+@mcp.tool
+def add(a: int, b: int) -> int:
+    """把两个整数相加"""          # ← 这行注释就是给模型看的"工具描述"!
+    return a + b
+
+mcp.run()                        # 以 stdio 方式启动，等宿主来连</pre>
+    <p>要点：函数签名 + 类型标注自动生成参数表（JSON Schema）；<b>docstring 就是工具描述</b>，直接决定模型会不会用它（呼应 Q4 的 TDQS）。清单的 Frameworks 区还列了 TypeScript 版 FastMCP、Rust 的 TurboMCP、Go 的 gomcp 等——你熟悉哪门语言都有对应 SDK。</p>
+    <div class="callout" style="background:#E6FFF9; border-left:6px solid var(--teal);">
+      💡 实战路径：把<b>你已有的任何脚本/内部 API</b> 包一层 <code class="inline">@mcp.tool</code>，它立刻可以被 Claude Desktop / Cursor / Claude Code 调用——这是"给自己的工作流造工具"的最短路径。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q11 ==================== -->
+<div class="qcard c-orange">
+  <div class="qhead h-orange"><div class="qnum">Q11</div><h2>让 AI 读写我的文件、数据库……安全吗？</h2></div>
+  <div class="qbody">
+    <p>两大真实风险，装任何第三方服务器前都要想：</p>
+    <table>
+      <tr><th style="background:var(--orange);">风险</th><th style="background:var(--orange);">是什么</th><th style="background:var(--orange);">怎么防</th></tr>
+      <tr><td><b>过度授权</b></td><td>服务器拿到的权限大于实际需要（如整个 C 盘）</td><td>启动时只授予最小目录/只读模式（实验里我们只给了一个 sandbox 文件夹）</td></tr>
+      <tr><td><b>提示注入</b></td><td>恶意网页/文件内容里藏着"指令"，诱骗模型去调用危险工具</td><td>敏感操作要人工确认；社区有专门的安全网关类服务器（如清单里的 warden）做工具扫描</td></tr>
+    </table>
+    <p>类比知识库的 [[质检Gate与自我纠错循环]]：<span class="hl">把每个 MCP 工具调用当成流水线上的一个 Pass，在"AI 想调用"和"真正执行"之间设一道人工/规则 Gate</span>——宿主（如 Claude Code）默认就会对敏感操作弹出确认，别图省事一路放行。</p>
+    <div class="figbox">
+      <svg viewBox="0 0 660 120" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="35" width="140" height="50" rx="10" fill="#6C4CF1"/><text x="90" y="57" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">AI 决定调用</text><text x="90" y="74" fill="#fff" font-size="11" text-anchor="middle">write_file</text>
+        <path d="M210 60 L250 60" stroke="#241432" stroke-width="3"/>
+        <rect x="250" y="30" width="90" height="60" rx="8" fill="#FFB300"/><text x="295" y="53" fill="#5B3A00" font-size="12.5" font-weight="bold" text-anchor="middle">⚠ Gate</text><text x="295" y="72" fill="#5B3A00" font-size="10.5" text-anchor="middle">人工确认/规则</text>
+        <path d="M340 60 L380 60" stroke="#241432" stroke-width="3"/>
+        <rect x="380" y="35" width="120" height="50" rx="10" fill="#5CB811"/><text x="440" y="57" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">Server 执行</text><text x="440" y="74" fill="#fff" font-size="11" text-anchor="middle">仅限授权范围</text>
+        <path d="M500 60 L540 60" stroke="#241432" stroke-width="3"/>
+        <rect x="540" y="35" width="100" height="50" rx="10" fill="#00A8E8"/><text x="590" y="57" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">结果返回</text><text x="590" y="74" fill="#fff" font-size="11" text-anchor="middle">可审计</text>
+        <text x="330" y="112" font-size="11.5" font-weight="bold" fill="#B85000" text-anchor="middle">安全三件套：最小授权 + 调用前 Gate + 事后日志</text>
+      </svg>
+      <div class="cap">图8：在"想做"与"做"之间设闸门</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Q12 ==================== -->
+<div class="qcard c-sky">
+  <div class="qhead h-sky"><div class="qnum">Q12</div><h2>本地服务器和远程服务器有什么区别？</h2></div>
+  <div class="qbody">
+    <p>本清单收录的都是<b>本地自装</b>型；还有一类"远程 MCP 服务器"（另一个姊妹清单）只需在客户端填一个 URL。对比：</p>
+    <table>
+      <tr><th style="background:var(--sky);"></th><th style="background:var(--sky);">🏠 本地（本清单）</th><th style="background:var(--sky);">☁️ 远程（姊妹清单）</th></tr>
+      <tr><td><b>安装</b></td><td>clone/npm 安装，写进宿主配置文件，宿主作为子进程拉起（stdio 传输）</td><td>零安装，填 URL 即用（HTTP/SSE 传输）</td></tr>
+      <tr><td><b>数据去哪</b></td><td>不出你的电脑，适合隐私敏感场景（本地文件、内网数据库）</td><td>数据经过对方服务器，适合 SaaS 类能力</td></tr>
+      <tr><td><b>典型例子</b></td><td>filesystem、sqlite、playwright 浏览器控制</td><td>各家官网提供的在线搜索/地图/CRM 服务器</td></tr>
+      <tr><td><b>运维</b></td><td>自己升级、管依赖</td><td>对方维护，但你受制于对方可用性</td></tr>
+    </table>
+    <div class="callout" style="background:#E8F7FF; border-left:6px solid var(--sky);">
+      💡 经验法则：<b>碰"你自己的数据"用本地，碰"互联网上的服务"用远程</b>——和图例里 🏠/☁️ 的划分完全一致。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 能力清单 ==================== -->
+<div class="section-title">🎁 这个项目给我什么：6 个立刻能用的场景</div>
+<div>
+  <div class="use-card" style="background:var(--pink);"><b>① 给 AI 助手装"手脚"</b><p>把 filesystem / sqlite 服务器接进 Claude Desktop 或 Claude Code，让 AI 直接帮你整理文件、查本地数据库。</p></div>
+  <div class="use-card" style="background:var(--violet);"><b>② 按需"点菜"不造轮子</b><p>要做 AI 应用时先来清单搜一圈：浏览器控制（playwright）、网页抓取、Slack 通知……大概率已有现成服务器。</p></div>
+  <div class="use-card" style="background:var(--teal);"><b>③ 把自己的脚本变成 AI 工具</b><p>用 FastMCP 把写好的 Python 脚本包成 MCP 服务器，从此 Claude Code / Cursor 都能调用它。</p></div>
+  <div class="use-card" style="background:var(--amber); color:#5B3A00;"><b>④ 给 AI 加长期记忆</b><p>Knowledge &amp; Memory 类服务器（甚至有直接读 Obsidian 库的 seekstone）让 AI 跨会话记住你的项目上下文。</p></div>
+  <div class="use-card" style="background:var(--sky);"><b>⑤ 浏览器/桌面自动化</b><p>让 AI 替你操作 Chrome 填表、抓取需要登录的页面数据——Browser Automation / OS Automation 类。</p></div>
+  <div class="use-card" style="background:var(--orange);"><b>⑥ 了解 AI 能力边界</b><p>60 个分类就是一份"AI agent 能干什么"的地图，做技术选型、写方案时直接引用。</p></div>
+</div>
+
+<!-- ==================== 实验 ==================== -->
+<div class="section-title">🧪 动手实验：不接 AI，亲手和 MCP 服务器对话（已全程验证 ✅）</div>
+<p style="margin-bottom:10px;">目标：<b>亲眼看到 MCP 协议的真实报文</b>——启动官方文件系统服务器，完成握手、列出工具、调用工具写文件，最后到磁盘上验证。全程不需要任何大模型 API key。</p>
+
+<div class="step">
+  <h3>第 1 步：确认环境（1 分钟）</h3>
+  <p><b>怎么操作</b>：打开 PowerShell，执行：</p>
+  <pre>node --version</pre>
+  <p><b>目的</b>：确认 Node.js 已装（MCP 服务器以 npm 包形式分发）。<b>实现了什么</b>：拿到版本号。<b>怎么验证</b>：</p>
+  <div class="expect">✅ 预期结果：输出类似 <code>v24.21.0</code>（v18 以上均可）。若提示找不到命令，先去 nodejs.org 安装 LTS 版。</div>
+</div>
+
+<div class="step">
+  <h3>第 2 步：跑通握手脚本</h3>
+  <p><b>怎么操作</b>：进入 <code>exercise\</code> 目录，执行（首次会自动下载服务器包，需等十几秒）：</p>
+  <pre>cd F:\reminder\mcp_servers\exercise
+python mcp_handshake.py</pre>
+  <p><b>目的</b>：让脚本替我们扮演"宿主"，对服务器发出 initialize 握手。<b>实现了什么</b>：一个真实的 MCP 服务器进程被拉起，双方完成协议握手。<b>怎么验证</b>：</p>
+  <div class="expect">✅ 预期结果：输出 <code>[2] 握手成功! 服务器: secure-filesystem-server v0.2.0 (协议版本 2024-11-05)</code> —— 你刚见证了 MCP 的"TCP 三次握手时刻"。</div>
+</div>
+
+<div class="step">
+  <h3>第 3 步：看它到底提供哪些工具</h3>
+  <p><b>怎么操作</b>：无需操作，脚本紧接着自动发送了 <code>tools/list</code>。<b>目的</b>：体验"工具发现"——宿主就是靠这一步知道模型能用的工具清单的。<b>实现了什么</b>：拿到 14 个工具的名字与描述。<b>怎么验证</b>：</p>
+  <div class="expect">✅ 预期结果：输出 <code>[3] 该服务器提供 14 个工具:</code>，随后列出 read_text_file、write_file、edit_file、directory_tree、search_files 等——每个名字都会（在真实宿主里）成为模型可点名的工具。</div>
+</div>
+
+<div class="step">
+  <h3>第 4 步：调用 write_file 工具写一个文件</h3>
+  <p><b>怎么操作</b>：同样自动执行——脚本发送 <code>tools/call</code>，参数 name=<code>write_file</code>，内容为一句中文。<b>目的</b>：完整走一遍"调用-执行-返回"闭环。<b>实现了什么</b>：服务器真的在磁盘上创建了文件。<b>怎么验证</b>：</p>
+  <div class="expect">✅ 预期结果：输出 <code>[4] tools/call(write_file) 返回 isError=False</code>，以及 <code>[5] 磁盘验证: ...\sandbox\hello.txt 存在，内容 = 'Hello from MCP! 这行字是 MCP 工具写的。'</code>，最后打印 <code>全部通过 ✅</code>。再亲手打开 <code>exercise\sandbox\hello.txt</code> 看一眼，文件确实在。</div>
+</div>
+
+<div class="step">
+  <h3>第 5 步：改一行代码，感受"授权边界"</h3>
+  <p><b>怎么操作</b>：用编辑器打开 <code>mcp_handshake.py</code>，把启动参数里的 <code>SANDBOX</code> 改成你用户主目录（如 <code>C:\Users\Windows</code>）外的随意路径或把 <code>tools/call</code> 的目标路径改成 sandbox 之外的文件，再跑一次：</p>
+  <pre>python mcp_handshake.py</pre>
+  <p><b>目的</b>：验证 Q11 讲的"最小授权"不是空话——服务器会拒绝越界操作。<b>实现了什么</b>：观察一次<b>失败</b>的工具调用。<b>怎么验证</b>：</p>
+  <div class="expect">✅ 预期结果：越界写入时返回 <code>isError=True</code>，错误信息提示路径不被允许（Access denied / not within allowed directories）。失败也是实验——你现在亲眼确认了授权围栏真的存在。</div>
+</div>
+
+<div class="step">
+  <h3>实验小结 & 下一步</h3>
+  <p>你已经完成了宿主连接 MCP 服务器的<b>全部核心动作</b>：握手 → 发现工具 → 调用工具。真实宿主（Claude Desktop 等）只是在这之上加了"让大模型来决定调哪个工具"。下一步延伸：在 Claude Desktop 的配置文件 <code>claude_desktop_config.json</code> 里加上这个同样的 <code>npx @modelcontextprotocol/server-filesystem</code> 命令（指向你的某个工作目录），就能用自然语言让 AI 操作文件——你会发现它说的每一句话，背后都是你今天亲手发过的那种 JSON 消息。</p>
+</div>
+
+<!-- ==================== 坑 ==================== -->
+<div class="section-title">🪤 坑与备忘</div>
+<div class="qbody">
+  <p>📓 <b>中文 Windows + Python</b>：跑脚本前建议 <code>setx PYTHONUTF8 1</code>，避免 GBK 编码导致中文读写报错（本实验脚本已显式用 UTF-8，不受影响）。</p>
+  <p>📓 <b>npx 首次运行慢</b>：第一次 <code>npx -y @modelcontextprotocol/server-filesystem</code> 会下载包，别以为是卡死；之后再跑是秒起。</p>
+  <p>📓 <b>stdio 服务器不"打印"</b>：MCP 服务器的 stdout 是协议通道，调试信息走 stderr——写自己的服务器时往 stdout 随便 print 会直接破坏协议。</p>
+  <p>📓 <b>协议版本</b>：握手时报文里的 <code>protocolVersion</code> 需要双方都认识（实验用 2024-11-05），版本不匹配会被服务器拒绝。</p>
+</div>
+
+<div class="foot">
+  📚 学习产出：本 PDF + <code>exercise\mcp_handshake.py</code>（可复跑的握手实验）+ 知识库新增概念：[[MCP模型上下文协议]]、[[JSON-RPC与stdio传输]]、[[工具调用生命周期]]、[[M×N集成问题]] ｜ 仓库：github.com/punkpeye/awesome-mcp-servers ｜ 学习日期：2026-10-01
+</div>
+
+</body>
+</html>

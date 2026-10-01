@@ -183,6 +183,9 @@
   },
   "active": "d8d319fa85af14da",
   "lastOpenFiles": [
+    "项目笔记/system_design_primer.md",
+    "00-总览.md.tmp.30104.87a9a1893355",
+    "00-总览.md.tmp.30104.4dfd82c65d12",
     "概念/延迟数与估算法.md",
     "概念/消息队列与异步削峰.md",
     "概念/缓存.md",
@@ -204,9 +207,7 @@
     "00-总览.md.tmp.25208.32a224efea10",
     "概念/JSON-RPC与stdio传输.md",
     "概念/JSON-RPC与stdio传输.md.tmp.30104.ff20862a302f",
-    "00-总览.md.tmp.25208.40fe4be2aa18",
     "概念/MCP模型上下文协议.md",
-    "概念/MCP模型上下文协议.md.tmp.30104.b22450224ce4",
     "项目笔记/langgraph.md",
     "项目笔记/mcp_servers.md",
     "概念/stdio与流式HTTP传输.md",
@@ -217,7 +218,6 @@
     "概念/人机协同Interrupt.md",
     "概念/Checkpoint存档与持久执行.md",
     "概念/状态图编排.md",
-    "概念/共享状态与Reducer.md",
-    "概念/LLM工具调用.md"
+    "概念/共享状态与Reducer.md"
   ]
 }
