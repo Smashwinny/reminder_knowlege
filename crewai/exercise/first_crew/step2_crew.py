@@ -4,8 +4,13 @@
 需要环境变量: ANTHROPIC_BASE_URL / ANTHROPIC_AUTH_TOKEN
 """
 import os
+import sys
 
 os.environ.setdefault("CREWAI_TELEMETRY_OPT_OUT", "true")
+# 中文 Windows 控制台默认 GBK，crewAI 日志含 emoji（🚀），必须切 UTF-8
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
 
 from crewai import Agent, Task, Crew, Process, LLM
 

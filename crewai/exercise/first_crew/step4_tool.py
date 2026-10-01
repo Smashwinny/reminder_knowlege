@@ -3,8 +3,12 @@
 运行: .venv/Scripts/python step4_tool.py
 """
 import os
+import sys
 
 os.environ.setdefault("CREWAI_TELEMETRY_OPT_OUT", "true")
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
 
 from crewai import Agent, Task, Crew, LLM
 from crewai.tools import BaseTool

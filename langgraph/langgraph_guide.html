@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>LangGraph 小白指南</title>
+<style>
+  @page { size: A4; margin: 12mm 10mm; }
+  :root {
+    --pink: #FF3D68; --teal: #00B8A9; --yellow: #FDC500; --purple: #6C5CE7;
+    --orange: #FF8A00; --blue: #00A8E8; --ink: #2B1B4E; --bg: #FFF9F0;
+    --card-pink: #FFE4EA; --card-teal: #DFF7F4; --card-yellow: #FFF6D6;
+    --card-purple: #EAE6FF; --card-orange: #FFEDD6; --card-blue: #DFF3FC;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    color: var(--ink); background: var(--bg); margin: 0; font-size: 13px; line-height: 1.7;
+  }
+  .page { padding: 0 6px; }
+  .cover {
+    background: linear-gradient(135deg, var(--purple), var(--pink) 55%, var(--orange));
+    color: #fff; border-radius: 18px; padding: 30px 34px; margin-bottom: 16px;
+  }
+  .cover h1 { font-size: 40px; margin: 0 0 6px; letter-spacing: 1px; }
+  .cover .sub { font-size: 17px; opacity: .95; font-weight: bold; }
+  .cover .meta { margin-top: 12px; font-size: 12px; opacity: .85; }
+  .tagrow { margin-top: 10px; }
+  .tag { display: inline-block; background: rgba(255,255,255,.25); border: 1.5px solid rgba(255,255,255,.7);
+    border-radius: 999px; padding: 2px 12px; margin-right: 8px; font-size: 12px; font-weight: bold; }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .toc a {
+    text-decoration: none; color: var(--ink); font-weight: bold; font-size: 12px;
+    padding: 6px 12px; border-radius: 10px; border: 2px solid; break-inside: avoid;
+  }
+  .toc a:nth-child(6n+1) { border-color: var(--pink); background: var(--card-pink); }
+  .toc a:nth-child(6n+2) { border-color: var(--teal); background: var(--card-teal); }
+  .toc a:nth-child(6n+3) { border-color: var(--orange); background: var(--card-orange); }
+  .toc a:nth-child(6n+4) { border-color: var(--purple); background: var(--card-purple); }
+  .toc a:nth-child(6n+5) { border-color: var(--blue); background: var(--card-blue); }
+  .toc a:nth-child(6n+6) { border-color: var(--yellow); background: var(--card-yellow); }
+  h2.sec {
+    font-size: 22px; margin: 22px 0 10px; padding: 6px 16px; color: #fff; border-radius: 12px;
+    background: linear-gradient(90deg, var(--purple), var(--pink));
+    display: inline-block;
+  }
+  .qcard {
+    border-radius: 16px; padding: 18px 22px; margin-bottom: 14px; break-inside: avoid;
+    border: 3px solid; position: relative;
+  }
+  .qcard.pink   { background: var(--card-pink);   border-color: var(--pink); }
+  .qcard.teal   { background: var(--card-teal);   border-color: var(--teal); }
+  .qcard.yellow { background: var(--card-yellow); border-color: var(--yellow); }
+  .qcard.purple { background: var(--card-purple); border-color: var(--purple); }
+  .qcard.orange { background: var(--card-orange); border-color: var(--orange); }
+  .qcard.blue   { background: var(--card-blue);   border-color: var(--blue); }
+  .qnum {
+    position: absolute; top: -14px; left: -10px; background: var(--ink); color: var(--yellow);
+    font-size: 26px; font-weight: 900; border-radius: 12px; padding: 2px 14px;
+    box-shadow: 3px 3px 0 rgba(43,27,78,.25);
+  }
+  .qtitle { font-size: 18px; font-weight: 900; margin: 6px 0 10px; padding-left: 44px; }
+  .qcard p { margin: 6px 0; }
+  .hl {
+    font-size: 15px; font-weight: 900; padding: 1px 6px; border-radius: 6px;
+    background: linear-gradient(transparent 45%, var(--yellow) 45%, var(--yellow) 92%, transparent 92%);
+  }
+  .hl2 { font-weight: 900; color: var(--pink); }
+  .term { font-weight: 900; color: #fff; background: var(--purple); border-radius: 6px; padding: 0 7px; font-size: 12.5px; white-space: nowrap; }
+  .fig {
+    background: #fff; border: 2px dashed var(--purple); border-radius: 12px;
+    padding: 10px; margin: 10px 0; text-align: center;
+  }
+  .fig .cap { font-size: 11.5px; color: var(--purple); font-weight: bold; margin-top: 4px; }
+  code, .code {
+    font-family: Consolas, "Courier New", monospace; background: var(--ink); color: #7DF9C6;
+    border-radius: 6px; padding: 1px 6px; font-size: 12px;
+  }
+  .codeblock {
+    font-family: Consolas, "Courier New", monospace; background: #241A3F; color: #E8E3FF;
+    border-radius: 10px; padding: 10px 14px; font-size: 11.5px; line-height: 1.55;
+    white-space: pre-wrap; word-break: break-all; margin: 8px 0; border-left: 6px solid var(--yellow);
+  }
+  .codeblock .k { color: #FF8AC2; font-weight: bold; }
+  .codeblock .c { color: #8B82B8; }
+  .codeblock .s { color: #7DF9C6; }
+  .outblock {
+    font-family: Consolas, "Courier New", monospace; background: #0E2A1E; color: #B8FFD9;
+    border-radius: 10px; padding: 10px 14px; font-size: 11.5px; line-height: 1.55;
+    white-space: pre-wrap; word-break: break-all; margin: 8px 0; border-left: 6px solid #2ECC71;
+  }
+  .okbox {
+    background: #D9F7E8; border: 2.5px solid #27AE60; border-radius: 10px;
+    padding: 8px 14px; margin: 8px 0; font-weight: bold; font-size: 13px;
+  }
+  .story {
+    background: #fff; border-radius: 10px; border-left: 6px solid var(--orange);
+    padding: 8px 14px; margin: 8px 0; font-size: 12.5px;
+  }
+  .story b { color: var(--orange); }
+  table.cmp { border-collapse: collapse; width: 100%; margin: 8px 0; background: #fff; }
+  table.cmp th { background: var(--purple); color: #fff; padding: 5px 10px; font-size: 12.5px; }
+  table.cmp td { border: 1.5px solid #D8CFF0; padding: 5px 10px; font-size: 12px; }
+  table.cmp tr:nth-child(even) td { background: #F6F2FF; }
+  .stepcard {
+    border-radius: 14px; padding: 14px 18px; margin-bottom: 12px; break-inside: avoid;
+    background: #fff; border: 3px solid;
+  }
+  .stepcard.s1 { border-color: var(--pink); } .stepcard.s2 { border-color: var(--orange); }
+  .stepcard.s3 { border-color: var(--teal); } .stepcard.s4 { border-color: var(--blue); }
+  .stepcard.s5 { border-color: var(--purple); } .stepcard.s6 { border-color: #E84393; }
+  .stephead { font-size: 15.5px; font-weight: 900; margin-bottom: 4px; }
+  .stephead .n { display: inline-block; background: var(--ink); color: var(--yellow); border-radius: 8px;
+    padding: 0 10px; margin-right: 8px; font-size: 17px; }
+  .lbl { display: inline-block; font-size: 11px; font-weight: 900; color: #fff; border-radius: 6px;
+    padding: 0 8px; margin-right: 6px; }
+  .lbl.why { background: var(--pink); } .lbl.how { background: var(--blue); }
+  .lbl.get { background: var(--teal); } .lbl.chk { background: #27AE60; }
+  .uses li { margin: 5px 0; }
+  .footer { text-align: center; color: var(--purple); font-weight: bold; font-size: 12px; margin: 18px 0 6px; }
+  .two { display: flex; gap: 12px; flex-wrap: wrap; }
+  .two > div { flex: 1 1 300px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ================= 封面 ================= -->
+<div class="cover">
+  <h1>LangGraph 小白指南</h1>
+  <div class="sub">把"会说话的大模型"变成"会干活的状态图"——一篇写给工科毕业生的图文解惑</div>
+  <div class="tagrow">
+    <span class="tag">开源项目类</span><span class="tag">langchain-ai/langgraph</span>
+    <span class="tag">v1.2.12 · Python</span><span class="tag">2026-10-01</span>
+  </div>
+  <div class="meta">学习成果：6 个疑问卡片（全部配 SVG 图解）+ 1 个 6 步成就感实验（每条命令均实际执行验证）+ 知识已入库 Obsidian vault</div>
+</div>
+
+<!-- ================= 目录即疑问 ================= -->
+<div class="toc">
+  <a href="#q1">① 它是什么？</a><a href="#q2">② 没有它之前怎么干？</a><a href="#q3">③ 状态图 vs 流水线</a>
+  <a href="#q4">④ 白板(State)怎么传数据</a><a href="#q5">⑤ Reducer 抢白板怎么办</a><a href="#q6">⑥ 条件边与循环</a>
+  <a href="#q7">⑦ Checkpointer 存档器</a><a href="#q8">⑧ thread_id 多用户</a><a href="#q9">⑨ interrupt 人机协同</a>
+  <a href="#q10">⑩ 高层 API 怎么选</a><a href="#q11">⑪ 和 LangChain 什么关系</a><a href="#q12">⑫ 它给我什么</a>
+  <a href="#lab">🔬 动手实验（6 步）</a><a href="#terms">📋 术语速查表</a>
+</div>
+
+<!-- ================= Q1 ================= -->
+<div class="qcard pink" id="q1">
+  <div class="qnum">①</div>
+  <div class="qtitle">LangGraph 到底是什么？一句话能说清吗？</div>
+  <p>官方原话：<b>"Low-level orchestration framework for building stateful agents"</b>——构建有状态智能体的<b>底层编排框架</b>。翻译成人话：</p>
+  <p><span class="hl">LangGraph = 一块共享白板(State) + 一张节点路线图(Graph) + 一台存档机(Checkpointer)</span></p>
+  <p>你把干活的人（<span class="term">Node 节点</span>，就是普通 Python 函数）画在路线图上，他们围着同一块白板排队干活，图负责决定"下一个谁上"，存档机负责每走一步就拍快照，断了能续。</p>
+  <div class="fig">
+    <svg width="640" height="150" viewBox="0 0 640 150">
+      <defs><marker id="ar1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#6C5CE7"/></marker></defs>
+      <circle cx="70" cy="75" r="26" fill="#00B8A9"/><text x="70" y="80" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">开始</text>
+      <rect x="150" y="45" width="110" height="60" rx="12" fill="#FF3D68"/><text x="205" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">节点 writer</text><text x="205" y="90" text-anchor="middle" fill="#fff" font-size="11">普通Python函数</text>
+      <rect x="320" y="45" width="120" height="60" rx="12" fill="#FF8A00"/><text x="380" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">节点 reviewer</text><text x="380" y="90" text-anchor="middle" fill="#fff" font-size="11">普通Python函数</text>
+      <circle cx="560" cy="75" r="26" fill="#6C5CE7"/><text x="560" y="80" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">结束</text>
+      <line x1="98" y1="75" x2="146" y2="75" stroke="#6C5CE7" stroke-width="3" marker-end="url(#ar1)"/>
+      <line x1="262" y1="75" x2="316" y2="75" stroke="#6C5CE7" stroke-width="3" marker-end="url(#ar1)"/>
+      <line x1="442" y1="75" x2="530" y2="75" stroke="#6C5CE7" stroke-width="3" marker-end="url(#ar1)"/>
+      <rect x="240" y="120" width="170" height="24" rx="12" fill="#FDC500"/><text x="325" y="137" text-anchor="middle" font-size="12" font-weight="bold">共享白板 State 一路传递</text>
+    </svg>
+    <div class="cap">图 = 节点（函数）+ 边（顺序/条件）+ 一块一路流转的共享白板</div>
+  </div>
+  <p>关键认知：<span class="hl2">节点里想调大模型就调，不想调也完全可以</span>。LangGraph 编排的是"任意 Python 函数"，大模型只是最常见住客。这也是本指南实验敢不接 API key 就能跑的原因。</p>
+</div>
+
+<!-- ================= Q2 ================= -->
+<div class="qcard teal" id="q2">
+  <div class="qnum">②</div>
+  <div class="qtitle">没有 LangGraph 之前，人们怎么写 LLM 应用？痛点在哪？</div>
+  <p>2023 年大家写 Agent 基本是"while 循环 + if 堆成山"：在一个大函数里手写循环，让模型反复"思考→调工具→把结果塞回 prompt"。代码长这样：</p>
+  <div class="codeblock"><span class="k">while</span> True:
+    reply = llm(messages)            <span class="c"># 问模型</span>
+    <span class="k">if</span> <span class="s">"调用搜索"</span> <span class="k">in</span> reply: ...     <span class="c"># 手写判断</span>
+    <span class="k">if</span> 用户不满意的次数 > 3: <span class="k">break</span>  <span class="c"># 手写退出</span>
+    <span class="c"># ……几百行 if/else 之后，没人敢动这段代码</span></div>
+  <p>四个要命的痛点：</p>
+  <table class="cmp">
+    <tr><th>痛点</th><th>具体惨状</th><th>LangGraph 的解法</th></tr>
+    <tr><td><b>状态没处放</b></td><td>对话历史、中间结果散落在闭包变量里</td><td>集中到 State 白板，由框架管理</td></tr>
+    <tr><td><b>循环写死</b></td><td>想加一步"人工审批"要重写半个函数</td><td>加个节点 + 条件边即可</td></tr>
+    <tr><td><b>断掉全完</b></td><td>跑到第 20 步进程挂了，从头再来（再花钱调 API）</td><td><span class="term">Checkpointer</span> 每步存档，断点续跑</td></tr>
+    <tr><td><b>没法画、没法查</b></td><td>流程只存在于 if/else 缝隙里</td><td>图结构一目了然，还能打印成流程图</td></tr>
+  </table>
+  <div class="story"><b>历史小故事：</b>LangChain 团队做着做着发现，复杂的 Agent 应用真正需要的不是"更多组件"，而是一个能把<b>控制流显式画出来</b>的引擎——于是 2024 年初从 LangChain 里拆出了 LangGraph。如今 Klarna、Replit、Uber 都用它跑生产级 Agent。</div>
+</div>
+
+<!-- ================= Q3 ================= -->
+<div class="qcard yellow" id="q3">
+  <div class="qnum">③</div>
+  <div class="qtitle">"状态图"和我熟悉的"流水线 + 质检 Gate"是什么关系？</div>
+  <p>好消息：<span class="hl">你已经懂了 80%</span>。知识库里的 [[构建流水线与Pass]] 和 [[质检Gate与自我纠错循环]] 说的正是这件事——复杂工作拆成顺序阶段，阶段之间设检查站。LangGraph 就是这个思想的<b>工业化引擎版</b>：</p>
+  <table class="cmp">
+    <tr><th>你已学的概念</th><th>LangGraph 对应物</th><th>增强点</th></tr>
+    <tr><td>流水线 / Pass</td><td><span class="term">Graph + Node</span></td><td>边可以是<b>条件边</b>，能分叉、能回头</td></tr>
+    <tr><td>各 Pass 传递的中间产物</td><td><span class="term">State 共享状态</span></td><td>不是"传来传去"，而是<b>所有人读写同一块白板</b></td></tr>
+    <tr><td>质检 Gate + 返工循环</td><td><span class="term">Conditional Edge</span></td><td>循环是图的一等公民，画得出、存得了档</td></tr>
+    <tr><td>确定性脚本当裁判</td><td>节点函数本身</td><td>裁判也可以是真 LLM，反正都只是节点</td></tr>
+  </table>
+  <div class="fig">
+    <svg width="640" height="140" viewBox="0 0 640 140">
+      <defs><marker id="ar3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2B1B4E"/></marker></defs>
+      <text x="105" y="20" text-anchor="middle" font-size="13" font-weight="bold" fill="#FF8A00">流水线（只进不退）</text>
+      <rect x="20" y="32" width="90" height="34" rx="8" fill="#FF8A00"/><text x="65" y="54" text-anchor="middle" fill="#fff" font-size="12">Pass 1</text>
+      <rect x="150" y="32" width="90" height="34" rx="8" fill="#FF8A00"/><text x="195" y="54" text-anchor="middle" fill="#fff" font-size="12">Pass 2</text>
+      <rect x="280" y="32" width="90" height="34" rx="8" fill="#FF8A00"/><text x="325" y="54" text-anchor="middle" fill="#fff" font-size="12">Pass 3</text>
+      <line x1="112" y1="49" x2="146" y2="49" stroke="#2B1B4E" stroke-width="2.5" marker-end="url(#ar3)"/>
+      <line x1="242" y1="49" x2="276" y2="49" stroke="#2B1B4E" stroke-width="2.5" marker-end="url(#ar3)"/>
+      <line x1="420" y1="49" x2="470" y2="49" stroke="#2B1B4E" stroke-width="2.5" marker-end="url(#ar3)"/>
+      <rect x="470" y="30" width="130" height="38" rx="8" fill="#FFF6D6" stroke="#FF8A00" stroke-width="2"/>
+      <text x="535" y="54" text-anchor="middle" font-size="12" fill="#B8860B">❌ 只能一条道走到黑</text>
+      <text x="105" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#00B8A9">状态图（能回头、能分叉）</text>
+      <rect x="20" y="98" width="90" height="34" rx="8" fill="#00B8A9" transform="translate(0,-2)"/>
+      <rect x="200" y="96" width="90" height="34" rx="8" fill="#FF3D68"/><text x="245" y="118" text-anchor="middle" fill="#fff" font-size="12">质检节点</text>
+      <path d="M 155 113 L 196 113" stroke="#2B1B4E" stroke-width="2.5" marker-end="url(#ar3)"/>
+      <path d="M 290 100 C 340 70, 360 60, 415 80" fill="none" stroke="#27AE60" stroke-width="3" marker-end="url(#ar3)"/>
+      <text x="390" y="70" font-size="11" fill="#27AE60" font-weight="bold">≥80分 → 通过</text>
+      <path d="M 290 126 C 340 156, 150 160, 112 122" fill="none" stroke="#FF3D68" stroke-width="3" stroke-dasharray="6,4" marker-end="url(#ar3)"/>
+      <text x="215" y="155" font-size="11" fill="#FF3D68" font-weight="bold">&lt;80分 → 打回重写（循环！）</text>
+      <rect x="440" y="96" width="160" height="34" rx="8" fill="#DFF7F4" stroke="#00B8A9" stroke-width="2"/>
+      <text x="520" y="118" text-anchor="middle" font-size="12" fill="#00796B">✅ 循环是一等公民</text>
+    </svg>
+    <div class="cap">上：传统流水线，单向不可回头；下：LangGraph 状态图，"打回重写"就是一条普通的边</div>
+  </div>
+</div>
+
+<!-- ================= Q4 ================= -->
+<div class="qcard purple" id="q4">
+  <div class="qnum">④</div>
+  <div class="qtitle">共享白板 State 是怎么工作的？节点之间怎么传数据？</div>
+  <p><span class="term">State</span> 就是一个 <code>TypedDict</code>（带字段类型说明的字典）。它的流转规则只有一条：</p>
+  <p><span class="hl">每个节点收到"整块白板的快照"，干完活只把自己改动的字段<b>部分覆盖</b>回去</span></p>
+  <div class="codeblock"><span class="k">class</span> <span class="s">State</span>(TypedDict):
+    draft: str    <span class="c"># 字段就是白板上的格子</span>
+    score: int
+
+<span class="k">def</span> <span class="s">writer</span>(state): <span class="k">return</span> {<span class="s">"draft"</span>: <span class="s">"新草稿"</span>}   <span class="c"># 只写 draft 格子，score 不动</span></div>
+  <div class="fig">
+    <svg width="640" height="150" viewBox="0 0 640 150">
+      <rect x="30" y="20" width="240" height="110" rx="12" fill="#F6F2FF" stroke="#6C5CE7" stroke-width="2.5"/>
+      <text x="150" y="42" text-anchor="middle" font-size="13" font-weight="bold" fill="#6C5CE7">共享白板（全图唯一一份）</text>
+      <rect x="55" y="55" width="190" height="26" rx="6" fill="#fff" stroke="#6C5CE7"/><text x="65" y="73" font-size="12">draft: ""</text>
+      <rect x="55" y="90" width="190" height="26" rx="6" fill="#fff" stroke="#6C5CE7"/><text x="65" y="108" font-size="12">score: 0</text>
+      <defs><marker id="ar4" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#00B8A9"/></marker></defs>
+      <path d="M 275 65 C 340 40, 360 40, 420 60" fill="none" stroke="#00B8A9" stroke-width="3" marker-end="url(#ar4)"/>
+      <text x="350" y="35" font-size="11.5" fill="#00806e" font-weight="bold">① 收到完整快照</text>
+      <path d="M 420 95 C 360 120, 340 120, 280 100" fill="none" stroke="#FF3D68" stroke-width="3" marker-end="url(#ar4)"/>
+      <text x="330" y="135" font-size="11.5" fill="#FF3D68" font-weight="bold">② 只写回改动的格子</text>
+      <rect x="425" y="40" width="180" height="70" rx="12" fill="#FF3D68"/>
+      <text x="515" y="68" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">节点 = 函数</text>
+      <text x="515" y="92" text-anchor="middle" fill="#fff" font-size="12">读快照 → 干活 → 返回增量dict</text>
+    </svg>
+    <div class="cap">节点的输入输出协议：进 = 全量快照，出 = 部分增量</div>
+  </div>
+  <p>这个"进全量、出增量"的设计，让任何节点都不用关心别的节点内部怎么干活——<span class="hl2">节点之间彻底解耦，增删节点不用改别人的代码</span>。</p>
+</div>
+
+<!-- ================= Q5 ================= -->
+<div class="qcard orange" id="q5">
+  <div class="qnum">⑤</div>
+  <div class="qtitle">什么是 Reducer？两个节点都想写同一格白板怎么办？</div>
+  <p>默认规则是"后写的覆盖先写的"。但想象两条分支<b>并行</b>执行后要汇合：一个往 <code>messages</code> 格子里写了"搜索结果"，另一个写了"计算结果"——覆盖谁？LangGraph 的答案叫 <span class="term">Reducer 归约器</span>：</p>
+  <p><span class="hl">在字段上声明"合并规则"，冲突就不叫冲突，叫"合并"</span></p>
+  <div class="codeblock"><span class="k">import</span> operator
+<span class="k">from</span> typing <span class="k">import</span> Annotated, TypedDict
+
+<span class="k">class</span> <span class="s">State</span>(TypedDict):
+    <span class="c"># Annotated 第二个参数就是 reducer：用 + 号合并</span>
+    messages: Annotated[list, operator.add]   <span class="c"># 新旧两表拼接</span>
+    score: int                                <span class="c"># 没写 reducer = 默认覆盖</span></div>
+  <div class="fig">
+    <svg width="640" height="130" viewBox="0 0 640 130">
+      <defs><marker id="ar5" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2B1B4E"/></marker></defs>
+      <rect x="30" y="40" width="130" height="46" rx="10" fill="#00A8E8"/><text x="95" y="60" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">节点A 写入</text><text x="95" y="77" text-anchor="middle" fill="#fff" font-size="11">["搜索结果"]</text>
+      <rect x="200" y="40" width="130" height="46" rx="10" fill="#FF8A00"/><text x="265" y="60" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">节点B 写入</text><text x="265" y="77" text-anchor="middle" fill="#fff" font-size="11">["计算结果"]</text>
+      <line x1="162" y1="63" x2="196" y2="63" stroke="#2B1B4E" stroke-width="2" marker-end="url(#ar5)"/>
+      <path d="M 335 63 L 385 63" stroke="#2B1B4E" stroke-width="2.5" marker-end="url(#ar5)"/>
+      <circle cx="440" cy="63" r="34" fill="#FDC500"/><text x="440" y="58" text-anchor="middle" font-size="13" font-weight="bold">Reducer</text><text x="440" y="76" text-anchor="middle" font-size="14" font-weight="bold">list + list</text>
+      <path d="M 476 63 L 520 63" stroke="#2B1B4E" stroke-width="2.5" marker-end="url(#ar5)"/>
+      <rect x="522" y="40" width="100" height="46" rx="10" fill="#00B8A9"/>
+      <text x="572" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">["搜索结果",</text><text x="572" y="77" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">"计算结果"]</text>
+    </svg>
+    <div class="cap">并行分支汇合时，Reducer 决定怎么合：默认覆盖，声明 operator.add 则拼接</div>
+  </div>
+  <div class="story"><b>为什么重要：</b>后面学 multi_agent（多智能体）时，几个 Agent 并行写同一份对话历史，全靠 <code>Annotated[list, operator.add]</code> 保证不互相覆盖。<b>这是 LangGraph 面试出现率最高的细节之一。</b></div>
+</div>
+
+<!-- ================= Q6 ================= -->
+<div class="qcard blue" id="q6">
+  <div class="qnum">⑥</div>
+  <div class="qtitle">条件边怎么实现"打回重写"的循环？</div>
+  <p>普通边 <code>add_edge("A","B")</code> 是死板的"A 完了必定到 B"。要"看情况走人"，用 <span class="term">Conditional Edge 条件边</span>：</p>
+  <div class="codeblock"><span class="k">def</span> <span class="s">gate</span>(state) -> str:                      <span class="c"># 一个纯粹的裁判函数</span>
+    <span class="k">return</span> <span class="s">"END"</span> <span class="k">if</span> state[<span class="s">"score"</span>] >= 80 <span class="k">else</span> <span class="s">"writer"</span>
+
+g.add_conditional_edges(<span class="s">"reviewer"</span>, gate, {<span class="s">"writer"</span>: <span class="s">"writer"</span>, <span class="s">"END"</span>: END})</div>
+  <p>裁判函数读白板 → 返回一个字符串 → 按映射表跳到对应节点。<span class="hl">裁判就是普通函数，所以测试它 = 测试一个纯函数，不用跑大模型</span>——这正是知识库 [[确定性脚本]] 思想的翻版：把"决策"从业务代码里拎出来变成可单测的小函数。</p>
+  <div class="fig">
+    <svg width="640" height="135" viewBox="0 0 640 135">
+      <defs><marker id="ar6" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2B1B4E"/></marker></defs>
+      <rect x="40" y="45" width="120" height="46" rx="12" fill="#FF3D68"/><text x="100" y="73" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">writer 写手</text>
+      <rect x="260" y="45" width="130" height="46" rx="12" fill="#FF8A00"/><text x="325" y="73" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">reviewer 质检</text>
+      <polygon points="470,68 500,45 560,45 590,68 560,91 500,91" fill="#FDC500"/>
+      <text x="530" y="64" text-anchor="middle" font-size="12" font-weight="bold">gate 条件边</text><text x="530" y="81" text-anchor="middle" font-size="11">分数>=80?</text>
+      <line x1="162" y1="68" x2="256" y2="68" stroke="#2B1B4E" stroke-width="3" marker-end="url(#ar6)"/>
+      <line x1="392" y1="68" x2="468" y2="68" stroke="#2B1B4E" stroke-width="3" marker-end="url(#ar6)"/>
+      <path d="M 530 45 C 530 12, 100 12, 100 41" fill="none" stroke="#FF3D68" stroke-width="3" stroke-dasharray="7,5" marker-end="url(#ar6)"/>
+      <text x="315" y="24" text-anchor="middle" font-size="12" font-weight="bold" fill="#FF3D68">NO → 回到 writer（打回重写）</text>
+      <line x1="592" y1="68" x2="622" y2="68" stroke="#27AE60" stroke-width="3"/>
+      <text x="607" y="52" text-anchor="middle" font-size="12" font-weight="bold" fill="#27AE60">YES→</text>
+      <text x="607" y="90" text-anchor="middle" font-size="11" fill="#27AE60" font-weight="bold">END</text>
+    </svg>
+    <div class="cap">"打回重写"不是什么特殊机制，就是一条画回上游的边</div>
+  </div>
+  <p>⚠️ 实战红lines：<b>循环必须带退出条件</b>（比如 <code>attempts</code> 计数或最大轮数），否则模型打分不给过就会无限打转烧钱。</p>
+</div>
+
+<!-- ================= Q7 ================= -->
+<div class="qcard pink" id="q7">
+  <div class="qnum">⑦</div>
+  <div class="qtitle">Checkpointer 存档器是什么？"持久化/可恢复"具体指什么？</div>
+  <p><span class="term">Checkpointer</span> 干的事像游戏存档：<span class="hl">图每执行完一个节点，就把整块白板拍一张快照存起来</span>。编译时挂上即可：</p>
+  <div class="codeblock"><span class="k">from</span> langgraph.checkpoint.memory <span class="k">import</span> MemorySaver
+app = g.compile(checkpointer=MemorySaver())   <span class="c"># 内存存档（学习用）</span>
+<span class="c"># 生产环境换成 SqliteSaver / PostgresSaver，代码一行不用改</span></div>
+  <p>官方管这叫 <b>Durable Execution 持久执行</b>：进程崩了、机器换了、隔了一天再跑，都能从最近一次快照原样恢复。<b>这解决了 LLM 应用最贵的浪费——重跑 = 重新花钱调 API。</b></p>
+  <div class="fig">
+    <svg width="640" height="150" viewBox="0 0 640 150">
+      <defs><marker id="ar7" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2B1B4E"/></marker></defs>
+      <circle cx="60" cy="75" r="22" fill="#00B8A9"/><text x="60" y="80" text-anchor="middle" fill="#fff" font-size="12">开始</text>
+      <rect x="120" y="52" width="86" height="46" rx="10" fill="#6C5CE7"/><text x="163" y="80" text-anchor="middle" fill="#fff" font-size="12">节点1</text>
+      <rect x="240" y="52" width="86" height="46" rx="10" fill="#6C5CE7"/><text x="283" y="80" text-anchor="middle" fill="#fff" font-size="12">节点2</text>
+      <rect x="360" y="52" width="86" height="46" rx="10" fill="#6C5CE7"/><text x="403" y="80" text-anchor="middle" fill="#fff" font-size="12">节点3</text>
+      <line x1="84" y1="75" x2="116" y2="75" stroke="#2B1B4E" stroke-width="2.5" marker-end="url(#ar7)"/>
+      <line x1="208" y1="75" x2="236" y2="75" stroke="#2B1B4E" stroke-width="2.5" marker-end="url(#ar7)"/>
+      <line x1="328" y1="75" x2="356" y2="75" stroke="#2B1B4E" stroke-width="2.5" marker-end="url(#ar7)"/>
+      <line x1="448" y1="75" x2="486" y2="75" stroke="#2B1B4E" stroke-width="2.5" marker-end="url(#ar7)"/>
+      <circle cx="540" cy="75" r="30" fill="#FDC500"/><text x="540" y="72" text-anchor="middle" font-size="12" font-weight="bold">💥进程崩溃</text><text x="540" y="88" text-anchor="middle" font-size="11">节点4没跑完</text>
+      <text x="163" y="120" text-anchor="middle" font-size="11" font-weight="bold" fill="#27AE60">📸快照1</text>
+      <text x="283" y="120" text-anchor="middle" font-size="11" font-weight="bold" fill="#27AE60">📸快照2</text>
+      <text x="403" y="120" text-anchor="middle" font-size="11" font-weight="bold" fill="#27AE60">📸快照3</text>
+      <path d="M 403 100 C 403 138, 470 140, 520 108" fill="none" stroke="#27AE60" stroke-width="2.5" stroke-dasharray="5,4" marker-end="url(#ar7)"/>
+      <text x="455" y="145" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#27AE60">重启后从快照3继续，节点1~3不重跑不重花钱</text>
+    </svg>
+    <div class="cap">每步一快照：崩溃恢复点 = 最近一次快照，已完成的节点不重跑</div>
+  </div>
+</div>
+
+<!-- ================= Q8 ================= -->
+<div class="qcard teal" id="q8">
+  <div class="qnum">⑧</div>
+  <div class="qtitle">thread_id 是什么？为什么一个图能同时服务很多用户？</div>
+  <p>挂了 Checkpointer 之后，每次调用都要带一个 <code>config = {"configurable": {"thread_id": "..."}}</code>。<span class="term">thread_id</span> 就是<b>存档槽位号</b>：</p>
+  <p><span class="hl">同一个编译好的图 + 不同 thread_id = 互不干扰的多份存档</span>。用户 A 的对话白板在槽 "user-A"，用户 B 在槽 "user-B"，各自续各自的命。</p>
+  <div class="fig">
+    <svg width="640" height="140" viewBox="0 0 640 140">
+      <rect x="40" y="40" width="180" height="60" rx="12" fill="#6C5CE7"/>
+      <text x="130" y="65" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">编译好的同一个图</text><text x="130" y="85" text-anchor="middle" fill="#fff" font-size="11">（进程里只有一份代码）</text>
+      <line x1="222" y1="70" x2="280" y2="35" stroke="#2B1B4E" stroke-width="2.5"/>
+      <line x1="222" y1="70" x2="280" y2="105" stroke="#2B1B4E" stroke-width="2.5"/>
+      <rect x="284" y="15" width="150" height="40" rx="8" fill="#DFF7F4" stroke="#00B8A9" stroke-width="2"/>
+      <text x="359" y="33" text-anchor="middle" font-size="11.5" font-weight="bold">存档槽 thread_id="文章A"</text><text x="359" y="48" text-anchor="middle" font-size="10.5">attempts=3, score=100</text>
+      <rect x="284" y="85" width="150" height="40" rx="8" fill="#FFE4EA" stroke="#FF3D68" stroke-width="2"/>
+      <text x="359" y="103" text-anchor="middle" font-size="11.5" font-weight="bold">存档槽 thread_id="文章B"</text><text x="359" y="118" text-anchor="middle" font-size="10.5">attempts=2, score=90</text>
+      <rect x="470" y="30" width="150" height="46" rx="10" fill="#FFF6D6" stroke="#FDC500" stroke-width="2"/>
+      <text x="545" y="50" text-anchor="middle" font-size="11.5" font-weight="bold">invoke(增量输入, cfg)</text><text x="545" y="66" text-anchor="middle" font-size="10.5">不传的字段自动从存档补齐</text>
+    </svg>
+    <div class="cap">一份图代码，N 个独立存档槽——这就是"有状态服务"的底层原理</div>
+  </div>
+  <p>实验步骤 4 验证过的名场面：第二轮调用<b>只传一个新烂稿</b>，没传 <code>attempts</code>，图从存档里补齐 <code>attempts=2</code> 接着数——用户感知就是"这服务记得我"。</p>
+</div>
+
+<!-- ================= Q9 ================= -->
+<div class="qcard purple" id="q9">
+  <div class="qnum">⑨</div>
+  <div class="qtitle">interrupt 人机协同：程序"暂停"了，进程去哪了？</div>
+  <p>在节点里调一句 <code>interrupt(问题)</code>，图就停在这一行，把问题抛给外面的人。魔法在于：</p>
+  <p><span class="hl">进程根本没有"卡住等待"——它正常退出了，状态躺在存档里</span>。人可能一分钟后回复，也可能三天后。回复到达时，用 <code>Command(resume=答案)</code> 再 invoke 一次，图从暂停的那一行原样复活，连 <code>interrupt()</code> 的返回值就是人的答案。</p>
+  <div class="codeblock"><span class="k">def</span> <span class="s">publisher</span>(state):
+    answer = <span class="s">interrupt</span>({<span class="s">"question"</span>: <span class="s">"质检通过，是否发布？"</span>})  <span class="c"># 图在此冻结</span>
+    <span class="k">return</span> {<span class="s">"approved"</span>: answer == <span class="s">"yes"</span>}
+
+r1 = app.invoke(输入, cfg)                 <span class="c"># 跑到 interrupt 停下，r1 里带 __interrupt__</span>
+r2 = app.invoke(<span class="s">Command</span>(resume=<span class="s">"yes"</span>), cfg)  <span class="c"># 人审批后，从冻结点继续</span></div>
+  <div class="fig">
+    <svg width="640" height="130" viewBox="0 0 640 130">
+      <defs><marker id="ar9" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2B1B4E"/></marker></defs>
+      <rect x="30" y="45" width="110" height="40" rx="10" fill="#00B8A9"/><text x="85" y="70" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">第一次invoke</text>
+      <rect x="180" y="45" width="130" height="40" rx="10" fill="#6C5CE7"/><text x="245" y="70" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">跑到interrupt❄️</text>
+      <line x1="142" y1="65" x2="176" y2="65" stroke="#2B1B4E" stroke-width="2.5" marker-end="url(#ar9)"/>
+      <path d="M 312 65 L 356 65" stroke="#2B1B4E" stroke-width="2.5" marker-end="url(#ar9)"/>
+      <rect x="358" y="45" width="120" height="40" rx="10" fill="#FDC500"/>
+      <text x="418" y="63" text-anchor="middle" font-size="11.5" font-weight="bold">进程正常退出</text><text x="418" y="78" text-anchor="middle" font-size="10.5">状态在存档里，不占资源</text>
+      <path d="M 480 55 C 520 30, 545 30, 575 48" fill="none" stroke="#FF3D68" stroke-width="2.5" marker-end="url(#ar9)"/>
+      <text x="560" y="25" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#FF3D68">人（可能过了3天）</text>
+      <path d="M 480 78 C 520 100, 545 100, 575 84" fill="none" stroke="#27AE60" stroke-width="2.5" marker-end="url(#ar9)"/>
+      <text x="558" y="115" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#27AE60">Command(resume) 唤醒</text>
+    </svg>
+    <div class="cap">"暂停"的真实实现 = 存档 + 退出；"恢复" = 带答案再 invoke 一次</div>
+  </div>
+  <div class="story"><b>场景：</b>客服 Agent 想给客户退款 5000 元——超过权限了。这时 interrupt 出来问主管；主管在下班路上用手机点了同意；第二天早上 Agent 从冻结点复活继续执行。<b>HITL（Human-in-the-Loop）不是"程序挂起等人"，而是"任务等待人"。</b></div>
+</div>
+
+<!-- ================= Q10 ================= -->
+<div class="qcard orange" id="q10">
+  <div class="qnum">⑩</div>
+  <div class="qtitle">prebuilt 高层 API 和 StateGraph 底层 API，我该用哪个？</div>
+  <p>LangGraph 是个三层蛋糕：</p>
+  <table class="cmp">
+    <tr><th>层</th><th>是什么</th><th>适合谁</th></tr>
+    <tr><td><b>Deep Agents</b></td><td>站在 LangGraph 之上的成品框架（会规划、会派子Agent、带文件系统）</td><td>想要"开箱即用的深度研究Agent"</td></tr>
+    <tr><td><b>prebuilt</b><br><code>create_react_agent</code></td><td>一条命令生成"ReAct Agent"（模型+工具，思考→调工具→观察循环的通用配方）</td><td>快速原型、标准聊天机器人</td></tr>
+    <tr><td><b>StateGraph</b><br>（本指南学的）</td><td>底层引擎：节点、边、条件边、Checkpointer、interrupt 全部亲手拼</td><td><span class="hl2">完全掌控流程的工作流——学习阶段必须从这里入门</span></td></tr>
+  </table>
+  <div class="fig">
+    <svg width="640" height="140" viewBox="0 0 640 140">
+      <rect x="90" y="15" width="460" height="32" rx="8" fill="#FF3D68"/><text x="320" y="36" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Deep Agents —— 成品整楼（拎包入住）</text>
+      <rect x="90" y="55" width="460" height="32" rx="8" fill="#FF8A00"/><text x="320" y="76" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">prebuilt / create_react_agent —— 精装房（一条命令的通用配方）</text>
+      <rect x="90" y="95" width="460" height="32" rx="8" fill="#00B8A9"/><text x="320" y="116" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">StateGraph 底层引擎 —— 毛坯房（每根钢筋自己铺，本指南所在层）</text>
+    </svg>
+    <div class="cap">越高越省事越受约束；越低越费事越自由。上层建筑全部由下层搭成</div>
+  </div>
+  <p>判断口诀：<span class="hl">流程能用"模型自己决定下一步"描述 → prebuilt；流程有固定业务阶段和审批点 → 自己画 StateGraph</span>。两者可混用：把 create_react_agent 做的 Agent 当作大图里的一个节点。</p>
+</div>
+
+<!-- ================= Q11 ================= -->
+<div class="qcard yellow" id="q11">
+  <div class="qnum">⑪</div>
+  <div class="qtitle">LangGraph 和 LangChain 什么关系？名字里都有 Lang？</div>
+  <p>同门师兄弟，分工完全不同：</p>
+  <table class="cmp">
+    <tr><th></th><th>LangChain</th><th>LangGraph</th></tr>
+    <tr><td><b>定位</b></td><td>组件超市：各家模型的统一接口、文档加载器、向量库适配……</td><td>编排引擎：只管"流程怎么走、状态怎么存"</td></tr>
+    <tr><td><b>类比</b></td><td>食材和厨具供应商</td><td>后厨的动线设计</td></tr>
+    <tr><td><b>依赖方向</b></td><td colspan="2">LangGraph <b>可以完全脱离</b> LangChain 使用（本指南实验就是零 LangChain 模型调用）；反过来 LangChain 1.x 的 Agent 内部用 LangGraph 做引擎</td></tr>
+  </table>
+  <p>顺带认全家族：<span class="term">LangSmith</span>（配套的可观测/调试平台，看图执行的每一步 trace）、<span class="term">Deep Agents</span>（上层成品）、<span class="term">LangGraph Platform</span>（托管部署）。<b>家族庞大但只有 LangGraph 引擎和 LangSmith 观测是日常开发绕不开的。</b></p>
+</div>
+
+<!-- ================= Q12 ================= -->
+<div class="qcard blue" id="q12">
+  <div class="qnum">⑫</div>
+  <div class="qtitle">这个项目给我什么？我能拿它干什么？</div>
+  <p>能力清单：有状态多节点编排 / 条件分支与循环 / 每步持久化与断点恢复 / 人机协同暂停点 / 并行分支与 Reducer 合并 / 流式输出 / 一键生成流程图 / 子图嵌套（图里套图）。</p>
+  <p>结合你现有水平（会 Python、懂流水线与 Gate 思想、玩过 Three.js 项目），具体可干：</p>
+  <ul class="uses">
+    <li>🔧 <b>给 img2threejs 那条生成流水线换引擎</b>：建模 Pass → 质检 Gate → 返工循环，天生就是一张 LangGraph 图，还白得断点恢复。</li>
+    <li>🤖 <b>做带记忆的客服/助手</b>：thread_id 一人一档，重要操作 interrupt 人工审批。</li>
+    <li>📊 <b>多步文档处理</b>：抽取→核对→打分→不合格重做，质检环节继续用你的确定性脚本思想。</li>
+    <li>👥 <b>多智能体协作</b>：写手 Agent、审稿 Agent、画图 Agent 各占一个节点，Reducer 管合并。</li>
+    <li>🧪 <b>Agent 评测台</b>：把"被测 Agent"和"考官 Agent"画进一张图，循环考到达标为止。</li>
+  </ul>
+</div>
+
+<!-- ================= 实验 ================= -->
+<h2 class="sec" id="lab">🔬 成就感实验：给烂文章修一条"质检返工流水线"（6 步，全程不用 API key）</h2>
+<p style="margin:6px 0 12px">目的：亲手把 ①白板 ②节点 ③条件边循环 ④流式 ⑤存档记忆 ⑥画图 ⑦人机审批 全部摸一遍。所有命令已在 Windows 11 + Python 3.14 + langgraph 1.2.12 实际执行验证。</p>
+
+<div class="stepcard s1">
+  <div class="stephead"><span class="n">1</span>搭最简图：白板 + 两个节点</div>
+  <p><span class="lbl how">怎么操作</span>存为 <code>exercise\step1_state_and_nodes.py</code>，运行 <code>PYTHONUTF8=1 python exercise/step1_state_and_nodes.py</code></p>
+  <div class="codeblock"><span class="k">from</span> typing <span class="k">import</span> TypedDict
+<span class="k">from</span> langgraph.graph <span class="k">import</span> StateGraph, START, END
+
+<span class="k">class</span> <span class="s">State</span>(TypedDict):
+    draft: str; score: int          <span class="c"># 白板上的两个格子</span>
+
+<span class="k">def</span> <span class="s">writer</span>(state) -> dict:          <span class="c"># 节点=普通函数，返回增量</span>
+    <span class="k">return</span> {<span class="s">"draft"</span>: <span class="s">"LangGraph 是一个状态图编排框架。"</span>}
+<span class="k">def</span> <span class="s">reviewer</span>(state) -> dict:
+    <span class="k">return</span> {<span class="s">"score"</span>: 85}
+
+g = <span class="s">StateGraph</span>(State)                <span class="c"># 建图，声明白板格式</span>
+g.add_node(<span class="s">"writer"</span>, writer); g.add_node(<span class="s">"reviewer"</span>, reviewer)
+g.add_edge(START, <span class="s">"writer"</span>); g.add_edge(<span class="s">"writer"</span>, <span class="s">"reviewer"</span>); g.add_edge(<span class="s">"reviewer"</span>, END)
+app = g.<span class="s">compile</span>()                   <span class="c"># 编译成可执行应用</span>
+<span class="k">print</span>(app.invoke({<span class="s">"draft"</span>: <span class="s">""</span>, <span class="s">"score"</span>: 0}))</div>
+  <p><span class="lbl why">目的</span>理解"节点=函数、边=顺序、白板一路传"。 <span class="lbl get">实现了什么</span>最小编排：两个函数被图串起来执行。</p>
+  <div class="okbox">✅ 预期结果：<span class="outblock" style="margin:6px 0 0">最终白板: {'draft': 'LangGraph 是一个状态图编排框架。', 'score': 85}</span>出现即成功——你返回的增量被合并进了最终白板。</div>
+</div>
+
+<div class="stepcard s2">
+  <div class="stephead"><span class="n">2</span>上质检 Gate：条件边打出"打回重写"循环</div>
+  <p><span class="lbl how">怎么操作</span>存为 <code>exercise\step2_quality_gate_loop.py</code> 运行。关键三行：</p>
+  <div class="codeblock"><span class="k">def</span> <span class="s">gate</span>(state) -> str:
+    <span class="k">return</span> <span class="s">"END"</span> <span class="k">if</span> state[<span class="s">"score"</span>] >= 80 <span class="k">else</span> <span class="s">"writer"</span>
+g.add_conditional_edges(<span class="s">"reviewer"</span>, gate, {<span class="s">"writer"</span>: <span class="s">"writer"</span>, <span class="s">"END"</span>: END})</div>
+  <p><span class="lbl why">目的</span>让循环真实发生一次。 <span class="lbl get">实现了什么</span>写手第一版只写 70 分，被打回，参考反馈重写到 90 分过审。</p>
+  <div class="okbox">✅ 预期结果：<span class="outblock" style="margin:6px 0 0">[质检] 打分 70 分 -> 打回重写
+[写手] 第 2 次写稿，参考上一轮反馈: 内容太单薄，请扩充
+[质检] 打分 90 分 -> 通过</span>看到"70→打回→90→通过"即成功。</div>
+</div>
+
+<div class="stepcard s3">
+  <div class="stephead"><span class="n">3</span>stream()：把执行过程全程直播</div>
+  <p><span class="lbl how">怎么操作</span>把 <code>app.invoke(...)</code> 换成 <code>for update in app.stream(输入): print(update)</code>（完整代码 <code>exercise\step3_stream.py</code>）。</p>
+  <p><span class="lbl why">目的</span>看清图的执行节奏。 <span class="lbl get">实现了什么</span>每完成一个节点立刻吐出白板增量，不再只给最终答案。</p>
+  <div class="okbox">✅ 预期结果：<span class="outblock" style="margin:6px 0 0">--- 第 1 步完成 --- {'writer': {'draft': '第1版草稿', 'score': 70, ...}}
+--- 第 2 步完成 --- {'reviewer': {'feedback': '内容太单薄…'}}
+--- 第 3 步完成 --- {'writer': {'draft': '第2版草稿', 'score': 90, ...}}
+--- 第 4 步完成 --- {'reviewer': {'feedback': ''}}</span>注意输出以"节点名: 增量"为单位。</div>
+</div>
+
+<div class="stepcard s4">
+  <div class="stephead"><span class="n">4</span>MemorySaver 存档：跨调用记住你</div>
+  <p><span class="lbl how">怎么操作</span>编译时挂存档器，两次调用共用一个 thread_id（完整代码 <code>exercise\step4_memory.py</code>）：</p>
+  <div class="codeblock">app = g.compile(checkpointer=<span class="s">MemorySaver</span>())
+cfg = {<span class="s">"configurable"</span>: {<span class="s">"thread_id"</span>: <span class="s">"文章A"</span>}}
+app.invoke({全量初始白板}, cfg)                       <span class="c"># 第一轮</span>
+app.invoke({<span class="s">"draft"</span>: <span class="s">""</span>, <span class="s">"score"</span>: 0, <span class="s">"feedback"</span>: <span class="s">""</span>}, cfg)  <span class="c"># 第二轮：不传 attempts！</span></div>
+  <p><span class="lbl why">目的</span>验证"存档补齐"。 <span class="lbl get">实现了什么</span>第二轮没传 attempts，图从存档补出 attempts=2，写手直接写第 3 稿。</p>
+  <div class="okbox">✅ 预期结果：<span class="outblock" style="margin:6px 0 0">[写手] 接到白板 attempts=2，开始第 3 次写稿
+attempts 没传却自己累加到: 3  <- 说明它记得上次存档</span></div>
+</div>
+
+<div class="stepcard s5">
+  <div class="stephead"><span class="n">5</span>draw_mermaid：一行打印你的流程图</div>
+  <p><span class="lbl how">怎么操作</span><code>print(app.get_graph().draw_mermaid())</code>（完整代码 <code>exercise\step5_draw_graph.py</code>），把输出粘到 mermaid.live 看图。</p>
+  <p><span class="lbl why">目的</span>把脑子里"想象的图"和真实图对答案。 <span class="lbl get">实现了什么</span>得到一张可渲染的流程图源码，虚线边就是条件边。</p>
+  <div class="okbox">✅ 预期结果：<span class="outblock" style="margin:6px 0 0">graph TD;
+	__start__ --> writer;
+	reviewer -. &nbsp;END&nbsp; .-> __end__;
+	reviewer -.-> writer;      <- 这条虚线就是"打回重写"
+	writer --> reviewer;</span></div>
+</div>
+
+<div class="stepcard s6">
+  <div class="stephead"><span class="n">6</span>interrupt：质检过了，先等人审批再发布</div>
+  <p><span class="lbl how">怎么操作</span>在发布节点里加 <code>interrupt()</code>，两次 invoke 完成暂停与唤醒（完整代码 <code>exercise\step6_human_in_loop.py</code>）：</p>
+  <div class="codeblock"><span class="k">from</span> langgraph.types <span class="k">import</span> interrupt, Command
+<span class="k">def</span> <span class="s">publisher</span>(state):
+    answer = <span class="s">interrupt</span>({<span class="s">"question"</span>: <span class="s">"质检通过，是否发布？"</span>})  <span class="c"># 冻结点</span>
+    <span class="k">return</span> {<span class="s">"approved"</span>: answer == <span class="s">"yes"</span>}
+r1 = app.invoke(初始白板, cfg)              <span class="c"># 停在 interrupt，r1["__interrupt__"] 带问题</span>
+r2 = app.invoke(<span class="s">Command</span>(resume=<span class="s">"yes"</span>), cfg)  <span class="c"># 人点头，从冻结点复活</span></div>
+  <p><span class="lbl why">目的</span>体验 LangGraph 招牌的 Human-in-the-Loop。 <span class="lbl get">实现了什么</span>图在 publisher 里冻结→等人→恢复，approved 依人的回答落定。</p>
+  <div class="okbox">✅ 预期结果：<span class="outblock" style="margin:6px 0 0">返回: {'question': '文章质检通过，是否发布？', 'draft': '第2版草稿'}
+最终白板: {'draft': '第2版草稿', 'score': 90, 'attempts': 2, 'approved': True}</span></div>
+</div>
+
+<!-- ================= 术语表 ================= -->
+<h2 class="sec" id="terms">📋 术语速查表（按出场顺序）</h2>
+<table class="cmp">
+  <tr><th>术语</th><th>一句话人话解释</th></tr>
+  <tr><td><b>StateGraph / Graph</b></td><td>路线图：声明白板格式后，把节点和边画上去</td></tr>
+  <tr><td><b>Node 节点</b></td><td>普通 Python 函数：读白板快照，返回增量 dict</td></tr>
+  <tr><td><b>State 状态</b></td><td>共享白板：TypedDict 定义的若干格子</td></tr>
+  <tr><td><b>Edge / Conditional Edge</b></td><td>固定边（必经之路）/ 条件边（裁判函数按白板内容决定下一站）</td></tr>
+  <tr><td><b>compile()</b></td><td>把画好的图编译成可执行应用 app</td></tr>
+  <tr><td><b>invoke / stream</b></td><td>跑一次拿最终白板 / 每步直播白板增量</td></tr>
+  <tr><td><b>Reducer</b></td><td>格子上的合并规则（如 Annotated[list, operator.add]），并行写入不冲突</td></tr>
+  <tr><td><b>Checkpointer</b></td><td>存档机：每步快照，支持断点恢复；MemorySaver/SqliteSaver/PostgresSaver 可插拔</td></tr>
+  <tr><td><b>thread_id</b></td><td>存档槽位号：一个图服务多用户的关键</td></tr>
+  <tr><td><b>interrupt / Command(resume)</b></td><td>冻结点（等人）/ 带答案唤醒</td></tr>
+  <tr><td><b>create_react_agent</b></td><td>prebuilt 高层配方：一条命令生成"思考→调工具→观察"Agent</td></tr>
+  <tr><td><b>Durable Execution</b></td><td>持久执行：崩了从快照续跑，不重花钱</td></tr>
+  <tr><td><b>Pregel</b></td><td>LangGraph 内核名，借鉴 Google Pregel 论文的图计算模型（目录 libs/pregel）</td></tr>
+</table>
+
+<div class="footer">学习成果已入库 Obsidian vault（概念笔记 + 项目笔记 + MOC）· 2026-10-01 · langgraph v1.2.12</div>
+</div>
+</body>
+</html>

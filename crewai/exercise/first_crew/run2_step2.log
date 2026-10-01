@@ -1,0 +1,30 @@
++-------------------------[CrewAIEventsBus] Sync handler error in on_crew_started: 'gbk' codec can't 
+encode character '\U0001f680' in position 1: illegal multibyte sequence
++-------------------------[CrewAIEventsBus] Sync handler error in on_task_started: 'gbk' codec can't 
+encode character '\U0001f680' in position 1: illegal multibyte sequence
++-------------------------[CrewAIEventsBus] Sync handler error in on_agent_logs_started: 'gbk' codec 
+can't encode character '\U0001f680' in position 1: illegal multibyte sequence
+[35m[Finalize] todos_count=0, todos_with_results=0[0m
++-------------------------[CrewAIEventsBus] Sync handler error in on_agent_logs_execution: 'gbk' codec 
+can't encode character '\U0001f680' in position 1: illegal multibyte sequence
++-------------------------[CrewAIEventsBus] Sync handler error in on_task_completed: 'gbk' codec can't 
+encode character '\U0001f680' in position 1: illegal multibyte sequence
++------------------------------[CrewAIEventsBus] Sync handler error in on_task_started: 'gbk' codec can't 
+encode character '\U0001f4cb' in position 1: illegal multibyte sequence
++-----------------------------[CrewAIEventsBus] Sync handler error in on_agent_logs_started: 'gbk' codec 
+can't encode character '\U0001f916' in position 1: illegal multibyte sequence
+[35m[Finalize] todos_count=0, todos_with_results=0[0m
++-----------------------------[CrewAIEventsBus] Sync handler error in on_agent_logs_execution: 'gbk' codec 
+can't encode character '\U0001f916' in position 1: illegal multibyte sequence
++-----------------------------[CrewAIEventsBus] Sync handler error in on_task_completed: 'gbk' codec can't 
+encode character '\U0001f916' in position 1: illegal multibyte sequence
++------------------------------[CrewAIEventsBus] Sync handler error in on_crew_completed: 'gbk' codec can't 
+encode character '\U0001f4cb' in position 1: illegal multibyte sequence
+
+
++----------------------------- Execution Traces ------------------------------+
+|                                                                             |
+|  
+============================================================
+×îÖÕ²ú³ö£º
+ÏëÏóÒ»¸öÏîÄ¿×é£ºÓĞÈË³öÖ÷Òâ£¬ÓĞÈË¸É»î£¬ÓĞÈË°Ñ¹Ø¡£¶àÖÇÄÜÌåĞ­×÷£¬¾ÍÊÇÈÃ¶à¸öAIÏñÕâÑù×é¶Ó¸É»î¡£ÎªÊ²Ã´²»ÈÃÒ»¸öAIÈ«°ü£¿ÒòÎªÈÎÎñÌ«¸´ÔÓÊ±£¬µ¥´ò¶À¶·ÈİÒ×¹Ë´ËÊ§±Ë¡£°Ñ»î¶ù²ğ¿ª£¬·Ö¸ø¸÷ÓĞËù³¤µÄAI¡°×¨¼Ò¡±£¬Ğ§¹û·´¶ø¸üÎÈ¸üºÃ¡£ËüÃÇÅäºÏµÄ¹Ø¼üÔÚÓÚÁ÷³Ì£ºÏÈ°Ñ´óÈÎÎñ²ğ³ÉĞ¡ÈÎÎñ£¬ÔÙ°´½ÇÉ«ÅÉ»î¡ª¡ªÓĞµÄ¸ºÔğ¹æ»®£¬ÓĞµÄ¸ºÔğÖ´ĞĞ£¬ÓĞµÄ¸ºÔğ¼ì²é£¬×îºó°Ñ½á¹û»ã×ÜÆğÀ´¡£¾ÍÏñÒ»Ö§Ä¬ÆõµÄÇò¶Ó£¬¸÷Ë¾ÆäÖ°£¬²ÅÄÜÓ®ÏÂ±ÈÈü¡£
