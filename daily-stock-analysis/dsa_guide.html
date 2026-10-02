@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>daily_stock_analysis 小白指南</title>
+<style>
+:root{
+  --c1:#FF3D68; --c2:#FF9F1C; --c3:#06D6A0; --c4:#118AB2; --c5:#8338EC; --c6:#FFD60A;
+  --ink:#1B1B2F; --bg:#FFFDF7;
+}
+@page{ size:A4; margin:12mm; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:12.5px; line-height:1.65; }
+.cover{ text-align:center; padding:34px 20px 22px; background:linear-gradient(135deg,#FF3D68 0%,#FF9F1C 45%,#FFD60A 100%); border-radius:18px; color:#fff; margin-bottom:14px; }
+.cover h1{ font-size:34px; letter-spacing:1px; text-shadow:2px 2px 0 rgba(0,0,0,.18); }
+.cover .sub{ font-size:15px; margin-top:8px; font-weight:bold; }
+.cover .meta{ margin-top:10px; font-size:11.5px; opacity:.95; }
+.disclaimer{ border:3px dashed #D00000; background:#FFF0F0; border-radius:12px; padding:12px 16px; margin:12px 0; color:#A40000; }
+.disclaimer b{ font-size:15px; }
+.qcard{ break-inside:avoid; border-radius:14px; padding:0; margin:14px 0; border:2.5px solid; overflow:hidden; background:#fff; }
+.qhead{ padding:9px 16px; color:#fff; display:flex; align-items:center; gap:12px; }
+.qnum{ font-size:34px; font-weight:900; line-height:1; text-shadow:2px 2px 0 rgba(0,0,0,.2); }
+.qtitle{ font-size:17px; font-weight:900; }
+.qbody{ padding:12px 16px 14px; }
+.hl{ background:linear-gradient(transparent 55%, var(--c6) 55%); font-weight:900; padding:0 2px; }
+.big{ font-size:15px; font-weight:900; }
+.tag{ display:inline-block; border-radius:20px; padding:1px 10px; color:#fff; font-weight:bold; font-size:11px; margin:0 3px 3px 0; }
+table{ border-collapse:collapse; width:100%; margin:8px 0; font-size:11.5px; }
+th{ background:#1B1B2F; color:#fff; padding:5px 8px; text-align:left; }
+td{ border:1px solid #E3E1D8; padding:4px 8px; }
+tr:nth-child(even) td{ background:#FAF8F0; }
+code,pre{ font-family:Consolas,"Courier New",monospace; }
+code{ background:#F1EEE4; border-radius:4px; padding:0 4px; color:#B8003D; font-weight:bold; }
+pre{ background:#1B1B2F; color:#E8F5A8; border-radius:10px; padding:10px 12px; font-size:11px; line-height:1.5; overflow-x:auto; margin:6px 0; }
+pre .c{ color:#7BD8C2; }
+.step{ break-inside:avoid; border-left:6px solid var(--c3); background:#F2FCF9; border-radius:0 10px 10px 0; padding:8px 12px; margin:8px 0; }
+.step h4{ color:#048C6B; font-size:13.5px; margin-bottom:4px; }
+.expect{ background:#E7F9FF; border:2px solid var(--c4); border-radius:10px; padding:7px 10px; margin-top:6px; font-size:11.5px; }
+.expect b{ color:#0A6E93; }
+.svgbox{ text-align:center; margin:8px 0; break-inside:avoid; }
+.cap{ font-size:10.5px; color:#666; margin-top:2px; }
+.two{ display:flex; gap:10px; flex-wrap:wrap; }
+.two>div{ flex:1 1 300px; }
+.q1 .qhead{ background:var(--c1);} .q2 .qhead{ background:var(--c2);} .q3 .qhead{ background:var(--c4);}
+.q4 .qhead{ background:var(--c3);} .q5 .qhead{ background:var(--c5);} .q6 .qhead{ background:var(--c1);}
+.q7 .qhead{ background:var(--c2);} .q8 .qhead{ background:var(--c4);} .q9 .qhead{ background:var(--c5);}
+.ability{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0; }
+.ability .a{ flex:1 1 160px; border-radius:10px; padding:8px 10px; color:#fff; font-size:11.5px; font-weight:bold; }
+.toc{ display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+.toc span{ background:rgba(255,255,255,.25); border-radius:16px; padding:2px 10px; font-size:11px; font-weight:bold; }
+.foot{ text-align:center; color:#888; font-size:10.5px; margin-top:14px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>📈 daily_stock_analysis 小白指南</h1>
+  <div class="sub">LLM 驱动的多市场股票智能分析系统 —— 数据聚合 → 规则指标 → AI 决策仪表盘 → 全渠道推送</div>
+  <div class="meta">GitHub: ZhuLinsen/daily_stock_analysis · MIT License · Python 3.10+ · 实测版本 be148f3（2026-10-02）<br>
+  本指南 = 9 个疑问图文解答 + 4 组真实运行的动手实验（纯技术层面）</div>
+  <div class="toc">
+    <span>①这是什么</span><span>②没它之前</span><span>③架构</span><span>④数据源</span><span>⑤指标数学</span>
+    <span>⑥规则打分</span><span>⑦LLM 干啥</span><span>⑧防幻觉契约</span><span>⑨15种策略</span><span>+能力清单+实验</span>
+  </div>
+</div>
+
+<div class="disclaimer">
+  ⚠️ <b>免责声明（必读）</b>：本指南与该项目均<b>仅供学习研究程序技术</b>，不构成任何投资建议。AI 生成的评分、买卖点、风险提示<b>不是投资依据</b>，作者与本文均不对投资亏损负责。股市有风险，入市需谨慎。本文所有实验只做<b>代码结构、指标数学与数据契约验证</b>，全部使用合成数据，不涉及任何真实投资操作。
+</div>
+
+<!-- Q1 -->
+<div class="qcard q1">
+  <div class="qhead"><div class="qnum">Q1</div><div class="qtitle">这是什么？一句话能说清吗？</div></div>
+  <div class="qbody">
+    <p><span class="big">一句话：它是一个"每天早上自动给你自选股写研报"的 AI 系统。</span>
+    你维护一份自选股清单（如 <code>600519,hk00700,AAPL</code>），系统每天定时把每只股票的<span class="hl">行情、K 线、技术指标、新闻、公告、基本面</span>聚合起来，先做规则化技术分析，再交给大语言模型综合研判，产出一张<span class="hl">"决策仪表盘"：核心结论、0-100 评分、趋势判断、买卖点位、风险警报、催化因素、操作检查清单</span>，最后推送到企业微信 / 飞书 / Telegram / Discord / Slack / 邮箱。</p>
+    <table>
+      <tr><th>属性</th><th>内容</th></tr>
+      <tr><td>覆盖市场</td><td>A股、港股、美股、日股、韩股、台股 + ETF</td></tr>
+      <tr><td>AI 模型</td><td>Gemini / Claude / OpenAI 兼容 / DeepSeek / 通义 / Ollama 本地模型（LiteLLM 统一接入）</td></tr>
+      <tr><td>行情数据</td><td>efinance / AkShare / Tushare / Pytdx / Baostock / YFinance / Longbridge / TickFlow</td></tr>
+      <tr><td>运行方式</td><td>GitHub Actions（零成本推荐）/ Docker / 本地定时 / FastAPI 服务 / Web 工作台</td></tr>
+      <tr><td>代码规模</td><td>main.py 单文件调度 + <code>src/</code> 十余个子包 + <code>data_provider/</code> 19 个数据源适配器 + 500+ 测试文件</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="qcard q2">
+  <div class="qhead"><div class="qnum">Q2</div><div class="qtitle">没有它之前人们怎么做？它改变了什么？</div></div>
+  <div class="qbody">
+    <p><b>以前看一只股票的"日常功课"：</b>开盘前开 3~5 个网站/APP → 看分时行情 → 切到 K 线软件翻 MACD / RSI → 搜新闻公告 → 翻财报摘要 → 脑子里把它们捏成一个结论。<span class="hl">每只股票每天 10~30 分钟，5 只自选股就是一早上</span>，而且人肉拼接时经常漏掉某条利空公告。</p>
+    <p><b>DSA 的改变不是"更聪明的预测"，而是把流水线自动化：</b></p>
+    <div class="svgbox">
+    <svg width="660" height="150" viewBox="0 0 660 150">
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#555"/></marker></defs>
+      <rect x="10" y="45" width="120" height="60" rx="10" fill="#FFD60A"/><text x="70" y="70" text-anchor="middle" font-size="12" font-weight="bold">人肉功课 ×N只股</text><text x="70" y="88" text-anchor="middle" font-size="10">开5个网站自己拼</text>
+      <rect x="270" y="45" width="120" height="60" rx="10" fill="#06D6A0"/><text x="330" y="70" text-anchor="middle" font-size="12" font-weight="bold">DSA 自动流水线</text><text x="330" y="88" text-anchor="middle" font-size="10">聚合→指标→LLM→推送</text>
+      <rect x="530" y="45" width="115" height="60" rx="10" fill="#118AB2"/><text x="587" y="70" text-anchor="middle" font-size="12" font-weight="bold">早上一条推送</text><text x="587" y="88" text-anchor="middle" font-size="10">仪表盘已就绪</text>
+      <line x1="130" y1="75" x2="266" y2="75" stroke="#555" stroke-width="2.5" marker-end="url(#ar)"/>
+      <line x1="390" y1="75" x2="526" y2="75" stroke="#555" stroke-width="2.5" marker-end="url(#ar)"/>
+      <text x="198" y="65" text-anchor="middle" font-size="10" fill="#C1121F" font-weight="bold">10~30 分钟/只/天</text>
+      <text x="458" y="65" text-anchor="middle" font-size="10" fill="#048C6B" font-weight="bold">定时任务全自动</text>
+    </svg>
+    <div class="cap">图1：改变的是"信息拼接"这个环节的工作方式，不是预测能力</div>
+    </div>
+    <p>关键认知：<span class="hl">LLM 在这里做的是"综合研判与表达"，不是"预测涨跌"</span>——指标和评分由确定性代码算出，LLM 负责把多源信息捏合成有逻辑的结论并诚实标注风险。</p>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="qcard q3">
+  <div class="qhead"><div class="qnum">Q3</div><div class="qtitle">整体架构长什么样？</div></div>
+  <div class="qbody">
+    <div class="svgbox">
+    <svg width="680" height="300" viewBox="0 0 680 300">
+      <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#555"/></marker></defs>
+      <!-- 数据源层 -->
+      <rect x="10" y="20" width="140" height="150" rx="12" fill="#FFD60A"/>
+      <text x="80" y="42" text-anchor="middle" font-size="12.5" font-weight="bold">数据源层 data_provider/</text>
+      <text x="80" y="62" text-anchor="middle" font-size="10">efinance(优先0)</text>
+      <text x="80" y="78" text-anchor="middle" font-size="10">akshare(1) tushare(2)</text>
+      <text x="80" y="94" text-anchor="middle" font-size="10">pytdx(2) baostock(3)</text>
+      <text x="80" y="110" text-anchor="middle" font-size="10">yfinance(4) longbridge(5)</text>
+      <text x="80" y="130" text-anchor="middle" font-size="10">+新闻搜索 SerpAPI/Tavily</text>
+      <text x="80" y="146" text-anchor="middle" font-size="10">19 个 fetcher 适配器</text>
+      <!-- 指标层 -->
+      <rect x="200" y="20" width="140" height="150" rx="12" fill="#06D6A0"/>
+      <text x="270" y="42" text-anchor="middle" font-size="12.5" font-weight="bold">规则分析层</text>
+      <text x="270" y="62" text-anchor="middle" font-size="10">stock_analyzer.py</text>
+      <text x="270" y="84" text-anchor="middle" font-size="10">MA5/10/20/60 排列</text>
+      <text x="270" y="100" text-anchor="middle" font-size="10">MACD(12,26,9) RSI(6/12/24)</text>
+      <text x="270" y="116" text-anchor="middle" font-size="10">乖离率 量能 支撑压力</text>
+      <text x="270" y="140" text-anchor="middle" font-size="10" font-weight="bold" fill="#046D53">输出 0-100 信号评分</text>
+      <!-- LLM层 -->
+      <rect x="390" y="20" width="140" height="150" rx="12" fill="#8338EC"/>
+      <text x="460" y="42" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#fff">LLM 研判层 pipeline/</text>
+      <text x="460" y="64" text-anchor="middle" font-size="10" fill="#fff">拼装上下文包(指标+新闻)</text>
+      <text x="460" y="82" text-anchor="middle" font-size="10" fill="#fff">LiteLLM 统一调模型</text>
+      <text x="460" y="100" text-anchor="middle" font-size="10" fill="#fff">决策仪表盘 JSON+Markdown</text>
+      <text x="460" y="122" text-anchor="middle" font-size="10" fill="#fff">评分/买卖点/风险/催化</text>
+      <text x="460" y="146" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">src/agent 多轮策略问股</text>
+      <!-- 输出层 -->
+      <rect x="580" y="20" width="90" height="150" rx="12" fill="#FF3D68"/>
+      <text x="625" y="42" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#fff">输出层</text>
+      <text x="625" y="66" text-anchor="middle" font-size="10" fill="#fff">企微/飞书</text>
+      <text x="625" y="84" text-anchor="middle" font-size="10" fill="#fff">TG/Discord</text>
+      <text x="625" y="102" text-anchor="middle" font-size="10" fill="#fff">Slack/邮件</text>
+      <text x="625" y="126" text-anchor="middle" font-size="10" fill="#fff">Web 工作台</text>
+      <text x="625" y="146" text-anchor="middle" font-size="10" fill="#fff">DecisionSignal 库</text>
+      <line x1="150" y1="95" x2="196" y2="95" stroke="#555" stroke-width="3" marker-end="url(#ar2)"/>
+      <line x1="340" y1="95" x2="386" y2="95" stroke="#555" stroke-width="3" marker-end="url(#ar2)"/>
+      <line x1="530" y1="95" x2="576" y2="95" stroke="#555" stroke-width="3" marker-end="url(#ar2)"/>
+      <!-- 底座 -->
+      <rect x="10" y="200" width="660" height="80" rx="12" fill="#118AB2"/>
+      <text x="340" y="224" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">调度与支撑：main.py（线程池低并发调度，单股失败不影响整体）· src/core/pipeline.py（分析流水线）</text>
+      <text x="340" y="246" text-anchor="middle" font-size="11" fill="#DFF6FF">config（环境变量全配置化，.env 500+ 行示例）· SQLite 存储 · GitHub Actions / Docker / 本地定时 · 500+ pytest 测试文件</text>
+      <text x="340" y="266" text-anchor="middle" font-size="11" fill="#DFF6FF">webui.py / server.py：FastAPI Web 工作台（手动分析/历史报告/回测/持仓/配置管理）</text>
+    </svg>
+    <div class="cap">图2：四层管道 —— 数据源 → 规则指标 → LLM 研判 → 多渠道输出，底层是调度与配置</div>
+    </div>
+    <p><span class="hl">最值得学的工程习惯：main.py 开头注释就把"交易理念"写明</span>（严进策略：乖离率&gt;5% 不买；趋势交易：只做 MA5&gt;MA10&gt;MA20 多头排列），随后所有代码都围绕这几条理念展开——<b>先写价值观，再写代码</b>。</p>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="qcard q4">
+  <div class="qhead"><div class="qnum">Q4</div><div class="qtitle">数据从哪来？多数据源 fallback 怎么设计？</div></div>
+  <div class="qbody">
+    <p>免费行情源（AkShare 爬东财等）<span class="hl">随时可能限流、改接口、断网</span>，所以 DSA 把 19 个 fetcher 做成同接口的适配器，按优先级排队，<b>第一个成功的当选，失败的自动降级到下一个</b>——这和知识库里 [[能力层与后端路由]]（每平台有序后端列表，第一个真实可用者当选）是同一个模式在金融数据上的落地。</p>
+    <div class="svgbox">
+    <svg width="660" height="130" viewBox="0 0 660 130">
+      <defs><marker id="ar3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#555"/></marker></defs>
+      <rect x="15" y="40" width="130" height="50" rx="10" fill="#118AB2"/><text x="80" y="60" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">要拉 600519 日K</text><text x="80" y="76" text-anchor="middle" font-size="9.5" fill="#fff">DataFetcherManager</text>
+      <g font-size="10.5" font-weight="bold">
+      <rect x="180" y="8"  width="105" height="30" rx="8" fill="#06D6A0"/><text x="232" y="27" text-anchor="middle">0 efinance</text>
+      <rect x="180" y="50" width="105" height="30" rx="8" fill="#8FE388"/><text x="232" y="69" text-anchor="middle">1 akshare</text>
+      <rect x="180" y="92" width="105" height="30" rx="8" fill="#C9E4CA"/><text x="232" y="111" text-anchor="middle">2 tushare/pytdx</text>
+      </g>
+      <rect x="420" y="40" width="120" height="50" rx="10" fill="#06D6A0"/><text x="480" y="62" text-anchor="middle" font-size="11" font-weight="bold">统一 DataFrame</text><text x="480" y="78" text-anchor="middle" font-size="9.5">归一化列名/复权/时区</text>
+      <line x1="145" y1="65" x2="176" y2="25" stroke="#555" stroke-width="2" marker-end="url(#ar3)"/>
+      <line x1="145" y1="65" x2="176" y2="65" stroke="#555" stroke-width="2" marker-end="url(#ar3)"/>
+      <line x1="145" y1="65" x2="176" y2="105" stroke="#555" stroke-width="2" marker-end="url(#ar3)"/>
+      <line x1="285" y1="23" x2="416" y2="58" stroke="#048C6B" stroke-width="2.5" marker-end="url(#ar3)"/>
+      <line x1="285" y1="65" x2="416" y2="65" stroke="#048C6B" stroke-width="2.5" stroke-dasharray="5,4" marker-end="url(#ar3)"/>
+      <line x1="285" y1="107" x2="416" y2="72" stroke="#048C6B" stroke-width="2.5" stroke-dasharray="5,4" marker-end="url(#ar3)"/>
+      <text x="345" y="38" font-size="9.5" fill="#046D53">成功→当选</text>
+      <text x="340" y="98" font-size="9.5" fill="#9A031E">限流/失败→降级</text>
+      <rect x="560" y="40" width="90" height="50" rx="10" fill="#FFD60A"/><text x="605" y="62" text-anchor="middle" font-size="11" font-weight="bold">缓存+限速</text><text x="605" y="78" text-anchor="middle" font-size="9.5">随机 sleep 2~5s</text>
+      <line x1="540" y1="65" x2="556" y2="65" stroke="#555" stroke-width="2" marker-end="url(#ar3)"/>
+    </svg>
+    <div class="cap">图3：数据源优先级链 + 统一归一化 + 限速防封禁（akshare_fetcher 里带随机 User-Agent 和 sleep）</div>
+    </div>
+    <p>三个细节值得记住：① <span class="hl">每个 fetcher 都用子进程 + 超时强杀隔离</span>（<code>_akshare_call_with_timeout</code>），防止爬虫库卡死主流程；② 列名归一化（<code>_normalize_data</code>）把不同源的中文列名统一成 <code>open/close/high/low/volume</code>；③ 新闻是另一条独立数据线（SerpAPI/Tavily/Bocha 等），失败不阻断行情分析，只在报告里如实标注"新闻缺失"。</p>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="qcard q5">
+  <div class="qhead"><div class="qnum">Q5</div><div class="qtitle">技术指标是怎么算的？（可直接抄的公式）</div></div>
+  <div class="qbody">
+    <p>核心在 <code>src/stock_analyzer.py</code>，全部用 pandas 十几行搞定，没有任何神秘黑箱：</p>
+    <pre>
+<span class="c"># MA 均线：普通滚动平均</span>
+df['MA5']  = df['close'].rolling(5).mean()   <span class="c"># MA10/MA20/MA60 同理</span>
+
+<span class="c"># MACD(12,26,9)：EMA 是带"记忆衰减"的平均，近期价格权重更大</span>
+ema_fast = df['close'].ewm(span=12, adjust=False).mean()
+ema_slow = df['close'].ewm(span=26, adjust=False).mean()
+df['MACD_DIF'] = ema_fast - ema_slow              <span class="c"># 快线</span>
+df['MACD_DEA'] = df['MACD_DIF'].ewm(span=9, adjust=False).mean()  <span class="c"># 慢线(信号线)</span>
+df['MACD_BAR'] = (DIF - DEA) * 2                  <span class="c"># 柱状图(红绿柱)</span>
+
+<span class="c"># RSI(6/12/24)：Wilder's SMMA 口径（与主流行情软件一致）</span>
+gain = delta.where(delta > 0, 0);  loss = -delta.where(delta < 0, 0)
+avg_gain = gain.ewm(alpha=1/period, adjust=False).mean()
+avg_loss = loss.ewm(alpha=1/period, adjust=False).mean()
+RSI = 100 - 100 / (1 + avg_gain/avg_loss)   <span class="c"># &gt;70 超买, &lt;30 超卖, NaN 填 50(中性)</span>
+    </pre>
+    <p><span class="hl">关键口径细节：RSI 用 <code>ewm(alpha=1/period)</code>（Wilder 平滑）而不是简单平均</span>——repo 里专门有测试 <code>test_stock_analyzer_rsi.py</code> 把 RSI_6/12/24 的期望值精确到小数点后 10 位钉死，还验证了报告模块和告警模块用的是同一公式，防止两处口径漂移。另一个细节：数据不足 60 根时 MA60 直接用 MA20 替代，避免长均线缺数报错。</p>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="qcard q6">
+  <div class="qhead"><div class="qnum">Q6</div><div class="qtitle">规则信号怎么打分？"交易理念"如何变成代码？</div></div>
+  <div class="qbody">
+    <p>作者的交易理念被翻译成 7 步确定性流水线（<code>analyze()</code>）：均线计算 → 趋势判断 → 乖离率 → 量能 → 支撑压力 → MACD → RSI → 生成信号。每步产出枚举状态，最后加权合成 <span class="hl">0-100 信号评分 + 六态买入信号（强烈买入/买入/持有/观望/卖出/强烈卖出）</span>。</p>
+    <table>
+      <tr><th>理念（main.py 注释）</th><th>代码实现</th><th>实验实测</th></tr>
+      <tr><td>严进策略：不追高</td><td>乖离率 = (Close−MA5)/MA5，&gt;5% 不买；强势趋势放宽到 8%</td><td>bull 形态乖离 1.8% → "价格贴近MA5，介入好时机"</td></tr>
+      <tr><td>趋势交易：只做多头排列</td><td>MA5&gt;MA10&gt;MA20 且间距扩大 → STRONG_BULL(90分)；空头 → 减分</td><td>合成空头K线 → 空头排列，强度25</td></tr>
+      <tr><td>效率优先：筹码集中</td><td>量比、缩量回调加权</td><td>量比 0.97 → 量能正常</td></tr>
+      <tr><td>买点偏好：回踩 MA5/MA10</td><td>MA5/MA10 支撑判定 + 加分</td><td>理由里出现"MA5支撑有效"</td></tr>
+    </table>
+    <div class="svgbox">
+    <svg width="660" height="110" viewBox="0 0 660 110">
+      <text x="330" y="18" text-anchor="middle" font-size="12" font-weight="bold">decision-scale-v1：全项目统一的「评分 → 信号 → 动作」契约</text>
+      <rect x="20"  y="30" width="120" height="42" fill="#06D6A0" rx="8"/><text x="80"  y="48" text-anchor="middle" font-size="11" font-weight="bold">80-100 强烈买入</text><text x="80" y="64" text-anchor="middle" font-size="9.5">action=buy</text>
+      <rect x="144" y="30" width="120" height="42" fill="#8FE388" rx="8"/><text x="204" y="48" text-anchor="middle" font-size="11" font-weight="bold">60-79 买入</text><text x="204" y="64" text-anchor="middle" font-size="9.5">action=buy</text>
+      <rect x="268" y="30" width="120" height="42" fill="#FFD60A" rx="8"/><text x="328" y="48" text-anchor="middle" font-size="11" font-weight="bold">40-59 观望</text><text x="328" y="64" text-anchor="middle" font-size="9.5">action=watch/hold</text>
+      <rect x="392" y="30" width="120" height="42" fill="#FF9F1C" rx="8"/><text x="452" y="48" text-anchor="middle" font-size="11" font-weight="bold">20-39 减仓</text><text x="452" y="64" text-anchor="middle" font-size="9.5">action=reduce</text>
+      <rect x="516" y="30" width="120" height="42" fill="#FF3D68" rx="8"/><text x="576" y="48" text-anchor="middle" font-size="11" font-weight="bold">0-19 卖出</text><text x="576" y="64" text-anchor="middle" font-size="9.5">action=sell</text>
+      <text x="330" y="95" text-anchor="middle" font-size="10" fill="#9A031E">规则引擎打分和 LLM 给分都必须落进同一个刻度；不一致时要有 guardrail_reason 说明</text>
+    </svg>
+    <div class="cap">图4：decision-scale-v1 五档评分刻度（实验 C 逐档验证通过）</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="qcard q7">
+  <div class="qhead"><div class="qnum">Q7</div><div class="qtitle">规则已经打分了，为什么还要 LLM？</div></div>
+  <div class="qbody">
+    <p>规则引擎只看得懂 <b>数字</b>（K 线、指标），看不懂 <b>文本</b>（"董事长被调查"的公告、突发新闻、行业政策）。LLM 在 DSA 里干三件规则干不了的事：</p>
+    <p><span class="tag" style="background:var(--c4)">① 多源综合</span> 把指标结果 + 10 条新闻 + 公告 + 基本面捏进一个"上下文包"（analysis context pack），让模型通盘权衡；<span class="tag" style="background:var(--c2)">② 表达与解释</span> 产出人类可读的决策仪表盘：核心结论、催化因素、风险警报、操作检查清单；<span class="tag" style="background:var(--c1)">③ 多轮策略问股</span> Web/Bot 里的对话式追问（"帮我用缠论看看这只"），由 <code>src/agent/</code> 的 Agent 循环接手——这正是知识库里 [[Agent循环]] 的应用：模型点菜、工具执行（analyze_trend / get_daily_history 等）、循环到给出答案。</p>
+    <p>组合方式是典型的 <span class="hl">"确定性代码打底 + LLM 提炼"</span> 两段式：能算的绝不让模型猜（指标、评分、乖离率全是代码算好的事实），模型只负责事实之上的研判与表达。这比"把行情 JSON 直接扔给 LLM 问涨跌"的粗放做法可靠得多——<b>事实与判断分离</b>是这个项目最值得抄的架构决策。</p>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="qcard q8">
+  <div class="qhead"><div class="qnum">Q8</div><div class="qtitle">LLM 输出不可靠怎么办？契约与护栏怎么设计？</div></div>
+  <div class="qbody">
+    <p>金融场景最怕模型"嘴里跑火车"。DSA 的防线一套接一套：</p>
+    <table>
+      <tr><th>防线</th><th>做法</th></tr>
+      <tr><td>统一评分刻度</td><td>decision-scale-v1（图4）：LLM 给的 sentiment_score 必须落进五档之一，代码用 <code>decision_band_for_score()</code> 强制归一，越界分直接丢弃（normalize_score 返回 None）</td></tr>
+      <tr><td>口径一致性守卫</td><td>score≥60 但动作却是 hold/watch？必须在 guardrail_reason 写明降级原因，否则提取 DecisionSignal 时被强制对齐</td></tr>
+      <tr><td>JSON 修复</td><td>模型输出的坏 JSON 用 <code>json-repair</code> 库自动修复后再解析</td></tr>
+      <tr><td>失败不阻断</td><td>决策信号写入失败、新闻缺失都不影响主报告——主流程永远先保住"能交付"</td></tr>
+      <tr><td>可后验评估</td><td>每个建议沉淀为 DecisionSignal 结构化记录（入场区间/止损/目标价/失效条件/过期时间），事后可统计命中率，evals/ 目录做 Agent 轨迹评估</td></tr>
+      <tr><td>诚实披露</td><td>数据缺失、新闻为空都会在报告里明示（有专门测试 test_notification_empty_news_disclosure.py 盯着这件事）</td></tr>
+    </table>
+    <p><span class="hl">这套"契约 + 护栏 + 可后验"三件套，适用于任何让 LLM 输出结构化决策的场景</span>（不只是股票），与知识库 [[质检Gate与自我纠错循环]] 思路同源。</p>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="qcard q9">
+  <div class="qhead"><div class="qnum">Q9</div><div class="qtitle">"15 种策略问股"是怎么回事？</div></div>
+  <div class="qbody">
+    <p><code>strategies/</code> 目录下 15 个 YAML，每一个 = <b>一份发给 LLM 的"分析师岗位说明书" + 工具清单</b>：均线金叉、缠论、波浪理论、龙头战法、情绪周期、事件驱动、成长质量、预期重估…… 用户在 Web 工作台问"用缠论分析 600519"，路由层按 aliases 命中策略，把对应 instructions 注入 Agent 的系统提示。</p>
+    <pre>
+<span class="c"># strategies/ma_golden_cross.yaml（实验 D 实测解析）</span>
+name: ma_golden_cross          <span class="c"># 机器名</span>
+display_name: 均线金叉          <span class="c"># 展示名</span>
+category: trend                <span class="c"># 策略大类</span>
+core_rules: [1, 2, 3]          <span class="c"># 关联交易理念条款</span>
+required_tools:                <span class="c"># 声明该策略要用的工具(Agent按需调用)</span>
+  - get_daily_history
+  - analyze_trend
+aliases: ['均线金叉', '金叉']   <span class="c"># 意图路由关键词</span>
+market_regimes: [trending_up]  <span class="c"># 适用的市场状态</span>
+instructions: |                <span class="c"># 619 字符的判定标准说明书(发给LLM)</span>
+  主信号：MA5 在最近 3 个交易日内上穿 MA10 …
+  量能确认：金叉日量比 > 1.2 为积极信号 …
+    </pre>
+    <p><span class="hl">精妙之处：YAML 里写的是"判定标准"而不是"答案"</span>——均线金叉的数学判定由 <code>analyze_trend</code> 工具（也就是 Q5 的确定性代码）完成，LLM 只按说明书的逻辑组织证据下结论。策略 = 提示词工程 + 工具约束的组合包，这与知识库 [[AgentSkills技能包]] 是同一思想。</p>
+  </div>
+</div>
+
+<!-- 能力清单 -->
+<div class="qcard q3">
+  <div class="qhead"><div class="qnum">🎁</div><div class="qtitle">这个项目给我什么：能力清单与用途</div></div>
+  <div class="qbody">
+    <div class="ability">
+      <div class="a" style="background:var(--c1)">多源数据聚合模板<br><span style="font-weight:normal;font-size:10.5px">19 个适配器 + fallback + 限速 + 子进程超时隔离，任何"聚合多个不稳定 API"的场景都能抄</span></div>
+      <div class="a" style="background:var(--c4)">确定性指标库<br><span style="font-weight:normal;font-size:10.5px">MA/MACD/RSI 的 pandas 参考实现 + 口径锁定测试，可直接搬去自己的数据处理项目</span></div>
+      <div class="a" style="background:var(--c2)">LLM 决策报告流水线<br><span style="font-weight:normal;font-size:10.5px">事实与判断分离 + 评分契约 + guardrail，任何"AI 生成结构化评估"场景适用</span></div>
+      <div class="a" style="background:var(--c5)">策略即 YAML<br><span style="font-weight:normal;font-size:10.5px">提示词说明书 + 工具清单 + 别名路由，可扩展的"专家人格包"模式</span></div>
+      <div class="a" style="background:var(--c3)">零成本部署范式<br><span style="font-weight:normal;font-size:10.5px">GitHub Actions 定时跑批 + 多渠道推送，任何日报类任务都能复用</span></div>
+    </div>
+    <p><b>你能用它干什么（学技术视角）：</b>① 读 <code>data_provider/base.py</code> 学适配器 + 管理器模式；② 抄 <code>stock_analyzer.py</code> 的指标函数进自己的分析脚本；③ Fork 后配 Secrets 体验"GitHub Actions 当免费服务器"；④ 把它的"契约+护栏"套路用到你自己的 LLM 结构化输出项目；⑤ 15 个 YAML 是现成的提示词工程教材。</p>
+  </div>
+</div>
+
+<!-- 实验 -->
+<div class="qcard q1">
+  <div class="qhead"><div class="qnum">🧪</div><div class="qtitle">动手实验：4 步验证（全部真实运行，纯技术，无投资操作）</div></div>
+  <div class="qbody">
+    <p>目标：<b>不配任何 API Key、不联网拉行情</b>，验证这个系统的三样核心资产——指标数学、规则引擎、输出契约。环境：Windows 11 + Python 3.14，全部命令实测通过。</p>
+
+    <div class="step"><h4>步骤 1：建最小虚拟环境（怎么操作 → 目的 → 检测）</h4>
+    <pre>cd F:\reminder\daily-stock-analysis
+python -m venv exercise\venv
+exercise\venv\Scripts\python -m pip install pandas numpy pydantic python-dotenv pyyaml pytest requests tenacity fake-useragent fastapi anyio httpx python-multipart</pre>
+    <p><b>目的</b>：repo 完整 requirements 含 akshare/mini-racer 等重依赖，实验只碰指标与契约层，装最小集即可。<b>检测</b>：</p>
+    <pre>exercise\venv\Scripts\python -c "import pandas,numpy,pydantic; print('pandas',pandas.__version__)"</pre>
+    <div class="expect">✅ 预期结果：输出 <b>pandas 3.0.6</b>（实测）；<code>python -c "from src.stock_analyzer import StockTrendAnalyzer"</code> 输出 import OK。坑：import 链会依次报缺 pydantic → requests → tenacity → fake_useragent，按报错补装即可，这也是理解模块依赖图的免费教材。</div></div>
+
+    <div class="step"><h4>步骤 2：跑仓库自带测试，验证指标口径被"钉死"</h4>
+    <pre>cd F:\reminder\daily-stock-analysis\repo
+..\exercise\venv\Scripts\python -m pytest tests/test_stock_analyzer_rsi.py tests/test_stock_analyzer_bias.py -v</pre>
+    <p><b>目的</b>：确认 RSI 用 Wilder 平滑口径且期望值精确到小数点后 10 位、乖离率阈值边界行为正确。</p>
+    <div class="expect">✅ 预期结果（实测）：<b>12 passed, 11 subtests passed in 0.61s</b>。其中 <code>test_calculate_rsi_uses_wilder_ema_for_report_periods</code> 断言 RSI_6=69.01902761094098——口径漂移在这里第一时间爆红。</div></div>
+
+    <div class="step"><h4>步骤 3：合成 K 线喂给规则引擎（实验 A+B）</h4>
+    <pre>cd F:\reminder\daily-stock-analysis\exercise
+venv\Scripts\python exp1_indicators.py</pre>
+    <p><b>目的</b>：① 用三段<strong>合成</strong>K线（多头上升/空头下跌/冲高回落）验证规则引擎能正确区分形态；② 用独立手写的参考实现逐值对比 MA/MACD/RSI，验证指标数学。</p>
+    <div class="expect">✅ 预期结果（实测）：bull → <b>强势多头/强度90/评分78/买入</b>；bear → <b>空头排列</b>；top → <b>强势空头/强烈卖出/38分</b>，形态区分 PASS；参考实现 vs repo 实现 MA5/DIF/DEA/BAR/RSI12 的 |差| 全部 = 0.00e+00，指标口径交叉验证 PASS。改 <code>make_kline</code> 里的 seed 或 drift 再跑，观察评分变化——这就是"改参数看变化"的中间成果。</div></div>
+
+    <div class="step"><h4>步骤 4：验证评分契约与策略 YAML（实验 C+D）</h4>
+    <p>同一脚本的后半段：把 95/70/50/30/5 五个分数喂给 <code>decision_band_for_score()</code>，并解析 <code>strategies/ma_golden_cross.yaml</code>。</p>
+    <div class="expect">✅ 预期结果（实测）：score=95→strong_buy/buy，70→buy，50→watch/hold，30→reduce/sell，5→sell，五档映射与文档完全一致；YAML 解析出 core_rules=[1,2,3]、required_tools=[get_daily_history, analyze_trend]、aliases、instructions 619 字符；strategies 目录 YAML 总数 = <b>15</b>。</div></div>
+  </div>
+</div>
+
+<!-- 生态位 -->
+<div class="qcard q4">
+  <div class="qhead"><div class="qnum">🧭</div><div class="qtitle">它和量化回测框架（如 nautilus-trader）的边界</div></div>
+  <div class="qbody">
+    <p>别把 DSA 当成量化交易系统：<span class="hl">DSA 是"每日研究助理"——生成建议与解释，不执行交易、不做策略回测优化</span>；nautilus-trader 那类回测/实盘框架才是"策略引擎"——历史数据回放、撮合模拟、绩效归因。两者的交汇点是 DSA 的 DecisionSignal 资产（结构化建议记录）和内置的轻量回测模块——若要把 AI 建议变成可回测的策略，信号得先经过契约化（DSA 已做）再到回测框架验证（需另接）。一个是<b>参谋</b>，一个是<b>演武场</b>。</p>
+  </div>
+</div>
+
+<div class="foot">daily_stock_analysis 小白指南 · F:\reminder\daily-stock-analysis · 生成于 2026-10-02 · 实测版本 be148f3 · 仅供学习研究，不构成投资建议</div>
+</body>
+</html>
