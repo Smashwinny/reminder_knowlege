@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Vault Graph 小白指南</title>
+<style>
+  :root{
+    --c1:#FF3B6B; --c2:#FF9F1C; --c3:#2EC4B6; --c4:#4361EE; --c5:#B5179E;
+    --c6:#FFD166; --ink:#1A1B25; --soft:#FFF7EC; --hl:#FFF200;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  @page{ size:A4; margin:10mm; }
+  body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink);
+        background:#fff; font-size:13px; line-height:1.65; }
+  .hero{ background:linear-gradient(120deg,var(--c1),var(--c5) 45%,var(--c4));
+         color:#fff; border-radius:18px; padding:26px 28px; margin-bottom:14px; }
+  .hero h1{ font-size:30px; letter-spacing:1px; margin-bottom:6px; }
+  .hero p{ font-size:14px; opacity:.95; }
+  .hero .tag{ display:inline-block; background:rgba(255,255,255,.22); border-radius:999px;
+              padding:2px 12px; font-size:12px; margin:6px 6px 0 0; }
+  .qcard{ border-radius:16px; padding:18px 20px 16px; margin-bottom:14px; color:#fff;
+          break-inside:avoid; }
+  .qcard .num{ font-size:40px; font-weight:900; opacity:.35; float:right; line-height:1; }
+  .qcard h2{ font-size:19px; font-weight:900; margin-bottom:8px; text-shadow:0 1px 2px rgba(0,0,0,.15);}
+  .qcard .body{ background:rgba(255,255,255,.94); color:var(--ink); border-radius:12px;
+                padding:12px 14px; font-size:13px; }
+  .qcard .body b{ background:var(--hl); padding:0 3px; font-weight:900; }
+  .qcard code, .body code{ background:#241f31; color:#7CFFB2; border-radius:5px;
+        padding:1px 6px; font-family:Consolas,monospace; font-size:12px; }
+  .pre{ background:#241f31; color:#E8ECFF; border-radius:10px; padding:10px 12px;
+        font-family:Consolas,monospace; font-size:12px; margin:8px 0; white-space:pre-wrap;
+        break-inside:avoid; }
+  .pre .c{ color:#8BE9FD; } .pre .g{ color:#7CFFB2; } .pre .r{ color:#FF79C6; }
+  .ok{ background:#E8FFF1; border:3px solid #2EC4B6; border-radius:12px; padding:10px 14px;
+       margin:8px 0; font-weight:800; color:#0B6E64; break-inside:avoid; }
+  .warn{ background:#FFF0F3; border:3px solid var(--c1); border-radius:12px; padding:10px 14px;
+       margin:8px 0; font-weight:800; color:#B3133C; break-inside:avoid; }
+  .svgbox{ text-align:center; margin:10px 0; break-inside:avoid; }
+  table{ border-collapse:collapse; width:100%; margin:8px 0; font-size:12.5px; break-inside:avoid;}
+  th{ background:var(--c4); color:#fff; padding:6px 8px; }
+  td{ border:2px solid #E7E3F5; padding:5px 8px; background:#fff; }
+  tr:nth-child(even) td{ background:#F6F4FF; }
+  .c1{background:linear-gradient(135deg,#FF3B6B,#FF6B9C);} .c2{background:linear-gradient(135deg,#FF9F1C,#FFC15E);}
+  .c3{background:linear-gradient(135deg,#2EC4B6,#5CE0D6);} .c4{background:linear-gradient(135deg,#4361EE,#7B8CFF);}
+  .c5{background:linear-gradient(135deg,#B5179E,#E052C6);} .c6{background:linear-gradient(135deg,#F4A261,#FFB703);}
+  .step{ border-radius:14px; padding:14px 16px; margin-bottom:12px; color:#fff; break-inside:avoid;}
+  .step .body{ background:rgba(255,255,255,.95); color:var(--ink); border-radius:10px; padding:10px 12px; margin-top:6px;}
+  .step h3{ font-size:16px; font-weight:900;}
+  .kicker{ background:var(--c6); color:#5B4300; border-radius:10px; padding:8px 14px;
+           font-weight:900; font-size:14px; margin:10px 0; }
+  h1.sec{ background:var(--ink); color:#fff; border-radius:12px; padding:10px 16px;
+          font-size:20px; margin:16px 0 12px; }
+  .cap{ font-size:11px; color:#666; text-align:center; margin-top:2px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Vault Graph 小白指南</h1>
+  <p>把整个 Obsidian 笔记库画成一张"圆盘星系"：文件夹是扇区，笔记是星星，连接多的居中。</p>
+  <span class="tag">开源项目 luke321/vault-graph</span><span class="tag">MIT 协议</span><span class="tag">TypeScript + WebGL</span><span class="tag">零网络请求</span>
+  <p style="margin-top:8px; font-size:12px;">学习日期 2026-10-02 · 本指南属于 reminder 总仓库拾遗队列 · 所有实验命令均在本机实测</p>
+</div>
+
+<div class="kicker">一句话总结：Vault Graph = 一个把 Obsidian 笔记库渲染成"确定性圆盘图"的插件 + 离线 HTML 导出器——同一份源码，两种挂载；同一座笔记库，永远画出同一张图。</div>
+
+<h1 class="sec">第一部分 · 12 个疑问逐条击破（疑问即目录）</h1>
+
+<!-- Q1 -->
+<div class="qcard c1">
+  <span class="num">01</span>
+  <h2>这是什么？和 Obsidian 自带 graph view 有何不同？</h2>
+  <div class="body">
+    <p>Vault Graph 是一个 Obsidian 社区插件（263 star，MIT），把整座笔记库渲染成<b>一张交互式圆盘图</b>：每个顶级文件夹占一个扇形（角度=内容占比），每篇笔记是一个点，<b>被链接得越多越靠圆心</b>，"叶子笔记"落在边缘。</p>
+    <p>它还有第二形态：一条命令把整座库导出成<b>单个自包含 HTML 文件</b>，发给任何人、任何设备（包括手机）双击就能离线打开——不装 Obsidian 也能看。</p>
+    <p>与自带 graph view 的三大区别：① 自带视图是<b>力导向布局</b>（每次打开都可能长得不一样），Vault Graph 是<b>确定性布局</b>（同库同图）；② 它把<b>文件夹结构编码进图形</b>（扇区=归档体系）；③ 自带视图没有日期时间轴回放、没有单文件 HTML 导出。</p>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="qcard c2">
+  <span class="num">02</span>
+  <h2>圆盘图怎么读？扇区、同心环、边各代表什么？</h2>
+  <div class="body">
+    <div class="svgbox">
+    <svg width="420" height="300" viewBox="0 0 420 300">
+      <path d="M210,150 L210,20 A130,130 0 0 1 322,80 Z" fill="#FF9F1C" opacity=".85"/>
+      <path d="M210,150 L322,80 A130,130 0 0 1 340,150 Z" fill="#2EC4B6" opacity=".85"/>
+      <path d="M210,150 L340,150 A130,130 0 0 1 210,280 Z" fill="#4361EE" opacity=".85"/>
+      <path d="M210,150 L210,280 A130,130 0 0 1 98,80 Z" fill="#B5179E" opacity=".85"/>
+      <path d="M210,150 L98,80 A130,130 0 0 1 210,20 Z" fill="#FF3B6B" opacity=".85"/>
+      <circle cx="210" cy="150" r="4" fill="#fff" stroke="#1A1B25" stroke-width="2"/>
+      <circle cx="185" cy="120" r="3.5" fill="#fff" stroke="#1A1B25" stroke-width="1.5"/>
+      <circle cx="240" cy="130" r="3.5" fill="#fff" stroke="#1A1B25" stroke-width="1.5"/>
+      <circle cx="150" cy="200" r="3" fill="#fff" stroke="#1A1B25" stroke-width="1.2"/>
+      <circle cx="290" cy="200" r="3" fill="#fff" stroke="#1A1B25" stroke-width="1.2"/>
+      <circle cx="230" cy="230" r="2.5" fill="#fff" stroke="#1A1B25" stroke-width="1"/>
+      <line x1="210" y1="150" x2="185" y2="120" stroke="#1A1B25" stroke-width="1.2"/>
+      <line x1="210" y1="150" x2="240" y2="130" stroke="#1A1B25" stroke-width="1.2"/>
+      <line x1="185" y1="120" x2="150" y2="200" stroke="#1A1B25" stroke-width=".8"/>
+      <line x1="240" y1="130" x2="290" y2="200" stroke="#1A1B25" stroke-width=".8"/>
+      <text x="268" y="45" font-size="13" font-weight="bold" fill="#7A4A00">扇区=顶级文件夹</text>
+      <text x="258" y="60" font-size="10" fill="#7A4A00">角度=笔记数量占比</text>
+      <text x="30" y="180" font-size="13" font-weight="bold" fill="#7A0F4E">点=一篇笔记</text>
+      <text x="24" y="195" font-size="10" fill="#7A0F4E">越靠外=被链接越少</text>
+      <text x="222" y="152" font-size="11" font-weight="bold" fill="#333">圆心=枢纽笔记</text>
+      <text x="330" y="265" font-size="11" font-weight="bold" fill="#333">线=真实链接[[ ]]</text>
+    </svg>
+    <div class="cap">图1：圆盘图解剖——扇区是"归档体系"，边才是"真实结构"</div>
+    </div>
+    <p>项目 README 里有句话值得背下来：<b>"The wedges are the filing system; the edges are the actual structure."</b>（扇区代表你如何归档，边代表知识如何真正相连。）作者实测自己 vault 里只有约 9% 的链接留在同一个顶级文件夹内——知识天然是跨文件夹流动的。</p>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="qcard c3">
+  <span class="num">03</span>
+  <h2>为什么"确定性布局"是最大卖点？力导向布局有什么毛病？</h2>
+  <div class="body">
+    <p>Obsidian 自带 graph、Gephi、d3-force 这类工具用<b>力导向布局</b>（force-directed）：把图想象成物理系统，点之间有斥力、边有弹簧拉力，跑模拟直到"力平衡"才停下来。毛病有三：① <b>结果不可复现</b>——初始位置随机、收敛过程混沌，同一座库每次打开长得都不一样；② 有点"抽卡"味道，运气不好就一团乱麻；③ 大图模拟收敛慢。</p>
+    <p>Vault Graph 反其道行之：位置由<b>纯几何规则算出来</b>——扇区角度由文件夹占比决定，环半径由链接数决定，角度内再按路径排序。<b>没有模拟、没有随机种子，同一座库永远画出同一张图。</b>这带来一个被低估的好处：图变得"可学习、可辨认"——你看一周后能记住"我的 MCP 知识都在左上那片蓝色扇区"，别人的圆盘截图你也能读出对方库的宏观结构。这正是知识库里 [[确定性脚本]] 思想在可视化上的延伸：输入相同则输出相同，图形本身成为可引用的"事实"。</p>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="qcard c4">
+  <span class="num">04</span>
+  <h2>扇区角度怎么算？笔记怎么决定放内环还是外环？</h2>
+  <div class="body">
+    <div class="svgbox">
+    <svg width="420" height="235" viewBox="0 0 420 235">
+      <rect x="20" y="15" width="180" height="120" rx="10" fill="#F6F4FF" stroke="#4361EE" stroke-width="2"/>
+      <text x="35" y="38" font-size="12" font-weight="bold" fill="#2B3AAB">vault/</text>
+      <text x="35" y="58" font-size="11" fill="#333">├ 概念/ (66 篇)</text>
+      <text x="35" y="76" font-size="11" fill="#333">├ 项目笔记/ (23 篇)</text>
+      <text x="35" y="94" font-size="11" fill="#333">├ 完成/ (31 篇)</text>
+      <text x="35" y="112" font-size="11" fill="#333">├ _templates/ (2 篇)</text>
+      <text x="35" y="130" font-size="11" fill="#333">└ 00-总览.md (1 篇)</text>
+      <path d="M320,75 L320,20 A55,55 0 0 1 368,48 Z" fill="#FF9F1C"/>
+      <path d="M320,75 L368,48 A55,55 0 0 1 375,75 Z" fill="#2EC4B6"/>
+      <path d="M320,75 L375,75 A55,55 0 0 1 320,130 Z" fill="#4361EE"/>
+      <path d="M320,75 L320,130 A55,55 0 0 1 296,116 Z" fill="#888"/>
+      <path d="M320,75 L296,116 A55,55 0 0 1 265,75 Z" fill="#B5179E"/>
+      <text x="255" y="160" font-size="11" font-weight="bold" fill="#333">角度 = 该文件夹笔记数 ÷ 总数 × 360°</text>
+      <text x="20" y="205" font-size="12" fill="#333">环半径：链接度排序 → 中心放"被引最多的枢纽笔记"，</text>
+      <text x="20" y="222" font-size="12" fill="#333">外缘放"没人链接的叶子笔记"；子文件夹用父颜色的浅色调(tint)画一层。</text>
+    </svg>
+    <div class="cap">图2：布局是两步算术——先按占比切蛋糕（扇区），再按链接度决定深浅（同心环）</div>
+    </div>
+    <p>细节加分项：`_` 前缀文件夹（如 `_templates`、`_ Archives`）被视为<b>归档</b>——不占彩色槽、默认隐藏；日期型文件夹（`2026`、`2026-06`）有专门的第一层识别；子文件夹只画一层，最大的三个各配一个专属 tint。</p>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="qcard c5">
+  <span class="num">05</span>
+  <h2>"一份源码，两种挂载"是怎么做到的？</h2>
+  <div class="body">
+    <p>Vault Graph 同时是一个 Obsidian 插件（`main.js`，跑在 Obsidian 窗口里）和一个独立 HTML 导出器（`vault-graph.html`，双击在浏览器打开）。作者没有写两套代码，而是<b>把渲染页面做成同一个 HTML+JS，两个宿主各挂载一次</b>——插件把页面挂进 Obsidian 的视图容器，导出器把同一页面连数据打包成单文件。</p>
+    <div class="svgbox">
+    <svg width="420" height="180" viewBox="0 0 420 180">
+      <rect x="15" y="55" width="110" height="70" rx="10" fill="#2EC4B6"/>
+      <text x="30" y="85" font-size="12" font-weight="bold" fill="#fff">src/page.html</text>
+      <text x="30" y="103" font-size="10" fill="#fff">+ page.js + page.css</text>
+      <text x="35" y="120" font-size="10" fill="#fff">(同一份源码)</text>
+      <path d="M130,75 L190,45" stroke="#1A1B25" stroke-width="2" marker-end="url(#ar)"/>
+      <path d="M130,95 L190,130" stroke="#1A1B25" stroke-width="2" marker-end="url(#ar)"/>
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1A1B25"/></marker></defs>
+      <rect x="195" y="25" width="105" height="55" rx="10" fill="#4361EE"/>
+      <text x="205" y="50" font-size="11" font-weight="bold" fill="#fff">挂载① Obsidian</text>
+      <text x="205" y="66" font-size="9" fill="#fff">main.js 插件视图</text>
+      <rect x="195" y="105" width="105" height="55" rx="10" fill="#B5179E"/>
+      <text x="205" y="130" font-size="11" font-weight="bold" fill="#fff">挂载② HTML 导出</text>
+      <text x="205" y="146" font-size="9" fill="#fff">单文件离线快照</text>
+      <path d="M305,132 L340,132" stroke="#1A1B25" stroke-width="2" marker-end="url(#ar)"/>
+      <rect x="345" y="107" width="70" height="50" rx="10" fill="#FF9F1C"/>
+      <text x="352" y="128" font-size="10" font-weight="bold" fill="#fff">手机/朋友</text>
+      <text x="355" y="144" font-size="9" fill="#fff">浏览器直开</text>
+    </svg>
+    <div class="cap">图3：one page, two mounts——一套渲染代码，两个宿主环境</div>
+    </div>
+    <p>这个模式对我们写自己的工具很有启发：<b>把"视图"和"宿主"解耦</b>，视图只吃一坨 JSON 数据，宿主（插件壳 / 导出器）负责喂不同的数据来源。构建时 esbuild 把页面和数据内联成一个自包含 HTML。</p>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="qcard c6">
+  <span class="num">06</span>
+  <h2>为什么整个项目能做到"零网络请求"？这有什么好处？</h2>
+  <div class="body">
+    <p>仓库里有个强制脚本 <code>scripts/check-network.mjs</code>——构建时扫描代码，<b>发现任何网络调用（fetch/XHR/WebSocket）直接构建失败</b>，连跳过开关都没有。另有 <code>check-pii.mjs</code> 拒绝把真实人名打进发布产物。</p>
+    <p>好处非常实在：① 导出的 HTML 是纯静态快照，<b>离线可用、断网可看、可放到手机</b>；② 隐私安全——你的笔记标题不会被发到任何地方，也没有遥测；③ 供应链安全——依赖极少（导出器只依赖 esbuild 一个包），没有"装个包顺手偷数据"的风险面。这是 [[零依赖编程]] 的工程化极端版：把"不联网"写成测试，靠 Gate 保证而不是靠自觉——正是知识库里 [[质检Gate与自我纠错循环]] 的思路。</p>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="qcard c1">
+  <span class="num">07</span>
+  <h2>WebGL 渲染引擎是从哪来的？为什么不用现成库？</h2>
+  <div class="body">
+    <p>几千个点+边的实时交互渲染，Canvas 2D 会吃力，所以作者用 WebGL。有趣的是引擎不是从零写的：<code>src/engine/</code> 是从 <b>Sigma.js 3.0.2（MIT 协议）移植</b>来的精简版，移植后只保留圆盘图需要的那部分能力（点/边绘制、拾取、相机），署名保留在 <code>src/engine/NOTICE.md</code>。</p>
+    <p>为什么不直接依赖 sigma.js？因为要满足第 6 问的零依赖目标——移植进来意味着<b>没有运行时依赖、代码完全可控、产物更小</b>。MIT 协议允许这样做，条件是保留版权声明（他们做了）。这是一次教科书级的"依赖收敛"操作：先评估现成库，再用协议允许的方式把它"收编"成自己代码的一部分。</p>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="qcard c2">
+  <span class="num">08</span>
+  <h2>日期时间轴回放是怎么实现的？数据从哪来？</h2>
+  <div class="body">
+    <p>圆盘下方有一条<b>可拖动的日期带（date ribbon）</b>，拖动时只显示"该日期之前创建"的笔记——就像看延时摄影一样回放笔记库的生长过程。旁边还有<b>日历热力图</b>，悬停可看某天写了几篇。</p>
+    <p>数据来源是笔记 frontmatter 里的 <code>created:</code> 字段，缺失时回退到 <code>date:</code>；<b>两者都没有的笔记始终显示</b>（不会被错误地排到时间轴尽头）。两个贴心细节：日记里常见的 <code>[[prev]] | [[next]]</code> 导航行默认会被算作链接（形成日记长链），CLI 加 <code>--no-nav</code> 可剥离；<code>--flat-months</code> 可把 `2026-08` 这类月份文件夹折叠进父级，避免日记把圆盘染成一大片。</p>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="qcard c3">
+  <span class="num">09</span>
+  <h2>CLI 导出 HTML 的完整流程？产物里到底有什么（隐私！）？</h2>
+  <div class="body">
+    <p>流程只要三步（下一部分实验实测）：<b>clone 仓库 → `npm ci --omit=dev`（只装 esbuild 一个包）→ `node src/build-graph.mjs --vault 路径`</b>，生成的 `vault-graph.html` 默认写进 vault 根目录（`--out` 可改）。</p>
+    <div class="warn">⚠ 隐私红线：导出的 HTML 以<b>明文</b>包含每篇笔记的标题、路径、文件夹、标签、日期、字数和完整链接图（不含正文）。README 原话："treat it as private by default"——把导出文件当私密文件对待，公开分享前想清楚。想展示可用项目自带的 <code>make-demo-vault.mjs</code>（虚构内容）或 <code>make-mirror-vault.mjs</code>（保留真实结构但内容全换）生成替代 vault。</div>
+    <p>全部 CLI 参数速查：<code>--vault</code> 指定库 / <code>--vault-name</code> 按注册名选库 / <code>--out</code> 输出位置 / <code>--ghosts</code> 显示指向不存在笔记的死链 / <code>--templates</code> 包含模板笔记（默认排除，因其占位链接是假边）/ <code>--flat-months</code> 折叠月份 / <code>--no-nav</code> 剥离日记导航。</p>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="qcard c4">
+  <span class="num">10</span>
+  <h2>归档夹、死链、模板这些细节处理为什么重要？</h2>
+  <div class="body">
+    <p>可视化工具的成败往往不在主算法，而在<b>对"脏数据"的态度</b>。Vault Graph 的处理清单：</p>
+    <table>
+      <tr><th>脏数据</th><th>默认处理</th><th>为什么</th></tr>
+      <tr><td>`_` 前缀文件夹</td><td>归档：深灰色、默认隐藏、不占色槽</td><td>归档不是活跃知识，画出来全是噪声</td></tr>
+      <tr><td>模板笔记</td><td>排除（`--templates` 才包含）</td><td>模板里的占位链接是"假边"，会伪造连接度</td></tr>
+      <tr><td>指向不存在笔记的 [[死链]]</td><td>默认不画（`--ghosts` 才显示）</td><td>死链是"计划中"的笔记，不是事实</td></tr>
+      <tr><td>日记导航行 prev/next</td><td>算链接（`--no-nav` 剥离）</td><td>默认尊重真实链接，但给你关掉的自由</td></tr>
+      <tr><td>没有 frontmatter 日期的笔记</td><td>始终显示</td><td>缺数据≠不存在，不能把人排到时间轴外</td></tr>
+    </table>
+    <p>这套清单和知识库里 [[可逆派生状态]] 的精神一致：<b>图形上画的每一条边都应该有事实依据，"计划中/想象中"的东西要么明示要么不画。</b></p>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="qcard c5">
+  <span class="num">11</span>
+  <h2>热力图和时间轴怎么配合看笔记增长？</h2>
+  <div class="body">
+    <p>两者是同一份日期数据的两种视图：<b>热力图</b>（calendar）回答"哪天高产"——GitHub 提交格子那种样式，悬停看具体数字；<b>时间轴</b>（date ribbon）回答"库是怎么长成现在这样的"——拖动滑块，圆盘上笔记点逐个亮起。</p>
+    <p>实用场景：① 回顾某个月的知识重心（配合扇区颜色看"那个月主要在学什么"）；② 找出"孤岛期"（连续很久没新笔记的空档）；③ 检查 frontmatter 习惯——如果你的库时间轴一片空白，说明 `created` 字段没维护，这本身就是一次有价值的体检。</p>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="qcard c6">
+  <span class="num">12</span>
+  <h2>我怎么把它用在自己的 vault 上？分享/发布注意什么？</h2>
+  <div class="body">
+    <p><b>作为插件</b>：Obsidian 设置 → 社区插件 → 浏览 → 搜 "Vault Graph" → 安装启用，点左侧功能区图标打开。适合日常探索。</p>
+    <p><b>作为导出器</b>：Node 18+ 环境，三条命令（见实验）。适合季度回顾、给别人展示库结构、备份一份可视化快照。</p>
+    <p><b>分享守则</b>：① 默认私密，分享前先想"这些标题能见人吗"；② 需要展示就用 demo/mirror vault 脚本生成替身；③ 下载官方发布版时可用 <code>gh attestation verify main.js --repo luke321/vault-graph</code> 验证构建来源证明（1.9.0 起提供）；④ 导出页面里浏览器偏好存在 localStorage，按 vault 名做键，禁站点数据也能正常用只是不记忆偏好。</p>
+  </div>
+</div>
+
+<h1 class="sec">第二部分 · 项目能力清单（它能给我什么）</h1>
+<div class="qcard c4">
+  <span class="num">★</span>
+  <h2>5 个立刻能用的用途</h2>
+  <div class="body">
+    <p>1. <b>知识库年度体检</b>：一条命令出图，看哪个文件夹膨胀成了巨无霸、哪些概念笔记是没人链接的孤岛，据此决定下一阶段该补链接还是该拆文件夹。</p>
+    <p>2. <b>给别人介绍自己的知识体系</b>：导出单个 HTML 发过去，对方手机浏览器直接打开，不用装任何东西。</p>
+    <p>3. <b>学习节奏回放</b>：时间轴+热力图回看自己三个月的知识增长，找出断更期。</p>
+    <p>4. <b>找枢纽笔记</b>：圆心的笔记就是你的 MOC（Map of Content），如果圆心是空的，说明该写总览笔记了。</p>
+    <p>5. <b>学它的工程</b>：确定性布局、零网络 Gate、一份源码两种挂载、Sigma.js 移植收编——每个都是能搬走的工程模式。</p>
+  </div>
+</div>
+
+<h1 class="sec">第三部分 · 动手实验：给本仓库的知识库画一张圆盘</h1>
+<div class="kicker">实验目标：用官方导出器，把 F:\reminder\vault（本仓库真实的 Obsidian 知识库，66+ 个概念笔记）只读渲染成单文件 HTML，并亲眼看到圆盘图。</div>
+
+<div class="step c2">
+  <h3>实验步骤 1/5 · 拉代码并安装（唯一依赖 esbuild）</h3>
+  <div class="body">
+    <p><b>怎么操作</b>：</p>
+    <div class="pre">git clone https://github.com/luke321/vault-graph repo
+cd repo
+npm ci --omit=dev</div>
+    <p><b>目的</b>：拿到导出器源码；`--omit=dev` 只装生产依赖（仅 esbuild 一个包），验证它"依赖极少"的说法。</p>
+    <p><b>结果与验证</b>：</p>
+    <div class="pre">__EXP1__</div>
+    <div class="ok">✅ 预期结果：clone 成功且 node_modules 里只有 esbuild 相关包，几十秒装完。</div>
+  </div>
+</div>
+
+<div class="step c3">
+  <h3>实验步骤 2/5 · 对真实 vault 生成圆盘 HTML</h3>
+  <div class="body">
+    <p><b>怎么操作</b>：</p>
+    <div class="pre">node src/build-graph.mjs --vault "F:\reminder\vault" --out "F:\reminder\vault-graph\exercise\vault-graph.html"</div>
+    <p><b>目的</b>：用官方导出器渲染本仓库真实知识库（只读，不改动 vault 任何文件）。</p>
+    <p><b>结果与验证</b>：</p>
+    <div class="pre">__EXP2__</div>
+    <div class="ok">✅ 预期结果：生成 vault-graph.html，日志显示解析出的笔记数与链接数。</div>
+  </div>
+</div>
+
+<div class="step c4">
+  <h3>实验步骤 3/5 · 亲眼看到圆盘图（截图存证）</h3>
+  <div class="body">
+    <p><b>怎么操作</b>：双击打开 exercise\vault-graph.html（或命令行）：</p>
+    <div class="pre">msedge --headless --disable-gpu --screenshot="F:\reminder\vault-graph\exercise\disc.png" --window-size=1600,1000 "file:///F:/reminder/vault-graph/exercise/vault-graph.html"</div>
+    <p><b>目的</b>：验证产物真正可离线渲染，并留下视觉证据。</p>
+    <p><b>结果与验证</b>：</p>
+    <div class="pre">__EXP3__</div>
+    <div class="ok">✅ 预期结果：截图里出现彩色扇区圆盘，点在环上分布。</div>
+  </div>
+</div>
+
+<div class="step c5">
+  <h3>实验步骤 4/5 · 打开死链开关对比差异</h3>
+  <div class="body">
+    <p><b>怎么操作</b>：</p>
+    <div class="pre">node src/build-graph.mjs --vault "F:\reminder\vault" --ghosts --out "F:\reminder\vault-graph\exercise\vault-graph-ghosts.html"</div>
+    <p><b>目的</b>：观察 `--ghosts`（显示指向不存在笔记的死链）对图的影响，体会"脏数据处理"开关的实际效果。</p>
+    <p><b>结果与验证</b>：</p>
+    <div class="pre">__EXP4__</div>
+    <div class="ok">✅ 预期结果：ghosts 版日志/文件与默认版出现可测量的差异（节点数或文件体积变化）。</div>
+  </div>
+</div>
+
+<div class="step c6">
+  <h3>实验步骤 5/5 · 解剖产物：确认"单文件自包含 + 零外链"</h3>
+  <div class="body">
+    <p><b>怎么操作</b>：</p>
+    <div class="pre">grep -c "&lt;script" exercise\vault-graph.html      # 内联脚本数量
+grep -c "http" exercise\vault-graph.html          # 外部引用检查
+ls -la exercise\vault-graph.html                  # 文件大小</div>
+    <p><b>目的</b>：验证 README 的两个承诺——单文件自包含、零网络请求。</p>
+    <p><b>结果与验证</b>：</p>
+    <div class="pre">__EXP5__</div>
+    <div class="ok">✅ 预期结果：样式脚本全部内联，无任何指向外部网络的资源引用。</div>
+  </div>
+</div>
+
+<h1 class="sec">第四部分 · 一页速查</h1>
+<div class="qcard c1">
+  <span class="num">⚡</span>
+  <h2>命令与参数速查 + 已知坑</h2>
+  <div class="body">
+    <div class="pre"><span class="c"># 生成（最常用）</span>
+node src/build-graph.mjs <span class="g">--vault</span> "F:\你的库" <span class="g">--out</span> "D:\输出.html"
+<span class="c"># 常用开关</span>
+<span class="g">--ghosts</span>      <span class="r"># 显示死链</span>   <span class="g">--templates</span>  <span class="r"># 包含模板笔记</span>
+<span class="g">--flat-months</span> <span class="r"># 折叠月份夹</span>  <span class="g">--no-nav</span>     <span class="r"># 忽略日记导航</span>
+<span class="c"># 验证官方发布版签名</span>
+gh attestation verify main.js <span class="g">--repo</span> luke321/vault-graph</div>
+    <p><b>已知坑</b>：① `file://` 打开的页面禁止 fetch，页内 Refresh 按钮只是重置视图，更新数据必须重跑导出；② 导出器要 Node 18+；③ 导出 HTML 含笔记标题等明文元数据，分享前三思；④ 官方只实测了 Windows 冒烟测试，其他平台理论可用。</p>
+  </div>
+</div>
+
+<div class="hero" style="background:linear-gradient(120deg,var(--c3),var(--c4));">
+  <h1 style="font-size:22px;">收尾一句话</h1>
+  <p>Vault Graph 证明了：把"确定性、零依赖、隐私默认"当成硬约束来做可视化，产品反而更简单、更可信。这三个约束，值得写进我们自己每一个工具项目。</p>
+</div>
+
+</body>
+</html>

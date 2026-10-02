@@ -1,0 +1,15 @@
+[2026-10-02 22:43:54] info: 	z2m: Logging to console, file (filename: log.log)
+[2026-10-02 22:43:54] info: 	z2m: Starting Zigbee2MQTT version 2.14.2 (commit #344b6e03)
+[2026-10-02 22:43:54] info: 	z2m: Starting zigbee-herdsman (10.10.0)
+[2026-10-02 22:43:54] error: 	z2m: Error while starting zigbee-herdsman
+[2026-10-02 22:43:54] error: 	z2m: Failed to start zigbee-herdsman
+[2026-10-02 22:43:54] error: 	z2m: Check https://www.zigbee2mqtt.io/guide/installation/20_zigbee2mqtt-fails-to-start_crashes-runtime.html for possible solutions
+[2026-10-02 22:43:54] error: 	z2m: Exiting...
+[2026-10-02 22:43:54] error: 	z2m: Error: USB adapter discovery error (No valid USB adapter found). Specify valid 'adapter' and 'port' in your configuration.
+    at discoverAdapter (F:\reminder\zigbee2mqtt\repo\node_modules\.pnpm\zigbee-herdsman@10.10.0_supports-color@7.2.0\node_modules\zigbee-herdsman\src\adapter\adapterDiscovery.ts:687:15)
+    at async Adapter.create (F:\reminder\zigbee2mqtt\repo\node_modules\.pnpm\zigbee-herdsman@10.10.0_supports-color@7.2.0\node_modules\zigbee-herdsman\src\adapter\adapter.ts:66:28)
+    at async Controller.start (F:\reminder\zigbee2mqtt\repo\node_modules\.pnpm\zigbee-herdsman@10.10.0_supports-color@7.2.0\node_modules\zigbee-herdsman\src\controller\controller.ts:140:24)
+    at async Zigbee.start (F:\reminder\zigbee2mqtt\repo\lib\zigbee.ts:70:27)
+    at async Controller.start (F:\reminder\zigbee2mqtt\repo\lib\controller.ts:117:29)
+    at async start (F:\reminder\zigbee2mqtt\repo\index.js:156:5)
+[2026-10-02 22:43:54] error: 	z2m: If this happens after updating to Zigbee2MQTT 2.0.0, see https://github.com/Koenkk/zigbee2mqtt/discussions/24364

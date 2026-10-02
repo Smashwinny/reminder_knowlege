@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Zigbee2MQTT 小白指南</title>
+<style>
+:root{
+  --bg:#fffdf7;
+  --ink:#1f2430;
+  --card:#ffffff;
+  --orange:#ff6b1a;
+  --cyan:#00b3d6;
+  --magenta:#e6007e;
+  --green:#00a86b;
+  --purple:#7b2ff7;
+  --yellow:#ffd166;
+  --red:#ff4757;
+  --blue:#2563eb;
+  --soft-orange:#ffe8d6;
+  --soft-cyan:#d9f6fc;
+  --soft-magenta:#ffd9ec;
+  --soft-green:#d6f5e8;
+  --soft-yellow:#fff3cf;
+  --soft-purple:#eadcff;
+  --soft-red:#ffe0e3;
+  --soft-blue:#dbe7ff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;font-size:14.5px}
+@page{size:A4;margin:12mm}
+.page{max-width:860px;margin:0 auto;padding:8px}
+.hero{background:linear-gradient(135deg,#ff6b1a 0%,#e6007e 55%,#7b2ff7 100%);color:#fff;border-radius:22px;padding:34px 36px;margin-bottom:20px;box-shadow:0 10px 30px rgba(230,0,126,.25)}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.6);border-radius:999px;padding:3px 14px;font-size:12.5px;margin-bottom:12px}
+.hero h1{font-size:34px;line-height:1.25;letter-spacing:1px}
+.hero p{margin-top:12px;font-size:15px;opacity:.95}
+.hero .meta{margin-top:14px;font-size:12.5px;background:rgba(0,0,0,.18);display:inline-block;border-radius:8px;padding:5px 12px}
+.toc{background:var(--soft-yellow);border:2px dashed var(--orange);border-radius:18px;padding:18px 24px;margin-bottom:22px}
+.toc h2{font-size:19px;color:var(--orange);margin-bottom:10px}
+.toc ol{margin-left:22px;columns:2;column-gap:36px}
+.toc li{margin-bottom:4px;font-size:13.5px}
+.qcard{background:var(--card);border-radius:18px;padding:22px 26px;margin-bottom:18px;box-shadow:0 4px 14px rgba(31,36,48,.08);border-left:10px solid var(--orange);break-inside:avoid}
+.qcard.c2{border-left-color:var(--cyan)}
+.qcard.c3{border-left-color:var(--magenta)}
+.qcard.c4{border-left-color:var(--green)}
+.qcard.c5{border-left-color:var(--purple)}
+.qnum{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;border-radius:12px;background:var(--orange);color:#fff;font-size:22px;font-weight:800;padding:0 10px;margin-right:10px;vertical-align:middle}
+.c2 .qnum{background:var(--cyan)}.c3 .qnum{background:var(--magenta)}.c4 .qnum{background:var(--green)}.c5 .qnum{background:var(--purple)}
+.qcard h3{display:inline;font-size:18.5px;vertical-align:middle}
+.qcard .a{margin-top:12px}
+.key{font-size:16.5px;font-weight:800;background:linear-gradient(transparent 62%,var(--yellow) 62%);padding:0 3px}
+code,kbd{background:var(--soft-blue);color:var(--blue);border-radius:6px;padding:1.5px 7px;font-family:Consolas,Menlo,monospace;font-size:13px}
+pre{background:#242b3d;color:#e8ecf5;border-radius:12px;padding:14px 16px;overflow-x:auto;font-size:12.5px;line-height:1.6;margin:10px 0}
+pre code{background:none;color:inherit;padding:0}
+.pill{display:inline-block;border-radius:999px;padding:2px 12px;font-size:12.5px;font-weight:700;margin:2px 4px 2px 0}
+.pill.o{background:var(--soft-orange);color:#b34700}.pill.c{background:var(--soft-cyan);color:#007a94}
+.pill.m{background:var(--soft-magenta);color:#a30059}.pill.g{background:var(--soft-green);color:#007a4d}
+.pill.p{background:var(--soft-purple);color:#5b1bbd}.pill.b{background:var(--soft-blue);color:var(--blue)}
+.pill.r{background:var(--soft-red);color:#c0392b}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th{background:var(--purple);color:#fff;padding:8px 10px;text-align:left}
+td{border:1.5px solid #e3e6ee;padding:7px 10px;vertical-align:top}
+tr:nth-child(even) td{background:#f6f8ff}
+.callout{border-radius:14px;padding:14px 18px;margin:12px 0;font-size:13.5px}
+.callout.warn{background:var(--soft-red);border:2px solid var(--red)}
+.callout.tip{background:var(--soft-green);border:2px solid var(--green)}
+.callout.info{background:var(--soft-cyan);border:2px solid var(--cyan)}
+.callout b.t{display:block;font-size:14.5px;margin-bottom:4px}
+.svgwrap{text-align:center;margin:12px 0}
+.step{background:#fff;border:2.5px solid var(--cyan);border-radius:16px;padding:16px 20px;margin-bottom:14px;break-inside:avoid}
+.step .sn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--cyan);color:#fff;font-weight:800;font-size:17px;margin-right:8px}
+.step h4{display:inline;font-size:16.5px;color:#007a94}
+.step .goal{font-size:12.5px;color:#667;background:var(--soft-cyan);border-radius:8px;padding:3px 10px;display:inline-block;margin-left:8px}
+.expect{background:var(--soft-green);border:2.5px solid var(--green);border-radius:12px;padding:10px 16px;margin-top:10px;font-size:12.5px}
+.expect b{color:#007a4d}
+.sechead{background:linear-gradient(90deg,var(--purple),var(--magenta));color:#fff;border-radius:14px;padding:12px 22px;font-size:21px;font-weight:800;margin:26px 0 16px;letter-spacing:1px}
+.two{display:flex;gap:14px}
+.two>div{flex:1}
+ul,ol{margin:8px 0 8px 24px}
+li{margin-bottom:5px}
+.small{font-size:12.5px;color:#667}
+.footer{margin-top:26px;text-align:center;font-size:12px;color:#889}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hero">
+  <div class="tag">拾遗学习流水线 · 开源项目类</div>
+  <h1>Zigbee2MQTT 小白指南<br>一根 50 元的"万能钥匙"，打开 400+ 品牌智能家居</h1>
+  <p>用开源方案把小米、宜家、飞利浦等<b>不同品牌的 Zigbee 设备</b>统一接入 MQTT，再对接 Home Assistant / ioBroker——彻底告别"每买一个品牌就装一个网关"的时代。</p>
+  <div class="meta">来源：x.com/yiyirats 推文 · 上游 github.com/Koenkk/zigbee2mqtt（v2.14.2，实测于 2026-10-02）</div>
+</div>
+
+<div class="toc">
+  <h2>疑问目录（疑问即目录）</h2>
+  <ol>
+    <li>Zigbee2MQTT 是什么？一句话说清</li>
+    <li>没有它之前，人们怎么接智能设备？</li>
+    <li>Zigbee 是什么？和 Wi-Fi、蓝牙有何不同？</li>
+    <li>什么是"协调器"？为什么必须买硬件？</li>
+    <li>MQTT 是什么？发布/订阅怎么工作？</li>
+    <li>它的内部架构：四个零件各管什么？</li>
+    <li>它怎么"认识"每一种设备？</li>
+    <li>设备怎么加入网络？（配对）</li>
+    <li>Home Assistant 怎么自动发现设备？</li>
+    <li>没有厂商网关，小米设备肯"听话"吗？</li>
+    <li>Zigbee 网络是什么拓扑？为什么设备能互相当"中继"？</li>
+    <li>和 ZHA 有什么区别？为什么多数人选 Z2M？</li>
+    <li>真实部署：买什么硬件、装什么软件？</li>
+    <li>有哪些经典坑？</li>
+  </ol>
+</div>
+
+<div class="sechead">第一部分 · 是什么 &amp; 为什么</div>
+
+<div class="qcard">
+<span class="qnum">Q1</span><h3>Zigbee2MQTT 是什么？一句话说清</h3>
+<div class="a">
+<p><span class="key">它是一个"翻译官 + 传声筒"：让所有品牌的 Zigbee 设备说同一种语言（MQTT），从而可以被 Home Assistant 等任何智能家居系统统一管理。</span></p>
+<div class="svgwrap">
+<svg width="760" height="170" viewBox="0 0 760 170" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="45" width="150" height="80" rx="14" fill="#00b3d6"/>
+  <text x="85" y="82" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">小米/Aqara</text>
+  <text x="85" y="102" text-anchor="middle" fill="#fff" font-size="12">温湿度传感器</text>
+  <rect x="10" y="140" width="150" height="0" fill="none"/>
+  <rect x="10" y="130" width="0" height="0"/>
+  <rect x="30" y="128" width="110" height="34" rx="10" fill="#e6007e"/>
+  <text x="85" y="150" text-anchor="middle" fill="#fff" font-size="12">宜家灯泡</text>
+  <rect x="205" y="80" width="120" height="60" rx="14" fill="#ff6b1a"/>
+  <text x="265" y="107" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Zigbee2MQTT</text>
+  <text x="265" y="125" text-anchor="middle" fill="#fff" font-size="11">翻译官+传声筒</text>
+  <path d="M160 85 L205 105" stroke="#555" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M160 145 L205 120" stroke="#555" stroke-width="3" fill="none"/>
+  <rect x="360" y="80" width="110" height="60" rx="14" fill="#7b2ff7"/>
+  <text x="415" y="107" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">MQTT</text>
+  <text x="415" y="125" text-anchor="middle" fill="#fff" font-size="11">消息广场</text>
+  <path d="M325 110 L360 110" stroke="#555" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <rect x="505" y="20" width="140" height="55" rx="12" fill="#00a86b"/>
+  <text x="575" y="44" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Home Assistant</text>
+  <text x="575" y="62" text-anchor="middle" fill="#fff" font-size="11">自动化大脑</text>
+  <rect x="505" y="140" width="140" height="0" fill="none"/>
+  <rect x="505" y="105" width="140" height="50" rx="12" fill="#2563eb"/>
+  <text x="575" y="128" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">ioBroker 等</text>
+  <text x="575" y="145" text-anchor="middle" fill="#fff" font-size="11">任何 MQTT 客户端</text>
+  <path d="M470 105 L505 55" stroke="#555" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M470 118 L505 128" stroke="#555" stroke-width="3" fill="none"/>
+  <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#555"/></marker></defs>
+</svg>
+</div>
+<p class="small">它是 GitHub 上超人气开源项目（数万 star），核心仓库 <code>Koenkk/zigbee2mqtt</code>，用 Node.js 写成，GPL-3.0 协议，完全免费、本地运行、不依赖任何云服务。</p>
+</div>
+</div>
+
+<div class="qcard c2">
+<span class="qnum">Q2</span><h3>没有它之前，人们怎么接智能设备？</h3>
+<div class="a">
+<p>以前每买一个品牌的 Zigbee 设备，就得装一个该品牌的<b>私有网关</b>（小米网关、宜家网关、飞利浦 Hue 桥……），每个网关一个 App，互不联通：</p>
+<table>
+<tr><th>痛点</th><th>具体表现</th></tr>
+<tr><td><span class="pill r">一个品牌一个网关</span></td><td>家里 5 个品牌 = 5 个网关 + 5 个 App，手机装一堆</td></tr>
+<tr><td><span class="pill r">云依赖</span></td><td>小米设备要先上小米云绕一圈，厂商服务器挂了全家"智障"</td></tr>
+<tr><td><span class="pill r">数据出境</span></td><td>自家温湿度、门锁记录存在别人服务器上</td></tr>
+<tr><td><span class="pill r">跨品牌联动难</span></td><td>"宜家灯由小米传感器触发"这种基本需求要靠云端 hack</td></tr>
+</table>
+<div class="callout tip"><b class="t">Zigbee2MQTT 的思路</b>Zigbee 设备加入网络时本来就会"自报家门"（型号指纹），协议层面是统一的。既然协议统一，就不该需要各家的网关——只需要一个能听懂所有型号"方言"的开源协调器。Z2M 就是那个协调器 + 方言词典。</div>
+</div>
+</div>
+
+<div class="qcard c3">
+<span class="qnum">Q3</span><h3>Zigbee 是什么？和 Wi-Fi、蓝牙有何不同？</h3>
+<div class="a">
+<p><span class="key">Zigbee 是为"低功耗、小数据量、大量设备"设计的无线协议，工作在 2.4GHz（和 Wi-Fi 抢车道），是智能家居设备的"内部对讲机网络"。</span></p>
+<table>
+<tr><th></th><th>Zigbee</th><th>Wi-Fi</th><th>蓝牙 BLE</th></tr>
+<tr><td><b>为谁设计</b></td><td>传感器、灯泡、开关</td><td>手机、电脑、摄像头</td><td>耳机、手环</td></tr>
+<tr><td><b>功耗</b></td><td class="g-cell">极低（纽扣电池用 2 年）</td><td>高</td><td>低</td></tr>
+<tr><td><b>单条消息大小</b></td><td>很小（温度、开关状态）</td><td>大（视频、文件）</td><td>小~中</td></tr>
+<tr><td><b>组网规模</b></td><td>理论 6.5 万节点</td><td>受路由器带机量限制</td><td>点对点为主</td></tr>
+<tr><td><b>网状网络</b></td><td><b>支持</b>（设备互当中继）</td><td>需 AP 中继</td><td>有限</td></tr>
+</table>
+<p class="small">类比：Wi-Fi 是家里的"高速公路"（车大耗油），Zigbee 是"小区内部步道网"（走路送信、串门将消息接力传出去），蓝牙是"两个人之间的悄悄话"。</p>
+</div>
+</div>
+
+<div class="qcard c4">
+<span class="qnum">Q4</span><h3>什么是"协调器"？为什么必须买硬件？</h3>
+<div class="a">
+<p>Zigbee 网络有一个老大叫<b>协调器（Coordinator）</b>：它负责建网、给新设备发"门牌号"（网络地址）、转发消息。<b>它不是软件能模拟的</b>——它是一块实实在在的 Zigbee 射频芯片，插在电脑 USB 口上（30~150 元）：</p>
+<ul>
+<li><span class="pill o">CC2531</span>上古入门款，性能弱，只适合 10~20 台设备的小网，约 30 元</li>
+<li><span class="pill c">CC2652P / CC1352P</span>性价比之王，带 20dBm 功放，轻松带 100+ 设备，约 60~90 元（SONOFF Zigbee 3.0 Dongle Plus 即此芯片）</li>
+<li><span class="pill p">EFR32MG21（ember）</span>目前性能最佳，大型网络首选，约 120~150 元</li>
+</ul>
+<div class="callout warn"><b class="t">本次实验的亲测结论</b>我们在没有硬件的电脑上真实运行了 Zigbee2MQTT 源码版，它启动后<b>第一步就是初始化 zigbee-herdsman（协调器驱动），找不到适配器就直接报错退出</b>——实测证明协调器硬件是整个系统不可绕开的大门（详见实验③）。</div>
+</div>
+</div>
+
+<div class="qcard c5">
+<span class="qnum">Q5</span><h3>MQTT 是什么？发布/订阅怎么工作？</h3>
+<div class="a">
+<p><span class="key">MQTT 是一个"消息广场"协议：说话的人（发布者）把消息丢到一个带名字的信箱（主题 topic），想听的人（订阅者）报信箱名字，广场中间的 broker 负责投递。双方互相不知道对方是谁。</span></p>
+<p>Z2M 的世界里一切消息都有约定俗成的主题名，比如 <code>zigbee2mqtt/客厅温湿度</code> 这个信箱里永远放该设备的 JSON 状态。你在知识库学过的<span class="pill b">消息队列与异步削峰</span>是它的近亲——MQTT 更轻量，专为物联网设计，一条温度消息通常不到 100 字节。</p>
+<div class="svgwrap">
+<svg width="740" height="200" viewBox="0 0 740 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="60" width="130" height="70" rx="12" fill="#ff6b1a"/>
+  <text x="85" y="90" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">发布者 Z2M</text>
+  <text x="85" y="110" text-anchor="middle" fill="#fff" font-size="11">温度 24.5℃</text>
+  <rect x="300" y="55" width="140" height="80" rx="14" fill="#7b2ff7"/>
+  <text x="370" y="90" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Broker</text>
+  <text x="370" y="110" text-anchor="middle" fill="#fff" font-size="11">消息广场</text>
+  <path d="M150 95 L300 95" stroke="#555" stroke-width="3" marker-end="url(#ar2)"/>
+  <text x="222" y="88" text-anchor="middle" font-size="11" fill="#555">publish 丢进信箱</text>
+  <rect x="560" y="10" width="150" height="55" rx="12" fill="#00a86b"/>
+  <text x="635" y="33" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">Home Assistant</text>
+  <text x="635" y="50" text-anchor="middle" fill="#fff" font-size="11">订阅 zigbee2mqtt/#</text>
+  <rect x="560" y="130" width="150" height="55" rx="12" fill="#2563eb"/>
+  <text x="635" y="153" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">ioBroker / 手机App</text>
+  <text x="635" y="170" text-anchor="middle" fill="#fff" font-size="11">订阅同一信箱</text>
+  <path d="M440 75 L560 40" stroke="#555" stroke-width="3" marker-end="url(#ar2)"/>
+  <path d="M440 115 L560 155" stroke="#555" stroke-width="3" marker-end="url(#ar2)"/>
+  <text x="500" y="110" text-anchor="middle" font-size="11" fill="#555">投递</text>
+  <rect x="180" y="150" width="200" height="36" rx="10" fill="#ffd166"/>
+  <text x="280" y="173" text-anchor="middle" font-size="12.5" fill="#7a5b00">信箱名：zigbee2mqtt/客厅温湿度</text>
+  <defs><marker id="ar2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#555"/></marker></defs>
+</svg>
+</div>
+<div class="callout info"><b class="t">和传统"请求/响应"的区别</b>HTTP 是"我问你答"（打电话），MQTT 是"我丢广场广播，谁订阅谁收"（贴告示）。新增一个订阅者（比如多装一个 ioBroker）完全不用改动 Z2M 一行配置——这就是 M×N→M+N 的解耦思想，和你学过的 [[MCP协议]] 解决的是同一类问题。</div>
+</div>
+</div>
+
+<div class="sechead">第二部分 · 它是怎么做到的</div>
+
+<div class="qcard">
+<span class="qnum">Q6</span><h3>它的内部架构：四个零件各管什么？</h3>
+<div class="a">
+<div class="svgwrap">
+<svg width="760" height="240" viewBox="0 0 760 240" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="85" width="130" height="70" rx="12" fill="#00b3d6"/>
+  <text x="75" y="115" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Zigbee 设备群</text>
+  <text x="75" y="135" text-anchor="middle" fill="#fff" font-size="11">小米/宜家/飞利浦…</text>
+  <rect x="190" y="85" width="120" height="70" rx="12" fill="#ff6b1a"/>
+  <text x="250" y="108" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">协调器硬件</text>
+  <text x="250" y="126" text-anchor="middle" fill="#fff" font-size="11">CC2652P 等</text>
+  <text x="250" y="142" text-anchor="middle" fill="#fff" font-size="10">（射频芯片）</text>
+  <path d="M140 120 L190 120" stroke="#555" stroke-width="3" marker-end="url(#ar3)"/>
+  <rect x="350" y="20" width="180" height="48" rx="12" fill="#7b2ff7"/>
+  <text x="440" y="42" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">zigbee-herdsman</text>
+  <text x="440" y="59" text-anchor="middle" fill="#fff" font-size="10.5">协议栈：建网/配对/收发原始包</text>
+  <rect x="350" y="82" width="180" height="48" rx="12" fill="#e6007e"/>
+  <text x="440" y="104" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">herdsman-converters</text>
+  <text x="440" y="121" text-anchor="middle" fill="#fff" font-size="10.5">万国词典：型号指纹→人话</text>
+  <rect x="350" y="144" width="180" height="48" rx="12" fill="#00a86b"/>
+  <text x="440" y="166" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">MQTT 发布器</text>
+  <text x="440" y="183" text-anchor="middle" fill="#fff" font-size="10.5">按约定主题名收发 JSON</text>
+  <path d="M310 105 L350 44" stroke="#555" stroke-width="2.5" fill="none" marker-end="url(#ar3)"/>
+  <path d="M310 120 L350 106" stroke="#555" stroke-width="2.5" marker-end="url(#ar3)"/>
+  <path d="M440 68 L440 82" stroke="#555" stroke-width="2.5" marker-end="url(#ar3)"/>
+  <path d="M440 130 L440 144" stroke="#555" stroke-width="2.5" marker-end="url(#ar3)"/>
+  <rect x="580" y="82" width="160" height="48" rx="12" fill="#2563eb"/>
+  <text x="660" y="104" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Home Assistant</text>
+  <text x="660" y="121" text-anchor="middle" fill="#fff" font-size="10.5">自动发现 + 自动化</text>
+  <path d="M530 106 L580 106" stroke="#555" stroke-width="3" marker-end="url(#ar3)"/>
+  <rect x="580" y="164" width="160" height="44" rx="12" fill="#00b3d6"/>
+  <text x="660" y="184" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">Web 前端 :8080</text>
+  <text x="660" y="200" text-anchor="middle" fill="#fff" font-size="10.5">点按钮配对/看网络图</text>
+  <path d="M530 168 L580 185" stroke="#555" stroke-width="2.5" stroke-dasharray="5,4" marker-end="url(#ar3)"/>
+  <defs><marker id="ar3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#555"/></marker></defs>
+</svg>
+</div>
+<table>
+<tr><th>零件</th><th>职责</th><th>类比</th></tr>
+<tr><td><span class="pill p">zigbee-herdsman</span></td><td>Zigbee 协议栈：建网、配对、和设备说 Zigbee 黑话</td><td>会射频的"耳朵和嘴"</td></tr>
+<tr><td><span class="pill m">herdsman-converters</span></td><td>内置 4560+ 款设备定义：把各厂"方言报文"翻译成统一 JSON（温度、开关、电量…）</td><td>万国翻译词典</td></tr>
+<tr><td><span class="pill g">MQTT 发布器</span></td><td>把翻译结果按 <code>zigbee2mqtt/设备名</code> 主题发布；也接收指令主题</td><td>传声筒</td></tr>
+<tr><td><span class="pill c">Web 前端</span></td><td>:8080 网页控制台：允许入网按钮、设备列表、网络拓扑图</td><td>值班室</td></tr>
+</table>
+</div>
+</div>
+
+<div class="qcard c2">
+<span class="qnum">Q7</span><h3>它怎么"认识"每一种设备？——指纹 + 词典</h3>
+<div class="a">
+<p>设备配对时会把一串<b>型号指纹</b>（modelID，如 <code>lumi.weather</code>）广播出来。converters 词典按指纹查到对应定义，就知道这台设备"会报温度""能调亮度"。</p>
+<p><span class="key">本次实验实测（实验④）：本地词典库内置 4560 条设备定义、覆盖 467 个厂商，其中 Aqara 172 款、IKEA 100 款。</span>我们真实查了两款经典设备：</p>
+<pre><code>===== 小米 Aqara 温湿度传感器（model: WSDCGQ11LM）=====
+  - numeric battery      单位:%
+  - numeric temperature  单位:°C
+  - numeric humidity     单位:%
+  - numeric pressure     单位:hPa
+  - numeric voltage      单位:mV
+
+===== 宜家 TRADFRI 灯泡（model: LED1623G12）=====
+  - light
+  - enum effect / power_on_behavior / identify</code></pre>
+<p class="small">词典库每天还在增长——买到新设备先在官方 Supported devices 列表查一下，没收录的型号也可以用"外部转换器"自己写一份定义补进去（社区共建模式）。</p>
+</div>
+</div>
+
+<div class="qcard c3">
+<span class="qnum">Q8</span><h3>设备怎么加入网络？——配对（pairing）</h3>
+<div class="a">
+<ol>
+<li>在 Z2M 网页前端点 <b>"Permit join"</b>（允许入网，或向 <code>zigbee2mqtt/bridge/request/permit_join</code> 发消息）——相当于把小区大门打开 60 秒</li>
+<li>按设备说明书让设备进入配对模式（通常是<b>长按设备上的重置键 5 秒</b>，指示灯闪烁）</li>
+<li>设备广播"求加入"→ 协调器给它分配门牌号 → Z2M 收到型号指纹 → 查词典 → 自动出现在设备列表和 HA 里</li>
+</ol>
+<div class="callout tip"><b class="t">安全性</b>Zigbee 入网消息是加密的，但"允许入网"窗口期间任何在射频范围内的设备都能加入——所以配对完记得关窗口，别让邻居"蹭网"控制你的灯。</div>
+</div>
+</div>
+
+<div class="qcard c4">
+<span class="qnum">Q9</span><h3>Home Assistant 怎么"自动发现"设备？</h3>
+<div class="a">
+<p><span class="key">Z2M 每接入一台设备，会向 <code>homeassistant/组件/设备ID/对象ID/config</code> 主题发布一条"发现消息"，里面写清：这个传感器的数值要去哪个主题取、用哪个 JSON 字段、单位是什么。HA 只要订阅 homeassistant/#，收到就发现消息就自动建出对应的传感器卡片——全程零配置。</span></p>
+<div class="svgwrap">
+<svg width="740" height="150" viewBox="0 0 740 150" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="45" width="150" height="60" rx="12" fill="#ff6b1a"/>
+  <text x="85" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Z2M</text>
+  <text x="85" y="89" text-anchor="middle" fill="#fff" font-size="10.5">发布"出生证明"</text>
+  <rect x="215" y="45" width="180" height="60" rx="12" fill="#7b2ff7"/>
+  <text x="305" y="70" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">homeassistant/…/config</text>
+  <text x="305" y="89" text-anchor="middle" fill="#fff" font-size="10.5">发现消息主题</text>
+  <path d="M160 75 L215 75" stroke="#555" stroke-width="3" marker-end="url(#ar4)"/>
+  <rect x="450" y="45" width="150" height="60" rx="12" fill="#00a86b"/>
+  <text x="525" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Home Assistant</text>
+  <text x="525" y="89" text-anchor="middle" fill="#fff" font-size="10.5">自动建出传感器</text>
+  <path d="M395 75 L450 75" stroke="#555" stroke-width="3" marker-end="url(#ar4)"/>
+  <text x="85" y="135" text-anchor="middle" font-size="11" fill="#555">发现消息：{name:"Temperature", stat_t:"zigbee2mqtt/客厅", val_tpl:"{{ value_json.temperature }}"}</text>
+  <defs><marker id="ar4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#555"/></marker></defs>
+</svg>
+</div>
+<p>本次实验⑤用 40 行脚本完整复现了这一握手：observer 真实收到 3 条发现消息 + 6 条状态上报（见实验部分）。</p>
+</div>
+</div>
+
+<div class="qcard c5">
+<span class="qnum">Q10</span><h3>没有厂商网关，小米设备肯"听话"吗？</h3>
+<div class="a">
+<p>肯。这是最容易误解的一点：</p>
+<ul>
+<li><b>Zigbee 标准本身保证了"能对话"</b>：入网、收发传感器数据走的都是标准 Zigbee 集群（cluster）协议，任何协调器都能完成</li>
+<li><b>各家私有的是"报文格式细节"</b>：比如小米把温度值放在私有属性里，宜家灯的调色顺序略有不同——这些差异全部在 converters 词典里逐型号抹平</li>
+<li><b>云功能是没了</b>：小米的"用小米 App 远程看"没了（那是小米云的事），但本地自动化全部可用，这正是我们要的效果</li>
+</ul>
+<div class="callout info"><b class="t">反向控制</b>不光能"听"（收温度），还能"说"（控制）：往 <code>zigbee2mqtt/宜家台灯/set</code> 发 <code>{"state":"ON"}</code>，词典会把人话 JSON 翻译回宜家灯的 Zigbee 报文，灯就亮了。发 <code>/get</code> 主题查状态，<code>/set</code> 主题改状态——三个约定主题走天下。</div>
+</div>
+</div>
+
+<div class="qcard">
+<span class="qnum">Q11</span><h3>Zigbee 网络是什么拓扑？为什么设备能互相当"中继"？</h3>
+<div class="a">
+<div class="two">
+<div>
+<p><b>三种角色：</b></p>
+<ul>
+<li><span class="pill o">Coordinator 协调器</span>建网老大，只有 1 个，接在电脑上</li>
+<li><span class="pill c">Router 路由器</span>市电供电的设备（灯泡、插座），<b>顺便帮别人转发消息</b></li>
+<li><span class="pill g">End Device 终端</span>电池设备（传感器），省电睡觉，只和父节点单线联系</li>
+</ul>
+<p>这就是<b>网状网络（Mesh）</b>：信号可以"传感器→隔壁灯→走廊插座→协调器"接力，单点不通也能绕路。大户型只要在中间放几个市电设备当路由，覆盖问题就解决了。</p>
+</div>
+<div class="svgwrap">
+<svg width="330" height="250" viewBox="0 0 330 250" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="165" cy="125" r="24" fill="#ff6b1a"/>
+  <text x="165" y="130" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">协调器</text>
+  <circle cx="70" cy="60" r="20" fill="#00b3d6"/><text x="70" y="65" text-anchor="middle" fill="#fff" font-size="10">灯</text>
+  <circle cx="260" cy="55" r="20" fill="#00b3d6"/><text x="260" y="60" text-anchor="middle" fill="#fff" font-size="10">插座</text>
+  <circle cx="285" cy="160" r="20" fill="#00b3d6"/><text x="285" y="165" text-anchor="middle" fill="#fff" font-size="10">灯</text>
+  <circle cx="45" cy="180" r="16" fill="#00a86b"/><text x="45" y="185" text-anchor="middle" fill="#fff" font-size="9">传感器</text>
+  <circle cx="120" cy="220" r="16" fill="#00a86b"/><text x="120" y="225" text-anchor="middle" fill="#fff" font-size="9">传感器</text>
+  <circle cx="230" cy="215" r="16" fill="#00a86b"/><text x="230" y="220" text-anchor="middle" fill="#fff" font-size="9">开关</text>
+  <line x1="141" y1="112" x2="88" y2="72" stroke="#999" stroke-width="2"/>
+  <line x1="187" y1="111" x2="241" y2="70" stroke="#999" stroke-width="2"/>
+  <line x1="187" y1="132" x2="267" y2="156" stroke="#999" stroke-width="2"/>
+  <line x1="88" y1="72" x2="58" y2="166" stroke="#00a86b" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <line x1="241" y1="70" x2="285" y2="142" stroke="#999" stroke-width="2"/>
+  <line x1="144" y1="141" x2="126" y2="206" stroke="#00a86b" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <line x1="187" y1="141" x2="218" y2="201" stroke="#00a86b" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <text x="165" y="30" text-anchor="middle" font-size="11" fill="#555">绿虚线 = 电池终端挂到邻近路由器</text>
+</svg>
+</div>
+</div>
+<div class="callout warn"><b class="t">2.4GHz 信道冲突</b>Zigbee 和 Wi-Fi 共用 2.4GHz 频段，Wi-Fi 信号会压垮邻近的 Zigbee 信道。经验：<b>Zigbee 选 15/20/25 信道</b>（远离常用 Wi-Fi 信道 1/6/11），网络莫名掉线时先怀疑干扰而不是设备坏了。</div>
+</div>
+</div>
+
+<div class="qcard c2">
+<span class="qnum">Q12</span><h3>和 ZHA 有什么区别？为什么多数人选 Z2M？</h3>
+<div class="a">
+<p>ZHA 是 Home Assistant <b>内置</b>的 Zigbee 集成。两者都免费开源，都能统一接入，区别在气质：</p>
+<table>
+<tr><th></th><th>Zigbee2MQTT</th><th>ZHA</th></tr>
+<tr><td><b>架构</b></td><td>独立进程 + MQTT 中转（多了一层，但完全解耦）</td><td>集成在 HA 内部（少一层，但绑定 HA）</td></tr>
+<tr><td><b>设备支持</b></td><td>4560+ 定义，更新极快，社区词典模式</td><td>借用同一套 converters，但跟进稍慢</td></tr>
+<tr><td><b>调试工具</b></td><td>:8080 网页前端 + 网络拓扑图 + 报文嗅探</td><td>相对朴素</td></tr>
+<tr><td><b>离了 HA 能活</b></td><td><b>能</b>——任何 MQTT 客户端都能接管（ioBroker、Node-RED、自写脚本）</td><td>不能，绑死 HA</td></tr>
+</table>
+<p class="small">推文里特意提到 ioBroker，正是 Z2M 解耦价值的体现：HA 和 ioBroker 可以<b>同时</b>订阅同一个 broker，一套设备喂两个系统。</p>
+</div>
+</div>
+
+<div class="qcard c3">
+<span class="qnum">Q13</span><h3>真实部署：买什么硬件、装什么软件？</h3>
+<div class="a">
+<p><b>硬件购物清单（一次性）：</b></p>
+<ul>
+<li>Zigbee 协调器 USB 棒一只：SONOFF Zigbee 3.0 Dongle Plus（CC2652P，约 70 元）或 SMLIGHT SLZB-06（PoE 网线版，摆位自由）</li>
+<li>一台常开的小主机：树莓派 / 旧笔记本 / NAS 都行（Z2M + broker 加起来内存占用不到 200MB）</li>
+</ul>
+<p><b>软件三条安装路线（按推荐排序）：</b></p>
+<table>
+<tr><th>路线</th><th>适合谁</th><th>步骤量</th></tr>
+<tr><td><span class="pill g">Home Assistant OS Add-on</span></td><td>已装 HA 的用户（绝大多数人）</td><td>商店搜一下装两个插件完事</td></tr>
+<tr><td><span class="pill c">Docker 部署</span></td><td>有 NAS/服务器（你学过的容器 [[内容寻址与镜像分层]] 直接用）</td><td>一条 docker run + 挂载配置</td></tr>
+<tr><td><span class="pill p">源码运行</span></td><td>开发者/学习（本次实验走的就是这条路）</td><td>pnpm install + build（见实验①）</td></tr>
+</table>
+<p>以 HA OS 为例：① 装 Mosquitto broker 插件 → ② 加社区商店仓库 <code>zigbee2mqtt/hassio-zigbee2mqtt</code> 装 Z2M 插件 → ③ 填串口（<code>/dev/ttyUSB0</code> 或 Windows 的 <code>COM3</code>）→ ④ 打开 :8080 点 Permit join 配对设备 → ⑤ HA 里设备自动出现。</p>
+</div>
+</div>
+
+<div class="qcard c4">
+<span class="qnum">Q14</span><h3>有哪些经典坑？</h3>
+<div class="a">
+<table>
+<tr><th>坑</th><th>对策</th></tr>
+<tr><td>升级后设备全丢</td><td>升级前备份 <code>data/database.db</code>（里面存着整个网络的"户口本"）</td></tr>
+<tr><td>设备频繁掉线</td><td>多半是 2.4G 干扰，换信道 15/20/25；加市电路由设备补网</td></tr>
+<tr><td>MQTT 裸奔</td><td>生产环境务必配用户名密码/TLS，不然局域网谁都能控制你的家</td></tr>
+<tr><td>买前没查兼容性</td><td>先去 zigbee2mqtt.io/supported-devices 搜型号（本次实验④的词典就是它的底层数据）</td></tr>
+<tr><td>Mac/Linux 串口权限</td><td>把运行用户加进 dialout/uucp 组</td></tr>
+<tr><td>Coordinator 放弱电箱</td><td>金属箱屏蔽射频！协调器要用 USB 延长线甩到开阔处</td></tr>
+</table>
+</div>
+</div>
+
+<div class="sechead">第三部分 · 这个项目给我什么</div>
+
+<div class="qcard c5">
+<span class="qnum">★</span><h3>能力清单：我能用它干什么</h3>
+<div class="a">
+<ol>
+<li><span class="pill g">统一接入</span>把小米/Aqara、宜家、飞利浦 Hue、涂鸦、SONOFF 等 <b>400+ 品牌、4560+ 型号</b>的 Zigbee 设备接入同一个系统，一个网关取代一抽屉厂商网关</li>
+<li><span class="pill c">本地自动化</span>配合 Home Assistant / Node-RED 写"人体传感器亮灯""温度超标推窗"这类联动，<b>断外网照跑</b>，延迟毫秒级</li>
+<li><span class="pill m">双系统共享</span>同一套 MQTT 数据同时喂 HA 和 ioBroker，搬家换平台不用重新配对设备</li>
+<li><span class="pill p">远程报文调试</span>:8080 前端能看每台设备的原始报文和信号强度（LQI），自己写设备定义（外部转换器）时有据可查</li>
+<li><span class="pill o">老设备续命</span>厂商倒闭/停服的 Zigbee 设备，只要词典里有定义，就能脱离原厂云继续服役</li>
+<li><span class="pill b">编程接口</span>一切功能都有 MQTT 主题接口，任何语言写 20 行代码就能控制全屋设备（本次实验⑤的脚本就是最好的起点）</li>
+</ol>
+</div>
+</div>
+
+<div class="sechead">第四部分 · 动手实验（全部真实运行，无 Zigbee 硬件也能做）</div>
+<p class="small" style="margin-bottom:12px">实验材料在 <code>zigbee2mqtt\exercise\</code>，完整命令和输出在 <code>实验记录.md</code>。本机环境：Windows 11 + Node v24 + pnpm 11.26，无 Docker、无 Zigbee 硬件。</p>
+
+<div class="step">
+<span class="sn">1</span><h4>从源码编译 Zigbee2MQTT</h4><span class="goal">目的：获得一个自己能改的 Z2M，而不只是黑盒</span>
+<pre><code>git clone --depth 1 https://github.com/Koenkk/zigbee2mqtt.git repo
+cd repo && pnpm install && pnpm run build</code></pre>
+<p>怎么算成功：最后输出 <code>exit=0</code>，<code>dist/</code> 目录生成。</p>
+<div class="expect"><b>✅ 预期结果</b>：本次实测 pnpm install 耗时 5m46s，build 成功。<br><b>踩坑</b>：typescript 7.0.2 原生版依赖平台二进制包，pnpm 装出空目录且拒绝重装；用 <code>npm pack @typescript/typescript-win32-x64</code> 手动解包修复。</div>
+</div>
+
+<div class="step">
+<span class="sn">2</span><h4>起一个本地 MQTT broker（代替 Mosquitto）</h4><span class="goal">目的：亲眼看到 MQTT 消息的流动</span>
+<pre><code>cd exercise && npm install
+node mqtt_broker.js</code></pre>
+<p>怎么算成功：终端打印 <code>[broker] 本地 MQTT broker 已启动: mqtt://127.0.0.1:1883</code>，并保持运行。</p>
+<div class="expect"><b>✅ 预期结果</b>：本次实测正常启动。<b>踩坑</b>：aedes 1.2.0 必须用 <code>await Aedes.createBroker()</code> 创建，直接 new 会导致客户端永远收不到 CONNACK（connack timeout）。</div>
+</div>
+
+<div class="step">
+<span class="sn">3</span><h4>让 Z2M 真跑起来，观察"没有硬件会发生什么"</h4><span class="goal">目的：理解协调器为什么是系统大门；学会读真实报错</span>
+<pre><code># 配置在 exercise\data\configuration.yaml：broker 指向本机，串口故意写 COM99
+cd repo
+set ZIGBEE2MQTT_DATA=F:\reminder\zigbee2mqtt\exercise\data   (Windows)
+ZIGBEE2MQTT_DATA=... node index.js                              (Git Bash)</code></pre>
+<div class="expect"><b>✅ 预期结果（本次实测真实输出）</b>：<br>
+<code>z2m: Starting Zigbee2MQTT version 2.14.2</code><br>
+<code>z2m: Starting zigbee-herdsman (10.10.0)</code><br>
+<code>z2m: Error: USB adapter discovery error (No valid USB adapter found)</code><br>
+<code>z2m: Exiting...</code><br>
+关键观察：broker 日志<b>空空如也</b>——证明 Z2M 在 herdsman 启动成功之前不会连 MQTT。插上真协调器（COM 口改成实际值），这一步就通了。</div>
+</div>
+
+<div class="step">
+<span class="sn">4</span><h4>查"万国词典"：设备定义库实测</h4><span class="goal">目的：看懂 Z2M 凭什么认识每一台设备</span>
+<pre><code>node device_lookup.js</code></pre>
+<div class="expect"><b>✅ 预期结果（本次实测真实输出）</b>：<br>
+<code>内置设备定义总数: 4560，覆盖厂商数: 467（Xiaomi 13 / Aqara 172 / IKEA 100）</code><br>
+Aqara 温湿度传感器会报：battery / temperature / humidity / pressure / voltage；<br>
+宜家灯泡支持：light / effect / power_on_behavior / identify。<br>
+<b>踩坑</b>：老定义用 extend 组合特性、没有现成 exposes，要用 <code>prepareDefinition()</code> 展开——这正是 Z2M 运行时的做法。</div>
+</div>
+
+<div class="step">
+<span class="sn">5</span><h4>模拟"设备上线 → HA 自动发现"全过程</h4><span class="goal">目的：把 Q9 的理论变成亲眼所见</span>
+<pre><code>node mqtt_observer.js        # 终端A：扮演 Home Assistant 订阅
+node fake_z2m_device.js      # 终端B：扮演一台 Aqara 传感器 + Z2M 的发现逻辑</code></pre>
+<div class="expect"><b>✅ 预期结果（本次实测真实输出）</b>：observer 依次收到——<br>
+3 条 <code>homeassistant/sensor/livingroom_aqara_sensor/*/config</code> 发现消息（出生证明：数值去哪个主题取、用哪个 JSON 字段、单位是什么）；<br>
+6 条 <code>zigbee2mqtt/livingroom_aqara_sensor</code> 状态消息（<code>{"temperature":24.5,"humidity":55,"battery":87}</code> 等）。<br>
+<b>成就感点</b>:40 行脚本就复刻了 Z2M 最核心的对外行为；把这段脚本改成读真实串口数据，就是一个小型智能家居系统。</div>
+</div>
+
+<div class="sechead">总结 · 一张图记住 Zigbee2MQTT</div>
+<div class="qcard">
+<div class="a">
+<p style="font-size:16px"><span class="key">各品牌 Zigbee 设备 →（协调器硬件，50 元）→ zigbee-herdsman 听懂协议 → converters 词典抹平方言 → MQTT 消息广场 → Home Assistant / ioBroker / 你的脚本，万物归一，全程本地。</span></p>
+<p class="small">下一步建议：花 70 元买支 CC2652P 棒（SONOFF ZBDongle-P），把实验③的 COM99 换成真串口，在 :8080 上点一下 Permit join，按住你的小米温度计 5 秒—— watched it pop up. 那一刻，全屋设备就都是"自己人"了。</p>
+</div>
+</div>
+
+<div class="footer">Zigbee2MQTT 小白指南 · 拾遗学习流水线产出 · 2026-10-02 · 上游 v2.14.2 · 实验输出均为本机真实运行结果</div>
+</div>
+</body>
+</html>

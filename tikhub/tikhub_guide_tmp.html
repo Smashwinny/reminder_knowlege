@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>TikHub 小白指南</title>
+<style>
+:root{
+  --pink:#FF2D78; --purple:#7B2DFF; --cyan:#00C2FF; --orange:#FF8A00;
+  --green:#00C853; --yellow:#FFD400; --ink:#1A1033; --bg:#FFFDF7;
+  --card1:#FFF0F6; --card2:#F3EBFF; --card3:#E6F9FF; --card4:#FFF6E5; --card5:#EAFBEF;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); line-height:1.75; font-size:14.5px;}
+@page{size:A4; margin:12mm;}
+.wrap{max-width:820px; margin:0 auto;}
+h1{font-size:34px; color:#fff; background:linear-gradient(100deg,var(--pink),var(--purple) 55%,var(--cyan)); padding:26px 30px; border-radius:18px; margin-bottom:6px;}
+.subtitle{color:#fff; background:var(--ink); padding:12px 22px; border-radius:12px; font-size:14px; margin-bottom:22px;}
+.subtitle b{color:var(--yellow);}
+h2{font-size:21px; margin:26px 0 12px; padding:8px 16px; border-left:8px solid var(--pink); background:var(--card1); border-radius:0 12px 12px 0;}
+.qcard{border-radius:16px; padding:18px 22px; margin:14px 0; break-inside:avoid; border:2.5px solid;}
+.qnum{font-size:38px; font-weight:900; float:left; margin-right:14px; line-height:1;}
+.qtitle{font-size:17px; font-weight:800; padding-top:4px;}
+.qbody{clear:both; padding-top:10px;}
+.c1{background:var(--card1); border-color:var(--pink);} .c1 .qnum{color:var(--pink);}
+.c2{background:var(--card2); border-color:var(--purple);} .c2 .qnum{color:var(--purple);}
+.c3{background:var(--card3); border-color:var(--cyan);} .c3 .qnum{color:var(--cyan);}
+.c4{background:var(--card4); border-color:var(--orange);} .c4 .qnum{color:var(--orange);}
+.c5{background:var(--card5); border-color:var(--green);} .c5 .qnum{color:var(--green);}
+.hl{background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:800; padding:0 2px;}
+.hl2{background:linear-gradient(transparent 55%, #7CFFB2 55%); font-weight:800; padding:0 2px;}
+.big{font-size:16.5px; font-weight:900;}
+code,.cmd{font-family:Consolas,monospace; background:#241A3F; color:#7CFFB2; padding:1px 6px; border-radius:5px; font-size:12.5px;}
+.cmd{display:block; padding:10px 14px; margin:8px 0; border-radius:10px; white-space:pre-wrap; word-break:break-all; line-height:1.6;}
+.cmd .cm{color:#FF9ECF;}
+table{width:100%; border-collapse:collapse; margin:10px 0; font-size:13px; break-inside:avoid;}
+th{background:var(--purple); color:#fff; padding:7px 9px; text-align:left;}
+td{border:1.5px solid #E0D6F5; padding:6px 9px; background:#fff; vertical-align:top;}
+tr:nth-child(even) td{background:#FAF7FF;}
+.ok{background:var(--card5); border:2px dashed var(--green); border-radius:12px; padding:10px 14px; margin:10px 0;}
+.warn{background:#FFF3F0; border:2px dashed var(--pink); border-radius:12px; padding:10px 14px; margin:10px 0;}
+.step{background:#fff; border:2px solid var(--cyan); border-radius:14px; padding:12px 16px; margin:10px 0; break-inside:avoid;}
+.step h4{color:var(--cyan); font-size:15px; margin-bottom:6px;}
+.svgbox{text-align:center; margin:12px 0; break-inside:avoid;}
+svg text{font-family:"Microsoft YaHei",sans-serif;}
+.tag{display:inline-block; padding:2px 10px; border-radius:99px; font-size:12px; font-weight:800; color:#fff; margin:2px;}
+.t-p{background:var(--pink);} .t-v{background:var(--purple);} .t-c{background:var(--cyan);} .t-o{background:var(--orange);} .t-g{background:var(--green);}
+.foot{margin-top:24px; padding:14px 20px; background:var(--ink); color:#CFE9FF; border-radius:14px; font-size:12.5px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>TikHub 小白指南</h1>
+<div class="subtitle">一个 API Key 买通 17 个社交平台 · <b>1003 个端点 / 1007 个 MCP 工具</b> · 本指南 = 「社交数据采集三部曲」第三块拼图：<b>Agent Reach（本地免费）→ AgentKey（open-core 订阅）→ TikHub（纯商业按量计费）</b>｜来源：冰河推文（拾遗队列）｜2026-10-02</div>
+
+<!-- ============ 疑问 1 ============ -->
+<div class="qcard c1"><div class="qnum">Q1</div><div class="qtitle">TikHub 是什么？一句话说清</div><div class="qbody">
+<p><span class="big">TikHub 是一个「社交数据超市」：你注册一个账号拿一个 API Key，就能调 <span class="hl">1003 个现成的接口</span>，实时读取 TikTok、抖音、Instagram、YouTube、Twitter/X、小红书、B站、微博等 17 个平台的公开数据。</span></p>
+<p>它自己<span class="hl">不生产数据、不卖爬虫软件</span>——它把"去各平台抓公开数据"这件脏活累活统一成 HTTP 接口卖给你，按请求次数计费（$0.001–0.01/次）。官方口径：3 万+ 开发者、每日 3 亿+ 请求、10 亿+ 条预采集数据集记录。它同时提供 <b>REST API</b>（给程序）和 <b>MCP 服务器</b>（给 AI Agent），后者是今天推文推荐的重点。</p>
+<div class="svgbox">
+<svg width="740" height="180" viewBox="0 0 740 180">
+<defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FF2D78"/><stop offset="1" stop-color="#7B2DFF"/></linearGradient></defs>
+<rect x="10" y="60" width="120" height="60" rx="10" fill="#EAFBEF" stroke="#00C853" stroke-width="2"/><text x="70" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#1A1033">你的程序 /</text><text x="70" y="103" text-anchor="middle" font-size="13" font-weight="bold" fill="#1A1033">AI Agent</text>
+<line x1="130" y1="90" x2="240" y2="90" stroke="#7B2DFF" stroke-width="3" marker-end="url(#arr)"/>
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#7B2DFF"/></marker></defs>
+<text x="185" y="78" text-anchor="middle" font-size="11" fill="#7B2DFF" font-weight="bold">1 个 Key + 1 份账单</text>
+<rect x="240" y="35" width="180" height="110" rx="14" fill="url(#g1)"/>
+<text x="330" y="75" text-anchor="middle" font-size="16" font-weight="900" fill="#fff">TikHub</text>
+<text x="330" y="97" text-anchor="middle" font-size="11" fill="#FFE3F0">1003 端点 / 17 平台</text>
+<text x="330" y="115" text-anchor="middle" font-size="11" fill="#FFE3F0">抓取·解析·风控 全托管</text>
+<line x1="420" y1="90" x2="520" y2="90" stroke="#FF2D78" stroke-width="3" marker-end="url(#arr2)"/>
+<defs><marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#FF2D78"/></marker></defs>
+<g>
+<rect x="520" y="12" width="100" height="34" rx="8" fill="#E6F9FF" stroke="#00C2FF" stroke-width="1.5"/><text x="570" y="33" text-anchor="middle" font-size="11">TikTok</text>
+<rect x="630" y="12" width="100" height="34" rx="8" fill="#E6F9FF" stroke="#00C2FF" stroke-width="1.5"/><text x="680" y="33" text-anchor="middle" font-size="11">抖音</text>
+<rect x="520" y="56" width="100" height="34" rx="8" fill="#FFF6E5" stroke="#FF8A00" stroke-width="1.5"/><text x="570" y="77" text-anchor="middle" font-size="11">小红书</text>
+<rect x="630" y="56" width="100" height="34" rx="8" fill="#FFF6E5" stroke="#FF8A00" stroke-width="1.5"/><text x="680" y="77" text-anchor="middle" font-size="11">YouTube</text>
+<rect x="520" y="100" width="100" height="34" rx="8" fill="#F3EBFF" stroke="#7B2DFF" stroke-width="1.5"/><text x="570" y="121" text-anchor="middle" font-size="11">Twitter/X</text>
+<rect x="630" y="100" width="100" height="34" rx="8" fill="#F3EBFF" stroke="#7B2DFF" stroke-width="1.5"/><text x="680" y="121" text-anchor="middle" font-size="11">微博 …共17</text>
+</g>
+<text x="370" y="170" text-anchor="middle" font-size="12" fill="#FF2D78" font-weight="bold">它卖的不是数据本身，是"持续可用的采集能力"</text>
+</svg></div>
+</div></div>
+
+<!-- ============ 疑问 2 ============ -->
+<div class="qcard c2"><div class="qnum">Q2</div><div class="qtitle">没有 TikHub 之前，要 17 个平台的数据得怎么做？</div><div class="qbody">
+<p>这就是知识库里已学过的 <span class="hl">[[M×N集成问题]]</span>：你（1 个需求方）对 N 个平台，每家都要单独写爬虫 / 逆向接口 / 养 Cookie / 抗风控 / 改解析器——而且平台改一次版式，你的爬虫就死一次。三大成本：</p>
+<table><tr><th>成本</th><th>自己干</th><th>交给 TikHub</th></tr>
+<tr><td><b>开发</b></td><td>17 套爬虫 + 17 套 JSON 解析</td><td>1 套统一 REST 接口，响应结构一致</td></tr>
+<tr><td><b>运维</b></td><td>平台一改版就坏，自己 24h 救火</td><td><span class="hl">渠道腐化由厂商养</span>（它的生意就是保持接口活着）</td></tr>
+<tr><td><b>风控</b></td><td>自己 IP 被封、账号被ban</td><td>代理池、指纹、验证码都是厂商的事</td></tr></table>
+<p>代价也直白：<b>请求必经第三方</b>（隐私/延迟/单点风险）+ 中间商抽成。这正是已学概念 <span class="hl">[[统一数据网关]]</span>（Master Key 模式）的商业化实现——vault 里那条概念的正文当时就已点名 tikhub，今天算是见到了正主。</p>
+</div></div>
+
+<!-- ============ 疑问 3 ============ -->
+<div class="qcard c3"><div class="qnum">Q3</div><div class="qtitle">「API 即端点」是什么设计？1003 个端点怎么组织？</div><div class="qbody">
+<p>所谓 <span class="big">"API 即端点"：每个采集能力就是一个独立的 REST 端点</span>，而不是一个万能接口带一堆参数。命名直接可读：</p>
+<div class="cmd"><span class="cm"># 端点长这样（示例命名模式）：</span>
+fetch_one_video          <span class="cm"># TikTok 单视频数据</span>
+fetch_user_info          <span class="cm"># Instagram 用户信息</span>
+fetch_search_timeline    <span class="cm"># Twitter 搜索时间线</span></div>
+<p>组织方式 = <span class="hl">按平台分域 + 按功能分组</span>（视频/用户/搜索/评论/广告/电商/创作者工具…）。实测 <code>GET https://mcp.tikhub.io/platforms</code>（免认证）拿到各平台端点数：</p>
+<table><tr><th>平台</th><td>抖音</td><td>TikTok</td><td>Instagram</td><td>微博</td><td>小红书</td><td>B站</td><td>快手</td><td>知乎</td><td>YouTube</td><td>Twitter</td><td>Reddit</td><td>…</td></tr>
+<tr><th>端点数</th><td><b>319</b></td><td>162</td><td>93</td><td>56</td><td>45</td><td>42</td><td>38</td><td>34</td><td>34</td><td>25</td><td>28</td><td>共1003</td></tr></table>
+<p><span class="hl2">意外发现：抖音端点最多（319 个，含星图/巨量/DouPlus 等营销工具）——中文平台数据反而是 TikHub 最厚的家底。</span></p>
+</div></div>
+
+<!-- ============ 疑问 4 ============ -->
+<div class="qcard c4"><div class="qnum">Q4</div><div class="qtitle">AI Agent 怎么用上它？——MCP 三行接入</div><div class="qbody">
+<p>TikHub 把每个平台的端点包装成<b>该平台专属的 MCP 服务器</b>，托管在 <code>mcp.tikhub.io/{platform}/mcp</code>，共 1007 个工具。三种传输方式（对应已学的 [[stdio与流式HTTP传输]]）：</p>
+<table><tr><th>传输</th><th>端点</th><th>适用客户端</th><th>Key 怎么传</th></tr>
+<tr><td><b>Streamable HTTP</b></td><td><code>/tiktok/mcp</code></td><td>Cursor、Cline、curl、自定义</td><td>HTTP 头 <code>Authorization: Bearer &lt;KEY&gt;</code></td></tr>
+<tr><td><b>SSE</b></td><td><code>/tiktok/sse</code></td><td>旧版流式客户端</td><td>同上（也可自托管 <code>tikhub-mcp --platform tiktok</code>）</td></tr>
+<tr><td><b>Stdio 桥接</b></td><td>本地进程</td><td>Claude Desktop / Claude Code / VS Code</td><td><code>npx mcp-remote</code> 把 HTTP 桥成子进程，Key 走 <code>--header</code></td></tr></table>
+<div class="cmd"><span class="cm">// Claude Desktop 配置（claude_desktop_config.json）—— 这就是"三行接入"：</span>
+"tikhub-tiktok": {
+  "command": "npx",
+  "args": ["mcp-remote", "https://mcp.tikhub.io/tiktok/mcp",
+           "--header", "Authorization: Bearer YOUR_API_KEY"]
+}</div>
+<p>LangChain/LangGraph 侧用 <code>langchain-mcp-adapters</code> 的 <code>MultiServerMCPClient</code> 挂多个平台服务器。接入协议层就是标准 MCP：initialize → tools/list → tools/call（底层 [[JSON-RPC与stdio传输]] 的远程版）。</p>
+</div></div>
+
+<!-- ============ 疑问 5 ============ -->
+<div class="qcard c5"><div class="qnum">Q5</div><div class="qtitle">1000+ 工具，不会把模型上下文撑爆吗？（本指南最有含金量的一问）</div><div class="qbody">
+<p>会爆。这正是新概念 <span class="hl">[[工具目录膨胀]]</span>（Tool Catalog Bloat）：MCP 客户端要把每个工具的<b>名称+描述+参数 schema</b> 全塞进系统提示词。TikHub 的解法只有一个，但实测有效：</p>
+<p><span class="big">按平台拆成 17 个独立 MCP 服务器，官方建议"只添加你用到的平台"。</span>这样 Agent 的可见工具数 = 单平台数量而非全局 1007。</p>
+<div class="svgbox">
+<svg width="740" height="200" viewBox="0 0 740 200">
+<text x="20" y="22" font-size="13" font-weight="bold" fill="#FF2D78">❌ 全量挂载：1007 工具 ≈ 15万+ token 的目录 → 还没干活上下文先满</text>
+<rect x="20" y="34" width="700" height="22" rx="6" fill="#FFD9E8" stroke="#FF2D78" stroke-width="1.5"/>
+<rect x="20" y="34" width="700" height="22" rx="6" fill="#FF2D78" opacity="0.85"/>
+<text x="370" y="50" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">1007 个工具目录 ≈ 整个上下文窗口被说明书占满</text>
+<text x="20" y="90" font-size="13" font-weight="bold" fill="#00A344">✅ 按域拆分：只挂 1 个平台（实测 TikTok）</text>
+<rect x="20" y="102" width="700" height="22" rx="6" fill="#EAFBEF" stroke="#00C853" stroke-width="1.5"/>
+<rect x="20" y="102" width="173" height="22" rx="6" fill="#00C853" opacity="0.9"/>
+<text x="210" y="117" font-size="11" fill="#1A1033">162 工具 ≈ 24,846 tokens（实测 99KB 目录 JSON ÷ 4）≈ 128k 窗口的 20%</text>
+<text x="20" y="155" font-size="13" font-weight="bold" fill="#7B2DFF">对照已有概念：</text>
+<text x="20" y="175" font-size="12" fill="#1A1033">[[分层按需加载]]（小入口常驻·大主体待命）· [[KV缓存与上下文]]（上下文是按 token 计费的稀缺资源）· 与 Agent-Reach「默认只激活 6 渠道」同思想</text>
+</svg></div>
+<p class="warn">📌 <b>边界要诚实</b>：TikHub 没有工具搜索/分页/按需加载机制——单平台内部 162~319 个工具仍是<b>一次性全量 tools/list</b>（实测抖音平台会更大）。挂 2~3 个平台后同样会重新膨胀。它是"粗粒度拆分"，不是精细的上下文管理。</p>
+</div></div>
+
+<!-- ============ 疑问 6 ============ -->
+<div class="qcard c1"><div class="qnum">Q6</div><div class="qtitle">免费和付费的分界线在哪？——实验实测：控制面开放、数据面计费</div><div class="qbody">
+<p>定价很简单：注册送 <span class="hl">~50 次免费请求 + $0.05</span>（无需信用卡），之后按量付费 $0.001–0.01/次，最低充 $5，日用量阶梯折扣最高 -50%，失败请求（非200）不计费。但真正有意思的是<b>闸门装在哪</b>——本指南 11 项真实探测的发现：</p>
+<div class="svgbox">
+<svg width="740" height="230" viewBox="0 0 740 230">
+<rect x="30" y="20" width="680" height="190" rx="14" fill="#F3EBFF" stroke="#7B2DFF" stroke-width="2"/>
+<text x="370" y="45" text-anchor="middle" font-size="14" font-weight="900" fill="#7B2DFF">mcp.tikhub.io/tiktok/mcp（一个 MCP 端点的三道门）</text>
+<rect x="55" y="65" width="180" height="100" rx="10" fill="#EAFBEF" stroke="#00C853" stroke-width="2"/>
+<text x="145" y="90" text-anchor="middle" font-size="13" font-weight="bold" fill="#00A344">控制面 · 免费</text>
+<text x="145" y="112" text-anchor="middle" font-size="11">initialize ✅</text>
+<text x="145" y="130" text-anchor="middle" font-size="11">tools/list ✅</text>
+<text x="145" y="152" text-anchor="middle" font-size="11" fill="#00A344" font-weight="bold">实测假 Key 都放行</text>
+<rect x="285" y="65" width="180" height="100" rx="10" fill="#FFF6E5" stroke="#FF8A00" stroke-width="2"/>
+<text x="375" y="90" text-anchor="middle" font-size="13" font-weight="bold" fill="#D97706">计费闸门 · Bearer</text>
+<text x="375" y="115" text-anchor="middle" font-size="11">真 Key 验证发生在这里</text>
+<text x="375" y="135" text-anchor="middle" font-size="11">（tools/call 上游调用时）</text>
+<rect x="515" y="65" width="180" height="100" rx="10" fill="#FFF0F6" stroke="#FF2D78" stroke-width="2"/>
+<text x="605" y="90" text-anchor="middle" font-size="13" font-weight="bold" fill="#FF2D78">数据面 · 计费</text>
+<text x="605" y="115" text-anchor="middle" font-size="11">tools/call 真实抓取</text>
+<text x="605" y="138" text-anchor="middle" font-size="11">假 Key → 协议200 内嵌 401</text>
+<line x1="235" y1="115" x2="285" y2="115" stroke="#FF8A00" stroke-width="3" marker-end="url(#a3)"/>
+<line x1="465" y1="115" x2="515" y2="115" stroke="#FF2D78" stroke-width="3" marker-end="url(#a4)"/>
+<defs><marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#FF8A00"/></marker><marker id="a4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#FF2D78"/></marker></defs>
+<text x="370" y="195" text-anchor="middle" font-size="12" fill="#7B2DFF" font-weight="bold">工具目录 = 免费橱窗，谁都能看；掏钱的时刻 = 真正取数</text>
+</svg></div>
+<div class="ok">✅ <b>实测细节</b>：① 完全不带 Authorization 头 → HTTP 401 + <code>www-authenticate: Bearer realm="TikHub MCP"</code>（静态 Bearer，<b>没有</b> resource_metadata URL——对照 AgentKey 走的 [[OAuth资源发现]] RFC 9728 路线）；② 假 Key <code>tk_fake_key_123</code> → initialize、tools/list 全部 HTTP 200；③ tools/call → HTTP 200 的 MCP 成功信封里，<code>content[0].text</code> 装着 <code>{"error":"unauthorized","status":401}</code>。</div>
+<p><span class="hl2">两个由此提炼的知识点：[[工具目录膨胀]] 的免费橱窗策略（目录公开是获客手段）+ [[控制面与数据面分离]]（认证/计费闸门的位置是一种架构决策，MCP 把业务错误包进成功信封，让 LLM 读得懂失败原因并自我纠正）。</span></p>
+</div></div>
+
+<!-- ============ 疑问 7 三家对比 ============ -->
+<div class="qcard c2"><div class="qnum">Q7</div><div class="qtitle">同赛道三兄弟怎么选？Agent Reach vs AgentKey vs TikHub</div><div class="qbody">
+<p>这是今天流水线连学三个同类工具的最大收获——<span class="big">同一个需求（让 Agent 拿到互联网数据），三种商业/技术形态，复杂性的放置位置不同：</span></p>
+<table>
+<tr><th></th><th style="background:#00C853">Agent Reach</th><th style="background:#7B2DFF">AgentKey</th><th style="background:#FF2D78">TikHub</th></tr>
+<tr><th>形态</th><td>本地安装器+能力层<br>（MIT 开源，88k★）</td><td>open-core：开源技能包<br>+ 闭源云 MCP</td><td>纯商业 SaaS<br>（仅 SDK 开源）</td></tr>
+<tr><th>数据从哪来</th><td>直连上游开源 CLI<br>（yt-dlp/gh/Jina…）</td><td>经厂商云<br>（28+ 平台）</td><td>经厂商云<br>（17 平台，中文最深）</td></tr>
+<tr><th>计费</th><td><b>免费</b>（自己养）</td><td>订阅 + credit</td><td>按请求计费<br>$0.001-0.01/次</td></tr>
+<tr><th>认证</th><td>本地 Cookie/Token<br>各渠道自管</td><td>OAuth 资源发现<br>（RFC 9728，401引导）</td><td>静态 Bearer<br>（401 直给提示）</td></tr>
+<tr><th>控制面</th><td>—</td><td>initialize 就验权<br>（实测 401）</td><td><b>initialize/tools/list 开放</b><br>（实测假 Key 过）</td></tr>
+<tr><th>上下文策略</th><td>默认激活 6 渠道<br>其余待命</td><td>find_tools 动态发现<br>（防工具名幻觉）</td><td>按平台拆 17 服务器<br>只挂你用的</td></tr>
+<tr><th>适合谁</th><td>个人开发者<br>愿折腾、要免费</td><td>要省事、要稳定<br>的 Agent 产品</td><td>规模化取数<br>数据集/训练/监控</td></tr></table>
+<p><span class="hl">一句话记住：<b>Agent Reach 把复杂性留给硬盘，AgentKey 把复杂性卖进订阅，TikHub 把复杂性卖进按次账单。</b></span>三者都在解 [[M×N集成问题]]，只是"谁替你养渠道"的收费姿势不同。</p>
+</div></div>
+
+<!-- ============ 疑问 8 ============ -->
+<div class="qcard c3"><div class="qnum">Q8</div><div class="qtitle">数据从哪来？合规吗？灰色地带在哪？</div><div class="qbody">
+<p>TikHub 口径：<b>只采集公开数据</b>（公开视频、公开主页、公开评论、弹幕），声明 GDPR/CCPA 合规、"不拥有/转售/再分发底层数据本身，只提供工具"。</p>
+<p>但工科生要保持清醒：<span class="hl">"平台公开可见" ≠ "平台允许程序化批量采集"</span>。各平台服务条款普遍禁止未经授权的自动化抓取，TikHub 本质上是在替你做这件事并承担技术风险。商用前注意：① 目标平台的 ToS 风险自担；② 不要采个人隐私数据；③ 欧盟注意 GDPR 对"公开个人数据"仍有约束。把它当<b>研究与原型阶段的加速器</b>最稳妥。</p>
+</div></div>
+
+<!-- ============ 疑问 9 ============ -->
+<div class="qcard c4"><div class="qnum">Q9</div><div class="qtitle">除了 MCP 还有什么玩法？</div><div class="qbody">
+<ul style="padding-left:22px">
+<li><b>REST API 直调</b>：不要 Agent 也能用，纯 HTTP + Bearer，官方 Python/Java SDK 开源在 GitHub（TikHub org）。</li>
+<li><b>预采集数据集</b>：10 亿+ 条结构化记录（CSV/JSON/JSONL/Parquet），量大的话每千条低至 $0.40——做 AI 训练/微调比逐条实时抓便宜得多。</li>
+<li><b>Marketplace（2026-08 上线）</b>：第三方可以在上面卖自己的 API/数据集/Agent，佣金 10%（行业约一半）——"数据能力商店"的野心。</li>
+<li><b>Chrome 扩展</b>：自带 Key 的浏览器侧边栏，直接分析当前刷着的 TikTok/抖音/IG/X/B站内容。</li>
+<li><b>自托管 MCP 分发</b>：<code>tikhub-mcp</code> 可本地跑（.exe 分发），把云 MCP 桥进只支持 stdio 的宿主。</li>
+</ul>
+</div></div>
+
+<!-- ============ 实验部分 ============ -->
+<h2>动手实验：11 步真实探测（无需注册，全部可复现）</h2>
+<p>实验设计思路：<b>不注册账号也能把协议摸透</b>——用免认证元端点 + 假 Key 行为分析，把 TikHub 的认证模型、工具目录、上下文体积全部实测出来。完整记录见 <code>tikhub/exercise/experiment-log.md</code>。</p>
+
+<div class="step"><h4>步骤 1：健康检查（免认证）</h4>
+<p><b>操作</b>：</p><div class="cmd">curl https://mcp.tikhub.io/health</div>
+<p><b>目的</b>：确认服务活着、拿全局元信息。<b>✅ 预期结果</b>：</p><div class="cmd">{"status":"healthy","version":"2.0.0","platforms":17,"total_endpoints":1003}</div></div>
+
+<div class="step"><h4>步骤 2：拉全平台清单（免认证）</h4>
+<p><b>操作</b>：</p><div class="cmd">curl https://mcp.tikhub.io/platforms</div>
+<p><b>✅ 预期结果</b>：17 个平台的 slug、名称、描述、<code>endpoint_count</code>（抖音 319 / TikTok 162 / IG 93…）和各自的 mcp_url / sse_url。<b>实现</b>：不花一分钱看清全平台货架。</p></div>
+
+<div class="step"><h4>步骤 3：无 Key 调 MCP 端点 → 看网关 401 长什么样</h4>
+<p><b>操作</b>：</p><div class="cmd">curl -i -X POST https://mcp.tikhub.io/tiktok/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"probe","version":"1.0"}}}'</div>
+<p><b>✅ 预期结果</b>：<code>HTTP 401</code> + 头 <code>www-authenticate: Bearer realm="TikHub MCP"</code> + JSON-RPC 错误体 <code>code:-32001</code>。<b>注意</b>：没有 <code>resource_metadata</code> URL → 静态 Bearer，不走 OAuth 发现（对比 AgentKey）。</p></div>
+
+<div class="step"><h4>步骤 4：假 Key initialize → 控制面是否放行？</h4>
+<p><b>操作</b>：同上请求，加 <code>-H "Authorization: Bearer tk_fake_key_123"</code>。</p>
+<p><b>✅ 预期结果</b>：<span class="hl">HTTP 200！</span>返回 SSE 事件流：<code>serverInfo: {"name":"TikHub TikTok MCP","version":"1.20.0"}</code> + 平台说明。响应头里拿 <code>Mcp-Session-Id</code>（步骤 5 要用）。</p></div>
+
+<div class="step"><h4>步骤 5：假 Key tools/list → 工具目录免费可见</h4>
+<p><b>操作</b>：</p><div class="cmd">curl -X POST https://mcp.tikhub.io/tiktok/mcp \
+  -H "Authorization: Bearer tk_fake_key_123" \
+  -H "Mcp-Session-Id: &lt;步骤4拿到的会话ID&gt;" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'</div>
+<p><b>✅ 预期结果</b>：完整工具目录（name + 双语 description + inputSchema + outputSchema）。</p></div>
+
+<div class="step"><h4>步骤 6：量化工具目录膨胀</h4>
+<p><b>操作</b>：步骤 5 响应落盘后用 Python 统计：</p><div class="cmd">import re, json
+raw = open("toolslist_raw.txt", encoding="utf-8").read()
+d = json.loads(re.search(r"data: (.*)", raw).group(1))
+tools = d["result"]["tools"]
+print(len(tools), len(json.dumps(tools, ensure_ascii=False)) // 4, "tokens")</div>
+<p><b>✅ 预期结果</b>：<code>162 24846 tokens</code>——<span class="hl">单平台目录就吃掉 ~2.5 万 token（128k 窗口的 20%）</span>，亲眼看见 [[工具目录膨胀]]。162 与 /platforms 报的 endpoint_count 精确一致。</p></div>
+
+<div class="step"><h4>步骤 7：假 Key tools/call → 数据面闸门现身</h4>
+<p><b>操作</b>：同头调 <code>tiktok_web_fetch_post_detail</code>（给个真实视频 itemId）。</p>
+<p><b>✅ 预期结果</b>：HTTP <b>200</b> 的 MCP 成功信封，但 <code>content[0].text</code> 里是 <code>{"error":"unauthorized","status":401,"message":"TikHub API key was rejected..."}</code>——<span class="hl">协议成功、业务失败</span>，错误以工具结果回流，LLM 能读懂原因并自纠（[[Agent循环]] 的燃料）。</p></div>
+
+<div class="step"><h4>步骤 8-11（补充探测）：边界行为</h4>
+<p>① 无 Key GET <code>/tiktok/sse</code> → 401；② GET <code>/nonexistent/mcp</code> → 401（认证先于路由，不泄露平台存在性）；③ 带/不带 <code>Mcp-Session-Id</code> 对比；④ 响应永远是 <code>event: message + data:</code> SSE 封装。全部真实跑通，记录见 experiment-log.md。</p>
+<div class="ok">✅ <b>总结论</b>：控制面（initialize/tools/list）对任何人开放——工具目录是免费橱窗；真 Key 校验发生在数据面（tools/call 上游）。加上免认证元端点，<b>零成本完成一次完整的安全架构田野调查</b>。</div></div>
+
+<!-- ============ 能力清单 ============ -->
+<h2>这个项目给我什么（能力清单）</h2>
+<div class="qcard c5"><div class="qbody" style="padding-top:4px">
+<p><b>你能用它干的 5 件事（按上手难度排序）：</b></p>
+<p>1. <span class="tag t-g">零代码</span> <b>给 Claude/Cursor 装社交数据感官</b>：注册拿免费 Key → 三行 MCP 配置 → "帮我看看这条 TikTok 的评论风向" 直接可问（~50 次免费请求够体验）。</p>
+<p>2. <span class="tag t-c">脚本级</span> <b>Python 小监控</b>：SDK + cron，定时抓某账号/话题的新内容做简报——不用维护任何爬虫。</p>
+<p>3. <span class="tag t-c">架构参考</span> <b>抄它的 MCP 托管模式</b>：按域拆服务器 + 元端点（/health /platforms 免认证）+ 静态 Bearer——自己想发布 MCP 服务时的现成模板。</p>
+<p>4. <span class="tag t-o">数据级</span> <b>买训练数据集</b>：做垂直领域微调时，按千条计价的预采集数据集比实时抓便宜一个量级。</p>
+<p>5. <span class="tag t-p">方法论</span> <b>学会"控制面/数据面"分析框架</b>：拿到任何付费 API/MCP 服务，先用假 Key 探测闸门位置——免费边界在哪、错误以什么形态回流，5 分钟摸清一家服务的商业与安全架构。</p>
+</div></div>
+
+<!-- ============ 坑 ============ -->
+<h2>坑与结论</h2>
+<div class="qcard c1"><div class="qbody" style="padding-top:4px">
+<p>⚠️ <b>1. 目录不等于可用</b>：部分接口仅限付费，免费额度会直接被跳过扣付费余额（官方定价页明示）。</p>
+<p>⚠️ <b>2. "1007 工具"三处数字对不上很正常</b>：营销页 990+/1007、/health 1003 endpoints、分平台之和——统计口径（端点 vs 工具 vs 平台服务器）不同，引用时注明来源。</p>
+<p>⚠️ <b>3. 响应永远 SSE 封装</b>：即使 Accept 带 application/json，Streamable HTTP 也回 <code>event: message\ndata:</code> 格式，解析时记得剥壳。</p>
+<p>⚠️ <b>4. 会话有状态</b>：initialize 后的 <code>Mcp-Session-Id</code> 必须带在后续每个请求上，无 Key 阶段没有这个头。</p>
+<p>💡 <b>5. 三部曲的终极启示</b>：数据获取这件事的复杂性不会消失，只会转移——要么你自己养（Agent Reach）、要么付月费让厂商养（AgentKey）、要么按次付账单让厂商养（TikHub）。选型本质是<b>用哪种货币支付复杂性：时间、订阅、还是单价</b>。</p>
+</div></div>
+
+<div class="foot">TikHub 小白指南 · 拾遗队列 task 6fa3e8fb · 2026-10-02 · 实验全部真实运行（curl + python，零注册协议级探测）<br>
+关联：F:\reminder\agent-reach（本地能力层）· F:\reminder\agentkey（open-core 网关）· vault：[[工具目录膨胀]] [[控制面与数据面]] [[统一数据网关]] [[MCP协议]]</div>
+</div>
+</body>
+</html>

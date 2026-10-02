@@ -1,0 +1,12 @@
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://127.0.0.1:1883
+serial:
+  port: COM99
+frontend:
+  enabled: false
+homeassistant:
+  enabled: true
+advanced:
+  log_level: info
+version: 5

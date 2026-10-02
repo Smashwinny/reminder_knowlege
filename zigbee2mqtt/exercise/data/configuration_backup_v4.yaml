@@ -1,0 +1,15 @@
+# 实验步骤3：zigbee2mqtt 配置（数据目录由 ZIGBEE2MQTT_DATA 指向 exercise\data）
+# 故意把串口写成 COM99——本机没有 Zigbee 协调器硬件，
+# 目的是观察 zigbee2mqtt 在没有硬件时的真实行为：
+# MQTT 连接成功并发布 bridge 消息 →  herdsman 找不到适配器时报错退出
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://127.0.0.1:1883
+serial:
+  port: COM99
+frontend:
+  enabled: false
+homeassistant:
+  enabled: true
+advanced:
+  log_level: info
