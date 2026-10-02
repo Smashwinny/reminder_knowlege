@@ -1,0 +1,96 @@
+{"ttype": "miles", "q": "将 12 英里换算为公里", "pred": "18.0", "ok": false}
+{"ttype": "f2c", "q": "将 98°F 换算为 °C", "pred": "54.44444444444444", "ok": false}
+{"ttype": "adddays", "q": "2026-01-03 加 40 天", "pred": "2026-02-13", "ok": false}
+{"ttype": "leap", "q": "1900 是闰年吗(1/0)", "pred": "1", "ok": false}
+{"ttype": "miles", "q": "将 5 英里换算为公里", "pred": "7.5", "ok": false}
+{"ttype": "f2c", "q": "将 32°F 换算为 °C", "pred": "17.77777777777778", "ok": false}
+{"ttype": "adddays", "q": "2025-03-15 加 50 天", "pred": "2025-05-05", "ok": false}
+{"ttype": "leap", "q": "2000 是闰年吗(1/0)", "pred": "1", "ok": true}
+{"ttype": "miles", "q": "将 33 英里换算为公里", "pred": "49.5", "ok": false}
+{"ttype": "f2c", "q": "将 212°F 换算为 °C", "pred": "117.77777777777777", "ok": false}
+{"ttype": "adddays", "q": "2026-02-20 加 15 天", "pred": "2026-03-05", "ok": false}
+{"ttype": "leap", "q": "2024 是闰年吗(1/0)", "pred": "1", "ok": true}
+{"ttype": "miles", "q": "将 8 英里换算为公里", "pred": "12.0", "ok": false}
+{"ttype": "f2c", "q": "将 68°F 换算为 °C", "pred": "37.77777777777778", "ok": false}
+{"ttype": "adddays", "q": "2024-12-01 加 70 天", "pred": "2024-14-11", "ok": false}
+{"ttype": "leap", "q": "2023 是闰年吗(1/0)", "pred": "0", "ok": true}
+{"ttype": "miles", "q": "将 21 英里换算为公里", "pred": "31.5", "ok": false}
+{"ttype": "f2c", "q": "将 104°F 换算为 °C", "pred": "57.77777777777778", "ok": false}
+{"ttype": "adddays", "q": "2026-05-05 加 90 天", "pred": "2026-08-05", "ok": false}
+{"ttype": "leap", "q": "2100 是闰年吗(1/0)", "pred": "1", "ok": false}
+{"ttype": "miles", "q": "将 40 英里换算为公里", "pred": "60.0", "ok": false}
+{"ttype": "f2c", "q": "将 50°F 换算为 °C", "pred": "27.77777777777778", "ok": false}
+{"ttype": "adddays", "q": "2025-08-09 加 25 天", "pred": "2025-09-04", "ok": false}
+{"ttype": "leap", "q": "1996 是闰年吗(1/0)", "pred": "1", "ok": true}
+{"ttype": "miles", "q": "将 17 英里换算为公里", "pred": "25.5", "ok": false}
+{"ttype": "f2c", "q": "将 176°F 换算为 °C", "pred": "97.77777777777777", "ok": false}
+{"ttype": "adddays", "q": "2026-07-04 加 60 天", "pred": "2026-09-04", "ok": false}
+{"ttype": "leap", "q": "2016 是闰年吗(1/0)", "pred": "1", "ok": true}
+{"ttype": "miles", "q": "将 3 英里换算为公里", "pred": "4.5", "ok": false}
+{"ttype": "f2c", "q": "将 86°F 换算为 °C", "pred": "47.77777777777778", "ok": false}
+{"ttype": "adddays", "q": "2024-02-28 加 2 天", "pred": "2024-02-30", "ok": false}
+{"ttype": "leap", "q": "2019 是闰年吗(1/0)", "pred": "0", "ok": true}
+{"ttype": "miles", "q": "将 12 英里换算为公里", "pred": "19.312128", "ok": true}
+{"ttype": "f2c", "q": "将 98°F 换算为 °C", "pred": "36.666666666666664", "ok": true}
+{"ttype": "adddays", "q": "2026-01-03 加 40 天", "pred": "2026-02-12", "ok": true}
+{"ttype": "leap", "q": "1900 是闰年吗(1/0)", "pred": "1", "ok": false}
+{"ttype": "miles", "q": "将 5 英里换算为公里", "pred": "8.04672", "ok": true}
+{"ttype": "f2c", "q": "将 32°F 换算为 °C", "pred": "0.0", "ok": true}
+{"ttype": "adddays", "q": "2025-03-15 加 50 天", "pred": "2025-05-04", "ok": true}
+{"ttype": "leap", "q": "2000 是闰年吗(1/0)", "pred": "1", "ok": true}
+{"ttype": "miles", "q": "将 33 英里换算为公里", "pred": "53.108352000000004", "ok": true}
+{"ttype": "f2c", "q": "将 212°F 换算为 °C", "pred": "100.0", "ok": true}
+{"ttype": "adddays", "q": "2026-02-20 加 15 天", "pred": "2026-03-07", "ok": true}
+{"ttype": "leap", "q": "2024 是闰年吗(1/0)", "pred": "1", "ok": true}
+{"ttype": "miles", "q": "将 8 英里换算为公里", "pred": "12.874752", "ok": true}
+{"ttype": "f2c", "q": "将 68°F 换算为 °C", "pred": "20.0", "ok": true}
+{"ttype": "adddays", "q": "2024-12-01 加 70 天", "pred": "2025-02-09", "ok": true}
+{"ttype": "leap", "q": "2023 是闰年吗(1/0)", "pred": "0", "ok": true}
+{"ttype": "miles", "q": "将 21 英里换算为公里", "pred": "33.796224", "ok": true}
+{"ttype": "f2c", "q": "将 104°F 换算为 °C", "pred": "40.0", "ok": true}
+{"ttype": "adddays", "q": "2026-05-05 加 90 天", "pred": "2026-08-03", "ok": true}
+{"ttype": "leap", "q": "2100 是闰年吗(1/0)", "pred": "1", "ok": false}
+{"ttype": "miles", "q": "将 40 英里换算为公里", "pred": "64.37376", "ok": true}
+{"ttype": "f2c", "q": "将 50°F 换算为 °C", "pred": "10.0", "ok": true}
+{"ttype": "adddays", "q": "2025-08-09 加 25 天", "pred": "2025-09-03", "ok": true}
+{"ttype": "leap", "q": "1996 是闰年吗(1/0)", "pred": "1", "ok": true}
+{"ttype": "miles", "q": "将 17 英里换算为公里", "pred": "27.358848000000002", "ok": true}
+{"ttype": "f2c", "q": "将 176°F 换算为 °C", "pred": "80.0", "ok": true}
+{"ttype": "adddays", "q": "2026-07-04 加 60 天", "pred": "2026-09-02", "ok": true}
+{"ttype": "leap", "q": "2016 是闰年吗(1/0)", "pred": "1", "ok": true}
+{"ttype": "miles", "q": "将 3 英里换算为公里", "pred": "4.828032", "ok": true}
+{"ttype": "f2c", "q": "将 86°F 换算为 °C", "pred": "30.0", "ok": true}
+{"ttype": "adddays", "q": "2024-02-28 加 2 天", "pred": "2024-03-01", "ok": true}
+{"ttype": "leap", "q": "2019 是闰年吗(1/0)", "pred": "0", "ok": true}
+{"ttype": "miles", "q": "将 12 英里换算为公里", "pred": "19.312128", "ok": true}
+{"ttype": "f2c", "q": "将 98°F 换算为 °C", "pred": "36.666666666666664", "ok": true}
+{"ttype": "adddays", "q": "2026-01-03 加 40 天", "pred": "2026-02-13", "ok": false}
+{"ttype": "leap", "q": "1900 是闰年吗(1/0)", "pred": "1", "ok": false}
+{"ttype": "miles", "q": "将 5 英里换算为公里", "pred": "8.04672", "ok": true}
+{"ttype": "f2c", "q": "将 32°F 换算为 °C", "pred": "0.0", "ok": true}
+{"ttype": "adddays", "q": "2025-03-15 加 50 天", "pred": "2025-05-05", "ok": false}
+{"ttype": "leap", "q": "2000 是闰年吗(1/0)", "pred": "1", "ok": true}
+{"ttype": "miles", "q": "将 33 英里换算为公里", "pred": "53.108352000000004", "ok": true}
+{"ttype": "f2c", "q": "将 212°F 换算为 °C", "pred": "100.0", "ok": true}
+{"ttype": "adddays", "q": "2026-02-20 加 15 天", "pred": "2026-03-05", "ok": false}
+{"ttype": "leap", "q": "2024 是闰年吗(1/0)", "pred": "1", "ok": true}
+{"ttype": "miles", "q": "将 8 英里换算为公里", "pred": "12.874752", "ok": true}
+{"ttype": "f2c", "q": "将 68°F 换算为 °C", "pred": "20.0", "ok": true}
+{"ttype": "adddays", "q": "2024-12-01 加 70 天", "pred": "2024-14-11", "ok": false}
+{"ttype": "leap", "q": "2023 是闰年吗(1/0)", "pred": "0", "ok": true}
+{"ttype": "miles", "q": "将 21 英里换算为公里", "pred": "33.796224", "ok": true}
+{"ttype": "f2c", "q": "将 104°F 换算为 °C", "pred": "40.0", "ok": true}
+{"ttype": "adddays", "q": "2026-05-05 加 90 天", "pred": "2026-08-05", "ok": false}
+{"ttype": "leap", "q": "2100 是闰年吗(1/0)", "pred": "1", "ok": false}
+{"ttype": "miles", "q": "将 40 英里换算为公里", "pred": "64.37376", "ok": true}
+{"ttype": "f2c", "q": "将 50°F 换算为 °C", "pred": "10.0", "ok": true}
+{"ttype": "adddays", "q": "2025-08-09 加 25 天", "pred": "2025-09-04", "ok": false}
+{"ttype": "leap", "q": "1996 是闰年吗(1/0)", "pred": "1", "ok": true}
+{"ttype": "miles", "q": "将 17 英里换算为公里", "pred": "27.358848000000002", "ok": true}
+{"ttype": "f2c", "q": "将 176°F 换算为 °C", "pred": "80.0", "ok": true}
+{"ttype": "adddays", "q": "2026-07-04 加 60 天", "pred": "2026-09-04", "ok": false}
+{"ttype": "leap", "q": "2016 是闰年吗(1/0)", "pred": "1", "ok": true}
+{"ttype": "miles", "q": "将 3 英里换算为公里", "pred": "4.828032", "ok": true}
+{"ttype": "f2c", "q": "将 86°F 换算为 °C", "pred": "30.0", "ok": true}
+{"ttype": "adddays", "q": "2024-02-28 加 2 天", "pred": "2024-02-30", "ok": false}
+{"ttype": "leap", "q": "2019 是闰年吗(1/0)", "pred": "0", "ok": true}
