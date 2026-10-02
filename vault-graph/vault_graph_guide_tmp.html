@@ -288,7 +288,9 @@ cd repo
 npm ci --omit=dev</div>
     <p><b>目的</b>：拿到导出器源码；`--omit=dev` 只装生产依赖（仅 esbuild 一个包），验证它"依赖极少"的说法。</p>
     <p><b>结果与验证</b>：</p>
-    <div class="pre">__EXP1__</div>
+    <div class="pre">PS repo&gt; npm ci --omit=dev
+added 1 package in 9s        <span class="c"># node_modules 里只有：</span>
+ls node_modules →  esbuild  @esbuild\win32-x64</div>
     <div class="ok">✅ 预期结果：clone 成功且 node_modules 里只有 esbuild 相关包，几十秒装完。</div>
   </div>
 </div>
@@ -300,7 +302,11 @@ npm ci --omit=dev</div>
     <div class="pre">node src/build-graph.mjs --vault "F:\reminder\vault" --out "F:\reminder\vault-graph\exercise\vault-graph.html"</div>
     <p><b>目的</b>：用官方导出器渲染本仓库真实知识库（只读，不改动 vault 任何文件）。</p>
     <p><b>结果与验证</b>：</p>
-    <div class="pre">__EXP2__</div>
+    <div class="pre">PS repo&gt; node src/build-graph.mjs --vault "F:\reminder\vault" --out "...exercise\vault-graph.html"
+vault-graph: <span class="g">123 notes, 516 links, 2 orphans, 2 unresolved link(s)</span>
+dated: 0 from frontmatter, 0 from the filename, 123 from the file stamp, none undated
+wrote ...\vault-graph.html <span class="g">(738 KB)</span></div>
+    <p><b>实测解读</b>：本仓库 vault 有 123 篇笔记、516 条链接；2 条 unresolved 是"计划中还没写"的笔记；日期全部来自文件时间戳（我们没写 created frontmatter——这本身就是一次体检结论：想让时间轴更准，该补 frontmatter）。</p>
     <div class="ok">✅ 预期结果：生成 vault-graph.html，日志显示解析出的笔记数与链接数。</div>
   </div>
 </div>
@@ -312,8 +318,10 @@ npm ci --omit=dev</div>
     <div class="pre">msedge --headless --disable-gpu --screenshot="F:\reminder\vault-graph\exercise\disc.png" --window-size=1600,1000 "file:///F:/reminder/vault-graph/exercise/vault-graph.html"</div>
     <p><b>目的</b>：验证产物真正可离线渲染，并留下视觉证据。</p>
     <p><b>结果与验证</b>：</p>
-    <div class="pre">__EXP3__</div>
-    <div class="ok">✅ 预期结果：截图里出现彩色扇区圆盘，点在环上分布。</div>
+    <div class="pre">365441 bytes written to file ...\exercise\disc.png   <span class="c"># 1600x1000 截图</span></div>
+    <div class="svgbox"><img src="exercise/disc.png" style="max-width:100%; border-radius:10px; border:3px solid #2EC4B6;">
+    <div class="cap">图4：本仓库 vault 真实渲染结果（Edge 无头截图）——橙色大扇区=概念(91篇)，绿色=项目笔记(23篇)，蓝色=vault root(00-总览)，灰色=(unlinked) 孤儿笔记</div></div>
+    <div class="ok">✅ 预期结果：截图里出现彩色扇区圆盘，点在环上分布——实测可见"概念"扇区占了大半圆盘（91/123），枢纽笔记被圆盘中心的 logo 标出。</div>
   </div>
 </div>
 
@@ -324,8 +332,9 @@ npm ci --omit=dev</div>
     <div class="pre">node src/build-graph.mjs --vault "F:\reminder\vault" --ghosts --out "F:\reminder\vault-graph\exercise\vault-graph-ghosts.html"</div>
     <p><b>目的</b>：观察 `--ghosts`（显示指向不存在笔记的死链）对图的影响，体会"脏数据处理"开关的实际效果。</p>
     <p><b>结果与验证</b>：</p>
-    <div class="pre">__EXP4__</div>
-    <div class="ok">✅ 预期结果：ghosts 版日志/文件与默认版出现可测量的差异（节点数或文件体积变化）。</div>
+    <div class="pre">vault-graph: <span class="g">124 notes, 518 links</span>, 2 orphans, 2 unresolved link(s)
+wrote ...\vault-graph-ghosts.html (739 KB)   <span class="c"># 默认版是 123 notes / 516 links / 738KB</span></div>
+    <div class="ok">✅ 实测差异：+1 个 ghost 笔记节点、+2 条边、文件 +229 字节——死链开关的效果肉眼可见地小（我们的库只有 2 条死链），但机制被清晰验证。</div>
   </div>
 </div>
 
@@ -338,8 +347,12 @@ grep -c "http" exercise\vault-graph.html          # 外部引用检查
 ls -la exercise\vault-graph.html                  # 文件大小</div>
     <p><b>目的</b>：验证 README 的两个承诺——单文件自包含、零网络请求。</p>
     <p><b>结果与验证</b>：</p>
-    <div class="pre">__EXP5__</div>
-    <div class="ok">✅ 预期结果：样式脚本全部内联，无任何指向外部网络的资源引用。</div>
+    <div class="pre">&lt;script 标签数：5（全部内联）
+src/href="http..." 外部资源引用：0 个
+  （全文仅有的 http 字符串是 sigmajs.org 署名注释和 w3.org SVG 命名空间，不是资源加载）
+vault-graph.html          756,030 bytes
+vault-graph-ghosts.html   756,259 bytes</div>
+    <div class="ok">✅ 实测结论：756KB 单文件，样式脚本全内联、零外部资源引用，断网可开——README 的两个承诺逐条兑现。</div>
   </div>
 </div>
 
