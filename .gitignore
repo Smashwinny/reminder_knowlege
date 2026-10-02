@@ -21,3 +21,6 @@ vector_database_qdrant/qdrant.exe
 deeptutor/data/
 
 tools/.shiyi_token
+
+# zoetrope 工具二进制（可从 GitHub Releases 重新下载）
+zoetrope/bin/
