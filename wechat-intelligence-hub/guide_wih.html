@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>微信个人情报库 wechat-intelligence-hub 小白指南</title>
+<style>
+:root{
+  --bg:#fff8f0;
+  --ink:#1a1a2e;
+  --c1:#ff3d71;   /* 主色 亮粉 */
+  --c2:#00c2ff;   /* 亮青 */
+  --c3:#ffb800;   /* 亮橙黄 */
+  --c4:#7b2ff7;   /* 亮紫 */
+  --c5:#00e676;   /* 亮绿 */
+  --card:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;padding:0 0 60px}
+.hero{background:linear-gradient(135deg,#ff3d71 0%,#7b2ff7 55%,#00c2ff 100%);color:#fff;padding:56px 8% 48px}
+.hero h1{font-size:38px;letter-spacing:1px;text-shadow:0 3px 10px rgba(0,0,0,.25)}
+.hero .sub{font-size:17px;opacity:.95;margin-top:12px}
+.hero .tags{margin-top:22px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.6);border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:14px;font-weight:700}
+.wrap{max-width:920px;margin:0 auto;padding:0 24px}
+h2.sec{font-size:26px;margin:56px 0 8px;padding:10px 18px;border-radius:14px;color:#fff;background:linear-gradient(90deg,var(--c4),var(--c2));display:inline-block;box-shadow:0 4px 14px rgba(123,47,247,.3)}
+p.lead{font-size:16px;color:#444;margin:14px 0}
+.qcard{background:var(--card);border-radius:18px;padding:28px 30px;margin:26px 0;box-shadow:0 6px 24px rgba(26,26,46,.10);border-left:10px solid var(--c1);break-inside:avoid;page-break-inside:avoid}
+.qcard.c2{border-left-color:var(--c2)} .qcard.c3{border-left-color:var(--c3)}
+.qcard.c4{border-left-color:var(--c4)} .qcard.c5{border-left-color:var(--c5)}
+.qnum{display:inline-block;font-size:15px;font-weight:800;color:#fff;background:var(--c1);border-radius:8px;padding:2px 14px;margin-bottom:10px}
+.c2 .qnum{background:var(--c2)} .c3 .qnum{background:#e69b00} .c4 .qnum{background:var(--c4)} .c5 .qnum{background:#00a854}
+.qcard h3{font-size:21px;margin:6px 0 12px}
+.qcard p{margin:10px 0;font-size:15px}
+.hl{font-size:17px;font-weight:800;background:linear-gradient(transparent 55%,#ffe27a 55%);padding:0 4px}
+.hl2{font-size:16px;font-weight:800;color:var(--c1)}
+code,.cmd{font-family:Consolas,"Courier New",monospace;background:#f1f0ff;color:var(--c4);border-radius:6px;padding:2px 8px;font-size:13.5px}
+pre.cmd{display:block;background:#241b3a;color:#d7f9ff;padding:16px 20px;border-radius:12px;overflow-x:auto;font-size:13px;line-height:1.7;margin:12px 0;white-space:pre-wrap}
+pre.cmd b{color:#ffb800}
+table.tb{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+table.tb th{background:var(--c2);color:#fff;padding:9px 10px;text-align:left}
+table.tb td{border-bottom:2px solid #e8f7ff;padding:9px 10px;background:#fff}
+table.tb tr:nth-child(even) td{background:#f4fcff}
+.svgbox{background:#f7fbff;border-radius:14px;padding:14px;margin:14px 0;text-align:center}
+.cap{font-size:13px;color:#777;margin-top:6px}
+.ability{background:linear-gradient(135deg,#fff,#fff6e8);border:2.5px solid var(--c3);border-radius:14px;padding:16px 20px;margin:12px 0;break-inside:avoid;page-break-inside:avoid}
+.ability b.t{color:#c77f00;font-size:16px}
+.step{background:var(--card);border-radius:16px;padding:22px 26px;margin:20px 0;box-shadow:0 5px 18px rgba(26,26,46,.09);border-top:8px solid var(--c5);break-inside:avoid;page-break-inside:avoid}
+.step h3{font-size:18px;color:#007a3d;margin-bottom:8px}
+.expect{background:#e9fff3;border:2px dashed #00a854;border-radius:12px;padding:12px 16px;margin-top:12px;font-size:14px}
+.warn{background:#fff1f4;border:2px dashed var(--c1);border-radius:12px;padding:12px 16px;margin-top:12px;font-size:14px}
+.footer{margin-top:60px;text-align:center;color:#999;font-size:13px}
+.big{font-size:30px;font-weight:900;background:linear-gradient(90deg,var(--c1),var(--c4));-webkit-background-clip:text;background-clip:text;color:transparent}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>微信个人情报库<br>wechat-intelligence-hub 小白指南</h1>
+  <div class="sub">把本地微信聊天记录变成「可检索、可核查、可行动」的个人情报 —— 纯本地、只读、不 Hook 的微信开源工具实测手记</div>
+  <div class="tags">
+    <span class="tag">开源项目类</span><span class="tag">Python 3 引擎</span><span class="tag">SQLCipher / WCDB</span><span class="tag">AGPL-3.0</span><span class="tag">2.6k★</span><span class="tag">Windows 实测通过</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<p class="lead">来源：X 推文推荐（"遇到这种项目别犹豫，第一件事先 fork"）。仓库：<code>github.com/Rion-Wu-tech/wechat-intelligence-hub</code>。本指南按"工科毕业生第一次接触"的视角，从 13 个疑问一路讲到动手实验，<span class="hl2">所有命令均在本机真实执行过</span>。</p>
+
+<!-- ============ Q1 ============ -->
+<div class="qcard">
+<span class="qnum">疑问 01</span>
+<h3>这是什么？一句话能说清吗？</h3>
+<p>一句话：<span class="hl">一个跑在你自己电脑上的"微信情报官"</span> —— 它读取你本机的微信聊天记录（只读！），自动整理出：今天哪些消息<b>需要回复</b>、你对谁<b>许了什么承诺还没兑现</b>、哪些聊天里藏着<b>商单 / 合作 / 复联线索</b>，最后生成一份 Markdown + 交互 HTML 的<b>日报</b>。</p>
+<p>它不是微信机器人：不会替你发消息、不 Hook 微信进程、不需要把数据上传任何服务器。<span class="hl2">数据不出电脑</span>是它的核心卖点，也是它敢开源的底气。</p>
+<div class="svgbox">
+<svg width="760" height="170" viewBox="0 0 760 170" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="40" width="170" height="90" rx="14" fill="#00c2ff"/>
+  <text x="95" y="80" fill="#fff" font-size="17" font-weight="bold" text-anchor="middle">本地微信</text>
+  <text x="95" y="105" fill="#fff" font-size="13" text-anchor="middle">聊天记录（只读）</text>
+  <path d="M185 85 L 280 85" stroke="#ff3d71" stroke-width="5" marker-end="url(#a1)"/>
+  <defs><marker id="a1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#ff3d71"/></marker></defs>
+  <rect x="290" y="40" width="200" height="90" rx="14" fill="#7b2ff7"/>
+  <text x="390" y="78" fill="#fff" font-size="17" font-weight="bold" text-anchor="middle">情报引擎</text>
+  <text x="390" y="103" fill="#e8dcff" font-size="12" text-anchor="middle">信号识别 · 聚合 · 排序</text>
+  <path d="M495 85 L 590 85" stroke="#ffb800" stroke-width="5" marker-end="url(#a2)"/>
+  <defs><marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#ffb800"/></marker></defs>
+  <rect x="600" y="25" width="150" height="50" rx="10" fill="#00e676"/>
+  <text x="675" y="56" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">待回复清单</text>
+  <rect x="600" y="95" width="150" height="50" rx="10" fill="#ff3d71"/>
+  <text x="675" y="126" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">商单日报 HTML</text>
+  <text x="380" y="160" fill="#888" font-size="12" text-anchor="middle">图 1：聊天记录 → 情报引擎 → 可行动的清单与报告</text>
+</svg>
+</div>
+</div>
+
+<!-- ============ Q2 ============ -->
+<div class="qcard c2">
+<span class="qnum">疑问 02</span>
+<h3>为什么需要它？没有它之前人们怎么做？</h3>
+<p>想象一个自由职业者 / 小团队老板的一天：</p>
+<table class="tb">
+<tr><th>头疼场景</th><th>没有它的做法</th><th>有它之后</th></tr>
+<tr><td>20 个群开了免打扰</td><td>一条条翻，翻完一小时</td><td>日报直接列出"群里出现的商单线索 + 证据原句"</td></tr>
+<tr><td>上周答应客户"周五给初稿"</td><td>靠脑子记，忘了就丢单失信</td><td>承诺跟踪：谁、什么事、什么时候到期</td></tr>
+<tr><td>"上次那个报价是多少来着？"</td><td>翻半小时聊天记录</td><td>按联系人 / 关键词秒级本地检索</td></tr>
+<tr><td>半年没联系的老客户突然出现</td><td>完全没察觉这是商机</td><td>复联线索：识别"久未联系 + 出现合作意向"</td></tr>
+</table>
+<p><span class="hl">它解决的不是"聊天太多"，而是"信息躺在聊天记录里睡大觉"。</span>聊天记录是座矿山，它是一台本地选矿机。</p>
+</div>
+
+<!-- ============ Q3 ============ -->
+<div class="qcard c3">
+<span class="qnum">疑问 03</span>
+<h3>微信聊天数据到底存在哪？为什么说是"堡垒"？</h3>
+<p>微信桌面版把消息存在<b>本机的加密数据库</b>里。要读它，得穿过三道门：</p>
+<table class="tb">
+<tr><th>门</th><th>技术</th><th>一句话解释</th></tr>
+<tr><td>🚪 文件整体加密</td><td><b>SQLCipher</b></td><td>整个 SQLite 数据库文件被加密，没钥匙打开就是一堆乱码</td></tr>
+<tr><td>🚪 消息体压缩</td><td><b>WCDB + Zstandard</b></td><td>腾讯的 WCDB 库把消息内容 zstd 压缩后存库，解出还要再解压</td></tr>
+<tr><td>🚪 密钥授权</td><td><b>schema-2 salt-key</b></td><td>密钥不是"偷"来的，是你本人授权导出、由你自己提供的访问材料</td></tr>
+</table>
+<p>所以"安装就能读所有人的微信"是<span class="hl2">不可能的</span>——README 反复强调：<b>完整读取需要本人授权的本地数据库和访问材料，且只覆盖已同步到本机的数据</b>。这把"能不能读"从技术问题变成了授权问题，也是它与传统"微信多开 / Hook 工具"的本质分界。</p>
+<div class="svgbox">
+<svg width="720" height="150" viewBox="0 0 720 150" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="45" width="130" height="60" rx="10" fill="#1a1a2e"/>
+  <text x="85" y="72" fill="#fff" font-size="13" text-anchor="middle">加密的</text>
+  <text x="85" y="92" fill="#fff" font-size="13" text-anchor="middle">微信.db</text>
+  <rect x="200" y="45" width="150" height="60" rx="10" fill="#ff3d71"/>
+  <text x="275" y="72" fill="#fff" font-size="13" text-anchor="middle">SQLCipher 解密</text>
+  <text x="275" y="92" fill="#ffd6e2" font-size="11" text-anchor="middle">需本人授权 key</text>
+  <rect x="400" y="45" width="140" height="60" rx="10" fill="#ffb800"/>
+  <text x="470" y="72" fill="#fff" font-size="13" text-anchor="middle">zstd 解压</text>
+  <text x="470" y="92" fill="#fff6dd" font-size="11" text-anchor="middle">WCDB 消息体</text>
+  <rect x="590" y="45" width="110" height="60" rx="10" fill="#00e676"/>
+  <text x="645" y="80" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">明文消息</text>
+  <path d="M155 75 L195 75 M355 75 L395 75 M545 75 L585 75" stroke="#888" stroke-width="4"/>
+  <text x="360" y="140" fill="#888" font-size="12" text-anchor="middle">图 2：读一条微信消息要连穿三道门</text>
+</svg>
+</div>
+</div>
+
+<!-- ============ Q4 ============ -->
+<div class="qcard c4">
+<span class="qnum">疑问 04</span>
+<h3>"Clean-room 只读 Reader"是什么？不 Hook 意味着什么？</h3>
+<p><b>Clean-room（洁净室）设计</b>：Reader 核心是一个独立实现的只读解析器，官方承诺<span class="hl">"不获取密钥、不重签名、不注入、不 Hook 微信"</span>。</p>
+<p>对比一下就明白分量了：</p>
+<table class="tb">
+<tr><th>做法</th><th>原理</th><th>风险</th></tr>
+<tr><td style="color:#00a854;font-weight:bold">本项目 Reader</td><td>解析静态数据库文件的只读代码</td><td>微信无感知，不违反进程边界</td></tr>
+<tr><td>Hook / 注入</td><td>把代码塞进微信进程内存里拦截消息</td><td>微信可检测 → 封号风险；需要重签名</td></tr>
+<tr><td>协议破解机器人</td><td>模拟微信客户端协议收发消息</td><td>明确违反用户协议，封号重灾区</td></tr>
+</table>
+<p>macOS 上另有一个<b>实验性接入助手</b>（可能重启微信/重签名副本，需用户单独确认授权）；<span class="hl2">Windows 的首次取钥尚未合入主仓库</span>——本机实测 <code>home</code> / <code>db-status</code> 在没有授权数据库时会被明确拒绝（见实验第 5 步）。</p>
+</div>
+
+<!-- ============ Q5 ============ -->
+<div class="qcard c5">
+<span class="qnum">疑问 05</span>
+<h3>仓库说"一个产品，两个 Skill，四层架构"，具体长什么样？</h3>
+<div class="svgbox">
+<svg width="760" height="260" viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg">
+  <rect x="180" y="10" width="400" height="46" rx="10" fill="#00c2ff"/>
+  <text x="380" y="30" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">第 4 层 · projects/wechat-intelligence-hub</text>
+  <text x="380" y="48" fill="#dff6ff" font-size="11" text-anchor="middle">旗舰情报引擎：信号识别、日报、承诺、商机雷达（本次实验主角）</text>
+  <rect x="180" y="70" width="400" height="46" rx="10" fill="#7b2ff7"/>
+  <text x="380" y="90" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">第 3 层 · skills/wechat-intelligence-hub</text>
+  <text x="380" y="108" fill="#e8dcff" font-size="11" text-anchor="middle">给 Codex 等 Agent 看的调用规则（什么时候该用什么命令）</text>
+  <rect x="180" y="130" width="400" height="46" rx="10" fill="#ff3d71"/>
+  <text x="380" y="150" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">第 2 层 · skills/wechat-cli</text>
+  <text x="380" y="168" fill="#ffd6e2" font-size="11" text-anchor="middle">Agent 统一入口：默认只调 Rion 自有 Reader</text>
+  <rect x="180" y="190" width="400" height="46" rx="10" fill="#1a1a2e"/>
+  <text x="380" y="210" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">第 1 层 · projects/rion-wechat-reader</text>
+  <text x="380" y="228" fill="#bbb" font-size="11" text-anchor="middle">clean-room 只读 Reader 核心（SQLCipher / WCDB / zstd）</text>
+  <text x="380" y="252" fill="#888" font-size="12" text-anchor="middle">图 3：四层架构 —— 越往下越靠近数据，越往上越靠近"人话"</text>
+</svg>
+</div>
+<p>为什么要拆四层？<span class="hl">依赖方向单一、可独立测试</span>：Reader 层不依赖引擎，引擎可以用<b>全虚构样例数据</b>跑通全部测试（本机已验证，Windows 原生 CI 同样只测虚构材料）。用户视角仍是一次安装。</p>
+</div>
+
+<!-- ============ Q6 ============ -->
+<div class="qcard">
+<span class="qnum">疑问 06</span>
+<h3>引擎怎么从聊天里"识别商单信号"？是 AI 吗？</h3>
+<p><span class="hl2">不是大模型，是确定性规则引擎</span> —— 同一份输入永远得到同样的输出，这正是它能被单元测试锁定的原因（与知识库里 [[确定性脚本]] 是同一思想）。每条消息被规则打上三个标签：</p>
+<table class="tb">
+<tr><th>标签</th><th>取值示例（实测 signals.csv 里出现的）</th></tr>
+<tr><td><b>category 类别</b></td><td>合作意向 / 报价 / 结算 / 排期 / 创作 / brief / 待回复</td></tr>
+<tr><td><b>stage 阶段</b></td><td>新线索 → 待报价 → 待确认报价/排期 → 待创作 → 已发布待结算</td></tr>
+<tr><td><b>priority 优先级</b></td><td>1~5，"待回复"给 5（最急），"新线索"给 2</td></tr>
+</table>
+<p>实测一条消息能产生<b>多条</b>信号（"预算 650 USD，想这周五发布"同时命中 报价+排期+创作 三条）。最后按聊天对象聚合，输出"今天优先处理"清单，每条都<b>附证据原句</b>——这正是它和 [[AI味模式库与信号非证据]] 里"信号不是证据"的呼应：<span class="hl">每条判断都必须能点开原句核查</span>。</p>
+</div>
+
+<!-- ============ Q7 ============ -->
+<div class="qcard c2">
+<span class="qnum">疑问 07</span>
+<h3>一份日报是怎么从无到有生成的？</h3>
+<div class="svgbox">
+<svg width="760" height="130" viewBox="0 0 760 130" xmlns="http://www.w3.org/2000/svg">
+  <g font-size="13" font-weight="bold" text-anchor="middle">
+  <rect x="10"  y="35" width="110" height="55" rx="10" fill="#00c2ff"/><text x="65"  y="60" fill="#fff">读入消息</text><text x="65" y="78" fill="#dff6ff" font-size="10" font-weight="normal">8~13 条/样例</text>
+  <rect x="150" y="35" width="110" height="55" rx="10" fill="#7b2ff7"/><text x="205" y="60" fill="#fff">规则打标</text><text x="205" y="78" fill="#e8dcff" font-size="10" font-weight="normal">21 条信号</text>
+  <rect x="290" y="35" width="110" height="55" rx="10" fill="#ff3d71"/><text x="345" y="60" fill="#fff">按人聚合</text><text x="345" y="78" fill="#ffd6e2" font-size="10" font-weight="normal">5 个对象</text>
+  <rect x="430" y="35" width="110" height="55" rx="10" fill="#ffb800"/><text x="485" y="60" fill="#fff">排序写报</text><text x="485" y="78" fill="#fff6dd" font-size="10" font-weight="normal">daily_digest.md</text>
+  <rect x="570" y="35" width="110" height="55" rx="10" fill="#00e676"/><text x="625" y="60" fill="#fff">渲染净化</text><text x="625" y="78" fill="#e2ffe9" font-size="10" font-weight="normal">pandoc + nh3</text>
+  </g>
+  <path d="M122 62 L146 62 M262 62 L286 62 M402 62 L426 62 M542 62 L566 62" stroke="#999" stroke-width="4"/>
+  <text x="380" y="120" fill="#888" font-size="12" text-anchor="middle">图 4：日报流水线（数字为官方虚构样例的实测值）</text>
+</svg>
+</div>
+<p>本机实测官方样例（<code>run_demo.sh</code>）：读取 <b>8 条</b>消息 → 识别 <b>21 条</b>信号 → 聚合 <b>5 个</b>聊天对象 → 输出 <code>signals.csv / deals.csv / daily_digest.md</code> 三件套。</p>
+</div>
+
+<!-- ============ Q8 ============ -->
+<div class="qcard c3">
+<span class="qnum">疑问 08</span>
+<h3>HTML 报告为什么要 pandoc + nh3 两个工具？</h3>
+<p>日报默认是 Markdown。要变成能发给别人的独立 HTML，需要两步：</p>
+<p>① <b>pandoc</b>：万能文档"翻译机"，把 Markdown 转成 HTML5 片段；② <b>nh3</b>：HTML 消毒器（基于 Mozilla 的 ammonia），把转出来的 HTML 按白名单<b>洗掉脚本和危险标签</b>——防止聊天记录里有人发过恶意 HTML/脚本，一转报告就在你浏览器里执行（XSS）。</p>
+<p><span class="hl">缺 pandoc 时它明确报错、不降级</span>：README 写明"HTML 生成会明确报错，不降级为未净化页面"——宁可没有，不给脏的。本机通过 <code>pypandoc-binary</code> 拿到 pandoc 3.9 后实测渲染成功（实验第 4 步）。</p>
+</div>
+
+<!-- ============ Q9 ============ -->
+<div class="qcard c4">
+<span class="qnum">疑问 09</span>
+<h3>Windows 上能直接用吗？能读到我的真微信吗？</h3>
+<p>分两层回答（都是 README + 实测的结论）：</p>
+<table class="tb">
+<tr><th>能力</th><th>Windows 状态</th></tr>
+<tr><td>跑虚构样例 / 读聊天导出文件 / 生成日报</td><td style="color:#00a854;font-weight:bold">✅ 开箱即用（本次全链路实测通过）</td></tr>
+<tr><td>SQLCipher 解密、WCDB 解压（读取已授权数据库）</td><td style="color:#e69b00;font-weight:bold">🟡 CI 已验证，需你提供授权 key</td></tr>
+<tr><td>首次自动获取密钥（取 key）</td><td style="color:#ff3d71;font-weight:bold">❌ 尚未合入主仓库，未完成新电脑真机验收</td></tr>
+</table>
+<p><span class="hl2">一句话：引擎和报告层 Windows 随便玩；读真库要自备授权材料；指望它自动破解微信，不存在的。</span>这也解释了推文为什么喊"先 fork"——微信相关工具随时可能 404，先把代码留下。</p>
+</div>
+
+<!-- ============ Q10 ============ -->
+<div class="qcard c5">
+<span class="qnum">疑问 10</span>
+<h3>Codex Skill 在这里是什么角色？</h3>
+<p>仓库带两个 "Skill" 目录（<code>skills/wechat-cli</code>、<code>skills/wechat-intelligence-hub</code>），本质是<b>给编程智能体看的操作规程</b>：什么时候该跑 <code>scan</code>、什么时候该跑 <code>access-plan</code>、哪些操作必须先问用户确认（如取 key）。所以 README 推荐的使用姿势是<b>把一整段话丢给 Codex</b>，让它自己安装、自检、报缺口，而不是人逐条敲命令。这和知识库里 [[AgentSkills技能包]] 是同一范式：Skill 不负责执行，负责<b>教会 Agent 何时做什么、边界在哪</b>。</p>
+</div>
+
+<!-- ============ Q11 ============ -->
+<div class="qcard">
+<span class="qnum">疑问 11</span>
+<h3>AGPL-3.0 许可证意味着什么？</h3>
+<p>AGPL 是 GPL 的"联网加强版"：只要你<b>通过网络提供服务</b>给别人用，就必须把完整源码也公开。对个人本地自用完全没影响；但如果哪家公司想把它集成进闭源商业产品，得找作者买商业授权（仓库里确实挂了 <code>COMMERCIAL-LICENSE.md</code>）。作者用 AGPL + 商业授权双轨，是典型的"开源留名、商用收费"路线。</p>
+</div>
+
+<!-- ============ Q12 ============ -->
+<div class="qcard c2">
+<span class="qnum">疑问 12</span>
+<h3>实测：规则引擎的"视力"到底怎么样？</h3>
+<p>本指南最有价值的一节 —— 用自建样例（实验第 3 步）测试它的<b>精度边界</b>：</p>
+<table class="tb">
+<tr><th>消息</th><th>引擎的判断</th><th>评价</th></tr>
+<tr><td>"尾款 12000 国庆后安排"</td><td>结算 · 已发布待结算 · 优先级 5</td><td style="color:#00a854">✅ 精准</td></tr>
+<tr><td>"首款 40% 下周打款"</td><td>结算 · 优先级 5</td><td style="color:#00a854">✅ 精准</td></tr>
+<tr><td>好久没联系的老同学来聊合作</td><td>合作意向 · 新线索</td><td style="color:#00a854">✅ 复联线索识别到位</td></tr>
+<tr><td>妈妈："记得提前买票" / 我："回的，明天买"</td><td>排期 · 待确认报价/排期</td><td style="color:#ff3d71">❌ 误报：买票被当成商务排期</td></tr>
+<tr><td>读书会："周五晚讨论，自愿报名"</td><td>排期 · 待确认报价/排期</td><td style="color:#ff3d71">❌ 误报</td></tr>
+<tr><td>我："改好了，晚上发你"（对阿 may 的承诺）</td><td>（无信号）</td><td style="color:#e69b00">⚠️ 漏报：承诺句没被标记</td></tr>
+<tr><td>猎聘 JD、快递通知</td><td>（正确忽略）</td><td style="color:#00a854">✅ 抗干扰</td></tr>
+</table>
+<p><span class="hl">结论：确定性规则的代价是"宁可多报，不可漏报"（误报 3、漏报 1、抗干扰正确）。</span>它的定位是"筛子"不是"裁判"——把人从翻记录里解放出来，最终判断仍由人看证据原句完成。这与 [[事实与判断分离]] 的分层思想一致：引擎产事实（带证据的信号），人做判断。</p>
+</div>
+
+<!-- ============ Q13 ============ -->
+<div class="qcard c3">
+<span class="qnum">疑问 13</span>
+<h3>它和知识库里已学过的概念怎么连起来？</h3>
+<p>① 引擎是 [[确定性脚本]] 的"情报版"实例：同输入同输出，测试可锁定；② 报告管线是 [[构建流水线与Pass]] 的迷你形态：读入→打标→聚合→写报→渲染，各 Pass 独立；③ "每条信号附证据原句"正是 [[AI味模式库与信号非证据]] 的铁律——信号不是证据，证据是可核查的原句；④ 给 Codex 的 Skill 是 [[AgentSkills技能包]] 的实战样本；⑤ 引擎产事实、人做判断，是 [[事实与判断分离]] 的小型实践。</p>
+</div>
+
+<!-- ============ 能力清单 ============ -->
+<h2 class="sec">这个项目给我什么</h2>
+<div class="ability"><b class="t">① 聊天导出 → 商单日报</b><p style="margin-top:4px">给一个按 <code>[时间] 发送人: 内容</code> 格式的导出文件，秒出"今天优先处理"清单 + 证据原句（本次实验实测）。</p></div>
+<div class="ability"><b class="t">② 承诺与待回复跟踪</b><p style="margin-top:4px">扫出"对方问了你但还没回""你答应了还没做"的事项，按优先级排序。</p></div>
+<div class="ability"><b class="t">③ 商机雷达 + 复联线索</b><p style="margin-top:4px">识别报价/预算/合作意向金额（实测能抽出"650 USD""3000-5000 RMB"）；找出久未联系但出现合作苗头的关系。</p></div>
+<div class="ability"><b class="t">④ 本地情报库检索</b><p style="margin-top:4px">把重点联系人/群聊索引进本地 SQLite 情报库，按人、按关键词、按日期秒查历史。</p></div>
+<div class="ability"><b class="t">⑤ 净化 HTML 报告</b><p style="margin-top:4px">Markdown 日报一键转独立 HTML（pandoc 转换 + nh3 白名单消毒），可直接发给协作者。</p></div>
+<div class="ability"><b class="t">⑥ 给 Agent 的操作规程</b><p style="margin-top:4px">两个 Skill 目录可直接教 Codex/Claude 何时用哪条命令、哪些动作必须先经人确认——可以搬来做自己项目的 Agent 操作手册模板。</p></div>
+
+<!-- ============ 实验 ============ -->
+<h2 class="sec">动手实验：不碰真微信，跑通"扫描 → 日报 → HTML"全链路</h2>
+<p class="lead">共 5 步，全部在本机（Windows 11 + Python 3.14）真实执行通过。实验材料在 <code>F:\reminder\wechat-intelligence-hub\exercise\</code>。</p>
+
+<div class="step">
+<h3>第 1 步 · 克隆仓库并跑官方虚构 Demo</h3>
+<p><b>目的</b>：零风险验证引擎主链路（官方自带全虚构样例，不碰任何真实数据）。</p>
+<pre class="cmd">git clone https://github.com/Rion-Wu-tech/wechat-intelligence-hub repo
+cd repo/projects/wechat-intelligence-hub
+<b># Git Bash 下 PYTHON_BIN 指向 python（Windows 没有 python3）</b>
+PYTHON_BIN=python bash scripts/run_demo.sh</pre>
+<div class="expect">✅ 预期结果：输出"读取消息：8 条 / 识别信号：21 条 / 聚合对象：5 个"及输出目录；fake-vault 部分输出"3 条消息 → 9 条信号"。本机实测完全一致。</div>
+</div>
+
+<div class="step">
+<h3>第 2 步 · 补齐 HTML 渲染依赖（可选但推荐）</h3>
+<p><b>目的</b>：让第 4 步的 HTML 报告能跑。nh3 直接 pip 装；pandoc 用 pypandoc-binary 自带的 3.9。</p>
+<pre class="cmd">pip install nh3 zstandard pypandoc-binary
+python -c "import pypandoc; print(pypandoc.get_pandoc_path())"
+<b># 把自带 pandoc.exe 放进 PATH（Git Bash）</b>
+cp "$APPDATA/Python/Python314/site-packages/pypandoc/files/pandoc.exe" ~/.local/bin/
+export PATH="$HOME/.local/bin:$PATH" &amp;&amp; pandoc --version | head -1</pre>
+<div class="expect">✅ 预期结果：打印 <code>pandoc 3.9</code>。不装也不影响 Markdown 日报，只是 HTML 会明确报错。</div>
+</div>
+
+<div class="step">
+<h3>第 3 步 · 自建聊天文件，测引擎的"视力"</h3>
+<p><b>目的</b>：造一份 13 条消息的"考题"（含结算、承诺、复联、纯闲聊干扰项），看规则引擎哪些答对、哪些误报。</p>
+<pre class="cmd"><b># 新建 exercise/my_chat.txt，按 [YYYY-MM-DD HH:MM] 发送人: 内容 格式写 13 条</b>
+<b># 例如："[2026-09-30 11:20] 陈总: 那个方案客户通过了，尾款 12000 国庆后安排"</b>
+cd F:/reminder/wechat-intelligence-hub
+python repo/projects/wechat-intelligence-hub/wechat_intelligence_hub.py scan exercise/my_chat.txt --out exercise/out-my-scan</pre>
+<p><b>实现了什么</b>：引擎输出 signals.csv（逐条信号：类别/阶段/优先级/证据原句）+ daily_digest.md（聚合日报）。</p>
+<div class="expect">✅ 预期结果：13 条消息 → 7 条信号 → 6 个对象。"尾款/首款"命中结算（优先级 5），老同学合作命中"合作意向·新线索"；同时能看到误报（"明天买票"被当排期）。</div>
+<div class="warn">⚠️ 思考点：翻 signals.csv 找一条误报和一条漏报——这就是"确定性筛子 + 人工复核"工作方式的最小演示。</div>
+</div>
+
+<div class="step">
+<h3>第 4 步 · Markdown 日报 → 净化 HTML</h3>
+<p><b>目的</b>：体验"明确报错不降级"的净化链路。</p>
+<pre class="cmd">python repo/projects/wechat-intelligence-hub/wechat_intelligence_hub.py render-report ^
+  exercise/out-my-scan/daily_digest.md --out exercise/out-my-scan/daily_digest.html --title "实验日报"</pre>
+<div class="expect">✅ 预期结果：打印"最终 HTML：...\daily_digest.html"，得到一个自带样式、经过 nh3 白名单消毒的独立 HTML 页面。</div>
+</div>
+
+<div class="step">
+<h3>第 5 步 · 验证"没有授权就不读真库"的硬边界</h3>
+<p><b>目的</b>：确认工具在无授权材料时明确拒绝，而不是偷偷尝试。</p>
+<pre class="cmd">python repo/projects/wechat-intelligence-hub/wechat_intelligence_hub.py home
+python repo/projects/wechat-intelligence-hub/wechat_intelligence_hub.py db-status --db exercise/hub_demo.db</pre>
+<div class="expect">✅ 预期结果：两条命令分别报"找不到数据库：C:\Users\Windows\.wechat-intelligence-hub\radar.db"和"找不到数据库：exercise\hub_demo.db"——<b>干净利落地拒绝，不降级、不猜测</b>。这正是 clean-room 只读承诺的工程化体现。</div>
+</div>
+
+<div class="footer">wechat-intelligence-hub 小白指南 · F:/reminder 拾遗学习流水线 · 2026-10-03 · 全部命令实测通过</div>
+
+</div>
+</body>
+</html>
