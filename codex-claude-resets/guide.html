@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>CodexClaudeResets Guide</title>
+<style>
+  :root{
+    --red:#FF4757; --orange:#FFA502; --yellow:#FFDC4D; --green:#2ED573;
+    --blue:#1E90FF; --purple:#A55EEA; --pink:#FF6B9D; --cyan:#00CEC9;
+    --ink:#2F3542; --paper:#FFFFFF; --soft:#FFF8E7;
+  }
+  @page{ size:A4; margin:12mm; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:#fff; font-size:13px; line-height:1.65; }
+  .cover{ background:linear-gradient(135deg,#FF4757 0%,#FFA502 45%,#FFDC4D 100%); border-radius:18px; padding:34px 30px; color:#fff; margin-bottom:16px; }
+  .cover h1{ font-size:34px; letter-spacing:1px; text-shadow:2px 2px 0 rgba(0,0,0,.18); }
+  .cover .sub{ font-size:16px; margin-top:10px; font-weight:bold; }
+  .cover .meta{ margin-top:14px; font-size:12px; background:rgba(255,255,255,.22); display:inline-block; padding:5px 14px; border-radius:99px; font-weight:bold; }
+  .cover .one{ margin-top:16px; background:#fff; color:var(--ink); border-radius:12px; padding:14px 18px; font-size:15px; font-weight:bold; border-left:10px solid var(--red); }
+  h2.sec{ font-size:22px; margin:20px 0 10px; padding:8px 16px; border-radius:10px; color:#fff; display:inline-block; }
+  .qcard{ border-radius:14px; padding:16px 18px; margin:12px 0; break-inside:avoid; border:3px solid; background:#fff; }
+  .qcard .qnum{ font-size:34px; font-weight:900; float:right; opacity:.9; line-height:1; }
+  .qcard h3{ font-size:17px; margin-bottom:8px; }
+  .qcard .ans{ margin-top:6px; }
+  .hl{ background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:900; padding:0 2px; }
+  .big{ font-size:15px; font-weight:900; }
+  code{ background:#2F3542; color:#FFDC4D; padding:1px 7px; border-radius:6px; font-family:Consolas,monospace; font-size:12px; }
+  pre{ background:#2F3542; color:#EAF6FF; border-radius:10px; padding:10px 14px; font-size:11.5px; overflow:hidden; margin:8px 0; font-family:Consolas,monospace; line-height:1.5; }
+  pre b{ color:#2ED573; }
+  table{ border-collapse:collapse; width:100%; margin:8px 0; font-size:12px; }
+  th{ background:var(--blue); color:#fff; padding:6px 8px; }
+  td{ border:2px solid #E8E8E8; padding:5px 8px; }
+  tr:nth-child(even) td{ background:var(--soft); }
+  .c-red{border-color:var(--red)!important}.c-orange{border-color:var(--orange)!important}
+  .c-green{border-color:var(--green)!important}.c-blue{border-color:var(--blue)!important}
+  .c-purple{border-color:var(--purple)!important}.c-cyan{border-color:var(--cyan)!important}
+  .c-pink{border-color:var(--pink)!important}
+  .tag{ display:inline-block; padding:2px 10px; border-radius:99px; color:#fff; font-size:11px; font-weight:bold; margin:1px 2px; }
+  .step{ border-radius:12px; border:3px solid var(--cyan); padding:12px 16px; margin:10px 0; break-inside:avoid; background:#F2FEFE; }
+  .step h4{ font-size:15px; color:#00867F; }
+  .step .goal{ font-size:12px; color:#555; margin:3px 0; }
+  .expect{ background:#E9FBEE; border:2px dashed var(--green); border-radius:10px; padding:7px 12px; margin-top:7px; font-size:12px; font-weight:bold; }
+  .kv{ display:inline-block; background:var(--soft); border-radius:8px; padding:3px 10px; margin:2px; font-size:11.5px; border:1.5px solid var(--orange); font-weight:bold; }
+  .fig{ text-align:center; margin:8px 0; }
+  .fig .cap{ font-size:11px; color:#777; margin-top:2px; }
+  .avoid{ break-inside:avoid; }
+</style>
+</head>
+<body>
+
+<!-- ============ 封面 ============ -->
+<div class="cover">
+  <h1>Codex &amp; Claude Resets 追踪器</h1>
+  <div class="sub">把六个官方账号的"额度重置"公告钉在一张页面上 —— 一个教你信任链、证据状态机与 Git 即数据库的迷你全栈项目</div>
+  <div class="meta">作者 Shixi Lin（@11Shixi） · github.com/shixi-11/codex-claude-resets · source-available 非商业许可 · Node 24 零依赖</div>
+  <div class="one">一句话：它每 30 分钟去 X 上"听" Codex 和 Claude 官方的额度重置公告，<span style="color:var(--red)">截断的一律不算数</span>，确认过的下次重置时间换成<span style="color:var(--blue)">你的本地时间</span>倒计时，九种语言静态页发布 —— 而整个"数据库"就是一个 Git 仓库。</div>
+</div>
+
+<!-- ============ 项目速览 ============ -->
+<h2 class="sec" style="background:var(--red)">项目速览：它解决什么问题</h2>
+<div class="qcard c-orange">
+  <h3>痛点场景（讲故事）</h3>
+  <div class="ans">你正在 Codex 里写代码，突然 <span class="hl">limit reached</span>。官方说"会重置"，但消息散在 @thsottiaux、@OpenAIDevs、@OpenAI、@ClaudeDevs、@AnthropicAI、@claudeai 六个账号里：有预告、有完成通报、有重置卡补偿、有纯新闻，还夹着网友的玩笑和截图传闻。时间全写 PST/PDT，你是 UTC+8 得心算。以前的做法是：盯六个时间线 + 祈祷 + 心算时区。这个项目把这件事变成一个<span class="hl">确定性流水线：发现 → 验证 → 分类 → 展示</span>，人只管看结果。</div>
+  <div class="fig">
+  <svg width="700" height="118" viewBox="0 0 700 118">
+    <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#2F3542"/></marker></defs>
+    <rect x="6" y="30" width="120" height="56" rx="10" fill="#FF6B9D"/><text x="66" y="52" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">6 个官方 X 账号</text><text x="66" y="70" text-anchor="middle" fill="#fff" font-size="10">散乱公告 + 谣言</text>
+    <rect x="160" y="30" width="130" height="56" rx="10" fill="#FFA502"/><text x="225" y="52" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">采集器 collect.mjs</text><text x="225" y="70" text-anchor="middle" fill="#fff" font-size="10">发现+交叉验证+分类</text>
+    <rect x="324" y="30" width="120" height="56" rx="10" fill="#1E90FF"/><text x="384" y="52" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">data/*.json</text><text x="384" y="70" text-anchor="middle" fill="#fff" font-size="10">git 提交 = 入库</text>
+    <rect x="478" y="30" width="100" height="56" rx="10" fill="#2ED573"/><text x="528" y="52" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">build.mjs</text><text x="528" y="70" text-anchor="middle" fill="#fff" font-size="10">9 语言 711 页静态</text>
+    <rect x="612" y="30" width="82" height="56" rx="10" fill="#A55EEA"/><text x="653" y="52" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Vercel</text><text x="653" y="70" text-anchor="middle" fill="#fff" font-size="10">上线</text>
+    <line x1="126" y1="58" x2="158" y2="58" stroke="#2F3542" stroke-width="2.5" marker-end="url(#a1)"/>
+    <line x1="290" y1="58" x2="322" y2="58" stroke="#2F3542" stroke-width="2.5" marker-end="url(#a1)"/>
+    <line x1="444" y1="58" x2="476" y2="58" stroke="#2F3542" stroke-width="2.5" marker-end="url(#a1)"/>
+    <line x1="578" y1="58" x2="610" y2="58" stroke="#2F3542" stroke-width="2.5" marker-end="url(#a1)"/>
+  </svg>
+  <div class="cap">图 0：整条流水线 —— 公告从 X 时间线到静态页的四跳</div>
+  </div>
+</div>
+
+<!-- ============ 疑问清单 ============ -->
+<h2 class="sec" style="background:var(--blue)">疑问即目录：12 个问题拆到底</h2>
+
+<div class="qcard c-red avoid">
+  <div class="qnum" style="color:var(--red)">Q1</div>
+  <h3>这是什么？一句话说清</h3>
+  <div class="ans">一个<span class="hl">单一用途的公告聚合追踪站</span>：只回答一个问题——"Codex / Claude 下次额度重置是什么时候（按我的时区）？"它是作者说的"总在脑子里碍事的小问题"的工程化解法：问题够小，所以整个项目 <span class="big">src+scripts 合计约 1200 行 JS</span>，一个下午能读完。给工科毕业生的启示：<span class="hl">好工具未必大，关键是把一件事做到有据可查</span>。</div>
+</div>
+
+<div class="qcard c-orange avoid">
+  <div class="qnum" style="color:var(--orange)">Q2</div>
+  <h3>为什么"没新消息"和"检查失败"必须分开？</h3>
+  <div class="ans">追踪器最常见的谎言是把"我没能看"说成"没发生"。本项目明确：<span class="hl">扫描成功但零命中 = 健康；来源读不到 = 覆盖不完整</span>，两种情况在 health.json 里是不同的记录，页面上"上次成功检查时间"只在前者前进。同时数据超过 3 小时没刷新，浏览器会自行把状态"变陈"——<span class="hl">部署失败不能留下永久的绿灯</span>。这与知识库里的 [[健康探测三态]]（missing/broken/timeout 分态处治）是同一条纪律：探测结果必须分状态，不能压成一个布尔值。</div>
+</div>
+
+<div class="qcard c-blue avoid">
+  <div class="qnum" style="color:var(--blue)">Q3</div>
+  <h3>没有 X API（付费）怎么拿到推文？——双通道交叉印证</h3>
+  <div class="ans">核心手法：<span class="hl">公共中继负责"发现"，X 官方 embed 负责"验证"，两者必须互相咬合</span>。FxEmbed（就是本任务取推文全文用的那个 api.fxtwitter.com）拉取 6 个账号最近 40 条推文做候选；然后独立请求 X 官方 oEmbed，比对作者、帖子 ID、时间戳和可见文本前缀——全对得上才接受，长帖扩展文本标记为 <code>x-oembed+fxembed</code> 溯源。第三方社区站（codexreset.org 等）<span class="big">只许当"链接索引"，永远不许当证据</span>。分类只信验证过的原文，翻译永远排在这之后。</div>
+  <div class="fig">
+  <svg width="700" height="150" viewBox="0 0 700 150">
+    <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#2F3542"/></marker></defs>
+    <rect x="250" y="6" width="200" height="30" rx="8" fill="#FF4757"/><text x="350" y="26" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">X 上的帖子（唯一事实源）</text>
+    <rect x="40" y="66" width="250" height="54" rx="10" fill="#FFA502"/><text x="165" y="88" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">通道 A：FxEmbed 公共中继</text><text x="165" y="106" text-anchor="middle" fill="#fff" font-size="10">发现候选 + 长帖全文（免费，无需密钥）</text>
+    <rect x="410" y="66" width="250" height="54" rx="10" fill="#1E90FF"/><text x="535" y="88" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">通道 B：X 官方 oEmbed</text><text x="535" y="106" text-anchor="middle" fill="#fff" font-size="10">独立核对 作者/ID/时间戳/可见文本</text>
+    <line x1="300" y1="36" x2="190" y2="64" stroke="#2F3542" stroke-width="2.5" marker-end="url(#a2)"/>
+    <line x1="400" y1="36" x2="510" y2="64" stroke="#2F3542" stroke-width="2.5" marker-end="url(#a2)"/>
+    <rect x="200" y="112" width="300" height="32" rx="8" fill="#2ED573"/><text x="350" y="133" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">两通道咬合 → 接受为证据（记 provenance）</text>
+    <line x1="165" y1="120" x2="255" y2="128" stroke="#2F3542" stroke-width="2.5" marker-end="url(#a2)"/>
+    <line x1="535" y1="120" x2="445" y2="128" stroke="#2F3542" stroke-width="2.5" marker-end="url(#a2)"/>
+  </svg>
+  <div class="cap">图 1：单通道不可信，双通道交叉印证才入账（社区站只给虚线级的"线索"地位）</div>
+  </div>
+</div>
+
+<div class="qcard c-purple avoid">
+  <div class="qnum" style="color:var(--purple)">Q4</div>
+  <h3>证据状态机：一条公告凭什么分四种说法？</h3>
+  <div class="ans">这是全项目最有含金量的设计。每条记录打两个标签：<span class="hl">kind（事件种类）× state（说法状态）</span>。kind = global（全局重置）/ banked（重置卡）/ usage（额度变化）/ other；state = <span class="big">announced（预告将做）/ reported（作者自称已做）/ unconfirmed（证据不全）/ information（纯资讯）</span>。分类器是 <code>src/evidence.mjs</code> 里 100% 确定性的正则规则（RULES_VERSION 1.4.2），不用 LLM 猜语义。<span class="hl">"已宣布完成"描述的是对方的说法，不是你的账号余额</span>——所以页面永远提醒你以 /status 为准。这正是 [[事实与判断分离]] 的变体：状态判定是确定性代码的事，绝不交给模糊语义。</div>
+  <div class="fig">
+  <svg width="700" height="140" viewBox="0 0 700 140">
+    <rect x="10" y="30" width="150" height="70" rx="12" fill="#FFA502"/><text x="85" y="58" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">announced</text><text x="85" y="78" text-anchor="middle" fill="#fff" font-size="11">明确预告未来</text>
+    <rect x="185" y="30" width="150" height="70" rx="12" fill="#2ED573"/><text x="260" y="58" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">reported</text><text x="260" y="78" text-anchor="middle" fill="#fff" font-size="11">第一人称完成通报</text>
+    <rect x="360" y="30" width="150" height="70" rx="12" fill="#FF4757"/><text x="435" y="58" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">unconfirmed</text><text x="435" y="78" text-anchor="middle" fill="#fff" font-size="11">截断/歧义/引用/玩笑</text>
+    <rect x="535" y="30" width="150" height="70" rx="12" fill="#95A5A6"/><text x="610" y="58" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">information</text><text x="610" y="78" text-anchor="middle" fill="#fff" font-size="11">额度相关纯资讯</text>
+    <text x="350" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="#2F3542">同一句"reset"，说法状态完全不同 —— 不许混装</text>
+    <text x="350" y="126" text-anchor="middle" font-size="11" fill="#666">state 决定它能不能上倒计时、能不能算"已完成"；kind 决定它属于哪张卡片</text>
+  </svg>
+  <div class="cap">图 2：证据状态机四态（实测：预→announced，"Reset has propagated"→reported，截断→unconfirmed）</div>
+  </div>
+</div>
+
+<div class="qcard c-pink avoid">
+  <div class="qnum" style="color:var(--pink)">Q5</div>
+  <h3>为什么"截断"就一票否决？——保守原则</h3>
+  <div class="ans">X 长帖经中继拿到的全文，只有和官方可见摘录<b>逐字咬合</b>才采信。只要帖子仍是截断状态，<span class="hl">哪怕可见部分听起来再像重置公告，也永远标 unconfirmed</span>。配套三条铁律：① 时间过去了不等于完成了——过了预告时刻也不会自动生成"已完成"事件；② 没有验证过的具体时刻就<span class="big">绝不发明倒计时</span>；③ 规则升级后每轮都对全部存档原文重新分类，规则修复会自动清洗历史误收，但<span class="hl">网络失败和证据不足永远不能删掉已验证的完整记录</span>。宁可页面上写着"-- 等待确认"，也不给用户一个编造的期望。这是 [[AI味模式库与信号非证据]] 的工程化正面示范：信号只是线索，证据才可行动。</div>
+</div>
+
+<div class="qcard c-green avoid">
+  <div class="qnum" style="color:var(--green)">Q6</div>
+  <h3>没有数据库，78 条记录存在哪？——Git 即数据库</h3>
+  <div class="ans">全部状态就是 <code>data/</code> 下五个 JSON：<code>events.json</code>（78 条事件）、<code>platforms.json</code>（下一张卡片数据）、<code>health.json</code>（健康）、<code>translations.json</code>（翻译缓存）、<code>topic-heat.json</code>。GitHub Actions 每半小时跑采集器，把变更的 JSON <span class="hl">git commit 进公开仓库</span>，Vercel 的 Git 集成监听提交自动构建发布 dist/。<span class="big">每次提交 = 一次数据入库 = 一次上线</span>，git 历史天然就是审计日志（规则修正全留痕）。零数据库、零服务器、零付费 API，公共仓库 runner 还不花私有 Actions 分钟数。与 [[快照契约与不可变只读]]、[[发布交换与健康门回滚]] 一脉相承：数据即快照，提交即发布。</div>
+  <div class="fig">
+  <svg width="700" height="120" viewBox="0 0 700 120">
+    <defs><marker id="a3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#2F3542"/></marker></defs>
+    <rect x="14" y="34" width="150" height="52" rx="10" fill="#1E90FF"/><text x="89" y="56" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">GitHub Actions</text><text x="89" y="74" text-anchor="middle" fill="#fff" font-size="10">每小时 7/17/27/37/47/57 分</text>
+    <rect x="200" y="34" width="140" height="52" rx="10" fill="#2F3542"/><text x="270" y="56" text-anchor="middle" fill="#FFDC4D" font-size="11.5" font-weight="bold">git commit data/</text><text x="270" y="74" text-anchor="middle" fill="#fff" font-size="10">数据入库 + 审计留痕</text>
+    <rect x="376" y="34" width="140" height="52" rx="10" fill="#FFA502"/><text x="446" y="56" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">Vercel 自动构建</text><text x="446" y="74" text-anchor="middle" fill="#fff" font-size="10">node scripts/build.mjs</text>
+    <rect x="552" y="34" width="136" height="52" rx="10" fill="#2ED573"/><text x="620" y="56" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">静态页上线</text><text x="620" y="74" text-anchor="middle" fill="#fff" font-size="10">无后端 · 纯 CDN</text>
+    <line x1="164" y1="60" x2="198" y2="60" stroke="#2F3542" stroke-width="2.5" marker-end="url(#a3)"/>
+    <line x1="340" y1="60" x2="374" y2="60" stroke="#2F3542" stroke-width="2.5" marker-end="url(#a3)"/>
+    <line x1="516" y1="60" x2="550" y2="60" stroke="#2F3542" stroke-width="2.5" marker-end="url(#a3)"/>
+    <text x="350" y="110" text-anchor="middle" font-size="11" fill="#666">失败时保留旧记录 + 写入降级健康状态 —— 数据不会被坏采集清空</text>
+  </svg>
+  <div class="cap">图 3：Actions 提交数据，Vercel 构建发布 —— "提交即部署"</div>
+  </div>
+</div>
+
+<div class="qcard c-cyan avoid">
+  <div class="qnum" style="color:var(--cyan)">Q7</div>
+  <h3>"每 30 分钟一次"的调度怎么设计？</h3>
+  <div class="ans">cron 写成<span class="hl">每小时 7/17/27/37/47/57 分</span>——特意避开 0 分整点：整点是全 GitHub 定时任务的拥堵时刻，官方文档明说 scheduled workflow 会延迟。附带两道保险：① 采集器内部对 6 个账号各自独立记账，<span class="hl">热闹账号（@OpenAI 每天发模型新闻）不能挤占冷清账号（@ClaudeDevs）的发现预算</span>；② 失败保留旧记录并发布降级健康态，绝不静默清空。手工补跑走 <code>workflow_dispatch</code>。实验实测本机直跑 <code>collect.mjs</code> 全链路成功（见实验步骤 4）。</div>
+  <div class="fig">
+  <svg width="700" height="70" viewBox="0 0 700 70">
+    <line x1="20" y1="40" x2="680" y2="40" stroke="#2F3542" stroke-width="3"/>
+    <g font-size="11" font-weight="bold">
+      <circle cx="80" cy="40" r="9" fill="#FF4757"/><text x="80" y="66" text-anchor="middle" fill="#2F3542">:07</text>
+      <circle cx="180" cy="40" r="9" fill="#FFA502"/><text x="180" y="66" text-anchor="middle" fill="#2F3542">:17</text>
+      <circle cx="280" cy="40" r="9" fill="#2ED573"/><text x="280" y="66" text-anchor="middle" fill="#2F3542">:27</text>
+      <circle cx="380" cy="40" r="9" fill="#1E90FF"/><text x="380" y="66" text-anchor="middle" fill="#2F3542">:37</text>
+      <circle cx="480" cy="40" r="9" fill="#A55EEA"/><text x="480" y="66" text-anchor="middle" fill="#2F3542">:47</text>
+      <circle cx="580" cy="40" r="9" fill="#FF6B9D"/><text x="580" y="66" text-anchor="middle" fill="#2F3542">:57</text>
+    </g>
+    <text x="640" y="20" text-anchor="middle" font-size="10" fill="#888">:00 整点拥堵区（避开）</text>
+  </svg>
+  <div class="cap">图 4：错峰调度——离整点 7 分钟起，每 10 分钟一班</div>
+  </div>
+</div>
+
+<div class="qcard c-orange avoid">
+  <div class="qnum" style="color:var(--orange)">Q8</div>
+  <h3>平台健康怎么算？为什么 Codex 和 Claude 分开记？</h3>
+  <div class="ans">health.json 里两个平台各自独立记账：<span class="hl">某平台"全部配置的时间线都读到 + 候选证据核验零失败"，该平台的 lastSuccessAt 才前进</span>；两者都健康整体才 healthy；任一平台超 3 小时无成功即 stale。妙处：Claude 半个月没动静（真实数据里 Claude 上次重置公告已是 31 天前）不影响 Codex 的绿灯——<span class="hl">"没消息"是正常输出，不是故障</span>。这正是 [[健康探测三态]] 里"把'查无'与'查不了'分开"的落地版。</div>
+  <table>
+    <tr><th>实测字段（本机采集一轮）</th><th>值</th><th>含义</th></tr>
+    <tr><td>mode</td><td>profile-relay</td><td>当前采集模式（另有 x-api / community-discovery 两档降级）</td></tr>
+    <tr><td>sources</td><td>6×FxEmbed + X official embed 全 ok</td><td>逐源记账，候选数 19/11/16/14/21/18</td></tr>
+    <tr><td>status</td><td>ok</td><td>整体健康（degraded / stale 为异常）</td></tr>
+  </table>
+</div>
+
+<div class="qcard c-blue avoid">
+  <div class="qnum" style="color:var(--blue)">Q9</div>
+  <h3>九种语言怎么实现？为什么翻译要绑定内容哈希？</h3>
+  <div class="ans">构建期把同一套模板渲染成 <span class="hl">9 个 locale 目录（en/zh-Hans/zh-Hant/ja/ko/es/fr/de/ar）共 711 页</span>，纯静态、无运行时翻译服务。翻译结果缓存在 <code>translations.json</code>，且<span class="big">绑定"原文全文 + contentHash"双键</span>：原文变了一个字，哈希失配，旧译文立即作废，页面回退显示英文原文并明确标注"待翻译"。<span class="hl">译文永远不参与证据判定和倒计时</span>——翻译只是展示层，判定只看验证过的原文。这和 [[缓存]] 里的"按内容寻址失效"是同一招（参照 [[内容寻址与镜像分层]]）。</div>
+</div>
+
+<div class="qcard c-purple avoid">
+  <div class="qnum" style="color:var(--purple)">Q10</div>
+  <h3>时区怎么做到"按你的本地时间显示"却不撒谎？</h3>
+  <div class="ans">分工明确：<span class="hl">存 UTC，显示在浏览器端转访客本地时区</span>并标出 GMT 偏移，夏令时按日期自动处理；切换语言不改变时区。最较真的地方：公告原文写 PST 就存 UTC−08:00，写 PDT 就存 UTC−07:00，<span class="big">绝不静默换算</span>——因为原文用哪个缩写本身就是信息。模糊的"今晚"（approximate）就保持模糊显示"约"，绝不定格成一个假精确的倒计时。所有"过去时间"（elapsed）单独一类展示，不与未来倒计时混淆。</div>
+</div>
+
+<div class="qcard c-red avoid">
+  <div class="qnum" style="color:var(--red)">Q11</div>
+  <h3>为什么是"source-available 非商业"而不是 MIT？</h3>
+  <div class="ans">仓库公开、可克隆、可本地跑、可学习修改，但<span class="hl">商用需要作者书面许可</span>（LICENSE 为自定义非商业条款）。这对学习者的实际影响：跟着做实验、改着玩、写文章完全没问题；想拿去开收费产品要发邮件谈。顺带提醒一个容易被忽略的点：推文和第三方商标的版权不属于作者，所以站点<span class="big">只引用短摘录 + 原文哈希，不整篇转载</span>——连"引用多少"都有设计。</div>
+</div>
+
+<div class="qcard c-green avoid">
+  <div class="qnum" style="color:var(--green)">Q12</div>
+  <h3>我能搬走哪些可复用的模式？</h3>
+  <div class="ans">
+    <span class="kv">① 双通道交叉印证（发现与验证分离）</span>
+    <span class="kv">② 证据状态机（announced/reported/unconfirmed/information）</span>
+    <span class="kv">③ Git 即数据库 + 提交即部署</span>
+    <span class="kv">④ 错峰 cron + 分账号发现预算</span>
+    <span class="kv">⑤ 分平台健康记账（没消息≠故障）</span>
+    <span class="kv">⑥ 内容哈希绑定翻译缓存</span>
+    <span class="kv">⑦ 零依赖静态站（Node 自带 test/http 即够）</span>
+    <div style="margin-top:6px">任何"盯公告/盯状态/盯价格"的需求（库存、版本发布、优惠券、比赛比分）都能套用这条流水线，成本为零。</div>
+  </div>
+</div>
+
+<!-- ============ 能力清单 ============ -->
+<h2 class="sec" style="background:var(--purple)">这个项目给你什么能力</h2>
+<div class="qcard c-cyan avoid">
+  <div class="ans">
+    <div class="big">对你（有 Python/JS 基础的工科毕业生）的 5 个具体用途：</div>
+    <table>
+      <tr><th>#</th><th>用途</th><th>怎么用</th></tr>
+      <tr><td>1</td><td>直接当用户</td><td>打开 shixilin.com/ai/codex-claude-resets/ 或订阅 RSS / 拉 events.json 写自己的提醒脚本</td></tr>
+      <tr><td>2</td><td>克隆改造成自己的追踪器</td><td>换 6 个监控账号和分类正则，就能盯任何公开公告源（比如模型发布、库存补货）</td></tr>
+      <tr><td>3</td><td>学零依赖 Node 工程</td><td>不用 npm install：node:test 做测试、node:http 起服务、build 脚本手写静态生成</td></tr>
+      <tr><td>4</td><td>学"证据链"设计</td><td>把 provenance / evidenceState / rulesVersion / contentHash 这套字段设计抄进你自己的采集项目</td></tr>
+      <tr><td>5</td><td>学 Actions+Vercel 免费部署</td><td>公共仓库 runner 不耗私有分钟数，整套"定时采集→提交→部署"可以白嫖</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ============ 实验 ============ -->
+<h2 class="sec" style="background:var(--green)">动手实验：五步真机实测（2026-10-03 全部真实执行）</h2>
+<div class="qcard c-orange avoid"><div class="ans">环境：Windows 11 + Node v24.21.0（README 明说 Node 24 即够，<span class="hl">零依赖：正常构建无需 pnpm install</span>）。克隆：<code>git clone https://github.com/shixi-11/codex-claude-resets.git repo</code> @ c2a9a70。</div></div>
+
+<div class="step">
+  <h4>步骤 1 · 跑官方测试套件</h4>
+  <div class="goal">目的：确认零依赖环境下项目逻辑完整（操作：<code>cd repo &amp;&amp; node --test</code>）</div>
+  <pre>ℹ tests 60   ℹ pass <b>60</b>   ℹ fail 0   ℹ duration_ms 823.003</pre>
+  <div class="expect">✅ 预期结果：60/60 全过，823ms。测试里能看到设计的影子——"relay 扩展必须匹配官方身份/时间戳/摘要"、"规则变更后历史公告仍正确分类"。</div>
+</div>
+
+<div class="step">
+  <h4>步骤 2 · 静态构建</h4>
+  <div class="goal">目的：亲手验证"数据在构建期注入"（操作：<code>node scripts/build.mjs</code>）</div>
+  <pre>Built <b>9 locales, 78 events and 711 pages</b>.</pre>
+  <div class="expect">✅ 预期结果：dist/ 出现 en/zh/ja/ko… 9 个语言目录 + events.json + feed.xml + health.json，共 711 页。</div>
+</div>
+
+<div class="step">
+  <h4>步骤 3 · 本地起服务</h4>
+  <div class="goal">目的：本地完整跑起这个站（操作：<code>node scripts/serve.mjs</code>，另开终端 curl）</div>
+  <pre>curl -s http://127.0.0.1:4187/            → HTTP 200（313B，meta-refresh 跳 /en/）
+curl -s http://127.0.0.1:4187/en/         → HTTP 200，<b>465099 字节</b>完整页
+curl -s http://127.0.0.1:4187/zh/ | grep title → &lt;title&gt;<b>Codex与Claude重置</b>&lt;/title&gt;</pre>
+  <div class="expect">✅ 预期结果：浏览器打开 http://127.0.0.1:4187/ 能看到与线上一样的页面。坑：根路径只是跳板，真页面在 locale 目录下。</div>
+</div>
+
+<div class="step">
+  <h4>步骤 4 · 真实采集一轮（本机复现生产链路）</h4>
+  <div class="goal">目的：无 token 无付费，验证采集→验证→分类→落盘全链路（操作：<code>node scripts/collect.mjs</code>）</div>
+  <pre>{"status":"<b>ok</b>","records":78,"checked":6,"lastSuccessAt":"2026-10-02T21:13:46.788Z"}
+health.json 实测：mode=<b>profile-relay</b>；6×FxEmbed 时间线全 ok
+候选数：@thsottiaux 19 / @OpenAIDevs 11 / @OpenAI 16 / @ClaudeDevs 14 / @AnthropicAI 21 / @claudeai 18</pre>
+  <div class="expect">✅ 预期结果：status ok，78 条记录保留；health.json 里逐源记账（ok/候选数）一目了然。</div>
+</div>
+
+<div class="step">
+  <h4>步骤 5 · 直调分类器，改参数看变化</h4>
+  <div class="goal">目的：亲手验证证据状态机（操作：<code>node -e "import('./src/evidence.mjs').then(m=&gt;console.log(m.classify(text,{truncated:false,author:'thsottiaux'})))"</code>）</div>
+  <table>
+    <tr><th>输入文本</th><th>完整版 →</th><th>截断版 →</th></tr>
+    <tr><td>Global reset landing tomorrow 10am PST…</td><td><span class="tag" style="background:#FFA502">global/announced</span></td><td><span class="tag" style="background:#FF4757">signal/unconfirmed</span></td></tr>
+    <tr><td>Reset has propagated. All reset for everyone.</td><td><span class="tag" style="background:#2ED573">global/reported</span></td><td><span class="tag" style="background:#FF4757">signal/unconfirmed</span></td></tr>
+    <tr><td>We will grant affected subscribers a reset credit…</td><td><span class="tag" style="background:#1E90FF">banked/announced</span></td><td><span class="tag" style="background:#FF4757">signal/unconfirmed</span></td></tr>
+    <tr><td>GPT-6.1 Sol is now the default model in Codex.</td><td><span class="tag" style="background:#95A5A6">other/information</span></td><td><span class="tag" style="background:#95A5A6">other/information</span></td></tr>
+  </table>
+  <div class="expect">✅ 预期结果：同一文本一截断就跌入 unconfirmed；无关新闻带 usage 也被拒收。RULES_VERSION=1.4.2。坑：classify 第一参数是纯字符串，传对象会报 text.replace is not a function。</div>
+</div>
+
+<!-- ============ 收尾 ============ -->
+<h2 class="sec" style="background:var(--pink)">一页记住</h2>
+<div class="qcard c-red avoid">
+  <div class="ans">
+    <div class="big">这个项目真正教你的三件事：</div>
+    <div style="margin-top:8px">① <span class="hl">把"说法"和"事实"分开建模</span>——announced/reported/unconfirmed/information 四态让每条公告自带可信度，UI 不许撒谎。</div>
+    <div>② <span class="hl">发现与验证分离</span>——免费中继找线索，官方通道验真身，第三方页面只配当索引。</div>
+    <div>③ <span class="hl">最便宜的架构往往最稳</span>——确定性正则不用 LLM、JSON 进 Git 不用数据库、静态页不用后端，整条链路零付费、全审计、可复现（本机 5 步实验即证明）。</div>
+    <div style="margin-top:8px;font-size:11.5px;color:#666">关联知识库：[[事实与判断分离]] · [[健康探测三态]] · [[AI味模式库与信号非证据]] · [[快照契约与不可变只读]] · [[发布交换与健康门回滚]] · [[数据源降级链]] · [[确定性脚本]] · [[缓存]] · [[内容寻址与镜像分层]]</div>
+  </div>
+</div>
+
+</body>
+</html>
