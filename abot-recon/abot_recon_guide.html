@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>ABot-Recon 小白指南</title>
+<style>
+:root{
+  --main:#FF4D00; --main2:#FF8A00; --teal:#00B8A9; --purple:#7C4DFF;
+  --pink:#F50087; --blue:#2979FF; --green:#00C853; --yellow:#FFD600;
+  --ink:#1A1A2E; --bg:#FFFDF7; --card:#FFFFFF;
+}
+@page{ size:A4; margin:12mm; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:13px; line-height:1.7; }
+.cover{ background:linear-gradient(135deg,#FF4D00 0%,#FF8A00 45%,#F50087 100%); color:#fff; border-radius:18px; padding:38px 34px; margin-bottom:22px; }
+.cover h1{ font-size:34px; letter-spacing:1px; }
+.cover .sub{ font-size:16px; margin-top:8px; opacity:.95; }
+.badges{ margin-top:14px; }
+.badge{ display:inline-block; background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.6); border-radius:20px; padding:3px 12px; margin:3px 4px 0 0; font-size:12px; }
+h2.sec{ font-size:21px; margin:26px 0 12px; padding:8px 16px; border-radius:10px; color:#fff; background:linear-gradient(90deg,var(--purple),var(--blue)); }
+.qcard{ background:var(--card); border-radius:14px; padding:18px 20px 16px; margin:14px 0; box-shadow:0 3px 12px rgba(26,26,46,.10); break-inside:avoid; border-top:6px solid var(--main); }
+.qcard.alt1{ border-top-color:var(--teal);} .qcard.alt2{ border-top-color:var(--purple);}
+.qcard.alt3{ border-top-color:var(--pink);} .qcard.alt4{ border-top-color:var(--blue);} .qcard.alt5{ border-top-color:var(--green);}
+.qnum{ font-size:34px; font-weight:900; color:var(--main); float:left; line-height:1; margin-right:12px; }
+.qcard.alt1 .qnum{color:var(--teal);} .qcard.alt2 .qnum{color:var(--purple);} .qcard.alt3 .qnum{color:var(--pink);}
+.qcard.alt4 .qnum{color:var(--blue);} .qcard.alt5 .qnum{color:var(--green);}
+.qtitle{ font-size:17px; font-weight:800; padding-top:4px; }
+.qbody{ clear:both; margin-top:10px; }
+.hl{ background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:800; padding:0 2px; }
+.big{ font-size:15px; font-weight:800; color:var(--main); }
+.term{ color:var(--purple); font-weight:700; }
+code, pre{ font-family:Consolas,"Courier New",monospace; }
+pre{ background:#1A1A2E; color:#B2FF59; border-radius:10px; padding:12px 14px; font-size:11.5px; overflow-x:auto; margin:10px 0; line-height:1.55; }
+code.inline{ background:#FFE9D6; color:#C43C00; border-radius:5px; padding:1px 6px; font-size:12px; }
+.ok{ background:#E8FFF0; border-left:6px solid var(--green); border-radius:8px; padding:10px 14px; margin:10px 0; font-size:12.5px; }
+.ok b{ color:var(--green); }
+.warn{ background:#FFF3E0; border-left:6px solid var(--main2); border-radius:8px; padding:10px 14px; margin:10px 0; }
+table{ border-collapse:collapse; width:100%; margin:10px 0; font-size:12.5px; }
+th{ background:var(--main); color:#fff; padding:7px 10px; text-align:left; }
+td{ border-bottom:1px solid #FFE0CC; padding:6px 10px; }
+tr:nth-child(even) td{ background:#FFF7F0; }
+.svgbox{ background:#FAFAFF; border:1px dashed #C5B8FF; border-radius:10px; padding:8px; margin:10px 0; text-align:center; }
+.cap{ display:flex; flex-wrap:wrap; gap:10px; margin:10px 0; }
+.capitem{ flex:1 1 30%; background:linear-gradient(135deg,#E3F2FD,#E8F5E9); border-radius:12px; padding:12px 14px; break-inside:avoid; border:2px solid var(--teal); }
+.capitem b{ color:var(--blue); font-size:13.5px; }
+.step{ background:var(--card); border-radius:12px; padding:14px 18px; margin:12px 0; box-shadow:0 2px 8px rgba(0,184,169,.15); break-inside:avoid; border-left:8px solid var(--teal); }
+.step h3{ font-size:15px; color:var(--teal); margin-bottom:6px; }
+.lab{ display:inline-block; background:var(--teal); color:#fff; border-radius:6px; padding:1px 10px; font-size:11px; margin-right:6px; font-weight:700;}
+footer{ margin-top:24px; text-align:center; color:#888; font-size:11px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>ABot-Recon 小白指南</h1>
+  <div class="sub">只用 12 帧画面，重建一万帧 3D 场景 —— 高德开源的万帧级流式 3D 重建模型全拆解</div>
+  <div class="badges">
+    <span class="badge">📦 github.com/amap-cvlab/ABot-Recon</span>
+    <span class="badge">📜 arXiv 2608.27529</span>
+    <span class="badge">⚖️ Apache-2.0（代码）</span>
+    <span class="badge">🏢 阿里巴巴 · 高德 CV Lab</span>
+    <span class="badge">📅 2026-08 开源</span>
+  </div>
+</div>
+
+<h2 class="sec">① 疑问解答：12 个问题看懂 ABot-Recon</h2>
+
+<div class="qcard">
+  <div class="qnum">Q1</div>
+  <div class="qtitle">"12 帧重建 1 万帧"到底是什么意思？是只看 12 张照片建全景吗？</div>
+  <div class="qbody">
+    <p>不是。<span class="hl">模型在任何一个瞬间都只"记得"最近 12 帧，却能把几万帧的连续视频流一路重建下去</span>——就像人开车绕三环：你不会记得一小时前看过的所有画面，但靠"眼前这一段 + 刚才那几秒"的感觉，就能一路把整圈路线描出来。</p>
+    <p>具体机制：处理第 <code class="inline">i</code> 帧时，模型手上有 <span class="big">当前帧 + 前 11 帧缓存下来的 KV 特征 = 12 帧局部上下文</span>，输出这一帧的几何和运动，然后第 13 帧以前的记忆就被丢掉、窗口向前滑动。处理到第 10000 帧时，它依然只看 12 帧——<span class="hl">"记忆"大小恒定，重建长度却能无限延伸</span>。仓库 <code class="inline">config.json</code> 里 <code class="inline">"local_window_frames": 12</code>、<code class="inline">max_frames: 22000</code> 就是这两行的白纸黑字。</p>
+    <div class="svgbox">
+    <svg width="640" height="150" viewBox="0 0 640 150">
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#FF4D00"/></marker></defs>
+      <text x="20" y="25" font-size="13" font-weight="bold" fill="#1A1A2E">视频流（1万帧）→ 每一步只有 12 帧的"滑窗记忆"</text>
+      <g font-size="11">
+        <rect x="30" y="45" width="26" height="26" fill="#FFD600" stroke="#FF8A00"/><text x="38" y="63">…</text>
+        <rect x="62" y="45" width="26" height="26" fill="#FF8A00"/><text x="70" y="63">i-2</text>
+        <rect x="94" y="45" width="26" height="26" fill="#FF4D00"/><text x="101" y="63">i-1</text>
+        <rect x="126" y="45" width="26" height="26" fill="#F50087"/><text x="134" y="63">i ★</text>
+        <rect x="190" y="45" width="26" height="26" fill="#E0E0E0"/><text x="198" y="63">i+1</text>
+        <rect x="222" y="45" width="26" height="26" fill="#E0E0E0"/><text x="230" y="63">…</text>
+      </g>
+      <path d="M130 80 L130 100" stroke="#FF4D00" stroke-width="2" marker-end="url(#ar)"/>
+      <rect x="60" y="105" width="150" height="30" rx="8" fill="#00B8A9"/>
+      <text x="74" y="125" font-size="12" fill="#fff" font-weight="bold">12帧窗口（含11帧KV缓存）</text>
+      <path d="M215 60 C 260 60, 250 120, 218 120" stroke="#00B8A9" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+      <text x="250" y="125" font-size="11" fill="#7C4DFF">窗口随帧滑动，大小永远=12</text>
+    </svg></div>
+  </div>
+</div>
+
+<div class="qcard alt1">
+  <div class="qnum">Q2</div>
+  <div class="qtitle">以前的流式重建为什么越建越慢、越吃显存？</div>
+  <div class="qbody">
+    <p>要把长视频重建好，直觉做法是"<span class="term">长程记忆</span>"：把很久以前的关键帧特征、全局地图一直存在显存里，新帧来了跟全部历史做匹配融合。问题是<span class="hl">状态和计算量都随已处理帧数增长</span>——到第 10000 帧时，要跟 9999 帧的历史对齐，显存被历史拖爆、速度被匹配拖慢，还得设计复杂的记忆压缩/遗忘机制。</p>
+    <p>ABot-Recon 反其道而行：论文标题就叫 <i>Revisiting Local Context</i>（重新审视"局部上下文"）。<span class="hl">它干脆不要长程记忆，把每一帧都变成同一个"有界的小问题"</span>：只看 12 帧、只预测当下。于是显存占用和单帧耗时是<b>常量</b>，不随序列长度变——这就是宣传语"无长程依赖的万帧级流式重建"的含义。代价是丢掉了全局信息，误差会累积，所以必须配旋转精修和回环（Q6/Q7）。</p>
+  </div>
+</div>
+
+<div class="qcard alt2">
+  <div class="qnum">Q3</div>
+  <div class="qtitle">每一帧到底"算出"了什么？</div>
+  <div class="qbody">
+    <p>每帧输出两样东西：</p>
+    <p>1️⃣ <span class="term">点图（point map）</span>：一张和输入画面同尺寸的"RGB-D 加强版"图，每个像素的值不是颜色而是 <span class="big">(X, Y, Z) 三维坐标</span>——整张图直接就是当前相机坐标系下的一片点云；<br>
+    2️⃣ <span class="term">相邻相对位姿</span> T<sub>i-1←i</sub>：从上一帧到当前帧"平移了多少、转了多少"（四元数+平移向量，见 <code class="inline">model.py</code> 的 <code class="inline">RELATIVE_CAMERA_HEAD</code>，rotation_format=quat）。</p>
+    <p>另外还有一张<span class="term">置信度图</span>标记哪些点靠谱。这三样攒起来，就能拼出整条轨迹+整片点云。代码入口极干净：<code class="inline">model.infer(images)</code> 返回 <code class="inline">camera_poses / local_points / confidence</code>。</p>
+    <div class="svgbox">
+    <svg width="640" height="130" viewBox="0 0 640 130">
+      <g font-size="11.5">
+      <rect x="15" y="40" width="90" height="40" rx="8" fill="#2979FF"/><text x="30" y="64" fill="#fff" font-weight="bold">输入帧 i</text>
+      <path d="M105 60 L140 60" stroke="#FF4D00" stroke-width="3" marker-end="url(#ar)"/>
+      <rect x="145" y="25" width="130" height="70" rx="8" fill="#7C4DFF"/>
+      <text x="163" y="52" fill="#fff" font-weight="bold">ABot-Recon 网络</text>
+      <text x="163" y="70" fill="#FFD600" font-size="10">DINOv2编码 + 因果窗口解码</text>
+      <text x="163" y="85" fill="#FFD600" font-size="10">(只看12帧)</text>
+      <path d="M275 45 L320 45" stroke="#FF4D00" stroke-width="3" marker-end="url(#ar)"/>
+      <path d="M275 78 L320 78" stroke="#FF4D00" stroke-width="3" marker-end="url(#ar)"/>
+      <path d="M275 105 L320 105" stroke="#FF4D00" stroke-width="3" marker-end="url(#ar)"/>
+      <rect x="325" y="28" width="130" height="34" rx="8" fill="#00C853"/><text x="340" y="50" fill="#fff" font-weight="bold">点图 (H,W,3)</text>
+      <rect x="325" y="62" width="130" height="34" rx="8" fill="#F50087"/><text x="332" y="84" fill="#fff" font-weight="bold">相对位姿 quat+平移</text>
+      <rect x="325" y="96" width="130" height="30" rx="8" fill="#FF8A00"/><text x="348" y="116" fill="#fff" font-weight="bold">置信度图</text>
+      <path d="M455 45 L505 45" stroke="#FF4D00" stroke-width="3" marker-end="url(#ar)"/>
+      <path d="M455 79 L505 79" stroke="#FF4D00" stroke-width="3" marker-end="url(#ar)"/>
+      <rect x="510" y="30" width="115" height="70" rx="10" fill="#FFF3E0" stroke="#FF8A00" stroke-width="2"/>
+      <text x="524" y="55" fill="#E65100" font-weight="bold">逐步组合 →</text>
+      <text x="524" y="75" fill="#E65100" font-weight="bold">全局轨迹</text>
+      <text x="524" y="93" fill="#E65100" font-weight="bold">+ 全景点云</text>
+      </g>
+    </svg></div>
+  </div>
+</div>
+
+<div class="qcard alt3">
+  <div class="qnum">Q4</div>
+  <div class="qtitle">什么是点图？和 DUSt3R / VGGT 什么渊源？</div>
+  <div class="qbody">
+    <p><span class="term">点图 pointmap</span> 是 DUSt3R（2024）带火的表达：神经网络直接回归"每个像素在 3D 里的位置"，把传统流程里"特征匹配 → 三角化 → Bundle Adjustment（光束法平差）"那一长串几何优化，<span class="hl">换成一次前向推理</span>。这一脉的家谱：DUSt3R → MASt3R → VGGT/CUT3R（流式化）→ <b>Pi3</b>（上海AI Lab，ABot-Recon 的直接骨架，仓库 <code class="inline">modeling/pi3/</code> 整个目录都是）→ ABot-Recon（Pi3 + 流式窗口注意力 + 相对位姿头）。</p>
+    <p>与传统 SfM（Structure-from-Motion，如 COLMAP）对比：<b>COLMAP</b> 要逐对匹配特征、迭代优化几十分钟；<b>点图流派</b>一秒出结果、不需要相机内参（Q8），精度略逊但可以在线流式跑——这正是地图导航场景（高德）要的。</p>
+    <div class="warn">术语卡：<b>SfM/Bundle Adjustment</b> = 传统三维重建的"精修车间"，把所有照片的特征匹配关系放在一起联立优化相机位姿和 3D 点，慢但准。<b>前馈（feed-forward）模型</b> = 一口吃进图像、一口吐出 3D，不再迭代。</div>
+  </div>
+</div>
+
+<div class="qcard alt4">
+  <div class="qnum">Q5</div>
+  <div class="qtitle">KV 缓存在这里怎么用？和 LLM 的 KV 缓存是一回事吗？</div>
+  <div class="qbody">
+    <p>是同一套数学。Transformer 注意力需要"回看"前面 token 的 Key/Value 向量，LLM 把它们缓存起来避免重算（我们在 ollama 项目学过 [[KV缓存与上下文]]：KV 随上下文长度线性膨胀）。ABot-Recon 把<b>每一帧当成一个"token"</b>（一帧 504×280 经 DINOv2 patch14 切成 36×20 = <span class="big">720 个视觉 token</span>），前 11 帧的 KV 就缓存在 <code class="inline">StreamingKVState</code>（<code class="inline">modeling/streaming/kv_state.py</code>）里。</p>
+    <p>关键区别在"<span class="hl">上下文窗口被钉死在 12 帧</span>"：LLM 上下文越长 KV 越大，而 ABot-Recon 用滑动窗口不断修剪旧 KV（<code class="inline">prune_window_carry_pk_pv</code>），装了 FlashInfer 时还用它的<span class="term">分页 KV cache</span>（PagedAttention，vLLM 同款技术）来管理这块固定窗口。<span class="hl">KV 大小 = 12帧 × 720 token × 36层 × 常数——与已处理帧数无关</span>，这是 Q9 显存账本的核心。</p>
+    <div class="svgbox">
+    <svg width="640" height="120" viewBox="0 0 640 120">
+      <g font-size="11.5">
+      <rect x="20" y="20" width="180" height="80" rx="10" fill="#FFEBEE" stroke="#F50087" stroke-width="2"/>
+      <text x="40" y="45" fill="#C2185B" font-weight="bold">LLM 的 KV 缓存</text>
+      <text x="40" y="66" fill="#C2185B">上下文越长越大</text>
+      <text x="40" y="86" fill="#C2185B">→ 显存随对话膨胀</text>
+      <rect x="440" y="20" width="180" height="80" rx="10" fill="#E8F5E9" stroke="#00C853" stroke-width="2"/>
+      <text x="460" y="45" fill="#1B5E20" font-weight="bold">ABot-Recon 的 KV</text>
+      <text x="460" y="66" fill="#1B5E20">滑动窗口钉死 12 帧</text>
+      <text x="460" y="86" fill="#1B5E20">→ 显存是常量</text>
+      <path d="M210 60 L430 60" stroke="#FF8A00" stroke-width="3" stroke-dasharray="8 5" marker-end="url(#ar)"/>
+      <text x="250" y="50" fill="#E65100" font-weight="bold">同一套注意力数学</text>
+      <text x="258" y="72" fill="#E65100">区别只在"窗口是否固定"</text>
+      </g>
+    </svg></div>
+  </div>
+</div>
+
+<div class="qcard alt5">
+  <div class="qnum">Q6</div>
+  <div class="qtitle">相对位姿怎么变成全局轨迹？为什么误差会累积（漂移）？</div>
+  <div class="qbody">
+    <p>位姿组合就是"接力走路"：知道"从 A 到 B 怎么走"+"从 B 到 C 怎么走"，就能推出 C 在 A 坐标系的位置。数学上 <code class="inline">T₀ₙ = T₀₁·T₁₂·…·Tₙ₋₁ₙ</code>（代码里 <code class="inline">geometry.py</code> 和 <code class="inline">transform_local_points</code> 干的就是把局部点图沿轨迹搬到世界系）。</p>
+    <p>问题：<span class="hl">每一步的估计都有微小误差，接力时误差不消化、只叠加</span>——尤其是旋转误差，会让整条轨迹像喝醉的人走路一样越偏越远，这叫<span class="term">漂移（drift）</span>。绕一大圈回到原点时，算出来的位置可能差出几十几百米。实验 1 用"绕三环"模拟了这一点：<b>10000 帧终点漂移 203 米，5 万帧涨到 735 米</b>（随机游走式无界增长）。</p>
+    <p>ABot-Recon 的对症药是一枚<span class="term">运动-视觉旋转精修器</span>（TemporalRotationRefiner，<code class="inline">adjacent_pose_head.py</code>）：在输出旋转后追加一个 ≤2° 的因果修正量（rot_correction_max_deg=2.0），用相邻帧的视觉-运动描述子判断"这一步转过头没有"，再加<span class="term">组合感知位姿损失</span>在训练时就模拟"接力叠加"的误差环境——先压小每步误差，再靠回环兜底（Q7）。</p>
+  </div>
+</div>
+
+<div class="qcard">
+  <div class="qnum">Q7</div>
+  <div class="qtitle">什么是回环闭合？DINOv2-SALAD 在里面干嘛？</div>
+  <div class="qbody">
+    <p><span class="term">回环闭合（loop closure）</span> = 当你重访到"来过的地方"时，用这个重合硬约束把累积误差一口气摊掉。它不是学出来的，是可插拔的后处理模块（<code class="inline">loop_closure.py</code> + <code class="inline">sparse_loop/</code>），流程：</p>
+    <p>① <span class="term">DINOv2-SALAD 描述子</span>给每个关键帧算一个"地点指纹"（SALAD 是薄切片检索界的地点识别模型），相似度超 0.85 判定"重访"；<br>② 拿候选帧对再过一遍 ABot-Recon，<b>让模型自己</b>预测这两帧之间的相对位姿（它本来就擅长预测任意两帧的几何关系）；<br>③ 构建<span class="term">位姿图</span>：里程计边（相邻帧）+ 回环边（重访帧），做<span class="term">稀疏位姿图优化</span>——一个加权最小二乘，让所有约束尽量同时满足，误差被"拽"回原位。</p>
+    <div class="svgbox">
+    <svg width="640" height="140" viewBox="0 0 640 140">
+      <ellipse cx="320" cy="75" rx="230" ry="48" fill="none" stroke="#B0BEC5" stroke-width="3" stroke-dasharray="9 6"/>
+      <g font-size="11">
+        <circle cx="320" cy="27" r="9" fill="#00C853"/><text x="333" y="24" fill="#1B5E20" font-weight="bold">起点=终点</text>
+        <circle cx="120" cy="60" r="7" fill="#2979FF"/><circle cx="150" cy="105" r="7" fill="#2979FF"/>
+        <circle cx="480" cy="55" r="7" fill="#2979FF"/><circle cx="455" cy="105" r="7" fill="#2979FF"/>
+        <text x="240" y="82" fill="#F50087" font-weight="bold" font-size="12">✂ 累积漂移 203m</text>
+        <path d="M110 50 Q 320 -15 530 50" stroke="#F50087" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
+        <text x="262" y="14" fill="#F50087">回环边（DINOv2-SALAD 检出重访）</text>
+        <text x="70" y="130" fill="#555">里程计边：相邻帧位姿（流式模型输出）</text>
+      </g>
+    </svg></div>
+    <p>实验 1 验证：每圈结束做一次回环，终点误差从 203 m 压到 <b>3 m</b> 且 5 圈不涨。<span class="hl">评测协议里 Oxford Spires ATE 4.35 m 就是"不用回环的裸流式"成绩</span>——光靠旋转精修就压到这个水平，回环是锦上添花。</p>
+  </div>
+</div>
+
+<div class="qcard alt1">
+  <div class="qnum">Q8</div>
+  <div class="qtitle">为什么它不需要 COLMAP、不需要相机内参？</div>
+  <div class="qbody">
+    <p>传统重建里相机内参（焦距、主点）是把像素坐标换算成光线方向的必备参数，COLMAP 第一步就是标定/估计内参。点图流派把这一步<span class="hl">"焊死进网络权重"</span>：训练时模型见过海量"图像→3D"的配对，学会了从图像内容直接推断几何，包括隐式地吸收镜头特性。所以 README 只要求"一组按文件名排序的 JPG"，没有标定环节。</p>
+    <p>代价：对训练分布外的极端镜头（鱼眼、长焦变焦）泛化会打折——这是"数据先验换工程自由度"的典型交易，和 [[高斯泼溅3DGS]] 笔记里"可微渲染换手工优化"是同一种权衡。</p>
+  </div>
+</div>
+
+<div class="qcard alt2">
+  <div class="qnum">Q9</div>
+  <div class="qtitle">6.71 GiB 显存怎么算出来的？为什么和序列长度无关？</div>
+  <div class="qbody">
+    <p>实验 2 按仓库真实参数算了一笔账（patch14 → 720 token/帧，36 层 decoder，12 头×64 维，bf16）：</p>
+    <table>
+      <tr><th>方案</th><th>22000 帧的 KV 缓存</th><th>随序列长度？</th></tr>
+      <tr><td>普通全局注意力</td><td><b style="color:#F50087">≈ 1631.5 GiB</b>（爆炸）</td><td>线性增长</td></tr>
+      <tr><td>ABot-Recon 12 帧滑窗</td><td><b style="color:#00C853">≈ 911 MiB</b>（常量）</td><td><b>无关</b></td></tr>
+    </table>
+    <p><span class="hl">省 1833 倍</span>。论文实测 KITTI-02 全流程 24.45 FPS / 6.71 GiB：里面权重大头（约 1.3B 参数 bf16 ≈ 2.6 GB）+ 激活 + 这块固定 911 MiB 的 KV——不管你喂 500 帧还是 22000 帧，账单都一样。<span class="hl">"流式"的本质就是：把 O(N) 的账单变成 O(1)</span>。</p>
+  </div>
+</div>
+
+<div class="qcard alt3">
+  <div class="qnum">Q10</div>
+  <div class="qtitle">它和我们刚学的高斯泼溅 3DGS 什么关系？</div>
+  <div class="qbody">
+    <p>分工不同、上下游互补：<b>ABot-Recon 负责"建"</b>——从视频流吐出轨迹和稠密点云；<b>[[高斯泼溅3DGS]] 负责"渲"</b>——把点云升级成百万高斯椭球做实时照片级渲染。[[新视角合成]] 的完整流水线可以是：ABot-Recon 扫街 → 点云 + 相机轨迹 → 转成高斯初始化 → 3DGS 精修渲染 → 车道级三维地图。高德自家的 GS-Voxel、ABot-Earth 就在这个方向上。</p>
+    <p>注意：ABot-Recon 输出的是<b>点云+位姿</b>，不是高斯；repo 里 <code class="inline">scripts/export_reconstruction_ply.py</code> 导出的 PLY 可以直接拖进 3DGS 管线当初始化点。两者关系类似"测绘队"与"装修队"。</p>
+  </div>
+</div>
+
+<div class="qcard alt4">
+  <div class="qnum">Q11</div>
+  <div class="qtitle">我没有 GPU，能用它吗？</div>
+  <div class="qbody">
+    <p>三条路：① <span class="hl">在线 Demo 零门槛</span>：Hugging Face Space（acvlab/abot-recon-streaming-3d）和 ModelScope 魔搭创空间都有网页版，上传视频直接看重建；② <span class="term">NPU 边缘部署</span>：社区 AXERA-TECH 已移植到 Axera AX650N 芯片（PCIe 推理 + 板端 Web 建图），说明模型已经轻到能塞进边缘盒子；③ 本地推理官方环境是 Linux + CUDA 12.1（A100/H100 验证），CPU 跑不动网络前向，但<span class="hl">代码走读、测试套件、几何仿真（本指南实验）全程不需要 GPU</span>。</p>
+  </div>
+</div>
+
+<div class="qcard alt5">
+  <div class="qnum">Q12</div>
+  <div class="qtitle">训练怎么做的？为什么训练代码 9 月底才放出来？</div>
+  <div class="qbody">
+    <p><code class="inline">train</code> 分支（2026-09-25 发布）支持 <b>18 个数据源的混合训练</b>：KITTI、Oxford Spires、VBR 等真实数据 + 大规模伪标签，带 EMA、验证、断点续训。评测协议单独放在 <code class="inline">eval</code> 分支。推理与训练解耦是工程惯例：先把"能用"的推理 + 权重发出去让生态跑起来（HF/魔搭权重 8 月就位），训练配方涉及数据清洗和调参细节，整理后再放——这也是开源大模型项目的标准节奏。</p>
+    <p>还有个细节能看出工程品味：<code class="inline">config.py</code> 里写死 <code class="inline">if local_window_frames != 12: raise ValueError</code>——<span class="hl">把"发布模型只能配 12 帧"焊进代码，防止误配出没训练过的行为</span>（实验 2 实测触发）。</p>
+  </div>
+</div>
+
+<h2 class="sec">② 能力清单：这个项目给我什么</h2>
+<div class="cap">
+  <div class="capitem"><b>🎥 视频流 → 相机轨迹</b><br>一段 RGB 视频（无需标定/GPS/深度）→ 每帧 6DoF 位姿，实时输出，可当"免标定 Visual Odometry"用</div>
+  <div class="capitem"><b>☁️ 视频流 → 稠密点云</b><br>逐帧点图+置信度拼成万帧级点云，导出 PLY 给 3DGS/mesh 管线当原料</div>
+  <div class="capitem"><b>🔁 长序列不涨显存</b><br>固定 12 帧上下文，22000 帧与 12 帧同速同内存——流式/边缘场景的独特卖点</div>
+  <div class="capitem"><b>🧲 回环精修</b><br>DINOv2-SALAD 检索 + 稀疏位姿图优化，重访场景轨迹误差米级以内</div>
+  <div class="capitem"><b>🔬 可学习的完整参照系</b><br>1.2 万行整洁 Python：流式注意力、分页 KV、位姿头、位姿图优化全部可读可改，train/eval 分支配齐</div>
+  <div class="capitem"><b>🗺️ 高德同款技术栈入口</b><br>ABot-Earth（卫星图生成城市 3D）、GS-Voxel 同门项目，看清"地图厂商怎么做 3D"</div>
+</div>
+
+<h2 class="sec">③ 动手实验（无 GPU，全部真实跑通）</h2>
+
+<div class="step">
+  <h3>实验环境（第 0 步）</h3>
+  <p><span class="lab">操作</span>Windows 11 + Python 3.12 venv，安装 CPU 版 PyTorch 与项目包：</p>
+  <pre>py -3.12 -m venv exercise\.venv
+exercise\.venv\Scripts\pip install torch==2.5.1 torchvision==0.20.1   # Windows 默认即 CPU 版
+exercise\.venv\Scripts\pip install -e . pytest "faiss-cpu>=1.8" "pypose>=0.6" opencv-python scipy</pre>
+  <p><span class="lab">验证</span></p>
+  <div class="ok"><b>✅ 实测输出</b>：<code>torch 2.5.1+cpu | cuda False | abot_recon OK</code> —— 没有显卡也能 import 完整模型包。<br>
+  <b>坑</b>：pytest 默认临时目录 <code>C:\Users\…\Temp\pytest-of-*</code> 会被权限挡住，加 <code>--basetemp</code> 指到项目内即可。</div>
+</div>
+
+<div class="step">
+  <h3>实验 1 · 跑通官方测试套件（CPU 上的 49 项体检）</h3>
+  <p><span class="lab">目的</span>证明"克隆下来是真的能跑的工程"，并看清哪些能力依赖 GPU。<br>
+  <span class="lab">操作</span></p>
+  <pre>cd repo
+..\exercise\.venv\Scripts\python -m pytest -q --basetemp=..\exercise\.pytest_tmp</pre>
+  <div class="ok"><b>✅ 实测结果</b>：<code>49 passed, 7 skipped in 4.16s</code>。跳过的 7 项全部是 cuRoPE CUDA 核与真实权重集成测试（需 GPU + 下载 checkpoint）——与 README 的硬件要求完全吻合。<br>
+  <b>结论</b>：配置校验、几何变换、RoPE3D、预处理、发布卫生检查在纯 CPU 上全部可验证。</div>
+</div>
+
+<div class="step">
+  <h3>实验 2 · "绕三环"漂移仿真：为什么长时序必须配回环</h3>
+  <p><span class="lab">材料</span><code>exercise/exp1_pose_drift.py</code>（纯 numpy）。<span class="lab">目的</span>亲手复现 ABot-Recon 论文要解决的核心难题：相对位姿接力组合的误差累积。<br>
+  <span class="lab">操作</span></p>
+  <pre>python exercise\exp1_pose_drift.py</pre>
+  <p>模拟：半径 5 km 圆环（三环），每圈 10000 帧，每帧航向估计带 0.05° 随机游走误差。</p>
+  <div class="ok"><b>✅ 实测输出</b>：<br>
+  1 圈（10000帧）：无回环终点漂移 <b style="color:#F50087">203 m</b> → 有回环 <b style="color:#00C853">3 m</b><br>
+  5 圈（50000帧）：无回环 <b style="color:#F50087">735 m</b>（无界增长）→ 有回环仍 <b style="color:#00C853">3 m</b>（有界）<br>
+  <b>读懂</b>：流式位姿组合的误差是随机游走，帧数×5 漂移×3.6；回环每圈"清账"把误差钉死在米级——这就是 ABot-Recon 裸流式做到 ATE 4.35 m 之后还要外挂回环模块的原因。</div>
+</div>
+
+<div class="step">
+  <h3>实验 3 · 6.71 GiB 显存账本：12 帧窗口 vs 22000 帧全局注意力</h3>
+  <p><span class="lab">材料</span><code>exercise/exp2_kv_memory.py</code>（读仓库 config.json 真实参数）。<span class="lab">目的</span>验证"无长程依赖"省了多少。<br>
+  <span class="lab">操作</span></p>
+  <pre>exercise\.venv\Scripts\python exercise\exp2_kv_memory.py</pre>
+  <div class="ok"><b>✅ 实测输出</b>：每帧 720 token（504×280 ÷ patch14）；<br>
+  普通全局注意力 22000 帧 KV ≈ <b style="color:#F50087">1631.5 GiB</b>；ABot-Recon 12 帧滑窗 KV ≈ <b style="color:#00C853">911.2 MiB</b>，<b>省 1833 倍</b>；<br>
+  顺手实测 <code>InferenceConfig(local_window_frames=11)</code> → <code>ValueError: The released model requires a 12-frame local window</code> —— 仓库真把 12 帧焊死在校验里。<br>
+  <b>读懂</b>：KV 账单 O(窗口) 不 O(序列)，这就是 24.45 FPS / 6.71 GiB 跑万帧的算术基础。</div>
+</div>
+
+<h2 class="sec">④ 一页总结</h2>
+<div class="qcard alt1">
+  <div class="qbody">
+    <p><span class="big">ABot-Recon = Pi3 点图骨架 + 钉死 12 帧的滑动 KV 窗口 + 相对位姿头（带旋转精修）+ 可选回环位姿图优化</span>。</p>
+    <p>它证明了一件事：<span class="hl">处理"无限长"的视频流，不一定需要"无限大"的记忆——把每一步都变成同样大小的小问题，误差交给旋转精修和回环去收</span>。这与 LLM 界"上下文不够就 RAG/滑窗"的思路异曲同工，却用在了 3D 重建上。对小白最值的启示：看到"万帧级""流式"这类词，先问一句"它的状态是 O(N) 还是 O(1)？"——这一个问号就值整篇论文。</p>
+  </div>
+</div>
+
+<footer>ABot-Recon 小白指南 · F:\reminder\abot-recon · 2026-10 · 拾遗队列 task c5d1b7b6 · 实验数据均为本机实测</footer>
+</body>
+</html>
