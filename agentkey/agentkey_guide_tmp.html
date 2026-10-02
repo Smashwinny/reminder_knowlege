@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>AgentKey 小白指南</title>
+<style>
+:root{
+  --c1:#7C3AED; --c2:#F43F5E; --c3:#0EA5E9; --c4:#F59E0B; --c5:#10B981;
+  --c6:#EC4899; --ink:#1E1B4B; --bg:#FFFBF5; --card:#FFFFFF;
+  --hl:#FFF176; --code:#312E81;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.75;}
+@page{size:A4; margin:12mm;}
+.wrap{max-width:186mm; margin:0 auto;}
+h1{font-size:30px; color:#fff; background:linear-gradient(90deg,var(--c1),var(--c2),var(--c4)); padding:18px 22px; border-radius:14px; margin-bottom:8px;}
+.sub{font-size:15px; color:var(--c1); font-weight:bold; margin-bottom:18px; padding-left:6px;}
+.badges{margin:10px 0 20px;}
+.badge{display:inline-block; padding:3px 12px; border-radius:999px; color:#fff; font-size:12px; font-weight:bold; margin-right:6px;}
+.q{break-inside:avoid; background:var(--card); border-radius:14px; padding:16px 18px 14px; margin:14px 0; box-shadow:0 3px 10px rgba(124,58,237,.12); border-top:6px solid var(--c1);}
+.q:nth-child(2n){border-top-color:var(--c2);}
+.q:nth-child(3n){border-top-color:var(--c3);}
+.qnum{display:inline-block; background:var(--c4); color:#fff; font-size:22px; font-weight:900; border-radius:10px; padding:1px 12px; margin-right:8px;}
+.qtitle{font-size:18px; font-weight:900; display:inline; color:var(--ink);}
+.hl{background:var(--hl); font-weight:900; padding:0 4px; border-radius:4px;}
+.big{font-size:17px; font-weight:900; color:var(--c2);}
+.key{background:linear-gradient(90deg,#EDE9FE,#FCE7F3); border-left:6px solid var(--c1); padding:10px 14px; border-radius:0 10px 10px 0; margin:10px 0; font-weight:bold;}
+.warn{background:#FEF2F2; border-left:6px solid var(--c2); padding:10px 14px; border-radius:0 10px 10px 0; margin:10px 0;}
+.ok{background:#ECFDF5; border-left:6px solid var(--c5); padding:10px 14px; border-radius:0 10px 10px 0; margin:10px 0; font-weight:bold;}
+pre{background:var(--code); color:#E0E7FF; padding:10px 14px; border-radius:10px; font-family:Consolas,monospace; font-size:12px; overflow-x:auto; margin:8px 0; line-height:1.5;}
+code{font-family:Consolas,monospace; background:#EDE9FE; color:var(--c1); padding:1px 5px; border-radius:4px; font-size:12.5px; font-weight:bold;}
+table{border-collapse:collapse; width:100%; margin:10px 0; font-size:12.5px;}
+th{background:var(--c1); color:#fff; padding:7px 8px; text-align:left;}
+td{border:1.5px solid #DDD6FE; padding:6px 8px; vertical-align:top;}
+tr:nth-child(even) td{background:#FAF5FF;}
+.svgbox{text-align:center; margin:10px 0;}
+.step{background:#F0FDFA; border:2px dashed var(--c5); border-radius:10px; padding:8px 12px; margin:8px 0;}
+.step b{color:var(--c5);}
+.vs{display:flex; gap:10px; margin:10px 0;}
+.vcol{flex:1; border-radius:12px; padding:10px 12px; color:#fff;}
+footer{margin-top:18px; text-align:center; font-size:12px; color:#94A3B8;}
+.link{color:var(--c3); font-weight:bold;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>AgentKey 小白指南</h1>
+<div class="sub">Agent 生态的「数字钥匙串」：一个订阅 + 一条命令，让 AI Agent 实时抓取 28+ 平台数据</div>
+<div class="badges">
+<span class="badge" style="background:var(--c1)">chainbase-labs/Agentkey</span>
+<span class="badge" style="background:var(--c3)">Apache-2.0（集成层开源）</span>
+<span class="badge" style="background:var(--c2)">Product Hunt 日榜第一</span>
+<span class="badge" style="background:var(--c4)">订阅制付费</span>
+<span class="badge" style="background:var(--c5)">SKILL v1.14.0 实测</span>
+</div>
+
+<div class="key">一句话：AgentKey 把「Agent 找数据要到处注册、贴 Key、管账单」这件事，压缩成一个远程 MCP 端点 + 一个 SKILL.md。<span class="hl">仓库开源的只是「钥匙环」，真正开锁的云端聚合服务是闭源订阅制</span>。</div>
+
+<div class="q"><span class="qnum">Q1</span><span class="qtitle">AgentKey 到底是什么？</span>
+<p>它是 Chainbase Labs 出的 Agent 数据接入平台：<b>本地装一个技能包（SKILL.md）+ 云端连一个 MCP 服务器</b>（<code>https://api.agentkey.app/v1/mcp</code>），装好之后你对 Claude Code / Codex 说「马斯克最近在推特说什么」「看看 B 站这个视频讲了啥」「小红书上大家怎么评价防晒霜」，Agent 就会自动调云端工具去 X / Reddit / YouTube / B站 / 小红书 / 抖音 / LinkedIn / GitHub / 链上数据等 28+ 平台抓公开数据并总结。</p>
+<div class="big">本质：一个「统一数据网关」生意——把 N 个平台的 API 收敛成 1 个 Key、1 份账单、1 套工具。</div>
+<p>注意区分：<b>GitHub 仓库（Apache-2.0）开源的是集成层</b>——SKILL.md、各家 Agent 的插件清单、安装/更新脚本；<b>核心 MCP 服务器是闭源云服务</b>，按订阅 + credit 计量收费（Early Access）。</p>
+</div>
+
+<div class="q"><span class="qtitle" ><span class="qnum">Q2</span>没有它之前，人们怎么给 Agent 接数据？（三种流派）</span>
+<table>
+<tr><th>流派</th><th>做法</th><th>痛点</th></tr>
+<tr><td><b>逐个申请官方 API</b></td><td>X API、Reddit API… 每家注册、审核、填 Key</td><td>10 个任务 = 10 个 Key = 10 份账单；很多平台根本不开 API</td></tr>
+<tr><td><b>第三方爬虫 API（如 tikhub）</b></td><td>按调用次数买第三方聚合接口</td><td>稳定性靠运气、每家还要单独充值管余额</td></tr>
+<tr><td><b>本地能力层（Agent-Reach）</b></td><td>本机装一堆开源 CLI（yt-dlp、bili-cli…），零 API 费</td><td>要自己养登录态、装依赖，渠道会腐化</td></tr>
+</table>
+<div class="key">AgentKey 的赌注：<span class="hl">把「接入方式的维护」整个搬上云端卖给订阅者</span>，Agent 侧只留一个永远不变的 MCP 入口。用户买的是「持续有人替你盯着哪家上游还活着」。</div>
+</div>
+
+<div class="q"><span class="qnum">Q3</span><span class="qtitle">它是怎么做到的？——架构一张图</span>
+<div class="svgbox">
+<svg width="660" height="300" viewBox="0 0 660 300">
+<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#475569"/></marker></defs>
+<rect x="10" y="110" width="150" height="80" rx="12" fill="#7C3AED"/>
+<text x="85" y="140" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">你的 AI Agent</text>
+<text x="85" y="160" text-anchor="middle" fill="#EDE9FE" font-size="11">Claude Code / Codex / Cursor…</text>
+<rect x="40" y="15" width="120" height="58" rx="10" fill="#F59E0B"/>
+<text x="100" y="38" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">SKILL.md（开源）</text>
+<text x="100" y="56" text-anchor="middle" fill="#FEF3C7" font-size="10">教 Agent 怎么调工具</text>
+<line x1="100" y1="75" x2="95" y2="108" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="162" y1="150" x2="255" y2="150" stroke="#475569" stroke-width="3" marker-end="url(#ar)"/>
+<text x="208" y="138" text-anchor="middle" fill="#334155" font-size="11" font-weight="bold">MCP (Streamable HTTP)</text>
+<text x="208" y="170" text-anchor="middle" fill="#64748B" font-size="10">OAuth 免贴 Key / Bearer</text>
+<rect x="258" y="95" width="160" height="110" rx="12" fill="#F43F5E"/>
+<text x="338" y="125" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">AgentKey 云端服务</text>
+<text x="338" y="145" text-anchor="middle" fill="#FFE4E6" font-size="11">闭源 MCP 服务器</text>
+<text x="338" y="163" text-anchor="middle" fill="#FFE4E6" font-size="11">工具目录 + 语义路由 + 计费</text>
+<text x="338" y="181" text-anchor="middle" fill="#FFE4E6" font-size="11">api.agentkey.app/v1/mcp</text>
+<line x1="420" y1="150" x2="480" y2="70" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="420" y1="150" x2="480" y2="150" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="420" y1="150" x2="480" y2="235" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+<g font-size="11" fill="#334155">
+<rect x="484" y="42" width="165" height="34" rx="8" fill="#0EA5E9"/><text x="566" y="63" text-anchor="middle" fill="#fff" font-weight="bold">X / Reddit / YouTube</text>
+<rect x="484" y="132" width="165" height="34" rx="8" fill="#10B981"/><text x="566" y="153" text-anchor="middle" fill="#fff" font-weight="bold">B站 / 小红书 / 抖音</text>
+<rect x="484" y="218" width="165" height="34" rx="8" fill="#EC4899"/><text x="566" y="239" text-anchor="middle" fill="#fff" font-weight="bold">LinkedIn / 链上 / 电商</text>
+</g>
+<text x="330" y="285" text-anchor="middle" fill="#94A3B8" font-size="11">28+ 平台的对接、风控、账单全部收敛在云端，Agent 侧只见 3 个工具</text>
+</svg>
+</div>
+<p><b>两层分工</b>：技能包（开源）负责「教 Agent 用」；云服务（闭源）负责「真的去抓」。用知识库里的话说：<span class="hl">[[MCP协议]] 做传输，[[AgentSkills技能包]] 做使用说明书，[[能力层与后端路由]] 的思路从本地搬到了云端</span>。</p>
+</div>
+
+<div class="q"><span class="qnum">Q4</span><span class="qtitle">为什么一条命令接入 40+ Agent，还不用复制粘贴 Key？</span>
+<p>秘密在 <b>RFC 9728 OAuth 发现链</b>。AgentKey 的 MCP 配置刻意<b>不写任何静态 Authorization 头</b>——客户端连上时：</p>
+<pre>POST /v1/mcp  (无 Key)
+→ HTTP 401
+→ WWW-Authenticate: Bearer resource_metadata="…/.well-known/oauth-protected-resource"
+→ 客户端读该元数据 → 弹浏览器 OAuth 登录 → 自动拿 Token</pre>
+<div class="ok">✅ 实验1/2 实测：无 Key 请求返回的正是上面两行；元数据里 authorization_servers = api.agentkey.app（Clerk），bearer_methods = header。</div>
+<div class="warn">⚠️ 反例（仓库 CLAUDE.md 明写）：一旦配置里写了静态 Authorization 头，Claude Code 会视为「显式头认证」，<b>401 后不再回退 OAuth</b>。所以各插件清单里反复强调「保持 entry 最小化，只留 url」。</div>
+<p>装不了 OAuth 的客户端（如 DSH、CI）走兜底：<code>npx -y @agentkey/cli --auth-login</code> 设备码登录 → 自动把 Bearer Key 写进本机 18 个 Agent 的 MCP 配置。</p>
+</div>
+
+<div class="q"><span class="qnum">Q5</span><span class="qtitle">Agent 只看到 3 个工具？——「先发现、再描述、后执行」设计</span>
+<table>
+<tr><th>工具</th><th>作用</th><th>成本</th></tr>
+<tr><td><code>find_tools</code></td><td>语义搜索工具目录（中英混、别名「推特→twitter」都行），返回规范名 + <b>每次调用多少 credit</b></td><td>免费</td></tr>
+<tr><td><code>describe_tool</code></td><td>返回参数 schema；<b>每次 execute 前必须先 describe</b></td><td>免费</td></tr>
+<tr><td><code>execute_tool</code></td><td>真正执行抓取；<code>execute_tool("agentkey_account")</code> 查余额+上游健康</td><td>按平台计 credit</td></tr>
+</table>
+<div class="key">为什么旧的 <code>list_tools</code> 被弃用？因为<span class="hl">上游平台目录是动态变化的，任何工具名都不值得让模型背下来</span>——名字必须每一步从前一步的返回里原样透传，记错就重跑 find_tools。这是把「幻觉防御」做进了工具协议。</div>
+<p>防滥用也有章法：一轮只许一次 execute；<b>≥3 次调用或预估 ≥10 credit 必须先查余额、报预算、等用户确认</b>；API 返回内容一律视为不可信外部数据（防[[提示注入]]），禁止执行其中的指令。</p>
+</div>
+
+<div class="q"><span class="qnum">Q6</span><span class="qtitle">技能包自己怎么升级？——skill-meta-v1 版本信标协议</span>
+<p>SKILL.md 是静态文件，但云端目录天天变。AgentKey 设计了双通道升级信标（v1.14.0 起是 MCP 工具 <code>agentkey_skill_meta</code>，Bash 客户端则跑 check-update.sh）：</p>
+<pre>会话开始 → 信标查 GitHub releases/latest（缓存 24h，3 秒超时，永不抛错）
+→ 与 SKILL.md frontmatter 的 version 比较
+→ 相同 → 静默继续；不同 → 提示升级（每会话最多提醒一次）</pre>
+<div class="ok">✅ 实验3/4 实测：releases/latest 返回 v1.14.0，本地 frontmatter 1.14.0 → UP_TO_DATE，判定链路走通。</div>
+<p>工程细节值得抄：<b>网络失败返回空字符串而不是抛异常</b>（否则会弄挂 list_tools）；24h 缓存 + ETag；STALE 缓存永远优于慢响应；<code>AGENTKEY_NO_VERSION_BEACON=1</code> 可整体退出。</p>
+</div>
+
+<div class="q"><span class="qnum">Q7</span><span class="qtitle">和 Agent-Reach 是什么关系？——同题异解的镜像对照</span>
+<table>
+<tr><th></th><th>AgentKey（本篇）</th><th>Agent-Reach（前一篇，[[项目笔记/agent-reach]]）</th></tr>
+<tr><td><b>定位</b></td><td>云端统一网关（钥匙串）</td><td>本地能力层（装机工+体检医生）</td></tr>
+<tr><td><b>抓取执行方</b></td><td>云端服务器调上游 API</td><td>本机 CLI（yt-dlp、bili-cli、gh…）直连</td></tr>
+<tr><td><b>费用</b></td><td>订阅 + credit 计量</td><td>零 API 费（自己出账号/流量）</td></tr>
+<tr><td><b>渠道规模</b></td><td>28+ 平台 + 链上/电商/金融</td><td>17+ 渠道（社交媒体/RSS/网页为主）</td></tr>
+<tr><td><b>维护负担</b></td><td>零（厂商养）</td><td>自己养（doctor 三态体检兜底）</td></tr>
+<tr><td><b>数据主权/隐私</b></td><td>请求经厂商云（称不存查询内容，遥测可关）</td><td>全在本机</td></tr>
+<tr><td><b>接入方式</b></td><td>远程 MCP + OAuth 发现</td><td>装本地 CLI + SKILL.md 教用法</td></tr>
+<tr><td><b>开源程度</b></td><td>集成层开源，服务端闭源（open-core）</td><td>全开源 MIT</td></tr>
+</table>
+<div class="key">一句话记：<span class="hl">Agent-Reach 把复杂性留给你的硬盘，AgentKey 把复杂性卖给你的订阅</span>。两者不是竞品替代关系，而是同一问题的两个极端解；[[能力层与后端路由]] 里「接入方式比功能更易腐化」的判断，AgentKey 用商业手段给出了第二个答案。</div>
+</div>
+
+<div class="q"><span class="qnum">Q8</span><span class="qtitle">它能给我什么？（能力清单）</span>
+<p>① 对 Agent 说人话即得全网实时数据（社媒舆情、视频要点、竞品/候选人 LinkedIn、Reddit 痛点、币价链上动向）；② 40+ Agent 一键接入免贴 Key；③ 工具目录自带成本标注，花钱前可预算；④ 余额与上游健康一键可查；⑤ 技能包自动升级信标，渠道变化不用重装。</p>
+<p><b>适合谁</b>：要 Agent 频繁取全网公开数据、且愿意为此付费省事的人。<b>不适合</b>：只想免费用几个固定平台（用 Agent-Reach）、对数据隐私敏感不能出网、或需要写入/发帖等非只读操作的场景。</p>
+</div>
+
+<div class="q"><span class="qnum">Q9</span><span class="qtitle">动手实验（本机真实运行，无账号无付费）</span>
+<div class="step"><b>步骤1</b> 克隆仓库看结构：<code>git clone --depth 1 https://github.com/chainbase-labs/Agentkey agentkey/repo</code> → 拿到 8e93c67，确认里面是 SKILL.md + 6 套插件清单 + 脚本，<b>没有服务端代码</b>（open-core 实锤）。✅</div>
+<div class="step"><b>步骤2</b> 自写 Python 向 <code>/v1/mcp</code> 发无 Key 的 JSON-RPC initialize → 真实收到 <b>HTTP 401 + WWW-Authenticate: Bearer resource_metadata=…</b>，与文档逐字一致。✅</div>
+<div class="step"><b>步骤3</b> GET <code>/.well-known/oauth-protected-resource</code> → 拿到 authorization_servers / bearer_methods_supported=header，OAuth 发现链闭环。✅</div>
+<div class="step"><b>步骤4</b> 复现版本信标：GET releases/latest → v1.14.0；正则读本地 SKILL.md version → 1.14.0 → <b>UP_TO_DATE</b>。✅</div>
+<div class="warn">权限策略禁止直接运行新克隆外部仓库的脚本（check-update.sh 未执行），故实验全部改为自写代码验证文档写明的接口——与 agent-reach 篇同一处理。付费数据面（execute_tool 真实抓取）需注册账号，留待需要时再验。</div>
+</div>
+
+<div class="q"><span class="qnum">Q10</span><span class="qtitle">坑与结论</span>
+<p>① <b>别把「开源仓库」当成「开源产品」</b>：repo 里没有服务器代码，装完就是连付费云，Star 数 ≠ 可自建。② 各 Agent 配置里的 MCP entry 必须保持最小（只有 url），加了静态头就永久失去 OAuth 兜底。③ 工具名永远来自 find_tools，不要凭记忆写——目录是动态的。④ 预算防线（≥10 credit 先确认）是给 Agent 上「消费刹车」的好范式。⑤ 安全链条完整：OAuth 发现免贴 Key、API 响应只展示不执行、遥测可关、批量操作强制确认。⑥ 若上游平台对爬数据的合法性收紧，云端网关是单点风险——这也是 Agent-Reach 本地方案并存的的意义。</p>
+<div class="key">学习收获：这一课真正的新概念不是 AgentKey 本身，而是它身上三个可复用的工程范式——<span class="hl">RFC 9728 免配置接入、动态目录「发现式」工具协议、以及「信标式」技能自升级</span>。任何「Agent + 云服务」的组合都能套用。</div>
+</div>
+
+<footer>参考资料：github.com/chainbase-labs/Agentkey（@8e93c67，skill v1.14.0）· agentkey.app · 本仓库 vault：[[MCP协议]] [[AgentSkills技能包]] [[能力层与后端路由]] [[项目笔记/agent-reach]] · 生成于 2026-10-02 · 拾遗任务 aba727a5</footer>
+</div>
+</body>
+</html>
