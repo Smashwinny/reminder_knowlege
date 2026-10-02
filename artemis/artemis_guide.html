@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>ARTEMIS 小白指南</title>
+<style>
+:root{
+  --pink:#FF2D78; --purple:#7C3AED; --orange:#FF8A00; --cyan:#00B8D9;
+  --green:#00C853; --yellow:#FFD600; --red:#FF1744; --blue:#2962FF;
+  --ink:#1A1033; --paper:#FFFFFF; --cream:#FFFDF5;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+@page{size:A4; margin:11mm;}
+body{
+  font-family:"Microsoft YaHei","PingFang SC",sans-serif;
+  color:var(--ink); background:var(--cream); font-size:12.5px; line-height:1.62;
+}
+.cover{
+  background:linear-gradient(135deg,#7C3AED 0%,#FF2D78 55%,#FF8A00 100%);
+  color:#fff; border-radius:18px; padding:34px 30px 26px; margin-bottom:14px;
+}
+.cover h1{font-size:37px; letter-spacing:1px; margin-bottom:6px;}
+.cover .sub{font-size:16px; opacity:.95; font-weight:600;}
+.cover .meta{margin-top:14px; font-size:11.5px; opacity:.92; line-height:1.8;}
+.badge{
+  display:inline-block; background:rgba(255,255,255,.22); border:1.5px solid rgba(255,255,255,.65);
+  border-radius:999px; padding:2px 12px; margin:8px 6px 0 0; font-size:11.5px; font-weight:700;
+}
+.toc{
+  background:#fff; border:2.5px solid var(--purple); border-radius:14px;
+  padding:14px 18px; margin-bottom:14px;
+}
+.toc h2{color:var(--purple); font-size:16px; margin-bottom:6px;}
+.toc ol{columns:2; column-gap:26px; padding-left:20px; font-size:12px;}
+.toc li{margin:2.5px 0; font-weight:600;}
+.q{
+  background:#fff; border-radius:16px; padding:16px 20px 14px; margin-bottom:13px;
+  border:2px solid #E8E0F8; break-inside:avoid; border-top:9px solid var(--purple);
+}
+.q.pink{border-top-color:var(--pink);} .q.orange{border-top-color:var(--orange);}
+.q.cyan{border-top-color:var(--cyan);} .q.green{border-top-color:var(--green);}
+.q.blue{border-top-color:var(--blue);} .q.red{border-top-color:var(--red);}
+.qnum{
+  display:inline-block; font-size:30px; font-weight:900; color:#fff;
+  background:var(--purple); border-radius:12px; padding:0 13px; margin-right:10px;
+}
+.pink .qnum{background:var(--pink);} .orange .qnum{background:var(--orange);}
+.cyan .qnum{background:var(--cyan);} .green .qnum{background:var(--green);}
+.blue .qnum{background:var(--blue);} .red .qnum{background:var(--red);}
+.q h2{display:inline; font-size:17.5px; vertical-align:middle;}
+.q .ans{margin-top:9px;}
+.hl{
+  background:linear-gradient(transparent 55%, var(--yellow) 55%);
+  font-weight:900; padding:0 2px;
+}
+.keybox{
+  background:#FFF3E0; border-left:6px solid var(--orange); border-radius:8px;
+  padding:8px 12px; margin:8px 0; font-size:12.5px;
+}
+.keybox.pur{background:#F3E8FF; border-left-color:var(--purple);}
+.keybox.grn{background:#E8F5E9; border-left-color:var(--green);}
+.keybox.cyn{background:#E0F7FA; border-left-color:var(--cyan);}
+.keybox.red{background:#FFEBEE; border-left-color:var(--red);}
+.term{color:var(--pink); font-weight:800;}
+code, .cmd{
+  font-family:Consolas,"Courier New",monospace; background:#263238; color:#AEEA00;
+  border-radius:5px; padding:1px 6px; font-size:11.5px;
+}
+.cmd{display:block; padding:7px 12px; margin:6px 0; white-space:pre-wrap; color:#B2FF59;}
+svg{display:block; margin:8px auto;}
+table{border-collapse:collapse; width:100%; margin:8px 0; font-size:11.8px;}
+th{background:var(--purple); color:#fff; padding:5px 8px; text-align:left;}
+td{border:1.5px solid #D8CFF2; padding:4.5px 8px; vertical-align:top;}
+tr:nth-child(even) td{background:#F7F4FE;}
+.big{font-size:14px; font-weight:900; color:var(--pink);}
+.link{color:var(--blue); font-weight:700;}
+.exp{
+  background:#fff; border:2.5px dashed var(--green); border-radius:14px;
+  padding:13px 17px; margin-bottom:11px; break-inside:avoid;
+}
+.exp h3{color:var(--green); font-size:15px; margin-bottom:5px;}
+.step{margin:7px 0; padding-left:34px; position:relative;}
+.step .no{
+  position:absolute; left:0; top:1px; width:24px; height:24px; border-radius:50%;
+  background:var(--green); color:#fff; font-weight:900; text-align:center; line-height:24px; font-size:13px;
+}
+.check{
+  background:#E8F5E9; border:2px solid var(--green); border-radius:8px;
+  padding:5px 10px; margin-top:5px; font-size:11.8px; font-weight:700;
+}
+.footer{
+  background:linear-gradient(135deg,#00B8D9,#2962FF); color:#fff; border-radius:14px;
+  padding:14px 20px; margin-top:6px;
+}
+.footer h2{font-size:16px; margin-bottom:5px;}
+h2.sect{
+  font-size:21px; color:#fff; background:linear-gradient(90deg,var(--pink),var(--orange));
+  border-radius:10px; padding:7px 16px; margin:14px 0 10px;
+}
+.small{font-size:10.8px; color:#555;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🤖 ARTEMIS 小白指南</h1>
+  <div class="sub">谷歌开源的"AI 操控真手机"框架——自然语言一句话，Agent 替你点、滑、测</div>
+  <div>
+    <span class="badge">github.com/google/artemis</span>
+    <span class="badge">⭐ 10.9k stars</span>
+    <span class="badge">Apache-2.0</span>
+    <span class="badge">Python 3.12+</span>
+    <span class="badge">LangGraph + LangChain</span>
+    <span class="badge">MCP 原生服务器</span>
+  </div>
+  <div class="meta">
+    一句话：ARTEMIS 把<b>自然语言指令</b>翻译成<b>可靠的 Android 真机操作</b>，让 AI 助手（Claude Code / Antigravity / Codex…）
+    通过 MCP 协议像真人一样操控手机——点按钮、跨 App 办事、跑测试、抓 Logcat，号称在谷歌官方 AndroidWorld 基准上拿到 99%+ 任务完成率。<br>
+    本指南 = 12 个疑问逐条拆解 + 4 个"无真机也能跑"的真实实验（2026-10-03 全部实测通过）。
+  </div>
+</div>
+
+<div class="toc">
+  <h2>📑 疑问即目录（12 问）</h2>
+  <ol>
+    <li>ARTEMIS 到底是什么？一句话说清</li>
+    <li>没有它，手机自动化是怎么做的？</li>
+    <li>整体架构：AI 的"手"怎么伸进手机？</li>
+    <li>Flash 模式：3~5 秒一步的反应式循环</li>
+    <li>Pro 模式：七个节点的多 Agent 大图</li>
+    <li>可靠性从哪来？多模态定位三层兜底</li>
+    <li>截图历史爆上下文怎么办？双边缘压缩</li>
+    <li>Agent 手抖点错了怎么办？安全网与执行事件</li>
+    <li>MCP 接入 IDE：Claude Code 怎么"摸到"手机？</li>
+    <li>两套模式怎么选？多设备并发怎么管？</li>
+    <li>和我学过的概念怎么对上号？</li>
+    <li>我能用它干什么？能力清单</li>
+  </ol>
+</div>
+
+<h2 class="sect">🔬 逐条解答：从"是什么"到"怎么做到的"</h2>
+
+<div class="q purple">
+  <span class="qnum">Q1</span><h2>ARTEMIS 到底是什么？一句话说清</h2>
+  <div class="ans">
+    <p><span class="hl">ARTEMIS = 一个把"人话"翻译成"手机动作"的 AI 代理框架</span>。你发一句
+    <code>"打开设置，看看电量，然后放首 Coldplay"</code>，它操纵一台<b>真实的 Android 手机</b>（或模拟器）逐步完成，全程像真人一样看屏幕、找按钮、点、滑、打字。</p>
+    <div class="keybox">
+      <b>它同时是三样东西：</b>① 一个<b>手机 GUI Agent</b>（看屏幕→思考→动手的循环体）；
+      ② 一个 <b>MCP 服务器</b>（把"操控手机"变成工具，供 Claude Code 等 IDE 调用）；
+      ③ 一个<b>自动化测试引擎</b>（自然语言写测试，替代脆弱的 UI 自动化脚本）。
+    </div>
+    <p>谁在做"看和想"？多模态大模型（Gemini / Claude / GPT-4o / Qwen-VL 任选，路由器统一分发）；
+    谁在做"动手"？ADB + uiautomator2 + 自家的 Accessibility Helper（一个装到手机上的无障碍服务 App）。<span class="term">LLM 是大脑，ARTEMIS 是整套神经系统 + 手。</span></p>
+    <svg width="640" height="128" viewBox="0 0 640 128">
+      <defs><marker id="a1" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#FF8A00"/></marker></defs>
+      <rect x="8" y="38" width="120" height="52" rx="10" fill="#FF2D78"/>
+      <text x="68" y="60" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">自然语言</text>
+      <text x="68" y="78" text-anchor="middle" fill="#fff" font-size="11">"查下电量"</text>
+      <rect x="176" y="30" width="150" height="68" rx="10" fill="#7C3AED"/>
+      <text x="251" y="55" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">ARTEMIS Agent</text>
+      <text x="251" y="74" text-anchor="middle" fill="#E8D5FF" font-size="10.5">看屏幕·规划·决策</text>
+      <rect x="374" y="30" width="120" height="68" rx="10" fill="#00B8D9"/>
+      <text x="434" y="55" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">动作指令</text>
+      <text x="434" y="74" text-anchor="middle" fill="#DFFBFF" font-size="10.5">click(540,1200)…</text>
+      <rect x="542" y="30" width="88" height="68" rx="10" fill="#FF8A00"/>
+      <text x="586" y="55" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">真手机</text>
+      <text x="586" y="74" text-anchor="middle" fill="#FFF" font-size="10.5">ADB 触达</text>
+      <line x1="130" y1="64" x2="172" y2="64" stroke="#FF8A00" stroke-width="3" marker-end="url(#a1)"/>
+      <line x1="328" y1="64" x2="370" y2="64" stroke="#FF8A00" stroke-width="3" marker-end="url(#a1)"/>
+      <line x1="496" y1="64" x2="538" y2="64" stroke="#FF8A00" stroke-width="3" marker-end="url(#a1)"/>
+      <path d="M586 102 C 500 126, 300 126, 200 100" stroke="#00C853" stroke-width="2.5" fill="none" stroke-dasharray="6,4" marker-end="url(#a1)"/>
+      <text x="393" y="122" text-anchor="middle" fill="#00874B" font-size="10.5" font-weight="bold">屏幕截图 + UI 树回传（循环的"眼睛"）</text>
+    </svg>
+  </div>
+</div>
+
+<div class="q pink">
+  <span class="qnum">Q2</span><h2>没有它，手机自动化是怎么做的？</h2>
+  <div class="ans">
+    <p>传统方案（Appium / Espresso / uiautomator 脚本）的套路是：<b>人类先写死每一步</b>——"找到 resource-id 为
+    <code>btn_next</code> 的按钮，点它"。能用，但有三个老大难：</p>
+    <table>
+      <tr><th>痛点</th><th>传统脚本</th><th>ARTEMIS（AI Agent）</th></tr>
+      <tr><td><b>界面一改就崩</b></td><td>按钮挪个位置 / 改个 id，脚本当场红</td><td>看的是屏幕语义，界面小改自动适应</td></tr>
+      <tr><td><b>跨 App 流程难写</b></td><td>每个 App 一套脚本，胶水代码巨多</td><td>一句自然语言描述目标即可</td></tr>
+      <tr><td><b>写脚本成本高</b></td><td>要会框架、会调试定位器</td><td>会说话就会"写测试"</td></tr>
+    </table>
+    <div class="keybox pur">
+      <b>代价也要诚实说：</b>AI 每一步都要调大模型（Flash 约 3~5 秒/步，Pro 约 30 秒/轮）+ 模型 API 费；
+      传统脚本执行是毫秒级且免费。所以官方定位很清楚——<span class="hl">ARTEMIS 负责"探索 + 生成 + 兜底"，最终交付物仍是可以脱离 LLM 跑的确定性测试代码</span>（见它的 rules.md："探索用 AI，交付可复现脚本"）。
+    </div>
+  </div>
+</div>
+
+<div class="q cyan">
+  <span class="qnum">Q3</span><h2>整体架构：AI 的"手"怎么伸进手机？</h2>
+  <div class="ans">
+    <p>仓库 608 个 Python 文件，主干是清晰的四层。每层只跟相邻层说话，所以底层驱动可以整个换成假的（我们的无真机实验就是这么做的）：</p>
+    <svg width="660" height="252" viewBox="0 0 660 252">
+      <rect x="20" y="10" width="620" height="48" rx="9" fill="#7C3AED"/>
+      <text x="40" y="32" fill="#fff" font-size="12.5" font-weight="bold">① 入口层</text>
+      <text x="40" y="49" fill="#E8D5FF" font-size="10.5">CLI（artemis run）· Web 控制台（FastAPI :8000）· SDK · MCP 服务器（mcp_server/，给 IDE 当工具）</text>
+      <rect x="20" y="70" width="620" height="60" rx="9" fill="#FF2D78"/>
+      <text x="40" y="92" fill="#fff" font-size="12.5" font-weight="bold">② Agent 层（artemis/agents/，15 个角色，共约 2 万行）</text>
+      <text x="40" y="110" fill="#FFD9E8" font-size="10.5">Flash 循环 · planner / operator / checker / validator / explorer / diagnoser / video_analyzer / log_analyzer …</text>
+      <text x="40" y="124" fill="#FFD9E8" font-size="10.5">LangGraph 状态图把它们编成一张可控的图（graph/，7 节点带收敛闸门）</text>
+      <rect x="20" y="142" width="620" height="48" rx="9" fill="#00B8D9"/>
+      <text x="40" y="164" fill="#fff" font-size="12.5" font-weight="bold">③ 动作/观察层</text>
+      <text x="40" y="181" fill="#DFFBFF" font-size="10.5">action_specs（12 个标准动作）· action_executor · observation（截图+XML 融合+元素索引）· llm/router（多供应商模型路由）</text>
+      <rect x="20" y="202" width="620" height="42" rx="9" fill="#FF8A00"/>
+      <text x="40" y="222" fill="#fff" font-size="12.5" font-weight="bold">④ 驱动层（drivers/）→ 真机</text>
+      <text x="40" y="237" fill="#FFF3E0" font-size="10.5">AndroidAdbDriver（ADB+uiautomator2+Accessibility Helper）· CloudDriver · MockDeviceDriver（内存假手机，测试专用）</text>
+    </svg>
+    <div class="keybox cyn"><b>一句话记住：</b><span class="hl">Agent 层出"意图"，驱动层出"触觉"</span>——上层只说"点击第 3 个元素"，怎么让它发生（真机 ADB / 云手机 / 内存假手机）是驱动层的事。</div>
+  </div>
+</div>
+
+<div class="q orange">
+  <span class="qnum">Q4</span><h2>Flash 模式：3~5 秒一步的反应式循环</h2>
+  <div class="ans">
+    <p>Flash 是"单人快枪手"：<span class="hl">不进 LangGraph 大图，一个 LLM 驱动的观察-思考-行动循环转到底</span>。没有 Planner、没有 Checker，胜在快——官方给的节奏是每步 3~5 秒。</p>
+    <svg width="620" height="190" viewBox="0 0 620 190">
+      <defs><marker id="a2" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#FF8A00"/></marker></defs>
+      <rect x="30" y="20" width="150" height="54" rx="27" fill="#00B8D9"/>
+      <text x="105" y="43" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">👁 观察 Observe</text>
+      <text x="105" y="61" text-anchor="middle" fill="#DFFBFF" font-size="10">截图 + UI 元素列表</text>
+      <rect x="235" y="20" width="150" height="54" rx="27" fill="#7C3AED"/>
+      <text x="310" y="43" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">🧠 思考 Think</text>
+      <text x="310" y="61" text-anchor="middle" fill="#E8D5FF" font-size="10">LLM 一次决策（含工具调用）</text>
+      <rect x="440" y="20" width="150" height="54" rx="27" fill="#FF2D78"/>
+      <text x="515" y="43" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">👆 行动 Act</text>
+      <text x="515" y="61" text-anchor="middle" fill="#FFD9E8" font-size="10">click / swipe / input…</text>
+      <line x1="182" y1="47" x2="231" y2="47" stroke="#FF8A00" stroke-width="3.5" marker-end="url(#a2)"/>
+      <line x1="387" y1="47" x2="436" y2="47" stroke="#FF8A00" stroke-width="3.5" marker-end="url(#a2)"/>
+      <path d="M515 76 C 515 150, 105 150, 105 78" stroke="#FF8A00" stroke-width="3.5" fill="none" marker-end="url(#a2)"/>
+      <text x="310" y="132" text-anchor="middle" fill="#C46A00" font-size="11" font-weight="bold">行动后再观察（动作结果随工具消息回灌，错误即自纠）</text>
+      <rect x="150" y="152" width="320" height="30" rx="15" fill="#FFF3E0" stroke="#FF8A00"/>
+      <text x="310" y="171" text-anchor="middle" fill="#C46A00" font-size="10.5" font-weight="bold">直到调用 report_task_status 汇报"完成/失败"才停</text>
+    </svg>
+    <p>两个聪明细节（源码 <code>agents/flash/runner.py</code> 实证）：</p>
+    <p>① <span class="term">click_sequence 连击</span>：把多次点击打包成一个动作连发，抢在自动消失的播放条/Toast 消失前点完；</p>
+    <p>② <span class="term">异步历史摘要</span>：旧步骤的截图在后台压缩成"视觉转变摘要"，主循环不等它，省时间又省上下文。</p>
+  </div>
+</div>
+
+<div class="q green">
+  <span class="qnum">Q5</span><h2>Pro 模式：七个节点的多 Agent 大图</h2>
+  <div class="ans">
+    <p>Pro 是"正规军"：<span class="hl">LangGraph 状态图编排七个节点，计划→执行→验证→总结闭环</span>。下面这张拓扑是我们用脚本从 <code>graph/graph.py</code> 源码里提取的真实接线（另有收敛闸门 convergence_gate 由辅助函数接入）：</p>
+    <svg width="660" height="240" viewBox="0 0 660 240">
+      <defs><marker id="a3" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#5E35B1"/></marker></defs>
+      <rect x="15" y="18" width="96" height="44" rx="9" fill="#546E7A"/><text x="63" y="38" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">START</text>
+      <text x="63" y="53" text-anchor="middle" fill="#fff" font-size="9">用户目标</text>
+      <rect x="146" y="18" width="104" height="44" rx="9" fill="#7C3AED"/><text x="198" y="38" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">planner</text>
+      <text x="198" y="53" text-anchor="middle" fill="#E8D5FF" font-size="9">拆里程碑+verify项</text>
+      <rect x="285" y="18" width="110" height="44" rx="18" fill="#FF8A00"/><text x="340" y="38" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">convergence_gate</text>
+      <text x="340" y="53" text-anchor="middle" fill="#FFF3E0" font-size="9">计划完成?去结算</text>
+      <rect x="430" y="18" width="106" height="44" rx="9" fill="#00B8D9"/><text x="483" y="38" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">perception</text>
+      <text x="483" y="53" text-anchor="middle" fill="#DFFBFF" font-size="9">看屏幕(可调explorer)</text>
+      <rect x="560" y="18" width="90" height="44" rx="9" fill="#FF2D78"/><text x="605" y="38" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">operator</text>
+      <text x="605" y="53" text-anchor="middle" fill="#FFD9E8" font-size="9">动手干活</text>
+      <rect x="470" y="100" width="130" height="44" rx="9" fill="#FF8A00"/><text x="535" y="120" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">execution_check</text>
+      <text x="535" y="135" text-anchor="middle" fill="#FFF3E0" font-size="9">安全网核查→事件</text>
+      <rect x="290" y="100" width="100" height="44" rx="9" fill="#00C853"/><text x="340" y="120" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">validator</text>
+      <text x="340" y="135" text-anchor="middle" fill="#E8F5E9" font-size="9">校验+XML安全网</text>
+      <rect x="150" y="100" width="104" height="44" rx="9" fill="#2962FF"/><text x="202" y="120" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">summarizer</text>
+      <text x="202" y="135" text-anchor="middle" fill="#DDE8FF" font-size="9">写本轮小结</text>
+      <rect x="150" y="176" width="110" height="44" rx="18" fill="#FF8A00"/><text x="205" y="196" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">exit_settlement</text>
+      <text x="205" y="211" text-anchor="middle" fill="#FFF3E0" font-size="9">结算+最终审查</text>
+      <rect x="20" y="176" width="80" height="44" rx="9" fill="#546E7A"/><text x="60" y="196" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">END</text>
+      <text x="60" y="211" text-anchor="middle" fill="#fff" font-size="9">产出报告</text>
+      <line x1="113" y1="40" x2="142" y2="40" stroke="#5E35B1" stroke-width="2.5" marker-end="url(#a3)"/>
+      <line x1="252" y1="40" x2="281" y2="40" stroke="#5E35B1" stroke-width="2.5" marker-end="url(#a3)"/>
+      <line x1="397" y1="40" x2="426" y2="40" stroke="#5E35B1" stroke-width="2.5" marker-end="url(#a3)"/>
+      <line x1="538" y1="40" x2="556" y2="40" stroke="#5E35B1" stroke-width="2.5" marker-end="url(#a3)"/>
+      <line x1="605" y1="64" x2="540" y2="96" stroke="#5E35B1" stroke-width="2.5" marker-end="url(#a3)"/>
+      <line x1="466" y1="122" x2="394" y2="122" stroke="#5E35B1" stroke-width="2.5" marker-end="url(#a3)"/>
+      <line x1="286" y1="122" x2="258" y2="122" stroke="#5E35B1" stroke-width="2.5" marker-end="url(#a3)"/>
+      <line x1="200" y1="146" x2="205" y2="172" stroke="#5E35B1" stroke-width="2.5" marker-end="url(#a3)"/>
+      <line x1="146" y1="198" x2="104" y2="198" stroke="#5E35B1" stroke-width="2.5" marker-end="url(#a3)"/>
+      <path d="M340 64 L340 96" stroke="#FF8A00" stroke-width="2.5" stroke-dasharray="5,4" fill="none" marker-end="url(#a3)"/>
+      <text x="352" y="84" fill="#C46A00" font-size="9.5" font-weight="bold">continue→perception</text>
+      <path d="M470 132 C 420 170, 330 176, 264 190" stroke="#FF8A00" stroke-width="2" stroke-dasharray="5,4" fill="none" marker-end="url(#a3)"/>
+      <text x="368" y="170" fill="#C46A00" font-size="9.5" font-weight="bold">review_subgoals→回闸门</text>
+    </svg>
+    <table>
+      <tr><th>角色</th><th>一句话职责</th><th>代码规模(实测)</th></tr>
+      <tr><td><b>planner</b></td><td>把目标拆成"活计划"：里程碑 + verify/assert 检查项，可动态改</td><td>436 行</td></tr>
+      <tr><td><b>operator</b></td><td>主力干活的：看屏幕、点滑输、记笔记、必要时发 ADB 命令</td><td>2,458 行</td></tr>
+      <tr><td><b>validator</b></td><td>动作前安全网（目标元素还在吗）+ 执行校验</td><td>2,251 行</td></tr>
+      <tr><td><b>checker</b></td><td>只读验证员：对着计划检查点做核查 + 退出终审</td><td>859 行</td></tr>
+      <tr><td><b>explorer</b></td><td>定位专家：flash/pro/ultra 三档（1 发/3 轮/深缩放），operator 用 ask_explorer 问它</td><td>3,598 行</td></tr>
+      <tr><td><b>video_analyzer</b></td><td>看会话录像找线索（全场最大的角色，5,415 行）</td><td>5,415 行</td></tr>
+      <tr><td><b>summarizer / diagnoser / log_analyzer…</b></td><td>总结、诊断、日志分析等辅助角色</td><td>190~608 行</td></tr>
+    </table>
+    <div class="keybox grn"><b>和 Flash 怎么分工？</b>官方 rules.md 写得很直白：任务短且直选 Flash；<span class="hl">需要持续计划、检查点验证、日志/ADB 诊断、多分支探索，或者要一份书面报告，就上 Pro</span>。</div>
+  </div>
+</div>
+
+<div class="q blue">
+  <span class="qnum">Q6</span><h2>可靠性从哪来？多模态定位三层兜底</h2>
+  <div class="ans">
+    <p>LLM 说"点设置图标"容易，<b>点得准</b>才是功夫。ARTEMIS 的定位是三层 fallback：</p>
+    <svg width="640" height="150" viewBox="0 0 640 150">
+      <defs><marker id="a4" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#2962FF"/></marker></defs>
+      <rect x="20" y="20" width="180" height="60" rx="10" fill="#2962FF"/>
+      <text x="110" y="45" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">① 元素索引（最快）</text>
+      <text x="110" y="63" text-anchor="middle" fill="#DDE8FF" font-size="10">UI 树直接给序号：点第 3 项</text>
+      <rect x="230" y="20" width="180" height="60" rx="10" fill="#00B8D9"/>
+      <text x="320" y="45" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">② 坐标定位（兜一层）</text>
+      <text x="320" y="63" text-anchor="middle" fill="#DFFBFF" font-size="10">OCR+XML 融合出坐标，索引失效时用</text>
+      <rect x="440" y="20" width="180" height="60" rx="10" fill="#7C3AED"/>
+      <text x="530" y="45" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">③ 视觉定位（兜到底）</text>
+      <text x="530" y="63" text-anchor="middle" fill="#E8D5FF" font-size="10">自绘界面/游戏：多模态模型看图找</text>
+      <line x1="202" y1="50" x2="226" y2="50" stroke="#2962FF" stroke-width="3" marker-end="url(#a4)"/>
+      <line x1="412" y1="50" x2="436" y2="50" stroke="#2962FF" stroke-width="3" marker-end="url(#a4)"/>
+      <text x="320" y="112" text-anchor="middle" fill="#C46A00" font-size="11" font-weight="bold">标准 App 走①②；自绘 UI（游戏/视频）才动用昂贵的③——便宜通道优先，贵的最后上</text>
+    </svg>
+    <p>再加一道"<span class="term">坐标自愈</span>"：动作落地前，validator 用 XML 层级核对目标元素"还在不在原处"（文本相似度 0.4 + 位置相似度 0.5 加权打分），小漂移直接修正坐标，真不见了才报失败，失败还分三类（shifted / occupied / disappeared）喂回给 Operator。</p>
+    <div class="keybox"><b>99%+ AndroidWorld 完成率怎么理解？</b>AndroidWorld 是 Google Research 的 116 个真机任务基准（跨 20 个真实 App）。99%+ 指 Agent 在该基准上的任务完成率——<span class="hl">这是"公开基准 + 可复现结果"级别的宣称，不是营销话术</span>；但注意它默认跑在指定模型（Gemini 系）上，换模型成绩会变。</div>
+  </div>
+</div>
+
+<div class="q purple">
+  <span class="qnum">Q7</span><h2>截图历史爆上下文怎么办？双边缘压缩</h2>
+  <div class="ans">
+    <p>长任务每步一张 1080×2400 截图 + 一坨 UI 树文本，几十步就把 200k 上下文撑爆。ARTEMIS 的答案是一个很优雅的机制：<span class="hl">ScrubEdgeCompressor 在历史上维持两条"橡皮擦边缘"</span>（源码 <code>agents/flash/context_compressor.py</code>）：</p>
+    <svg width="660" height="176" viewBox="0 0 660 176">
+      <line x1="30" y1="60" x2="630" y2="60" stroke="#B0BEC5" stroke-width="3"/>
+      <circle cx="80" cy="60" r="6" fill="#546E7A"/><circle cx="180" cy="60" r="6" fill="#546E7A"/><circle cx="280" cy="60" r="6" fill="#546E7A"/><circle cx="380" cy="60" r="6" fill="#546E7A"/><circle cx="480" cy="60" r="6" fill="#546E7A"/><circle cx="580" cy="60" r="6" fill="#FF2D78"/>
+      <text x="80" y="88" text-anchor="middle" font-size="9.5" fill="#546E7A">T1</text><text x="180" y="88" text-anchor="middle" font-size="9.5" fill="#546E7A">T2</text><text x="280" y="88" text-anchor="middle" font-size="9.5" fill="#546E7A">T3</text><text x="380" y="88" text-anchor="middle" font-size="9.5" fill="#546E7A">T4</text><text x="480" y="88" text-anchor="middle" font-size="9.5" fill="#546E7A">T5</text><text x="580" y="88" text-anchor="middle" font-size="9.5" fill="#FF2D78" font-weight="bold">T6 当前</text>
+      <rect x="30" y="14" width="330" height="30" rx="8" fill="#FFE0B2"/>
+      <text x="195" y="34" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#C46A00">文本边缘（depth 1）：旧 UI 树一有新观察就擦成短文本</text>
+      <rect x="30" y="104" width="430" height="30" rx="8" fill="#E1BEE7"/>
+      <text x="245" y="124" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6A1B9A">截图边缘（depth K）：K 步前的图片就地换成"视觉转变摘要"几行字</text>
+      <rect x="530" y="30" width="120" height="60" rx="9" fill="#FF2D78"/>
+      <text x="590" y="56" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="bold">近窗口原封不动</text>
+      <text x="590" y="73" text-anchor="middle" fill="#FFD9E8" font-size="9.5">逐字节冻结不回改</text>
+    </svg>
+    <p>三条铁律（官方单测逐条验证过，我们实验 ex4 实跑 169 个相关测试全绿）：</p>
+    <p>① <span class="term">冻结不变量</span>：滑出两条边缘的消息逐字节冻结，后续任何压缩都不回改——模型看到的不会"变卦"；</p>
+    <p>② <span class="term">临时块即焚</span>：每轮的提醒/告警等临时消息，一出近窗口就被删干净，绝不混进长期历史；</p>
+    <p>③ <span class="term">摘要只换图</span>：文字编辑与图片替换是两个独立边缘， race 时有宽限期，占位符永不回填假摘要。</p>
+    <div class="keybox pur">这条和知识库里 <span class="link">[[Compaction上下文压缩算法]]</span>、<span class="link">[[上下文预算与战略压缩]]</span> 是同一问题的三种答案：一个靠"切+摘要"，一个靠"提前压缩+预算"，ARTEMIS 靠"双边缘滑动擦除"。</div>
+  </div>
+</div>
+
+<div class="q red">
+  <span class="qnum">Q8</span><h2>Agent 手抖点错了怎么办？安全网与执行事件</h2>
+  <div class="ans">
+    <p>Pro 模式给每个"收尾动作"上了<span class="term">预执行安全网</span>：动作要碰的元素先在最新 UI 层级里验明正身，坐标小漂移就地自愈；同时允许多个快速动作打包成"<span class="term">fast-action burst</span>"连发（跳过安全网抢时间）——这是打瞬逝 UI 的官方姿势。</p>
+    <p>动作被拦截或失败时，系统开一个<span class="term">执行事件（execution incident）</span>：它带着连续失败计数<b>持久留在 Operator 的上下文里</b>，直到某个动作真正成功才自动销毁——修不修、怎么修由 Operator 自己决定，<span class="hl">没有独立的"修理工 Agent"，恢复是主力的责任</span>。</p>
+    <svg width="620" height="120" viewBox="0 0 620 120">
+      <defs><marker id="a5" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#FF1744"/></marker></defs>
+      <rect x="20" y="34" width="130" height="50" rx="10" fill="#FF1744"/><text x="85" y="56" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">动作被拦/失败</text><text x="85" y="73" text-anchor="middle" fill="#FFCDD2" font-size="9.5">shifted/occupied/gone</text>
+      <rect x="200" y="34" width="170" height="50" rx="10" fill="#FF8A00"/><text x="285" y="56" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">执行事件挂进上下文</text><text x="285" y="73" text-anchor="middle" fill="#FFF3E0" font-size="9.5">连续失败计数如实展示</text>
+      <rect x="420" y="34" width="170" height="50" rx="10" fill="#00C853"/><text x="505" y="56" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">Operator 自主恢复</text><text x="505" y="73" text-anchor="middle" fill="#E8F5E9" font-size="9.5">换路径/重试/问诊断器</text>
+      <line x1="152" y1="59" x2="196" y2="59" stroke="#FF1744" stroke-width="3" marker-end="url(#a5)"/>
+      <line x1="372" y1="59" x2="416" y2="59" stroke="#FF1744" stroke-width="3" marker-end="url(#a5)"/>
+      <path d="M505 30 C 400 -6, 200 -6, 90 30" stroke="#00C853" stroke-width="2.5" fill="none" stroke-dasharray="6,4" marker-end="url(#a5)"/>
+      <text x="298" y="14" text-anchor="middle" fill="#00874B" font-size="10" font-weight="bold">某动作真成功 → 事件自动销毁，计数清零</text>
+    </svg>
+  </div>
+</div>
+
+<div class="q cyan">
+  <span class="qnum">Q9</span><h2>MCP 接入 IDE：Claude Code 怎么"摸到"手机？</h2>
+  <div class="ans">
+    <p>ARTEMIS 内置一个原生 <b>MCP 服务器</b>（<code>mcp_server/</code>）。跑一次 <code>start.bat</code>，它会把 MCP 配置和一份《移动测试心法》（rules.md）自动装进检测到的 IDE。装好后，Claude Code 的工具箱里多出这些"手"：</p>
+    <table>
+      <tr><th>MCP 工具</th><th>作用</th></tr>
+      <tr><td><code>mobile_run_task</code></td><td>派活：一条自然语言任务发给指定/自动选择的设备，后台子进程执行</td></tr>
+      <tr><td><code>mobile_get_device_state</code></td><td>看现场：实时截图或简化 UI 树（盯子代理进度、验证结果）</td></tr>
+      <tr><td><code>mobile_diagnose</code></td><td>诊断：抓 Logcat、分析失败原因</td></tr>
+      <tr><td><code>mobile_inspect_trace</code></td><td>复盘：查看执行轨迹（每步截图/动作/耗时）</td></tr>
+      <tr><td><code>mobile_manage_tasks</code></td><td>管理：列任务/停任务/多设备调度</td></tr>
+    </table>
+    <svg width="660" height="168" viewBox="0 0 660 168">
+      <defs><marker id="a6" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#00838F"/></marker></defs>
+      <rect x="16" y="60" width="120" height="52" rx="10" fill="#2962FF"/><text x="76" y="82" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Claude Code</text><text x="76" y="99" text-anchor="middle" fill="#DDE8FF" font-size="9.5">（你在 IDE 里说话）</text>
+      <rect x="186" y="60" width="130" height="52" rx="10" fill="#00B8D9"/><text x="251" y="82" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">MCP 服务器</text><text x="251" y="99" text-anchor="middle" fill="#DFFBFF" font-size="9.5">stdio/HTTP · 5 个工具</text>
+      <rect x="366" y="60" width="130" height="52" rx="10" fill="#7C3AED"/><text x="431" y="82" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">ARTEMIS 引擎</text><text x="431" y="99" text-anchor="middle" fill="#E8D5FF" font-size="9.5">Flash 循环 / Pro 图</text>
+      <rect x="546" y="60" width="100" height="52" rx="10" fill="#FF8A00"/><text x="596" y="82" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">真手机</text><text x="596" y="99" text-anchor="middle" fill="#FFF3E0" font-size="9.5">USB/模拟器</text>
+      <line x1="138" y1="76" x2="182" y2="76" stroke="#00838F" stroke-width="2.5" marker-end="url(#a6)"/>
+      <text x="160" y="68" text-anchor="middle" font-size="9" fill="#00838F">mobile_run_task</text>
+      <line x1="318" y1="76" x2="362" y2="76" stroke="#00838F" stroke-width="2.5" marker-end="url(#a6)"/>
+      <line x1="498" y1="76" x2="542" y2="76" stroke="#00838F" stroke-width="2.5" marker-end="url(#a6)"/>
+      <path d="M596 114 C 520 152, 340 152, 254 116" stroke="#00C853" stroke-width="2" fill="none" stroke-dasharray="5,4" marker-end="url(#a6)"/>
+      <text x="425" y="146" text-anchor="middle" fill="#00874B" font-size="9.5" font-weight="bold">截图/UI树/Logcat 沿原路回传，IDE 里直接看</text>
+    </svg>
+    <div class="keybox cyn">这正是知识库 <span class="link">[[MCP协议]]</span> 的教科书案例：没有 MCP，每个 IDE × 每个手机框架都要定制对接（M×N）；有了它，ARTEMIS 写一次服务器，所有支持 MCP 的 AI 助手即插即用（M+N）。<span class="link">[[MCP服务器]]</span>、<span class="link">[[工具调用生命周期]]</span> 在这个仓库里能看到生产级实现。</div>
+  </div>
+</div>
+
+<div class="q orange">
+  <span class="qnum">Q10</span><h2>两套模式怎么选？多设备并发怎么管？</h2>
+  <div class="ans">
+    <table>
+      <tr><th></th><th>⚡ Flash</th><th>🧭 Pro</th></tr>
+      <tr><td><b>机制</b></td><td>单 LLM 反应式循环，无图</td><td>LangGraph 7 节点闭环</td></tr>
+      <tr><td><b>节奏</b></td><td>约 3~5 秒/步</td><td>约 30 秒/轮（多角色接力）</td></tr>
+      <tr><td><b>擅长</b></td><td>短平快的确定性 UI 操作、抢瞬逝控件（连击）</td><td>长任务/多分支探索/连续监控/要书面报告</td></tr>
+      <tr><td><b>历史</b></td><td colspan="2">同一个会话账本（T+mm:ss 会话时钟，截图折成摘要，旧步骤分块入库）</td></tr>
+      <tr><td><b>验证</b></td><td>无独立 Checker</td><td>verification_level 四档：off / final（默认，只终审）/ checkpoints / strict</td></tr>
+    </table>
+    <p>多设备：每个任务可指定 <code>device_serial</code>，<span class="hl">不同设备的任务并发互不阻塞</span>；不指定就自动从设备池挑空闲机。规则也很"懂事"：检测到多台设备且意图不明时，要求 AI <b>必须先问用户选哪台</b>，不许自作主张。</p>
+  </div>
+</div>
+
+<div class="q pink">
+  <span class="qnum">Q11</span><h2>和我学过的概念怎么对上号？</h2>
+  <div class="ans">
+    <table>
+      <tr><th>知识库概念</th><th>在 ARTEMIS 里的对应物</th></tr>
+      <tr><td><span class="link">[[Agent循环]]</span></td><td>Flash 的 observe-think-act 循环就是它的手机版：错误回灌=动作失败结果进下一轮观察</td></tr>
+      <tr><td><span class="link">[[LangGraph与Agent编排]]</span> / <span class="link">[[共享状态与Reducer]]</span></td><td>Pro 图的 State：Pydantic 显式字段 + take_last / sticky_or 两种 Reducer，extra="forbid" 拒绝幽灵键</td></tr>
+      <tr><td><span class="link">[[程序化工具调用]]</span></td><td>对偶视角：ARTEMIS 让模型逐动作"点菜"，而 click_sequence 是把多个原语打包一次执行——跨向程序化的中间形态</td></tr>
+      <tr><td><span class="link">[[MCP协议]]</span> / <span class="link">[[MCP服务器]]</span></td><td>mcp_server/ 把整个引擎包装成 5 个工具卖给所有 AI IDE</td></tr>
+      <tr><td><span class="link">[[Compaction上下文压缩算法]]</span></td><td>ScrubEdgeCompressor 双边缘擦除：另一种压缩流派（滑动边缘 vs 切割点+模板摘要）</td></tr>
+      <tr><td><span class="link">[[证据优先质检ProofOverClaims]]</span></td><td>rules.md 要求"先真机探索验证交互，再写测试代码"——不许凭假设写测试</td></tr>
+      <tr><td><span class="link">[[接缝与桩实现StubSeam]]</span></td><td>MockDeviceDriver + FakeChatModel：官方自带的桩，让整个引擎无手机无 key 可跑（我们实验的靠山）</td></tr>
+    </table>
+    <p class="small">另有意外收获：README 第 322 行明确致谢 <code>minitap-ai/mobile-use</code>（Minitap, Inc., Apache-2.0），third_party/ 目录带 NOTICE/METADATA 署名文件——推文评论区"谷歌套皮不署名"的说法在仓库层面站不住脚，署名是规范做的（fork/复用上游且合规署名，正是开源的正确姿势）。</p>
+  </div>
+</div>
+
+<div class="q green">
+  <span class="qnum">Q12</span><h2>我能用它干什么？能力清单</h2>
+  <div class="ans">
+    <p>结合小白到进阶的水平，五个现实用途：</p>
+    <p>① <b>手机上的"嘴替"</b>：一句"把相册里上周的截图整理进'素材'文件夹"这类跨 App 琐事，交给 Flash 跑；</p>
+    <p>② <b>自然语言写 App 测试</b>：不用学 Appium，描述场景让 Agent 真机探索并产出可复跑的测试代码；</p>
+    <p>③ <b>给 Claude Code 装一只"手"</b>：MCP 接入后，写代码的 AI 能顺手在真机/模拟器上验证自己改的 App；</p>
+    <p>④ <b>稳定性/压测流水线</b>：Pro 模式跑长时探索测试，自动收集 Logcat、性能指标、录像证据并出报告；</p>
+    <p>⑤ <b>学 GUI Agent 架构的活教材</b>：多模态定位、上下文压缩、多 Agent 闭环、MCP 集成——每一块都是可以单独抄走的设计。</p>
+    <div class="keybox grn"><b>上手三件套：</b><code>git clone → start.bat</code>（自动装 ADB/scrcpy/FFmpeg/uv 依赖）→ 浏览器开 <code>localhost:8000</code> 有向导；CLI 单发任务 <code>uv run artemis run "打开设置查电量" --profile flash</code>。需要：一台开了 USB 调试的 Android 手机或模拟器 + 至少一家模型 API key（Gemini/Anthropic/OpenAI/Ollama 皆可）。</div>
+  </div>
+</div>
+
+<h2 class="sect">🧪 动手实验（无真机离线全跑通 · 2026-10-03 实测）</h2>
+
+<div class="keybox red" style="margin-bottom:10px">
+  <b>诚实声明：</b>本机是 Windows 11，<b>没有安卓真机/模拟器</b>。因此实验走"仓库结构 + 核心逻辑 + 官方自带桩（MockDeviceDriver + FakeChatModel）"路线：跑的是 ARTEMIS 真实代码与真实测试，但<b>没有</b>在真手机上端到端点过屏幕；CLI 直跑 <code>artemis run</code> 在无设备时被设备发现环节拦下（"No Android device found"），也如实记录如下。
+</div>
+
+<div class="exp">
+  <h3>实验一：装环境 + 全量单测（99% 通过）</h3>
+  <div class="step"><span class="no">1</span><b>操作：</b><code>pip install uv</code> → <code>uv sync</code>（自动建 venv 装齐 LangGraph/LangChain/FastAPI/MCP 等全家桶，退出码 0）。<b>目的：</b>最小可分析环境。</div>
+  <div class="step"><span class="no">2</span><b>操作：</b><code>set PYTHONUTF8=1</code> + <code>set ARTEMIS_FAKE_LLM=1</code>，然后 <span class="cmd">uv run pytest tests/unit -q --basetemp=F:/reminder/artemis/exercise/.pytest_tmp</span><b>目的：</b>验证整库代码在本地真实可跑。</div>
+  <div class="check">✅ 预期/实测：<b>2473 passed / 18 failed / 8 skipped（99.0% 通过）</b>。两个真实的坑：① 首跑 577 个 error，根因是 Windows 系统临时目录 <code>Temp\pytest-of-Windows</code> 拒绝访问（PermissionError WinError 5），用 <code>--basetemp</code> 指到本地目录即全清——环境问题不是代码问题；② 剩余 18 个失败集中在 CLI restart 与模型工厂实例化（无 API key 场景）。</div>
+</div>
+
+<div class="exp">
+  <h3>实验二：亲手驱动"假手机"（exercise/ex2_mock_driver.py）</h3>
+  <div class="step"><span class="no">1</span><b>操作：</b>实例化 <code>MockDeviceDriver(1080x2400)</code> 并 connect——一台内存里的 Android 假手机，出厂停在 Settings。</div>
+  <div class="step"><span class="no">2</span><b>操作：</b>依次下发 <code>tap(540,1200) → input_text("hello artemis") → swipe(上滑) → press_key(BACK) → launch_app</code>。</div>
+  <div class="step"><span class="no">3</span><b>验证：</b>读 <code>action_history</code> 流水账并逐条断言。</div>
+  <div class="check">✅ 实测输出（节选）：五个动作回执全 True；流水账如实记录 <code>#1 tap{'x':540,'y':1200} … #5 launch_app{'package':'com.android.settings'}</code>；<code>get_current_package()</code> 返回正确包名。踩坑记录：该方法是 async，忘了 <code>await</code> 首跑断言失败——修一行即过。这一步验证了<span class="hl">"Agent 层出意图、驱动层出触觉"的接口契约真实成立</span>。</div>
+</div>
+
+<div class="exp">
+  <h3>实验三：源码级拓扑提取（exercise/ex3_topology.py）</h3>
+  <div class="step"><span class="no">1</span><b>操作：</b>正则扫 <code>graph/graph.py</code> 提取 add_node/add_edge/add_conditional_edges；扫 <code>mcp/action_specs.py</code> 提取动作名；统计 agents/ 各角色行数。</div>
+  <div class="check">✅ 实测：Pro 图 <b>7 节点</b>（planner/operator/validator/summarizer/execution_check/perception/exit_settlement）+ 3 条固定边 + 1 个条件出口；设备动作集 <b>12 个</b>；角色行数榜 <b>video_analyzer 5415 行</b>（最大！）&gt; explorer 3598 &gt; operator 2458 &gt; validator 2251 &gt; flash 2137。结果存 <code>exercise/pro_graph.json</code>。<b>意义：</b>指南 Q5 的架构图不是照抄文档，是从源码里称出来的。</div>
+</div>
+
+<div class="exp">
+  <h3>实验四：双边缘压缩器 169 测全绿</h3>
+  <div class="step"><span class="no">1</span><b>操作：</b><span class="cmd">set ARTEMIS_FAKE_LLM=1 &amp;&amp; uv run pytest tests/unit/agents/test_flash_scrub_edge.py tests/unit/agents/test_flash_runner_ledger.py tests/unit/memory -q --basetemp=...</span></div>
+  <div class="check">✅ 实测：<b>169 passed / 0 failed</b>（0.71 秒）。覆盖冻结不变量（历史消息逐字节不变）、竞态宽限（摘要没回来不许回填占位假货）、ephemeral 临时块出窗即焚、会话账本 T+mm:ss 时钟等核心机制。<b>附带发现：</b>同目录 test_explorer.py 有 13 个测试失败，根因是测试用 MagicMock 冒充 provider、撞上新加的严格枚举校验抛 ValueError——测试基建兼容性问题，非功能缺陷，如实记录。</div>
+</div>
+
+<div class="footer">
+  <h2>📌 一页总结</h2>
+  <p>ARTEMIS 证明了"AI 操控真机"已经工程化到可以直接用的程度：<b>Flash 用最简单的循环换速度，Pro 用多 Agent 图换可靠性</b>；三层定位 + 安全网 + 执行事件把"模型会点错"这件事管理起来；双边缘压缩让长任务装得进上下文；MCP 让所有 AI IDE 一秒获得一只"机器手"。对学习者的最大价值：<span style="background:rgba(255,255,255,.25);padding:0 4px;font-weight:bold">它是 GUI Agent 全套工程难题（定位/压缩/自愈/编排/集成）的一份开源参考答案</span>。</p>
+  <p style="margin-top:8px;font-size:11px;opacity:.9">查证记录：仓库 google/artemis 真实存在（Google 官方 org，10.9k★，Apache-2.0，2026-08-13 创建，持续更新）；README 明确署名复用 minitap-ai/mobile-use（Apache-2.0，third_party/ 含 NOTICE）；AndroidWorld 为 Google Research 公开基准。"谷歌开源"说法属实。本指南实验与数据均为 2026-10-03 本机实测，无真机部分已如实标注。</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "nodes": [
+    "planner",
+    "operator",
+    "validator",
+    "summarizer",
+    "execution_check",
+    "perception",
+    "exit_settlement"
+  ],
+  "edges": [
+    "operator -> execution_check",
+    "validator -> summarizer",
+    "perception -> operator"
+  ],
+  "conditional_from": [
+    "execution_check"
+  ]
+}
