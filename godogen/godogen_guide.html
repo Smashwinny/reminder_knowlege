@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Godogen 小白指南</title>
+<style>
+  :root{
+    --pink:#FF2D78; --purple:#7C3AED; --cyan:#00B8D9; --amber:#FFB300;
+    --lime:#7CB342; --ink:#241A3E; --bg:#FFF9F0; --card:#FFFFFF;
+    --soft:#FFF0F6; --code-bg:#2B2140; --code-ink:#FFE8F3;
+  }
+  @page{ size:A4; margin:12mm; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink);
+        background:var(--bg); font-size:13.5px; line-height:1.75; }
+  .wrap{ max-width:190mm; margin:0 auto; }
+
+  /* 封面 */
+  .cover{ background:linear-gradient(135deg,#FF2D78 0%,#7C3AED 55%,#00B8D9 100%);
+          color:#fff; border-radius:18px; padding:38px 34px; margin-bottom:16px; }
+  .cover h1{ font-size:40px; letter-spacing:1px; margin-bottom:6px; }
+  .cover .sub{ font-size:17px; opacity:.95; margin-bottom:18px; }
+  .cover .tagline{ font-size:22px; font-weight:800; background:rgba(255,255,255,.18);
+          display:inline-block; padding:8px 18px; border-radius:10px; margin-bottom:18px; }
+  .stats{ display:flex; gap:10px; flex-wrap:wrap; }
+  .stat{ background:rgba(255,255,255,.16); border-radius:10px; padding:8px 14px; text-align:center; }
+  .stat b{ display:block; font-size:20px; }
+  .stat span{ font-size:11.5px; opacity:.9; }
+
+  h2.sec{ font-size:23px; margin:22px 0 10px; padding:6px 16px; border-radius:10px;
+          color:#fff; display:inline-block; }
+  .sec-pink{ background:var(--pink);} .sec-purple{ background:var(--purple);}
+  .sec-cyan{ background:var(--cyan);} .sec-amber{ background:var(--amber); color:#4A2E00;}
+  .sec-lime{ background:var(--lime);}
+
+  /* 速览 */
+  .brief{ background:var(--card); border:3px solid var(--purple); border-radius:14px;
+          padding:16px 20px; margin-bottom:8px; }
+  .pipeline{ display:flex; align-items:center; justify-content:center; gap:8px;
+             margin:14px 0; flex-wrap:wrap; }
+  .pipe-box{ border-radius:12px; padding:12px 16px; color:#fff; font-weight:800;
+             text-align:center; font-size:14px; min-width:130px; }
+  .pipe-arrow{ font-size:22px; font-weight:900; color:var(--pink); }
+
+  /* 疑问卡片 */
+  .q{ background:var(--card); border-radius:14px; padding:16px 20px 14px; margin:12px 0;
+      break-inside:avoid; border-top:6px solid; box-shadow:0 2px 6px rgba(60,20,90,.08); }
+  .q.c1{ border-color:var(--pink);} .q.c2{ border-color:var(--purple);}
+  .q.c3{ border-color:var(--cyan);} .q.c4{ border-color:var(--amber);}
+  .qhead{ display:flex; align-items:flex-start; gap:14px; margin-bottom:8px; }
+  .qnum{ font-size:34px; font-weight:900; line-height:1; min-width:52px; }
+  .c1 .qnum{ color:var(--pink);} .c2 .qnum{ color:var(--purple);}
+  .c3 .qnum{ color:var(--cyan);} .c4 .qnum{ color:var(--amber);}
+  .qtitle{ font-size:17px; font-weight:800; padding-top:4px; }
+  .ans{ margin-top:6px; }
+  .ans p{ margin:6px 0; }
+  .hl{ font-weight:900; padding:1px 5px; border-radius:5px; }
+  .hl-p{ background:#FFE1EC; color:#C4005B;} .hl-v{ background:#EDE4FF; color:#5B21B6;}
+  .hl-c{ background:#DFF8FE; color:#00707F;} .hl-a{ background:#FFF3D6; color:#9A6300;}
+  .hl-l{ background:#EAF6DC; color:#4A7010;}
+  .term{ font-weight:800; color:var(--purple); border-bottom:2px dotted var(--purple);}
+  svg{ display:block; margin:10px auto; max-width:100%; }
+  .svgbox{ background:#FBF7FF; border:1.5px dashed var(--purple); border-radius:10px;
+           padding:6px 8px; margin:8px 0; }
+  .cap{ text-align:center; font-size:11.5px; color:#7A6A96; margin-top:2px; }
+
+  code{ font-family:Consolas,monospace; background:#F1EAFE; color:#5B21B6;
+        padding:1px 5px; border-radius:4px; font-size:12.3px; }
+  pre{ background:var(--code-bg); color:var(--code-ink); border-radius:10px;
+       padding:12px 14px; font-size:12px; line-height:1.6; overflow-x:auto;
+       font-family:Consolas,monospace; margin:8px 0; break-inside:avoid; }
+  pre .cm{ color:#8BE9A8; } pre .k{ color:#FF9ECB; }
+
+  table{ width:100%; border-collapse:collapse; margin:8px 0; font-size:12.5px; }
+  th{ background:var(--purple); color:#fff; padding:6px 8px; text-align:left; }
+  td{ border:1.5px solid #E4D9F5; padding:5px 8px; background:#fff; }
+  tr:nth-child(even) td{ background:#FAF6FF; }
+
+  /* 实验卡片 */
+  .step{ background:var(--card); border-left:7px solid var(--lime); border-radius:10px;
+         padding:12px 16px; margin:10px 0; break-inside:avoid; }
+  .step h4{ font-size:15px; color:#3E6212; margin-bottom:4px; }
+  .step .lbl{ font-size:11.5px; font-weight:800; color:#fff; border-radius:4px;
+              padding:1px 7px; margin-right:6px; }
+  .lbl-do{ background:var(--cyan);} .lbl-why{ background:var(--purple);}
+  .lbl-got{ background:var(--lime);} .lbl-chk{ background:var(--amber); color:#4A2E00;}
+  .step p{ margin:4px 0; }
+  .ok{ background:#EAF6DC; border:2px solid var(--lime); border-radius:10px;
+       padding:8px 14px; font-weight:700; margin:6px 0; }
+  .warn{ background:#FFF0F0; border:2px solid #FF5252; border-radius:10px;
+         padding:8px 14px; margin:8px 0; }
+  .grid2{ display:flex; gap:12px; flex-wrap:wrap; }
+  .grid2>div{ flex:1 1 45%; }
+  .footer{ text-align:center; font-size:11.5px; color:#9A8BB5; margin:18px 0 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ═══════════ 封面 ═══════════ -->
+<div class="cover">
+  <h1>Godogen 小白指南</h1>
+  <div class="sub">Autonomous Game Development with Claude Code &amp; Codex</div>
+  <div class="tagline">描述一句游戏创意 → AI 自动架构、画美术、写代码、跑引擎、看画面质检 → 交付能玩的游戏</div>
+  <div class="stats">
+    <div class="stat"><b>~7,000+</b><span>GitHub Stars</span></div>
+    <div class="stat"><b>3</b><span>引擎：Godot 4 / Bevy / Babylon.js</span></div>
+    <div class="stat"><b>2</b><span>宿主：Claude Code / Codex</span></div>
+    <div class="stat"><b>MIT</b><span>开源协议</span></div>
+    <div class="stat"><b>0 行</b><span>仓库里的游戏代码</span></div>
+  </div>
+</div>
+
+<!-- ═══════════ 0. 项目速览 ═══════════ -->
+<h2 class="sec sec-purple">0 · 一分钟速览：这到底是个啥</h2>
+<div class="brief">
+  <p>先纠正直觉：<strong>Godogen 仓库里没有一行游戏代码，也没有游戏引擎</strong>。它是一套精心编写的
+  <span class="hl hl-v">Markdown 指南 + 技能包（Skill）+ 一个发布脚本</span>。它把这几页"说明书"发布（publish）到一个空的游戏仓库里，然后让
+  Claude Code / Codex <strong>住进</strong>这个仓库，照着说明书把游戏真的做出来。</p>
+  <div class="pipeline">
+    <div class="pipe-box" style="background:var(--pink)">godogen 源仓库<br><small style="font-weight:400">说明书源头</small></div>
+    <div class="pipe-arrow">→ publish →</div>
+    <div class="pipe-box" style="background:var(--purple)">游戏仓库骨架<br><small style="font-weight:400">manifest + 引擎指南 + 技能</small></div>
+    <div class="pipe-arrow">→ AI 干活 →</div>
+    <div class="pipe-box" style="background:var(--cyan)">可运行的游戏<br><small style="font-weight:400">Godot / Bevy / Babylon</small></div>
+  </div>
+  <p>发布出来的仓库薄得惊人，只有三样东西：<span class="term">运行时清单</span>（CLAUDE.md，约 12 行的干活章程）、
+  <span class="term">引擎指南</span>（godot.md / bevy.md / babylon.md 单页）、<span class="term">asset-gen 技能包</span>（AI 画美术的手艺）。
+  项目脚手架、截图工具——<strong>全部由 AI 到场后按指南现场重建</strong>。</p>
+</div>
+
+<!-- ═══════════ 疑问卡片 ═══════════ -->
+<h2 class="sec sec-pink">疑问清单：工科毕业生的 12 连问</h2>
+
+<div class="q c1"><div class="qhead"><div class="qnum">Q1</div>
+<div class="qtitle">仓库里没有游戏代码，凭什么能"产出游戏"？</div></div>
+<div class="ans">
+  <p>因为它的产品不是游戏，而是<span class="hl hl-p">"能指挥 AI 做游戏的说明书"</span>。类比：驾校不发车，但发的教材能让学员自己开走一辆车。Godogen 把"做一个游戏"拆解成 AI 可执行的章程——去哪记进度（README.md）、怎么画美术（asset-gen 技能）、每个引擎怎么搭项目（引擎指南）、做完怎么自证（跑起来看画面）。AI 智能体读到这几页纸，就能自主推进几小时的开发。</p>
+  <p><strong>这代表一种新物种：源码即 prompt。</strong> 仓库的价值全在几篇 Markdown 的措辞里——哪些坑要提前告诉模型、哪些决策留给模型现场判断，都是设计出来的。</p>
+</div></div>
+
+<div class="q c2"><div class="qhead"><div class="qnum">Q2</div>
+<div class="qtitle">为什么不直接对 Claude Code 说"帮我做个游戏"？</div></div>
+<div class="ans">
+  <p>直接说也能做，但质量不稳定。裸prompt的模型会犯一批<span class="hl hl-v">"编译能过、一跑就废"</span>的错（后面 Q6 详述），还会在长任务里忘了自己做到哪。Godogen 相当于给 AI 配了三件套：</p>
+  <table>
+    <tr><th>装备</th><th>解决什么</th></tr>
+    <tr><td><b>运行时清单</b>（CLAUDE.md）</td><td>固定两件事：持久状态写在 README.md（会话被压缩也不丢进度）；结果必须"跑起来看到"才算数</td></tr>
+    <tr><td><b>引擎指南</b>（单页）</td><td>只写模型推不出来或查起来慢的：项目骨架、无头截图配方、静默失败陷阱清单</td></tr>
+    <tr><td><b>asset-gen 技能包</b></td><td>画图/3D/帧动画的完整工艺 + 计费意识，按需加载不占上下文</td></tr>
+  </table>
+  <p>官方文档说得直白：<strong>没有固定的多阶段流水线，也没有规定的文档协议</strong>——一个足够强的模型自己会规划分解，说明只需钉死"状态存哪"和"结果怎么证明"这两件事。</p>
+</div></div>
+
+<div class="q c3"><div class="qhead"><div class="qnum">Q3</div>
+<div class="qtitle">运行时清单只有 12 行，这几段话凭什么指挥 AI 干几小时？</div></div>
+<div class="ans">
+  <p>看原文（我发布出来的 CLAUDE.md 实拍）：</p>
+  <pre># Build Godot game from a description
+- Keep durable project status in `README.md`          <span class="cm">← 进度落盘，抗上下文压缩</span>
+- Generate visual assets with `/asset-gen`            <span class="cm">← 画美术用技能包；花钱前先确认</span>
+- Read `godot.md` for engine guidance                  <span class="cm">← 引擎细节按需查单页指南</span>
+## Delivery
+Judge progress from the running game, <b>never from a clean build</b>  <span class="cm">← 铁律：证据优先</span></pre>
+  <p>它的威力来自<span class="hl hl-c">"少即是多"的设计哲学</span>：清单只钉死两条不可妥协的原则（状态存 README、结果看运行），把架构设计、任务分解、技术选型全留给模型现场发挥。模型越强，这套说明越有效——它是给"聪明员工"的手写便条，不是给流水线工人的 SOP。</p>
+</div></div>
+
+<div class="q c4"><div class="qhead"><div class="qnum">Q4</div>
+<div class="qtitle">"Proof over claims"（证据优先于声称）是什么意思？</div></div>
+<div class="ans">
+  <p>这是整个项目最核心的思想。<span class="hl hl-a">编译通过 ≠ 游戏能玩</span>。场景里模型可能静默丢节点、材质可能没贴上、物理可能根本没动——这些都反映在编译结果里是 0 error。所以清单里写死：<strong>进度只能从"正在运行的游戏"判断</strong>。</p>
+  <div class="svgbox">
+  <svg viewBox="0 0 720 170" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="30" width="150" height="52" rx="10" fill="#7C3AED"/>
+    <text x="85" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">AI 写完代码</text>
+    <text x="85" y="70" text-anchor="middle" fill="#EDE4FF" font-size="10.5">dotnet build 通过 ✓</text>
+    <rect x="10" y="95" width="150" height="40" rx="8" fill="#FFF3D6" stroke="#FFB300"/>
+    <text x="85" y="120" text-anchor="middle" fill="#9A6300" font-size="11.5">编译过 ≠ 完成 ✗</text>
+    <line x1="160" y1="56" x2="215" y2="56" stroke="#FF2D78" stroke-width="4" marker-end="url(#ar1)"/>
+    <defs><marker id="ar1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6Z" fill="#FF2D78"/></marker></defs>
+    <rect x="220" y="30" width="160" height="52" rx="10" fill="#00B8D9"/>
+    <text x="300" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">拉起引擎真跑</text>
+    <text x="300" y="70" text-anchor="middle" fill="#DFF8FE" font-size="10.5">无头模式 + 截图/录像</text>
+    <line x1="380" y1="56" x2="435" y2="56" stroke="#FF2D78" stroke-width="4" marker-end="url(#ar1)"/>
+    <rect x="440" y="30" width="140" height="52" rx="10" fill="#FF2D78"/>
+    <text x="510" y="52" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">看画面找问题</text>
+    <text x="510" y="70" text-anchor="middle" fill="#FFE1EC" font-size="10.5">贴图丢？穿模？黑屏？</text>
+    <line x1="580" y1="56" x2="625" y2="56" stroke="#FF2D78" stroke-width="4" marker-end="url(#ar1)"/>
+    <path d="M630 56 L690 56 L690 20 L510 20 L510 26" fill="none" stroke="#7CB342" stroke-width="3.5" stroke-dasharray="7 4" marker-end="url(#ar2)"/>
+    <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6Z" fill="#7CB342"/></marker></defs>
+    <rect x="630" y="38" width="80" height="36" rx="8" fill="#7CB342"/>
+    <text x="670" y="52" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">有问题</text>
+    <text x="670" y="67" text-anchor="middle" fill="#EAF6DC" font-size="10">回去改</text>
+    <rect x="220" y="110" width="360" height="44" rx="9" fill="#EAF6DC" stroke="#7CB342" stroke-width="2"/>
+    <text x="400" y="128" text-anchor="middle" fill="#3E6212" font-size="12.5" font-weight="bold">画面没问题 + 交 15~20 秒实机录像 = 交付完成</text>
+    <text x="400" y="146" text-anchor="middle" fill="#4A7010" font-size="10.5">AI 自己还要"回看"一遍录像才准收工</text>
+  </svg>
+  <div class="cap">视觉质检闭环：跑起来 → 看画面 → 有问题回去改，循环直到"看到它好玩"</div>
+  </div>
+</div></div>
+
+<div class="q c1"><div class="qhead"><div class="qnum">Q5</div>
+<div class="qtitle">质检时 AI 怎么"看"画面？我要不要全程盯着？</div></div>
+<div class="ans">
+  <p>两条路线，<strong>AI 根据你布置任务的说法自己选</strong>：</p>
+  <table>
+    <tr><th>模式</th><th>怎么运作</th><th>适合</th></tr>
+    <tr><td><b>盯直播</b>（live steering）</td><td>Babylon.js 直接给一个浏览器 URL；Godot/Bevy 项目你本机随时能跑。AI 在口味/范围/花钱的决策点暂停问你，其余放开干</td><td>开放式探索："做个海战游戏，咱们边看边调"</td></tr>
+    <tr><td><b>挂机托管</b>（unattended）</td><td>丢下一份明确的需求书，AI 自己做主稳步推进，跑完交 15~20 秒实机录像；官方建议挂云服务器 + tmux，接 Telegram/Slack 随时查岗</td><td>明确需求："完全照这份 spec 做，做完叫我"</td></tr>
+  </table>
+  <p>截图/录像怎么来：Godot 用 <code>--write-movie</code> 电影写入器（<code>--fixed-fps 30</code> 让运动完全确定性，450 帧=15 秒），Bevy 离屏渲染，Babylon 用 Chrome WebGL2 截浏览器页面——都是无头（headless）自动采集，不需要人操作。</p>
+</div></div>
+
+<div class="q c2"><div class="qhead"><div class="qnum">Q6</div>
+<div class="qtitle">引擎指南为什么专挑"静默失败"的坑写？</div></div>
+<div class="ans">
+  <p>指南作者的原则：<span class="hl hl-v">模型已经会的绝不写，只写"编译能过但运行必坏"的坑</span>。这类错误没有报错信息，AI 自己撞了墙都不知道墙在哪，是纯 prompt 产品里最值钱的内容。Godot 指南实拍几条：</p>
+  <table>
+    <tr><th>静默陷阱</th><th>后果</th></tr>
+    <tr><td>节点没设 <code>Owner</code> 链就序列化</td><td>节点直接从 .tscn 里消失，不报错</td></tr>
+    <tr><td>Owner 递归误入 GLB 实例内部</td><td>网格全部内联成文本 → .tscn 暴涨 100MB+</td></tr>
+    <tr><td>程序化网格忘调 <code>GenerateNormals()</code></td><td>影子整体消失，无任何警告</td></tr>
+    <tr><td>对导入网格用 <code>CreateTrimeshShape()</code></td><td>物理帧率掉到 &lt;1 FPS</td></tr>
+    <tr><td>目录里误放 <code>.gdignore</code></td><td>导入器静默跳过整个目录（如 assets/）</td></tr>
+    <tr><td>C# 枚举名照 GDScript 记忆猜</td><td>训练数据偏 GDScript，C# 枚举常猜错</td></tr>
+  </table>
+  <p>指南还给出对策模式：打包场景前<strong>先数节点数，pack 后 Instantiate 出来再数一遍，数量对不上就拒绝保存</strong>——把静默失败改造成会显式报错的门禁。</p>
+</div></div>
+
+<div class="q c3"><div class="qhead"><div class="qnum">Q7</div>
+<div class="qtitle">场景为什么要"构建期用 C# 脚本生成"，而不是在编辑器里搭？</div></div>
+<div class="ans">
+  <p>因为<span class="hl hl-c">玩家是 AI，不是人</span>。人类用编辑器拖拖拽拽；AI 的原生语言是代码。所以 Godot 指南规定：场景写成 <b>C# SceneTree 构建脚本</b>，无头跑一次就吐出 .tscn 文件——</p>
+  <pre><span class="k">godot --headless --script scenes/BuildX.cs</span>   <span class="cm"># 构建脚本：搭节点树→设属性→挂脚本→打包保存</span></pre>
+  <p>三条硬规矩：① 构建脚本<strong>只管搭积木，不含任何运行时逻辑</strong>（没有 _Ready/_Process/信号）；② 先建叶子场景再建父场景；③ 挂脚本必须放最后（<code>SetScript()</code> 会销毁 C# 包装对象，顺序错了引用全失效）。这就是"AI 原生开发工作流"的一个具体样本：把人类图形界面工具，翻译成模型擅长的代码生成。</p>
+</div></div>
+
+<div class="q c4"><div class="qhead"><div class="qnum">Q8</div>
+<div class="qtitle">美术是 AI 画的？整条资产流水线长什么样？</div></div>
+<div class="ans">
+  <p><code>asset-gen</code> 技能包（一个标准的 Claude Code Skill）管全部美术，路线按素材类型分流：</p>
+  <div class="svgbox">
+  <svg viewBox="0 0 740 200" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ar3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6Z" fill="#7C3AED"/></marker></defs>
+    <rect x="15" y="75" width="130" height="50" rx="10" fill="#7C3AED"/>
+    <text x="80" y="96" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">文字描述</text>
+    <text x="80" y="113" text-anchor="middle" fill="#EDE4FF" font-size="10">"一辆带尾翼的轿车"</text>
+    <line x1="145" y1="100" x2="195" y2="100" stroke="#7C3AED" stroke-width="3.5" marker-end="url(#ar3)"/>
+    <rect x="200" y="12" width="180" height="48" rx="10" fill="#FF2D78"/>
+    <text x="290" y="32" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">2D 图：Gemini / Grok</text>
+    <text x="290" y="49" text-anchor="middle" fill="#FFE1EC" font-size="10">约 6~7¢/张，双保险择优 +13¢</text>
+    <rect x="200" y="76" width="180" height="48" rx="10" fill="#00B8D9"/>
+    <text x="290" y="96" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">3D 模型：Tripo CLI</text>
+    <text x="290" y="113" text-anchor="middle" fill="#DFF8FE" font-size="10">图生GLB 约30¢ + 绑定25¢ + 动作10¢</text>
+    <rect x="200" y="140" width="180" height="48" rx="10" fill="#7CB342"/>
+    <text x="290" y="160" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">帧动画：Grok 视频</text>
+    <text x="290" y="177" text-anchor="middle" fill="#EAF6DC" font-size="10">720p 14¢/秒 → 抽帧 → 抠图</text>
+    <line x1="145" y1="90" x2="197" y2="40" stroke="#7C3AED" stroke-width="3" marker-end="url(#ar3)"/>
+    <line x1="145" y1="108" x2="197" y2="98" stroke="#7C3AED" stroke-width="3" marker-end="url(#ar3)"/>
+    <line x1="145" y1="112" x2="197" y2="160" stroke="#7C3AED" stroke-width="3" marker-end="url(#ar3)"/>
+    <line x1="380" y1="100" x2="430" y2="100" stroke="#7C3AED" stroke-width="3.5" marker-end="url(#ar3)"/>
+    <rect x="435" y="70" width="135" height="60" rx="10" fill="#FFB300"/>
+    <text x="502" y="93" text-anchor="middle" fill="#4A2E00" font-size="12.5" font-weight="bold">质检关卡</text>
+    <text x="502" y="110" text-anchor="middle" fill="#6B4400" font-size="10">每张 PNG 人工/AI 过目</text>
+    <text x="502" y="123" text-anchor="middle" fill="#6B4400" font-size="10">坏图进 3D 流程 = 白烧 30¢</text>
+    <line x1="570" y1="100" x2="615" y2="100" stroke="#7C3AED" stroke-width="3.5" marker-end="url(#ar3)"/>
+    <rect x="620" y="70" width="105" height="60" rx="10" fill="#241A3E"/>
+    <text x="672" y="93" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">assets/ 目录</text>
+    <text x="672" y="110" text-anchor="middle" fill="#C9BCE8" font-size="10">尺寸表登记进</text>
+    <text x="672" y="123" text-anchor="middle" fill="#C9BCE8" font-size="10">README 资产清单</text>
+  </svg>
+  <div class="cap">asset-gen 资产流水线：每一步都标了真实价格——省钱是设计出来的</div>
+  </div>
+  <p>三个省钱妙招：① <span class="hl hl-a">贴图集（kit）战术</span>：一次生成费最低 1K 尺寸，那就把 4 个道具画进同一张 1024² 图，再用 <code>grid_slice.py</code> 切开（我在实验里实测跑通了）；② 抠图<strong>永远不要在 prompt 里要"透明背景"</strong>（模型会画上棋盘格假透明），要纯色底再抠；③ 本机有显卡就优先走免费的本地 <code>qwen-image</code>，付费 API 只留给主角/参考图这类质量关键资产。</p>
+</div></div>
+
+<div class="q c1"><div class="qhead"><div class="qnum">Q9</div>
+<div class="qtitle">一套源码怎么变出 3 引擎 × 2 宿主 = 6 种口味？</div></div>
+<div class="ans">
+  <p>答案是<span class="hl hl-p">"发布期渲染"（publish-time render）</span>：Markdown 里挖好 <code>${VAR}</code> 占位符，发布脚本按你选的引擎+宿主填变量。<code>./publish.sh --engine godot --agent claude --out ~/my-game</code> 一条命令，产出：</p>
+  <table>
+    <tr><th>变量</th><th>claude 口味</th><th>codex 口味</th></tr>
+    <tr><td>清单文件名</td><td>CLAUDE.md</td><td>AGENTS.md</td></tr>
+    <tr><td>技能目录</td><td>.claude/skills/</td><td>.agents/skills/</td></tr>
+    <tr><td>技能调用写法</td><td>/asset-gen</td><td>$asset-gen</td></tr>
+    <tr><td>额外元数据</td><td>不需要</td><td>脚本生成 agents/openai.yaml</td></tr>
+  </table>
+  <p>引擎差异也类似：Babylon 的资产目录渲染成 <code>src/assets</code>，Godot/Bevy 是 <code>assets</code>；.gitignore 内容按引擎分别给。<strong>没有 6 份源码树，只有 1 份模板 + 1 个渲染器</strong>——这是配置即代码（template rendering）的经典手法，我在实验 1/2 里完整复现了它。</p>
+</div></div>
+
+<div class="q c2"><div class="qhead"><div class="qnum">Q10</div>
+<div class="qtitle">AI 花我的钱画图，成本怎么管得住？</div></div>
+<div class="ans">
+  <p>成本控制被写进了章程，三道闸：</p>
+  <p>① <span class="hl hl-v">花钱前置确认</span>：manifest 写死"第一次付费生成前必须向用户确认开销"；② <span class="hl hl-v">价格全部明码</span>：技能文档里每个模型都标单价（1K 图 6~7¢、精灵视频 720p 14¢/秒、Tripo 模型约 30 credits），还要求跑批前先 <code>tripo balance</code> 查余额、汇报真实扣费数而非估算；③ <span class="hl hl-v">资产登记表带尺寸列</span>：README 里每个资产必须登记"游戏内尺寸"（"车长 4m"、"精灵 128×128px"）——文档原话：不写这列，写代码的 AI <strong>总是</strong>把素材比例搞错。免费档（本地 qwen-image）优先，付费档留给关键资产，双 key 齐全时关键图两张都生成、择优保留。</p>
+</div></div>
+
+<div class="q c3"><div class="qhead"><div class="qnum">Q11</div>
+<div class="qtitle">它跟我学过的 Agent Skills / Claude Code 是什么关系？</div></div>
+<div class="ans">
+  <p>Godogen 就是知识库已有概念的<span class="hl hl-c">集大成实战案例</span>：</p>
+  <table>
+    <tr><th>已学概念</th><th>在 Godogen 里的化身</th></tr>
+    <tr><td>[[AgentSkills技能包]]</td><td><code>asset-gen</code> 就是一个带 SKILL.md frontmatter 的标准技能，按需加载不占主上下文</td></tr>
+    <tr><td>[[Agent循环]]</td><td>"写码→跑引擎→看截图→修复"就是感知-行动循环，把"截图"作为感知输入</td></tr>
+    <tr><td>[[LLM工具调用]]</td><td>AI 调 grid_slice/rembg/tripo CLI 等工具完成美术工艺</td></tr>
+    <tr><td>[[提示词模板]]</td><td>publish 期 <code>${VAR}</code> 渲染，一套模板出 6 种口味</td></tr>
+    <tr><td>[[Checkpoint存档与持久执行]]</td><td>"持久状态写 README.md"= 用人-readable 文件做会话间的存档点</td></tr>
+  </table>
+  <p>新增量词：跨智能体通用技能目录（.agents/skills 已是 Codex 等工具的事实标准）、<b>proof over claims</b>、<b>build-time scene generation</b>。</p>
+</div></div>
+
+<div class="q c4"><div class="qhead"><div class="qnum">Q12</div>
+<div class="qtitle">我能拿它干什么？本机没装 Godot 怎么办？</div></div>
+<div class="ans">
+  <p>实际门槛盘点：<strong>真跑一局完整的 AI 生成游戏</strong>需要 Godot 4 (.NET) 或 Rust 工具链或 Node 20+，外加 Gemini/Grok/Tripo 的 API key（画美术按张/按秒扣费，单次完整生成可能跑几小时），官方测试环境是 Ubuntu/Debian/macOS。所以量力而行的打开方式：</p>
+  <p>① <span class="hl hl-a">零成本读工艺</span>：仓库本身就是最好的教材——3 篇引擎指南是"AI 游戏开发的坑清单"，值回票价；② <span class="hl hl-a">零成本跑纯逻辑</span>：发布渲染、贴图集切片、codex 元数据生成本机就能真实跑（见下面实验）；③ <span class="hl hl-a">最低成本跑游戏</span>：选 <b>Babylon.js 路线</b>——只装 Node.js，游戏直接在浏览器里玩，看直播最省事；④ 完整 Godot 生成建议租一台带 GPU 的云 VM 挂着跑。另外这套"说明书写法"可以平移：给任何 Agent 项目写运行时清单时，"状态落盘 + 证据优先 + 静默陷阱清单"三板斧直接抄。</p>
+</div></div>
+
+<!-- ═══════════ 能力清单 ═══════════ -->
+<h2 class="sec sec-lime">这个项目给了我什么</h2>
+<div class="brief">
+<table>
+  <tr><th>能力</th><th>说明</th></tr>
+  <tr><td>🎮 一句话生成完整游戏</td><td>发布游戏仓库 → Claude Code/Codex 进场 → 交付可运行项目 + 实机录像</td></tr>
+  <tr><td>🖼️ AI 美术流水线</td><td>2D 图（Gemini/Grok）、3D 模型+骨骼动画（Tripo）、帧动画（Grok 视频）、抠图（rembg），带成本意识</td></tr>
+  <tr><td>👁️ 视觉质检循环</td><td>无头引擎 + 截图/确定性录像，AI 看画面修问题，编译过不算数</td></tr>
+  <tr><td>📖 三份"坑清单"指南</td><td>Godot/Bevy/Babylon 各一页，专收静默失败陷阱，任何引擎 AI 开发都能抄</td></tr>
+  <tr><td>🔧 发布渲染模式</td><td>一套 Markdown 模板 + 变量渲染出多引擎/多宿主口味，prompt 工程的工程化范本</td></tr>
+  <tr><td>💰 成本治理样板</td><td>花钱前确认、明码标价、免费档优先、资产尺寸登记表</td></tr>
+</table>
+</div>
+
+<!-- ═══════════ 实验 ═══════════ -->
+<h2 class="sec sec-cyan">动手实验：不动引擎，把"发布管线"真跑一遍</h2>
+<div class="brief">
+<p><strong>实验策略</strong>：本机没装 Godot 引擎、也没有画图 API key，但 Godogen 的本质是"发布说明书 + 纯逻辑工具"，这些完全可以真跑。共 3 个实验，全部在 <code>F:\reminder\godogen\exercise\</code> 完成，Python 3.14 + Pillow 12.3.0（已设 PYTHONUTF8=1）。</p>
+</div>
+
+<div class="step">
+  <h4>实验 1 · 用 publish_lite.py 复现发布管线（godot × claude 口味）</h4>
+  <p><span class="lbl lbl-do">操作</span>原版 <code>publish.sh</code> 依赖 rsync（Windows 没有），我用 Python 标准库 shutil 写了等价的 <code>exercise/publish_lite.py</code>（复制 asset-gen → 调用上游 render_dir.py 做 <code>${VAR}</code> 替换 → 生成 CLAUDE.md/godot.md/.gitignore），然后运行：</p>
+  <pre>python publish_lite.py --engine godot --agent claude --out my-game
+<span class="cm"># 输出: published godot/claude -> my-game</span></pre>
+  <p><span class="lbl lbl-why">目的</span>验证"thin runtime 发布模型"真实可用。<span class="lbl lbl-got">实现了</span>发布出完整游戏仓库骨架。<span class="lbl lbl-chk">验证成功</span>✅ 目录结构完全正确：</p>
+  <pre>my-game/
+├── CLAUDE.md                    <span class="cm">← ${ENGINE_NAME}→Godot, /asset-gen 已替换 ✓</span>
+├── godot.md                     <span class="cm">← 引擎指南原样复制 ✓</span>
+├── .claude/skills/asset-gen/    <span class="cm">← SKILL.md 里 ${RUNTIME_ASSET_DIR}→assets/ ✓</span>
+└── .gitignore                   <span class="cm">← godot 专属忽略规则 ✓</span></pre>
+  <div class="ok">✅ 预期结果达成：渲染后的 CLAUDE.md 开头就是 "Build Godot game from a description"，技能路径全部指向 .claude/skills/asset-gen/tools/。</div>
+</div>
+
+<div class="step">
+  <h4>实验 2 · 换口味：babylon × codex + Codex 元数据生成</h4>
+  <p><span class="lbl lbl-do">操作</span><code>python publish_lite.py --engine babylon --agent codex --out my-game-codex</code>，再跑上游 <code>generate_codex_metadata.py</code>。<span class="lbl lbl-why">目的</span>验证"发布期渲染"的口味切换。<span class="lbl lbl-got">实现了</span>同一套模板的第二种口味。<span class="lbl lbl-chk">验证成功</span>✅：</p>
+  <pre>my-game-codex/
+├── AGENTS.md                    <span class="cm">← 清单改名，$asset-gen 写法 ✓，Babylon.js ✓</span>
+├── babylon.md  +  .agents/skills/asset-gen/
+└── .agents/skills/asset-gen/agents/openai.yaml   <span class="cm">← 脚本从 frontmatter 生成 ✓</span></pre>
+  <div class="ok">✅ openai.yaml 内容正确：display_name "Asset Generator"、default_prompt "Use $asset-gen to..."、allow_implicit_invocation: true——同一份 SKILL.md，两种宿主各取所需。</div>
+</div>
+
+<div class="step">
+  <h4>实验 3 · 跑真的 asset-gen 工具：贴图集切片 grid_slice.py</h4>
+  <p><span class="lbl lbl-do">操作</span>先用 <code>make_atlas.py</code>（Pillow）画一张 1024×1024 的 2×2 四色"AI 道具集"模拟生成产物，再调用上游真实工具切片：</p>
+  <pre>python make_atlas.py
+python ../repo/asset-gen/tools/grid_slice.py atlas.png -o sprites --grid 2x2 --names "sword,shield,potion,helm"
+<span class="cm"># 输出: {"ok": true, "cells": 4, "cell_size": "512x512", "paths": ["sprites\\sword.png", ...]}</span>
+python ../repo/asset-gen/tools/grid_slice.py atlas.png -o sprites_bad --grid 2x2 --names "a,b,c"
+<span class="cm"># 输出: {"ok": false, "error": "--names has 3 entries, grid is 4 cells"}</span></pre>
+  <p><span class="lbl lbl-why">目的</span>验证 SKILL.md 里的"kit 省钱战术"真实可复现。<span class="lbl lbl-got">实现了</span>一张图切出 4 个独立 sprite（sword/shield/potion/helm，各 512×512）。<span class="lbl lbl-chk">验证成功</span>✅ 成功/失败两条路径都输出了规范 JSON——这正是技能文档强调的"stdout 只出 JSON、进度走 stderr"的上下文卫生设计。</p>
+  <div class="ok">✅ 预期结果达成：4 张 sprite 尺寸全对（512×512），参数个数不匹配时优雅报错不崩溃。</div>
+</div>
+
+<div class="warn"><strong>没跑的部分（如实记录）</strong>：Godot 引擎实机生成（需装 Godot 4 .NET + 花钱 API key + 数小时）、Gemini/Grok/Tripo 付费生成、rembg 抠图（需 onnxruntime-gpu）。这些留待装好 Babylon.js 路线（只需 Node）或云 VM 时再战。</div>
+
+<!-- ═══════════ 总结 ═══════════ -->
+<h2 class="sec sec-pink">三句话带走</h2>
+<div class="brief">
+<p><span class="hl hl-p">1. 源码即 prompt</span> —— Godogen 证明了纯 Markdown 的说明书可以是指挥 AI 干几小时活的产品，工程含量全在措辞里。</p>
+<p><span class="hl hl-v">2. 证据优先于声称</span> —— AI 干活的验收标准必须是"看到它运行"，编译通过只值一分钱；无头引擎 + 截图录像就是 AI 的眼睛。</p>
+<p><span class="hl hl-c">3. 只写模型推不出的</span> —— 给 AI 的指南别写常识，专收静默失败陷阱 + 钉死状态存哪 + 花钱闸门，剩下的信任模型。</p>
+</div>
+
+<div class="footer">Godogen 小白指南 · 生成于 2026-10-02 · F:\reminder\godogen · 上游 htdt/godogen @ 0b725bc · 实验 3/3 全部真实运行通过</div>
+</div>
+</body>
+</html>
