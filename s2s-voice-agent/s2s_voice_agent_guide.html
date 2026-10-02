@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>s2s-voice-agent 小白指南</title>
+<style>
+  :root{
+    --pink:#FF2D78; --orange:#FF7A00; --cyan:#00B3D6; --green:#16C784;
+    --purple:#7B2CBF; --yellow:#FFD400; --ink:#1A1A2E; --bg:#FFFDF7;
+    --pinkbg:#FFE9F1; --orangebg:#FFF1E0; --cyanbg:#E3F7FC; --greenbg:#E4FBF1; --purplebg:#F3E9FC; --yellowbg:#FFF9DB;
+  }
+  @page{ size:A4; margin:12mm; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:13px; line-height:1.65; }
+  .cover{ background:linear-gradient(135deg,#FF2D78 0%,#FF7A00 55%,#FFD400 100%); color:#fff; border-radius:18px; padding:34px 30px; text-align:center; margin-bottom:18px; }
+  .cover h1{ font-size:34px; letter-spacing:2px; text-shadow:2px 2px 0 rgba(0,0,0,.15); }
+  .cover .sub{ font-size:16px; margin-top:10px; font-weight:bold; }
+  .cover .meta{ font-size:11.5px; margin-top:14px; opacity:.95; }
+  .badge{ display:inline-block; background:#fff; color:var(--pink); font-weight:900; border-radius:999px; padding:3px 14px; font-size:12px; margin:6px 3px 0; }
+  h2.section{ font-size:20px; margin:22px 0 10px; padding:6px 14px; border-radius:8px; color:#fff; }
+  .qcard{ border-radius:14px; padding:16px 18px; margin:12px 0; break-inside:avoid; border-left:10px solid; }
+  .qcard.p{ background:var(--pinkbg); border-color:var(--pink);} .qcard.o{ background:var(--orangebg); border-color:var(--orange);}
+  .qcard.c{ background:var(--cyanbg); border-color:var(--cyan);} .qcard.g{ background:var(--greenbg); border-color:var(--green);}
+  .qcard.v{ background:var(--purplebg); border-color:var(--purple);} .qcard.y{ background:var(--yellowbg); border-color:var(--yellow);}
+  .qnum{ font-size:34px; font-weight:900; float:left; line-height:1; margin-right:12px; }
+  .qcard.p .qnum{color:var(--pink);} .qcard.o .qnum{color:var(--orange);} .qcard.c .qnum{color:var(--cyan);}
+  .qcard.g .qnum{color:var(--green);} .qcard.v .qnum{color:var(--purple);} .qcard.y .qnum{color:#C9A400;}
+  .qtitle{ font-size:16.5px; font-weight:900; padding-top:4px; }
+  .qbody{ clear:both; padding-top:8px; }
+  .hl{ background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:900; padding:0 2px; }
+  .big{ font-size:15.5px; font-weight:900; color:var(--pink); }
+  code, .cmd{ font-family:Consolas,monospace; background:#1A1A2E; color:#7CFC9B; border-radius:6px; padding:1px 7px; font-size:12px; }
+  .codeblock{ font-family:Consolas,monospace; background:#1A1A2E; color:#E8F9F0; border-radius:10px; padding:10px 14px; font-size:12px; margin:8px 0; white-space:pre-wrap; break-inside:avoid; }
+  table{ width:100%; border-collapse:collapse; margin:8px 0; break-inside:avoid; }
+  th{ color:#fff; padding:6px 8px; font-size:12.5px; }
+  td{ padding:5px 8px; border-bottom:2px solid #fff; font-size:12.5px; background:#fff; }
+  .svgwrap{ text-align:center; margin:10px 0; break-inside:avoid; }
+  .note{ border-radius:10px; padding:8px 12px; margin:8px 0; font-size:12.5px; font-weight:bold; }
+  .note.warn{ background:#FFE3E3; border:2px dashed #E63946; }
+  .note.ok{ background:var(--greenbg); border:2px solid var(--green); }
+  .step{ border-radius:12px; background:#fff; border:2.5px solid var(--cyan); padding:12px 16px; margin:10px 0; break-inside:avoid; }
+  .step h4{ color:var(--cyan); font-size:14.5px; margin-bottom:6px; }
+  .expect{ background:var(--greenbg); border-left:6px solid var(--green); padding:8px 12px; border-radius:8px; margin-top:8px; font-size:12.5px; }
+  .twocol{ display:flex; gap:12px; } .twocol>div{ flex:1; }
+  .footer{ text-align:center; font-size:11px; color:#888; margin-top:20px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🎵 开源语音智能体全解</h1>
+  <div class="sub">Hugging Face speech-to-speech：让机器实时地「听 · 想 · 说」</div>
+  <div class="meta">VAD → STT → LLM → TTS 级联管线 · 全模块可换 · 兼容 OpenAI Realtime 协议 · Apache-2.0<br>
+  源码版本 v1.0.0 (commit 81b688b) · 已投产为数千台 Reachy Mini 机器人的对话后端</div>
+  <div>
+    <span class="badge">⚡ 低延迟</span><span class="badge">🧩 768 种组件组合</span><span class="badge">🏠 可全本地部署</span><span class="badge">🤖 机器人同款</span>
+  </div>
+</div>
+
+<h2 class="section" style="background:linear-gradient(90deg,var(--pink),var(--orange));">一 · 十二问图解</h2>
+
+<div class="qcard p">
+  <div class="qnum">Q1</div>
+  <div class="qtitle">这是什么？"实时听、想、说"到底解决什么问题？</div>
+  <div class="qbody">
+    <p>一句话：<span class="hl">它是一套把「听见你 → 想明白 → 说给你」串成实时流水线的开源框架</span>，Hugging Face 官方出品。你说一句话，它像真人一样接住并开口回答——中间的语音识别、大模型、语音合成全部用开源模型，可以整套跑在你自己电脑上，<span class="big">一个字都不上云</span>。</p>
+    <p style="margin-top:6px;">没有它之前：接 OpenAI 的 Realtime API——效果爽，但①按量付费②对话音频必须传到人家服务器③模型黑盒不可换。这个项目给出<b>开源平替</b>：同样的接法（下文 Q8），后端换成自己的。</p>
+    <div class="svgwrap"><svg width="560" height="120" viewBox="0 0 560 120">
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#1A1A2E"/></marker></defs>
+      <rect x="10" y="30" width="120" height="56" rx="12" fill="#00B3D6"/><text x="70" y="54" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">🎤 听</text><text x="70" y="74" text-anchor="middle" fill="#fff" font-size="11">VAD+STT</text>
+      <rect x="220" y="30" width="120" height="56" rx="12" fill="#FF2D78"/><text x="280" y="54" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">🧠 想</text><text x="280" y="74" text-anchor="middle" fill="#fff" font-size="11">任意 LLM</text>
+      <rect x="430" y="30" width="120" height="56" rx="12" fill="#16C784"/><text x="490" y="54" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">🔊 说</text><text x="490" y="74" text-anchor="middle" fill="#fff" font-size="11">TTS</text>
+      <line x1="130" y1="58" x2="215" y2="58" stroke="#1A1A2E" stroke-width="3" marker-end="url(#ar)"/>
+      <line x1="340" y1="58" x2="425" y2="58" stroke="#1A1A2E" stroke-width="3" marker-end="url(#ar)"/>
+      <text x="70" y="108" text-anchor="middle" font-size="10.5" fill="#555">Silero VAD / Parakeet</text>
+      <text x="280" y="108" text-anchor="middle" font-size="10.5" fill="#555">Qwen3 / vLLM / llama.cpp…</text>
+      <text x="490" y="108" text-anchor="middle" font-size="10.5" fill="#555">Qwen3-TTS / Kokoro…</text>
+    </svg></div>
+  </div>
+</div>
+
+<div class="qcard o">
+  <div class="qnum">Q2</div>
+  <div class="qtitle">和文本聊天机器人比，实时语音难在哪三件事？</div>
+  <div class="qbody">
+    <p>文本聊天是"发一条、回一条"，节奏由人控制。语音是<b>连续流</b>，机器必须自己回答三个文本时代不存在的问题：</p>
+    <table>
+      <tr><th style="background:var(--orange);">难题</th><th style="background:var(--orange);">本质</th><th style="background:var(--orange);">本项目对策</th></tr>
+      <tr><td><b>① 你在说话吗？</b></td><td>麦克风里全是声音（包括噪音），先分清"话"和"不是话"</td><td>VAD 语音活动检测（Q4）</td></tr>
+      <tr><td><b>② 你说完了吗？</b></td><td>"呃……让我想想"中间的停顿不是说完</td><td>Smart Turn 轮末判断（Q5）</td></tr>
+      <tr><td><b>③ 等得起吗？</b></td><td>对话停顿超过 ~1.5 秒人就尴尬，响应必须 <b>&lt;1 秒级</b></td><td>流式接力管线（Q7）+ 打断（Q6）</td></tr>
+    </table>
+    <p><span class="hl">这三件事全发生在"话还没变成文字"的音频世界里</span>——这就是语音智能体和聊天机器人 Coding 上的分水岭。</p>
+  </div>
+</div>
+
+<div class="qcard c">
+  <div class="qnum">Q3</div>
+  <div class="qtitle">核心架构：为什么是 8 条队列 + 4 段线程？</div>
+  <div class="qbody">
+    <p>打开源码 <code>s2s_pipeline.py</code>，你会看到 <b>8 条 <code>queue.Queue</code></b> 把 4 类 handler 串成流水线，每段一个线程、各跑各的：</p>
+    <div class="codeblock">麦克风音频流 →[VAD线程]→ spoken_prompt →[STT线程]→ text_prompt
+→[LLM线程]→ lm_response →[TTS线程]→ 扬声器音频流
+                                   ↘ text_output（字幕/日志）</div>
+    <p><span class="hl">队列解耦 = 各段用自己的节奏干活</span>：VAD 按 32ms 小块处理，LLM 慢悠悠吐 token，TTS 一小块一小块合成——谁也不等谁，全靠队列缓冲衔接。每段 handler 都实现同一个 <code>BaseHandler</code> 接口（输入队列 → <code>process()</code> 生成器 → 输出队列），所以<b>换掉任何一段，其余纹丝不动</b>。这和知识库里 <code>[[Agent循环]]</code> 的"感知→决策→行动"是同一思想的工程化：只不过每个箭头都换成了线程安全的队列。</p>
+    <div class="svgwrap"><svg width="560" height="150" viewBox="0 0 560 150">
+      <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#7B2CBF"/></marker></defs>
+      <rect x="8" y="20" width="90" height="40" rx="8" fill="#00B3D6"/><text x="53" y="45" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">VAD 线程</text>
+      <rect x="8" y="95" width="90" height="40" rx="8" fill="#FF2D78"/><text x="53" y="120" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">STT 线程</text>
+      <rect x="235" y="20" width="90" height="40" rx="8" fill="#FF7A00"/><text x="280" y="45" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">LLM 线程</text>
+      <rect x="460" y="20" width="90" height="40" rx="8" fill="#16C784"/><text x="505" y="45" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">TTS 线程</text>
+      <rect x="125" y="28" width="80" height="24" rx="12" fill="#fff" stroke="#7B2CBF" stroke-width="2"/><text x="165" y="44" text-anchor="middle" font-size="10">Queue①话语</text>
+      <rect x="352" y="28" width="80" height="24" rx="12" fill="#fff" stroke="#7B2CBF" stroke-width="2"/><text x="392" y="44" text-anchor="middle" font-size="10">Queue②token</text>
+      <line x1="98" y1="40" x2="120" y2="40" stroke="#7B2CBF" stroke-width="3" marker-end="url(#ar2)"/>
+      <line x1="205" y1="40" x2="230" y2="40" stroke="#7B2CBF" stroke-width="3" marker-end="url(#ar2)"/>
+      <line x1="325" y1="40" x2="347" y2="40" stroke="#7B2CBF" stroke-width="3" marker-end="url(#ar2)"/>
+      <line x1="432" y1="40" x2="455" y2="40" stroke="#7B2CBF" stroke-width="3" marker-end="url(#ar2)"/>
+      <text x="280" y="95" text-anchor="middle" font-size="12" fill="#7B2CBF" font-weight="bold">各线程只认队列不认人：任何一段可整段热插拔</text>
+      <text x="280" y="120" text-anchor="middle" font-size="11" fill="#666">VAD 用 32ms 心跳 → LLM 逐 token → TTS 逐块 —— 队列吸收速度差</text>
+    </svg></div>
+  </div>
+</div>
+
+<div class="qcard g">
+  <div class="qnum">Q4</div>
+  <div class="qtitle">VAD：机器怎么知道你在说话？</div>
+  <div class="qbody">
+    <p><b>VAD（Voice Activity Detection，语音活动检测）</b>一句话解释：给每一小段音频打个"这是不是人声"的分数。本项目默认用 <b>Silero VAD</b>——一个不到 2MB 的小神经网络，每 32ms 出一次结论，快得几乎零负担。</p>
+    <p>为什么必须有它？因为 STT 模型不便宜：如果麦克风里 24 小时的噪音全喂给 Whisper 级别的模型，电费和延迟都爆炸。<span class="hl">VAD 是守门员：只把"有人在说话"的片段放行给后面的重型模型</span>。可选后端两个：Silero（默认，快）和 FireRed（新式流式 VAD）。</p>
+    <div class="svgwrap"><svg width="560" height="130" viewBox="0 0 560 130">
+      <line x1="20" y1="90" x2="540" y2="90" stroke="#999"/>
+      <path d="M20,90 q10,-40 20,0 t20,0 t20,0 L120,90 L150,90 q10,-55 20,0 t20,0 t20,0 t20,0 L270,90 L300,90 q8,-30 16,0 t16,0 L360,90 L395,90 L540,90" fill="none" stroke="#00B3D6" stroke-width="2.5"/>
+      <rect x="30" y="25" width="100" height="30" rx="6" fill="#16C784" opacity=".25"/><text x="80" y="18" text-anchor="middle" font-size="11" fill="#0a9">噪音: VAD 说"过"</text>
+      <rect x="145" y="15" width="130" height="30" rx="6" fill="#FF2D78" opacity=".25"/><text x="210" y="10" text-anchor="middle" font-size="11" fill="#d14" font-weight="bold">人声: 放行给 STT ✅</text>
+      <rect x="300" y="25" width="90" height="30" rx="6" fill="#16C784" opacity=".25"/><text x="345" y="18" text-anchor="middle" font-size="11" fill="#0a">咳嗽: 过</text>
+      <text x="280" y="118" text-anchor="middle" font-size="11.5" fill="#555">Silero 每 32ms 判一次: 人声概率 &gt; 阈值 → 标记语音段起点/终点</text>
+    </svg></div>
+  </div>
+</div>
+
+<div class="qcard v">
+  <div class="qnum">Q5</div>
+  <div class="qtitle">说完没完？Smart Turn 为什么必须存在</div>
+  <div class="qbody">
+    <p>这是全项目<b>最精妙的设计</b>。VAD 只能回答"声音停了"，回答不了"话说完了没"。你想想这个场景：</p>
+    <p style="margin:8px 0; font-size:14.5px;">🗣️「帮我订明天去<b>（想了两秒）</b>上海的高铁」</p>
+    <p>纯 VAD 在那两秒停顿就把前半句提交给 LLM 了——机器人开始回复"订去哪？"，<span class="hl">你被自己的机器人打断了</span>。所以项目在 VAD 后面挂了第二级判断：<b>Smart Turn v3.2</b>（来自 pipecat-ai 的开源 ONNX 模型），听完<b>整句</b>的声学与语义特征再判 complete / incomplete。</p>
+    <p>分层策略：<span class="big">Silero 管"快"（32ms 级发现停顿），Smart Turn 管"准"（发现停顿后再花零点几秒裁决）</span>。没说完就 hold 住继续听（最长等 2 秒强制提交）。我的实验 exp2 复刻了这套状态机：犹豫句纯 VAD 提交 2 次且拦腰截断，加 Smart 判断后恰好 1 次完整提交（见实验部分）。</p>
+    <div class="svgwrap"><svg width="560" height="150" viewBox="0 0 560 150">
+      <text x="20" y="25" font-size="12" font-weight="bold" fill="#E63946">❌ 纯静音计时：</text>
+      <rect x="20" y="35" width="130" height="26" rx="6" fill="#FF2D78" opacity=".7"/><text x="85" y="52" text-anchor="middle" fill="#fff" font-size="11">「帮我订明天去」</text>
+      <rect x="155" y="35" width="60" height="26" fill="#ddd"/><text x="185" y="52" text-anchor="middle" font-size="10">停顿2s</text>
+      <text x="185" y="80" text-anchor="middle" font-size="11" fill="#E63946" font-weight="bold">↑ 这里就提交了！</text>
+      <rect x="220" y="35" width="150" height="26" rx="6" fill="#FF2D78" opacity=".7"/><text x="295" y="52" text-anchor="middle" fill="#fff" font-size="11">「上海的高铁」→成了新指令</text>
+      <text x="20" y="110" font-size="12" font-weight="bold" fill="#0a9950">✅ +Smart Turn：</text>
+      <rect x="20" y="120" width="130" height="26" rx="6" fill="#16C784" opacity=".7"/><text x="85" y="137" text-anchor="middle" fill="#fff" font-size="11">「帮我订明天去」</text>
+      <rect x="150" y="120" width="60" height="26" fill="#FFD400"/><text x="180" y="137" text-anchor="middle" font-size="10">hold住🤔</text>
+      <rect x="210" y="120" width="150" height="26" rx="6" fill="#16C784" opacity=".7"/><text x="285" y="137" text-anchor="middle" fill="#fff" font-size="11">「上海的高铁」</text>
+      <text x="420" y="133" font-size="11" font-weight="bold" fill="#0a9950">→ 整句一次提交</text>
+    </svg></div>
+  </div>
+</div>
+
+<div class="qcard y">
+  <div class="qnum">Q6</div>
+  <div class="qtitle">打断（barge-in）：机器人正说着，你怎么插话？</div>
+  <div class="qbody">
+    <p>真人对话的核心特征：<b>对方没说完你也可以开口</b>。机器做到这点叫 barge-in。实现机关：麦克风和扬声器<b>同时在跑</b>（全双工），VAD 持续监听——一旦在你说话途中检测到新的人声，管线立刻：</p>
+    <div class="codeblock">1. 停止当前 TTS 播放（丢弃还没播的音频块）
+2. 取消正在生成的 LLM 响应（response.cancel）
+3. 把你的新话当作新一轮输入</div>
+    <p>源码里 LLM handler 会收到"有新语音进来"的通知（<code>audio_input_notifier</code>），立即停止生成——<span class="hl">省掉的每一毫秒算力都是真金白银</span>，尤其 LLM 在自己机器上跑的时候。担心扬声器声音被麦克风误判成"人声"？加 <code>--local_audio_block_mic_during_playback</code>：播放时暂停收音，牺牲打断换来不怕回声。</p>
+  </div>
+</div>
+
+<div class="qcard p">
+  <div class="qnum">Q7</div>
+  <div class="qtitle">流式接力：为什么你能提前 700ms 听到回答？</div>
+  <div class="qbody">
+    <p>如果等 LLM 把整句写完再交给 TTS，响应就慢一截。本项目的做法：<span class="hl">LLM 一边吐 token，TTS 一边把凑够一小撮的 token 合成音频，扬声器立刻开播</span>——三级流水线重叠运行。衡量它的核心指标叫 <b>ttfa（time to first audio，首音频延迟）</b>。</p>
+    <p>我实验 exp1 实测（文本级模拟）：ttfa 0.892s vs 整句完成 1.614s——<span class="big">用户提前 722ms 听到声音</span>。上游文档的真实测量：stt=0.18s / llm=1.24s / tts_ttfa=0.12s / e2e=2.01s，同样是首包远早于全量。</p>
+    <div class="svgwrap"><svg width="560" height="140" viewBox="0 0 560 140">
+      <text x="15" y="20" font-size="11.5" font-weight="bold">串行(傻等):</text>
+      <rect x="110" y="8" width="80" height="20" rx="5" fill="#00B3D6"/><text x="150" y="22" text-anchor="middle" fill="#fff" font-size="10">STT 0.2s</text>
+      <rect x="190" y="8" width="220" height="20" rx="5" fill="#FF2D78"/><text x="300" y="22" text-anchor="middle" fill="#fff" font-size="10">LLM 全部生成 1.2s</text>
+      <rect x="410" y="8" width="130" height="20" rx="5" fill="#16C784"/><text x="475" y="22" text-anchor="middle" fill="#fff" font-size="10">TTS 合成完 →才出声</text>
+      <circle cx="540" cy="18" r="6" fill="#E63946"/><text x="540" y="42" text-anchor="middle" font-size="10" fill="#E63946">首声 ~2.5s 😴</text>
+      <text x="15" y="75" font-size="11.5" font-weight="bold">流式接力:</text>
+      <rect x="110" y="62" width="80" height="20" rx="5" fill="#00B3D6"/><text x="150" y="76" text-anchor="middle" fill="#fff" font-size="10">STT 0.2s</text>
+      <rect x="190" y="62" width="220" height="20" rx="5" fill="#FF2D78"/><text x="300" y="76" text-anchor="middle" fill="#fff" font-size="10">LLM token流………</text>
+      <rect x="230" y="90" width="300" height="20" rx="5" fill="#16C784"/><text x="380" y="104" text-anchor="middle" fill="#fff" font-size="10">TTS 边收边合成，音频块块出炉</text>
+      <line x1="232" y1="50" x2="232" y2="115" stroke="#FF7A00" stroke-width="2.5" stroke-dasharray="5,3"/>
+      <text x="238" y="120" font-size="10.5" fill="#FF7A00" font-weight="bold">首块音频在此! ttfa≈0.9s 🚀</text>
+      <text x="480" y="55" font-size="10" fill="#666">说出第2/3句时</text><text x="480" y="67" font-size="10" fill="#666">LLM还在写结尾</text>
+    </svg></div>
+  </div>
+</div>
+
+<div class="qcard c">
+  <div class="qnum">Q8</div>
+  <div class="qtitle">OpenAI Realtime 协议：为什么要"假装"成 OpenAI？</div>
+  <div class="qbody">
+    <p>这是本项目<b>最聪明的一步棋</b>。OpenAI 的 Realtime API 定义了一套 WebSocket/WebRTC 事件协议（我从源码里数出 <b>31 种标准事件名</b>）：<code>input_audio_buffer.speech_started</code>、<code>response.output_audio.delta</code>、<code>response.done</code>……全世界的客户端 SDK、网页组件、机器人框架都认这套协议。</p>
+    <p><span class="hl">本项目把整条开源管线包装成一个"讲 OpenAI 方言"的服务端</span>：客户端以为自己连的是 OpenAI，身后其实是 Silero + Parakeet + 你自己的 LLM + Qwen3-TTS。于是官方 demo 里那个著名的演示成立——网页客户端把端点地址从 <codeOpenAI</code> 改成本机地址，<b>一行业务代码不改</b>，就从托管服务切到全本地栈。协议事件长这样（exp3 重放并逐个校验过）：</p>
+    <div class="codeblock">C→S  input_audio_buffer.append          （你说的话,音频块流入）
+S→C  input_audio_buffer.speech_started  （VAD: 你开口了）
+S→C  input_audio_buffer.speech_stopped  （VAD+SmartTurn: 说完了）
+S→C  conversation.item.input_audio_transcription.completed（STT转写）
+C→S  response.create → S→C response.created
+S→C  response.output_audio_transcript.delta（文字流）
+S→C  response.output_audio.delta        （音频块流）
+S→C  response.done                      （附延迟账本 metadata）</div>
+    <p>类比知识库：<code>[[LLM工具调用]]</code> 的统一协议让模型可换，这里同理——<b>协议面标准化 = 生态位免费继承</b>。</p>
+  </div>
+</div>
+
+<div class="qcard g">
+  <div class="qnum">Q9</div>
+  <div class="qtitle">768 种组合：全模块化是怎么做到的？</div>
+  <div class="qbody">
+    <p>我写脚本直接数了源码（exp4）：VAD <b>2</b> 种 × STT <b>12</b> 种 × LLM <b>4</b> 类 × TTS <b>8</b> 种 = <span class="big">768 种管线配置</span>。全部通过命令行参数切换，例如：</p>
+    <div class="codeblock">speech-to-speech local --stt parakeet-tdt \
+    --llm_backend chat_completions \
+    --model_name Qwen/Qwen3-32B \      # LLM 指向任意 OpenAI 兼容端点
+    --tts qwen3</div>
+    <table>
+      <tr><th style="background:var(--green);">槽位</th><th style="background:var(--green);">候选（默认加粗）</th></tr>
+      <tr><td>VAD</td><td><b>silero</b> · firered</td></tr>
+      <tr><td>STT</td><td><b>parakeet-tdt</b> · whisper · faster-whisper · paraformer(中文友好) · sensevoice · qwen3-asr · nemo · mlx 系列…</td></tr>
+      <tr><td>LLM</td><td>任意 OpenAI 兼容 API：chat-completions / responses-api / transformers 本地 / mlx-lm → vLLM、llama.cpp、GLM 都能接</td></tr>
+      <tr><td>TTS</td><td><b>qwen3</b> · kokoro · chatTTS · facebook-mms(多语) · supertonic · pocket · omnivoice · openai</td></tr>
+    </table>
+    <p>机关就在 Q3 说的 <code>BaseHandler</code> 统一接口 + 注册表（<code>backend_registry.py</code>）：新后端只要实现同样的输入/输出类型就能注册进来，<span class="hl">加一个 TTS 不用动其余 767 种组合里的任何一行</span>。</p>
+  </div>
+</div>
+
+<div class="qcard o">
+  <div class="qnum">Q10</div>
+  <div class="qtitle">延迟账本：每一毫秒花在哪？</div>
+  <div class="qbody">
+    <p>服务端每轮对话结束会写一条"延迟账单"（<code>docs/response-latency.md</code>），字段精确到阶段：</p>
+    <table>
+      <tr><th style="background:var(--orange);">字段</th><th style="background:var(--orange);">含义</th><th style="background:var(--orange);">上游实测样例</th></tr>
+      <tr><td><code>vad_decision</code></td><td>VAD+Smart-Turn 判断"说完了"耗时</td><td>0.36s（含 hold 0.24s）</td></tr>
+      <tr><td><code>stt</code></td><td>最终转写耗时</td><td>0.18s</td></tr>
+      <tr><td><code>llm</code></td><td>语言模型生成</td><td>1.24s（通常大头）</td></tr>
+      <tr><td><code>tts_ttfa</code></td><td>首块音频合成延迟</td><td>0.12s</td></tr>
+      <tr><td><code>e2e</code></td><td>说完→首个音频的总延迟</td><td>2.01s</td></tr>
+    </table>
+    <p>这份账单甚至塞进 <code>response.done</code> 事件的 metadata 回传给客户端（≤512 字符的紧凑 JSON，exp4 已验证合规矩）。<span class="hl">优化的第一步永远是知道钱花在哪</span>：看到 llm 占 60% 就去换小模型/量化（知识库 <code>[[量化与GGUF]]</code>），看到 vad_decision 大就调 hold 参数。</p>
+  </div>
+</div>
+
+<div class="qcard v">
+  <div class="qnum">Q11</div>
+  <div class="qtitle">级联 vs 端到端：为什么不用 GPT-4o voice 那种一坨模型？</div>
+  <div class="qbody">
+    <p>业界另一条路线是"原生语音模型"：音频进、音频出，一个模型全包（如 GPT-4o 语音版、Moshi）。它保真度高（能听出语气、笑声），但：<b>黑盒、不可换、必须上云、贵</b>。本项目选级联（cascade）路线，本质是用"模块化"换"端到端智能"，换来的是：</p>
+    <table>
+      <tr><th style="background:var(--purple);"></th><th style="background:var(--purple);">级联(本项目)</th><th style="background:var(--purple);">端到端</th></tr>
+      <tr><td><b>可换件</b></td><td>✅ 768 种组合，中文 TTS 想换就换</td><td>❌ 整坨锁定</td></tr>
+      <tr><td><b>隐私</b></td><td>✅ 可全本地，音频不出门</td><td>❌ 音频上云</td></tr>
+      <tr><td><b>大脑自由</b></td><td>✅ LLM 槽随便插（接入自家知识库/工具调用）</td><td>⚠️ 受平台限制</td></tr>
+      <tr><td><b>副信息</b></td><td>✅ 中间产物全是文字：转写、字幕、日志白送</td><td>❌ 只有声音</td></tr>
+      <tr><td><b>语气理解</b></td><td>⚠️ 转写丢韵律（"嗯……"的犹豫靠 Smart Turn 补）</td><td>✅ 原生保留</td></tr>
+    </table>
+    <p><span class="hl">选型口诀：要"听懂语气"选端到端，要"可控可换可私有"选级联</span>。值得注意的是项目也留了口子——Gemma 4 音频输入示例支持直接听音频的模型，说明两条路线正在合流。</p>
+  </div>
+</div>
+
+<div class="qcard y">
+  <div class="qnum">Q12</div>
+  <div class="qtitle">它和 Reachy Mini 什么关系？无声卡电脑能玩什么？</div>
+  <div class="qbody">
+    <p>README 第一页就写明：<span class="hl">这套管线已投产为数千台 Reachy Mini 机器人的对话后端</span>——正是知识库 <code>[[WebRTC机器人应用]]</code> 里那台桌面机器人的"嘴和耳朵"。机器人本体管表情动作（[[Stewart并联平台]]、[[情感运动序列]]），这个项目管对话，通过 WebRTC 把声音送进送出。这也是它把"低延迟"磨到极致的原因：机器人回话慢半拍，就会显得很蠢。</p>
+    <p><b>无声卡/无麦克风电脑（比如本机）能玩什么？</b>——语音端到端跑不了，但①整套架构可文本级复刻（本指南 4 个实验全是）；②服务端可以无音频启动，用 WebSocket 客户端喂文字/音频文件；③仓库 60+ 个测试文件大多不依赖声卡。诚实声明：本指南所有延迟数字中，管道级数据来自我的模拟实验，秒级实测数据引自上游文档。</p>
+  </div>
+</div>
+
+<h2 class="section" style="background:linear-gradient(90deg,var(--cyan),var(--green));">二 · 动手实验（文本管道级，已全部真跑通）</h2>
+<div class="note warn">⚠️ 环境限制声明：本机 Windows 无声卡无麦克风，无法做真实语音端到端。以下实验用文本块/合成信号模拟音频，验证的是<b>架构与算法逻辑</b>，不是声音本身——这正是"没有硬件也能学到骨头"的路径。</div>
+
+<div class="step"><h4>实验 1 · 复刻级联管线：亲眼看流式接力抢跑（主实验）</h4>
+  <p><b>操作</b>：<code>cd F:\reminder\s2s-voice-agent\exercise && python mini_s2s.py</code></p>
+  <p><b>目的</b>：用 4 个线程 + 5 条队列复刻上游 8 队列架构，验证 ttfa ≪ e2e。</p>
+  <p><b>实现</b>：FakeVAD→FakeSTT(0.18s)→FakeLLM(逐词 0.12s)→FakeTTS(每 3 词一块, 0.05s)。</p>
+  <div class="expect">✅ 实测输出：<code>tts_ttfa=0.892s，e2e=1.614s，ttfa 占 55%，用户提前 722ms 听到声音</code>——LLM 还在说"南锣鼓巷"时，"故宫"已经在你耳朵里了。</div>
+</div>
+
+<div class="step"><h4>实验 2 · 能量 VAD + Smart-Turn 状态机：机器人为什么不打断你</h4>
+  <p><b>操作</b>：<code>python vad_smart_turn.py</code></p>
+  <p><b>目的</b>：复刻上游 VADHandler 两段式判断（Silero 快切 + Smart Turn 裁决）。</p>
+  <p><b>实现</b>：numpy 合成"犹豫句"和"结束句"两段波形（正弦谐波+包络），流式状态机对比纯静音计时 vs +Smart 判断。</p>
+  <div class="expect">✅ 实测输出：犹豫句纯 VAD 提交 2 次且"过早打断=是"；加 Smart-Turn 后提交 1 次、不打断；结束句两者均恰好 1 次。代价：确认晚约 0.3~0.4s。</div>
+</div>
+
+<div class="step"><h4>实验 3 · Realtime 协议重放：31 个事件名逐个验明正身</h4>
+  <p><b>操作</b>：<code>python realtime_protocol_check.py</code></p>
+  <p><b>目的</b>：搞懂"假装成 OpenAI"的协议面到底长什么样。</p>
+  <p><b>实现</b>：正则扫上游源码提取全部事件名 → 冻结集；重放含工具调用的 24 事件完整一轮；校验成员、方向、收尾顺序；生成延迟账本 metadata。</p>
+  <div class="expect">✅ 实测输出：<code>31 种事件名</code>提取成功；24 事件全部 ∈ 协议面；transcript.done &lt; audio.done &lt; response.done 顺序正确；metadata 190/512 字符合规。</div>
+</div>
+
+<div class="step"><h4>实验 4 · 组件矩阵盘点：768 种组合从哪数出来的</h4>
+  <p><b>操作</b>：扫描 <code>repo/src/speech_to_speech/{VAD,STT,LLM,TTS}/</code> 各目录 handler 文件数。</p>
+  <div class="expect">✅ 实测输出：VAD 2 × STT 12 × LLM 4 × TTS 8 = <b>768 种管线配置</b>——"全模块化"不是口号，是可以数出来的源码事实。</div>
+</div>
+
+<h2 class="section" style="background:linear-gradient(90deg,var(--purple),var(--pink));">三 · 这个项目给我什么能力</h2>
+<div class="qcard v">
+  <div class="qbody" style="padding-top:0;">
+  <p>🔧 <b>1. 自建隐私语音助手</b>：一台 16GB 内存 Mac 或 24GB 显存 Linux，<code>pip install speech-to-speech</code> 三条命令起一个不上云的语音对话服务。</p>
+  <p>🇨🇳 <b>2. 换中文全家桶</b>：STT 槽有 paraformer/sensevoice（中文强项），LLM 槽指向任意国产模型 API，TTS 换中文音色——一套中文语音助手骨架。</p>
+  <p>🤖 <b>3. 给机器人/智能硬件装嘴</b>：Reachy Mini 同款后端；配合 <code>[[WebRTC机器人应用]]</code> 的网页遥测面板即可开口说话。</p>
+  <p>🔌 <b>4. 无缝替换托管服务</b>：已有接 OpenAI Realtime 的产品？改个端点地址切自托管，客户端零改造。</p>
+  <p>📚 <b>5. 学架构</b>：这是"生产级 Python 流水线设计"的活教材——队列解耦、BaseHandler 模板方法、注册表模式、全链路延迟埋点，每一样都能搬去别的项目。</p>
+  </div>
+</div>
+
+<h2 class="section" style="background:linear-gradient(90deg,var(--orange),var(--yellow));">四 · 上手三分钟（真机上）</h2>
+<div class="codeblock"># Mac(Apple Silicon, 全本地, 无需API key):
+python3 -m venv .venv && source .venv/bin/activate
+pip install speech-to-speech
+speech-to-speech local --mac-optimal-settings \
+    --model_name mlx-community/Qwen3-4B-Instruct-2507-4bit
+# 说话 → 停顿 → 听回答。Ctrl+C 退出。
+# Linux/NVIDIA: speech-to-speech local --device cuda --llm_backend transformers
+# 只做服务端(无音频): speech-to-speech serve 然后用任意 Realtime 客户端连</div>
+<p style="font-size:12px;color:#666;">默认模型约 7.5GB（Parakeet STT + Qwen3-4B LLM + Qwen3-TTS），首次运行自动下载。</p>
+
+<div class="footer">F:\reminder\s2s-voice-agent · 拾遗学习流水线产出 · 2026-10-03 · 实验 LEX1-4 已真跑通，数据可复现</div>
+</body>
+</html>

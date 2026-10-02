@@ -1,0 +1,27 @@
+--- A 犹豫句「我想去…(0.5s)…北京天安门」 ---
+  [纯VAD]
+      0.03s 检测到语音开始(speech_started)
+      1.15s 静音计时到 -> 提交!
+      1.41s 检测到语音开始(speech_started)
+      2.53s 静音计时到 -> 提交!
+  [+Smart-Turn]
+      0.03s 检测到语音开始(speech_started)
+      1.15s 候选边界 -> smart-turn=incomplete -> hold(继续听)
+      1.41s 用户继续说了 -> hold 解除, 话语拼接回去
+      2.53s smart-turn=complete -> 提交!
+  纯VAD: 提交2次, 过早打断=是 | +Smart: 提交1次, 过早打断=否 -> ✅
+
+--- B 结束句「好的就这些。(0.8s)」 ---
+  [纯VAD]
+      0.03s 检测到语音开始(speech_started)
+      1.12s 静音计时到 -> 提交!
+  [+Smart-Turn]
+      0.03s 检测到语音开始(speech_started)
+      1.12s smart-turn=complete -> 提交!
+  纯VAD: 提交1次, 过早打断=否 | +Smart: 提交1次, 过早打断=否 -> ✅
+
+===== 结论 =====
+A 句纯 VAD 在犹豫停顿处就把话提交了(后面的话被切断成新请求, 指令残缺);
+加 Smart-Turn 判断 hold 住继续听, 直到真说完才提交一次。
+代价: 提交晚约 0.3-0.4s(确认延迟) —— 快(Silero)与准(Smart Turn)分层,
+正是上游 VADHandler 两段式设计的设计动机。

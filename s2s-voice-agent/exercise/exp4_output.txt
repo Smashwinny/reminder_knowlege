@@ -1,0 +1,7 @@
+== 可换组件矩阵(直接数源码) ==
+VAD (2):  silero(默认), firered
+STT (12):  base_stt, faster_whisper, lightning_whisper_mlx, mlx_audio_whisper, nemo_asr, openai_compatible, paraformer, parakeet_tdt, qwen3_asr, sense_voice, streaming, whisper_stt
+LLM (4): base_openai_compatible_language_model, chat_completions_language_model, language_model, responses_api_language_model
+TTS (8):  chatTTS, facebookmms, kokoro, omnivoice, openai_compatible, pocket_tts, qwen3_tts, supertonic_tts
+
+组合空间: 2 x 12 x 4 x 8 = 768 种管线配置

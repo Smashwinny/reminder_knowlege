@@ -1,0 +1,10 @@
+[1] 扫描上游源码: 提取到 31 种协议事件名
+[2] 重放事件数: 24 (含工具调用一轮)
+[3] 校验: 全部事件 ∈ 源码协议面: ✅
+    响应收尾顺序 transcript.done < audio.done < response.done: ✅
+[4] response.done 携带的延迟账本 metadata(190/512 字符上限):
+    {"e2e_s":2.01,"hold_s":0.24,"llm_s":1.24,"stt_s":0.18,"tts_ttfa_s":0.12,"vad_decision_s":0.36,"turn_id":"turn_1","turn_revision":0,"smart_status":"complete","status":"completed","version":2}
+
+===== 结论 =====
+上游用 30 种左右标准事件名把'开源级联管线'包装成 OpenAI Realtime 服务端:
+客户端零改造即可从托管 OpenAI 切到自托管全开源栈 —— 这就是'端点互换'的机关。
