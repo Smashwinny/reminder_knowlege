@@ -31,6 +31,12 @@ tags: [项目]
 - 坑：MuJoCo 3.14 移除了 `model.jnt_name2id` 便捷方法（改用 `mujoco.mj_name2id`）；默认离屏渲染帧缓冲 640×480，渲染大图要在 XML 里调 offwidth 或缩窗口
 - 诚实限制：本机无 Rust 工具链未构建守护进程；未跑真实 ONNX 行走策略（需 microduck_rl 观测管线+权重）；硬件 BOM/CAD 官方不开源（社区 fanhao375 已从 47 个 STL 反推装配图）
 
+**硬件拆解补充篇**（拾遗 task 6083ef55，同日第二帖，PDF：`microduck/Microduck硬件架构拆解.pdf`，实验在 `microduck/exercise/hardware/`）：
+- 15-DOF 硬件地图从仓库内嵌 MJCF 复算：头3 + 颈1 + 双腿各5 + 喙1（喙在行走 MJCF 外，由 theremin/chorale 驱动）；主控 RK3566 / Radxa Zero 3（soc.rs 双热区坐实），ToF = ST VL53L8CX 8×8（vendor 驱动进仓库，源码明言 "no reprojection"——不是扫描式激光雷达）
+- 总线：15 舵机 + IMU 共一根 UART 菊花链；fast sync read(0x8A) 一次接力应答省 15 个帧头（bus.rs 注释原话）；XL330 固件 v46+ 才支持（robotd-params）
+- 实验三段全 PASS（duck_hardware_lab.py，纯标准库）：MJCF 解析 15-DOF 地图；Dynamixel Protocol 2.0 CRC-16 双实现交叉验证命中标准向量 0xFEE8 + SyncWrite 构造/回读/篡改检测；BOM 三情景（零售 15 只舵机 $412.35 > 整机 $399，批量才回成本线下）
+- 新概念：[[智能舵机与菊花链总线]]（与 [[舵机与PWM角度控制]] 哑巴舵机对照）；诚实记录：无实机，实验 2 仅协议层正确性验证
+
 **后续可深入的方向**：
 - 读 microduck_rl 训练代码，本地训一个自己的步态策略导出 ONNX
 - Linux 机器上跑 `scripts/duck-sim`（真守护进程 + 仿真身体）
