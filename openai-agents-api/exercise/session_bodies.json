@@ -1,0 +1,57 @@
+{
+  "A 问答型(no sandbox)": {
+    "agent": {
+      "model": "gpt-6-astra",
+      "instructions": "只回答问题，不执行代码",
+      "tools": [
+        {
+          "type": "web_search"
+        }
+      ]
+    },
+    "environment": {
+      "type": "none"
+    },
+    "input": "OpenAI Agents API 是什么？"
+  },
+  "B 编码型(openai_hosted沙箱)": {
+    "agent": {
+      "model": "gpt-6-astra",
+      "instructions": "写代码、跑起来、报告真实输出",
+      "tools": [
+        {
+          "type": "programmatic_tool_calling"
+        }
+      ]
+    },
+    "environment": {
+      "type": "openai_hosted"
+    },
+    "input": "写 tree.py 并运行"
+  },
+  "C 私网型(self_hosted executor)": {
+    "agent": {
+      "model": "gpt-6-astra",
+      "instructions": "操作内网数据库",
+      "tools": [
+        {
+          "type": "mcp",
+          "server_label": "db",
+          "transport": {
+            "type": "http",
+            "server_url": "http://10.0.0.5:8000/mcp"
+          }
+        }
+      ],
+      "multi_agent": {
+        "enabled": true,
+        "max_concurrent_subagents": 4
+      }
+    },
+    "environment": {
+      "type": "self_hosted",
+      "workspace_directory": "/workspace"
+    },
+    "input": "查最近10条订单"
+  }
+}

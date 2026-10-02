@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>OpenAI Agents API 小白指南</title>
+<style>
+:root{
+  --ink:#1a1b25; --paper:#fffdf7;
+  --orange:#ff6b35; --cyan:#00b4d8; --purple:#7b2ff7; --yellow:#ffd166;
+  --green:#06d6a0; --pink:#ef476f; --blue:#118ab2; --red:#d62828;
+  --soft-orange:#ffe8dd; --soft-cyan:#dcf6fb; --soft-purple:#f0e6ff;
+  --soft-yellow:#fff6d9; --soft-green:#d9f9ef; --soft-pink:#fde3ea;
+}
+@page{ size:A4; margin:11mm; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink);
+  background:var(--paper); font-size:12.5px; line-height:1.62; }
+.cover{ background:linear-gradient(135deg,var(--purple) 0%,var(--cyan) 60%,var(--green) 100%);
+  color:#fff; border-radius:18px; padding:34px 30px; margin-bottom:16px; }
+.cover h1{ font-size:34px; letter-spacing:1px; margin-bottom:6px; }
+.cover .sub{ font-size:15px; opacity:.95; margin-bottom:16px; }
+.cover .tagrow{ margin-top:8px; }
+.tag{ display:inline-block; background:rgba(255,255,255,.22); border:1.5px solid rgba(255,255,255,.6);
+  border-radius:999px; padding:3px 14px; margin:3px 5px 0 0; font-size:12px; font-weight:bold; }
+.statgrid{ display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; }
+.stat{ background:rgba(255,255,255,.16); border-radius:12px; padding:10px 14px; flex:1; min-width:120px; }
+.stat b{ display:block; font-size:22px; }
+.stat span{ font-size:11px; opacity:.92; }
+.toc{ background:var(--soft-yellow); border:2.5px solid var(--yellow); border-radius:14px;
+  padding:14px 18px; margin-bottom:16px; break-inside:avoid; }
+.toc h2{ color:#a06b00; font-size:17px; margin-bottom:6px; }
+.toc ol{ columns:2; column-gap:28px; padding-left:20px; font-size:12px; }
+.q{ border-radius:16px; padding:0; margin-bottom:16px; break-inside:avoid; overflow:hidden;
+  border:2.5px solid; }
+.qhead{ padding:12px 18px 10px; display:flex; align-items:center; gap:14px; }
+.qnum{ font-size:38px; font-weight:900; line-height:1; min-width:52px; text-align:center; }
+.qtitle{ font-size:17.5px; font-weight:900; }
+.qbody{ padding:12px 18px 16px; background:#fff; }
+.qbody p{ margin-bottom:8px; }
+.q1{ border-color:var(--orange);} .q1 .qhead{ background:var(--soft-orange);} .q1 .qnum{ color:var(--orange);}
+.q2{ border-color:var(--cyan);} .q2 .qhead{ background:var(--soft-cyan);} .q2 .qnum{ color:var(--cyan);}
+.q3{ border-color:var(--purple);} .q3 .qhead{ background:var(--soft-purple);} .q3 .qnum{ color:var(--purple);}
+.q4{ border-color:var(--green);} .q4 .qhead{ background:var(--soft-green);} .q4 .qnum{ color:#049673;}
+.q5{ border-color:var(--pink);} .q5 .qhead{ background:var(--soft-pink);} .q5 .qnum{ color:var(--pink);}
+.q6{ border-color:var(--blue);} .q6 .qhead{ background:#d9f0f9;} .q6 .qnum{ color:var(--blue);}
+.q7{ border-color:var(--red);} .q7 .qhead{ background:#fde4e4;} .q7 .qnum{ color:var(--red);}
+.q8{ border-color:#e91e8c;} .q8 .qhead{ background:#fce2f0;} .q8 .qnum{ color:#e91e8c;}
+.q9{ border-color:#8bc34a;} .q9 .qhead{ background:#eff7de;} .q9 .qnum{ color:#689f38;}
+.q10{ border-color:#ff9800;} .q10 .qhead{ background:#fff1de;} .q10 .qnum{ color:#f57c00;}
+.q11{ border-color:#607d8b;} .q11 .qhead{ background:#e8eef0;} .q11 .qnum{ color:#455a64;}
+.q12{ border-color:#3f51b5;} .q12 .qhead{ background:#e4e7fa;} .q12 .qnum{ color:#3f51b5;}
+.big{ font-size:15px; font-weight:900; }
+.hl{ background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:900; padding:0 2px; }
+.hl2{ background:linear-gradient(transparent 55%, #9ff5df 55%); font-weight:900; padding:0 2px; }
+.hl3{ background:linear-gradient(transparent 55%, #ffc2d1 55%); font-weight:900; padding:0 2px; }
+code{ background:#f0f2f5; border:1px solid #d8dce2; border-radius:5px; padding:0 5px;
+  font-family:Consolas,monospace; font-size:11.5px; color:#c7254e; }
+pre{ background:#22243a; color:#e8f7ff; border-radius:10px; padding:10px 14px; margin:8px 0;
+  font-family:Consolas,monospace; font-size:11px; line-height:1.55; overflow-x:auto; }
+pre .c{ color:#7fd7a4;} pre .k{ color:#ff9e64;} pre .s{ color:#ffd166;}
+.svgbox{ background:#fbfaff; border:1.5px dashed #c9b8f0; border-radius:10px; padding:6px; margin:10px 0; }
+table.cmp{ width:100%; border-collapse:collapse; margin:8px 0; font-size:11.5px; }
+table.cmp th{ background:var(--purple); color:#fff; padding:6px 8px; text-align:left; }
+table.cmp td{ border:1.5px solid #e0dce8; padding:5px 8px; vertical-align:top; }
+table.cmp tr:nth-child(even) td{ background:#f8f6fc; }
+.ok{ background:var(--soft-green); border-left:6px solid var(--green); border-radius:8px;
+  padding:8px 12px; margin:8px 0; font-size:12px; }
+.warn{ background:var(--soft-pink); border-left:6px solid var(--pink); border-radius:8px;
+  padding:8px 12px; margin:8px 0; }
+.note{ background:var(--soft-cyan); border-left:6px solid var(--cyan); border-radius:8px;
+  padding:8px 12px; margin:8px 0; }
+h2.sec{ font-size:21px; margin:18px 0 10px; padding:8px 16px; border-radius:12px; color:#fff; }
+.exp{ border:2.5px solid var(--green); border-radius:14px; margin-bottom:14px; break-inside:avoid; overflow:hidden;}
+.exp .exphead{ background:linear-gradient(90deg,var(--green),var(--cyan)); color:#fff;
+  padding:9px 16px; font-size:15px; font-weight:900; }
+.exp .expbody{ padding:10px 16px 14px; background:#fff; }
+.step{ background:#f6fbf9; border-left:5px solid var(--green); border-radius:8px; padding:7px 12px; margin:7px 0;}
+.step b.st{ color:#049673; }
+.foot{ background:#22243a; color:#cfd3e8; border-radius:14px; padding:16px 20px; font-size:11.5px; }
+.foot b{ color:var(--yellow); }
+svg text{ font-family:"Microsoft YaHei",sans-serif; }
+</style>
+</head>
+<body>
+
+<!-- ============ 封面 ============ -->
+<div class="cover">
+  <h1>OpenAI Agents API 小白指南</h1>
+  <div class="sub">把开源 Codex harness 变成云 API —— 2026-09-10 发布，Agent Harness 从"自己拼"变"直接租"</div>
+  <div class="tagrow">
+    <span class="tag">🤖 Agent Harness 即服务</span><span class="tag">📦 Session 持久资源</span>
+    <span class="tag">🧩 Subagent 编排</span><span class="tag">📉 自动上下文压缩</span>
+    <span class="tag">🔒 三态沙箱</span><span class="tag">🦀 开源 131 crates</span>
+  </div>
+  <div class="statgrid">
+    <div class="stat"><b>3 层</b><span>运行时选择：Agents API / SDK / Responses</span></div>
+    <div class="stat"><b>4 概念</b><span>Agent · Environment · Session · Events</span></div>
+    <div class="stat"><b>5 能力</b><span>压缩恢复 · 工具MCP · Subagent · 沙箱 · 接自有机器</span></div>
+    <div class="stat"><b>131 crates</b><span>开源 codex 仓库 5094 个 Rust 文件 200 万行</span></div>
+  </div>
+</div>
+
+<!-- ============ 目录 ============ -->
+<div class="toc">
+  <h2>❓ 工科毕业生的 12 个疑问（疑问即目录）</h2>
+  <ol>
+    <li>Agents API 到底是什么？"又一个 Agent SDK"？</li>
+    <li>我会 LangGraph/CrewAI 了，为什么要"租 harness"？</li>
+    <li>Agent / Environment / Session / Events 怎么咬合？</li>
+    <li>三层运行时（API / SDK / Responses）怎么选？</li>
+    <li>"长任务自动压缩恢复"是怎么做到的？</li>
+    <li>Subagent 并行编排长什么样？</li>
+    <li>沙箱三态是什么？self-hosted 怎么连？</li>
+    <li>程序化工具调用被官方产品化了？</li>
+    <li>harness 开源意味着什么？131 个 crate 里都是啥？</li>
+    <li>怎么计费？比直接调模型贵多少？</li>
+    <li>安全边界：key 放哪？数据在哪？</li>
+    <li>我能用它干什么？什么时候不该用？</li>
+  </ol>
+</div>
+
+<!-- ============ Q1 ============ -->
+<div class="q q1">
+  <div class="qhead"><div class="qnum">Q1</div><div class="qtitle">Agents API 到底是什么？"又一个 Agent SDK"？</div></div>
+  <div class="qbody">
+    <p><span class="big">一句话：<span class="hl">OpenAI 把自家 Codex 背后的 Agent harness 原样搬进云端，变成一个 REST API</span>。你的应用只管发任务、收事件；模型循环、上下文管理、断点恢复、沙箱运维，全由 OpenAI 代管。</span></p>
+    <p>它和 SDK 的本质区别在"循环跑在哪"：SDK 是把一个库装进你的进程，<b>agent 循环在你的代码里跑</b>；Agents API 是<b>循环根本不在你机器上</b>——OpenAI 云端跑着一个托管版 Codex 实例（官方叫 it "managed Codex harness"），你通过 HTTP 跟它对话。API 端点是 <code>POST /v1/agents/sessions</code>，需要 <code>OpenAI-Beta: agents=v1</code> 头，目前处于 <b>public beta</b>。</p>
+    <div class="svgbox"><svg viewBox="0 0 760 190" width="100%">
+      <rect x="10" y="40" width="150" height="90" rx="12" fill="#ffe8dd" stroke="#ff6b35" stroke-width="2.5"/>
+      <text x="85" y="78" text-anchor="middle" font-size="14" font-weight="bold" fill="#c2491a">你的应用</text>
+      <text x="85" y="100" text-anchor="middle" font-size="11" fill="#7a4433">发任务 / 收事件</text>
+      <text x="85" y="116" text-anchor="middle" font-size="11" fill="#7a4433">处理 function 工具</text>
+      <path d="M165 75 L245 75" stroke="#ff6b35" stroke-width="3" marker-end="url(#a1)"/>
+      <text x="205" y="62" text-anchor="middle" font-size="10.5" fill="#c2491a">POST /v1/agents/sessions</text>
+      <rect x="250" y="30" width="230" height="110" rx="12" fill="#dcf6fb" stroke="#00b4d8" stroke-width="2.5"/>
+      <text x="365" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#036e8c">OpenAI 云端托管 harness</text>
+      <text x="365" y="80" text-anchor="middle" font-size="11" fill="#0a5a70">Codex 实例：模型循环 / 编排</text>
+      <text x="365" y="98" text-anchor="middle" font-size="11" fill="#0a5a70">上下文压缩 / 会话保存恢复</text>
+      <text x="365" y="116" text-anchor="middle" font-size="11" fill="#0a5a70">subagent 调度</text>
+      <path d="M485 75 L565 75" stroke="#00b4d8" stroke-width="3" marker-end="url(#a1)"/>
+      <text x="525" y="62" text-anchor="middle" font-size="10.5" fill="#036e8c">执行命令</text>
+      <rect x="570" y="30" width="180" height="110" rx="12" fill="#d9f9ef" stroke="#06d6a0" stroke-width="2.5"/>
+      <text x="660" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#047a5c">Environment</text>
+      <text x="660" y="80" text-anchor="middle" font-size="11" fill="#0a5a46">沙箱跑代码 / 改文件</text>
+      <text x="660" y="98" text-anchor="middle" font-size="11" fill="#0a5a46">连 MCP / 产 artifacts</text>
+      <text x="660" y="116" text-anchor="middle" font-size="11" fill="#0a5a46">或 = 你的机器</text>
+      <defs><marker id="a1" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+        <path d="M0,0 L8,3.5 L0,7 Z" fill="#555"/></marker></defs>
+    </svg></div>
+    <div class="note"><b>官方自己的分界线</b>（developers.openai.com 文档原话）：Agents API = "OpenAI runs a managed Codex harness"；Agents SDK = "The SDK runs inside your application"。一个是<b>租整条生产线</b>，一个是<b>买机器回家自己开</b>。</div>
+  </div>
+</div>
+
+<!-- ============ Q2 ============ -->
+<div class="q q2">
+  <div class="qhead"><div class="qnum">Q2</div><div class="qtitle">我会 LangGraph / CrewAI 了，为什么还需要"租 harness"？</div></div>
+  <div class="qbody">
+    <p>先讲一个之前的世界：2025 年起人人都发现 <b>模型本身不难接，难的是模型外面那一圈</b>——上下文窗口满了怎么办？任务跑 3 小时进程挂了怎么办？工具执行环境怎么隔离？OpenAI 官方博客《Harness engineering》的原话：agent 反复失败，大多不是模型不行，而是<b>环境欠规格</b>（这正好印证知识库 [[AgentHarness智能体挽具]] 的七职责：改环境胜过改形容词）。</p>
+    <p>于是每家公司都在重复造这一圈。Agents API 的赌注是：<span class="hl">这圈东西 OpenAI 已经在 Codex 里打磨好了，别再造了，直接调用</span>。你写 <code>client.beta.agents.sessions.create(...)</code>，OpenAI 替你把压缩、恢复、subagent 调度、沙箱生命周期全做了。</p>
+    <table class="cmp">
+      <tr><th></th><th>LangGraph / CrewAI（已学）</th><th>Agents API（本篇）</th></tr>
+      <tr><td><b>编排逻辑</b></td><td>你写：状态图 / 角色分工</td><td>harness 自主决定（可多给指令引导）</td></tr>
+      <tr><td><b>状态持久化</b></td><td>你配 checkpointer（[[Checkpoint存档与持久执行]]）</td><td>内建：session 自动保存 turns/items</td></tr>
+      <tr><td><b>执行环境</b></td><td>你的进程 + 你选的沙箱方案</td><td>三态沙箱开箱即用</td></tr>
+      <tr><td><b>上下文管理</b></td><td>你写压缩策略（[[上下文预算与战略压缩]]）</td><td>自动压缩内建</td></tr>
+      <tr><td><b>换模型/厂商</b></td><td>自由（可接任意 LLM）</td><td>锁 OpenAI 生态（gpt-6-astra 等）</td></tr>
+      <tr><td><b>适合</b></td><td>要精细控制流程的产品</td><td>长时自主任务、不想运维 agent 基建</td></tr>
+    </table>
+    <p><b>记住这组对照</b>：LangGraph 给你"流程图画笔"，Agents API 给你"一个已经会干活的员工"。前者赢在可控，后者赢在省事——代价是控制权。</p>
+  </div>
+</div>
+
+<!-- ============ Q3 ============ -->
+<div class="q q3">
+  <div class="qhead"><div class="qnum">Q3</div><div class="qtitle">Agent / Environment / Session / Events 四概念怎么咬合？</div></div>
+  <div class="qbody">
+    <p>官方文档把 API 建在四个对象上，类比一个<b>外包员工的工作档案</b>：</p>
+    <table class="cmp">
+      <tr><th>概念</th><th>是什么</th><th>类比</th><th>在请求体里</th></tr>
+      <tr><td><b>Agent</b></td><td>模型+指令+工具+MCP 的配置包</td><td>岗位说明书</td><td><code>agent: {...}</code> 或复用 <code>agent_id</code></td></tr>
+      <tr><td><b>Environment</b></td><td>可选的沙箱/电脑：跑命令、放文件、装技能</td><td>工位</td><td><code>environment: {type: ...}</code></td></tr>
+      <tr><td><b>Session</b></td><td>持久化的 agent 实例：干活的主体，跨轮次存活</td><td>员工本人在册</td><td>创建后返回 <code>sess_...</code> id</td></tr>
+      <tr><td><b>Events &amp; Items</b></td><td>你发进去的输入、它干出来的每一步记录</td><td>工作日志</td><td>stream 事件 / sessions.items</td></tr>
+    </table>
+    <div class="svgbox"><svg viewBox="0 0 760 150" width="100%">
+      <rect x="8" y="45" width="130" height="62" rx="10" fill="#f0e6ff" stroke="#7b2ff7" stroke-width="2.5"/>
+      <text x="73" y="72" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5a1fb8">① 创建 Session</text>
+      <text x="73" y="92" text-anchor="middle" font-size="10.5" fill="#4a2a7a">配 Agent，环境开出</text>
+      <path d="M142 76 L188 76" stroke="#7b2ff7" stroke-width="2.5" marker-end="url(#a2)"/>
+      <rect x="192" y="45" width="130" height="62" rx="10" fill="#f0e6ff" stroke="#7b2ff7" stroke-width="2.5"/>
+      <text x="257" y="72" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5a1fb8">② 派任务（turn）</text>
+      <text x="257" y="92" text-anchor="middle" font-size="10.5" fill="#4a2a7a">input 触发一轮工作</text>
+      <path d="M326 76 L372 76" stroke="#7b2ff7" stroke-width="2.5" marker-end="url(#a2)"/>
+      <rect x="376" y="45" width="130" height="62" rx="10" fill="#f0e6ff" stroke="#7b2ff7" stroke-width="2.5"/>
+      <text x="441" y="66" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5a1fb8">③ 跟进度</text>
+      <text x="441" y="84" text-anchor="middle" font-size="10.5" fill="#4a2a7a">stream 事件流</text>
+      <text x="441" y="99" text-anchor="middle" font-size="10.5" fill="#4a2a7a">或 webhook 通知</text>
+      <path d="M510 76 L556 76" stroke="#7b2ff7" stroke-width="2.5" marker-end="url(#a2)"/>
+      <rect x="560" y="45" width="192" height="62" rx="10" fill="#f0e6ff" stroke="#7b2ff7" stroke-width="2.5"/>
+      <text x="656" y="66" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5a1fb8">④ 继续派活 / 引导（steer）</text>
+      <text x="656" y="84" text-anchor="middle" font-size="10.5" fill="#4a2a7a">同 session 再发任务</text>
+      <text x="656" y="99" text-anchor="middle" font-size="10.5" fill="#4a2a7a">或运行中插话纠偏</text>
+      <text x="380" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#7b2ff7">Session 的一生（状态在 OpenAI 那边，关掉你的电脑它还活着）</text>
+      <text x="380" y="135" text-anchor="middle" font-size="10.5" fill="#666">不用了 → sessions.delete(sess_id) 删除（先存好要留的 artifacts）</text>
+      <defs><marker id="a2" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+        <path d="M0,0 L8,3.5 L0,7 Z" fill="#7b2ff7"/></marker></defs>
+    </svg></div>
+    <div class="warn"><b>易混警告</b>：Session ≠ SDK 的 session ≠ Responses conversation ≠ sandbox，是四种不同资源。SDK 的 session 是你进程里的对象；Agents API 的 session 是<b>存在 OpenAI 服务端的持久资源</b>，可以 delete、retrieve、跨天继续。这是"会话即资源"（session as a resource）的思路——对照知识库 [[Checkpoint存档与持久执行]] 里 thread_id 一人一档的思路，OpenAI 把它做成了第一等 API 资源。</div>
+  </div>
+</div>
+
+<!-- ============ Q4 ============ -->
+<div class="q q4">
+  <div class="qhead"><div class="qnum">Q4</div><div class="qtitle">三层运行时（Agents API / Agents SDK / Responses API）怎么选？</div></div>
+  <div class="qbody">
+    <p>OpenAI 现在有三条做 agent 的路，官方对比表的"人话版"：</p>
+    <table class="cmp">
+      <tr><th></th><th>Agents API</th><th>Agents SDK</th><th>Responses API</th></tr>
+      <tr><td><b>用一句话选它</b></td><td>长任务，OpenAI 替我管进度</td><td>agent 循环要在我的应用里</td><td>只要模型响应，循环自己写</td></tr>
+      <tr><td><b>循环跑在哪</b></td><td>OpenAI 云（托管 Codex）</td><td>你的进程</td><td>你的进程</td></tr>
+      <tr><td><b>接入成本</b></td><td><b>低</b></td><td>中</td><td>高</td></tr>
+      <tr><td><b>任务间状态</b></td><td>session 自动存</td><td>你自己的存储</td><td>手动拼历史</td></tr>
+      <tr><td><b>执行环境</b></td><td>官方沙箱/自有沙箱/无</td><td>你的运行时</td><td>你自己的环境</td></tr>
+    </table>
+    <div class="ok"><b>✅ 决策口诀</b>：要"全自动代驾"→ Agents API；要"方向盘在我手里"→ Agents SDK（即知识库里 [[智能体框架]] 的角色，OpenAI 版）；只要"发动机"→ Responses API。注意别和 <code>openai-agents</code> 这个 pip 包搞混——那是 2025-03 的 Agents SDK，和新 Agents API 是两代东西（本机实测：装了 SDK 3.24.0 后 openai-agents 0.20.0 报依赖冲突，两代并存是个坑）。</div>
+  </div>
+</div>
+
+<!-- ============ Q5 ============ -->
+<div class="q q5">
+  <div class="qhead"><div class="qnum">Q5</div><div class="qtitle">"长任务自动压缩恢复"是怎么做到的？</div></div>
+  <div class="qbody">
+    <p>长任务的死穴是上下文窗口：干几小时，历史记录爆窗。Agents API 的答案是<b>托管压缩（automatic context compaction）</b>——harness 把"总结之前的工作"当成常规操作，窗口快满就自动摘要旧进展、保留关键状态，任务不中断。推文说的"长任务自动上下文压缩恢复"就是它。</p>
+    <p>我们在开源 codex 仓库里找到了它的源码实锤（见 ex4）：</p>
+    <pre><span class="c">// codex-rs/core/src/compact.rs —— 压缩是一等公民，不是补丁</span>
+use codex_analytics::<span class="k">CompactionReason</span>;   <span class="c">// 为什么压：自动触发 or 手动</span>
+use crate::context::<span class="k">CompactionSummary</span>;    <span class="c">// 压出来的摘要对象</span>
+<span class="c">// 配套: compact_token_budget.rs / compact_remote_v2.rs /</span>
+<span class="c">//       compact_model_fallback.rs（压缩模型降级）</span></pre>
+    <p><b>恢复</b>则是另一半：session 的 turns/items 存在服务端，流断了可以 retrieve 回来续传（官方文档专门有一节 "recover a disconnected stream"），SDK 里 <code>with_result_collection()</code> 最后一帧给 final result + session_id。</p>
+    <div class="note"><b>对照已学</b>：[[上下文预算与战略压缩]] 讲"50% 早压缩、逻辑断点才压、实现中千万别压"——这些是<b>你自己写 harness 时的经验法则</b>；Agents API 把同类策略做成了<b>托管默认值</b>，你不用再管。恢复侧对应 [[Checkpoint存档与持久执行]]（崩了从存档续跑不重花钱），区别：LangGraph 存在你配的 checkpointer 里，这里存 OpenAI 服务端。</div>
+  </div>
+</div>
+
+<!-- ============ Q6 ============ -->
+<div class="q q6">
+  <div class="qhead"><div class="qnum">Q6</div><div class="qtitle">Subagent 并行编排长什么样？</div></div>
+  <div class="qbody">
+    <p>创建 session 时打开一个开关，主 agent 就获得了"招临时工"的能力：</p>
+    <pre><span class="s">"multi_agent"</span>: { <span class="s">"enabled"</span>: <span class="k">true</span>, <span class="s">"max_concurrent_subagents"</span>: <span class="k">4</span> }</pre>
+    <p>之后 harness 在干活时会<b>自己决定</b>把独立子任务拆给并行 subagent（官方示例：对比多份 release notes，每份一个 subagent 并行读，最后汇总）。分工方式不是你画 DAG，而是 harness 自主拆解——这是和 [[工单任务图与前沿调度]]（你显式建模任务依赖）最大的差别。</p>
+    <div class="svgbox"><svg viewBox="0 0 760 170" width="100%">
+      <rect x="290" y="12" width="180" height="46" rx="10" fill="#d9f0f9" stroke="#118ab2" stroke-width="2.5"/>
+      <text x="380" y="33" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#0a5a70">主 Agent（session 内）</text>
+      <text x="380" y="49" text-anchor="middle" font-size="10" fill="#0a5a70">拆解 → 派发 → 收结果 → 汇总</text>
+      <path d="M310 58 L180 92" stroke="#118ab2" stroke-width="2" marker-end="url(#a3)"/>
+      <path d="M365 58 L340 92" stroke="#118ab2" stroke-width="2" marker-end="url(#a3)"/>
+      <path d="M400 58 L425 92" stroke="#118ab2" stroke-width="2" marker-end="url(#a3)"/>
+      <path d="M455 58 L580 92" stroke="#118ab2" stroke-width="2" marker-end="url(#a3)"/>
+      <rect x="80" y="96" width="150" height="44" rx="9" fill="#fff" stroke="#118ab2" stroke-width="2"/>
+      <text x="155" y="115" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0a5a70">subagent 1</text>
+      <text x="155" y="131" text-anchor="middle" font-size="9.5" fill="#555">release-notes-v1.md</text>
+      <rect x="255" y="96" width="150" height="44" rx="9" fill="#fff" stroke="#118ab2" stroke-width="2"/>
+      <text x="330" y="115" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0a5a70">subagent 2</text>
+      <text x="330" y="131" text-anchor="middle" font-size="9.5" fill="#555">release-notes-v2.md</text>
+      <rect x="430" y="96" width="150" height="44" rx="9" fill="#fff" stroke="#118ab2" stroke-width="2"/>
+      <text x="505" y="115" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0a5a70">subagent 3</text>
+      <text x="505" y="131" text-anchor="middle" font-size="9.5" fill="#555">release-notes-v3.md</text>
+      <rect x="605" y="96" width="120" height="44" rx="9" fill="#fff" stroke="#ccc" stroke-width="2" stroke-dasharray="5 3"/>
+      <text x="665" y="115" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#999">subagent 4</text>
+      <text x="665" y="131" text-anchor="middle" font-size="9.5" fill="#999">（闲位：≤max 4）</text>
+      <text x="380" y="160" text-anchor="middle" font-size="10.5" fill="#666">每个 subagent 的创建/打断/关闭都是一条 session item（SDK 实测有 AgentCreate/Interrupt/CloseSubagentCallItem 类型）</text>
+      <defs><marker id="a3" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+        <path d="M0,0 L8,3.5 L0,7 Z" fill="#118ab2"/></marker></defs>
+    </svg></div>
+    <div class="note"><b>对照已学</b>：[[多智能体协作]]（crewAI 角色分工）是"你指定谁出场"；这里 harness 自己招人裁员，你只设并发上限。坑也对应 [[多Agent协作乱序竞态]]：并行的完成顺序≠依赖顺序，汇总逻辑仍要防"摘要先于数据定稿"。源码坐标：<code>core/src/agent/control/execution.rs</code>（实测命中 <code>SessionSource::SubAgent(_)</code> 分支）。</div>
+  </div>
+</div>
+
+<!-- ============ Q7 ============ -->
+<div class="q q7">
+  <div class="qhead"><div class="qnum">Q7</div><div class="qtitle">沙箱三态是什么？self-hosted 怎么连？</div></div>
+  <div class="qbody">
+    <p>Environment 有三种形态，对应三种架构（官方 architecture 文档）：</p>
+    <table class="cmp">
+      <tr><th>type</th><th>工位在哪</th><th>能干什么</th><th>适合</th></tr>
+      <tr><td><code>none</code></td><td>没有工位</td><td>回答问题、调远程 MCP / function 工具；<b>没有</b> Bash、apply-patch、工作区文件</td><td>问答、调研型 agent</td></tr>
+      <tr><td><code>openai_hosted</code></td><td>OpenAI 云沙箱</td><td>跑 Python/Node/CLI、改文件、产 artifacts；可配网络权限和依赖包</td><td>写代码、跑脚本的通用型</td></tr>
+      <tr><td><code>self_hosted</code></td><td><b>你的机器</b>（笔记本/Docker/Lambda）</td><td>你的代码起 executor 连上 session，harness 远程下发命令由 executor 执行</td><td>私有网络、内网数据库、专有软件</td></tr>
+    </table>
+    <p>self-hosted 的精髓：<b>命令不是你转发给 harness 的，而是 harness 下发给你的 executor</b>。你的代码只管 executor 的生死（开机、断线重连、关机），不需要逐条命令过手。key 永远不进沙箱（官方反复强调）。</p>
+    <div class="ok"><b>✅ 本机实测（ex5，零费用）</b>：装 <code>npm i -g @openai/codex</code>（0.160.0），<code>codex sandbox python -c "print('hello')"</code> 在 Windows restricted token 沙箱内成功输出；同环境尝试写文件 → <code>PermissionError: [Errno 13] Permission denied</code>，文件确实没落盘。<b>这套沙箱和云上是同一个开源实现</b>——开源仓库里 sandbox 家族有 5 个 crate：linux-sandbox / windows-sandbox-rs / windows-sandbox-service / mxc-sandbox / sandboxing。</div>
+  </div>
+</div>
+
+<!-- ============ Q8 ============ -->
+<div class="q q8">
+  <div class="qhead"><div class="qnum">Q8</div><div class="qtitle">程序化工具调用（Programmatic Tool Calling）被官方产品化了？</div></div>
+  <div class="qbody">
+    <p>是的——正是知识库 [[程序化工具调用]]（CodeAct，cmu-agents 批次学的"模型写代码进沙箱一次跑完整策略"）的<b>官方 API 版</b>。创建 session 时声明：</p>
+    <pre><span class="s">"tools"</span>: [ { <span class="s">"type"</span>: <span class="s">"programmatic_tool_calling"</span> } ]</pre>
+    <p>打开后 agent 不再"每轮一个工具调用"，而是<b>写一段代码把多个工具调用编排成一次执行</b>（枚举→模拟→评估→选优一行循环搞定）。开源仓库里对应一整个 crate 家族：<code>code-mode / code-mode-host / code-mode-protocol / code-mode-runtime</code> + <code>tools/src/code_mode.rs</code>。</p>
+    <div class="note"><b>定位</b>：CMU 作业里它是"自己搭的教学版"，现在 OpenAI 直接把它做成了 <code>{"type": "programmatic_tool_calling"}</code> 一个开关。<b>从论文概念到产品开关只用了不到一年</b>——这是本篇最值得记住的行业信号：知识库里那些"模式"正在快速变成云厂商的 API 参数。</div>
+  </div>
+</div>
+
+<!-- ============ Q9 ============ -->
+<div class="q q9">
+  <div class="qhead"><div class="qnum">Q9</div><div class="qtitle">harness 开源意味着什么？131 个 crate 里都是啥？</div></div>
+  <div class="qbody">
+    <p><b>发布的核心事实：云上跑的 harness 和你电脑上能装的 Codex CLI 是同一套开源代码</b>（openai/codex，Apache-2.0，127k+ stars）。官方公告原话 "backed by the Codex harness" + "view the public codebase"。实测仓库规模：<b>131 个 Rust crate、5094 个 .rs 文件、约 200 万行代码</b>。</p>
+    <div class="svgbox"><svg viewBox="0 0 760 210" width="100%">
+      <rect x="10" y="10" width="740" height="34" rx="8" fill="#eff7de" stroke="#8bc34a" stroke-width="2"/>
+      <text x="380" y="32" text-anchor="middle" font-size="13" font-weight="bold" fill="#4c6b1f">core（agent 循环心脏：session/turn/compact/agent 子模块）</text>
+      <rect x="10" y="52" width="238" height="60" rx="8" fill="#fff1de" stroke="#ff9800" stroke-width="2"/>
+      <text x="129" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#a35400">沙箱家族 ×5</text>
+      <text x="129" y="96" text-anchor="middle" font-size="10" fill="#7a5a2a">linux / windows×2 / mxc / sandboxing</text>
+      <rect x="261" y="52" width="238" height="60" rx="8" fill="#fce2f0" stroke="#e91e8c" stroke-width="2"/>
+      <text x="380" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#a31359">code-mode 家族 ×4</text>
+      <text x="380" y="96" text-anchor="middle" font-size="10" fill="#8a3060">程序化工具调用运行时</text>
+      <rect x="512" y="52" width="238" height="60" rx="8" fill="#e4e7fa" stroke="#3f51b5" stroke-width="2"/>
+      <text x="631" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#2c368f">agent 家族 ×4</text>
+      <text x="631" y="96" text-anchor="middle" font-size="10" fill="#3c4470">roles / identity / graph-store / message-board</text>
+      <rect x="10" y="120" width="360" height="60" rx="8" fill="#dcf6fb" stroke="#00b4d8" stroke-width="2"/>
+      <text x="190" y="144" text-anchor="middle" font-size="12" font-weight="bold" fill="#036e8c">接入层</text>
+      <text x="190" y="164" text-anchor="middle" font-size="10" fill="#0a5a70">tui（终端UI）/ app-server（应用服务）/ mcp / rmcp-client</text>
+      <rect x="390" y="120" width="360" height="60" rx="8" fill="#fde4e4" stroke="#d62828" stroke-width="2"/>
+      <text x="570" y="144" text-anchor="middle" font-size="12" font-weight="bold" fill="#8f1616">持久与恢复</text>
+      <text x="570" y="164" text-anchor="middle" font-size="10" fill="#6a2020">rollout（会话文件持久化）/ state / thread-store / cloud-tasks</text>
+      <text x="380" y="200" text-anchor="middle" font-size="10.5" fill="#666">还有 skills / memories / hooks / login / otel / network-proxy / worktree …… 131 个 crate 全景见 ex4 清单</text>
+    </svg></div>
+    <p>开源意味着三件事：<b>① 可审计</b>——云上 agent 到底执行了什么逻辑，源码可查（本篇 ex4 就这么干的）；<b>② 可自建</b>——同一套 harness 可以本地跑（CLI），云 API 只是托管形态；<b>③ 可学习</b>——这就是市面上最完整的"生产级 harness 教科书"，[[AgentHarness智能体挽具]] 七职责每一条都能在里面找到对应 crate。</p>
+  </div>
+</div>
+
+<!-- ============ Q10 ============ -->
+<div class="q q10">
+  <div class="qhead"><div class="qnum">Q10</div><div class="qtitle">怎么计费？比直接调模型贵多少？</div></div>
+  <div class="qbody">
+    <p>官方 pricing 一句话：<span class="hl">模型按模型价、工具按工具价、沙箱按容器价——没有"Agents API 附加费"</span>。具体三笔账：</p>
+    <table class="cmp">
+      <tr><th>账目</th><th>怎么算</th></tr>
+      <tr><td>模型推理</td><td>所选模型的标准 API 价（gpt-6-astra 等）</td></tr>
+      <tr><td>OpenAI 内建工具</td><td>web_search 等按 built-in tools 标准价</td></tr>
+      <tr><td>托管沙箱</td><td>openai_hosted 按容器（container）标准计费——<b>沙箱开着就烧钱</b></td></tr>
+    </table>
+    <p>风险点和 [[交易成本与鞭打效应]] 同理：<b>账单放大器藏在"agent 循环圈数 × 沙箱时长 × subagent 并发数"</b>。一次 session 主 agent 拆 4 个 subagent，token 消耗就是 5 条循环相加。session 记账有专门的 observability 端点（sessions.traces / usage），上线前先看这份账。</p>
+  </div>
+</div>
+
+<!-- ============ Q11 ============ -->
+<div class="q q11">
+  <div class="qhead"><div class="qnum">Q11</div><div class="qtitle">安全边界：API key 放哪？数据在哪？</div></div>
+  <div class="qbody">
+    <p>四条红线，全部来自官方文档原文：</p>
+    <p><b>① key 权限最小化</b>：会话操作要 <code>api.agents.read</code> + <code>api.agents.write</code>，模型推理要 <code>api.responses.write</code>——用应用级 key，别拿全家桶 key。<b>② key 永不进沙箱</b>：官方 quickstart 原话 "Keep this key outside the agent's sandbox"（agent 能执行任意代码，key 进去等于送给它）。</p>
+    <p><b>③ 数据驻留仅美国</b>：目前只支持 US 数据驻留。<b>④ 不支持 ZDR</b>：Zero Data Retention 不适用，选 self_hosted 沙箱<b>也改变不了这一点</b>——harness 和会话状态始终在 OpenAI 侧。合规敏感场景要过一遍这条。</p>
+    <div class="warn"><b>实测彩蛋（ex2）</b>：无 key 请求返回 <code>"A valid actor biscuit is required"</code>——"actor biscuit" 是 OpenAI 内部鉴权层的术语，从错误信息能窥见服务端身份模型（actor = 发起动作的主体）。对照 [[控制面与数据面]]：认证闸门在控制面，一进 API 就验。</div>
+  </div>
+</div>
+
+<!-- ============ Q12 ============ -->
+<div class="q q12">
+  <div class="qhead"><div class="qnum">Q12</div><div class="qtitle">我能用它干什么？什么时候不该用？</div></div>
+  <div class="qbody">
+    <p><span class="big">能力清单（学完你手上多了什么）：</span></p>
+    <p>① <b>会话即资源</b>的心智模型：把"一个长期干活的 agent"当数据库记录管理（create/retrieve/update/delete）；② <b>三态沙箱架构图</b>：none / openai_hosted / self_hosted 的选型判断；③ <b>一套可读的生产级 harness 源码</b>（131 crates），七职责逐条有实码；④ <b>本地 codex sandbox</b>：零费用给任何命令套受限令牌沙箱；⑤ <b>subagent 并发上限思维</b>：multi_agent.max_concurrent_subagents 一个参数管并行度。</p>
+    <table class="cmp">
+      <tr><th>✅ 适合用</th><th>❌ 不适合</th></tr>
+      <tr><td>长时自主任务（调研、批量改代码、事故排查）</td><td>要接非 OpenAI 模型（锁生态）</td></tr>
+      <tr><td>需要断点续跑、服务端状态的 agent 产品</td><td>要精细控制每步流程（选 Agents SDK / LangGraph）</td></tr>
+      <tr><td>个人项目快速获得"会干活的 agent"不想运维基建</td><td>数据不能出内网/不能存美国（no ZDR）</td></tr>
+      <tr><td>内网自动化（self_hosted executor 连私有网络）</td><td>高频短调用（沙箱容器费可能比模型费还贵）</td></tr>
+    </table>
+    <p><b>给你的行动建议</b>（结合你已会的）：先用 <b>local CLI + sandbox</b>（免费部分）体会 harness；要写 agent 产品时拿 quickstart 的 session 流程对接自己的 webhook；架构选型时把本篇 Q4 三层表和 [[Agent设计模式目录]] 的 Level 0-3 对号入座。</p>
+  </div>
+</div>
+
+<!-- ============ 实验 ============ -->
+<h2 class="sec" style="background:linear-gradient(90deg,var(--green),var(--cyan));">🧪 动手实验：5 个零 key 零费用实验（全部真实运行）</h2>
+
+<div class="exp">
+  <div class="exphead">实验 ex1 · 官方 SDK 内省取证 —— 证明 Agents API 真实存在</div>
+  <div class="expbody">
+    <div class="step"><b class="st">步骤1</b> 升级 SDK 并内省命名空间<br>
+    <code>pip install --upgrade openai</code> → <code>python ex1_sdk_introspect.py</code>。目的：验证 beta.agents 命名空间真实存在于官方 SDK。<br>
+    ✅ <b>预期/实测</b>：2.54.0 报 <code>'Beta' object has no attribute 'agents'</code>；升级到 3.24.0 后 <code>beta.agents</code> OK，sessions 子资源 turns/events/items/<b>subagents</b>/artifacts/traces/stream 全部存在；<code>openai.types.beta</code> 中 agent 相关类型 <b>161 个</b>。</div>
+    <div class="step"><b class="st">步骤2</b> 看 sessions.create 签名（打印自动给出）<br>
+    ✅ <b>实测关键参数</b>：<code>agent</code> 或 <code>agent_id</code>（复用型 Agent 资源）、<code>environment</code>、<code>input</code>、<code>stream</code>、<code>vault_ids</code>、<code>output_type</code>（类型化输出！）。subagent 生命周期三件套 AgentCreate/Interrupt/CloseSubagentCallItem 都是 item 类型。</div>
+  </div>
+</div>
+
+<div class="exp">
+  <div class="exphead">实验 ex2 · 无 key 真请求 —— 端点存在性探测</div>
+  <div class="expbody">
+    <div class="step"><b class="st">操作</b> <code>python ex2_nokey_probe.py</code>（httpx 向 /v1/agents/sessions 发三种请求）。目的：不花钱验证端点真实、鉴权在控制面。<br>
+    ✅ <b>实测</b>：无 key → HTTP 401 <code>"A valid actor biscuit is required"</code>；假 key → HTTP 401 <code>"Incorrect API key provided"</code>；对照组不存在端点 → HTTP 404。<b>401 vs 404 证明端点活着且认证前置。</b></div>
+  </div>
+</div>
+
+<div class="exp">
+  <div class="exphead">实验 ex3 · Session 请求体构造器 + 契约自校验</div>
+  <div class="expbody">
+    <div class="step"><b class="st">操作</b> <code>python ex3_session_builder.py</code>。目的：亲手把四概念翻译成请求体 JSON，并实现环境三态/工具枚举/并发参数校验。<br>
+    ✅ <b>实测</b>：三架构场景（问答 none / 编码 openai_hosted / 私网 self_hosted+MCP+multi_agent）契约检查全 PASS；负向用例（none 环境带 workspace）被正确拦截，报错 <code>none 环境没有工作区（无 Bash/apply-patch/executor MCP）</code>。产出 session_bodies.json 三份合法请求体。</div>
+  </div>
+</div>
+
+<div class="exp">
+  <div class="exphead">实验 ex4 · 开源 harness 源码取证 —— 五能力坐标地图</div>
+  <div class="expbody">
+    <div class="step"><b class="st">操作</b> <code>git clone --depth 1 https://github.com/openai/codex.git repo</code> → <code>python ex4_harness_forensics.py</code>。目的：把推文吹的五大能力逐个钉到源码行号。<br>
+    ✅ <b>实测全 FOUND</b>：仓库 131 crates / 5094 个 .rs / <b>2,002,055 行</b>。①压缩→core/src/compact.rs:29（CompactionReason）；②工具MCP→rmcp-client/src/lib.rs:29；③subagent→core/src/agent/control/execution.rs:85（SessionSource::SubAgent）；④沙箱→sandboxing/src/lib.rs:21（mxc sandbox 参数）；⑤云端恢复→rollout/src/lib.rs:1（session 文件持久化）。</div>
+  </div>
+</div>
+
+<div class="exp">
+  <div class="exphead">实验 ex5 · 本地 Codex CLI 沙箱真跑（本篇成就感实验）</div>
+  <div class="expbody">
+    <div class="step"><b class="st">步骤1</b> 安装：<code>npm install -g @openai/codex</code> → <code>codex --version</code><br>
+    ✅ 实测输出 <code>codex-cli 0.160.0</code>（npm 包与开源仓库同源）。</div>
+    <div class="step"><b class="st">步骤2</b> 沙箱内跑命令：<code>codex sandbox python -c "print('hello from inside codex sandbox'); import sys; print(sys.platform)"</code><br>
+    ✅ 实测输出 hello from inside codex sandbox / win32 ——<b>Windows restricted token 沙箱真实生效，零模型零费用</b>。</div>
+    <div class="step"><b class="st">步骤3</b> 验证隔离性：<code>codex sandbox python -c "open('x.txt','w').write('x')"</code><br>
+    ✅ 实测 <code>PermissionError: [Errno 13] Permission denied</code>，x.txt 确实未创建——<b>agent 写权限被硬件级拦住，这就是 harness "最小权限"职责的实物教学</b>。</div>
+    <div class="ok"><b>✅ 成就达成</b>：你没花一分钱 API 费，却亲手跑进了 OpenAI 生产 harness 的沙箱内部，还亲眼看见它的权限墙把你弹回来。</div>
+  </div>
+</div>
+
+<!-- ============ 尾页 ============ -->
+<h2 class="sec" style="background:linear-gradient(90deg,var(--purple),var(--pink));">📌 一页记忆卡</h2>
+<div class="foot">
+  <p><b>是什么</b>：Agents API = 托管版 Codex harness（2026-09-10 public beta）——你的应用发任务收事件，模型循环/压缩/恢复/编排/沙箱全在 OpenAI 云端。</p>
+  <p><b>四概念</b>：Agent（岗位说明书）· Environment（工位：none/openai_hosted/self_hosted 三态）· Session（在册员工，sess_ id 持久资源）· Events &amp; Items（工作日志）。</p>
+  <p><b>五能力</b>：自动上下文压缩恢复 / 原生 MCP+自定义工具 / subagent 并行（max_concurrent_subagents）/ 托管沙箱 / self-hosted executor 连自有机器。</p>
+  <p><b>三层怎么选</b>：要代驾→Agents API；要方向盘→Agents SDK；只要发动机→Responses API。</p>
+  <p><b>两个提醒</b>：计费=模型价+工具价+<span style="color:#ff9e64;font-weight:bold;">沙箱容器时长</span>（真正的账单放大器）；数据仅美国驻留、<span style="color:#ff9e64;font-weight:bold;">不支持 ZDR</span>，key 永不进沙箱。</p>
+  <p><b>与本库知识的接口</b>：[[AgentHarness智能体挽具]]（七职责全对上 131 crates）· [[程序化工具调用]]（官方产品化开关）· [[Checkpoint存档与持久执行]]/[[上下文预算与战略压缩]]（托管化了）· [[工单任务图与前沿调度]]（对照：harness 自主拆解 vs 你画 DAG）。</p>
+</div>
+<div class="foot" style="margin-top:10px;">
+  <b>信息来源</b>：推文（MaxForAI 2098334720677282098，引 OpenAI 员工 stevendcoffey）→ 官方公告 openai.com/index/introducing-the-agents-api/ → 官方文档 developers.openai.com/api/docs/guides/agents-api/*（overview/quickstart/architecture，2026-10-03 抓取）→ 开源仓库 github.com/openai/codex（Apache-2.0，131 crates 实测取证）。实验环境：Windows 11 / Python 3.14.7 / openai 3.24.0 / codex-cli 0.160.0。全部实验零 key 零费用真实运行。
+</div>
+
+</body>
+</html>

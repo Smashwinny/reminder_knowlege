@@ -1,0 +1,67 @@
+{
+  "stats": {
+    "crates": 131,
+    "rs_files": 5094,
+    "loc": 2002055
+  },
+  "evidence": {
+    "① 长任务上下文压缩": {
+      "file": "core/src/compact.rs",
+      "line": 29,
+      "snippet": "use codex_analytics::CompactionReason;"
+    },
+    "② 工具/MCP": {
+      "file": "rmcp-client/src/lib.rs",
+      "line": 29,
+      "snippet": "mod rmcp_client;"
+    },
+    "③ Subagent 编排": {
+      "file": "core/src/agent/control/execution.rs",
+      "line": 85,
+      "snippet": "&& matches!(session_source, SessionSource::SubAgent(_))"
+    },
+    "④ 沙箱执行": {
+      "file": "sandboxing/src/lib.rs",
+      "line": 21,
+      "snippet": "pub use codex_mxc_sandbox::CODEX_WINDOWS_MXC_ARG1;"
+    },
+    "⑤ 云端会话恢复": {
+      "file": "rollout/src/lib.rs",
+      "line": 1,
+      "snippet": "//! Rollout persistence and discovery for Codex session files."
+    }
+  },
+  "families": {
+    "sandbox 家族": [
+      "linux-sandbox",
+      "mxc-sandbox",
+      "sandboxing",
+      "windows-sandbox-rs",
+      "windows-sandbox-service"
+    ],
+    "code-mode 家族": [
+      "code-mode",
+      "code-mode-host",
+      "code-mode-protocol",
+      "code-mode-runtime"
+    ],
+    "agent 家族": [
+      "agent-graph-store",
+      "agent-identity",
+      "agent-message-board-client",
+      "agent-roles"
+    ],
+    "compact 相关文件": [
+      "compact.rs",
+      "compact_model_fallback.rs",
+      "compact_remote_history.rs",
+      "compact_remote_history_tests.rs",
+      "compact_remote_v2.rs",
+      "compact_remote_v2_attempt.rs",
+      "compact_remote_v2_images.rs",
+      "compact_remote_v2_image_budget_tests.rs",
+      "compact_tests.rs",
+      "compact_token_budget.rs"
+    ]
+  }
+}
