@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>TradingAgents 小白指南</title>
+<style>
+:root{
+  --pink:#FF2D78; --orange:#FF7A00; --yellow:#FFC400; --green:#00C853;
+  --teal:#00B8D4; --blue:#2962FF; --purple:#8E24AA; --red:#FF1744;
+  --ink:#1A1030; --bg:#FFFDF5;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+@page{size:A4; margin:12mm;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:13px; line-height:1.65;}
+.cover{background:linear-gradient(120deg,#FF2D78 0%,#FF7A00 45%,#FFC400 100%); border-radius:18px; padding:34px 30px; color:#fff; break-inside:avoid;}
+.cover h1{font-size:34px; letter-spacing:1px; text-shadow:2px 2px 0 rgba(0,0,0,.18);}
+.cover .sub{font-size:16px; margin-top:8px; font-weight:bold;}
+.badges{margin-top:14px;}
+.badge{display:inline-block; background:rgba(255,255,255,.92); color:#D81B60; font-weight:900; border-radius:999px; padding:4px 14px; margin:3px 6px 0 0; font-size:13px;}
+.disclaimer{background:#FFF3CD; border:3px dashed var(--red); border-radius:14px; padding:14px 18px; margin:16px 0; color:#B71C1C; font-weight:bold; break-inside:avoid;}
+.disclaimer .big{font-size:16px;}
+h2.sec{font-size:22px; margin:22px 0 10px; padding:8px 16px; border-radius:10px; color:#fff; background:linear-gradient(90deg,var(--purple),var(--pink));}
+.toc{display:flex; flex-wrap:wrap; gap:6px; margin:8px 0 4px;}
+.toc span{background:#EDE7FF; color:#5E35B1; border-radius:8px; padding:3px 10px; font-weight:bold; font-size:12px;}
+.qcard{border-radius:16px; padding:18px 20px; margin:14px 0; break-inside:avoid; color:#fff;}
+.qcard .qno{font-size:38px; font-weight:900; line-height:1; opacity:.95;}
+.qcard h3{font-size:18px; margin:4px 0 8px;}
+.qcard .body{background:rgba(255,255,255,.96); color:var(--ink); border-radius:12px; padding:12px 14px; font-size:12.5px;}
+.qcard .body b{color:#C2185B;}
+.hl{background:linear-gradient(transparent 55%, #FFE082 55%); font-weight:900; padding:0 2px;}
+.big{font-size:15px; font-weight:900;}
+.code{background:#263238; color:#AEEA00; border-radius:8px; padding:8px 12px; font-family:Consolas,monospace; font-size:11.5px; margin:8px 0; white-space:pre-wrap; break-inside:avoid;}
+.term{display:inline-block; background:#E0F7FA; border-left:4px solid var(--teal); padding:1px 8px; border-radius:4px; font-weight:bold; color:#006064;}
+.capbox{background:linear-gradient(135deg,#E8F5E9,#F1F8E9); border:3px solid var(--green); border-radius:16px; padding:16px 20px; margin:12px 0; break-inside:avoid;}
+.capbox li{margin:5px 0 5px 18px;}
+.step{border:3px solid var(--blue); border-radius:14px; margin:12px 0; break-inside:avoid; overflow:hidden;}
+.step .head{background:var(--blue); color:#fff; font-weight:900; padding:7px 14px; font-size:14.5px;}
+.step .in{padding:10px 14px;}
+.ok{background:#E8F5E9; border-left:5px solid var(--green); padding:7px 12px; border-radius:6px; margin:7px 0; font-weight:bold;}
+.warn{background:#FFEBEE; border-left:5px solid var(--red); padding:7px 12px; border-radius:6px; margin:7px 0; font-weight:bold; color:#B71C1C;}
+svg{max-width:100%; height:auto; display:block; margin:8px auto;}
+.linkbox{background:#E3F2FD; border:2px solid var(--blue); border-radius:12px; padding:10px 14px; margin:10px 0; break-inside:avoid; font-size:12.5px;}
+table{width:100%; border-collapse:collapse; margin:8px 0; font-size:12px;}
+th{background:var(--purple); color:#fff; padding:6px 8px; text-align:left;}
+td{border:1px solid #E0DCE8; padding:5px 8px; background:#fff;}
+tr:nth-child(even) td{background:#F7F4FC;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>TradingAgents 小白指南</h1>
+  <div class="sub">一个让 LLM 组建"虚拟交易公司"互相辩论再做决策的多智能体框架</div>
+  <div class="badges">
+    <span class="badge">⭐ 109,521 stars</span>
+    <span class="badge">Python · v0.5.2</span>
+    <span class="badge">LangGraph 编排</span>
+    <span class="badge">12 个智能体角色</span>
+    <span class="badge">arXiv 2412.20138</span>
+    <span class="badge">7 家免费数据源</span>
+  </div>
+</div>
+
+<div class="disclaimer">
+  <span class="big">⚠️ 免责声明（先读这个）</span><br>
+  TradingAgents 官方明确定位为<b>研究框架，不构成任何投资建议</b>。它的输出（BUY/SELL/Overweight）只是 LLM 基于公开数据的"文本判断"，没有仓位、现金账本、撮合成本模型，历史上也不保证任何收益。本指南的所有实验都是<b>离线假数据 + 脚本假 LLM</b> 的纯技术验证，不接真实行情、不接真实券商、不花一分钱。股市有风险，实盘需谨慎。
+</div>
+
+<div class="toc">
+  <span>Q1 一句话是什么</span><span>Q2 为何模仿交易公司</span><span>Q3 12角色怎么接线</span><span>Q4 并行分析师隔离</span><span>Q5 多空辩论机制</span><span>Q6 风险三方辩论</span><span>Q7 记忆结算反思闭环</span><span>Q8 防未来函数</span><span>Q9 数据供应商路由</span><span>Q10 结构化输出与评级</span><span>Q11 怎么评价决策质量</span><span>Q12 中断续跑</span><span>Q13 能实盘吗</span><span>Q14 与回测引擎区别</span>
+</div>
+
+<h2 class="sec">一、疑问解答（14 问）</h2>
+
+<div class="qcard" style="background:linear-gradient(120deg,#FF2D78,#FF5252);">
+  <div class="qno">Q1</div>
+  <h3>TradingAgents 一句话是什么？</h3>
+  <div class="body">
+    <span class="big hl">它把一次"该不该买这只股票"的决策，拆成一家虚拟交易公司里 12 个 LLM 员工的流水线协作</span>：4 个分析师分头调研 → 多空研究员互相辩论 → 交易员下提案 → 激进/保守/中性三人风险辩论 → 组合经理拍板。出自 arXiv 论文 2412.20138（AAAI 2026），作者 Tauric Research。
+    <div style="margin-top:8px">类比：你知道的[[多智能体协作]]是"几个 agent 分工干活"，TradingAgents 是把它做到金融决策上，并且<b>辩论（debate）是核心工序</b>——不是各写各的报告，而是真吵起来。</div>
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#FF7A00,#FFC400);">
+  <div class="qno">Q2</div>
+  <h3>为什么要模仿交易公司的组织架构，而不是单 Agent 一次问答？</h3>
+  <div class="body">
+    单 Agent 问一次"NVDA 能买吗"有三个毛病：<b>①视角单一</b>（一个 prompt 装不下基本面+情绪+新闻+技术面四套专业工具链）；<b>②没有对抗</b>（模型倾向于给一个自信的答案，没人唱反调）；<b>③无法审计</b>（错了不知道错在哪一环）。<span class="hl">组织架构把"信息收集 / 观点形成 / 观点对抗 / 决策 / 风控"五件事强制分开，每一环都有独立报告留痕</span>。论文实验显示多空辩论能显著减少单 Agent 的过度自信偏差。
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#2962FF,#00B8D4);">
+  <div class="qno">Q3</div>
+  <h3>12 个角色在 LangGraph 里是怎么接线的？</h3>
+  <div class="body">
+    整个系统是一张 <span class="term">StateGraph</span>（LangGraph 的状态图：节点=一个步骤，边=步骤间流转，全体共享一个状态字典）。实测拓扑（见实验 E2）：<b>16 个节点、29 条边</b>。接线逻辑：<span class="hl">START 同时分叉给 4 个分析师（并行）→ 全部完成后汇入 Bull Researcher → 条件边在多空之间来回 → Research Manager → Trader → 三个风险角色条件边轮转 → Portfolio Manager → END</span>。
+    <svg viewBox="0 0 720 330">
+      <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#455A64"/></marker></defs>
+      <circle cx="40" cy="165" r="26" fill="#8E24AA"/><text x="40" y="170" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">START</text>
+      <g font-size="11" font-weight="bold" text-anchor="middle">
+        <rect x="110" y="18" width="120" height="42" rx="9" fill="#00B8D4"/><text x="170" y="35" fill="#fff">市场分析师</text><text x="170" y="50" fill="#E0F7FA" font-size="9">技术指标/RSI/MACD</text>
+        <rect x="110" y="90" width="120" height="42" rx="9" fill="#00B8D4"/><text x="170" y="107" fill="#fff">情绪分析师</text><text x="170" y="122" fill="#E0F7FA" font-size="9">StockTwits/Reddit</text>
+        <rect x="110" y="162" width="120" height="42" rx="9" fill="#00B8D4"/><text x="170" y="179" fill="#fff">新闻分析师</text><text x="170" y="194" fill="#E0F7FA" font-size="9">全球新闻/宏观</text>
+        <rect x="110" y="234" width="120" height="42" rx="9" fill="#00B8D4"/><text x="170" y="251" fill="#fff">基本面分析师</text><text x="170" y="266" fill="#E0F7FA" font-size="9">SEC 财报三表</text>
+      </g>
+      <path d="M66,155 L110,45" stroke="#455A64" stroke-width="2" marker-end="url(#a)" fill="none"/>
+      <path d="M66,160 L110,108" stroke="#455A64" stroke-width="2" marker-end="url(#a)" fill="none"/>
+      <path d="M66,172 L110,180" stroke="#455A64" stroke-width="2" marker-end="url(#a)" fill="none"/>
+      <path d="M66,178 L110,252" stroke="#455A64" stroke-width="2" marker-end="url(#a)" fill="none"/>
+      <g font-size="11" font-weight="bold" text-anchor="middle">
+        <rect x="300" y="52" width="96" height="40" rx="9" fill="#2E7D32"/><text x="348" y="77" fill="#fff">多头研究员</text>
+        <rect x="300" y="140" width="96" height="40" rx="9" fill="#C62828"/><text x="348" y="165" fill="#fff">空头研究员</text>
+        <rect x="300" y="228" width="96" height="40" rx="9" fill="#6A1B9A"/><text x="348" y="253" fill="#fff">研究经理</text>
+      </g>
+      <path d="M230,40 C280,45 280,60 300,62" stroke="#2E7D32" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+      <path d="M230,110 L300,155" stroke="#455A64" stroke-width="2" fill="none" marker-end="url(#a)"/>
+      <path d="M230,180 L300,162" stroke="#455A64" stroke-width="2" fill="none" marker-end="url(#a)"/>
+      <path d="M230,250 C280,245 280,200 300,178" stroke="#455A64" stroke-width="2" fill="none" marker-end="url(#a)"/>
+      <path d="M396,72 C430,80 430,130 396,142" stroke="#2E7D32" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+      <path d="M396,162 C430,150 430,95 396,90" stroke="#C62828" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+      <text x="452" y="115" font-size="10" fill="#C62828" font-weight="bold">条件边辩论环</text>
+      <path d="M396,172 C440,180 440,235 396,246" stroke="#455A64" stroke-width="2" fill="none" marker-end="url(#a)"/>
+      <g font-size="11" font-weight="bold" text-anchor="middle">
+        <rect x="470" y="96" width="80" height="40" rx="9" fill="#F57F17"/><text x="510" y="121" fill="#fff">交易员</text>
+        <rect x="470" y="180" width="110" height="70" rx="9" fill="#37474F"/>
+        <text x="525" y="200" fill="#FFF59D" font-size="10">激进/保守/中性</text><text x="525" y="215" fill="#fff">风险辩论团</text><text x="525" y="232" fill="#B0BEC5" font-size="9">条件边轮转 3×n</text>
+        <rect x="620" y="128" width="86" height="48" rx="9" fill="#00C853"/><text x="663" y="148" fill="#fff">组合经理</text><text x="663" y="164" fill="#E8F5E9" font-size="9">最终拍板</text>
+      </g>
+      <path d="M480,116 L470,116" stroke="#455A64" stroke-width="2" fill="none"/>
+      <path d="M396,248 C440,250 450,220 470,210" stroke="#455A64" stroke-width="2" fill="none" marker-end="url(#a)"/>
+      <path d="M550,116 C580,120 590,135 620,142" stroke="#455A64" stroke-width="2" fill="none" marker-end="url(#a)"/>
+      <path d="M580,215 C610,205 615,180 622,176" stroke="#455A64" stroke-width="2" fill="none" marker-end="url(#a)"/>
+      <text x="510" y="290" font-size="10" fill="#455A64" text-anchor="middle">实线=固定边  粗回环=条件边（路由器决定下一个说话的人）</text>
+    </svg>
+    <div class="linkbox">🔗 已学过 <b>[[LangGraph与Agent编排]]</b>、<b>[[多智能体协作]]</b>：这张图就是它们的金融实战版。新看点是"分析师并行分叉 + 两段辩论环"的混合拓扑。</div>
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#00B8D4,#00C853);">
+  <div class="qno">Q4</div>
+  <h3>4 个分析师并行跑，怎么避免互相覆盖对方的结果？</h3>
+  <div class="body">
+    这是 v0.5.2 最新改进。每个分析师不是直接挂进大图，而是编译成一个<span class="term">私有子图</span>：<b>模型和工具调用在自己的私有消息历史里循环，最后只把报告文本写回共享状态的一个专属键</b>（output_schema 只暴露一个字段）。所以并行线程互不可见对方的工具报文。
+    <div class="code">_analyst_graph(spec, agent, max_tool_rounds):
+  graph = StateGraph(AgentState, output_schema=TypedDict(..., {spec.report_key: str}))
+  # 工具轮超过 max_tool_rounds → 强制注入 WRAP_UP 消息要报告（防死循环打爆递归上限）</div>
+    <span class="hl">还有兜底：分析师赖着不停调工具，wrap_up 节点会数它调了几轮，超限就塞一条 HumanMessage 勒令交报告</span>（issue #1420 的修复）。类比[[多Agent协作乱序竞态]]：解法同源——私有作用域 + 只回传约定字段。
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#2E7D32,#8BC34A);">
+  <div class="qno">Q5</div>
+  <h3>多空研究员的"辩论"到底怎么实现？</h3>
+  <div class="body">
+    没有魔法：就是一个<span class="term">条件边路由器 + 计数器</span>。共享状态里有 <code>investment_debate_state</code>，含 <code>count</code>（已发言次数）和 <code>current_response</code>（谁刚说完）。路由规则（实测，见实验 E4）：<span class="hl">Bull 说完→Bear 接；Bear 说完→Bull 接；count ≥ 2×max_debate_rounds → 交给 Research Manager 收官</span>。max_debate_rounds=1 时完整序列是 Bull→Bear→Bull→Research Manager（Bull 先手，所以多空各 1 次共 2 轮）。Research Manager 不是裁判打分，而是<b>写出一份综合双方论点的投资计划（investment_plan）</b>。
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#37474F,#78909C);">
+  <div class="qno">Q6</div>
+  <h3>风险辩论为什么是三个人？和多头空头有何不同？</h3>
+  <div class="body">
+    多空辩论辩的是"<b>该不该做</b>"（方向），风险辩论辩的是"<b>做了会怎样死</b>"（下行）。三个风险角色的立场是<span class="term">Aggressive 激进</span>（支持扩大敞口）、<span class="term">Conservative 保守</span>（强调回撤/流动性）、<span class="term">Neutral 中性</span>（对冲与执行细节）。路由同理：<span class="hl">Trader 固定先咨询 Aggressive，然后 Conservative→Neutral 轮转，count ≥ 3×max_risk_discuss_rounds → Portfolio Manager</span>。实测序列：Conservative→Neutral→PM（实验 E4）。三方出场保证风控不是一个人的独角戏——激进观点也必须被记录在案。
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#8E24AA,#D500F9);">
+  <div class="qno">Q7</div>
+  <h3>"决策 → 结算 → 反思"的记忆闭环怎么运转？</h3>
+  <div class="body">
+    这是 TradingAgents 最有产品感的设计，一个 append-only 的 <span class="term">markdown 记忆日志</span>走三步：
+    <b>① store_decision</b>：决策落盘，标签 <code>[日期|代码|评级|pending]</code>；<b>② 结算</b>：持有窗口走完后，用真实行情算出 raw_return 和 alpha（相对区域基准的超额收益），原子写回标签变成 <code>[+3.1% | +1.2% | 5d]</code>；<b>③ Reflector</b>：LLM 把"决策+结局"浓缩成 2-4 句教训，<span class="hl">下次分析同一只票时，这些历史教训会被注入 prompt——相当于这个框架有"经验值系统"</span>。
+    <div class="code">[2026-01-09 | NVDA | Overweight | +3.1% | +1.2% | 5d]   ← 实验E5真实输出
+DECISION: BUY, Overweight...
+REFLECTION: 教训：样本窗口太短，别把周线波动当日线信号。</div>
+    重复写入同一 (日期,代码) 会被幂等挡掉（实测写 2 次只有 1 条），结算用 temp-file + os.replace() 原子写，崩了不坏账本。类比[[JSONL事件日志与折叠模型]]：同样是只追加事件日志，只是这里存的是"决策事件"。
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#FF6F00,#FFAB00);">
+  <div class="qno">Q8</div>
+  <h3>怎么防止"未来函数"（用未来数据做过去的决策）？</h3>
+  <div class="body">
+    回测领域的经典毒瘤——你已知的[[事件驱动回测]]核心就是防它。TradingAgents v0.5.0 起全面落实 <span class="term">point-in-time 完整性</span>：<span class="hl">每一条带日期的数据路径都只返回"分析日当天或之前发布"的数据</span>：财报按 SEC EDGAR 的<b>申报日</b>（不是报告期！）供数；FRED 宏观、社交媒体、新闻都有 look-ahead 过滤；回测网格里每个 (ticker, date) 单元只看得到该日期前公开的信息。连记忆日志都做 point-in-time：反思教训只来自"该日期之前已结算"的条目。
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#0091EA,#18FFFF);">
+  <div class="qno">Q9</div>
+  <h3>12 种数据需求，是怎么路由到 7 家免费数据源的？</h3>
+  <div class="body">
+    <span class="term">vendor router</span>：一张 <code>VENDOR_METHODS</code> 表把"方法名 → {供应商名: 函数}"映射起来，分析师只声明"我要 get_fundamentals"，路由层决定去 Yahoo 还是 SEC EDGAR 拿。实测 12 个方法全部被命中（实验 E3）：
+    <table>
+      <tr><th>数据</th><th>供应商</th></tr>
+      <tr><td>行情/OHLCV、技术指标、新闻</td><td>yfinance + stockstats（免费）+ Alpha Vantage</td></tr>
+      <tr><td>财报三表/内部人交易</td><td>SEC EDGAR（按申报日供数）+ yfinance</td></tr>
+      <tr><td>社交媒体情绪</td><td>StockTwits + Reddit</td></tr>
+      <tr><td>宏观指标</td><td>FRED（免费 key）</td></tr>
+      <tr><td>事件概率</td><td>Polymarket 预测市场</td></tr>
+    </table>
+    <span class="hl">全部免费，跑通整个框架只需要一个 LLM 的 API key</span>。数据缓存进本地（data_cache_dir），重跑不重复请求。
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#C62828,#FF8A80);">
+  <div class="qno">Q10</div>
+  <h3>LLM 输出是自由文本，怎么保证"评级"解析得出来？</h3>
+  <div class="body">
+    两层保险。<b>① 结构化输出</span>：Research Manager / Trader / Portfolio Manager / 情绪分析师走 <code>with_structured_output</code>，直接吐 Pydantic 模型（枚举类型 PortfolioRating 从根上杜绝"评分格式五花八门"）；供应商不支持时自动降级自由文本。<b>② rating 完整性校验</b>：自由文本路径里用五档制 <span class="term">Overweight / Bullish / Neutral / Bearish / Underweight</span> 正则硬解析，解析失败进 review 状态而不是悄悄变成别的信号。<span class="hl">决策信号 signal、state["final_rating"]、记忆日志里的 rating 三处必须一致</span>（实验 E3 断言验证过）。类比[[Agent输出协议契约]]。
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#6A1B9A,#B388FF);">
+  <div class="qno">Q11</div>
+  <h3>它没有现金账本，怎么评价自己"决策得好不好"？</h3>
+  <div class="body">
+    backtest.py 开头有一段非常诚实的 scope 声明：<span class="hl">"这评估的是决策质量，不是组合模拟器；把评级变成真实订单需要数量、成交价、现金账本，这里都没有；硬造一个就会把执行模型藏在评估工具后面"</span>。所以它的回测是：<b>同一个图跑 (ticker, date) 网格 → 每格一个决策 → 记忆日志就是结果表 → 用 raw/alpha 回报结算打分</b>。各格独立，没有仓位滚动。这是少见的"知道自己边界在哪"的开源项目设计。
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#0277BD,#4FC3F7);">
+  <div class="qno">Q12</div>
+  <h3>跑到一半 LLM 挂了怎么办？</h3>
+  <div class="body">
+    LangGraph 的 <span class="term">checkpoint（SQLite）</span>持久化：每过一个节点存一次状态。LLM 调用失败抛异常后重跑，<span class="hl">只补做没完成的调用，已完成的节点直接从存档恢复</span>（repo 测试实测：fail_at=12 中断后续跑，新增调用数恰好等于全量调用数减去已完成数）。CLI 还支持 checkpoint resume 交互式续跑。类比[[Checkpoint存档与持久执行]]——同构思路：状态外置 + 断点续传。
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#FF1744,#FF8A65);">
+  <div class="qno">Q13</div>
+  <h3>我能拿它去实盘买股票吗？</h3>
+  <div class="body">
+    <span class="big">不能，也不该。</span>三重原因：<b>①框架定位</b>：官方 disclaimer 写明 research purposes only；<b>②工程缺口</b>：无仓位管理、无成交模拟、无手续费滑点（参见已学[[交易成本与鞭打效应]]——真实交易里这些足以吃掉全部 alpha）；<b>③模型局限</b>：决策质量随 backbone LLM、温度、数据质量剧烈波动，论文自己的回测也只是研究性质。<span class="hl">它真正能给你的是一套可复用的"多智能体决策流水线"工程范式</span>——把分析师/辩论/风控的角色拆分搬到任何需要"调研→对抗→决策"的领域都成立（竞品分析、投资尽调、技术选型）。
+  </div>
+</div>
+
+<div class="qcard" style="background:linear-gradient(120deg,#00C853,#64DD17);">
+  <div class="qno">Q14</div>
+  <h3>它和 NautilusTrader 这类回测引擎是什么关系？</h3>
+  <div class="body">
+    完全互补，管的不同段。你已学的[[事件驱动回测]]（NautilusTrader）管"<b>执行层</b>"：纳秒级撮合、手续费、保证金、订单生命周期——回答"这个策略交易成本后还赚不赚钱"。TradingAgents 管"<b>决策层</b>"：回答"这个时点该看多还是看空"。<span class="hl">TradingAgents 自己明说没有执行模型，所以真要严肃研究，产出信号后应该丢给 NautilusTrader 这类引擎去做含成本的真实回测</span>——两者接起来才是完整闭环（决策→执行评估），这也是一个不错的进阶 DIY 方向。
+  </div>
+</div>
+
+<h2 class="sec">二、这个项目给你什么（能力清单）</h2>
+<div class="capbox">
+  <b>🎁 你能拿走的东西：</b>
+  <ul>
+    <li><b>一套多智能体辩论架构模板</b>：并行子图 + 条件边辩论环 + 计数器终止，可直接抄到任何"需要对抗性决策"的 agent 项目里；</li>
+    <li><b>记忆-结算-反思闭环</b>：给任何 LLM 应用加"经验值系统"的现成实现（markdown 日志 + 幂等 + 原子写）；</li>
+    <li><b>point-in-time 数据纪律</b>：任何回测/时序分析都要抄的防未来函数清单；</li>
+    <li><b>免费金融数据接入参考</b>：yfinance / SEC EDGAR / FRED / StockTwits / Reddit / Polymarket 六路免费源的路由写法；</li>
+    <li><b>结构化输出工程</b>：Pydantic 枚举 + 降级 + 一致性断言的决策解析范式；</li>
+    <li><b>离线可测试的 agent 图</b>：ScriptedModel 假 LLM 全管线单测——agent 应用不烧钱也能 CI 的样板。</li>
+  </ul>
+</div>
+
+<h2 class="sec">三、动手实验（全部真实运行，零 API key、零网络、零资金）</h2>
+
+<div class="step">
+  <div class="head">实验 E1 · 跑通官方离线端到端测试（环境验证）</div>
+  <div class="in">
+    <b>操作</b>：
+    <div class="code">cd F:\reminder\tradingagents
+python -m venv .venv &amp;&amp; .venv\Scripts\pip install .\repo pytest pytest-subtests
+cd repo &amp;&amp; ..\.venv\Scripts\python -m pytest tests/test_graph_end_to_end.py -q --basetemp=..\exercise\pytest_tmp</div>
+    <b>目的</b>：验证环境 + 亲眼看到"整个多智能体图不联网也能跑"。<b>实现</b>：repo 自带 ScriptedModel 假 LLM + 假数据供应商。<br>
+    <div class="ok">✅ 预期/实测结果：<b>11 passed in 2.65s</b>（含全管线决策、中断续跑、并行验证、报告流式 11 项）</div>
+    <div class="warn">⚠️ 坑：Windows 沙箱下 pytest 默认临时目录 %TEMP% 拒绝访问，必须 --basetemp 指到本地目录。</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="head">实验 E2 · 导出智能体图拓扑（16 节点 / 29 条边）</div>
+  <div class="in">
+    <b>操作</b>：<div class="code">.venv\Scripts\python exercise\e2_graph_topology.py</div>
+    <b>目的</b>：把 Q3 的架构图从"论文说法"变成"代码事实"。哑模型只用于接线，编译后用 LangGraph 的 <code>get_graph()</code> 反射拓扑，并 <code>draw_mermaid()</code> 导出。<br>
+    <div class="ok">✅ 实测结果：16 节点、29 边；START 分叉 4 分析师 → 汇入 Bull Researcher；多空/风险各一个条件边回环；mermaid 已存 exercise/graph_topology.mmd</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="head">实验 E3 · 主实验：离线跑通完整决策管线</div>
+  <div class="in">
+    <b>操作</b>：<div class="code">.venv\Scripts\python exercise\e3_run_offline.py</div>
+    <b>目的</b>：亲手复现一遍"4 分析师并行 → 辩论 → 交易员 → 风险辩论 → 组合经理拍板"全过程。<b>实现</b>：脚本化 LLM（先调遍工具再交报告）+ 7 家供应商全换假数据，propagate("NVDA","2026-01-09")。<br>
+    <div class="ok">✅ 实测结果：signal = final_rating = <b>Overweight</b>；LLM 调用 <b>15</b> 次；分析师在 <b>3 个并行线程</b>（ThreadPoolExecutor-1_0/1/2）上跑过；<b>12 个数据路由方法全部命中</b>（get_stock_data/get_indicators/get_news/get_global_news/get_macro_indicators/get_prediction_markets/get_fundamentals/get_balance_sheet/get_cashflow/get_income_statement/get_insider_transactions/ohlcv）；记忆日志落盘 pending 条目。断言通过。</div>
+    <div class="warn">⚠️ 坑：VENDOR_METHODS 的 dict 直接迭代出的是供应商名（key），不是函数。</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="head">实验 E4 · 辩论路由器微实验（纯逻辑）</div>
+  <div class="in">
+    <b>操作</b>：<div class="code">.venv\Scripts\python exercise\e4_e5_router_memory.py</div>
+    <b>目的</b>：验证 Q5/Q6 的路由规则不是看源码想当然。<br>
+    <div class="ok">✅ 实测结果：max_debate_rounds=1 → <b>Bear→Bull→Research Manager</b>（Bull 先手已开场）；风险辩论 → <b>Conservative→Neutral→Portfolio Manager</b>（3×1 计满）</div>
+    <div class="warn">⚠️ 坑：模拟起点 count 要从 1 起算——Aggressive 的开场发言本身已计数，从 0 开始会多推出一轮 Aggressive。</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="head">实验 E5 · 记忆日志：存储 → 幂等 → 结算 → 反思</div>
+  <div class="in">
+    <b>操作</b>：同 E4 脚本后半段。<b>目的</b>：验证 Q7 的三步闭环。<br>
+    <div class="ok">✅ 实测结果：同一 (2026-01-09, NVDA) 写 2 次 → 只剩 <b>1 条</b>（幂等）；结算后标签 <b>[+3.1% | +1.2% | 5d]</b>、pending→False、REFLECTION 段原子写入。落盘 markdown 全文见实验输出。</div>
+    <div class="warn">⚠️ 坑：结算 API 叫 update_with_outcome（不是 settle_decision，那是 settlement.py 里的编排函数）；alpha 落盘为格式化字符串 "+1.2%" 不是浮点数。</div>
+  </div>
+</div>
+
+<h2 class="sec">四、知识库互链</h2>
+<div class="linkbox">
+  本项目沉淀 3 个新概念：<b>[[私有子图输出隔离]]</b>（并行分析师互不踩脚）、<b>[[决策记忆结算反思闭环]]</b>（agent 经验值系统）、<b>[[对抗辩论式决策架构]]</b>（多空/风险辩论的组织学）。<br>
+  与已有概念互链：<b>[[事件驱动回测]]</b>（防未来函数同源、执行层 vs 决策层互补）、<b>[[多智能体协作]]</b><b>[[LangGraph与Agent编排]]</b>（图接线）、<b>[[多Agent协作乱序竞态]]</b>（并行隔离）、<b>[[Checkpoint存档与持久执行]]</b>（断点续跑）、<b>[[JSONL事件日志与折叠模型]]</b>（append-only 日志）、<b>[[交易成本与鞭打效应]]</b>（为什么不能实盘）、<b>[[AI交易终端]]</b><b>[[个人量化工具箱范式]]</b>（金融工具谱系）。
+</div>
+
+<div style="text-align:center; margin:18px 0; color:#8E24AA; font-weight:bold;">
+  📌 一句话总结：TradingAgents 的真正价值不是"帮你炒股"，而是给所有 agent 开发者示范了<b>怎样把一个复杂决策拆成有对抗、有记忆、可审计的多智能体流水线</b>。
+</div>
+
+</body>
+</html>

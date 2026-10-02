@@ -1,0 +1,52 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	Market\20Analyst(Market Analyst)
+	Sentiment\20Analyst(Sentiment Analyst)
+	News\20Analyst(News Analyst)
+	Fundamentals\20Analyst(Fundamentals Analyst)
+	Bull\20Researcher(Bull Researcher)
+	Bear\20Researcher(Bear Researcher)
+	Research\20Manager(Research Manager)
+	Trader(Trader)
+	Aggressive\20Analyst(Aggressive Analyst)
+	Neutral\20Analyst(Neutral Analyst)
+	Conservative\20Analyst(Conservative Analyst)
+	Portfolio\20Manager(Portfolio Manager)
+	__end__([<p>__end__</p>]):::last
+	Aggressive\20Analyst -.-> Conservative\20Analyst;
+	Aggressive\20Analyst -.-> Neutral\20Analyst;
+	Aggressive\20Analyst -.-> Portfolio\20Manager;
+	Bear\20Researcher -.-> Bull\20Researcher;
+	Bear\20Researcher -.-> Research\20Manager;
+	Bull\20Researcher -.-> Bear\20Researcher;
+	Bull\20Researcher -.-> Research\20Manager;
+	Conservative\20Analyst -.-> Aggressive\20Analyst;
+	Conservative\20Analyst -.-> Neutral\20Analyst;
+	Conservative\20Analyst -.-> Portfolio\20Manager;
+	Fundamentals\20Analyst --> Bull\20Researcher;
+	Market\20Analyst --> Bull\20Researcher;
+	Neutral\20Analyst -.-> Aggressive\20Analyst;
+	Neutral\20Analyst -.-> Conservative\20Analyst;
+	Neutral\20Analyst -.-> Portfolio\20Manager;
+	News\20Analyst --> Bull\20Researcher;
+	Research\20Manager --> Trader;
+	Sentiment\20Analyst --> Bull\20Researcher;
+	Trader --> Aggressive\20Analyst;
+	__start__ --> Fundamentals\20Analyst;
+	__start__ --> Market\20Analyst;
+	__start__ --> News\20Analyst;
+	__start__ --> Sentiment\20Analyst;
+	Portfolio\20Manager --> __end__;
+	Aggressive\20Analyst -.-> Aggressive\20Analyst;
+	Bear\20Researcher -.-> Bear\20Researcher;
+	Bull\20Researcher -.-> Bull\20Researcher;
+	Conservative\20Analyst -.-> Conservative\20Analyst;
+	Neutral\20Analyst -.-> Neutral\20Analyst;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
