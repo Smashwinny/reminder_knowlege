@@ -30,3 +30,4 @@ zoetrope/bin/
 wemm-embedding/exercise/model/part_*
 memmy/exercise/*.gguf
 memmy/exercise/*.sqlite*
+tmp_out_*.pdf
