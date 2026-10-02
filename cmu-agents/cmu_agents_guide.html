@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>CMU 11-768 AI Agents 小白指南</title>
+<style>
+  :root{
+    --ink:#1E1B4B; --paper:#FFFDF7;
+    --c1:#FF5A1F; --c2:#7C3AED; --c3:#0EA5E9; --c4:#F59E0B; --c5:#EC4899; --c6:#10B981;
+    --soft1:#FFE8DD; --soft2:#EDE4FF; --soft3:#DDF3FF; --soft4:#FFF0C9; --soft5:#FDE2EF; --soft6:#D8F5E8;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--paper); font-size:14px; line-height:1.65;}
+  @page{size:A4; margin:12mm;}
+  .hero{background:linear-gradient(120deg,var(--c1),var(--c5) 55%,var(--c2)); color:#fff; border-radius:18px; padding:34px 30px; margin-bottom:18px;}
+  .hero h1{font-size:34px; letter-spacing:1px; margin-bottom:8px;}
+  .hero .sub{font-size:16px; opacity:.95;}
+  .hero .chips{margin-top:14px;}
+  .chip{display:inline-block; background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.5); border-radius:999px; padding:3px 12px; margin:3px 4px 0 0; font-size:12.5px;}
+  .toc{background:var(--soft4); border:2px solid var(--c4); border-radius:14px; padding:16px 20px; margin-bottom:18px; break-inside:avoid;}
+  .toc h2{font-size:18px; color:#92400E; margin-bottom:8px;}
+  .toc ol{padding-left:20px; columns:2; column-gap:28px; font-size:13px;}
+  .toc li{margin-bottom:3px; break-inside:avoid;}
+  .card{border-radius:16px; padding:20px 22px 18px; margin-bottom:16px; break-inside:avoid; border:2.5px solid;}
+  .q1{background:var(--soft1); border-color:var(--c1);}
+  .q2{background:var(--soft2); border-color:var(--c2);}
+  .q3{background:var(--soft3); border-color:var(--c3);}
+  .q4{background:var(--soft6); border-color:var(--c6);}
+  .q5{background:var(--soft5); border-color:var(--c5);}
+  .q6{background:var(--soft4); border-color:var(--c4);}
+  .num{display:inline-block; font-size:30px; font-weight:900; line-height:1; padding:4px 14px; border-radius:10px; color:#fff; margin-bottom:6px;}
+  .q1 .num{background:var(--c1);} .q2 .num{background:var(--c2);} .q3 .num{background:var(--c3);}
+  .q4 .num{background:var(--c6);} .q5 .num{background:var(--c5);} .q6 .num{background:#D97706;}
+  .card h2{font-size:19px; margin-bottom:10px;}
+  .card h3{font-size:15px; margin:12px 0 6px;}
+  .card p{margin-bottom:8px;}
+  .hl{background:linear-gradient(transparent 55%, #FDE047 55%); font-weight:bold; padding:0 2px;}
+  .big{font-size:16px; font-weight:900;}
+  table{border-collapse:collapse; width:100%; margin:8px 0 10px; background:#fff; font-size:12.5px;}
+  th{background:var(--ink); color:#fff; padding:5px 8px; text-align:left;}
+  td{border:1px solid #D6D3D1; padding:4px 8px; vertical-align:top;}
+  tr:nth-child(even) td{background:#FAFAF7;}
+  code{background:#1E1B4B; color:#A7F3D0; border-radius:5px; padding:1px 6px; font-family:Consolas,monospace; font-size:12px;}
+  pre{background:#1E1B4B; color:#E7E5E4; border-radius:10px; padding:12px 14px; font-family:Consolas,monospace; font-size:11.5px; line-height:1.55; overflow-x:auto; margin:8px 0;}
+  pre b{color:#FDE047;}
+  pre i{color:#67E8F9;}
+  .verdict{background:#fff; border-left:6px solid var(--c6); border-radius:8px; padding:8px 12px; margin-top:8px; font-size:13.5px;}
+  .warn{background:#fff; border-left:6px solid var(--c1); border-radius:8px; padding:8px 12px; margin-top:8px; font-size:13px;}
+  svg{display:block; margin:10px auto; max-width:100%;}
+  .svgbox{background:#fff; border-radius:10px; padding:6px; border:1.5px dashed #A8A29E;}
+  .cols2{display:flex; gap:12px; flex-wrap:wrap;}
+  .cols2>div{flex:1 1 46%; min-width:260px;}
+  .step{background:#fff; border:2px solid var(--c3); border-radius:12px; padding:12px 14px; margin-bottom:10px; break-inside:avoid;}
+  .step h3{margin-top:0; color:#0369A1;}
+  .ok{background:#ECFDF5; border:2px solid var(--c6); border-radius:10px; padding:8px 12px; margin-top:8px; font-size:13px; font-weight:bold;}
+  .foot{background:var(--ink); color:#E7E5E4; border-radius:14px; padding:16px 20px; font-size:12.5px; break-inside:avoid;}
+  .foot a{color:#A7F3D0;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>CMU 11-768《AI Agents》跟学指南</h1>
+  <div class="sub">顶尖高校把 Agent Engineering 写进课程体系的第一批样本 —— 12 讲公开课件 + 开源作业仓库，搭 Harness → 建 Eval → 用 RL 训 Agent，全链路可动手</div>
+  <div class="chips">
+    <span class="chip">官网 cmu-agents.com</span><span class="chip">讲师 Fried &amp; Neubig（OpenHands 作者）</span><span class="chip">Fall 2026 · 15 周 26 讲</span><span class="chip">12 份 slides 全公开</span><span class="chip">作业仓库 github.com/cmu-agents</span><span class="chip">YouTube 全程录像</span>
+  </div>
+</div>
+
+<div class="toc">
+  <h2>目录 = 你的疑问清单</h2>
+  <ol>
+    <li>这是什么课？凭什么值得跟学？</li>
+    <li>26 讲四大板块怎么排的？</li>
+    <li>作业链为什么是 Harness→Eval→Training？</li>
+    <li>从语言模型到 Agent，关键一步是什么？</li>
+    <li>ReAct 循环长什么样？（附我的实现）</li>
+    <li>观察爆炸怎么办：截断 + 上下文压缩</li>
+    <li>Skills 渐进披露怎么实现？</li>
+    <li>程序化工具调用强在哪？</li>
+    <li>同一个循环怎么换域复用？</li>
+    <li>SFT：把专家轨迹灌进模型</li>
+    <li>RL 训 Agent：奖励从哪来？</li>
+    <li>安全、框架与跟学路线</li>
+  </ol>
+</div>
+
+<div class="card q1">
+  <span class="num">Q1</span>
+  <h2>这是什么课？凭什么值得跟学？</h2>
+  <p><b>11-768</b> 是卡内基梅隆大学（CMU）2026 秋季新开的研究生课，讲 <span class="hl">基于 LLM 的 AI Agent：工具使用、规划、记忆、训练与安全</span>。两位主讲都是业界重量级人物：Daniel Fried 和 Graham Neubig——后者是开源 Agent 框架 <b>OpenHands</b> 的作者。每讲还有客座专家（如 Sasha Rush、Karthik Narasimhan）。</p>
+  <p>推荐人 Xudong Han 的判断是：<span class="hl">Agent Engineering 正在被顶尖高校正式写进课程体系</span>，而 11-768 的 syllabus 贴近一线实践。它的珍贵之处在于<b>全套资料公开</b>：</p>
+  <table>
+    <tr><th>资源</th><th>在哪</th><th>状态（已实测）</th></tr>
+    <tr><td>12 讲课件 PDF</td><td>cmu-agents.com/slides/lecture-01…12.pdf</td><td>已下载验证，lecture-01 共 39 页 7.3MB</td></tr>
+    <tr><td>作业 1 起手仓库</td><td>github.com/cmu-agents/assignment-1</td><td>已克隆（含公开测试，可离线跑）</td></tr>
+    <tr><td>作业 2（Eval）</td><td>github.com/cmu-agents/assignment-2</td><td>已公开</td></tr>
+    <tr><td>课堂录像</td><td>YouTube 播放列表</td><td>随学期陆续上传</td></tr>
+  </table>
+  <div class="verdict">✅ <b>判断：学习类。</b>不是纯趋势评论——有公开课件 + 可运行的开源作业载体，本指南的实验部分就是拿作业 1 的离线测试真实跑出来的。</div>
+</div>
+
+<div class="card q2">
+  <span class="num">Q2</span>
+  <h2>26 讲四大板块怎么排的？</h2>
+  <p>课程顺序本身就是一套方法论宣言：<span class="hl">先会调用（能力）→ 再看落地（领域）→ 然后自己造（训练）→ 最后管住它（安全/框架/交互/搜索）</span>。</p>
+  <div class="svgbox">
+  <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1E1B4B"/></marker></defs>
+    <rect x="8"  y="30" width="150" height="150" rx="12" fill="#FF5A1F" opacity=".16" stroke="#FF5A1F" stroke-width="2.5"/>
+    <rect x="180" y="30" width="150" height="150" rx="12" fill="#7C3AED" opacity=".16" stroke="#7C3AED" stroke-width="2.5"/>
+    <rect x="352" y="30" width="150" height="150" rx="12" fill="#0EA5E9" opacity=".16" stroke="#0EA5E9" stroke-width="2.5"/>
+    <rect x="524" y="30" width="185" height="150" rx="12" fill="#10B981" opacity=".16" stroke="#10B981" stroke-width="2.5"/>
+    <text x="83"  y="58" text-anchor="middle" font-size="15" font-weight="bold" fill="#C2410C">① 能力 (1a-3a)</text>
+    <text x="255" y="58" text-anchor="middle" font-size="15" font-weight="bold" fill="#6D28D9">② 领域 (3b-5b)</text>
+    <text x="427" y="58" text-anchor="middle" font-size="15" font-weight="bold" fill="#0369A1">③ 训练 (4b-6b)</text>
+    <text x="616" y="58" text-anchor="middle" font-size="15" font-weight="bold" fill="#047857">④ 安全·框架·交互</text>
+    <text x="83"  y="84" text-anchor="middle" font-size="11.5">Tool Use / 上下文管理</text>
+    <text x="83"  y="102" text-anchor="middle" font-size="11.5">Skills 与记忆 / 规划</text>
+    <text x="83"  y="120" text-anchor="middle" font-size="11.5">多智能体协作</text>
+    <text x="255" y="84" text-anchor="middle" font-size="11.5">Coding Agent</text>
+    <text x="255" y="102" text-anchor="middle" font-size="11.5">Computer Use (GUI)</text>
+    <text x="255" y="120" text-anchor="middle" font-size="11.5">Deep Research</text>
+    <text x="427" y="84" text-anchor="middle" font-size="11.5">SFT 监督微调</text>
+    <text x="427" y="102" text-anchor="middle" font-size="11.5">RL 基础 → 高级算法</text>
+    <text x="427" y="120" text-anchor="middle" font-size="11.5">RL Systems 工程</text>
+    <text x="616" y="84" text-anchor="middle" font-size="11.5">沙箱与凭证 / 可观测性</text>
+    <text x="616" y="102" text-anchor="middle" font-size="11.5">OpenHands / LangGraph</text>
+    <text x="616" y="120" text-anchor="middle" font-size="11.5">人机协作 / 树搜索 / 批评家</text>
+    <text x="83" y="160" text-anchor="middle" font-size="11" fill="#9A3412">作业1 Harness 落在第①块末</text>
+    <text x="427" y="160" text-anchor="middle" font-size="11" fill="#075985">作业3 Training 落在第③块末</text>
+    <text x="616" y="160" text-anchor="middle" font-size="11" fill="#065F46">作业2 Eval 在第②块末</text>
+    <line x1="160" y1="105" x2="178" y2="105" stroke="#1E1B4B" stroke-width="2" marker-end="url(#ar)"/>
+    <line x1="332" y1="105" x2="350" y2="105" stroke="#1E1B4B" stroke-width="2" marker-end="url(#ar)"/>
+    <line x1="504" y1="105" x2="522" y2="105" stroke="#1E1B4B" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="360" y="215" text-anchor="middle" font-size="12.5" fill="#1E1B4B">逻辑：不满足于"会用别人的 Agent"（①②），要能自己<b>训练</b>出更强的 Agent（③），并让它在真实世界安全运行（④）</text>
+  </svg>
+  </div>
+  <p>彩蛋：客座讲者全是各域旗手——Computer Use 请 JY Koh，Deep Research 请 Akari Asai（RAG 综述作者），收官请 Sasha Rush 与 Karthik Narasimhan。</p>
+</div>
+
+<div class="card q3">
+  <span class="num">Q3</span>
+  <h2>作业链为什么是 Harness→Eval→Training？</h2>
+  <p>推荐人最推崇的就是作业设计。三次个人作业 + 一个团队研究项目，权重 10% / 15% / 15% / 项目 45%（含 proposal/check-in/poster/report）：</p>
+  <table>
+    <tr><th>作业</th><th>截止</th><th>干什么</th><th>背后方法论</th></tr>
+    <tr><td><b>A1 Harness</b></td><td>Sep 14</td><td>在开源 LLM 上搭 coding agent 的 harness（本指南实验的主角）</td><td><span class="hl">调用模型只是基础，会搭才是工程</span></td></tr>
+    <tr><td><b>A2 Eval</b></td><td>Oct 1</td><td>设计评测框架，度量 agent 的正确性与功能</td><td>没测评就没有改进的方向（[[LLM裁判与自动评估]]）</td></tr>
+    <tr><td><b>A3 Training</b></td><td>Oct 29</td><td>实现 SFT/RL 训练流程，改进自己的 agent</td><td>从"调 API"升级到"造模型行为"</td></tr>
+    <tr><td><b>研究项目</b></td><td>学期末</td><td>团队攻一个开放研究问题（如并行 agent 的安全与可靠性权衡）</td><td>课程明说：欢迎把作业发展成论文</td></tr>
+  </table>
+  <div class="verdict">✅ 这个顺序 = <b>搭起来 → 测得准 → 练得强 → 推出去</b>。与工业界共识一致：先有 harness 与 eval，才谈得上 training——没有测量就没有优化。</div>
+</div>
+
+<div class="card q4">
+  <span class="num">Q4</span>
+  <h2>从语言模型到 Agent，关键一步是什么？</h2>
+  <p>Lecture 01 给出了全课最核心的一句话心智模型：<span class="hl">Agent = 模型在循环里（A model in a loop）</span>。语言模型本来只会"预测下一个 token"，而 <b>工具调用就是另一种可以被预测的 token 序列</b>——harness 负责解析、校验、执行它，把结果变成观察 token 喂回去：</p>
+  <div class="svgbox">
+  <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1E1B4B"/></marker></defs>
+    <rect x="30" y="40" width="150" height="70" rx="12" fill="#7C3AED" opacity=".2" stroke="#7C3AED" stroke-width="2.5"/>
+    <text x="105" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#6D28D9">语言模型</text>
+    <text x="105" y="92" text-anchor="middle" font-size="11">预测下一串 token</text>
+    <rect x="280" y="40" width="150" height="70" rx="12" fill="#0EA5E9" opacity=".2" stroke="#0EA5E9" stroke-width="2.5"/>
+    <text x="355" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#0369A1">Harness</text>
+    <text x="355" y="92" text-anchor="middle" font-size="11">解析·校验·执行工具调用</text>
+    <rect x="530" y="40" width="140" height="70" rx="12" fill="#10B981" opacity=".2" stroke="#10B981" stroke-width="2.5"/>
+    <text x="600" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#047857">环境</text>
+    <text x="600" y="92" text-anchor="middle" font-size="11">终端 / 仓库 / 浏览器 / 棋盘</text>
+    <path d="M182,68 L276,68" stroke="#1E1B4B" stroke-width="2.2" marker-end="url(#a2)"/>
+    <text x="229" y="58" text-anchor="middle" font-size="10.5" fill="#C2410C" font-weight="bold">tool_call</text>
+    <path d="M432,68 L526,68" stroke="#1E1B4B" stroke-width="2.2" marker-end="url(#a2)"/>
+    <text x="479" y="58" text-anchor="middle" font-size="10.5" fill="#C2410C" font-weight="bold">execute</text>
+    <path d="M600,112 L600,170 L380,170 L380,114" stroke="#1E1B4B" stroke-width="2.2" fill="none" marker-end="url(#a2)"/>
+    <text x="490" y="160" text-anchor="middle" font-size="10.5" fill="#C2410C" font-weight="bold">观察 observation（role:"tool" 消息）</text>
+    <path d="M278,170 L105,170 L105,114" stroke="#1E1B4B" stroke-width="2.2" fill="none" marker-end="url(#a2)"/>
+    <path d="M105,114 L105,114" stroke="#1E1B4B" stroke-width="2.2"/>
+    <text x="105" y="205" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1E1B4B">观察回到上下文 → 模型再推理 → 循环，直到 send_message 完成</text>
+    <text x="355" y="232" text-anchor="middle" font-size="11.5" fill="#6D28D9">出处：Lecture 01 "An agent is a model in a loop"（ReAct, Yao et al. 2023）</text>
+  </svg>
+  </div>
+  <p>三个立即可用的认知：①<b>工具定义</b>是暴露给模型的类型化接口（名字+描述+JSON Schema），chat template 把它渲染成文本；②<b>工具调用</b>是 assistant 消息里的结构化请求，<b>工具结果</b>是 <code>role:"tool"</code> 消息、靠 tool_call_id 与调用挂钩；③Russell &amp; Norvig 的经典定义在这里落地：环境=仓库/网站/工作流，传感器=消息/文件/截图，执行器=工具。</p>
+</div>
+
+<div class="card q5">
+  <span class="num">Q5</span>
+  <h2>ReAct 循环长什么样？（作业 1 的核心 + 我的实现）</h2>
+  <p>作业 1 要求在 <code>Agent</code> 基类实现域无关的 ReAct 循环，再让 <code>CodeAgent</code>（修软件 bug）和 <code>ChessAgent</code>（下棋）各自只提供自己的工具。消息序列随步骤生长：</p>
+  <pre>[<b>system</b>]  常设指令 + &lt;system_information&gt;（环境信息块）+ 技能目录
+[<b>user</b>]    任务描述
+[<b>assistant</b>] 推理 + tool_calls: [{id:"call_1", name:"execute", arguments:...}]
+[<b>tool</b>]     {"tool_call_id":"call_1", "content":"命令输出（超 1 万字符掐头留尾）"}
+[<b>assistant</b>] 下一步推理 + tool_calls ...   ← 每一步都把全部历史重新发给模型</pre>
+  <p>我按作业 TODO 实现了全部离线部分，四个关键件：<b>① build_prompt</b> 只读渲染消息序列；<b>② run</b> 循环（超步数抛 StepLimitError）；<b>③ execute_tool_calls</b> 把坏 JSON / 未知工具变成"可恢复的观察"而不是崩溃；<b>④ load_skills</b> 解析 SKILL.md 的 YAML frontmatter。换域复用的秘密：</p>
+  <div class="svgbox">
+  <svg viewBox="0 0 700 150" xmlns="http://www.w3.org/2000/svg">
+    <rect x="220" y="12" width="260" height="52" rx="12" fill="#0EA5E9" opacity=".22" stroke="#0EA5E9" stroke-width="2.5"/>
+    <text x="350" y="35" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#075985">Agent 基类：ReAct 循环 + 压缩 + 技能加载</text>
+    <text x="350" y="54" text-anchor="middle" font-size="11">域无关，写一次</text>
+    <rect x="60" y="95" width="240" height="44" rx="12" fill="#FF5A1F" opacity=".18" stroke="#FF5A1F" stroke-width="2.5"/>
+    <text x="180" y="115" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#C2410C">CodeAgent：execute / send_message</text>
+    <text x="180" y="132" text-anchor="middle" font-size="10.5">修 bug、打 patch</text>
+    <rect x="400" y="95" width="240" height="44" rx="12" fill="#10B981" opacity=".18" stroke="#10B981" stroke-width="2.5"/>
+    <text x="520" y="115" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#047857">ChessAgent：play_move / run_python</text>
+    <text x="520" y="132" text-anchor="middle" font-size="10.5">下棋、算招</text>
+    <line x1="290" y1="66" x2="200" y2="93" stroke="#1E1B4B" stroke-width="2"/>
+    <line x1="410" y1="66" x2="500" y2="93" stroke="#1E1B4B" stroke-width="2"/>
+  </svg>
+  </div>
+  <div class="verdict">✅ 实测：实现前 <code>pytest</code> 7 failed（NotImplementedError），实现后 <b>15 passed</b>（含 chess 三件套），4 个 modal 计费测试按课程设计排除。</div>
+</div>
+
+<div class="card q6">
+  <span class="num">Q6</span>
+  <h2>观察爆炸怎么办：截断 + 上下文压缩</h2>
+  <p>Agent 每步都重发全部历史，一次 <code>cat</code> 一个 2.6 万字符的文件就能把 prompt 撑爆。作业给出两层防御：</p>
+  <div class="cols2">
+    <div>
+      <h3>第一层：单条观察截断（harness 硬规则）</h3>
+      <p>超过 10,000 字符的输出，<span class="hl">头尾各留 4900 字符，中间换成省略提示</span>——模型仍能看到文件开头结尾，并被告知可以"读更窄的范围"。这是确定性代码，不花 token。</p>
+    </div>
+    <div>
+      <h3>第二层：上下文压缩（模型自己做工作记忆）</h3>
+      <p>超阈值时，把<b>老步骤</b>喂给模型总结成一段<b>工作记忆</b>（保留目标、已跑命令、具体结果、失败路线、下一步），<b>最近一步完整保留</b>；system/task 消息永不压缩。</p>
+    </div>
+  </div>
+  <div class="svgbox">
+  <svg viewBox="0 0 700 190" xmlns="http://www.w3.org/2000/svg">
+    <text x="350" y="22" text-anchor="middle" font-size="13.5" font-weight="bold">实测：26,000 字符观察进上下文后，压缩发生</text>
+    <rect x="40" y="40" width="120" height="52" rx="8" fill="#0EA5E9" opacity=".18" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="100" y="62" text-anchor="middle" font-size="12" font-weight="bold">step1 prompt</text>
+    <text x="100" y="80" text-anchor="middle" font-size="13">≈ 275 tok</text>
+    <rect x="200" y="40" width="150" height="52" rx="8" fill="#FF5A1F" opacity=".22" stroke="#FF5A1F" stroke-width="2.5"/>
+    <text x="275" y="62" text-anchor="middle" font-size="12" font-weight="bold">step2 读大文件后</text>
+    <text x="275" y="80" text-anchor="middle" font-size="15" font-weight="900" fill="#C2410C">≈ 2816 tok 💥</text>
+    <path d="M356,66 L392,66" stroke="#1E1B4B" stroke-width="2.5" marker-end="url(#a2)"/>
+    <text x="374" y="56" text-anchor="middle" font-size="10.5" font-weight="bold">压缩</text>
+    <rect x="398" y="40" width="140" height="52" rx="8" fill="#10B981" opacity=".2" stroke="#10B981" stroke-width="2.5"/>
+    <text x="468" y="62" text-anchor="middle" font-size="12" font-weight="bold">工作记忆替换</text>
+    <text x="468" y="80" text-anchor="middle" font-size="15" font-weight="900" fill="#047857">≈ 409 tok</text>
+    <text x="590" y="70" font-size="11.5">↓ -85%</text>
+    <text x="350" y="130" text-anchor="middle" font-size="12">压缩 prompt 里同时给出任务原文与老步骤原始 JSON（保真），产出一段散文摘要；</text>
+    <text x="350" y="150" text-anchor="middle" font-size="12">最终 prompt 验证：长文件内容已不在、&lt;working_memory&gt; 摘要在、最近一步原样保留。</text>
+    <text x="350" y="175" text-anchor="middle" font-size="11.5" fill="#6D28D9">与本库 [[上下文预算与战略压缩]] 互补：那是"人给 agent 定预算策略"，这是"harness 自动做的工作记忆"</text>
+  </svg>
+  </div>
+</div>
+
+<div class="card q3">
+  <span class="num">Q7</span>
+  <h2>Skills 渐进披露怎么实现？</h2>
+  <p>技能（Skill）是提前写好的"一类工作的操作手册"。问题：技能多了、每个又长，全塞进 system prompt 会吃光预算。作业采用 <span class="hl">Agent Skills 协议的渐进披露（progressive disclosure）</span>：</p>
+  <table>
+    <tr><th>层</th><th>内容</th><th>何时进上下文</th></tr>
+    <tr><td>第 1 层：目录</td><td>每个技能一行「name: description」（来自 SKILL.md 的 YAML frontmatter）</td><td>常驻 system prompt</td></tr>
+    <tr><td>第 2 层：全文</td><td>SKILL.md 正文（如 submit-task 的三步提交协议）</td><td>模型主动调 <code>invoke_skill(name)</code> 才加载</td></tr>
+  </table>
+  <pre><i># 实测验证（demo 输出）</i>
+catalog names submit-task in prompt: <b>True</b>
+skill body (patch.txt) hidden until invoked: <b>True</b>   <i># 正文绝不提前泄漏</i></pre>
+  <p>作业还埋了一个"负面测试"：技能不存在时，prompt 里<b>不许</b>出现 patch.txt 字样——防止模型凭幻觉自行发明提交协议。与本库 [[分层按需加载]]、[[AgentSkills技能包]] 完全同构：小入口常驻，大主体待命。</p>
+</div>
+
+<div class="card q4">
+  <span class="num">Q8</span>
+  <h2>程序化工具调用强在哪？</h2>
+  <p>普通工具调用一轮一个动作；<b>程序化工具调用（programmatic tool calling）</b>让模型写一段 Python，在沙箱里一次跑完"枚举候选招→模拟→评估→选最优"的整个程序——<span class="hl">把"每步都要模型拍板"的循环，压缩成"一次代码执行"</span>。作业 1 Part 3 的 <code>run_python</code> 就是它：模型写的代码经 base64 编码送进沙箱的 <code>sandbox_python.py</code> 执行（工具函数在那里可直接 import，棋局服务器就在本机），agent 进程从头不碰这些代码。</p>
+  <div class="svgbox">
+  <svg viewBox="0 0 700 160" xmlns="http://www.w3.org/2000/svg">
+    <rect x="30" y="30" width="290" height="100" rx="12" fill="#FF5A1F" opacity=".14" stroke="#FF5A1F" stroke-width="2.5"/>
+    <text x="175" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#C2410C">一次一工具（传统）</text>
+    <text x="175" y="80" text-anchor="middle" font-size="11.5">想→调→等→看→想→调…</text>
+    <text x="175" y="100" text-anchor="middle" font-size="11.5">每步都烧一次模型推理</text>
+    <text x="175" y="118" text-anchor="middle" font-size="11.5">多步棋类策略难表达</text>
+    <rect x="380" y="30" width="290" height="100" rx="12" fill="#10B981" opacity=".14" stroke="#10B981" stroke-width="2.5"/>
+    <text x="525" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#047857">程序化调用（CodeAct 思路）</text>
+    <text x="525" y="80" text-anchor="middle" font-size="11.5">写一段代码：for move in legal: 模拟+评分</text>
+    <text x="525" y="100" text-anchor="middle" font-size="11.5">一次执行完成组合搜索</text>
+    <text x="525" y="118" text-anchor="middle" font-size="11.5">省推理次数，策略可编程</text>
+    <line x1="325" y1="80" x2="372" y2="80" stroke="#1E1B4B" stroke-width="2.5" marker-end="url(#a2)"/>
+    <text x="349" y="70" text-anchor="middle" font-size="10.5" font-weight="bold">升级</text>
+  </svg>
+  </div>
+  <p>安全边界值得注意：代码<b>永远在沙箱执行</b>，返回值只是打印出的 JSON——模型代码与 agent 进程物理隔离，这正是 Q12 沙箱一课的伏笔。</p>
+</div>
+
+<div class="card q2">
+  <span class="num">Q9</span>
+  <h2>SFT：把专家轨迹灌进模型（讲 8）</h2>
+  <p>监督微调（SFT）= <span class="hl">拿大量"专家怎么干活"的完整轨迹（任务→一系列推理+工具调用+观察→成功收尾）当训练数据，让模型模仿</span>。作业 1 的价值在此显现：你先亲手搭好 harness 跑出轨迹，作业 3 才有数据可训——<b>harness 产出的日志格式，就是 SFT 的训练样本格式</b>（课程读单 OLMo、StarCoder 即此类开放训练谱系）。SFT 便宜、稳定、教会"动作长什么样"；但它只能复制示范者水平，超越要靠 RL。</p>
+</div>
+
+<div class="card q5">
+  <span class="num">Q10</span>
+  <h2>RL 训 Agent：奖励从哪来？（讲 9/11/12）</h2>
+  <p>课程用整整四讲（SFT→RL 基础→高级算法→RL Systems）回答"怎么让 agent 比示范者更强"。核心是<span class="hl">可验证奖励（verifiable reward）</span>：</p>
+  <table>
+    <tr><th>域</th><th>奖励信号</th><th>为什么适合 RL</th></tr>
+    <tr><td>Coding</td><td>测试是否通过</td><td>自动、客观、秒级判定（SWE-Bench 即此思路）</td></tr>
+    <tr><td>Chess</td><td>赢 / 输 / 规则合法</td><td>规则引擎就是免费裁判</td></tr>
+    <tr><td>Deep Research</td><td>答案可核对 / 引用真实</td><td>部分可验证，需设计</td></tr>
+  </table>
+  <p><b>RL Systems</b> 一讲（客座 Apurva Gandhi）讲工程真相：RL 训练的瓶颈常不在梯度，而在 <span class="hl">rollout——要让模型对成千上万个任务各自跑完整 agent 轨迹</span>，沙箱基建、生成吞吐、样本回收构成了真正的系统设计题。这解释了课程为何给作业配了 Modal 云沙箱与算力赞助商。</p>
+</div>
+
+<div class="card q1">
+  <span class="num">Q11</span>
+  <h2>安全与框架课教什么？</h2>
+  <div class="cols2">
+    <div>
+      <h3>Safety（7a / 9b）</h3>
+      <p><b>沙箱与凭证管理</b>：模型生成的代码不可信，执行必须隔离（作业里的 Modal 沙箱、Q8 的 base64 送代码都是实例）；<b>可观测性</b>：agent 生产环境要能回放每一步（作业强制保存轨迹 JSON 正是这个纪律的最小版）。</p>
+    </div>
+    <div>
+      <h3>Frameworks（7b / 9a）</h3>
+      <p><b>OpenHands</b>（Neubig 亲授）与 <b>LangGraph</b>：手写 harness 之后再看框架，才知道框架帮你省了什么、藏了什么。本库 [[LangGraph与Agent编排]]、[[AgentHarness智能体挽具]] 可对照。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card q6">
+  <span class="num">Q12</span>
+  <h2>这门课给我什么？能力清单 + 跟学路线</h2>
+  <h3>我能用它干什么</h3>
+  <p>① <b>系统自查</b>：拿课程大纲当"Agent 工程师知识地图"，逐项对照自己的知识库查漏（本库 agent 概念已覆盖①④板块大半，③训练板块是最大增量）；② <b>读 12 份 slides</b> 每份 1 小时，等于 12 次高质量综述；③ <b>白嫖作业链</b>：A1 离线测试零成本入门（本指南已打通），有 API key 可继续真跑；④ <b>照葫芦画瓢</b>：把作业 1 的 harness 骨架改造成自己的小 agent（换环境、换工具）；⑤ <b>前沿雷达</b>：客座讲者阵容就是 Agent 领域"谁在做真东西"的名单。</p>
+  <h3>建议跟学路线（省时间版）</h3>
+  <pre>Lecture 01（总纲，已读）→ 03b Coding Agents → 04b/05a/05b（SFT+RL，知识增量最大）
+→ 07a 沙箱安全 → 06a/06b RL 进阶 → 挑感兴趣领域补课
+作业路线：A1 离线测试（已完成）→ A1 真跑（需 Modal+API）→ A2 Eval → A3 Training</pre>
+  <div class="warn">⚠️ 成本提示：作业真跑需 Modal 云沙箱 + LLM API（课程默认 DeepSeek-V4-Flash），均为计费服务；离线测试（make test / pytest 非 modal 标记）完全免费，本指南实验全部零成本完成。</div>
+</div>
+
+<div class="card q3">
+  <span class="num">🔧</span>
+  <h2>动手实验：把作业 1 的离线部分全部打通（真实执行）</h2>
+  <div class="step">
+    <h3>Step 1 · 克隆官方作业仓库并建环境</h3>
+    <pre>git clone https://github.com/cmu-agents/assignment-1 repo
+cd repo && py -3.12 -m venv .venv
+.venv/Scripts/python -m pip install httpx jinja2 openai python-dotenv pyyaml tqdm pytest modal swe-rex boto3</pre>
+    <p><b>目的</b>：拿到课程官方起手代码。<b>结果</b>：commit 67498d8（"Update submission guidelines"）。<b>验证</b>：<code>git log --oneline -1</code> 输出上述 hash。</p>
+  </div>
+  <div class="step">
+    <h3>Step 2 · 跑基线测试，看"官方留白"</h3>
+    <pre>PYTHONPATH=src .venv/Scripts/python -m pytest tests/test_agent.py -q --basetemp=../exercise/_pytest_tmp</pre>
+    <p><b>结果</b>：<code>7 failed</code>——全部 NotImplementedError，即作业留给学生实现的 TODO。<b>验证</b>：失败列表 = build_prompt / run / load_skills / execute_tool_calls 等。</p>
+  </div>
+  <div class="step">
+    <h3>Step 3 · 实现域无关 ReAct 循环 + 技能加载 + 上下文压缩</h3>
+    <p>按 ASSIGNMENT.md 的 TODO 逐个填空（实现要点见 exercise/我的实现笔记.md）：消息状态与 build_prompt、run 主循环、坏输入变可恢复观察、SKILL.md frontmatter 解析、工作记忆压缩。再用同样套路补齐 Part 3 棋类三件套（三个 strict 工具 schema + 四个带 &lt;chess_error&gt; 错误通道的 helper + 分发器）。</p>
+  </div>
+  <div class="step">
+    <h3>Step 4 · 复跑全部离线测试</h3>
+    <pre>PYTHONPATH=src .venv/Scripts/python -m pytest tests/ -q --basetemp=../exercise/_pytest_tmp</pre>
+    <div class="ok">✅ 预期结果（实测）：<b>15 passed, 4 deselected</b>——deselected 的是 modal 标记的计费沙箱测试，离线零成本全绿。</div>
+  </div>
+  <div class="step">
+    <h3>Step 5 · 脚本化 LLM 端到端演示（零 API 费看 agent 活着）</h3>
+    <pre>.venv/Scripts/python ../exercise/demo_react_loop.py</pre>
+    <div class="ok">✅ 预期结果（实测摘要）：5 步 ReAct 循环跑通；26,000 字符长观察触发截断；渐进披露双检查为 True（目录在、正文不泄漏）；压缩把 prompt 从 ≈2816 tokens 砍到 ≈409（-85%）；轨迹落盘 demo_trajectory.json。</div>
+  </div>
+</div>
+
+<div class="foot">
+  <b>资源索引</b>：官网 <a href="https://www.cmu-agents.com/">cmu-agents.com</a> · 作业 <a href="https://github.com/cmu-agents/assignment-1">cmu-agents/assignment-1</a> · 推文来源 x.com/Xudong07452910/status/2097846768323133559<br>
+  <b>本地产出</b>：repo（作业实现）· exercise/demo_react_loop.py + demo_trajectory.json + 我的实现笔记.md · vault 新概念：[[Agent后训练SFT与RL]]、[[程序化工具调用]]<br>
+  <b>生成</b>：2026-10-03 · 拾遗任务 4ffdd734 · 学习方法：疑问驱动 + 真机实验
+</div>
+
+</body>
+</html>
