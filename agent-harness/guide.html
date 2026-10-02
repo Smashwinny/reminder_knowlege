@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Agent Harness 工程</title>
+<style>
+:root{
+  --pink:#FF3B6B; --teal:#00B8A0; --purple:#7B2FF2; --orange:#FF8A00;
+  --blue:#1E6FFF; --yellow:#FFD60A; --green:#2ECC71;
+  --ink:#1F2333; --bg:#FFFDF7;
+}
+@page{ size:A4; margin:12mm; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:12.5px; line-height:1.65; }
+.wrap{ max-width:186mm; margin:0 auto; }
+
+/* cover */
+.cover{ background:linear-gradient(135deg,var(--pink) 0%,var(--purple) 55%,var(--blue) 100%); color:#fff; border-radius:18px; padding:30px 34px; margin-bottom:14px; }
+.cover .kicker{ display:inline-block; background:var(--yellow); color:#7A2E00; font-weight:900; font-size:13px; padding:3px 12px; border-radius:20px; letter-spacing:1px; }
+.cover h1{ font-size:33px; line-height:1.25; margin:12px 0 8px; text-shadow:0 2px 10px rgba(0,0,0,.25); }
+.cover h1 em{ font-style:normal; color:var(--yellow); }
+.cover p.sub{ font-size:13.5px; opacity:.95; }
+.cover .meta{ margin-top:12px; font-size:11px; opacity:.85; border-top:1px dashed rgba(255,255,255,.5); padding-top:8px; }
+
+/* hook box */
+.hook{ display:flex; gap:10px; margin:0 0 14px; }
+.hook .box{ flex:1; border-radius:12px; padding:10px 12px; color:#fff; }
+.hook .box b{ font-size:13px; }
+.hook .b1{ background:var(--pink); } .hook .b2{ background:var(--teal); } .hook .b3{ background:var(--purple); }
+.hook .tag{ font-size:10px; background:rgba(255,255,255,.25); border-radius:10px; padding:1px 8px; }
+
+/* section headers */
+h2.sec{ font-size:19px; margin:20px 0 10px; padding:7px 14px; border-radius:10px; color:#fff; background:linear-gradient(90deg,var(--pink),var(--orange)); }
+h2.sec .en{ font-size:11px; opacity:.85; font-weight:400; margin-left:8px; }
+
+/* question card */
+.q{ border:2.5px solid var(--ink); border-radius:14px; margin:0 0 13px; overflow:hidden; break-inside:avoid; background:#fff; box-shadow:4px 4px 0 rgba(31,35,51,.15); }
+.q .head{ display:flex; align-items:center; gap:10px; padding:8px 14px; }
+.q .num{ font-size:26px; font-weight:900; min-width:44px; text-align:center; border-radius:10px; padding:2px 0; color:#fff; }
+.q h3{ font-size:15px; }
+.q .body{ padding:9px 14px 12px; border-top:2px dashed rgba(31,35,51,.18); }
+.q1 .num{background:var(--pink);} .q1 .head{background:#FFE3EA;}
+.q2 .num{background:var(--teal);} .q2 .head{background:#DDF7F3;}
+.q3 .num{background:var(--purple);} .q3 .head{background:#EFE4FF;}
+.q4 .num{background:var(--orange);} .q4 .head{background:#FFEBD6;}
+.q5 .num{background:var(--blue);} .q5 .head{background:#DCE9FF;}
+.q6 .num{background:var(--green);} .q6 .head{background:#DFF7E8;}
+
+.hl{ background:linear-gradient(transparent 45%, var(--yellow) 45%); font-weight:900; padding:0 2px; }
+.hl-t{ background:linear-gradient(transparent 45%, #8BFBDF 45%); font-weight:900; padding:0 2px; }
+code{ font-family:Consolas,monospace; background:#F0F2F8; border:1px solid #D8DCEC; border-radius:5px; padding:0 4px; font-size:11.5px; color:#B4235A; }
+pre{ background:#1F2333; color:#EAF0FF; border-radius:10px; padding:9px 12px; font-family:Consolas,monospace; font-size:11px; line-height:1.55; overflow-x:auto; break-inside:avoid; }
+pre .c{ color:#7EE787; } pre .k{ color:#FF9DBB; } pre .y{ color:#FFD60A; }
+.term{ color:var(--blue); font-weight:900; }
+
+table{ border-collapse:collapse; width:100%; margin:8px 0; break-inside:avoid; font-size:11.5px; }
+th{ background:var(--ink); color:#fff; padding:5px 8px; text-align:left; }
+td{ border:1.5px solid #D8DCEC; padding:4px 8px; background:#fff; }
+tr:nth-child(even) td{ background:#F7F9FF; }
+
+.svgbox{ text-align:center; margin:8px 0; break-inside:avoid; }
+.svgbox .cap{ font-size:10.5px; color:#666; margin-top:2px; }
+
+.callout{ border-radius:10px; padding:8px 12px; margin:8px 0; break-inside:avoid; font-size:12px; }
+.callout b.t{ display:inline-block; font-size:11px; border-radius:8px; padding:0 8px; color:#fff; margin-right:6px; }
+.co-warn{ background:#FFF3D6; border:2px solid var(--orange); } .co-warn b.t{background:var(--orange);}
+.co-fact{ background:#E8F8FF; border:2px solid var(--blue); } .co-fact b.t{background:var(--blue);}
+.co-win{ background:#E7F9EE; border:2px solid var(--green); } .co-win b.t{background:var(--green);}
+
+/* experiment steps */
+.step{ border-radius:12px; margin:0 0 11px; break-inside:avoid; border:2px solid; overflow:hidden; }
+.step .sh{ padding:6px 12px; color:#fff; font-weight:900; font-size:13.5px; }
+.step .sb{ padding:9px 12px; background:#fff; }
+.s1{border-color:var(--pink);} .s1 .sh{background:var(--pink);}
+.s2{border-color:var(--orange);} .s2 .sh{background:var(--orange);}
+.s3{border-color:var(--purple);} .s3 .sh{background:var(--purple);}
+.s4{border-color:var(--teal);} .s4 .sh{background:var(--teal);}
+.s5{border-color:var(--blue);} .s5 .sh{background:var(--blue);}
+.step .what{ font-size:11.5px; margin:5px 0; }
+.step .goal{ font-size:11px; color:#555; }
+.expect{ background:#E7F9EE; border-left:4px solid var(--green); padding:6px 10px; border-radius:0 8px 8px 0; font-size:11.5px; margin-top:6px; }
+.expect b{ color:#0E7A3C; }
+
+/* ability list */
+.abil{ display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 4px; }
+.abil .a{ flex:1 1 47%; border-radius:10px; padding:8px 11px; color:#fff; font-size:12px; }
+.abil .a b{ display:block; font-size:13px; margin-bottom:2px; }
+.a1{background:var(--pink);} .a2{background:var(--orange);} .a3{background:var(--teal);} .a4{background:var(--purple);} .a5{background:var(--blue);} .a6{background:var(--green);}
+
+.footer{ margin-top:16px; border-radius:12px; background:var(--ink); color:#CBD3F0; padding:10px 16px; font-size:11px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ═══════════ 封面 ═══════════ -->
+<div class="cover">
+  <span class="kicker">拾遗队列 · task 612036a4</span>
+  <h1>Agent <em>Harness</em> 工程<br>—— 模型不值钱，挽具才值钱</h1>
+  <p class="sub">一条"Anthropic $250K-$750K 聘请会造 harness 的工程师"的病毒推文，牵出 27 万 star 的开源项目 ECC（Everything Claude Code）和当下最热的方法论：Harness Engineering</p>
+  <div class="meta">样本仓库：github.com/affaan-m/ECC（271,019 ★，HEAD ef648e0）｜实验：30 行迷你 harness 真实驱动 claude -p（haiku）｜产出：2026-10-03</div>
+</div>
+
+<div class="hook">
+  <div class="box b1"><span class="tag">钩子</span><br><b>"$250K-$750K 请人造挽具"</b><br>招聘八卦式话术，全程不点名</div>
+  <div class="box b2"><span class="tag">查证</span><br><b>指向真项目 affaan-m/ECC</b><br>黑客松冠军 Affaan Mustafa 开源</div>
+  <div class="box b3"><span class="tag">真货</span><br><b>Harness Engineering 方法论</b><br>问题不在模型智能，在环境</div>
+</div>
+
+<!-- ═══════════ Q1 ═══════════ -->
+<h2 class="sec">疑问即目录 · 六个问题带你从吃瓜到上手</h2>
+
+<div class="q q1">
+  <div class="head"><div class="num">Q1</div><h3>这条推文到底说了什么？"this engineer"究竟是谁？</h3></div>
+  <div class="body">
+    <p>推文全文：Anthropic 以 <b>$250K-$750K 年薪</b>聘请了"这位工程师"，因为他会为多智能体系统构建 <span class="term">harness</span>，并附一段 12 分钟工作坊视频，五步教你从零搭一个：<b>Claude Agent SDK → 脑手分离 → 服务端+全量日志 → 失败廉价可恢复 → 日志变记忆/技能</b>，还说"Anthropic 把这叫 dreaming"。</p>
+    <p style="margin-top:6px"><b>查证过程</b>（逐层排除）：推文<b>始终不点名</b>。顺藤摸瓜发现同款话术在 LinkedIn 已病毒式流传（GenAI Works 等营销号），指向 <b>Affaan Mustafa</b>（github.com/affaan-m）：Anthropic x Forum Ventures 黑客松冠军（8 小时用 Claude Code 做出 zenith.chat），随后开源了他的全套配置 <span class="hl">ECC — GitHub 实测 271,019 stars</span>，自称"The Agent Harness Operating System"。其 LinkedIn 显示 2026-06 起与 Anthropic 有关联（Community Ambassador）。</p>
+    <div class="callout co-fact"><b class="t">判断</b>"$250K-$750K"大概率是把 Anthropic 公开职位薪资带和黑客松冠军的故事<b>揉在一起的 engagement bait</b>；但钩子底下藏着<b>真项目 + 真方法论</b>（推文附的长文《Harness Engineering》主体是技术内容），所以判定为<b>学习类</b>——吃瓜是入口，挽具是正餐。</div>
+  </div>
+</div>
+
+<!-- ═══════════ Q2 ═══════════ -->
+<div class="q q2">
+  <div class="head"><div class="num">Q2</div><h3>Harness 是什么？跟模型、prompt 是什么关系？</h3></div>
+  <div class="body">
+    <p><span class="term">Harness（挽具）</span>：模型之外的一切运行环境。一句话定义——<span class="hl">模型是推理引擎，harness 决定它能看什么、能碰什么、什么能跨会话存活、什么算证据、什么时候必须停</span>。Dario Amodei 解释 Claude Code 诞生时原话："Of course, you need an interface, you need a harness to use them"。</p>
+    <div class="svgbox">
+    <svg width="430" height="196" viewBox="0 0 430 196">
+      <rect x="6" y="6" width="418" height="184" rx="14" fill="#DDF7F3" stroke="#00B8A0" stroke-width="2.5"/>
+      <text x="215" y="26" text-anchor="middle" font-size="12" font-weight="900" fill="#007A6B">H A R N E S S （环境层）</text>
+      <rect x="22" y="38" width="92" height="66" rx="9" fill="#FF3B6B"/>
+      <text x="68" y="64" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">模型</text>
+      <text x="68" y="82" text-anchor="middle" font-size="9.5" fill="#FFD9E3">只负责"想"</text>
+      <rect x="132" y="38" width="86" height="28" rx="8" fill="#7B2FF2"/><text x="175" y="57" text-anchor="middle" font-size="10" fill="#fff">契约：边界</text>
+      <rect x="236" y="38" width="86" height="28" rx="8" fill="#FF8A00"/><text x="279" y="57" text-anchor="middle" font-size="10" fill="#fff">工具：最小权限</text>
+      <rect x="340" y="38" width="72" height="28" rx="8" fill="#1E6FFF"/><text x="376" y="57" text-anchor="middle" font-size="10" fill="#fff">地图：去哪找</text>
+      <rect x="132" y="76" width="86" height="28" rx="8" fill="#2ECC71"/><text x="175" y="95" text-anchor="middle" font-size="10" fill="#fff">验证：算不算数</text>
+      <rect x="236" y="76" width="86" height="28" rx="8" fill="#00B8A0"/><text x="279" y="95" text-anchor="middle" font-size="10" fill="#fff">日志：可回放</text>
+      <rect x="340" y="76" width="72" height="28" rx="8" fill="#E91E8C"/><text x="376" y="95" text-anchor="middle" font-size="10" fill="#fff">记忆：越用越灵</text>
+      <rect x="22" y="118" width="390" height="30" rx="8" fill="#1F2333"/>
+      <text x="217" y="138" text-anchor="middle" font-size="10.5" fill="#FFD60A">循环驱动：观察 → 行动 → 校验 → 记账 → 重试/停止（Agent Loop）</text>
+      <text x="215" y="172" text-anchor="middle" font-size="11" fill="#B4235A" font-weight="900">prompt 只是 harness 里的一个组件：改环境 &gt; 改形容词</text>
+    </svg>
+    <div class="cap">图1 · 模型（红）泡在 harness（绿框）提供的六个组件里</div>
+    </div>
+    <p>金句对照：<span class="hl-t">Prompt engineering 改进指令本身，Harness engineering 改进指令被执行的条件</span>。OpenAI 在《Harness engineering: leveraging Codex in an agent-first world》里也承认：agent 进展慢是因为<b>"环境欠规格"</b>（underspecified），不是模型缺能力——解法不是让 agent "再努力试试"，而是补上缺失的能力并让它<b>可读（legible）且可强制（enforceable）</b>。</p>
+  </div>
+</div>
+
+<!-- ═══════════ Q3 ═══════════ -->
+<div class="q q3">
+  <div class="head"><div class="num">Q3</div><h3>为什么说"同一个模型，换个挽具就是完全不同的 agent"？</h3></div>
+  <div class="body">
+    <p>同一个模型：放进<b>聊天框</b>，它只能答题；放进带<b>终端、测试、浏览器工具、项目记忆、隔离 worktree、审查循环</b>的仓库里，它能交付软件。<span class="hl">权重一个字节都没变，变的是挽具</span>。这解释了为什么"换了模型还是老样子"——你只换了马，没换车。</p>
+    <div class="svgbox">
+    <svg width="430" height="120" viewBox="0 0 430 120">
+      <rect x="8" y="14" width="192" height="92" rx="12" fill="#FFE3EA" stroke="#FF3B6B" stroke-width="2"/>
+      <text x="104" y="36" text-anchor="middle" font-size="11" font-weight="900" fill="#B4235A">同一个大脑 + 聊天框</text>
+      <text x="104" y="58" text-anchor="middle" font-size="10" fill="#666">"怎么写快排？"</text>
+      <text x="104" y="78" text-anchor="middle" font-size="10" fill="#666">→ 输出一段文字，结束</text>
+      <rect x="230" y="14" width="192" height="92" rx="12" fill="#E7F9EE" stroke="#2ECC71" stroke-width="2"/>
+      <text x="326" y="36" text-anchor="middle" font-size="11" font-weight="900" fill="#0E7A3C">同一个大脑 + 工程挽具</text>
+      <text x="326" y="58" text-anchor="middle" font-size="10" fill="#666">"给这个仓库加快排"</text>
+      <text x="326" y="78" text-anchor="middle" font-size="10" fill="#666">→ 建分支→写码→跑测试→提PR</text>
+    </svg>
+    <div class="cap">图2 · 权重没变，harness 变了，产出天差地别</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ Q4 ═══════════ -->
+<div class="q q4">
+  <div class="head"><div class="num">Q4</div><h3>生产级 harness 到底要干哪些活？（七职责总纲）</h3></div>
+  <div class="body">
+    <table>
+      <tr><th style="width:34px">#</th><th style="width:150px">职责</th><th>一句话解释</th><th>不做会怎样</th></tr>
+      <tr><td>1</td><td><b>请求→契约</b></td><td>动手前把需求固化成有边界的对象</td><td>agent 悄悄换了活儿还宣告成功</td></tr>
+      <tr><td>2</td><td><b>给一张地图</b></td><td>小根指南指路，详情贴在代码旁按需加载</td><td>巨型手册吃光上下文</td></tr>
+      <tr><td>3</td><td><b>最小权限工具</b></td><td>正确环境暴露正确工具，写权限只给该给的目录</td><td>误删文件 / 全盘暴露</td></tr>
+      <tr><td>4</td><td><b>验证与证据</b></td><td>说 DONE 不算数，产出物必须真实存在</td><td>假成功静默累积</td></tr>
+      <tr><td>5</td><td><b>上下文工程</b></td><td>预算、压缩、模型分级路由</td><td>账单爆炸 / 长会话失忆</td></tr>
+      <tr><td>6</td><td><b>失败廉价</b></td><td>重试死沙箱、从日志重放，不从头再来</td><td>一次崩溃毁掉全部进度</td></tr>
+      <tr><td>7</td><td><b>停止条件</b></td><td>明确什么算完成、什么必须停</td><td>死循环烧钱</td></tr>
+    </table>
+    <div class="callout co-warn"><b class="t">口诀</b>agent 反复失败时，<span class="hl">别再改 prompt 里的形容词，去检查模型周围这套系统</span>。</div>
+  </div>
+</div>
+
+<!-- ═══════════ Q5 ═══════════ -->
+<div class="q q5">
+  <div class="head"><div class="num">Q5</div><h3>"契约"和"地图"听起来玄，实际是什么？</h3></div>
+  <div class="body">
+    <p><span class="term">契约</span>：一份机器可校验的任务边界，比如"只准写 output/ 目录、产出物是 task_a.md、少于 10 字算失败"。它是<b>防 agent 私改需求</b>的合同——没有它，agent 可以完成另一件事还理直气壮。和机器人里的 [[策略观测向量与动作契约]] 同思想：<b>接口先钉死，两边才不会各说各话</b>。</p>
+    <p style="margin-top:6px"><span class="term">地图</span>：一个小小的根指南（CLAUDE.md / index），只告诉 agent"什么知识放在哪"，<b>不</b>把所有文档塞进上下文。详细知识贴在它治理的代码旁边，任务需要时才加载——这正是 [[分层按需加载]]：小入口常驻，大主体待命。nihaixia skill 实测入口只占 2.71%，就是同一原理。</p>
+  </div>
+</div>
+
+<!-- ═══════════ Q6 ═══════════ -->
+<div class="q q6">
+  <div class="head"><div class="num">Q6</div><h3>ECC 是怎么把这套东西做成"操作系统"的？</h3></div>
+  <div class="body">
+    <p>ECC v2.0.0（2026-06）的仓库就是一部 harness 教科书：<b>293 个 skills</b>（按需加载的工作流，主表面）、<b>68 个 agents</b>（YAML frontmatter 定义 name/tools/model 的子代理）、<b>94 个 commands</b>（斜杠兼容层）、<b>23 组 rules</b>（常驻规范）、<b>hooks</b>（PreToolUse/PostToolUse/Stop 事件自动化）、<b>contexts</b>（动态系统提示注入），并适配 Codex/OpenCode/Cursor。</p>
+    <table>
+      <tr><th>ECC 组件</th><th>对应七职责</th><th>亮点</th></tr>
+      <tr><td>agents/（68 个子代理）</td><td>分工+地图</td><td>python-reviewer、rust-build-resolver、harness-optimizer……按语言/场景各司其职</td></tr>
+      <tr><td>skills/（293 个工作流）</td><td>地图（按需加载）</td><td>tdd-workflow、verification-loop、strategic-compact……</td></tr>
+      <tr><td>hooks/（事件自动化）</td><td>验证+观察</td><td>continuous-learning-v2.1 用 PreToolUse/PostToolUse 100% 可靠观察会话</td></tr>
+      <tr><td>instinct 本能体系</td><td>记忆</td><td>后台小模型把会话提炼成<b>原子本能</b>（置信度 0.3~0.9），项目作用域隔离，攒够了聚类进化成 skill——<span class="hl">harness 越用越聪明</span></td></tr>
+      <tr><td>Token 优化配置</td><td>上下文工程</td><td>sonnet 打底 opus 攻坚（~60% 降本）、MAX_THINKING_TOKENS 10000、50% 早压缩、MCP&lt;10 个（[[工具目录膨胀]]）</td></tr>
+    </table>
+    <div class="callout co-warn"><b class="t">清醒剂</b>个人日常<b>不必全装 ECC</b>——装满会吃光上下文。挑 2~3 个职责自己实现 mini 版（见实验），比整套安装更能学会 harness 思维。</div>
+  </div>
+</div>
+
+<!-- ═══════════ 实验 ═══════════ -->
+<h2 class="sec">动手实验：30 行核心逻辑，搭一个会成长的迷你 Harness</h2>
+<p style="margin-bottom:8px">材料在 <code>agent-harness\exercise\</code>：<code>mini_harness.py</code>（harness 本体）+ <code>contract.json</code>（契约）。驱动无头 <code>claude -p</code>（haiku）。<b>以下每一步都在 Windows 11 真实执行，输出为实拍</b>。</p>
+
+<div class="step s1">
+  <div class="sh">STEP 1 · 写契约：把"可以做什么"钉死在 JSON 里</div>
+  <div class="sb">
+    <div class="what"><b>操作</b>：<code>contract.json</code> 定义 scope（"只允许写 exercise/output/ 下的 markdown"）+ 任务表（task_a/task_b）。</div>
+    <div class="goal">目的：职责①契约——模型还没出场，边界先立好。&nbsp;检测：每次运行 start 事件都把 scope 记进日志。</div>
+  </div>
+</div>
+
+<div class="step s2">
+  <div class="sh">STEP 2 · 跑第一个任务：契约 → 调用 → JSONL 日志</div>
+  <div class="sb">
+    <div class="what"><b>操作</b>：<code>python mini_harness.py run task_a</code></div>
+    <div class="goal">目的：职责⑥日志——每一步（start/success/fail/learn）追加进 <code>logs/run_log.jsonl</code>，带时间戳、耗时、花费、轮数。</div>
+    <div class="expect">✅ 预期/实测：<code>[OK] task_a attempt=1 20.2s cost=$0.0413 turns=2</code>，产出 <code>output/task_a.md</code>（模型写出了"挽具把模型的决策变成真实动作"的中文说明）。</div>
+  </div>
+</div>
+
+<div class="step s3">
+  <div class="sh">STEP 3 · 验证门：说 DONE 不算数</div>
+  <div class="sb">
+    <div class="what"><b>操作</b>：harness 在模型回复后执行 <code>verify()</code>——产出文件不存在或 &lt;10 字节，直接判 fail 进重试。</div>
+    <div class="goal">目的：职责④验证与证据。&nbsp;<b>实拍名场面</b>：第一版 harness 里模型回复"写入完成"，但 <code>permission_denials</code> 审计显示 Write 被无头模式拒绝（模型连完整内容都写好了！）——验证门把这次"假成功"拦下，重试 3 次全部记录在案。</div>
+    <div class="expect">✅ 预期：日志出现 <code>"error": "产出物缺失或过小"</code> ×3，随后修复权限（<code>--permission-mode acceptEdits</code>）后 attempt=1 即 success。</div>
+  </div>
+</div>
+
+<div class="step s4">
+  <div class="sh">STEP 4 · 失败廉价 + 换模型不换挽具</div>
+  <div class="sb">
+    <div class="what"><b>操作</b>：故意制造失败（多行 prompt 经 cmd.exe 断行）观察重试；改 <code>MODEL = "haiku"</code> 一行即可切换底层模型。</div>
+    <div class="goal">目的：职责⑥失败廉价（重试 + 审计定位根因）+ 证明 harness 与模型解耦。</div>
+    <div class="expect">✅ 预期/实测：日志连续 3 条 fail（每条带 attempt 和错误摘要），harness 不崩、可定位、改一行配置即恢复。<span class="hl">日志不是装饰，是排障的第一现场</span>。</div>
+  </div>
+</div>
+
+<div class="step s5">
+  <div class="sh">STEP 5 · learn 命令：让 harness 醒来时更聪明</div>
+  <div class="sb">
+    <div class="what"><b>操作</b>：<code>python mini_harness.py learn task_a "本项目所有产出的 markdown，标题行必须以 [HARNESS] 前缀开头"</code>，然后 <code>python mini_harness.py run task_b</code>——harness 自动把 memory.md 注入新任务的 prompt，<b>任务文本里只字未提该约定</b>。</div>
+    <div class="goal">目的：职责④记忆——昨天日志/教训固化，下次自动生效（ECC instinct 的最小雏形）。</div>
+    <div class="expect">✅ 预期/实测：<code>[OK] task_b attempt=1 46.7s cost=$0.0542</code>，打开 <code>output/task_b.md</code>——<span class="hl">标题第一个词就是 [HARNESS]</span>。模型没被告知，却遵守了它没见过的约定：这就是"harness 会成长"。</div>
+  </div>
+</div>
+
+<div class="callout co-warn"><b class="t">踩坑实录</b>实验全程踩了 4 个真实的坑，每一个恰好对应一条 harness 职责：<b>①</b> 多行 prompt 经 cmd.exe 断行→调用全灭（→日志审计定位）<b>②</b> 模型谎报 DONE（→验证门拦截）<b>③</b> 无头模式默认拒绝 Write，且 <code>--allowedTools</code> 是变长参数会吞掉后面的 prompt（→<code>--permission-mode acceptEdits</code>）<b>④</b> learn 写入的记忆带尾换行，注入后 prompt 被截断（→<b>脏记忆必须清洗</b>）。</div>
+
+<!-- ═══════════ 能力清单 ═══════════ -->
+<h2 class="sec">这个项目给我什么 · 能力清单</h2>
+<div class="abil">
+  <div class="a a1"><b>① 七职责检查表</b>agent 不听话时按表排查，不再盲目改 prompt</div>
+  <div class="a a2"><b>② 30 行迷你 harness</b>契约/日志/重试/验证/记忆五件套，直接抄去管自己的 AI 任务</div>
+  <div class="a a3"><b>③ 无头 claude -p 用法</b>--output-format json + permission 模式 + permission_denials 审计字段</div>
+  <div class="a a4"><b>④ ECC 选装思路</b>293 skills 按需挑：tdd-workflow / verification-loop / strategic-compact</div>
+  <div class="a a5"><b>⑤ instinct 记忆模式</b>教训→原子条目→置信度→固化成 skill，让任何工具越用越顺手</div>
+  <div class="a a6"><b>⑥ 营销鉴别力</b>不点名的薪资八卦底下可能藏真项目——看实质指向，不看话术</div>
+</div>
+<p style="margin-top:6px;font-size:11.5px">一句话总结：<span class="hl">别再调教马了，去造一辆好车</span>。模型每半年换一代，而你写的 harness——契约、日志、验证门、记忆——可以一直用下去。</p>
+
+<div class="footer">
+  Agent Harness 工程 · 拾遗队列 task 612036a4 · 2026-10-03 ｜ 样本：affaan-m/ECC @ ef648e0（271,019 ★）｜ 方法论来源：rari《Harness Engineering》长文（fxtwitter API 全文提取）、OpenAI《Harness engineering: leveraging Codex in an agent-first world》｜ 实验全部真实运行于 Windows 11 + claude CLI 2.1.287（haiku，合计花费约 $0.14）｜ 知识入库：vault/概念/AgentHarness智能体挽具 · 本能学习与置信度评分 · 上下文预算与战略压缩
+</div>
+
+</div>
+</body>
+</html>

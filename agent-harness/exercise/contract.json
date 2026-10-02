@@ -1,0 +1,8 @@
+{
+  "scope": "只允许写 exercise/output/ 目录下的 markdown 文件，禁止改动其他任何文件",
+  "allowed_outputs": ["output/task_a.md", "output/task_b.md"],
+  "tasks": {
+    "task_a": "写一段 100 字以内的中文说明：什么是 Agent Harness（智能体挽具），它和模型本身有什么区别",
+    "task_b": "写一段 100 字以内的中文说明：为什么日志对长时间运行的 agent 很重要"
+  }
+}
