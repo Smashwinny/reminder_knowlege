@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>PaperRoute 多模型分工做游戏方法论 · 小白指南</title>
+<style>
+:root{
+  --c1:#FF3D7F; --c2:#00B8A9; --c3:#FFC93C; --c4:#6C5CE7; --c5:#FF7A29;
+  --ink:#1E2330; --bg:#FFFDF6; --card:#FFFFFF;
+  --pink:#FFE3EE; --teal:#DFF7F5; --yellow:#FFF3D1; --purple:#EAE6FF; --orange:#FFE8D6;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+@page{size:A4; margin:12mm;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:13.5px; line-height:1.75;}
+.cover{background:linear-gradient(135deg,#FF3D7F 0%,#FF7A29 45%,#FFC93C 100%); border-radius:18px; padding:42px 36px; color:#fff; margin-bottom:22px; break-inside:avoid;}
+.cover h1{font-size:34px; line-height:1.3; text-shadow:0 2px 8px rgba(0,0,0,.18);}
+.cover .sub{font-size:16px; margin-top:14px; font-weight:700; background:rgba(255,255,255,.22); display:inline-block; padding:6px 16px; border-radius:999px;}
+.cover .meta{margin-top:20px; font-size:12.5px; opacity:.95;}
+.cover .stats{display:flex; gap:14px; margin-top:22px; flex-wrap:wrap;}
+.cover .stat{background:#fff; color:var(--ink); border-radius:12px; padding:10px 16px; text-align:center; min-width:120px;}
+.cover .stat b{display:block; font-size:22px; color:var(--c1);}
+h2.q{font-size:20px; margin:26px 0 12px; padding:10px 16px; border-radius:12px; color:#fff; break-inside:avoid;}
+.q1{background:var(--c1);} .q2{background:var(--c2);} .q3{background:var(--c5);} .q4{background:var(--c4);}
+.q5{background:var(--c1);} .q6{background:var(--c2);} .q7{background:var(--c5);} .q8{background:var(--c4);}
+.q9{background:var(--c1);} .q10{background:var(--c2);} .q11{background:var(--c5);} .q12{background:var(--c4);}
+h2.q .no{font-size:30px; font-weight:900; margin-right:12px; opacity:.9;}
+.card{background:var(--card); border-radius:14px; padding:16px 20px; margin-bottom:14px; box-shadow:0 2px 10px rgba(30,35,48,.08); break-inside:avoid;}
+.hl{background:linear-gradient(transparent 55%, var(--c3) 55%); font-weight:900; padding:0 2px;}
+.big{font-size:17px; font-weight:900;}
+.keybox{border-left:6px solid var(--c1); background:var(--pink); border-radius:0 12px 12px 0; padding:12px 16px; margin:12px 0; font-weight:700;}
+.tealbox{border-left:6px solid var(--c2); background:var(--teal); border-radius:0 12px 12px 0; padding:12px 16px; margin:12px 0;}
+.purplebox{border-left:6px solid var(--c4); background:var(--purple); border-radius:0 12px 12px 0; padding:12px 16px; margin:12px 0;}
+.orangebox{border-left:6px solid var(--c5); background:var(--orange); border-radius:0 12px 12px 0; padding:12px 16px; margin:12px 0;}
+code{background:#2B3245; color:#8CF5D2; border-radius:6px; padding:2px 8px; font-family:Consolas,monospace; font-size:12.5px;}
+pre{background:#2B3245; color:#E8F7FF; border-radius:12px; padding:12px 16px; font-family:Consolas,monospace; font-size:12px; overflow-x:auto; margin:10px 0; line-height:1.5;}
+pre .c{color:#7E8AA8;}
+table{width:100%; border-collapse:collapse; margin:10px 0; font-size:12.5px; break-inside:avoid;}
+th{background:var(--c4); color:#fff; padding:8px 10px; text-align:left;}
+td{border-bottom:2px solid #EEE9DA; padding:7px 10px; vertical-align:top;}
+tr:nth-child(even) td{background:#FAF7EE;}
+.svgwrap{background:#fff; border:2px dashed var(--c4); border-radius:14px; padding:10px; margin:12px 0; text-align:center; break-inside:avoid;}
+.svgwrap .cap{font-size:12px; color:#555; margin-top:6px; font-weight:700;}
+.exp{border:3px solid var(--c2); border-radius:16px; padding:18px 20px; margin:16px 0; break-inside:avoid;}
+.exp h3{color:var(--c2); font-size:17px; margin-bottom:8px;}
+.step{background:#F4FBFA; border-radius:10px; padding:10px 14px; margin:8px 0;}
+.step b{color:var(--c1);}
+.check{background:#E9FBF0; border:2px solid #19B273; border-radius:10px; padding:10px 14px; margin:8px 0; font-weight:700;}
+.check::before{content:"✅ 预期结果："; color:#0E8A57; font-weight:900;}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.tag{display:inline-block; border-radius:999px; padding:2px 12px; font-size:11.5px; font-weight:900; color:#fff; margin-right:6px;}
+.t1{background:var(--c1);} .t2{background:var(--c2);} .t3{background:var(--c5);} .t4{background:var(--c4);}
+.small{font-size:11.5px; color:#666;}
+ul{padding-left:22px;} li{margin:4px 0;}
+.link-note{background:var(--yellow); border-radius:10px; padding:8px 14px; margin:8px 0; font-size:12px;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>别再让一个 AI 包揽全场<br>PaperRoute 多模型分工做游戏方法论全解</h1>
+  <div class="sub">一条推文撕开的底牌：四天、15.6 亿 Token、98% 是缓存读取</div>
+  <div class="meta">
+    案例主角：3D 送报游戏 <b>PaperRoute</b>（作者 Emm Tee / @BuiltBySketch，浏览器直接玩 paperroute.lol）<br>
+    资料来源：AYi(@AYi_AInotes) 拆解推文 + 作者公开开发日志 paperroute.lol/devlog（69 个 checkpoint 逐节点截图）<br>
+    学习日期：2026-10-03 · 拾遗任务 7d3909c7 · 配套实验见 exercise\ 目录
+  </div>
+  <div class="stats">
+    <div class="stat"><b>1.56B</b>总 Token（98% 缓存）</div>
+    <div class="stat"><b>39h</b>追踪工时（25.2 人 + 13.8 纯agent）</div>
+    <div class="stat"><b>90</b>commits / 69 checkpoint</div>
+    <div class="stat"><b>76.9万</b>行变更 / 4458 文件</div>
+    <div class="stat"><b>3</b>个复现实验全过</div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag t1">一句话总结</span>
+  <p class="big">大模型只能替你完成第一晚的 Demo 狂欢；把零件磨成"愿意玩第二次"的作品，靠的是<span class="hl">拆任务、建测试、隔离实验</span>的工程克制——而这套克制，完全可以学。</p>
+</div>
+
+<h2 class="q1"><span class="no">Q1</span>这条推文到底在拆什么底牌？</h2>
+<div class="card">
+  <p>AYi 转发并拆解了独立开发者 <b>Emm Tee（@BuiltBySketch）</b>的帖子：他用 GPT-5.6 Astra 在浏览器里做了一个 3D 送报游戏 <b>PaperRoute</b>——骑自行车沿街投报，躲汽车、恶犬和坑洞，40 栋手绘建筑、动态天气、复古报纸结算 UI。<span class="hl">关键不是"AI 做了个游戏"，而是他公开了完整开发日志：69 个带截图的开发节点。</span>真相是：第一晚的"一键生成"只吐出一个玩十秒就想关的塑料等距 Demo，从 Demo 到成品靠的是四条冷血的工业级分工。</p>
+  <div class="svgwrap">
+    <svg width="680" height="190" viewBox="0 0 680 190">
+      <rect x="8" y="8" width="324" height="80" rx="12" fill="#FFE3EE" stroke="#FF3D7F" stroke-width="2.5"/>
+      <text x="170" y="36" text-anchor="middle" font-size="14" font-weight="900" fill="#C2215B">第一晚：一键生成</text>
+      <text x="170" y="60" text-anchor="middle" font-size="12" fill="#7A2A45">塑料等距 Demo，玩 10 秒想关掉</text>
+      <text x="170" y="78" text-anchor="middle" font-size="12" fill="#7A2A45">推特上随处可见</text>
+      <rect x="348" y="8" width="324" height="80" rx="12" fill="#DFF7F5" stroke="#00B8A9" stroke-width="2.5"/>
+      <text x="510" y="36" text-anchor="middle" font-size="14" font-weight="900" fill="#007A70">四天后：PaperRoute 成品</text>
+      <text x="510" y="60" text-anchor="middle" font-size="12" fill="#0A5A54">40 栋手绘建筑 · 汽车追逐 · 恶犬</text>
+      <text x="510" y="78" text-anchor="middle" font-size="12" fill="#0A5A54">动态天气 · 报纸排行榜 · 浏览器丝滑跑</text>
+      <path d="M332 48 L348 48" stroke="#FF7A29" stroke-width="0"/>
+      <path d="M300 118 Q340 150 380 118" fill="none" stroke="#FF7A29" stroke-width="4" marker-end="url(#ar)"/>
+      <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 z" fill="#FF7A29"/></marker></defs>
+      <text x="340" y="150" text-anchor="middle" font-size="13" font-weight="900" fill="#C25A10">中间隔着的 = 本文 4 条方法论</text>
+      <rect x="8" y="160" width="160" height="24" rx="12" fill="#6C5CE7"/><text x="88" y="177" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">① 混合模型分工</text>
+      <rect x="184" y="160" width="160" height="24" rx="12" fill="#00B8A9"/><text x="264" y="177" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">② 机制流/资产流隔离</text>
+      <rect x="360" y="160" width="160" height="24" rx="12" fill="#FF7A29"/><text x="440" y="177" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">③ 渲染图代替形容词</text>
+      <rect x="536" y="160" width="136" height="24" rx="12" fill="#FF3D7F"/><text x="604" y="177" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">④ 细节打磨护城河</text>
+    </svg>
+    <div class="cap">图1：从"第一晚 Demo"到"成品"之间，隔着四条工程方法</div>
+  </div>
+</div>
+
+<h2 class="q2"><span class="no">Q2</span>"15.6 亿 Token，98% 是缓存读取"说明什么？</h2>
+<div class="card">
+  <p>开发日志的统计面板给了一手数字：<b>1.56B 总 Token = 26.2M 输入 + 6.0M 输出 + 1.53B 缓存读取</b>。真正"生成"的只有 6M，<span class="hl">其余 98% 是 AI 反复读旧上下文</span>。这说明 AI 开发的成本大头根本不是"写字"，而是<span class="hl">把项目背景反复塞回模型脑子里</span>——这正是后面"隔离对话、少塞无关背景"的方法论根源：你少塞一点无关上下文，就是在省钱省时间。</p>
+  <div class="svgwrap">
+    <svg width="640" height="200" viewBox="0 0 640 200">
+      <text x="60" y="26" font-size="12" font-weight="900" fill="#1E2330">Token 构成（1.56B 总量）</text>
+      <rect x="60" y="40" width="520" height="34" fill="#6C5CE7" rx="6"/>
+      <text x="320" y="62" text-anchor="middle" font-size="13" fill="#fff" font-weight="900">缓存读取 1.53B ≈ 98%（反复读旧上下文）</text>
+      <rect x="60" y="80" width="8.9" height="34" fill="#FF7A29"/>
+      <text x="80" y="102" font-size="11.5" fill="#1E2330">输入 26.2M</text>
+      <rect x="190" y="80" width="2.0" height="34" fill="#FF3D7F"/>
+      <text x="200" y="102" font-size="11.5" fill="#1E2330">输出 6.0M（真正生成的只有这么多）</text>
+      <text x="60" y="150" font-size="12" font-weight="900" fill="#1E2330">钱的去向：API 估值 $2,175 · 真人工时 25.2h + 13.8h 纯 agent 运行</text>
+      <text x="60" y="174" font-size="11.5" fill="#555">推论：上下文是"汽油"。隔离无关对话（Q6）就是在省最贵的那 98%。</text>
+    </svg>
+    <div class="cap">图2：Token 消耗结构——98% 在"读回上下文"，不在"生成"</div>
+  </div>
+</div>
+
+<h2 class="q3"><span class="no">Q3</span>为什么"一个 AI 包揽全场"必死在穿模和屎山里？</h2>
+<div class="card">
+  <p>推文里的灵魂拷问：为什么你用大模型做游戏跑两步就死在穿模和屎山代码里？因为你逼着同一个 AI 既当程序员又当插画师。<span class="hl">单一对话塞进所有角色，上下文过载、角色混乱，一错到底</span>——Astra 写玩法物理是天才，但让它捏带脸的主角，"烧光额度做出来的也是个僵尸木偶"。这和我们知识库里 [[多智能体协作]] 的结论完全同源：拆开不是为了酷，是因为每个上下文只装一个角色才专注、才能互查。</p>
+  <div class="link-note">📚 知识库关联：[[多智能体协作]]（拆=指令专注+工具专管）、[[能力地板选型]]（按任务的能力地板选最便宜的生产者，不按模型天花板付钱）、[[上下文预算与战略压缩]]（上下文是稀缺资源）。</div>
+</div>
+
+<h2 class="q4"><span class="no">Q4</span>混合模型流水线具体怎么路由？（方法论①）</h2>
+<div class="card">
+  <p>作者拉了一条极其务实的混合流水线，每类任务只交给"干这个最便宜且最好"的工具：</p>
+  <table>
+    <tr><th>任务类型</th><th>生产者</th><th>为什么是它</th></tr>
+    <tr><td>玩法逻辑 / 物理碰撞 / 绑骨</td><td><b>Astra</b>（代码旗舰）</td><td>它的天才区；消除自行车穿模、绑 23 根骨骼</td></tr>
+    <tr><td>角色概念图</td><td><b>ChatGPT</b></td><td>出图便宜快速，方向对了再往下走</td></tr>
+    <tr><td>带脸的 3D 角色网格</td><td><b>Meshy</b>（专用生成，8 美元/个）</td><td>专用工具一条龙，比烧旗舰额度便宜几个数量级</td></tr>
+    <tr><td>批量建筑资产</td><td><b>Astra 写脚本 → Headless Blender 批产</b></td><td>程序化生成 40 栋，模型只写脚本不画模型</td></tr>
+    <tr><td>动作审查</td><td><b>Astra + 自动截图</b></td><td>看渲染图，不听形容词（Q7）</td></tr>
+  </table>
+  <div class="keybox">核心原则：<span class="hl">路由的单位是"任务类型"，不是"项目"</span>。同一个游戏里，代码给 Astra、网格给 Meshy、概念图给 ChatGPT——最后还要"拉回 Astra 绑骨骼"，因为<b>集成永远回到主车道</b>。</div>
+  <div class="tealbox">🔬 实验复现（E2 · exercise\task_router.py）：把 devlog 里 12 条真实任务喂给规则路由器，<b>与作者实际选择一致率 12/12</b>；全旗舰成本系数 12.00 → 按车道路由后 6.90（1.7x，网格类若自研则差距拉到数量级）。</div>
+</div>
+
+<h2 class="q5"><span class="no">Q5</span>机制流与资产流为什么要物理隔离？（方法论②）</h2>
+<div class="card">
+  <p>作者最痛的领悟："房子难看时，千万不要在同一段对话里跟模型吵抛物线物理！"他把工作劈成互不污染的两半：<span class="hl">机制流（手感/物理）：一个 Prompt → 浏览器看一眼 → 提交一次 Commit；资产流（美术）：AI 写 Python 脚本 → Headless 后台批量生成 GLB。</span>两套逻辑物理隔离，"手感出了问题绝不去改屋顶"。这就是 [[GitWorktree并行隔离]] 的思想用在"对话上下文"上：隔离的单位不是目录，是<b>话题上下文本身</b>。</p>
+  <div class="svgwrap">
+    <svg width="660" height="230" viewBox="0 0 660 230">
+      <rect x="10" y="10" width="300" height="200" rx="14" fill="#DFF7F5" stroke="#00B8A9" stroke-width="3"/>
+      <text x="160" y="38" text-anchor="middle" font-size="15" font-weight="900" fill="#007A70">🛠 机制流（游戏手感）</text>
+      <text x="160" y="66" text-anchor="middle" font-size="12.5" fill="#0A5A54">改物理 → 浏览器试玩 → 有感觉了？</text>
+      <text x="160" y="88" text-anchor="middle" font-size="12.5" fill="#0A5A54">→ git commit（一个 Prompt 一提交）</text>
+      <rect x="40" y="110" width="240" height="26" rx="8" fill="#fff" stroke="#00B8A9"/><text x="160" y="128" text-anchor="middle" font-size="11.5">P0 基线: PRD+工程标准+架构契约</text>
+      <rect x="40" y="142" width="240" height="26" rx="8" fill="#fff" stroke="#00B8A9"/><text x="160" y="160" text-anchor="middle" font-size="11.5">感觉原型 → 垂直切片 → 逐日打磨</text>
+      <rect x="40" y="174" width="240" height="26" rx="8" fill="#FFC93C"/><text x="160" y="192" text-anchor="middle" font-size="11.5" font-weight="900">绝不在这里聊"房子好不好看"</text>
+      <rect x="350" y="10" width="300" height="200" rx="14" fill="#EAE6FF" stroke="#6C5CE7" stroke-width="3"/>
+      <text x="500" y="38" text-anchor="middle" font-size="15" font-weight="900" fill="#4534B0">🎨 资产流（美术资产）</text>
+      <text x="500" y="66" text-anchor="middle" font-size="12.5" fill="#3A2E80">AI 写 Python 脚本 → Headless 跑批</text>
+      <text x="500" y="88" text-anchor="middle" font-size="12.5" fill="#3A2E80">→ 批量 GLB 进 assets/ → 质检门</text>
+      <rect x="380" y="110" width="240" height="26" rx="8" fill="#fff" stroke="#6C5CE7"/><text x="500" y="128" text-anchor="middle" font-size="11.5">rider .blend + 管线脚本入 ArtSource/</text>
+      <rect x="380" y="142" width="240" height="26" rx="8" fill="#fff" stroke="#6C5CE7"/><text x="500" y="160" text-anchor="middle" font-size="11.5">4 户型族 × 变体 = 建筑群批产</text>
+      <rect x="380" y="174" width="240" height="26" rx="8" fill="#FFC93C"/><text x="500" y="192" text-anchor="middle" font-size="11.5" font-weight="900">绝不在这里调"投掷抛物线"</text>
+      <text x="330" y="120" text-anchor="middle" font-size="22" font-weight="900" fill="#FF3D7F">⇄</text>
+      <text x="330" y="145" text-anchor="middle" font-size="11" fill="#C2215B">只在"质检门"处交接</text>
+    </svg>
+    <div class="cap">图3：双泳道隔离——两条流只在 GLB 质检门处握手，平时互不进对方上下文</div>
+  </div>
+</div>
+
+<h2 class="q6"><span class="no">Q6</span>Headless 资产管线到底怎么工作？</h2>
+<div class="card">
+  <p>devlog checkpoint 16 的原话标题："Replace playable house bodies with authored Blender asset families"，并且"rider .blend + asset pipeline scripts"作为资产入库到 <code>ArtSource/</code>。模式是：<span class="hl">让 AI 写 Python 脚本，无人值守跑 Blender，批量吐 GLB 给游戏加载</span>。人（和主对话）只面对"脚本 + 产物"，不面对 40 栋房子逐个手摆。本机没装 Blender 也能复刻这个模式——GLB 就是个二进制容器（JSON 描述 + 几何数据），纯 Python 手写一个"房屋工厂"完全可行。</p>
+  <div class="svgwrap">
+    <svg width="660" height="150" viewBox="0 0 660 150">
+      <rect x="10" y="30" width="120" height="60" rx="10" fill="#FFC93C"/><text x="70" y="56" text-anchor="middle" font-size="12" font-weight="900">参数化脚本</text><text x="70" y="74" text-anchor="middle" font-size="11">4 户型族×变体</text>
+      <path d="M130 60 L170 60" stroke="#FF7A29" stroke-width="4" marker-end="url(#ar2)"/>
+      <rect x="172" y="30" width="130" height="60" rx="10" fill="#6C5CE7"/><text x="237" y="52" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">Headless 批处理</text><text x="237" y="70" text-anchor="middle" font-size="11" fill="#fff">无界面跑(本实验:纯Python)</text>
+      <path d="M302 60 L342 60" stroke="#FF7A29" stroke-width="4" marker-end="url(#ar2)"/>
+      <rect x="344" y="30" width="120" height="60" rx="10" fill="#00B8A9"/><text x="404" y="52" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">12 个 GLB</text><text x="404" y="70" text-anchor="middle" font-size="11" fill="#fff">assets/ 目录</text>
+      <path d="M464 60 L504 60" stroke="#FF7A29" stroke-width="4" marker-end="url(#ar2)"/>
+      <rect x="506" y="30" width="144" height="60" rx="10" fill="#FF3D7F"/><text x="578" y="52" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">质检门 glb_gate</text><text x="578" y="70" text-anchor="middle" font-size="11" fill="#fff">12/12 PASS 才进游戏</text>
+      <defs><marker id="ar2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 z" fill="#FF7A29"/></marker></defs>
+      <text x="330" y="125" text-anchor="middle" font-size="12" fill="#555">打回 = 资产流自己重跑脚本；机制流永远看不到失败品（隔离的意义）</text>
+    </svg>
+    <div class="cap">图4：Headless 资产管线微缩版——与 devlog 的 Blender 批产同构</div>
+  </div>
+  <div class="tealbox">🔬 实验复现（E1 · exercise\house_factory.py + glb_gate.py）：<code>python house_factory.py</code> 纯 Python 手写 GLB 二进制（magic glTF / JSON chunk / BIN chunk），4 族×3 栋 = 12 个文件全生成（1208~1216 bytes）；<code>python glb_gate.py</code> 质检门校验魔数、版本、块长度自洽、JSON 可解析、POSITION accessor、三角索引——<b>12/12 PASS</b>。</div>
+  <div class="link-note">📚 知识库关联：[[程序化建模]]（用代码生成模型）、[[glTF与GLB资产管线]]（GLB=真空压缩袋，几何与装配分离）。</div>
+</div>
+
+<h2 class="q7"><span class="no">Q7</span>"用渲染图代替形容词"为什么有效？（方法论③）</h2>
+<div class="card">
+  <p>对着对话框说"把动作改得更自然点"，模型听不懂这种玄学。作者的做法：搭自动抓取脚本，让骑手在场景里做动作，<span class="hl">每次自动保存正、侧、后 + 黏土材质转面图</span>（devlog 里每个 checkpoint 都挂着这些 Development renders）。然后指着具体帧提意见："帽子第 3 帧没遮住头发"——改动成功率直接飙到 70%。本质：把<b>主观形容词</b>翻译成<b>带定位坐标的运行时证据</b>，反馈才可执行。这正是知识库 [[证据优先质检ProofOverClaims]] 的"视觉质检闭环"：验收标准是"亲眼看到产物"，且证据要<b>可定位</b>。</p>
+  <div class="svgwrap">
+    <svg width="660" height="180" viewBox="0 0 660 180">
+      <rect x="10" y="30" width="140" height="110" rx="10" fill="#FFE3EE" stroke="#FF3D7F" stroke-width="2"/>
+      <text x="80" y="56" text-anchor="middle" font-size="12.5" font-weight="900" fill="#C2215B">❌ 形容词反馈</text>
+      <text x="80" y="80" text-anchor="middle" font-size="11.5" fill="#7A2A45">"动作再自然点"</text>
+      <text x="80" y="100" text-anchor="middle" font-size="11.5" fill="#7A2A45">模型盲调所有参数</text>
+      <text x="80" y="126" text-anchor="middle" font-size="13" font-weight="900" fill="#C2215B">实测 19.5%</text>
+      <rect x="230" y="30" width="200" height="110" rx="10" fill="#FFF3D1" stroke="#FFC93C" stroke-width="2"/>
+      <text x="330" y="54" text-anchor="middle" font-size="12.5" font-weight="900" fill="#A67C00">📸 自动抓取脚本</text>
+      <text x="330" y="76" text-anchor="middle" font-size="11.5" fill="#6B5300">骑手做动作 → 逐帧存</text>
+      <text x="330" y="94" text-anchor="middle" font-size="11.5" fill="#6B5300">正/侧/后 + 黏土转面图</text>
+      <text x="330" y="118" text-anchor="middle" font-size="11.5" fill="#6B5300">（devlog 每 checkpoint 必挂）</text>
+      <path d="M150 85 L228 85" stroke="#FF7A29" stroke-width="4" marker-end="url(#ar3)"/>
+      <path d="M430 85 L508 85" stroke="#FF7A29" stroke-width="4" marker-end="url(#ar3)"/>
+      <rect x="510" y="30" width="140" height="110" rx="10" fill="#DFF7F5" stroke="#00B8A9" stroke-width="2"/>
+      <text x="580" y="56" text-anchor="middle" font-size="12.5" font-weight="900" fill="#007A70">✅ 帧级反馈</text>
+      <text x="580" y="80" text-anchor="middle" font-size="11.5" fill="#0A5A54">"第3帧帽子没遮头发"</text>
+      <text x="580" y="100" text-anchor="middle" font-size="11.5" fill="#0A5A54">定点修复，可验证</text>
+      <text x="580" y="126" text-anchor="middle" font-size="13" font-weight="900" fill="#007A70">实测 100%（推文口径70%）</text>
+      <defs><marker id="ar3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 z" fill="#FF7A29"/></marker></defs>
+      <text x="330" y="165" text-anchor="middle" font-size="11.5" fill="#555">E3 实验（frame_review_loop.py，200 轮）：形容词 19.5% vs 帧索引 100%，5.1 倍</text>
+    </svg>
+    <div class="cap">图5：形容词 vs 帧级证据——反馈里每多一个可定位坐标，成功率涨一截</div>
+  </div>
+</div>
+
+<h2 class="q8"><span class="no">Q8</span>从 0 到可玩，工程顺序是什么？</h2>
+<div class="card">
+  <p>devlog 的时间线（7 月 iOS 期试水失败 → 9 月 Browser 期 4 天冲刺）第一个 commit 就是：<code>P0 baseline: PRD, engineering standards, architecture contract</code>——<span class="hl">先写产品需求文档、工程标准、架构契约，此时连可运行的应用都没有</span>。然后才动工：</p>
+  <table>
+    <tr><th>阶段</th><th>devlog 证据</th><th>对应知识库</th></tr>
+    <tr><td>P0 基线</td><td>PRD + 工程标准 + 架构契约（无可运行应用）</td><td>[[规格书先行SpecDriven]] / [[项目宪法Constitution]]</td></tr>
+    <tr><td>P0 感觉原型</td><td>ride + throw + dog + 标志性镜头，灰盒 Easy Street</td><td>[[纯函数游戏引擎与种子复放]]</td></tr>
+    <tr><td>P1 垂直切片</td><td>周一整天流程 + 障碍赛道 + 报纸结算，风格化视觉</td><td>[[质检Gate与自我纠错循环]]</td></tr>
+    <tr><td>P2 艺术层</td><td>插画风 / 授权 3D 骑手 / 街头镜头（docs: art-direction study of Abeto's Messenger）</td><td>[[角色一致性锚定]]</td></tr>
+    <tr><td>交接纪律</td><td>"P2-art handoff notes, next-session pick-up order"——每次收工写下次从哪捡起</td><td>[[Checkpoint存档与持久执行]]</td></tr>
+  </table>
+  <div class="keybox">值得抄的一条：<span class="hl">"next-session pick-up order"</span>——AI 项目的会话是易失的，每次收工给下一个会话留"从哪继续"的交接单，等于给上下文做了持久化。</div>
+</div>
+
+<h2 class="q9"><span class="no">Q9</span>69 个 checkpoint + 截图 + SHA-256 是什么工作习惯？</h2>
+<div class="card">
+  <p>devlog 把 69 个 checkpoint 全部归档：每条含<b>时间戳（精确到分钟）、commit 短哈希、一句话说明、桌面/竖屏双截图、正侧后 Development renders、甚至文件 SHA-256</b>。另有 83 张开发渲染图。7 Sep 的记录里还能看到"2 separate branch experiments, since reviewed and folded into the main game"——<span class="hl">分支实验先隔离验证，再合并回主线</span>。这不是仪式感：每个 checkpoint 都是给"下一次 AI 会话"的证据锚点——AI 不需要重读全部历史，只需读最近几个 checkpoint 就能接上工作。这就是 [[证据状态机]] 和 [[证据优先质检ProofOverClaims]] 的项目级实践。</p>
+  <div class="purplebox">小成本复制法：不需要做网站，只要约定<b>每个 commit 三件套</b>——一句话说明 + 一张运行截图 + 可复核的哈希/版本号。AI 的下个会话、未来的你、协作者，全都受益。</div>
+</div>
+
+<h2 class="q10"><span class="no">Q10</span>25.2h 人类 + 13.8h 纯 agent，怎么组织的？</h2>
+<div class="card">
+  <p>统计面板还有一组惊人数字：<b>追踪覆盖 39h = 25.2h 人在场 + 13.8h 无人在键盘前</b>；agent 运行时（并行叠加）30h15m。在开始计时后的实测窗口里，<span class="hl">5.1h 人工对 10.4h 纯 agent——三分之二的时间没人在场</span>。这正是"机制流一个 Prompt 一提交"的副产品：任务被拆得足够小、验收被定义得足够客观（截图 + 测试门）之后，agent 才敢被放着独自跑。人的角色从"操作员"变成"验收员 + 方向盘"。</p>
+  <div class="svgwrap">
+    <svg width="640" height="150" viewBox="0 0 640 150">
+      <text x="20" y="24" font-size="12" font-weight="900">39h 追踪覆盖的构成</text>
+      <rect x="20" y="40" width="390" height="34" rx="8" fill="#6C5CE7"/><text x="215" y="62" text-anchor="middle" font-size="12.5" fill="#fff" font-weight="900">人在场 25.2h（含 6 Sep 前默认计入的 ~14h）</text>
+      <rect x="414" y="40" width="206" height="34" rx="8" fill="#FF3D7F"/><text x="517" y="62" text-anchor="middle" font-size="12.5" fill="#fff" font-weight="900">纯 agent 13.8h</text>
+      <text x="20" y="106" font-size="11.5" fill="#555">开启在场统计后：实测窗口 5.1h 人工 : 10.4h 纯 agent —— 任务拆小 + 验收客观，agent 才能 solo</text>
+      <text x="20" y="130" font-size="11.5" fill="#C25A10" font-weight="900">对应推文第 4 条：80% 工时花在细节打磨——人类时间该花在品味上，不是打字上</text>
+    </svg>
+    <div class="cap">图6：人的时间用于"方向盘 + 验收"，agent 时间用于"里程"</div>
+  </div>
+</div>
+
+<h2 class="q11"><span class="no">Q11</span>真正的壁垒为什么是细节打磨？（方法论④）</h2>
+<div class="card">
+  <p>推文最后一条最扎心：整套 39 工时里，<span class="hl">80% 花在碎玻璃特写运镜、雨天轮胎打滑水印、终点自由练车公园、复古报纸结算 UI 这些"极其繁琐的手工活"上</span>。大模型降低的是"把零件拼出来"的门槛；能不能拼出"愿意玩第二次"的作品，看的是创作者带进来的品味与工程克制。用我们知识库的话说：AI 把"生成"变成了地板块（[[源码即Prompt]] 反面——生成物廉价化），<b>稀缺的变成了"判断哪个生成物是对的"</b>。</p>
+  <div class="orangebox">对个人的操作含义：学 AI 开发，别练"怎么写出一条神 Prompt"，要练三件事——<b>拆任务的刀法（Q4/Q5）、建验收的眼力（Q7/Q9）、扛打磨的耐心（本条）</b>。</div>
+</div>
+
+<h2 class="q12"><span class="no">Q12</span>我能带走什么？能力清单 + 上手路线</h2>
+<div class="card">
+  <div class="grid2">
+    <div>
+      <p class="big" style="color:var(--c1)">🎓 能力清单（这套方法论给你的）</p>
+      <ul>
+        <li>按"任务类型"给 AI 排生产流水线，而不是找"一个全能 AI"</li>
+        <li>机制/资产双泳道隔离对话，杜绝上下文互相污染</li>
+        <li>无人值守批产资产：脚本 → 批量产物 → 质检门</li>
+        <li>用可定位证据（帧号/截图/哈希）代替形容词反馈</li>
+        <li>P0 先立 PRD/工程标准/架构契约，再开工</li>
+        <li>checkpoint 三件套 + 交接单，让下个 AI 会话秒接上</li>
+      </ul>
+    </div>
+    <div>
+      <p class="big" style="color:var(--c2)">🛠 你能用它干什么</p>
+      <ul>
+        <li>做自己的"能玩"的小游戏/3D 小品（Three.js + 批产 GLB）</li>
+        <li>任何"AI 生成 + 人工验收"的生产线：图集、文档、课件</li>
+        <li>管好自己的多会话 AI 项目：隔离 + 交接单 + 证据归档</li>
+        <li>给团队立"AI 施工规范"：P0 基线 + 质检门 + checkpoint</li>
+      </ul>
+    </div>
+  </div>
+  <div class="svgwrap">
+    <svg width="660" height="120" viewBox="0 0 660 120">
+      <rect x="10" y="30" width="150" height="54" rx="10" fill="#FF3D7F"/><text x="85" y="52" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">第1步 立基线</text><text x="85" y="72" text-anchor="middle" font-size="10.5" fill="#fff">PRD+标准+架构契约</text>
+      <path d="M160 57 L196 57" stroke="#FF7A29" stroke-width="4" marker-end="url(#ar4)"/>
+      <rect x="198" y="30" width="150" height="54" rx="10" fill="#FF7A29"/><text x="273" y="52" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">第2步 灰盒原型</text><text x="273" y="72" text-anchor="middle" font-size="10.5" fill="#fff">手感对了再谈美术</text>
+      <path d="M348 57 L384 57" stroke="#FF7A29" stroke-width="4" marker-end="url(#ar4)"/>
+      <rect x="386" y="30" width="130" height="54" rx="10" fill="#00B8A9"/><text x="451" y="52" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">第3步 批产资产</text><text x="451" y="72" text-anchor="middle" font-size="10.5" fill="#fff">脚本+质检门</text>
+      <path d="M516 57 L544 57" stroke="#FF7A29" stroke-width="4" marker-end="url(#ar4)"/>
+      <rect x="546" y="30" width="104" height="54" rx="10" fill="#6C5CE7"/><text x="598" y="52" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">第4步 打磨</text><text x="598" y="72" text-anchor="middle" font-size="10.5" fill="#fff">帧级反馈循环</text>
+      <defs><marker id="ar4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 z" fill="#FF7A29"/></marker></defs>
+      <text x="330" y="110" text-anchor="middle" font-size="11.5" fill="#555">每一步都遵守：一个 Prompt 一看一提交 · 每步留下可复核证据</text>
+    </svg>
+    <div class="cap">图7：可直接照抄的四步上手路线</div>
+  </div>
+</div>
+
+<h2 class="q4"><span class="no">🔬</span>动手实验区（exercise\ 目录，全部真跑通）</h2>
+<div class="exp">
+  <h3>实验 E1 · Headless 资产管线微缩版（主实验）</h3>
+  <p>复刻 devlog"AI 写脚本 Headless 批产建筑 GLB + 质检门"。本机无 Blender，用纯 Python 手写 GLB 二进制，模式完全同构。</p>
+  <div class="step"><b>步骤 1</b>：打开终端，<code>cd F:\reminder\paperroute\exercise</code>。目的：进入实验目录。<br><b>步骤 2</b>：<code>python house_factory.py</code>。目的：跑资产流批产。实现：参数化 4 户型族×3 变体，手写 GLB（glTF magic + JSON chunk + BIN chunk）。<br>
+  <div class="check">打印 12 个 <code>house_*.glb</code>（各约 1.2KB）到 <code>assets\</code>，如 <code>house_cottage_1.glb 1216 bytes</code>。</div>
+  <b>步骤 3</b>：<code>python glb_gate.py</code>。目的：跑质检门（机制流只消费通过门的产品）。实现：校验魔数 0x46546C67、版本 2、块长度自洽、JSON 可解析、POSITION accessor、三角索引非空。<br>
+  <div class="check">12 行 <code>PASS</code> + 末行 <code>[glb_gate] 12/12 通过质检门</code>，退出码 0。</div>
+  <b>步骤 4</b>（改造玩）：把 <code>house_factory.py</code> 里 <code>FAMILIES</code> 的 <code>roof_rise</code> 调大、<code>VARIANTS = 5</code>，重跑两脚本。目的：体会"改参数=改整批资产"的程序化威力。<div class="check">出现 20 个 GLB 且全 PASS；别墅屋顶明显变尖（用任意 glTF 查看器或读 accessor max 值验证 y 变大）。</div></div>
+</div>
+<div class="exp">
+  <h3>实验 E2 · 混合模型任务路由器</h3>
+  <div class="step"><code>python task_router.py</code>。目的：验证"按任务类型路由 ≠ 单一旗舰包揽"。实现：关键词规则把 12 条 devlog 真实任务分到 code/concept/mesh3d/asset/review 五条车道，并对比两种成本。<div class="check">输出"路由与作者实际选择一致率: 12/12"、成本系数 12.00 → 6.90（1.7x）。</div></div>
+  <p class="small">改造：往 TASKS 里加你自己的任务（如"生成 boss 战音乐"），观察它落进哪条车道——你会立刻发现规则路由的局限，这正是真实系统要用小模型做语义路由的原因。</p>
+</div>
+<div class="exp">
+  <h3>实验 E3 · 渲染图代替形容词审查环</h3>
+  <div class="step"><code>python frame_review_loop.py</code>。目的：复现"帧级反馈 vs 形容词反馈"的成功率差。实现：24 帧骑行动画在第 3 帧注入帽子偏移缺陷，对比两种反馈模式的 200 轮修复成功率。<div class="check">形容词反馈 19.5% vs 帧索引反馈 100%（5.1 倍），与推文"改动成功率飙到 70%"方向一致。</div></div>
+</div>
+
+<div class="card" style="background:var(--purple)">
+  <p class="big">📌 一页记忆卡</p>
+  <ul>
+    <li><b>成本真相</b>：1.56B Token 里 98% 是缓存读取 → 上下文是最大开销，隔离即省钱</li>
+    <li><b>路由</b>：代码→Astra，概念图→ChatGPT，网格→Meshy($8)，批产→Headless 脚本；集成回主车道</li>
+    <li><b>隔离</b>："房子难看时，别在同一段对话里吵抛物线物理"</li>
+    <li><b>反馈</b>：给帧号不给形容词；正/侧/后转面图是审查语言</li>
+    <li><b>基线</b>：第一个 commit 是 PRD+工程标准+架构契约，代码为零</li>
+    <li><b>护城河</b>：39 工时 80% 在细节打磨——品味不可代工</li>
+  </ul>
+  <p class="small">资料：AYi 推文 @AYi_AInotes/status/2099090127452524615 · Emm Tee @BuiltBySketch（游戏 paperroute.lol / 日志 paperroute.lol/devlog）· 游戏本体未开源，本指南为方法论拆解 + 方法层复现。</p>
+</div>
+
+</body>
+</html>
