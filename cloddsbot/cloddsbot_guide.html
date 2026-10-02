@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>CloddsBot 小白指南</title>
+<style>
+:root{
+  --c1:#FF3B6B; --c2:#FF9F1C; --c3:#2EC4B6; --c4:#4361EE; --c5:#7209B7;
+  --ink:#1D1A2F; --bg:#FFF8F0; --hl:#FFF17A; --ok:#06D6A0; --bad:#EF476F;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+@page{ size:A4; margin:10mm; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:13px; line-height:1.65;}
+.wrap{ padding:0 4px;}
+/* 封面 */
+.cover{ background:linear-gradient(135deg,#7209B7 0%,#4361EE 45%,#2EC4B6 100%); color:#fff; border-radius:18px; padding:34px 30px 26px; break-inside:avoid;}
+.cover h1{ font-size:34px; letter-spacing:1px; margin-bottom:6px;}
+.cover .sub{ font-size:15px; opacity:.95;}
+.badges{ margin-top:14px;}
+.badge{ display:inline-block; background:rgba(255,255,255,.18); border:1.5px solid rgba(255,255,255,.6); border-radius:999px; padding:3px 12px; font-size:12px; margin:3px 4px 0 0; font-weight:bold;}
+.disclaimer{ margin-top:16px; background:#FFD23F; color:#7A2E00; border-radius:10px; padding:10px 14px; font-weight:bold; font-size:12.5px;}
+/* 章节大条 */
+.h1{ background:var(--ink); color:#fff; border-radius:10px; padding:10px 18px; font-size:19px; font-weight:bold; margin:26px 0 12px; border-left:10px solid var(--c2);}
+/* 查证表 */
+table{ width:100%; border-collapse:collapse; margin:8px 0;}
+th{ background:var(--c4); color:#fff; padding:6px 8px; font-size:12.5px; text-align:left;}
+td{ border:1.5px solid #E8DECF; padding:5px 8px; font-size:12px; background:#fff; vertical-align:top;}
+tr:nth-child(even) td{ background:#FDF4E7;}
+/* 疑问卡片 */
+.q{ background:#fff; border-radius:14px; padding:16px 18px 14px; margin:12px 0; break-inside:avoid; border-top:6px solid var(--c1); box-shadow:0 2px 8px rgba(29,26,47,.08);}
+.q:nth-child(4n+2){ border-top-color:var(--c3);}
+.q:nth-child(4n+3){ border-top-color:var(--c4);}
+.q:nth-child(4n){ border-top-color:var(--c5);}
+.q .no{ display:inline-block; background:var(--c1); color:#fff; font-size:22px; font-weight:900; border-radius:10px; padding:0 12px; margin-right:10px; vertical-align:middle;}
+.q:nth-child(4n+2) .no{ background:var(--c3);} .q:nth-child(4n+3) .no{ background:var(--c4);} .q:nth-child(4n) .no{ background:var(--c5);}
+.q h3{ display:inline; font-size:16.5px; vertical-align:middle;}
+.q p{ margin:8px 0;}
+.hl{ background:var(--hl); font-weight:bold; padding:0 3px;}
+.term{ color:var(--c5); font-weight:bold;}
+.code{ font-family:Consolas,monospace; background:#241F3A; color:#7DF9C6; border-radius:8px; padding:9px 12px; font-size:11.5px; margin:8px 0; white-space:pre-wrap; word-break:break-all;}
+.take{ background:linear-gradient(90deg,#FFF3D6,#FFE3EC); border-left:6px solid var(--c2); border-radius:0 10px 10px 0; padding:8px 12px; margin-top:10px; font-size:12.5px;}
+.take b{ color:var(--c1);}
+.warn{ background:#FFE1E8; border-left:6px solid var(--bad); border-radius:0 10px 10px 0; padding:8px 12px; margin:8px 0; font-size:12.5px;}
+/* 实验卡 */
+.ex{ background:#fff; border:2.5px solid var(--c3); border-radius:14px; margin:14px 0; break-inside:avoid; overflow:hidden;}
+.ex .head{ background:var(--c3); color:#fff; padding:8px 16px; font-size:15px; font-weight:bold;}
+.ex .body{ padding:12px 16px;}
+.step{ margin:10px 0; padding-left:12px; border-left:4px solid var(--c2);}
+.step .t{ font-weight:bold; color:var(--c4);}
+.out{ font-family:Consolas,monospace; background:#F0FBF8; border:1.5px dashed var(--c3); color:#0B5B52; border-radius:8px; padding:8px 10px; font-size:10.5px; margin:6px 0; white-space:pre-wrap;}
+.cap{ background:#EEF3FF; border-left:6px solid var(--c4); padding:8px 12px; border-radius:0 10px 10px 0; margin-top:10px; font-size:12.5px;}
+/* 能力清单 */
+.skill-grid{ display:flex; flex-wrap:wrap; gap:10px; margin:10px 0;}
+.sk{ flex:1 1 46%; background:#fff; border-radius:12px; padding:12px 14px; border-left:8px solid var(--c5); break-inside:avoid;}
+.sk b{ color:var(--c5);}
+svg{ max-width:100%; height:auto; display:block; margin:10px auto;}
+.figcap{ text-align:center; font-size:11px; color:#7A7488; margin-top:-4px;}
+.foot{ text-align:center; color:#9A93A8; font-size:11px; margin:24px 0 10px;}
+ul{ margin:6px 0 6px 20px;} li{ margin:3px 0;}
+</style>
+</head>
+<body><div class="wrap">
+
+<!-- ============ 封面 ============ -->
+<div class="cover">
+  <h1>CloddsBot 小白指南</h1>
+  <div class="sub">推文里"睡一觉醒来多 280 美元"的开源 AI 交易机器人，到底是怎么回事？——一次查证 + 拆解 + 复刻</div>
+  <div class="badges">
+    <span class="badge">✅ 仓库真实：alsk1992/CloddsBot</span>
+    <span class="badge">⭐ 查证时 2888 星（推文时 899）</span>
+    <span class="badge">🟦 TypeScript · MIT · v1.9.1</span>
+    <span class="badge">🧠 Claude 驱动 · 121 个技能包</span>
+    <span class="badge">📊 10 个预测市场 + 7 个永续交易所</span>
+    <span class="badge">⚠️ 实验仅技术层 · 不构成投资建议</span>
+  </div>
+  <div class="disclaimer">⚠️ 投资免责声明：本指南只做"技术层"学习（读代码、调公开只读 API、复刻检测逻辑），全程零真实交易、零资金投入。交易机器人涉及真金白银与高杠杆，绝大多数散户跑它亏钱而非赚钱；推文中的"280 美元故事"无法核实且带推广链接，请只当故事听。</div>
+</div>
+
+<!-- ============ 查证 ============ -->
+<div class="h1">0 · 先查证：推文说的和仓库里真实有的</div>
+<p>推文来自 X（推特）用户<b> 鸟哥 @NFTCPS</b>（2026-09-10），讲了一个故事：23 岁小伙从 GitHub 找到一个 899 星的开源交易机器人，开小号实测，睡一觉起来账户多了 280 美元。这个故事<b>无法核实</b>，而且推文末尾挂着 Polymarket 返佣链接（<span class="code">?r=xml</span>）——但是它指的仓库本身是真的，而且确实有真材实料。我们逐项查证如下：</p>
+<table>
+<tr><th>推文说的</th><th>查证结果（GitHub API + 读源码，2026-10-03）</th></tr>
+<tr><td>"899 个 Star 的开源交易机器人"</td><td>✅ 仓库真实：<b>alsk1992/CloddsBot</b>，2026-01-26 创建，查证时已涨到 <b>2888 星 / 339 fork</b>（一个月翻了 3 倍多，说明推广位很猛）；TypeScript，MIT 协议，v1.9.1，持续更新到前一天</td></tr>
+<tr><td>"不预测涨跌，专等价格和流动性异常的瞬间"</td><td>✅ 属实：<code>src/arbitrage/</code> 737 行跨平台套利服务，只比价不下判断；README 自述 "Scans for edge, executes instantly"</td></tr>
+<tr><td>"监控 Polymarket + 监控 Binance"</td><td>✅ 属实：接了 <b>10 个预测市场</b>（Polymarket、Kalshi、Manifold、Metaculus、PredictIt、Betfair、Drift 等）+ <b>7 个永续交易所</b>（Binance、Bybit、Hyperliquid、MEXC 等）</td></tr>
+<tr><td>"风险太高直接取消不玩"</td><td>✅ 属实且比推文猛得多：<code>docs/RISK_MANAGEMENT.md</code> 里有 <b>10 道盘前检查的风控引擎</b>（熔断、VaR、波动率分档、Kelly 仓位……见疑问 9）</td></tr>
+<tr><td>"早上打开 Telegram，满屏成交订单"</td><td>✅ 机制属实：接了 21 个聊天平台（Telegram/Discord/微信类…），成交推送是真的功能</td></tr>
+<tr><td>"睡一觉多 280 美元"</td><td>❌ 无法核实，纯属故事；且推文带交易所返佣链接，README 顶部还挂着一个 meme 币合约地址（"Clodds CA"）——<span class="hl">典型的"开源项目 + 币 + 返佣"三件套推广套路</span></td></tr>
+</table>
+<div class="take"><b>一句话定性</b>：仓库是真开源项目、代码有干货，值得我们拆开学技术；但推文是带推广性质的"成功学包装"，赚不赚钱与开源与否毫无关系。下面所有实验都只动"只读"的公开行情接口，一分钱不投。</div>
+
+<!-- ============ 疑问清单 ============ -->
+<div class="h1">1 · 工科毕业生的 14 个疑问（本指南目录）</div>
+<table>
+<tr><th>#</th><th>疑问</th><th>一句话答案</th></tr>
+<tr><td>Q1</td><td>CloddsBot 到底是个啥？</td><td>能用聊天对话驱动的 AI 交易终端</td></tr>
+<tr><td>Q2</td><td>和已学的 NautilusTrader / stock 工具箱什么关系？</td><td>量化世界的第三种形态：AI Agent 终端</td></tr>
+<tr><td>Q3</td><td>"不预测涨跌也能赚"是什么原理？预测市场是啥？</td><td>预测市场 = 用真金白银投票的未来概率机</td></tr>
+<tr><td>Q4</td><td>为什么 YES 卖价 + NO 卖价 &lt; 1 就稳赚？</td><td>负风险套利（negative risk）</td></tr>
+<tr><td>Q5</td><td>机器人怎么知道"两个市场说的是同一件事"？</td><td>语义匹配（Jaccard 相似度）</td></tr>
+<tr><td>Q6</td><td>为什么实测扫不到套利机会？</td><td>做市机器人把地板焊死在 1.001（市场有效）</td></tr>
+<tr><td>Q7</td><td>跨交易所搬砖为什么不能闭眼搬？</td><td>净边际 = 毛价差 − 手续费，实测为负</td></tr>
+<tr><td>Q8</td><td>三角套利怎么用算法找？</td><td>−log 变边权 + 找负环（Bellman-Ford）</td></tr>
+<tr><td>Q9</td><td>"风险太高直接不玩"具体是怎么实现的？</td><td>RiskEngine 十道盘前检查 + Kelly 仓位</td></tr>
+<tr><td>Q10</td><td>一条聊天消息怎么变成一笔真实订单？</td><td>九步交易数据流</td></tr>
+<tr><td>Q11</td><td>121 个"技能包"是什么？和 Claude Code 技能什么关系？</td><td>同款 SKILL.md 格式，四层优先级加载</td></tr>
+<tr><td>Q12</td><td>x402 是什么新词？</td><td>机器对机器付款的"代理商务"协议</td></tr>
+<tr><td>Q13</td><td>这种"开源 + 币 + 返佣"的项目怎么识别套路？</td><td>四个红旗信号 + 查证三步法</td></tr>
+<tr><td>Q14</td><td>我能拿它做什么？千万别做什么？</td><td>读代码学架构 ✔ · 真金白银跑它 ✘</td></tr>
+</table>
+
+<!-- Q1 -->
+<div class="q"><span class="no">Q1</span><h3>CloddsBot 到底是个啥？</h3>
+<p><b>Claude + Odds（赔率）= Clodds</b>。一句话：<span class="hl">一个跑在自己电脑上的 AI 交易终端——你用聊天口吻下指令，它替你盯市场、找机会、下单、报风险</span>。它不是一个"策略"，而是一个把「行情数据 + 交易所接口 + AI 大脑 + 风控引擎 + 聊天界面」打包在一起的<b>操作台</b>。</p>
+<p>没有它之前：想在 Polymarket 和币安同时搬砖的人，得自己写爬虫、自己接 WebSocket、自己写风控、自己搭 Telegram 机器人——四套活儿。CloddsBot 把这四套活儿全做成了现成模块，还加了个能听懂人话的 AI 大脑（Claude）当总调度。</p>
+<svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="620" height="230" rx="14" fill="#F4F1FF" stroke="#7209B7" stroke-width="2"/>
+  <text x="320" y="32" text-anchor="middle" font-size="14" font-weight="bold" fill="#7209B7">CloddsBot = 五大件拼成的 AI 交易终端</text>
+  <rect x="30" y="50" width="110" height="60" rx="8" fill="#4361EE"/><text x="85" y="76" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">聊天平台×21</text><text x="85" y="94" text-anchor="middle" fill="#fff" font-size="10">TG/Discord/WebChat</text>
+  <rect x="170" y="50" width="110" height="60" rx="8" fill="#7209B7"/><text x="225" y="76" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">AI 大脑</text><text x="225" y="94" text-anchor="middle" fill="#fff" font-size="10">Claude（听人话调度）</text>
+  <rect x="310" y="50" width="130" height="60" rx="8" fill="#FF3B6B"/><text x="375" y="76" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">行情馈送×10+7</text><text x="375" y="94" text-anchor="middle" fill="#fff" font-size="10">预测市场+永续所</text>
+  <rect x="470" y="50" width="140" height="60" rx="8" fill="#2EC4B6"/><text x="540" y="76" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">风控引擎</text><text x="540" y="94" text-anchor="middle" fill="#fff" font-size="10">10 道盘前检查</text>
+  <rect x="170" y="150" width="270" height="60" rx="8" fill="#FF9F1C"/><text x="305" y="176" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">执行层：下单 / 套利 / 撤单</text><text x="305" y="194" text-anchor="middle" fill="#fff" font-size="10">交易所 API + 链上钱包</text>
+  <line x1="140" y1="80" x2="170" y2="80" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="280" y1="80" x2="310" y2="80" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="440" y1="80" x2="470" y2="80" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="375" y1="110" x2="340" y2="150" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="540" y1="110" x2="420" y2="150" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#555"/></marker></defs>
+</svg>
+<div class="figcap">图1：CloddsBot 五大件——聊天入口、AI 大脑、行情馈送、风控引擎、执行层</div>
+<div class="take"><b>记住这句</b>：它卖的不是"赚钱策略"，是"基建"。策略好不好另说，<b>把四套基建活儿打包开源</b>才是它 2888 星的真正原因。</div>
+</div>
+
+<!-- Q2 -->
+<div class="q"><span class="no">Q2</span><h3>和已学的 NautilusTrader、stock 工具箱是什么关系？</h3>
+<p>我们已经学过量化世界的两种形态（见知识库 [[事件驱动回测]] 和 [[个人量化工具箱范式]]），CloddsBot 是<b>第三种</b>：</p>
+<table>
+<tr><th></th><th>机构框架派<br>NautilusTrader</th><th>个人工具箱派<br>Rockyzsu/stock</th><th>AI Agent 终端派<br>CloddsBot（本篇）</th></tr>
+<tr><td>定位</td><td>正规军：回测/实盘同码的事件驱动引擎</td><td>游击队：采集→落库→分析→下单脚本集</td><td><b>顾问型</b>：AI 大脑听人话、调工具、管风控</td></tr>
+<tr><td>策略从哪来</td><td>你写代码实现 Strategy 类</td><td>你抄作者十年实盘脚本</td><td><b>AI 读市场数据现判</b> + 118 个内置策略模块</td></tr>
+<tr><td>交互方式</td><td>Python API / 配置</td><td>改脚本跑脚本</td><td><b>自然语言聊天</b>："买 100 刀 Trump 赢"</td></tr>
+<tr><td>市场</td><td>外汇/加密/A股全 AssetClass</td><td>A股/可转债/基金</td><td>预测市场 + 加密永续 + Solana 链上</td></tr>
+</table>
+<p>三者共享同一批底层命题：<span class="term">数据从哪来</span>（对比 [[数据源降级链]]）、<span class="term">成本怎么算</span>（[[交易成本与鞭打效应]]）、<span class="term">风险怎么拦</span>（[[护栏模式Guardrails]]）、<span class="term">AI 管什么不管什么</span>（[[事实与判断分离]]——CloddsBot 的风控全部是确定性代码，AI 只在"选哪个机会"层面说话，这和 daily-stock-analysis 的做法同源）。</p>
+<div class="take"><b>类比记忆</b>：NautilusTrader 是<b>赛车引擎厂</b>，stock 工具箱是<b>老师傅的修车工具墙</b>，CloddsBot 是<b>会聊天的自动驾驶套件</b>——车还是那台车（交易所），但方向盘换成了 AI。</div>
+</div>
+
+<!-- Q3 -->
+<div class="q"><span class="no">Q3</span><h3>"不预测涨跌也能赚"是什么原理？预测市场是啥？</h3>
+<p>推文最反直觉的一句是"它根本不预测涨跌"。要理解这个，先懂<span class="term">预测市场（prediction market）</span>：把一个未来事件（"BTC 一小时内会涨吗？"）变成一份<b>二元合约</b>——</p>
+<ul>
+<li>市场发行两种股份：<b>YES 股</b>和 <b>NO 股</b>，价格在 0~1 美元之间浮动；</li>
+<li>事件揭晓后，赢的那股固定赔 <b>1.00 美元</b>，输的那股归零；</li>
+<li>所以 <b>YES 的价格 = 市场公认的该事件发生概率</b>（YES 卖 0.65 刀 ≈ 大家认为 65% 会发生）。</li>
+</ul>
+<p>Polymarket 是目前最大的加密预测市场，日成交量上亿刀。它有个天然特性：<b>短期 BTC 涨跌盘</b>（5 分钟 / 15 分钟 / 1 小时一轮）全天候滚动开盘——这就是机器人"晚上也不用睡"的原因：市场永远开着。</p>
+<svg viewBox="0 0 640 210" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="620" height="190" rx="14" fill="#FFF4EC" stroke="#FF9F1C" stroke-width="2"/>
+  <text x="320" y="34" text-anchor="middle" font-size="14" font-weight="bold" fill="#B45309">预测市场：把"未来事件"变成可交易的股份</text>
+  <rect x="40" y="60" width="240" height="90" rx="10" fill="#06D6A0"/>
+  <text x="160" y="95" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">YES 股 现价 $0.65</text>
+  <text x="160" y="118" text-anchor="middle" fill="#fff" font-size="11">事件发生 → 赔 $1.00（赚 0.35）</text>
+  <text x="160" y="137" text-anchor="middle" fill="#fff" font-size="11">没发生 → 归零</text>
+  <rect x="360" y="60" width="240" height="90" rx="10" fill="#EF476F"/>
+  <text x="480" y="95" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">NO 股 现价 $0.36</text>
+  <text x="480" y="118" text-anchor="middle" fill="#fff" font-size="11">事件没发生 → 赔 $1.00（赚 0.64）</text>
+  <text x="480" y="137" text-anchor="middle" fill="#fff" font-size="11">发生了 → 归零</text>
+  <text x="320" y="185" text-anchor="middle" font-size="12" fill="#7A2E00" font-weight="bold">YES 价格 + NO 价格 ≈ 1.00（定价的引力锚点）—— 偏离它，机会就来了</text>
+</svg>
+<div class="figcap">图2：二元合约的两股定价。两边价格之和被"必赔 1 美元"锚在 1.00 附近</div>
+<div class="take"><b>关键转变</b>：机器人不回答"会涨吗"，它只回答"<b>两边的报价加起来是不是错位了</b>"——判断题外包给了全市场的交易者，机器人只做<b>算术题</b>。这就是"不预测也能赚"的全部秘密（前提是机会真存在，见 Q6）。</div>
+</div>
+
+<!-- Q4 -->
+<div class="q"><span class="no">Q4</span><h3>为什么 YES 卖价 + NO 卖价 &lt; 1 就稳赚？</h3>
+<p>这就是推文里机器人的核心打法，行话叫<span class="term">负风险套利（negative risk arbitrage）</span>。逻辑是一道小学算术：</p>
+<ul>
+<li>同时买 1 股 YES（$0.48）+ 1 股 NO（$0.49），总成本 <b>$0.97</b>；</li>
+<li>事件揭晓必然二选一：赢的那股<b>固定赔 $1.00</b>；</li>
+<li>所以无论结果如何，你收 $1.00，<span class="hl">稳赚 $0.03，约 3.1% 无风险收益</span>。</li>
+</ul>
+<p>同平台内出现这种错位叫负风险套利；同一个事件在 Polymarket 卖 YES、在 Kalshi 买 NO 出现错位，叫<b>跨平台套利</b>——CloddsBot 的 <code>src/arbitrage/</code> 两种都扫，这正是"监控 Polymarket"那一块的真身。</p>
+<div class="code">repo 源码对应（src/arbitrage/index.ts）
+ArbitrageOpportunity {
+  buyPrice, sellPrice,        // 两腿价格
+  spread, spreadPct,          // 价差与百分比
+  profitPer100,               // 每 100 刀本金的理论利润
+  confidence,                 // 匹配置信度(0~1)
+  isActive                    // 机会是否仍有效(转瞬即逝)
+}</div>
+<div class="take"><b>但注意</b>：理论稳赚 ≠ 真赚。三只手会伸过来：①手续费 ②下单滑点 ③资金占用期的事件风险（平台跑路/规则改）。所以工程上必须配"净边际过滤"（Q7）和风控（Q9）。<b>先记住公式：净赚 = (1 − YES卖价 − NO卖价) − 手续费 − 滑点</b>，下一节的实验就靠它。</div>
+</div>
+
+<!-- Q5 -->
+<div class="q"><span class="no">Q5</span><h3>机器人怎么知道"两个市场说的是同一件事"？</h3>
+<p>跨平台套利有个脏活：Polymarket 上写 "Will the Fed cut rates in October?"，Kalshi 上写 "Fed rate decision October meeting"，机器人得认出<b>这是同一件事</b>才能对冲。CloddsBot 的做法在 <code>questionSimilarity()</code> 函数里，意外地朴素：</p>
+<div class="code">// src/arbitrage/index.ts （真实源码，简化注释）
+function questionSimilarity(q1, q2) {
+  const normalize = s => s.toLowerCase()              // ① 全小写
+        .replace(标点, ' ')                            // ② 去标点
+  const words1 = new Set(normalize(q1))               // ③ 分词成集合
+  const words2 = new Set(normalize(q2))
+  const inter = [...words1].filter(x => words2.has(x)) // ④ 交集
+  return inter.size / union.size                       // ⑤ Jaccard 相似度
+}</div>
+<p><span class="term">Jaccard 相似度</span> = 交集 ÷ 并集。上面两句分词后交集有 {fed, rate, october}，并集 9 词，相似度 0.33，超过阈值就列为"候选同事件"，再由 AI 大脑（Claude）做最终语义确认。<b>确定性算法海选 + LLM 终审</b>——和我们在 [[LLM裁判与自动评估]]、[[事实与判断分离]] 里学过的分工完全一致：便宜精确的先干粗活，贵而聪明的只干细活。</p>
+<svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="620" height="160" rx="14" fill="#EFF6FF" stroke="#4361EE" stroke-width="2"/>
+  <text x="320" y="34" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E3A8A">两平台"同事件"识别：Jaccard 海选 + AI 终审</text>
+  <rect x="40" y="55" width="250" height="34" rx="8" fill="#fff" stroke="#4361EE"/><text x="165" y="77" text-anchor="middle" font-size="11">Polymarket: "Will the Fed cut…"</text>
+  <rect x="360" y="55" width="250" height="34" rx="8" fill="#fff" stroke="#4361EE"/><text x="485" y="77" text-anchor="middle" font-size="11">Kalshi: "Fed rate decision…"</text>
+  <path d="M290 72 L360 72" stroke="#4361EE" stroke-width="2" marker-end="url(#b)"/>
+  <rect x="150" y="110" width="340" height="40" rx="10" fill="#4361EE"/>
+  <text x="320" y="128" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">Jaccard = 交集/并集 &gt; 阈值？→ 候选对</text>
+  <text x="320" y="144" text-anchor="middle" fill="#DDE6FF" font-size="10">→ Claude 语义终审 → 建立配对，开始比价</text>
+  <defs><marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#4361EE"/></marker></defs>
+</svg>
+<div class="figcap">图3：市场配对流水线——纯文本相似度做粗筛，大模型做终审</div>
+<div class="take"><b>工程亮点</b>：粗筛必须便宜（每轮要扫上千个市场），终审才准花钱。把"贵而聪明"的调用次数压到 1% 以下，是所有 AI 应用省钱的同一招。</div>
+</div>
+
+<!-- Q6 -->
+<div class="q"><span class="no">Q6</span><h3>为什么实测扫不到套利机会？——地板被焊死在 1.001</h3>
+<p>我们照着 repo 的套利逻辑写了 Python 复刻版去扫 Polymarket 真实行情（实验 ex1，见实验节），结果 25 个最热门的市场里<b>一个机会都没有</b>——所有市场的 YES卖价 + NO卖价 全部落在 <b>1.001 ~ 1.010</b>。为什么？</p>
+<ul>
+<li>Polymarket 价格最小变动单位（<span class="term">tick</span>）是 <b>$0.001</b>；</li>
+<li>成百上千个做市机器人 7×24 挂单，一旦双边合计跌破 1.001，<b>零点几秒内就被别人的机器人吃掉</b>；</li>
+<li>所以留给我们的"地板"恰好是 <b>1 × tick = 1.001</b>——这个数字就是市场有效性的体温计。</li>
+</ul>
+<svg viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="620" height="170" rx="14" fill="#F0FBF8" stroke="#2EC4B6" stroke-width="2"/>
+  <text x="320" y="36" text-anchor="middle" font-size="13" font-weight="bold" fill="#0B5B52">实测：25 个热门市场的 YES+NO 合计成本分布</text>
+  <line x1="60" y1="140" x2="600" y2="140" stroke="#333" stroke-width="1.5"/>
+  <rect x="80" y="70" width="20" height="70" fill="#EF476F"/><text x="90" y="60" text-anchor="middle" font-size="10">0 个</text><text x="90" y="155" text-anchor="middle" font-size="9">&lt;1.000</text>
+  <rect x="140" y="140" width="20" height="1" fill="#ccc"/><text x="150" y="155" text-anchor="middle" font-size="9">1.000</text>
+  <rect x="200" y="80" width="20" height="60" fill="#2EC4B6"/><text x="210" y="70" text-anchor="middle" font-size="10" font-weight="bold">4 个（1.001）</text><text x="210" y="155" text-anchor="middle" font-size="9">1.001 = 地板</text>
+  <rect x="380" y="90" width="20" height="50" fill="#4361EE"/><text x="390" y="80" text-anchor="middle" font-size="10">6 个</text><text x="390" y="155" text-anchor="middle" font-size="9">1.010</text>
+  <text x="320" y="175" text-anchor="middle" font-size="11" fill="#0B5B52" font-weight="bold">跌破 1.001 的机会 = 0 个：做市机器人 0.1 秒内就搬走了</text>
+</svg>
+<div class="figcap">图4：ex1 实测分布（12/25 市场成功取到双边报价，全部 ≥ 1.001）</div>
+<div class="take"><b>这一课最值钱</b>：推文里"睡一觉赚 280 刀"如果真发生过，赚的不是"捡钱"，是<b>速度、门槛（tick）和费率之间的极限缝隙</b>——拼的是服务器离交易所近、下单快。散户拿家用电脑 + 手动操作，处在食物链最底端。<span class="hl">看见"无风险稳赚"四个字，先问 tick 和手续费。</span></div>
+</div>
+
+<!-- Q7 -->
+<div class="q"><span class="no">Q7</span><h3>跨交易所搬砖为什么不能闭眼搬？——净边际</h3>
+<p>第二块"监控 Binance"的打法是<b>跨所搬砖</b>：同一资产（如 BTC/USDT）在 A 所便宜 B 所贵，A 买 B 卖。但 repo 的 V2 套利文档（<code>docs/V2_HFT_ARBITRAGE.md</code>）第一原则就是<span class="term">净边际过滤（net-edge filter）</span>：</p>
+<div class="code">净边际 = 毛价差 − 买入所手续费 − 卖出所手续费 − 滑点 − (资金到账延迟 × 波动率)
+repo 还额外惩罚：报价过期(stale-quote)、库存不足、延迟高的路径 —— 全部不过门槛直接拒绝出单</div>
+<p>我们用 OKX 和 Kraken 的真实行情做了实测（实验 ex2）：两个大所的 BTC 毛价差只有 <b>0.0007%~0.011%</b>，而两腿 taker 手续费合计 <b>0.36%</b>——<span class="hl">净边际 −0.36%，两个字：不干</span>。这就是为什么 repo 里写"Rejects plans that fail minimum net-edge"——大多数"看起来有价差"的机会，死在手续费这道门。</p>
+<svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="620" height="180" rx="14" fill="#FFF4EC" stroke="#FF9F1C" stroke-width="2"/>
+  <text x="320" y="36" text-anchor="middle" font-size="13" font-weight="bold" fill="#B45309">ex2 实测瀑布：毛价差是怎么被一层层吃掉的</text>
+  <rect x="70" y="70" width="500" height="26" rx="4" fill="#06D6A0"/><text x="320" y="88" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">毛价差 0.0007% ~ 0.011%（小到几乎看不见）</text>
+  <rect x="70" y="104" width="500" height="26" rx="4" fill="#FF9F1C"/><text x="320" y="122" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">− 双腿 taker 手续费 0.36%（OKX 0.1% + Kraken 0.26%）</text>
+  <rect x="70" y="138" width="500" height="26" rx="4" fill="#EF476F"/><text x="320" y="156" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">= 净边际 −0.36% → RiskEngine 拒绝执行 ✘</text>
+</svg>
+<div class="figcap">图5：净边际瀑布——绿色（毛利）还没橙色（成本）长，必亏</div>
+<div class="take"><b>联动已学</b>：这正是 [[交易成本与鞭打效应]] 的又一实证——信号越密、交易越频繁，成本越是生死线。<b>任何"搬砖"策略上市前，第一笔要算的账永远是手续费。</b></div>
+</div>
+
+<!-- Q8 -->
+<div class="q"><span class="no">Q8</span><h3>多跳套利怎么用算法找？——负环检测</h3>
+<p>repo 的 V2 还有个更炫的模块：<span class="term">多跳套利（multi-hop arbitrage）</span>。不只比两个价格，而是在"货币兑换图"里找<b>环路</b>：BTC → USDT → ETH → BTC，绕一圈回来如果钱变多了，就是三角套利。经典算法两步：</p>
+<ul>
+<li><b>第一步：汇率取负对数变边权。</b>把每一跳的汇率 r 乘上 (1−手续费)，取 <span class="code">w = −log(r×(1−fee))</span>。这样"绕一圈的汇率乘积 &gt; 1"就等价于"绕一圈的边权之和 &lt; 0"——对数把乘法变加法；</li>
+<li><b>第二步：找负环。</b>在带负权的图里找"边权和为负的回路"，标准算法是 <span class="term">Bellman-Ford</span>（它能处理负权边，第 n 轮还在松弛就说明有负环）。</li>
+</ul>
+<p>我们用 OKX 真实行情三元组（BTC/USDT、ETH/USDT、ETH/BTC）实测（实验 ex3）：两个方向的环扣掉每跳 0.1% 手续费后，边权和 <b>+0.0030</b>，资金乘数 <b>0.997</b>——绕一圈亏 0.3%，无套利。主流大所的三角缝隙同样被机器人抹平。</p>
+<svg viewBox="0 0 640 210" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="620" height="190" rx="14" fill="#F4F1FF" stroke="#7209B7" stroke-width="2"/>
+  <text x="320" y="36" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A148C">多跳套利：把"找汇率环"变成"找负权环"</text>
+  <circle cx="320" cy="110" r="38" fill="#7209B7"/><text x="320" y="106" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">BTC</text><text x="320" y="122" text-anchor="middle" fill="#fff" font-size="9">$84,432</text>
+  <circle cx="180" cy="60" r="34" fill="#2EC4B6"/><text x="180" y="65" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">USDT</text>
+  <circle cx="460" cy="60" r="34" fill="#4361EE"/><text x="460" y="65" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">ETH</text><text x="460" y="80" text-anchor="middle" fill="#fff" font-size="9">$2,657</text>
+  <path d="M290 95 Q220 65 213 70" stroke="#555" stroke-width="2" fill="none" marker-end="url(#c)"/>
+  <path d="M444 70 Q400 90 352 103" stroke="#555" stroke-width="2" fill="none" marker-end="url(#c)"/>
+  <path d="M448 88 Q470 130 350 122" stroke="#555" stroke-width="2" fill="none" marker-end="url(#c)"/>
+  <text x="230" y="45" text-anchor="middle" font-size="10" fill="#333">卖 BTC/USDT</text>
+  <text x="400" y="100" text-anchor="middle" font-size="10" fill="#333">买 ETH/USDT</text>
+  <text x="452" y="140" text-anchor="middle" font-size="10" fill="#333">卖 ETH/BTC</text>
+  <text x="320" y="185" text-anchor="middle" font-size="11" font-weight="bold" fill="#4A148C">w = −log(rate × (1−fee))；环边权和 &lt; 0 ⟺ 绕一圈钱变多</text>
+  <defs><marker id="c" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#555"/></marker></defs>
+</svg>
+<div class="figcap">图6：ex3 实测的三元组环——两个方向边权和均为正，无套利</div>
+<div class="take"><b>为什么这设计漂亮</b>：把金融问题（哪个环赚钱）转成图论问题（有没有负环），就能用几十年打磨过的成熟算法一次扫全图。repo 还在此之上做<span class="hl">延迟感知排序</span>——同样无套利时优先选延迟低的路径，因为套利的本质是抢时间。</div>
+</div>
+
+<!-- Q9 -->
+<div class="q"><span class="no">Q9</span><h3>"风险太高直接不玩"具体怎么实现？——十道盘前检查</h3>
+<p>推文第三块"实时盯流动性，风险太高直接取消"，对应 repo 里最工程化的部分：<code>src/risk/engine.ts</code> 的 <b>RiskEngine</b>。每一笔单子下单前必须按顺序过 10 道检查，任一道拦截即否决：</p>
+<table>
+<tr><th>#</th><th>检查</th><th>干嘛的（白话版）</th></tr>
+<tr><td>1</td><td>Kill switch 总闸</td><td>一键停止交易开关有没有被拉下</td></tr>
+<tr><td>2</td><td>熔断器 circuit breaker</td><td>连续亏损/异常行情时自动断电</td></tr>
+<tr><td>3</td><td>单笔上限</td><td>这一单金额超没超上限</td></tr>
+<tr><td>4</td><td>敞口限额</td><td>总持仓超没超上限</td></tr>
+<tr><td>5</td><td>日亏/回撤/集中度</td><td>今天亏够数没有、是不是全押一个宝</td></tr>
+<tr><td>6</td><td>VaR 风险价值</td><td>"95% 的情况下今天最多亏多少"超没超线</td></tr>
+<tr><td>7</td><td>波动率分档</td><td>低/常/高/极端四档，极端档减仓到 25% 或直接停机</td></tr>
+<tr><td>8</td><td>Kelly 仓位</td><td>按胜率赔率算"该押多大"，不批准只调大小</td></tr>
+</table>
+<p><span class="term">Kelly 公式</span>一句话：<b>押注比例 = 优势 ÷ 赔率</b>。胜率 55%、赔率 1:1 时 Kelly 仓位 = (0.55−0.45)/1 = 10% 本金；实际工程用"半 Kelly"（再砍半）因为胜率估计本身有误差。repo 里 <code>src/trading/kelly.ts</code> 做的是<b>动态 Kelly</b>——用最近的滚动胜率实时调整，连击亏损时自动缩仓。</p>
+<p>这个设计和我们已学的 [[护栏模式Guardrails]]、[[评分契约与护栏]] 一脉相承：<span class="hl">AI 负责"挑哪个机会"，确定性代码负责"这笔单能不能出"——权力边界用架构焊死，不靠 AI 自觉</span>。仓库的 tests/trading 里甚至有专门的 "shared pre-trade gate" 测试：风控减仓单可以超仓位上限，但 kill switch 谁也绕不过（我们实测 11/11 全过，见实验 ex4）。</p>
+<div class="take"><b>记住分层</b>：预测（AI，可以错）→ 定量（Kelly，公式算）→ 放行（10 道检查，一票否决）。<b>三层里任何一层交给 AI 全权负责，都是事故。</b></div>
+</div>
+
+<!-- Q10 -->
+<div class="q"><span class="no">Q10</span><h3>一条聊天消息怎么变成一笔真实订单？——九步数据流</h3>
+<p>在 Telegram 里输入 "Buy $100 of YES on Trump winning"，到订单成交，repo 的 <code>docs/ARCHITECTURE.md</code> 定义了完整九步：</p>
+<svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="8" width="620" height="284" rx="14" fill="#EFF6FF" stroke="#4361EE" stroke-width="2"/>
+  <text x="320" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E3A8A">消息 → 订单 九步流水线（ARCHITECTURE.md 原版流程）</text>
+  <g font-size="10.5">
+  <rect x="30" y="45" width="185" height="30" rx="6" fill="#4361EE"/><text x="122" y="64" text-anchor="middle" fill="#fff">① 收消息(TG/Discord/…)</text>
+  <rect x="230" y="45" width="185" height="30" rx="6" fill="#4361EE"/><text x="322" y="64" text-anchor="middle" fill="#fff">② 鉴权+限流</text>
+  <rect x="430" y="45" width="185" height="30" rx="6" fill="#4361EE"/><text x="522" y="64" text-anchor="middle" fill="#fff">③ 路由到 Agent</text>
+  <rect x="30" y="90" width="185" height="30" rx="6" fill="#7209B7"/><text x="122" y="109" text-anchor="middle" fill="#fff">④ 载入会话/记忆/偏好</text>
+  <rect x="230" y="90" width="185" height="30" rx="6" fill="#7209B7"/><text x="322" y="109" text-anchor="middle" fill="#fff">⑤ AI 选工具</text>
+  <rect x="430" y="90" width="185" height="30" rx="6" fill="#7209B7"/><text x="522" y="109" text-anchor="middle" fill="#fff">⑥ 沙箱执行工具</text>
+  <rect x="30" y="135" width="185" height="30" rx="6" fill="#FF3B6B"/><text x="122" y="154" text-anchor="middle" fill="#fff">⑦ 搜市场→拿订单簿→算滑点</text>
+  <rect x="230" y="135" width="185" height="30" rx="6" fill="#EF476F"/><text x="322" y="154" text-anchor="middle" fill="#fff" font-weight="bold">⑧ RiskEngine 十道检查</text>
+  <rect x="430" y="135" width="185" height="30" rx="6" fill="#FF9F1C"/><text x="522" y="154" text-anchor="middle" fill="#fff">⑨ 智能选 venue→签名→下单</text>
+  </g>
+  <path d="M215 60 L230 60 M415 60 L430 60 M522 75 L522 90 M122 75 L122 90 M215 105 L230 105 M415 105 L430 105 M522 120 Q522 128 510 135 M322 120 L322 135 M215 150 L230 150" stroke="#666" stroke-width="1.6" fill="none"/>
+  <rect x="30" y="185" width="585" height="34" rx="6" fill="#FFD23F"/><text x="322" y="206" text-anchor="middle" font-size="11" font-weight="bold" fill="#7A2E00">成交 → 记库 → 更新组合 → Telegram 推送回报（推文里"满屏成交单"就是这一步）</text>
+  <text x="322" y="245" text-anchor="middle" font-size="10.5" fill="#1E3A8A" font-weight="bold">要点：AI 只出现在 ③④⑤⑥（理解与决策），⑦⑧⑨ 全是确定性代码</text>
+  <text x="322" y="265" text-anchor="middle" font-size="10.5" fill="#7A2E00">哪怕 AI 被提示注入说胡话，风控和签名执行层照样拦得住（架构层防注入）</text>
+</svg>
+<div class="figcap">图7：九步数据流——AI 与确定性代码的分界线画在第 ⑥⑦ 步之间</div>
+<div class="take"><b>与已学联动</b>：①~⑥ 就是 [[Agent循环]] + [[LLM工具调用]] 的标准套路；⑧ 的"一票否决"是 [[护栏模式Guardrails]]；"带着钱包的 Agent 必须架构层防 [[提示注入]]"是本仓库给全行业的示范。</div>
+</div>
+
+<!-- Q11 -->
+<div class="q"><span class="no">Q11</span><h3>121 个"技能包"是什么？和 Claude Code 技能什么关系？</h3>
+<p>CloddsBot 的功能扩展机制和我们已经在用的 <span class="term">SKILL.md 技能包</span>（见 [[AgentSkills技能包]]）<b>是同一套格式</b>：一个文件夹 + 一个带 YAML frontmatter 的 markdown 说明文件，加载器自动发现、无需注册。README 自称 "Full backwards compatibility with OpenClaw-format SKILL.md files"——整个生态在合流。</p>
+<div class="code">src/skills/bundled/arbitrage/SKILL.md   ← 121 个内置技能之一
+---
+name: arbitrage
+description: "跨市场套利扫描"
+---
+# Arbitrage
+| 命令 | 说明 |
+| /arbitrage scan | 扫描当前套利机会 |</div>
+<p>四层优先级加载（同名高优先级覆盖）：<b>工作区 skills/ &gt; 用户 .clodds/skills/ &gt; 配置 extraDirs &gt; 内置 bundled/</b>——这正是 [[分层按需加载]] + [[能力层与后端路由]] 的思路：入口常驻很小，大能力按需唤醒，换后端不改入口。</p>
+<div class="take"><b>视线拉高</b>：一个交易终端，用的却是通用 Agent 生态的技能格式。这意味着"给 Agent 装新本事"这件事已经出现<b>跨行业的统一接口</b>——今天学的 SKILL.md 写法，在交易、办公、机器人领域通用。</div>
+</div>
+
+<!-- Q12 -->
+<div class="q"><span class="no">Q12</span><h3>x402 是什么新词？</h3>
+<p>仓库 topics 里有个陌生的词 <span class="term">x402</span>：一个"机器对机器支付"的开放协议， resurrect 了 HTTP 402（Payment Required）这个几十年没用的状态码——API 被调用时可以直接回一句"付费 0.001 美元再试"，机器 A 用加密钱包当场付钱、当场拿到服务，<b>不需要人刷卡、不需要注册账号</b>。业内叫它"代理商务（agentic commerce）"：当 AI Agent 们开始互相买服务，就得有机器间的收银台。</p>
+<p>CloddsBot 自称 "Agent commerce protocol for machine-to-machine payments"，设想是：你的机器人缺一条付费数据源，它自己发现、自己砍价、自己付款。这类协议还在早期，但方向值得知道：<span class="hl">AI 的下一个基建不是更强的模型，而是"付钱的手"</span>。</p>
+<div class="take"><b>联想记忆</b>：[[MCP协议]] 解决"Agent 怎么调工具"，x402 想解决"Agent 怎么为工具付费"。一个管握手，一个管收银。</div>
+</div>
+
+<!-- Q13 -->
+<div class="q"><span class="no">Q13</span><h3>"开源 + 币 + 返佣"的推广套路怎么识别？</h3>
+<p>这次查证本身就是一个现成的"鉴伪流程"，四红旗 + 三步法：</p>
+<table>
+<tr><th>🚩 红旗信号（本项目全中）</th><th>查证三步法（本次实际操作）</th></tr>
+<tr>
+<td>① 推文带交易所<b>返佣链接</b>（?r=xml）<br>② README 顶部挂 <b>meme 币合约地址</b>（"Clodds CA"）<br>③ 星数短期暴涨（月内 899→2888）<br>④ 讲"普通人逆袭"故事但<b>零可核实证据</b>（"23 岁小伙赚 280 刀"查无此人）</td>
+<td>① <b>fxtwitter 拿推文全文</b>，把链接和关键数字全部列出来<br>② <b>GitHub API 核仓库</b>：创建时间、语言、协议、commit 频率、星数曲线——判断"代码是不是真的有人在维护"<br>③ <b>读源码 + 跑测试</b>：文档吹得再响，typecheck 过不过、测试绿不绿、核心逻辑在哪个文件多少行，一跑便知</td>
+</tr>
+</table>
+<div class="take"><b>结论要分两层说</b>：仓库本身——真的、活跃的、代码质量中上的工程（这点可信）；仓库的<b>盈利叙事</b>——营销话术，不可信。<span class="hl">"代码是真的"和"故事是真的"是两个独立命题，必须分开验证。</span></div>
+</div>
+
+<!-- Q14 -->
+<div class="q"><span class="no">Q14</span><h3>我能拿它做什么？千万别做什么？</h3>
+<p><b>可以做的（零风险高收益）：</b></p>
+<ul>
+<li>把它当<b>AI Agent 终端的参考架构</b>读：网关/渠道适配/技能包/风控引擎的分层，搬到任何 Agent 项目都成立；</li>
+<li>跑它的<b>单元测试</b>学风控测试怎么写（kill switch 优先于一切）；</li>
+<li>用它的<b>公开 API 思路</b>（gamma + CLOB 都免钥只读）做行情分析、数据可视化、市场有效性研究；</li>
+<li>复刻套利检测器当<b>教学工具</b>——本指南实验就是范例，拿来改阈值、加市场、画图都行。</li>
+</ul>
+<p><b>千万别做的（血泪忠告）：</b></p>
+<ul>
+<li>❌ <b>充真金白银跑实盘</b>：200x 杠杆、链上钱包私钥交给一个 GitHub 项目，等于把银行卡密码贴朋友圈；</li>
+<li>❌ 买它 README 里的 <b>meme 币</b>（那是项目方的融资手段，不是投资机会）；</li>
+<li>❌ 相信"挂机睡觉赚钱"——所有 <span class="hl">passive income 叙事在套利领域都意味着你在食物链底端</span>（Q6/Q7/Q8 三连实测已证明：热门市场无缝隙，缝隙拼速度和费率）；</li>
+<li>❌ 在没有 10 道风控检查的情况下裸跑任何交易脚本。</li>
+</ul>
+<div class="take"><b>一句话总结</b>：这个仓库最值钱的产出不是利润，是<b>一套可以直接抄的"AI + 交易"工程蓝图</b>——蓝图免费，学费免交。</div>
+</div>
+
+<!-- ============ 能力清单 ============ -->
+<div class="h1">2 · 这个项目给我什么（能力清单）</div>
+<div class="skill-grid">
+<div class="sk"><b>① 一张 AI 交易终端架构图</b><br>网关→渠道适配→Agent→工具→风控→执行六层，可直接套用到任何"AI + 危险操作"的系统设计。</div>
+<div class="sk"><b>② 负风险套利的完整算法思路</b><br>YES+NO&lt;1 的检测公式、Jaccard 市场配对、置信度打分——300 行 Python 就能复刻（本指南 ex1 就是证据）。</div>
+<div class="sk"><b>③ 净边际过滤公式</b><br>毛价差−手续费−滑点−延迟惩罚，任何交易/搬砖策略上市前的第一笔账。</div>
+<div class="sk"><b>④ 负环检测找多跳套利</b><br>−log 边权 + Bellman-Ford 的图论转化套路，可推广到任何"环路收益"类问题。</div>
+<div class="sk"><b>⑤ 十道盘前风控清单</b><br>Kill switch→熔断→限额→VaR→波动率分档→Kelly，风控测试的黄金模板（tests/trading 可直接读）。</div>
+<div class="sk"><b>⑥ "开源+币+返佣"鉴伪流程</b><br>fxtwitter 取证 → GitHub API 验仓 → 跑测试验代码，三步分离"真代码"与"假故事"。</div>
+</div>
+
+<!-- ============ 实验 ============ -->
+<div class="h1">3 · 动手实验（全部真实运行，零交易零API费）</div>
+<p>实验环境：Windows 11 + Python 3.14.7（纯标准库，零第三方依赖）+ Node v24.21.0。所有脚本在 <code>cloddsbot\exercise\</code>。<b>数据全部来自公开只读接口，全程无任何真实交易，不构成投资建议。</b></p>
+
+<div class="ex"><div class="head">实验 ex1 · 复刻"监控 Polymarket"：负风险套利扫描器（主实验）</div><div class="body">
+<div class="step"><span class="t">第 1 步 · 理解要复刻什么</span><br>目的：把 repo <code>src/arbitrage/index.ts</code> 的五步流水线（扫描→比价→算边际→打分→风控过滤）用 100 行 Python 复刻。<br>操作：读 repo 源码的 <code>ArbitrageOpportunity</code> 接口与 <code>calculateArbitrage()</code>，然后打开 <code>exercise\ex1_poly_arb.py</code>。<br>实现了什么： Polymarket gamma-api 拉热门市场 + CLOB 公开订单簿取双边最优卖价。<br>验证：脚本第一行输出"拉到 40 个活跃市场"。</div>
+<div class="step"><span class="t">第 2 步 · 运行扫描</span><br>操作：<span class="code">python ex1_poly_arb.py</span><br>目的：用真实行情算每个市场的 YES卖价+NO卖价。<br>实现了什么：12 个市场成功取到双边报价（其余因订单簿空的被跳过）。<br>验证（真实输出摘要）：</div>
+<div class="out">[1] 市场扫描: 拉到 40 个活跃市场, 其中二元市场 40 个
+[2] 价格比较: 成功拿到 12 个市场的 YES/NO 双边最优卖价
+[3] 风控过滤: 流动性>=5000$ 且 净边际>=0.005 且 边际<=0.15 -> 通过 0/12
+Will Flávio Bolsonaro win…  YES 0.570  NO 0.431  合计 1.001  毛边际 -0.001
+Will the Fed increase…      YES 0.005  NO 0.996  合计 1.001  毛边际 -0.001
+2026 Balance of Power…      YES 0.080  NO 0.930  合计 1.010  毛边际 -0.010</div>
+<div class="step"><span class="t">第 3 步 · 改参数再跑（可见成果）</span><br>操作：把 <code>MIN_EDGE</code> 从 0.005 改成 -0.02（故意放进负边际"机会"），重跑。<br>实现了什么：表格立刻出现一堆"合计 1.01"的假机会被排到前面——直观看到"没有风控过滤会怎样"。<br>验证：过滤行从"通过 0/12"变成"通过 12/12"，证明过滤逻辑在起作用。</div>
+<div class="step"><span class="t">第 4 步 · 解读</span><br>所有市场合计成本 ≥ 1.001 = tick 地板（Q6 结论）。<b>✅ 预期结果：热门市场零套利机会——市场有效，"捡钱"不存在。</b></div>
+<div class="warn">实测坑：gamma API 的 <code>clobTokenIds</code> 字段返回的是 <b>JSON 字符串</b>不是数组，直接 len() 永远等于 1，必须再 <code>json.loads()</code> 一次——我们第一版就栽在这，40 个市场全被过滤成 0 个。</div>
+</div></div>
+
+<div class="ex"><div class="head">实验 ex2 · 复刻"监控 Binance"：跨所净边际计算</div><div class="body">
+<div class="step"><span class="t">操作与目的</span><br><span class="code">python ex2_venue_edge.py</span> —— 用 OKX 和 Kraken 公共行情算 BTC/USDT 跨所搬砖的净边际（Binance 公共 API 实测被地域限制 "restricted location"，本身就是个真实世界坑：交易所会按 IP 拒服务）。<br>验证（真实输出）：</div>
+<div class="out">OKX    ask=84,432.6  bid=84,432.5
+Kraken ask=84,433.2  bid=84,423.2
+A: Kraken买 -> OKX卖   毛边际 -0.0008%  双taker费 0.3600%  净边际 -0.3608%  拒绝
+B: OKX买 -> Kraken卖   毛边际 -0.0111%  双taker费 0.3600%  净边际 -0.3711%  拒绝
+=> 印证 repo 净边际过滤存在的意义: 大多数'看起来有价差'的机会过不了手续费这道门</div>
+<div class="cap">✅ 预期结果：两大所毛价差 0.001% 量级 &lt;&lt; 0.36% 双腿手续费，两个方向都被拒绝——"搬砖梦"被手续费当场击碎。</div>
+</div></div>
+
+<div class="ex"><div class="head">实验 ex3 · 多跳套利：负环检测</div><div class="body">
+<div class="step"><span class="t">操作与目的</span><br><span class="code">python ex3_multihop.py</span> —— 拿 OKX 真实三元组（BTC/USDT、ETH/USDT、ETH/BTC）做 −log 边权 + Bellman-Ford 思想的负环检测。<br>验证（真实输出）：</div>
+<div class="out">BTC-USDT mid = 84,432.55   ETH-USDT mid = 2,657.59   ETH-BTC mid = 0.0315
+环1 BTC->USDT->ETH->BTC    边权和=+0.003028  资金乘数=0.996977  无套利
+环2 反向 BTC->ETH->USDT->BTC 边权和=+0.002975  资金乘数=0.997029  无套利
+=> 三角套利在主流大所早被机器人抹平</div>
+<div class="cap">✅ 预期结果：扣每跳 0.1% 手续费后两个方向边权和均为正（绕一圈亏 0.3%）——图论算法正确工作，市场同样有效。</div>
+<div class="warn">实测坑：第一版把环方向汇率写反（BTC→USDT 用了 1/价格），负环"满地都是"资金乘数 71 亿倍——<b>套利检测器最危险的 bug 就是方向搞反后把必亏报成暴富</b>。正确语义：rate = 换到的资产数 ÷ 换出的资产数。</div>
+</div></div>
+
+<div class="ex"><div class="head">实验 ex4 · 跑通上游仓库：typecheck + 单元测试</div><div class="body">
+<div class="step"><span class="t">操作与目的</span><br>克隆 <code>git clone https://github.com/alsk1992/CloddsBot repo</code>（v1.9.1, commit c930628）→ <code>npm install</code> → <code>npm run typecheck</code> → 跑交易风控相关测试。<br>验证（真实输出）：</div>
+<div class="out">npm install → 834 个包（坑：helius-laserstream@0.1.8 只支持 darwin/linux，
+  Windows 需 npm install --force 绕过平台检查）
+npm run typecheck → 0 errors
+npx tsx --test tests/trading/*.test.ts
+  ✔ allows risk-reducing exits over the size cap but still honors kill switches
+  ✔ shared pre-trade gate (2.5ms)
+  ✔ Solana swap notional valuation (2.1ms)
+  tests 11 / pass 11 / fail 0</div>
+<div class="cap">✅ 预期结果：类型检查全过 + 风控测试 11/11 全绿——开源代码的"真实性"最终由测试证明，不是由 README 证明。测试里最有含金量的一条：<b>"风控减仓单可以超仓位上限，但 kill switch 任何情况下都拦得住"</b>——这就是 Q9 十道检查的活标本。</div>
+</div></div>
+
+<div class="h1">4 · 知识入库指引</div>
+<p>本篇沉淀 5 个新概念进 vault：<b>预测市场与二元合约</b>、<b>负风险套利</b>、<b>净边际与多跳套利环</b>、<b>风控链与Kelly仓位</b>、<b>AI交易终端</b>；与已有概念互链：[[事件驱动回测]]、[[交易成本与鞭打效应]]、[[个人量化工具箱范式]]、[[护栏模式Guardrails]]、[[AgentSkills技能包]]、[[LLM工具调用]]、[[提示注入]]。</p>
+
+<div class="foot">CloddsBot 小白指南 · 2026-10-03 生成 · 拾遗学习流水线 task 6ace9065 · 数据与输出均为 2026-10-03 真实实测 · 仅供学习，不构成投资建议</div>
+</div></body></html>

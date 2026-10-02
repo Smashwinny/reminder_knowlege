@@ -14,3 +14,5 @@
 05:52 [PDF] guide.html 写完（12问卡片+10张SVG+5步实验），Edge 无头打印成功 812KB，改名 CodexClaude重置追踪器-小白指南.pdf，直接落在 F:\reminder\codex-claude-resets\ 内（未落根目录）。坑：msedge 不在 PATH，用完整路径 "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 06:00 [入库] vault 3 概念（证据状态机/中继交叉印证/提交即部署）+ 项目笔记 codex-claude-resets.md + MOC 新分区"数据采集/可信追踪与零运维部署"+项目索引行，概念计数 154→157
 06:05 [站点] shiyi_sync.py done 标完成成功；纲要追加时发现并行 worker 已占序号 47/48，改用 49
+06:12 [git] 提交 c460633 + push 成功（a3a63ea..c460633）。注意：并行 TripoSR worker 的 git add -A（a3a63ea）把我的 PDF/guide.html/exercise/vault 概念先扫进了库，c460633 补齐纲要行49+日志；已核验 HEAD 中全部产出为最终版（MOC 157概念+新分区+索引行、row 49、3概念笔记、项目笔记、PDF 812KB 在子项目目录内）
+06:12 [完工] 任务完成：学习类全流程 8 步走完
