@@ -1,0 +1,5 @@
+/* 动效描述: slide-up + ease-out + 300ms  |  缓动性格: 快进慢出，刹车感，入场首选 */
+.card { opacity: 0; }
+.card { transform: translateY(24px); }
+.card.enter { opacity: 1; transform: none; filter: none; }
+.card { transition: opacity 300ms cubic-bezier(0, 0, 0.2, 1), transform 300ms cubic-bezier(0, 0, 0.2, 1); }

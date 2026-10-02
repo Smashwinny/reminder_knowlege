@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>动效描述词表—Vibecoding 小白指南</title>
+<style>
+:root{
+  --bg:#FFF9F0; --ink:#2B1B00; --card:#FFFFFF;
+  --c1:#FF3D00; --c2:#FF9100; --c3:#00BFA5; --c4:#2962FF; --c5:#7C3AED; --c6:#00C853;
+  --hl:#FFF176;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.75; font-size:15px;}
+@page{size:A4; margin:12mm;}
+.wrap{max-width:780px; margin:0 auto; padding:24px 8px;}
+h1{font-size:34px; color:#fff; background:linear-gradient(95deg,var(--c1),var(--c2)); padding:22px 26px; border-radius:18px; margin-bottom:6px;}
+.sub{background:#fff; border:3px dashed var(--c2); border-radius:14px; padding:12px 18px; margin-bottom:22px; font-size:14px;}
+.q{break-inside:avoid; background:var(--card); border-radius:18px; padding:20px 24px; margin-bottom:22px; box-shadow:0 4px 16px rgba(255,61,0,.12); border-top:8px solid var(--c1);}
+.q:nth-of-type(2n){border-top-color:var(--c3);}
+.q:nth-of-type(3n){border-top-color:var(--c5);}
+.qhead{display:flex; align-items:center; gap:14px; margin-bottom:12px;}
+.qnum{min-width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,var(--c1),var(--c2)); color:#fff; font-size:26px; font-weight:900; display:flex; align-items:center; justify-content:center;}
+.qtitle{font-size:21px; font-weight:900; color:var(--c1);}
+.q:nth-of-type(2n) .qtitle{color:#00796B;}
+.q:nth-of-type(3n) .qtitle{color:var(--c5);}
+.hl{background:var(--hl); font-weight:900; padding:1px 5px; border-radius:5px;}
+.big{font-size:17px; font-weight:900;}
+.key{background:linear-gradient(90deg,#E3F2FD,#fff); border-left:6px solid var(--c4); padding:10px 14px; border-radius:0 10px 10px 0; margin:10px 0;}
+.warn{background:#FFEBEE; border-left:6px solid #D50000; padding:10px 14px; border-radius:0 10px 10px 0; margin:10px 0;}
+.ok{background:#E8F5E9; border-left:6px solid var(--c6); padding:10px 14px; border-radius:0 10px 10px 0; margin:10px 0;}
+code,.code{font-family:Consolas,monospace; background:#263238; color:#FFCC80; padding:2px 7px; border-radius:6px; font-size:13px;}
+.codeblock{background:#263238; color:#ECEFF1; border-radius:12px; padding:14px 16px; font-family:Consolas,monospace; font-size:12.5px; overflow-x:auto; margin:10px 0; white-space:pre-wrap;}
+table{width:100%; border-collapse:collapse; margin:10px 0; font-size:13.5px;}
+th{background:var(--c2); color:#fff; padding:7px 9px; text-align:left;}
+td{border-bottom:2px solid #FFE0B2; padding:7px 9px;}
+tr:nth-child(even) td{background:#FFF8F0;}
+.tag{display:inline-block; background:var(--c3); color:#fff; border-radius:999px; padding:2px 12px; font-weight:900; font-size:13px; margin:2px;}
+.tag.v{background:var(--c5);} .tag.o{background:var(--c1);} .tag.b{background:var(--c4);}
+.svgbox{background:#FFF8F0; border:2px solid var(--c2); border-radius:14px; padding:10px; text-align:center; margin:10px 0;}
+.svgbox svg{max-width:100%; height:auto;}
+.step{background:#E0F7FA; border-radius:12px; padding:12px 16px; margin:10px 0; border-left:6px solid var(--c4);}
+.footer{background:linear-gradient(95deg,var(--c5),var(--c4)); color:#fff; border-radius:16px; padding:18px 24px; margin-top:10px; font-size:14px;}
+</style>
+</head>
+<body><div class="wrap">
+
+<h1>想要 Vibecoding？先学会"动效描述"！</h1>
+<div class="sub">
+📦 <b>项目</b>：抖音短视频主题还原（@优卓UX上岸社「想要Vibecoding？先学会动效描述！」，视频 7683862830755384614，2026-09-10，1.2万赞）<br>
+🎯 <b>一句话</b>：让 AI 写出"对味"的 UI 动效，靠的不是形容词，而是一套<b>双方都认识的词汇表</b>——触发、对象、缓动、时序四要素。<br>
+🧪 <b>实验</b>：4 个零依赖 Python 实验，全部真实运行（词表生成 CSS / 缓动采样验证 / demo 页验收 / 描述体检器）。
+</div>
+
+<!-- Q1 -->
+<div class="q"><div class="qhead"><div class="qnum">1</div><div class="qtitle">"动效描述"是什么？一句话说清</div></div>
+<p><span class="hl">动效描述 = 把"我想要什么样的动画"翻译成 AI 能精确执行的词汇</span>。你跟裁缝说"做件好看的衣服"，做出来一定不对味；说"修身、深蓝、混纺、袖口一寸"，一次就对。AI 写动效同理：它会的 CSS 动画词汇成百上千，你只会说"高级一点""灵动一点"，它就只能瞎猜。</p>
+<div class="key">💡 Vibecoding 的"Vibe"不是玄学：感觉越"玄"，越需要一套<span class="hl">精确的语言</span>把它钉死。动效描述词表就是这套语言。</div>
+</div>
+
+<!-- Q2 -->
+<div class="q"><div class="qhead"><div class="qnum">2</div><div class="qtitle">为什么 AI 写的动效总"不对味"？</div></div>
+<p>做一个对照实验就明白。坏描述 vs 好描述，同一个 AI，差的是一个词表：</p>
+<table>
+<tr><th></th><th>坏描述「帮我做个卡片动画」</th><th>好描述「加载时5张卡片从下滑入，先快后慢，每张300ms，错峰60ms」</th></tr>
+<tr><td><b>触发</b></td><td>❌ AI 猜（可能用滚动？）</td><td>✅ 页面加载</td></tr>
+<tr><td><b>动作</b></td><td>❌ 淡入？飞入？随缘</td><td>✅ 从下方滑入</td></tr>
+<tr><td><b>性格</b></td><td>❌ 默认 linear，机械感</td><td>✅ 先快后慢 = ease-out</td></tr>
+<tr><td><b>节奏</b></td><td>❌ 默认 0s，瞬间闪现</td><td>✅ 300ms + 错峰 60ms</td></tr>
+</table>
+<div class="warn">⚠️ 短视频的原话点就是这：<span class="hl">"学到了名词，我就知道怎么做了"</span>——不是 AI 不行，是你没给它名词。</div>
+</div>
+
+<!-- Q3 -->
+<div class="q"><div class="qhead"><div class="qnum">3</div><div class="qtitle">动效四要素：一张拆解图</div></div>
+<p>任何一个 UI 动效，都可以拆成四个旋钮。这就是词表的骨架：</p>
+<div class="svgbox">
+<svg viewBox="0 0 760 240" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+<rect x="10" y="20" width="170" height="200" rx="16" fill="#FF3D00"/>
+<text x="95" y="60" fill="#fff" font-size="20" font-weight="bold" text-anchor="middle">① 触发</text>
+<text x="95" y="88" fill="#FFF3E0" font-size="13" text-anchor="middle">trigger</text>
+<text x="95" y="120" fill="#fff" font-size="13" text-anchor="middle">加载 / 点击</text>
+<text x="95" y="145" fill="#fff" font-size="13" text-anchor="middle">悬停 / 滚动</text>
+<rect x="200" y="20" width="170" height="200" rx="16" fill="#00C853"/>
+<text x="285" y="60" fill="#fff" font-size="20" font-weight="bold" text-anchor="middle">② 对象</text>
+<text x="285" y="88" fill="#E8F5E9" font-size="13" text-anchor="middle">property</text>
+<text x="285" y="120" fill="#fff" font-size="13" text-anchor="middle">滑入 / 淡入</text>
+<text x="285" y="145" fill="#fff" font-size="13" text-anchor="middle">缩放 / 模糊</text>
+<rect x="390" y="20" width="170" height="200" rx="16" fill="#2962FF"/>
+<text x="475" y="60" fill="#fff" font-size="20" font-weight="bold" text-anchor="middle">③ 缓动</text>
+<text x="475" y="88" fill="#E3F2FD" font-size="13" text-anchor="middle">easing</text>
+<text x="475" y="120" fill="#fff" font-size="13" text-anchor="middle">性格：先快后慢</text>
+<text x="475" y="145" fill="#fff" font-size="13" text-anchor="middle">spring 回弹…</text>
+<rect x="580" y="20" width="170" height="200" rx="16" fill="#7C3AED"/>
+<text x="665" y="60" fill="#fff" font-size="20" font-weight="bold" text-anchor="middle">④ 时序</text>
+<text x="665" y="88" fill="#EDE7F6" font-size="13" text-anchor="middle">timing</text>
+<text x="665" y="120" fill="#fff" font-size="13" text-anchor="middle">时长 300ms</text>
+<text x="665" y="145" fill="#fff" font-size="13" text-anchor="middle">错峰 stagger</text>
+<text x="380" y="18" fill="#FF3D00" font-size="14" font-weight="bold">「加载时 5 张卡片从下滑入，先快后慢，每张 300ms，错峰 60ms」= 四要素各占一钮</text>
+</svg></div>
+<div class="key">缺任何一个旋钮，AI 都会拿<b>默认值</b>顶上——默认值就是"AI 味动效"的来源（0ms 闪现 + linear 机械滑动）。</div>
+</div>
+
+<!-- Q4 -->
+<div class="q"><div class="qhead"><div class="qnum">4</div><div class="qtitle">缓动（easing）性格库：曲线即性格</div></div>
+<p>缓动决定"中间怎么走"。同样 300ms，曲线不同，性格完全不同。我们用 Python 实测采样（ex2，数字为真实输出）：</p>
+<table>
+<tr><th>术语</th><th>CSS 写法</th><th>性格</th><th>实测特征（真跑数据）</th></tr>
+<tr><td><code>linear</code></td><td>linear</td><td>匀速机械，进度条专用</td><td>t=0.3 → 0.300，毫无惊喜</td></tr>
+<tr><td><code>ease-out</code></td><td>cubic-bezier(0,0,0.2,1)</td><td><span class="hl">快进慢出，入场首选</span></td><td>t=0.3 → <b>0.657</b>：前30%时间走完65%路</td></tr>
+<tr><td><code>ease-in</code></td><td>cubic-bezier(0.4,0,1,1)</td><td>慢起加速，离场/消失</td><td>前段磨蹭，后段冲出</td></tr>
+<tr><td><code>ease-in-out</code></td><td>cubic-bezier(0.4,0,0.2,1)</td><td>两头慢中间快，位移换位</td><td>t=0.5 才到 0.500，对称</td></tr>
+<tr><td><code>spring</code></td><td>cubic-bezier(0.34,1.56,0.64,1)</td><td>过冲回弹，果冻感</td><td>easeOutBack 实测峰值 <b>1.100</b>：冲过头再回来</td></tr>
+<tr><td><code>bounce</code></td><td>cubic-bezier(0.28,0.84,0.42,1)</td><td>落地弹跳，夸张强调</td><td>多次衰减过冲</td></tr>
+</table>
+<div class="svgbox"><svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+<rect width="760" height="420" fill="#FFF8F0"/>
+<line x1="60" y1="370" x2="700" y2="370" stroke="#333" stroke-width="2"/>
+<line x1="60" y1="370" x2="60" y2="40" stroke="#333" stroke-width="2"/>
+<line x1="60" y1="70" x2="700" y2="70" stroke="#888" stroke-dasharray="6 5" stroke-width="1"/>
+<text x="655" y="62" fill="#888" font-size="14">值=1.0</text>
+<text x="600" y="392" fill="#333" font-size="14">时间 t 0.0 → 1.0</text>
+<polyline points="60,370 124,340 188,310 252,280 380,220 508,160 636,100 700,70" fill="none" stroke="#9AA3AF" stroke-width="4"/>
+<polyline points="60,370 124,289 188,221 252,172 380,107 508,84 636,70 700,70" fill="none" stroke="#FF3D3D" stroke-width="4"/>
+<polyline points="60,370 124,369 188,362 252,342 380,220 508,115 636,74 700,70" fill="none" stroke="#00A3FF" stroke-width="4"/>
+<polyline points="60,370 124,247 188,141 252,87 380,32 508,52 636,66 700,70" fill="none" stroke="#7C3AED" stroke-width="4"/>
+<text x="90" y="60" fill="#9AA3AF" font-size="20" font-weight="bold">linear（峰值 1.00）</text>
+<text x="90" y="90" fill="#FF3D3D" font-size="20" font-weight="bold">easeOutCubic（前30%时间走65%路）</text>
+<text x="90" y="120" fill="#00A3FF" font-size="20" font-weight="bold">easeInOutCubic</text>
+<text x="90" y="150" fill="#7C3AED" font-size="20" font-weight="bold">easeOutBack（峰值 1.10 = 冲过头回弹）</text>
+</svg></div>
+<div class="ok">✅ <b>口诀</b>：入场用 ease-out（先给结果再优雅收尾），离场用 ease-in，换位用 ease-in-out，卖萌用 spring。</div>
+</div>
+
+<!-- Q5 -->
+<div class="q"><div class="qhead"><div class="qnum">5</div><div class="qtitle">spring 和 cubic-bezier 有什么本质区别？</div></div>
+<p><b>cubic-bezier</b> 是"纪录片"：整条曲线预先画死，从头到尾一模一样。<b>spring</b> 是"物理片"：给物体一个质量、弹簧刚度（stiffness）、阻尼（damping），让它真按物理规律跑——<span class="hl">目标变了它会自己重新收敛</span>，拖拽跟手、可中断交互必须用它。</p>
+<div class="svgbox">
+<svg viewBox="0 0 760 190" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+<rect x="20" y="30" width="340" height="140" rx="14" fill="#E3F2FD"/>
+<text x="190" y="60" fill="#2962FF" font-size="17" font-weight="bold" text-anchor="middle">cubic-bezier：剧本演完</text>
+<text x="190" y="95" fill="#333" font-size="13" text-anchor="middle">曲线定死，只由时间驱动</text>
+<text x="190" y="120" fill="#333" font-size="13" text-anchor="middle">适合：入场、过渡、一次性动画</text>
+<rect x="400" y="30" width="340" height="140" rx="14" fill="#EDE7F6"/>
+<text x="570" y="60" fill="#7C3AED" font-size="17" font-weight="bold" text-anchor="middle">spring：物理在跑</text>
+<text x="570" y="95" fill="#333" font-size="13" text-anchor="middle">mass / stiffness / damping 三参数</text>
+<text x="570" y="120" fill="#333" font-size="13" text-anchor="middle">适合：拖拽跟手、目标会变的交互</text>
+</svg></div>
+<div class="key">💡 描述词里说"回弹/果冻/跟手"→ 用 spring 系；说"滑入/淡入/收尾"→ 用 bezier 系。<span class="hl">写清是哪族，AI 就不会拿错工具。</span></div>
+</div>
+
+<!-- Q6 -->
+<div class="q"><div class="qhead"><div class="qnum">6</div><div class="qtitle">时序原语：duration 与 stagger 的数字感</div></div>
+<p><b>时长不是越长越优雅</b>。UI 动效的行业共识区间（Material 3 速查）：</p>
+<table>
+<tr><th>场景</th><th>推荐时长</th><th>为什么</th></tr>
+<tr><td>悬停/按压微反馈</td><td>50~150ms</td><td>再长就"黏手"</td></tr>
+<tr><td>入场/淡入（小元素）</td><td><span class="hl">150~300ms</span></td><td>用户在等下一个动作</td></tr>
+<tr><td>大面板/转场</td><td>300~500ms</td><td>面积大，需要时间读清</td></tr>
+<tr><td>错峰 stagger 间隔</td><td>20~90ms/个</td><td>实测 60ms×5 = "排队生长"最舒服</td></tr>
+</table>
+<div class="warn">⚠️ 记一个反例：超过 500ms 的入场动画，用户会觉得<b>网站卡了</b>。动效是沟通，不是表演。</div>
+<div class="key">💡 描述模板：<span class="hl">"每张 300ms，错峰 60ms"</span>——两个数字就把节奏定死了，AI 没有发挥空间，也没有翻车空间。</div>
+</div>
+
+<!-- Q7 -->
+<div class="q"><div class="qhead"><div class="qnum">7</div><div class="qtitle">动作原语词汇表：7 个词覆盖 90% 场景</div></div>
+<p>这是我们 ex1 词表里沉淀的 7 个标准动作原语（每个都对应确定的 CSS 属性组合）：</p>
+<p>
+<span class="tag">fade 淡入</span>
+<span class="tag o">slide-up 下滑入</span>
+<span class="tag o">slide-down 上滑入</span>
+<span class="tag o">slide-left 左滑入</span>
+<span class="tag b">scale-in 缩放入场</span>
+<span class="tag v">blur-in 模糊聚焦</span>
+<span class="tag v">pop 弹出</span>
+</p>
+<div class="codeblock">/* 一句结构化描述 → ex1 词表生成器真实输出 */
+描述: slide-up + ease-out + 300ms + stagger 60ms
+.list .card { opacity: 0; transform: translateY(24px); }
+.list .card.enter { opacity: 1; transform: none; }
+.list .card { transition: opacity 300ms cubic-bezier(0,0,0.2,1),
+                            transform 300ms cubic-bezier(0,0,0.2,1); }
+.list .card:nth-child(2) { transition-delay: 60ms; }  /* 3:120 4:180 5:240 */</div>
+<div class="ok">✅ <b>这就是"学到了名词就知道怎么做"的含义</b>：名词（原语+缓动+数字）一旦说清，代码几乎是机械翻译。</div>
+</div>
+
+<!-- Q8 -->
+<div class="q"><div class="qhead"><div class="qnum">8</div><div class="qtitle">官方有没有推荐值可以直接抄？</div></div>
+<p>有。动效描述不是玄学发明，各大家都有公开规范，描述时直接点名即可：</p>
+<table>
+<tr><th>来源</th><th>可直接引用的资产</th></tr>
+<tr><td><b>Material 3（Google）</b></td><td>时长 50~500ms 分档；standard 缓动 <code>cubic-bezier(0.4,0,0.2,1)</code>、emphasized <code>cubic-bezier(0.2,0,0,1)</code></td></tr>
+<tr><td><b>Motion（原 Framer Motion）官方文档</b></td><td>spring 三参数（stiffness/damping/mass）、<code>staggerChildren</code> 错峰；官方支持 AI Kit 直接调曲线</td></tr>
+<tr><td><b>Apple HIG</b></td><td>“动效为内容服务、时长不超过用户感知等待”的交互原则</td></tr>
+<tr><td><b>社区提示词库</b></td><td>uimotionprompts.com 等 vibe-coding 动效提示词集——与本指南词表同构</td></tr>
+</table>
+<div class="key">💡 描述里写一句 <span class="hl">"用 Material 3 的 emphasized 缓动"</span>，比自己编曲线更稳——AI 训练数据里见过它成千上万次。</div>
+</div>
+
+<!-- Q9 -->
+<div class="q"><div class="qhead"><div class="qnum">9</div><div class="qtitle">万能模板：一句话需求 → 结构化描述</div></div>
+<p>把四要素填空化，描述就永远不会缺项：</p>
+<div class="codeblock">【触发】当（页面加载 / 用户点击 X / 悬停 / 滚动进入视口）
+【动作】（元素）做（fade / slide-up / scale-in / blur-in / pop）
+【性格】（先快后慢 ease-out / 回弹 spring / 匀速 linear）
+【节奏】时长（150~500ms）ms；（如有多元素）错峰（20~90ms）ms
+
+例：页面加载时，5 张卡片从下方滑入，先快后慢，每张 300ms，错峰 60ms。</div>
+<div class="svgbox">
+<svg viewBox="0 0 760 150" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+<rect x="20" y="40" width="200" height="70" rx="14" fill="#FFEBEE" stroke="#D50000" stroke-width="2"/>
+<text x="120" y="70" fill="#D50000" font-size="15" font-weight="bold" text-anchor="middle">坏描述 0/4</text>
+<text x="120" y="95" fill="#333" font-size="12" text-anchor="middle">"帮我做个卡片动画"</text>
+<text x="255" y="82" fill="#555" font-size="26" font-weight="bold">→</text>
+<rect x="290" y="40" width="200" height="70" rx="14" fill="#FFF8F0" stroke="#FF9100" stroke-width="3"/>
+<text x="390" y="70" fill="#E65100" font-size="15" font-weight="bold" text-anchor="middle">体检器 ex4 真实输出</text>
+<text x="390" y="95" fill="#333" font-size="12" text-anchor="middle">MISS 触发/动作/性格/节奏</text>
+<text x="525" y="82" fill="#555" font-size="26" font-weight="bold">→</text>
+<rect x="560" y="40" width="180" height="70" rx="14" fill="#E8F5E9" stroke="#00C853" stroke-width="2"/>
+<text x="650" y="70" fill="#00A32E" font-size="15" font-weight="bold" text-anchor="middle">好描述 4/4 放行</text>
+<text x="650" y="95" fill="#333" font-size="12" text-anchor="middle">可直接派给 AI 执行</text>
+</svg></div>
+</div>
+
+<!-- Q10 -->
+<div class="q"><div class="qhead"><div class="qnum">10</div><div class="qtitle">AI 生成后，怎么验收动效？</div></div>
+<p>动效的坑在于"看一眼觉得行，细节全是错的"。两板斧：</p>
+<div class="step"><b>① 结构验收（机器可查）</b>：像 ex3 那样 grep 关键证据——缓动曲线在不在、时长对不对、错峰 delay 序列 60/120/180/240 全不全。5/5 PASS 才算过。</div>
+<div class="step"><b>② 慢放验收（人眼可查）</b>：把 duration 临时改到 3000ms 慢放——看起点对不对、有没有闪烁（FOUC：先闪一下再动）、离场有没有残留。人眼只在慢放里才能看清曲线。</div>
+<div class="warn">⚠️ 常见翻车点：AI 给了 <code>transition</code> 但初始态写在错误位置 → 页面加载先闪现后动画；<code>overflow</code> 没裁 → 滑入的卡片从父容器外"穿墙"进来。</div>
+</div>
+
+<!-- Q11 -->
+<div class="q"><div class="qhead"><div class="qnum">11</div><div class="qtitle">动手实验：4 个零依赖实验全部真跑通</div></div>
+<table>
+<tr><th>实验</th><th>做了什么</th><th>真实结果</th></tr>
+<tr><td><b>ex1 词表生成器</b></td><td>6 缓动 + 7 原语词表 → 3 场景 CSS</td><td>✅ 3 份 CSS 生成；spring 场景真实输出 <code>cubic-bezier(0.34,1.56,0.64,1)</code></td></tr>
+<tr><td><b>ex2 缓动采样</b></td><td>4 条曲线数值采样 + SVG 曲线图</td><td>✅ easeOutCubic t=0.3→0.657；easeOutBack 峰值 1.100（过冲实锤）</td></tr>
+<tr><td><b>ex3 demo 验收</b></td><td>生成 5 卡错峰入场页 + 结构验收</td><td>✅ 1716 字节 HTML，5/5 PASS（曲线/时长/4级delay/初始态/结束态）</td></tr>
+<tr><td><b>ex4 描述体检器</b></td><td>四要素正则体检</td><td>✅ 坏描述 0/4 拦下；好描述 4/4 放行</td></tr>
+</table>
+<p>运行方式：<code>python ex1_lexicon.py</code>（零依赖，Python 3.14 实测）→ 浏览器打开 <code>ex3_demo.html</code> 点"重播"亲眼看错峰入场。</p>
+</div>
+
+<!-- Q12 -->
+<div class="q"><div class="qhead"><div class="qnum">12</div><div class="qtitle">能力清单：学完你能干什么</div></div>
+<p>
+<strong>1.</strong> 用四要素模板把任何"感觉描述"翻译成 AI 能精确执行的动效描述（改 prompt 立竿见影）；<br>
+<strong>2.</strong> 用缓动性格库（ease-out 入场 / spring 回弹）让 AI 产出"有性格"而非"AI 味"的 UI；<br>
+<strong>3.</strong> 用体检器 ex4 在派工前拦截缺项描述，省一轮返工；<br>
+<strong>4.</strong> 用结构验收 ex3 的 grep 思路机器化验收 AI 交的动画代码；<br>
+<strong>5.</strong> 直接引用 Material 3 / Motion 官方参数，让描述自带"大厂血统"；<br>
+<strong>6.</strong> 把词表当成自己的 prompt 资产库持续扩充（新原语、新曲线随学随加）。
+</p>
+<div class="footer">
+🔗 <b>知识库关联</b>：底层原理见 [[补间动画与缓动函数]]（easing 公式与 stagger 实现）；提示词方法论同族 [[PromptAsCode提示词即代码]] / [[图像提示八要素]]；动效编排实现可落 [[Three.js与场景图]] / [[粒子系统]]。<br>
+📚 深入入口：motion.dev 官方 transitions 文档 · uimotionprompts.com（vibe coding 动效提示词库）· Material 3 motion 规范。
+</div>
+</div>
+
+</div></body></html>

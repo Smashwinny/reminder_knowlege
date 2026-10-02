@@ -1,0 +1,30 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>动效描述 demo：5 卡片错峰入场</title>
+<style>
+body { font-family: system-ui, sans-serif; background: #FFF3E0; padding: 32px; }
+h1 { color: #E65100; }
+.list { display: flex; flex-direction: column; gap: 14px; max-width: 480px; }
+.card { background: #FF7043; color: #fff; padding: 20px; border-radius: 14px; font-size: 18px; font-weight: bold;
+        box-shadow: 0 4px 14px rgba(230,81,0,.35); }
+/* 动效描述: slide-up + ease-out + 300ms + stagger 60ms  |  缓动性格: 快进慢出，刹车感，入场首选 */
+.list .card { opacity: 0; }
+.list .card { transform: translateY(24px); }
+.list .card.enter { opacity: 1; transform: none; filter: none; }
+.list .card { transition: opacity 300ms cubic-bezier(0, 0, 0.2, 1), transform 300ms cubic-bezier(0, 0, 0.2, 1); }
+.list .card:nth-child(2) { transition-delay: 60ms; }
+.list .card:nth-child(3) { transition-delay: 120ms; }
+.list .card:nth-child(4) { transition-delay: 180ms; }
+.list .card:nth-child(5) { transition-delay: 240ms; }
+
+button { margin-bottom: 20px; padding: 10px 22px; font-size: 16px; background: #00897B; color: #fff;
+         border: none; border-radius: 8px; cursor: pointer; }
+</style></head><body>
+<h1>动效描述词表 demo — 5 张卡片错峰入场（slide-up + ease-out + 300ms + stagger 60ms）</h1>
+<button onclick="document.querySelectorAll('.card').forEach(c=>c.classList.toggle('enter'))">重播 / 隐藏</button>
+<div class="list">
+  <div class="card enter">1. 触发 trigger：页面加载 / 按钮点击</div>
+  <div class="card enter">2. 对象 property：opacity + translateY</div>
+  <div class="card enter">3. 缓动 easing：ease-out（快进慢出）</div>
+  <div class="card enter">4. 时序 timing：300ms + stagger 60ms</div>
+  <div class="card enter">5. 结构化描述 = AI 能精确执行的合同</div>
+</div></body></html>
