@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Microduck 开源机器鸭 小白指南</title>
+<style>
+  :root{
+    --duck:#F97316; --duck-deep:#EA580C; --blue:#2563EB; --teal:#0D9488;
+    --yellow:#FACC15; --ink:#1E293B; --sub:#475569; --bg:#FFF7ED;
+    --card:#FFFFFF; --pink:#EC4899; --green:#16A34A;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  @page{ size:A4; margin:12mm; }
+  body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:13px; line-height:1.65;}
+  .cover{ background:linear-gradient(135deg,#FDBA74 0%,#F97316 55%,#EA580C 100%); border-radius:18px; padding:36px 32px; color:#fff; margin-bottom:20px;}
+  .cover h1{ font-size:34px; letter-spacing:1px; text-shadow:0 2px 6px rgba(0,0,0,.2);}
+  .cover .sub{ font-size:15px; margin-top:10px; opacity:.95;}
+  .badges{ margin-top:16px;}
+  .badge{ display:inline-block; background:rgba(255,255,255,.22); border:1.5px solid rgba(255,255,255,.65); border-radius:999px; padding:4px 14px; margin:4px 6px 0 0; font-size:13px; font-weight:bold;}
+  h2.sec{ font-size:21px; margin:26px 0 12px; padding:8px 16px; background:linear-gradient(90deg,var(--duck),#FB923C); color:#fff; border-radius:10px; display:inline-block;}
+  .qcard{ background:var(--card); border-radius:14px; padding:18px 20px; margin:14px 0; box-shadow:0 2px 8px rgba(234,88,12,.10); border-top:6px solid var(--duck); break-inside:avoid;}
+  .qcard:nth-child(2n){ border-top-color:var(--blue);}
+  .qcard:nth-child(3n){ border-top-color:var(--teal);}
+  .qnum{ font-size:30px; font-weight:900; color:var(--duck-deep); float:left; line-height:1; margin-right:14px;}
+  .qtitle{ font-size:17px; font-weight:800; margin-bottom:10px; color:var(--ink);}
+  .hl{ background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:800; padding:0 2px;}
+  .big{ font-size:15px; font-weight:800;}
+  .kv{ background:#FFF1E2; border-left:5px solid var(--duck); border-radius:8px; padding:8px 12px; margin:8px 0; font-weight:600;}
+  .term{ color:var(--blue); font-weight:800;}
+  code, .cmd{ font-family:Consolas,monospace; background:#0F172A; color:#7DD3FC; border-radius:6px; padding:2px 8px; font-size:12px; display:inline-block;}
+  pre.cmd{ display:block; padding:10px 14px; margin:8px 0; white-space:pre-wrap;}
+  table{ border-collapse:collapse; width:100%; margin:10px 0; font-size:12.5px;}
+  th{ background:var(--duck); color:#fff; padding:6px 10px; text-align:left;}
+  td{ border-bottom:1.5px solid #FED7AA; padding:6px 10px; background:#fff;}
+  tr td:first-child{ font-weight:700;}
+  .step{ background:var(--card); border-radius:12px; padding:14px 18px; margin:12px 0; border-left:7px solid var(--green); break-inside:avoid; box-shadow:0 1px 6px rgba(22,163,74,.12);}
+  .step h4{ color:var(--green); font-size:15px; margin-bottom:6px;}
+  .ok{ background:#ECFDF5; border:2px dashed var(--green); border-radius:10px; padding:8px 12px; margin-top:8px; font-weight:700; color:#065F46;}
+  .warn{ background:#FEF2F2; border-left:5px solid #DC2626; border-radius:8px; padding:8px 12px; margin:8px 0;}
+  .imgwrap{ text-align:center; margin:10px 0; break-inside:avoid;}
+  .imgwrap img{ max-width:46%; border-radius:10px; border:3px solid var(--duck); margin:0 6px;}
+  .caption{ font-size:12px; color:var(--sub); margin-top:4px; font-weight:600;}
+  figure{break-inside:avoid; margin:12px 0; background:#fff; border-radius:12px; padding:12px; box-shadow:0 1px 6px rgba(37,99,235,.10);}
+  figcaption{ font-size:12px; color:var(--sub); text-align:center; margin-top:6px; font-weight:600;}
+  .hero{ display:flex; gap:12px; margin:12px 0;}
+  .stat{ flex:1; background:var(--card); border-radius:12px; text-align:center; padding:14px 6px; box-shadow:0 2px 8px rgba(37,99,235,.10); break-inside:avoid;}
+  .stat .n{ font-size:26px; font-weight:900; color:var(--duck-deep);}
+  .stat .l{ font-size:11.5px; color:var(--sub); font-weight:600;}
+  ul{ padding-left:20px;} li{ margin:3px 0;}
+  .foot{ text-align:center; color:var(--sub); font-size:11px; margin:20px 0 8px;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🦆 Microduck 开源机器鸭 小白指南</h1>
+  <div class="sub">Hugging Face 旗下 Pollen Robotics 出品 · 一只 25cm 的双足机器鸭，靠强化学习策略走路 · 官方仓库 <b>pollen-robotics/microduck</b>（v0.15.1 实测）+ 姊妹训练仓库 <b>microduck_rl</b></div>
+  <div class="badges">
+    <span class="badge">💰 $399（硬件整机卖）</span><span class="badge">🧠 软件与策略训练全开源</span>
+    <span class="badge">⚖️ 744 g（实测 MJCF 744.4 g）</span><span class="badge">⚙️ 15 个舵机</span>
+    <span class="badge">🦿 14 个可控关节 + 头部 4 自由度</span><span class="badge">🔁 50 Hz 控制环</span>
+  </div>
+</div>
+
+<h2 class="sec">一、疑问解答（疑问即目录）</h2>
+
+<div class="qcard"><div class="qnum">Q1</div><div class="qtitle">Microduck 到底是个啥？一句话说清</div>
+<p>一句话：<span class="hl">一只巴掌大（25cm）、靠"大脑"（神经网络策略）走路的双足机器鸭</span>——不会扫地不会端茶，但会走、会滑轮、会踢球、用鸭嘴叼东西、摔倒了自己爬起来。它源自迪士尼"银河星际巡洋舰"里的 BDX 机器人，前身是开源项目 Open Duck Mini。</p>
+<div class="hero">
+  <div class="stat"><div class="n">25cm</div><div class="l">身高</div></div>
+  <div class="stat"><div class="n">744g</div><div class="l">体重（MJCF 实测）</div></div>
+  <div class="stat"><div class="n">15</div><div class="l">舵机数</div></div>
+  <div class="stat"><div class="n">50Hz</div><div class="l">控制频率</div></div>
+  <div class="stat"><div class="n">$399</div><div class="l">整机售价</div></div>
+</div>
+<p><b>没有它之前怎么做？</b>小型双足机器人要么是几千上万元的科研平台（如 Robotis OP3 约上万元），要么是不会走路的玩具。Microduck 用"游戏级舵机 + 手机级芯片 + RL 策略"把双足行走打到了整机 $399 的价位。</p></div>
+
+<div class="qcard"><div class="qnum">Q2</div><div class="qtitle">$399 的硬件不开源，那开源的到底是什么？</div>
+<p>这是本推文评论区争论的核心（"华强北版本""淘宝 openduck 卖 7000"）。官方口径很清楚：<span class="hl">开源的是"大脑"——全部软件栈 + 策略训练管线；硬件（BOM、CAD、装配文档）不公开</span>。具体三块：</p>
+<table>
+<tr><th>开源的部分</th><th>仓库 / 位置</th><th>含金量</th></tr>
+<tr><td>机器人"大脑"（23 个 Rust crate）</td><td>pollen-robotics/microduck</td><td>生产级守护进程架构 + 50Hz 控制 + ONNX 策略加载 + OTA 更新系统</td></tr>
+<tr><td>策略训练（MuJoCo + PPO + sim2real）</td><td>pollen-robotics/microduck_rl</td><td>完整物理模型（86 个 STL 网格）、训练场景、域随机化、ONNX 导出</td></tr>
+<tr><td>策略分发契约（manifest schema 2）</td><td>docs/policy-manifest.md</td><td>社区人人可发布自己的策略，机器人直接 load</td></tr>
+</table>
+<p><b>推文后续更有意思</b>：Geek Lite 又发推指出，开发者 fanhao375 拿官方公开的 MJCF 和 47 个 STL <span class="hl">反推出了整套装配图、CAD 装配体和电控方案并开源</span>——硬件闭源挡不住社区逆向。国内还有 ZeroTau（陆吾智能）的"低成本复刻方案"和义乌版 YIduck。</p></div>
+
+<div class="qcard"><div class="qnum">Q3</div><div class="qtitle">为什么把"大脑"拆成 7 个守护进程？</div>
+<p><span class="term">守护进程（daemon）</span>：在后台常驻运行、提供持续服务的程序。Microduck 的板子（Rockchip RK3566）上跑 7 个，各管一摊，用 <b>Unix socket 上的 JSON-RPC</b>（一种"一行一个 JSON 请求"的进程间通话协议）互相对话：</p>
+<pre class="cmd">游戏手柄(BLE/USB)  手机(BLE)  你(ssh)  远程(WebRTC)  GitHub发布
+     │                │          │          │              │
+   padd             btd      robotctl     mediad       updaterd
+     └────── 统一走：每服务一个 unix socket · JSON-RPC 2.0 ──────┘
+                       │              │            │
+                   robotd          configd     updaterd
+                 50Hz控制环        wifi/名字    签名验证/换版本
+                 安全层/策略      手柄配对     健康门/自动回滚
+                 唯一能碰舵机者
+                       │
+              15 舵机 + IMU（一条串口总线）</pre>
+<p>三个设计理由，每条都值得抄走：</p>
+<ul>
+<li><span class="hl">robotd 是唯一能碰电机的进程</span>：其他进程只发"意图"（intents，如"朝这个速度走"），执不执行、安不安全由 robotd 的安全层裁决——权限收口，谁也绕不过安全检查。</li>
+<li><span class="hl">三个进程故意不依赖 robotd</span>（configd/updaterd/btd）：控制环挂了的机器人恰恰是最需要被重新配置、更新、回滚的机器人——恢复路径不能跟被恢复对象绑死。</li>
+<li><span class="hl">手柄、手机、脚本走同一条 JSON-RPC</span>：客户端可替换（今天用手柄明天用 App），而 API 每天被真实使用、不会悄悄腐烂——跟 [[MCP协议]] 解决 M×N 集成是同一个思想。</li>
+</ul></div>
+
+<div class="qcard"><div class="qnum">Q4</div><div class="qtitle">鸭子是怎么"学会"走路的？</div>
+<p>核心是 <span class="term">sim2real</span>：在仿真里训练，在真机上运行。四步流水线（全在 microduck_rl 仓库）：</p>
+<ul>
+<li><b>① 建物理分身</b>：把整只鸭子的质量、惯量、碰撞体写成 <span class="term">MJCF</span>（MuJoCo 的 XML 场景描述格式，MuJoCo 是 Google 出的物理仿真器）。<span class="hl">我们实测克隆了这份模型：86 个 STL 网格、82 个碰撞几何、14 个位置伺服执行器</span>。</li>
+<li><b>② 强化学习训练</b>：<span class="term">PPO</span>（一种策略梯度算法）在仿真里让几十只鸭子同时练走路，摔了扣分、走稳了加分；配合 <span class="term">域随机化</span>（训练时随机改摩擦、质量、延迟）让策略到真实世界不"水土不服"。</li>
+<li><b>③ 导出 ONNX</b>：训练好的神经网络导出成 <span class="term">ONNX</span>（通用的模型交换格式），robotd 在板子上用 ONNX Runtime 加载推理。</li>
+<li><b>④ 50Hz 上岗</b>：每 20 毫秒一轮——读 IMU 姿态 + 关节角 → 喂给策略 → 输出 14 个关节目标角 → 写舵机。</li>
+</ul>
+<p>社区玩法：策略清单（policy manifest）schema 2 定义了 <code>kind</code>（episodic 定时返回安全姿势 / perpetual 一直跑的步态 / scripted 中途可改指令）和 <code>command.encoding</code>（constant 固定指令 / phase 相位驱动），<span class="hl">任何人训好一个鸭子技能，发布到 Hugging Face，一条 <code>robotctl policy load</code> 就能装进自己的鸭子</span>。</p></div>
+
+<div class="qcard"><div class="qnum">Q5</div><div class="qtitle">为什么非要 RL？用普通代码锁住关节不行吗？</div>
+<p>好问题——我们直接做实验回答（见第二节实验 2/3）。<span class="hl">实测结论：位置伺服把关节锁成"标准站姿"，鸭子 0.4~1 秒内照样慢慢瘫下去；侧向推一把也是瘫</span>。因为静态锁关节没有"动态平衡"：真人站立时脚踝也在毫秒级微调重心，RL 策略就是学会了这套毫秒级微调的神经网络。定值控制能延缓倒塌，只有策略能真正站住、走起来。</p></div>
+
+<div class="qcard"><div class="qnum">Q6</div><div class="qtitle">MJCF 模型里有什么、没什么？（实验实锤）</div>
+<p>仓库里其实有两份 MJCF，用途完全不同：</p>
+<table>
+<tr><th></th><th>kinematics 内嵌版（robot_walk.xml）</th><th>训练仓库版（scene.xml）</th></tr>
+<tr><td>内容</td><td>只有运动链：15 关节（1 自由关节+14 铰链）+ 16 刚体 + 惯量 + 8 个 site 标记点</td><td>完整物理世界：+ 86 STL 网格 + 82 碰撞体 + 地板 + 14 个位置伺服 + INIT/STAND/SIT/FOLD 关键帧</td></tr>
+<tr><td>执行器</td><td>0 个</td><td>14 个</td></tr>
+<tr><td>用途</td><td>给 robotd 的 kinematics crate 算前向运动学（FK）</td><td>给 RL 训练当"物理考场"</td></tr>
+</table>
+<p><span class="hl">实验 1 实锤：把 kinematics 版丢进 MuJoCo 一松手，0.24 秒掉了 0.285 米——精确等于自由落体</span>。它连地板都没有！这教了 sim2real 第一课：<b>模型文件只描述鸭子本身，"世界"（地板、摩擦、接触）是训练场景额外给的</b>。</p></div>
+
+<div class="qcard"><div class="qnum">Q7</div><div class="qtitle">为什么 kinematics crate 自己写 FK，不直接用 MuJoCo？</div>
+<p><span class="term">前向运动学（FK）</span>：已知所有关节角度，算出脚/头等部位在空间中的位置。robotd 每秒 50 次都要问"两只脚现在在哪"（算里程计），但 MuJoCo 整个引擎是为仿真设计的，太重。于是官方用 Rust 写了个迷你 FK：<span class="hl">启动时把 MJCF"编译"成每条 site 的固定变换链，之后每次查询就是一次链式折叠——不查哈希表、不分配内存</span>。正确性靠测试钉死：<code>fk_against_mujoco.rs</code> 用 64 个随机姿态和 MuJoCo 官方结果逐点比对。<span class="hl">我们在 Python 里手写了同样的 FK 对拍：64 姿态 × 4 个部位，最大误差 1.8×10⁻⁷ 米（0.18 微米）</span>——这份运动链数学是硬的。</p></div>
+
+<div class="qcard"><div class="qnum">Q8</div><div class="qtitle">OTA 更新为什么"整目录交换"而不是打补丁？</div>
+<p><span class="term">OTA</span>：Over-The-Air，无线固件升级。updaterd 的流程：新版本作为<b>完整目录</b>下载到 releases/&lt;版本号&gt;/ → 验证签名 → 把 <code>current</code> 软链接切过去 → 重启服务 → <span class="term">健康门</span>（问 robotd "你还好吗"）→ 不健康就<span class="hl">自动把旧版换回来（回滚），连重启次数都有 boot counter 兜底防崩溃循环</span>。思想跟蓝绿发布一模一样：<b>发布是切换不是修改，出错永远有退路</b>——一个 $399 的玩具鸭子用了比很多大厂还规矩的发布纪律。</p></div>
+
+<div class="qcard"><div class="qnum">Q9</div><div class="qtitle">淘宝 ¥7000 的 openduck 是它吗？华强北版靠谱吗？</div>
+<p>评论区说的淘宝 openduck 是同一开源生态的整机商品（约 ¥7000+，比官方便宜版还贵）。华强北版的可行性：软件全开源 + 装配图已被社区反推（fanhao375）+ 国产舵机平替方案（ZeroTau）在推进，<span class="hl">所以"能复刻"这件事基本没有悬念；悬念在成本与调试</span>——15 个总线舵机、RK3566 板、IMU/ToF 模组，外加 RL 策略的 sim2real 调参。推文里"得生产的人多了才能卷下去"正是关键：开源生态降低了复刻的知识门槛，规模才能降成本门槛。</p></div>
+
+<div class="qcard"><div class="qnum">Q10</div><div class="qtitle">没有真机，我能学到什么、学不到什么？（诚实边界）</div>
+<div class="kv">✅ 能：读懂一套生产级机器人软件架构（守护进程拆分 / 意图-安全层 / 健康门回滚）；跑通 MuJoCo 仿真，亲手验证 FK、惯量、伺服极限；用官方模型做二次实验；照着 microduck_rl 训练自己的策略（纯软件，可导出 ONNX）。</div>
+<div class="warn">❌ 不能（本次实验的诚实限制）：本机无 Rust 工具链，未构建守护进程本体；未加载官方行走策略做"真·走路"仿真（需要 microduck_rl 的观测构建管线 + 训练权重）；Dynamixel 总线、BLE、相机 ISP 这些驱动层问题只有真机能暴露（官方 simulation.md 也是这么写明的）。</div></div>
+
+<h2 class="sec">二、动手实验：给鸭子装"大脑"之前与之后（无真机，全部实测跑通）</h2>
+<p class="big" style="margin:6px 0 10px">实验素材：官方训练物理模型（microduck_rl 的 scene.xml）+ 官方 kinematics 运动链（microduck 内嵌 MJCF）+ MuJoCo 3.14。完整脚本：<code>microduck\exercise\sim_duck.py</code> 与 <code>render_duck.py</code>。</p>
+
+<div class="step"><h4>实验 0 · 模型体检：这份 MJCF 里到底有什么？</h4>
+<p><b>操作</b>：<code>python sim_duck.py</code>（环境：Python 3.14 + <code>pip install mujoco</code>）<br>
+<b>目的</b>：搞清官方模型的数据构成。<b>实现</b>：用 MuJoCo 解析 kinematics 内嵌 MJCF 并统计。</p>
+<div class="ok">✅ 预期结果：nq=21（1 自由关节 + 14 铰链 + 四元数）、nu=0（无执行器）、ngeom=0（无碰撞体）、总质量 744.4 g —— 运动链版本"只有骨架没有肌肉和世界"。</div></div>
+
+<div class="step"><h4>实验 1 · 无地板坠落：sim2real 第一课</h4>
+<p><b>操作/目的</b>：把模型放在 12cm 高度松手，验证"没有场景就没有世界"。每步 1ms 跑 240 步。</p>
+<div class="ok">✅ 实测结果：t=0.240s 时高度 −0.165m，下落 0.285m ≈ 自由落体 g·t²/2 = 0.283m，精确吻合 —— <b>模型文件只描述鸭子，地板/摩擦/接触全在训练场景里</b>。</div></div>
+
+<div class="step"><h4>实验 2 · 最笨的"大脑"：位置伺服锁关节能站稳吗？</h4>
+<p><b>操作</b>：加载完整物理场景 scene.xml，分别用官方 INIT（直立）和 STAND（屈膝站姿）关键帧 + 自带位置伺服跑 3 秒。<b>目的</b>：验证"不用 RL，普通控制行不行"。</p>
+<div class="ok">✅ 实测结果：INIT 撑 0.38s、STAND 撑 1.03s 后高度均跌破 5cm，之后稳定瘫在 3.5~4.4cm（没散架，但站不起来）—— <b>好姿态 + 伺服只能延缓倒塌，不能替代动态平衡</b>。</div>
+<figure>
+<svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft YaHei" font-size="12">
+  <text x="360" y="18" text-anchor="middle" font-weight="bold" fill="#1E293B">身体高度曲线：位置伺服锁关节（实机同款执行器，MuJoCo 仿真）</text>
+  <!-- grid -->
+  <g stroke="#E2E8F0" stroke-width="1">
+    <line x1="70" y1="40" x2="70" y2="210"/><line x1="70" y1="210" x2="680" y2="210"/>
+    <line x1="70" y1="67" x2="680" y2="67" stroke-dasharray="4 4"/><line x1="70" y1="121" x2="680" y2="121" stroke-dasharray="4 4"/><line x1="70" y1="176" x2="680" y2="176" stroke-dasharray="4 4"/>
+  </g>
+  <g fill="#64748B" font-size="11">
+    <text x="62" y="71" text-anchor="end">12cm</text><text x="62" y="125" text-anchor="end">8cm</text><text x="62" y="180" text-anchor="end">4cm</text>
+    <text x="70" y="228" text-anchor="middle">0s</text><text x="223" y="228" text-anchor="middle">1s</text><text x="375" y="228" text-anchor="middle">2s</text><text x="528" y="228" text-anchor="middle">3s</text>
+  </g>
+  <line x1="70" y1="202" x2="680" y2="202" stroke="#FCA5A5" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <text x="676" y="197" text-anchor="end" fill="#DC2626" font-size="11">5cm 倒地线</text>
+  <!-- INIT curve (blue): h 0.12->0.035; map t0-3s -> x70-680, h0-0.13 -> y210-40  (y=210-(h/0.13)*170) -->
+  <path d="M70,53 L104,78 L138,94 L171,155 L205,163 L238,164 L272,164 L306,164 L340,164 L373,164 L407,164 L441,164 L474,165 L508,165 L542,165 L576,165 L610,165 L643,165 L677,165"
+        fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- STAND curve (orange): 0.12..0.114..0.064@0.91..0.0494@1.04..0.0438 -->
+  <path d="M70,53 L104,59 L138,60 L171,61 L205,64 L238,68 L272,75 L306,126 L340,146 L373,146 L407,147 L441,147 L474,147 L508,148 L542,148 L576,149 L610,149 L643,150 L677,153"
+        fill="none" stroke="#EA580C" stroke-width="2.5" stroke-linejoin="round"/>
+  <g font-size="12" font-weight="bold">
+    <rect x="480" y="46" width="12" height="12" rx="3" fill="#2563EB"/><text x="498" y="56" fill="#1E293B">INIT 直立姿态（0.38s 跌破 5cm）</text>
+    <rect x="480" y="66" width="12" height="12" rx="3" fill="#EA580C"/><text x="498" y="76" fill="#1E293B">STAND 屈膝站姿（撑到 1.03s）</text>
+  </g>
+</svg>
+<figcaption>真实仿真数据（sim_duck.py 输出 init.csv / stand.csv，24 点降采样）。两条线最终都瘫在 5cm 以下——没有策略，鸭子站不住。</figcaption>
+</figure></div>
+
+<div class="step"><h4>实验 3 · 推一把：平衡为什么必须是"动态"的</h4>
+<p><b>操作</b>：STAND 姿态跑仿真，t=1s 时给身体 0.8 m/s 的侧向速度冲量。<b>实现</b>：直接改写 freejoint 的横向速度分量。</p>
+<div class="ok">✅ 实测结果：roll 最大仅 1.8°（被伺服硬扛住），但身体高度照样瘫到 4.4cm —— <b>刚性锁位扛住了倾斜，扛不住重力塌陷；真正站稳需要每 20ms 微调关节的 RL 策略</b>。</div></div>
+
+<div class="step"><h4>实验 4 · 手写 FK 对拍 MuJoCo：复刻官方测试</h4>
+<p><b>操作</b>：用纯 Python（四元数乘法 + 沿运动链折叠变换）独立实现前向运动学，在 64 个随机姿态下与 MuJoCo 官方 <code>mj_kinematics</code> 逐点比对 4 个部位（left_foot / right_foot / imu / imu_bno）。<b>目的</b>：亲手验证 microduck kinematics crate 的核心数学（镜像上游测试 fk_against_mujoco.rs 的思路）。</p>
+<div class="ok">✅ 实测结果：256 次比对最大绝对误差 1.816×10⁻⁷ m。演示单点：left_knee 从 0 转到 0.6 rad，left_foot 从 (−0.032, 0.050, 0.015) 移到 (0.005, 0.050, 0.026) —— 膝盖一抬脚往前伸，符合直觉。</div>
+<div class="hero">
+  <div class="stat"><div class="n">64×4</div><div class="l">随机姿态 × 部位</div></div>
+  <div class="stat"><div class="n">1.8×10⁻⁷ m</div><div class="l">手写FK vs MuJoCo 最大误差</div></div>
+  <div class="stat"><div class="n">≈0.18μm</div><div class="l">比一根头发丝细 300 倍</div></div>
+</div></div>
+
+<div class="step"><h4>实验 5 · 亲眼看看这只鸭：官方模型渲染</h4>
+<p><b>操作</b>：<code>python render_duck.py</code>（MuJoCo Renderer + 官方 86 个 STL 网格，STAND 关键帧）。<b>实现</b>：仿真 0.5s 后取景渲染；再跑满 3s 渲染瘫倒对比图。</p>
+<div class="ok">✅ 实测结果：下图左为 STAND 站姿（撑过 0.5s），右为 3s 后伺服力竭脸着地（trunk 高度 0.12m → 0.044m），与实验 2 曲线完全对应。</div>
+<div class="imgwrap">
+  <img src="exercise/duck_stand.png" alt="站立">
+  <img src="exercise/duck_collapsed.png" alt="瘫倒">
+  <div class="caption">左：官方模型 STAND 姿态仿真 0.5s（站得住）　右：同一姿态 3s 后（伺服无力，脸着地）—— 均为本次实验真实渲染</div>
+</div></div>
+
+<h2 class="sec">三、这个项目给我什么（能力清单）</h2>
+<div class="qcard">
+<ul>
+<li><b>🏗️ 一套生产级机器人软件架构模板</b>：7 守护进程拆分、"意图-安全层"权限收口、恢复路径与被恢复对象解耦——任何"多进程设备/服务"项目都能抄。</li>
+<li><b>🦿 一条完整 sim2real 流水线</b>：MJCF 建模 → PPO 训练 → 域随机化 → ONNX 导出 → 50Hz 真机加载，每一环代码都公开可读（microduck_rl）。</li>
+<li><b>🎮 无真机的机器人实验室</b>：MuJoCo + 官方模型 = 零成本做动力学实验（本指南 5 个实验全是），还能接着玩官方 <code>scripts/duck-sim</code>（Linux 下仿真鸭子跑真守护进程）。</li>
+<li><b>📦 一份"策略即应用"的分发契约</b>：manifest schema 2 + Hugging Face 仓库 + <code>robotctl policy load</code>，社区技能像 App 一样装进鸭子——机器人版的 MCP 生态。</li>
+<li><b>🔁 蓝绿发布教科书</b>：签名验证 → 目录交换 → 健康门 → 自动回滚 → boot counter，$399 设备上的发布纪律。</li>
+<li><b>🔧 复刻/魔改入口</b>：软件全开源 + 社区反推装配图 + 国产舵机平替方案——想入硬件坑的人，这里是一条已被踩通的路径。</li>
+</ul></div>
+
+<h2 class="sec">四、一页带走（结论）</h2>
+<div class="qcard" style="border-top-color:var(--pink)">
+<p><span class="hl">Microduck = 一只"卖硬件、送大脑"的机器鸭</span>：$399 买舵机和板子，而真正让它站起来的秘密——守护进程架构、RL 训练管线、策略分发契约——全部开源。它证明了 2026 年做机器人 waypoints：<b>硬件可以闭源卖钱，护城河却在软件与 sim2real 管线；而开源的大脑一旦配合社区反推的硬件，"华强北版本"就从玩笑变成了时间表问题</b>。无真机能学到的部分（架构 + 仿真 + FK 数学 + 训练管线）已经足够一个工科毕业生啃上好几周，本次 5 组实验全部实测跑通。</p>
+<p style="margin-top:8px;color:var(--sub);font-size:12px">本指南对应推文：x.com/QingQ77（Geek Lite）"开源机器鸭，想要一个华强北版本" · 仓库 github.com/pollen-robotics/microduck（v0.15.1）与 microduck_rl · 实验脚本 F:\reminder\microduck\exercise\ · 学习产出 2026-10-02</p></div>
+
+<div class="foot">reminder 拾遗学习流水线 · learn-project skill 产出 · 实验数据 100% 真实运行（Python 3.14 + MuJoCo 3.14.0, Windows 11）</div>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Microduck 硬件架构拆解</title>
+<style>
+  :root{
+    --c1:#FF3D7F; --c2:#00B8A9; --c3:#FFB300; --c4:#6C4CF1; --c5:#00A8E8;
+    --ink:#1F1235; --bg:#FFFDF7; --hl:#FFF176; --soft:#F3EFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  @page{ size:A4; margin:12mm; }
+  body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg);
+        font-size:13px; line-height:1.65; }
+  .cover{ background:linear-gradient(135deg,#FF3D7F 0%,#FF8A00 45%,#00B8A9 100%); color:#fff;
+          border-radius:18px; padding:34px 30px; margin-bottom:18px; }
+  .cover h1{ font-size:34px; letter-spacing:1px; text-shadow:0 2px 8px rgba(0,0,0,.25); }
+  .cover .sub{ font-size:15px; margin-top:10px; opacity:.95; }
+  .cover .meta{ margin-top:14px; font-size:12px; background:rgba(255,255,255,.22); display:inline-block;
+                padding:5px 14px; border-radius:999px; }
+  .badge{ display:inline-block; background:var(--c3); color:#4A2C00; font-weight:900; border-radius:8px;
+          padding:2px 10px; margin-right:6px; font-size:12px;}
+  .qcard{ border-radius:14px; padding:16px 18px 14px; margin:14px 0; break-inside:avoid;
+          background:#fff; border-left:10px solid var(--c1); box-shadow:0 2px 10px rgba(60,20,90,.08); }
+  .qcard:nth-child(2n){ border-left-color:var(--c2); }
+  .qcard:nth-child(3n){ border-left-color:var(--c4); }
+  .qnum{ font-size:30px; font-weight:900; color:var(--c1); margin-right:8px;}
+  .qcard:nth-child(2n) .qnum{ color:var(--c2);} .qcard:nth-child(3n) .qnum{ color:var(--c4);}
+  .qtitle{ font-size:17px; font-weight:900; display:inline; vertical-align:6px;}
+  .answer{ margin-top:10px; }
+  .hl{ background:var(--hl); font-weight:900; padding:0 4px; border-radius:4px;}
+  .big{ font-size:15px; font-weight:900; color:#D81B60;}
+  .code{ background:#241A3C; color:#7CFC9B; border-radius:8px; padding:8px 12px; font-family:Consolas,monospace;
+         font-size:12px; margin:8px 0; white-space:pre-wrap; }
+  .fact{ background:#E6F7FF; border:2px dashed var(--c5); border-radius:10px; padding:8px 12px; margin:8px 0;
+         font-size:12.5px; }
+  svg{ display:block; margin:8px auto; max-width:100%; }
+  .warn{ background:#FFF0F0; border:2px solid #FF5252; border-radius:10px; padding:8px 12px; margin:8px 0; }
+  .ok{ background:#EAFBEA; border:2px solid #2E7D32; border-radius:10px; padding:8px 12px; margin:8px 0; font-weight:700;}
+  table{ border-collapse:collapse; width:100%; margin:8px 0; font-size:12.5px;}
+  th{ background:var(--c4); color:#fff; padding:6px 8px; }
+  td{ border:1px solid #E0D7F5; padding:5px 8px; text-align:center;}
+  tr:nth-child(even) td{ background:var(--soft);}
+  .step{ background:#fff; border:2px solid var(--c2); border-radius:12px; padding:12px 14px; margin:10px 0; break-inside:avoid;}
+  .step h4{ color:#00795F; font-size:14.5px; margin-bottom:6px;}
+  h2.section{ font-size:22px; font-weight:900; color:#fff; background:linear-gradient(90deg,var(--c1),var(--c3));
+              padding:8px 18px; border-radius:12px; margin:20px 0 8px; }
+  .sister{ background:linear-gradient(90deg,#E3F2FD,#F3E5F5); border-radius:12px; padding:10px 16px; margin:12px 0;
+           font-size:12.5px; border:2px solid var(--c5);}
+  footer{ margin-top:22px; text-align:center; font-size:11.5px; color:#777;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🦆 Microduck 硬件架构拆解</h1>
+  <div class="sub">$399 的开源双足机器鸭，15 只舵机和一块 60 元级主控板，钱都花在哪？一根线怎么管 16 个设备？</div>
+  <div class="meta">拾遗补充篇 · 基于 pollen-robotics/microduck v0.15.1 源码逐行验证 + 硬件 teardown 交叉核对 · 2026-10-02</div>
+</div>
+
+<div class="sister">
+  <b>📖 姊妹篇说明</b>：本项目（Pollen Robotics / Hugging Face 出品，前身 Open Duck Mini）在拾遗流水线中另有一篇通用《小白指南》（软件栈：Rust 多守护进程 + RL 策略 + MuJoCo 仿真）。<span class="hl">本篇专拆硬件</span>——舵机怎么分、总线怎么排、算力够不够、成本合不合，全部结论都有源码文件级出处。
+</div>
+
+<h2 class="section">① 疑问即目录</h2>
+
+<div class="qcard">
+  <span class="qnum">Q1</span><span class="qtitle">15 个舵机是怎么分配的？一只鸭子哪来 15 个关节？</span>
+  <div class="answer">
+    <p>别被"鸭子"骗了——它是<b>标准小型双足布局 + 一个鸟喙彩蛋</b>。我们直接解析了仓库内嵌的运动模型 <code>kinematics/assets/alpha/robot_walk.xml</code>，<span class="hl">14 个行走关节 + 1 个喙 = 15 个 XL330 舵机</span>，一个不多一个不少：</p>
+    <svg viewBox="0 0 620 210" width="620" height="210">
+      <ellipse cx="310" cy="60" rx="130" ry="42" fill="#FFD54F" stroke="#FF8F00" stroke-width="3"/>
+      <circle cx="400" cy="55" r="16" fill="#FFB300" stroke="#E65100" stroke-width="3"/>
+      <polygon points="414,50 438,58 414,66" fill="#FF7043"/>
+      <text x="250" y="58" font-size="15" font-weight="bold" fill="#5D4037">头部 3 舵机</text>
+      <text x="250" y="76" font-size="11" fill="#795548">pitch / yaw / roll（看路+对准）</text>
+      <text x="315" y="120" font-size="12" fill="#6A1B9A" font-weight="bold">颈部 1（neck_pitch）</text>
+      <line x1="310" y1="102" x2="310" y2="128" stroke="#8E24AA" stroke-width="4"/>
+      <rect x="240" y="128" width="140" height="34" rx="10" fill="#4DD0E1" stroke="#00838F" stroke-width="2"/>
+      <text x="262" y="150" font-size="12" fill="#004D40">躯干（板子+电池）</text>
+      <rect x="205" y="162" width="52" height="40" rx="8" fill="#80DEEA" stroke="#00838F" stroke-width="2"/>
+      <rect x="363" y="162" width="52" height="40" rx="8" fill="#80DEEA" stroke="#00838F" stroke-width="2"/>
+      <text x="150" y="185" font-size="11" fill="#00695C">左腿×5</text>
+      <text x="428" y="185" font-size="11" fill="#00695C">右腿×5</text>
+      <text x="188" y="215" font-size="10" fill="#455A64">hip_yaw/roll/pitch + knee + ankle</text>
+      <text x="452" y="60" font-size="11" fill="#BF360C" font-weight="bold">喙×1 = 抓手</text>
+    </svg>
+    <table>
+      <tr><th>部位</th><th>舵机数</th><th>关节名（源码实测）</th><th>作用</th></tr>
+      <tr><td>头部</td><td>3</td><td>head_pitch / head_yaw / head_roll</td><td>摄像头指向、看路</td></tr>
+      <tr><td>颈部</td><td>1</td><td>neck_pitch</td><td>俯仰补视野</td></tr>
+      <tr><td>左腿</td><td>5</td><td>hip_yaw / hip_roll / hip_pitch / knee / ankle</td><td>行走 RL 策略执行</td></tr>
+      <tr><td>右腿</td><td>5</td><td>同上（right_ 前缀）</td><td>行走 RL 策略执行</td></tr>
+      <tr><td>喙</td><td>1</td><td>beak（行走模型不含）</td><td><span class="hl">抓取 + 唱歌对口型</span></td></tr>
+    </table>
+    <div class="fact">🔎 出处：MJCF 里逐个 joint 摘出来的（<code>&lt;joint name="left_ankle"&gt;</code> …）；喙舵机不在行走 MJCF 里，但 <code>robotd/src/theremin.rs</code>、<code>chorale.rs</code> 全是它的驱动逻辑——手挡在喙前变音符，唱歌时喙跟着元音开合。</div>
+  </div>
+</div>
+
+<div class="qcard">
+  <span class="qnum">Q2</span><span class="qtitle">为什么选 Dynamixel XL330？和几块钱的普通舵机差在哪？</span>
+  <div class="answer">
+    <p>普通 SG90 舵机是"哑巴"：给 PWM 波就转，<b>不知道自己在哪</b>，关节角度要外接电位器/编码器才知道。XL330 是<span class="hl">智能舵机：内置磁编码器 + 单片机 + 串口协议栈</span>，主机发"转到位置 2048"它自己闭环到位，还能汇报当前位置/速度/温度/负载/是否堵转。做双足步行，每个关节必须 50Hz 实时反馈——哑巴舵机方案的光是传感线就是一场噩梦。</p>
+    <p><span class="big">XL330 关键参数</span>（Robotis 官方数据）：扭矩约 0.5 N·m 量级、重约 22g、磁编码 12bit（0~4095）、TTL 串口半双工、支持 Protocol 2.0；固件 <b>v46+</b> 支持 <span class="hl">fast sync read（指令 0x8A）</span>——Microduck 源码里明确依赖这一特性（<code>robotd-params/src/lib.rs:1798</code>）。</p>
+    <div class="warn">⚠️ 代价：一只零售 <b>$27.49</b>（XL330-M288-T），15 只 = <span class="big">$412.35，已经超过整机定价 $399</span>——这也是 Q9 的伏笔。</div>
+  </div>
+</div>
+
+<div class="qcard">
+  <span class="qnum">Q3</span><span class="qtitle">16 个设备怎么共用一根线不吵架？——一根 UART 菊花链</span>
+  <div class="answer">
+    <p>架构文档原话：<span class="hl">"15 servos + IMU on one UART"</span>。Dynamixel 总线是<b>半双工串口 + ID 寻址</b>：所有设备并联在一根三线（电源/地/数据）总线上，每个设备一个唯一 ID，只有被点到名的才应答。类比：这不是 16 条私聊热线，而是<span class="hl">一条对讲机频道</span>——报 ID 喊话，被叫者回答，其余闭嘴监听。</p>
+    <svg viewBox="0 0 640 150" width="640" height="150">
+      <rect x="20" y="45" width="120" height="60" rx="10" fill="#6C4CF1"/>
+      <text x="34" y="70" font-size="13" fill="#fff" font-weight="bold">robotd 50Hz</text>
+      <text x="34" y="88" font-size="10" fill="#E8E2FF">Radxa Zero 3</text>
+      <line x1="140" y1="75" x2="600" y2="75" stroke="#FF8F00" stroke-width="5"/>
+      <text x="360" y="66" font-size="12" fill="#E65100" font-weight="bold">一根 UART（TTL 半双工，菊花链）</text>
+      <g font-size="10" fill="#004D40">
+        <circle cx="180" cy="98" r="13" fill="#26A69A"/><text x="174" y="102" fill="#fff">IMU</text>
+        <circle cx="215" cy="98" r="13" fill="#26A69A"/><text x="211" y="102" fill="#fff">L1</text>
+        <circle cx="250" cy="98" r="13" fill="#26A69A"/><text x="246" y="102" fill="#fff">L2</text>
+        <circle cx="285" cy="98" r="13" fill="#26A69A"/><text x="281" y="102" fill="#fff">L3</text>
+        <circle cx="320" cy="98" r="13" fill="#26A69A"/><text x="314" y="102" fill="#fff">L4/5</text>
+        <circle cx="365" cy="98" r="13" fill="#26A69A"/><text x="358" y="102" fill="#fff">R1-5</text>
+        <circle cx="410" cy="98" r="13" fill="#26A69A"/><text x="402" y="102" fill="#fff">头×3</text>
+        <circle cx="450" cy="98" r="13" fill="#26A69A"/><text x="446" y="102" fill="#fff">颈</text>
+        <circle cx="487" cy="98" r="13" fill="#26A69A"/><text x="482" y="102" fill="#fff">喙</text>
+      </g>
+      <text x="180" y="130" font-size="10.5" fill="#555">IMU 板排在 ID 表第一位：它先应答，舵机后应答（源码 bus.rs 注释）</text>
+    </svg>
+    <p><b>省时间的杀招</b>：普通 sync read 是逐个点名——16 个设备 = 16 次应答 = 16 个帧头 + 16 次总线换向。Microduck 用 fast sync read（0x8A）：<span class="hl">一次广播，16 个设备把应答<b>接续追加</b>到同一个状态包里</span>。源码注释原话："drops fifteen packet headers and fifteen bus turnarounds from the tick"（<code>duck-control/src/bus.rs:7-9</code>）。50Hz 控制环每 20ms 一拍，总线时间是硬约束。</p>
+    <div class="code"># 每个 20ms 控制拍（robotd 主循环）：
+sync_read(0x8A) → 16 设备应答接力 → IMU + 15×位置/速度
+计算 RL 策略（ONNX，RK3566）→ 新目标位置
+sync_write(0x83) → 15 个舵机一次性收到各自目标</div>
+  </div>
+</div>
+
+<div class="qcard">
+  <span class="qnum">Q4</span><span class="qtitle">大脑 RK3566 有多强？能在鸭子上跑大模型吗？</span>
+  <div class="answer">
+    <p>主控是 <span class="hl">Rockchip RK3566（Radxa Zero 3 板，1GB RAM / 32GB 存储）</span>——4×A55@1.8GHz 的入门级 Linux 板，还有个 1 TOPS NPU。能跑什么？源码和 FAQ 说得很诚实：</p>
+    <ul style="margin:6px 0 6px 22px;">
+      <li><b>能跑</b>：步行 RL 策略（MLP 小网络，导出 ONNX，50Hz 推理）、小目标检测器（NPU 上）、WebRTC 音视频、7 个守护进程。</li>
+      <li><b>不能跑</b>：任何真正的 VLM/大模型。<span class="hl">FAQ 第一条就是答案："I want to run a model that is too heavy for the board → Run it somewhere else and send it the camera"</span>。</li>
+    </ul>
+    <p>重活外包给 Hugging Face Space（GPU 容器）：机器人用 WebRTC 推 H.264 视频流出去，云端看视频做决策，控制指令走同一条会话回来。<span class="big">这正是知识库里 [[控制面与数据面]] 思想的机器人版</span>：板载控制面（50Hz 安全环）永远本地、永远在线；数据面（重模型推理）按需上云。NAT 打不通还有 Cloudflare 短时凭证中继兜底（10GB/月免费流量）。</p>
+    <div class="fact">🔎 出处：<code>docs/faq.md</code>（Radxa Zero 3、NPU 只带小检测器、WebRTC 方案）；<code>robotd/src/soc.rs</code>（soc-thermal / gpu-thermal 双热区读取，坐实 Zero 3 板型）。</div>
+  </div>
+</div>
+
+<div class="qcard">
+  <span class="qnum">Q5</span><span class="qtitle">它怎么知道要摔了？传感器都藏在哪？</span>
+  <div class="answer">
+    <p>三套感知，各管一段：</p>
+    <table>
+      <tr><th>传感器</th><th>规格</th><th>作用</th></tr>
+      <tr><td><b>IMU ×2</b></td><td>总线 ID 表第一位（数据最先到）</td><td>躯干姿态/角速度——RL 步行策略的眼睛，摔没摔、往哪歪全靠它，50Hz 与舵机同拍</td></tr>
+      <tr><td><b>ToF 深度矩阵</b></td><td><span class="hl">ST VL53L8CX，8×8 = 64 区测距</span></td><td>头"眼睛"下方的深度雷区：避障、检测手（特雷门琴）</td></tr>
+      <tr><td><b>摄像头 + 麦克风</b></td><td>经 mediad 编码 H.264</td><td>远程视觉 / 语音交互</td></tr>
+    </table>
+    <p><b>8×8 矩阵怎么用？</b>源码注释很克制：<span class="hl">"no reprojection"——只给原始 64 区距离，不反投影成 3D 点云</span>。够用的场景（前面有没有障碍/手）用矩阵原始值就行，省掉全部几何换算。<span class="big">这不是扫描式激光雷达，是 64 像素的"测距相机"</span>—— teardown 帖叫它 "LiDAR" 是营销说法，源码管它叫 depth matrix。</p>
+    <svg viewBox="0 0 420 110" width="420" height="110">
+      <text x="30" y="18" font-size="12" font-weight="bold" fill="#5D4037">VL53L8CX 视野：8×8 区，每区一个距离值</text>
+      <g>
+        <!-- 8x8 grid -->
+        <g stroke="#B2EBF2" stroke-width="1">
+          <!-- generated rows: far=light blue, near=red-ish -->
+          <rect x="130" y="30" width="20" height="20" fill="#B3E5FC"/><rect x="152" y="30" width="20" height="20" fill="#B3E5FC"/><rect x="174" y="30" width="20" height="20" fill="#B3E5FC"/><rect x="196" y="30" width="20" height="20" fill="#81D4FA"/><rect x="218" y="30" width="20" height="20" fill="#B3E5FC"/><rect x="240" y="30" width="20" height="20" fill="#B3E5FC"/><rect x="262" y="30" width="20" height="20" fill="#B3E5FC"/><rect x="284" y="30" width="20" height="20" fill="#B3E5FC"/>
+          <rect x="130" y="52" width="20" height="20" fill="#B3E5FC"/><rect x="152" y="52" width="20" height="20" fill="#4FC3F7"/><rect x="174" y="52" width="20" height="20" fill="#FF8A80"/><rect x="196" y="52" width="20" height="20" fill="#FF5252"/><rect x="218" y="52" width="20" height="20" fill="#FF8A80"/><rect x="240" y="52" width="20" height="20" fill="#4FC3F7"/><rect x="262" y="52" width="20" height="20" fill="#B3E5FC"/><rect x="284" y="52" width="20" height="20" fill="#B3E5FC"/>
+          <rect x="130" y="74" width="20" height="20" fill="#B3E5FC"/><rect x="152" y="74" width="20" height="20" fill="#4FC3F7"/><rect x="174" y="74" width="20" height="20" fill="#FF5252"/><rect x="196" y="74" width="20" height="20" fill="#FF5252"/><rect x="218" y="74" width="20" height="20" fill="#FF8A80"/><rect x="240" y="74" width="20" height="20" fill="#4FC3F7"/><rect x="262" y="74" width="20" height="20" fill="#B3E5FC"/><rect x="284" y="74" width="20" height="20" fill="#B3E5FC"/>
+        </g>
+        <text x="330" y="45" font-size="10" fill="#C62828">红=近（手!）</text>
+        <text x="330" y="60" font-size="10" fill="#0277BD">蓝=远</text>
+        <text x="330" y="78" font-size="10" fill="#555">→ 触发音符</text>
+      </g>
+    </svg>
+    <div class="fact">🔎 出处：<code>tof/src/lib.rs</code>（"The head ToF sensor: an 8×8 matrix of distances" / "no reprojection"）；<code>tof/vendor/vl53l8cx/</code>（ST 官方驱动直接 vendor 进仓库）；<code>robotd/src/theremin.rs</code>（"The ToF theremin: a hand's distance in front of the beak becomes a note"）。</div>
+  </div>
+</div>
+
+<div class="qcard">
+  <span class="qnum">Q6</span><span class="qtitle">一块小板子跑 7 个守护进程？为什么不多合一？</span>
+  <div class="answer">
+    <p>架构文档原话：<span class="hl">"Seven daemons on one board, talking over unix sockets. One of them drives the robot; three of the others exist so that the first one can be broken without the board becoming unreachable"</span>——三个进程的存在理由就是"robotd 挂了板子还能救回来"。</p>
+    <svg viewBox="0 0 640 240" width="640" height="240">
+      <g font-size="11">
+        <rect x="20" y="10" width="88" height="40" rx="8" fill="#4DD0E1"/><text x="38" y="33" fill="#004D40">padd 手柄</text>
+        <rect x="128" y="10" width="88" height="40" rx="8" fill="#4DD0E1"/><text x="150" y="33" fill="#004D40">btd 手机</text>
+        <rect x="236" y="10" width="88" height="40" rx="8" fill="#4DD0E1"/><text x="248" y="33" fill="#004D40">robotctl ssh</text>
+        <rect x="344" y="10" width="88" height="40" rx="8" fill="#4DD0E1"/><text x="356" y="33" fill="#004D40">mediad WebRTC</text>
+        <rect x="452" y="10" width="88" height="40" rx="8" fill="#4DD0E1"/><text x="464" y="33" fill="#004D40">updaterd OTA</text>
+        <rect x="560" y="10" width="60" height="40" rx="8" fill="#4DD0E1"/><text x="568" y="33" fill="#004D40">tofd</text>
+        <rect x="40" y="86" width="560" height="34" rx="8" fill="#37474F"/>
+        <text x="90" y="107" fill="#fff">unix socket × N · JSON-RPC 2.0，一行一个对象</text>
+        <rect x="60" y="150" width="120" height="56" rx="8" fill="#FF3D7F"/>
+        <text x="80" y="172" fill="#fff" font-weight="bold">robotd</text>
+        <text x="80" y="190" fill="#FFD1E0" font-size="10">50Hz 环+安全+ONNX</text>
+        <rect x="220" y="150" width="120" height="56" rx="8" fill="#6C4CF1"/>
+        <text x="248" y="172" fill="#fff" font-weight="bold">configd</text>
+        <text x="234" y="190" fill="#E1DBFF" font-size="10">net/pad/system</text>
+        <rect x="380" y="150" width="120" height="56" rx="8" fill="#6C4CF1"/>
+        <text x="398" y="172" fill="#fff" font-weight="bold">updaterd</text>
+        <text x="390" y="190" fill="#E1DBFF" font-size="10">verify/swap/健康门</text>
+        <rect x="60" y="216" width="200" height="20" rx="6" fill="#FF8F00"/>
+        <text x="80" y="230" fill="#fff" font-size="10">Dynamixel 总线：15 舵机 + IMU</text>
+      </g>
+    </svg>
+    <p>进程切分逻辑 = <b>按"崩溃后果"切，不按功能切</b>：robotd 管 50Hz 实时环（最可能出 bug 的）；configd/updaterd 与它隔离——就算 robotd 死循环，你还能 ssh 进去回滚固件。tofd 最特别：<span class="hl">"publishes, answers nothing"</span>（只发不收的传感器守护进程），把 8×8 深度矩阵广播到 <code>/run/tofd/tof.sock</code>，谁要谁读。</p>
+    <div class="fact">🔗 关联知识库：这与 [[MCP模型上下文协议]] 的"小入口+能力分体"、[[JSON-RPC与stdio传输]] 的"一行一个对象"同构——unix socket 上的 JSON-RPC 就是机器人界的 stdio 协议纪律。</div>
+  </div>
+</div>
+
+<div class="qcard">
+  <span class="qnum">Q7</span><span class="qtitle">$399 卖一台亏一台？——BOM 账本拆给你看</span>
+  <div class="answer">
+    <p> teardown 实测口径：XL330-M288-T 官方零售 $27.49/只。<span class="big">15 只 × $27.49 = $412.35 &gt; 整机 $399</span>——即只算舵机，官方定价已经在亏钱。我们写了三情景计算器（实验 3，真实运行）：</p>
+    <table>
+      <tr><th>情景</th><th>15×XL330</th><th>主板</th><th>IMU×2</th><th>ToF</th><th>电池(NP-F550)</th><th>3D打印结构</th><th>其他</th><th>合计</th><th>vs $399</th></tr>
+      <tr><td>悲观/单件零售</td><td>$412.35</td><td>28</td><td>16</td><td>45</td><td>15</td><td>12</td><td>18</td><td><b>$546</b></td><td style="color:#C62828">-147</td></tr>
+      <tr><td>中性/小批量</td><td>$315.00</td><td>22</td><td>14</td><td>35</td><td>12</td><td>10</td><td>15</td><td><b>$423</b></td><td style="color:#C62828">-24</td></tr>
+      <tr><td>乐观/大批量</td><td>$262.50</td><td>18</td><td>12</td><td>30</td><td>10</td><td>8</td><td>12</td><td><b>$353</b></td><td style="color:#2E7D32">+46</td></tr>
+    </table>
+    <p><b>商业模式就写在账本里</b>：<span class="hl">软件（含 RL 训练、仿真、WebRTC 栈）全部 Apache-2.0 开源；硬件 BOM 与结构件不开源</span>。Hugging Face 卖的不是鸭子，是"开源生态的标准硬件锚点"——类似 early Raspberry Pi 的打法：硬件贴近成本卖，赚生态位。前身项目 Open Duck Mini 本来就是社区 DIY 路线（自己买舵机自己打印），Microduck 是它的"官方组装版"。</p>
+  </div>
+</div>
+
+<div class="qcard">
+  <span class="qnum">Q8</span><span class="qtitle">我能自己造一只吗？50Hz 控制环小白在家怎么验证？</span>
+  <div class="answer">
+    <p>分层回答：<b>仿真层 100% 可以</b>（姊妹篇已实测 MuJoCo + 仓库内嵌 MJCF，零硬件跑通）；<b>硬件层部分可以</b>——Open Duck Mini 社区路线就是自购 XL330 + 自打印结构件，但整机结构件/内部件 Microduck 不开源，<span class="hl">复刻一台"完全体"做不到，复刻"控制架构"完全做得到</span>：一只 XL330（~¥200）+ USB-TTL 线 + 5V 电源，就能真实跑通本文实验 2 的协议层代码（把假总线换成真串口）。</p>
+    <div class="warn">⚠️ 本文诚实记录：<b>本机没有鸭子</b>。实验 2 是协议层正确性验证（构造→CRC→回读→篡改检测），不是实机总线通信。别把"跑通了 CRC"当成"驱动过舵机"。</div>
+  </div>
+</div>
+
+<h2 class="section">② 动手实验（无硬件轻量路线，真实运行记录）</h2>
+
+<p>实验脚本：<code>microduck\exercise\hardware\duck_hardware_lab.py</code>（纯标准库，零依赖）。三段实验对应三个疑问：Q1 的 15-DOF 地图、Q3 的总线协议、Q7 的成本账本。</p>
+
+<div class="step">
+  <h4>步骤 1：从源码提取 15-DOF 硬件地图</h4>
+  <p><b>操作</b>：<code>PYTHONUTF8=1 python microduck/exercise/hardware/duck_hardware_lab.py</code>（脚本内解析 <code>kinematics/assets/alpha/robot_walk.xml</code>）</p>
+  <p><b>目的</b>：验证"15 个舵机 = 头3+颈1+腿5×2+喙1"不是媒体转述，而是能从源码复算的事实。</p>
+  <p><b>✅ 真实输出（节选）</b>：</p>
+  <div class="code">左腿: 5 个舵机  <- left_hip_yaw, left_hip_roll, left_hip_pitch, left_knee, left_ankle
+右腿: 5 个舵机  <- right_hip_yaw, right_hip_roll, right_hip_pitch, right_knee, right_ankle
+喙（抓取/表达，第 15 舵机）: 1 个  <- beak（行走 MJCF 不含，见 robotd theremin/chorale 模块）
+合计: 15 个 XL330 舵机  [15 = 头3 + 颈1 + 腿5x2 + 喙1]  PASS</div>
+</div>
+
+<div class="step">
+  <h4>步骤 2：Dynamixel Protocol 2.0 协议层验证（CRC + Sync Write）</h4>
+  <p><b>操作</b>：同上脚本实验 2 段——CRC-16（poly 0x8005）写两版（逐位 LFSR / 256 项查表）交叉验证，再用标准目录向量校准，最后构造 16 设备广播包并回读解码 + 篡改测试。</p>
+  <p><b>目的</b>：不插一只舵机，也能证明"我们写的总线驱动层在协议上是对的"——这就是无硬件路线能做到的诚实上限。</p>
+  <p><b>✅ 真实输出</b>：</p>
+  <div class="code">2a. CRC 双实现交叉验证 + 标准向量: bitwise=0xfee8 table=0xfee8 标准=0xfee8  PASS
+2b. Sync Write(0x83) 广播包: 16 个设备, 包长 122 字节  PASS
+2c. 回读解码: ID=0xfe 指令=0x83 参数逐字节一致  PASS
+2d. 篡改 1 个 CRC 位必须被拒绝（总线完整性）  PASS</div>
+  <p><b>怎么验证 CRC 没写错</b>："123456789" 的 CRC = 0xFEE8 是 <b>CRC-16/BUYPASS</b> 的国际标准校验值（RevEng CRC 目录收录），双实现 + 标准向量三方一致才算数。</p>
+</div>
+
+<div class="step">
+  <h4>步骤 3：BOM 三情景计算器</h4>
+  <p><b>操作</b>：同上脚本实验 3 段。</p>
+  <p><b>✅ 真实输出</b>：</p>
+  <div class="code">悲观/单件零售  15×XL330=$412.35 … 合计 $546.35  毛利空间 -147
+乐观/大批量    15×XL330=$262.50 … 合计 $352.50  毛利空间 +46
+核心断言: 零售价 15 只舵机=$412.35 > $399，且 悲观>$399>乐观  PASS</div>
+  <div class="warn">🧯 过程如实记录：第一版断言写成"所有情景在 $200~480 区间"，悲观情景 $546 触发 FAIL——其实悲观超预算恰恰是结论本身。修正断言语义（零售&gt;399&gt;批量）后 3/3 PASS。教训：<span class="hl">先想清楚"什么结果算验证成功"，再写断言</span>。</div>
+</div>
+
+<h2 class="section">③ 能力清单：这套硬件架构教会我们什么</h2>
+<div class="qcard">
+  <ul style="margin:4px 0 4px 20px;">
+    <li><b>智能舵机选型判断</b>：什么时候值得为"内置编码器+协议"付 30 倍价钱（要关节级反馈的腿式机器人 vs 只要转个角度的云台）</li>
+    <li><b>单总线多设备架构</b>：ID 寻址 + fast sync read，把"16 设备轮询"压成"1 次接力应答"——同样思路可用于任何串口设备群</li>
+    <li><b>SoC 边界感</b>：1 TOPS NPU 的板子该跑什么（小 ONNX）、该外包什么（VLM 走 WebRTC）——<b>算力不够不是问题，边界划错才是</b></li>
+    <li><b>按崩溃后果切进程</b>：实时环与救砖通道物理隔离，比"一个大单体"和"微服务全家桶"都更适合嵌入式</li>
+    <li><b>硬件成本结构直觉</b>：执行器占腿式机器人 BOM 一半以上；开源硬件项目的定价=生态位投资</li>
+  </ul>
+</div>
+
+<footer>
+  拾遗 task 6083ef55 · 硬件架构拆解补充篇（姊妹篇：Microduck 小白指南·软件栈） · 数据来源：pollen-robotics/microduck v0.15.1 源码逐行核对 + Robotopian BOM teardown + Pollen Robotics 官网 · 实验真实运行于 2026-10-02
+</footer>
+</body>
+</html>

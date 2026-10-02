@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>百元仿生机械手小白指南</title>
+<style>
+:root{
+  --red:#e63946; --orange:#f77f00; --yellow:#ffb703; --blue:#1d6fb8;
+  --teal:#2a9d8f; --purple:#7209b7; --dark:#1d3557; --pink:#ff5d8f;
+  --bg:#fffdf5; --card:#ffffff;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+@page{ size:A4; margin:12mm; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:#222; line-height:1.65; font-size:13.5px;}
+.wrap{ max-width:186mm; margin:0 auto; padding:0 4px;}
+.hero{ background:linear-gradient(135deg,var(--red) 0%,var(--orange) 55%,var(--yellow) 100%); color:#fff; border-radius:16px; padding:26px 30px; margin:14px 0 18px;}
+.hero h1{ font-size:30px; letter-spacing:1px;}
+.hero p{ font-size:14.5px; margin-top:8px; opacity:.96;}
+.badges span{ display:inline-block; background:rgba(255,255,255,.25); border:1px solid rgba(255,255,255,.6); border-radius:999px; padding:2px 12px; margin:8px 6px 0 0; font-size:12px; font-weight:bold;}
+.toc{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;}
+.toc a{ text-decoration:none; color:#fff; font-size:11.5px; font-weight:bold; padding:4px 10px; border-radius:999px;}
+h2.sec{ font-size:21px; color:#fff; background:linear-gradient(90deg,var(--blue),var(--teal)); display:inline-block; padding:6px 22px; border-radius:10px; margin:22px 0 12px;}
+.qcard{ background:var(--card); border-radius:14px; padding:18px 20px 16px; margin:0 0 16px; box-shadow:0 3px 10px rgba(29,53,87,.12); border-top:6px solid var(--c,var(--red)); break-inside:avoid;}
+.qcard .qno{ font-size:34px; font-weight:900; color:var(--c,var(--red)); float:right; opacity:.35; line-height:1;}
+.qcard h3{ font-size:17px; color:var(--dark); margin-bottom:8px;}
+.key{ background:#fff3cd; border-left:6px solid var(--orange); padding:9px 13px; border-radius:6px; font-weight:bold; font-size:14px; margin:10px 0;}
+.term{ color:var(--blue); font-weight:bold;}
+.svgbox{ text-align:center; margin:10px 0 4px;}
+.svgbox svg{ max-width:100%; height:auto;}
+.analogy{ background:#e8f6ef; border-left:6px solid var(--teal); padding:8px 13px; border-radius:6px; margin:8px 0; font-size:13px;}
+.warn{ background:#fdecea; border-left:6px solid var(--red); padding:8px 13px; border-radius:6px; margin:8px 0; font-size:13px;}
+table{ width:100%; border-collapse:collapse; margin:10px 0; font-size:12.5px;}
+th{ background:var(--dark); color:#fff; padding:6px 8px; text-align:left;}
+td{ border-bottom:1px solid #eee; padding:6px 8px;}
+tr:nth-child(even) td{ background:#f6f9ff;}
+code, .mono{ font-family:Consolas,monospace; background:#eef2f7; padding:1px 6px; border-radius:4px; font-size:12.5px; color:#0b3d91;}
+.codeblock{ background:#14213d; color:#e5e5e5; border-radius:8px; padding:11px 14px; font-family:Consolas,monospace; font-size:12px; margin:9px 0; white-space:pre-wrap; line-height:1.5;}
+.codeblock .hl{ color:#ffc300; font-weight:bold;}
+.step{ border:2px solid var(--c,var(--blue)); border-radius:12px; padding:14px 16px; margin:0 0 14px; break-inside:avoid;}
+.step h4{ color:var(--c,var(--blue)); font-size:15.5px; margin-bottom:6px;}
+.ok{ background:#e7f7ec; border:2px dashed #2a9d8f; border-radius:8px; padding:8px 12px; margin-top:8px; font-size:13px;}
+.ok b{ color:#1b7a4b;}
+.cap li{ margin:6px 0 6px 18px;}
+.foot{ text-align:center; color:#888; font-size:11px; margin:22px 0 8px;}
+.imgfig{ text-align:center; margin:10px 0;}
+.imgfig img{ max-width:92%; border:3px solid var(--yellow); border-radius:10px;}
+.imgfig .cap{ font-size:11.5px; color:#666; margin-top:3px;}
+.pb{ break-before:page;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>🦾 不到100块，手搓一只仿生机械手</h1>
+  <p>小白指南 · 看懂「舵机 + 绳驱 + 欠驱动」百元机械手的结构与控制全链路</p>
+  <div class="badges">
+    <span>拾遗任务 6e3cb007</span><span>来源：抖音 @了不起的绿豆冰（仿生机械手展示）</span><span>实验：无硬件纯软件仿真</span><span>2026-10-02</span>
+  </div>
+</div>
+
+<div class="warn"><b>诚实声明（先读这个）：</b>原视频是抖音短视频，正文需在抖音 App 内查看，作者宣称的"全套详细教程"分发渠道（抖音私域/网盘/付费）无法公开验证。本指南不依赖该私有教程，而是基于<b>公开可查证的同题材开源项目</b>撰写：B站【开源】不到100块低成本机械手（BV19Dgy6GEeJ，附网盘全套开源文件）、MakerWorld 低成本五指舵机灵巧手（ESP32-C3 + PCA9685，全结构开源）、耶鲁 <b>Yale OpenHand Project</b>（已克隆其 Workshop 仓库到 repo\）。实验为<b>无硬件数字仿真</b>——没有买舵机、没有买打印件，代码全部真实跑通。</p></div>
+
+<h2 class="sec">目录 · 11 个疑问</h2>
+<div class="toc">
+  <a style="background:var(--red)" href="#q1">Q1 这是什么</a><a style="background:var(--orange)" href="#q2">Q2 舵机与PWM</a><a style="background:#e09b00" href="#q3">Q3 欠驱动</a><a style="background:var(--teal)" href="#q4">Q4 绳驱原理</a><a style="background:var(--blue)" href="#q5">Q5 控制代码</a><a style="background:var(--purple)" href="#q6">Q6 正运动学</a><a style="background:var(--pink)" href="#q7">Q7 仿生在哪</a><a style="background:#5a189a" href="#q8">Q8 开源选型</a><a style="background:#b5179e" href="#q9">Q9 BOM清单</a><a style="background:#d62828" href="#q10">Q10 调试坑</a><a style="background:#003049" href="#q11">Q11 升级路径</a>
+</div>
+
+<!-- Q1 -->
+<div class="qcard" id="q1" style="--c:var(--red)">
+<div class="qno">Q1</div>
+<h3>不到100块的"仿生机械手"，到底是什么结构？和人手差在哪？</h3>
+<p>一句话：<b>一块手掌底板 + 5 根 3D 打印（或雪糕棒）指骨 + 5 个舵机 + 一套鱼线腱绳 + 一块 Arduino 控制板</b>。每一根手指由 2~3 节指节用铰接孔串联，舵机装在手掌里，拉动穿过指节的线，手指就"卷"起来。</p>
+<table>
+<tr><th></th><th>人手</th><th>百元仿生手</th></tr>
+<tr><td>自由度</td><td>21+ 个，每指可独立弯/展/对掌</td><td>5~6 个（每指 1 个舵机），关节靠<b>被动联动</b></td></tr>
+<tr><td>驱动</td><td>肌肉 + 肌腱</td><td>舵机 + 鱼线（正好是在<b>模仿肌腱</b>！）</td></tr>
+<tr><td>触觉</td><td>2 万+ 触觉感受器</td><td>无（高级版加压力传感器）</td></tr>
+<tr><td>能干啥</td><td>一切</td><td>包络抓取：握笔、握鸡蛋、抓瓶子——<b>抓，不捏</b></td></tr>
+</table>
+<div class="key">关键句：百元机械手是"形状像手、原理像吊线木偶"的一指一电机欠驱动机构——便宜不是偷工减料，而是<b>主动放弃多余自由度</b>换来的。</div>
+<div class="svgbox">
+<svg width="560" height="170" viewBox="0 0 560 170">
+<rect x="90" y="120" width="200" height="34" rx="8" fill="#ffb703" stroke="#7a4b00" stroke-width="2"/>
+<text x="190" y="142" text-anchor="middle" font-size="12" fill="#5a3a00" font-weight="bold">手掌底板 + 舵机×5</text>
+<g stroke="#333" stroke-width="2" fill="none">
+<path d="M110,120 L110,60 L118,34 L124,16" marker-end="url(#ar)"/>
+<path d="M160,120 L160,50 L170,26 L176,10" marker-end="url(#ar)"/>
+<path d="M210,120 L210,46 L220,22 L226,6" marker-end="url(#ar)"/>
+<path d="M258,120 L258,52 L268,28 L274,12" marker-end="url(#ar)"/>
+</g>
+<g fill="#e63946"><circle cx="110" cy="60" r="4"/><circle cx="118" cy="34" r="4"/><circle cx="160" cy="50" r="4"/><circle cx="170" cy="26" r="4"/><circle cx="210" cy="46" r="4"/><circle cx="220" cy="22" r="4"/><circle cx="258" cy="52" r="4"/><circle cx="268" cy="28" r="4"/></g>
+<text x="290" y="60" font-size="12" fill="#1d3557">每指 3 节指骨（3D打印/雪糕棒）</text>
+<text x="290" y="80" font-size="12" fill="#1d3557">红点 = 铰接关节</text>
+<text x="290" y="100" font-size="12" fill="#d00000" font-weight="bold">1 指只由 1 个舵机驱动</text>
+<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="qcard" id="q2" style="--c:var(--orange)">
+<div class="qno">Q2</div>
+<h3>为什么都用舵机？它凭什么能"转到指定角度"？</h3>
+<p><span class="term">舵机（Servo）</span>= 便宜电机 + 减速齿轮 + 角度电位器 + 小驱动板，四合一封装。它不像普通电机"通电就转"，而是你告诉它一个目标角度，它内部的闭环自己转过去并<b>保持住</b>（所以叫"舵"）。一个 SG90 只要几块钱，扭矩约 1.8 kg·cm——拉一根鱼线卷起一根塑料手指，绰绰有余。</p>
+<p>它听懂的"语言"是 <span class="term">PWM 脉宽调制</span>：每 20ms 一个脉冲，<b>脉冲的高电平宽度代表角度</b>：</p>
+<div class="codeblock">0.5ms 高电平 → 0°      1.5ms → 90°（中位）      2.5ms → 180°
+Arduino 里一行代码搞定：  <span class="hl">myservo.write(90);</span>   // 内部就是上面的换算</div>
+<div class="key">关键句：舵机把"角度控制"这个看似复杂的问题，简化成"发多宽的脉冲"——占空比 2.5%~12.5% 的方波就是它的全部输入。</div>
+<div class="svgbox">
+<svg width="560" height="150" viewBox="0 0 560 150">
+<g stroke="#ddd" stroke-width="1"><line x1="30" y1="30" x2="30" y2="130"/><line x1="30" y1="130" x2="540" y2="130"/></g>
+<g stroke="#1d6fb8" stroke-width="3" fill="none">
+<path d="M30,130 L60,130 L60,40 L82,40 L82,130 L180,130 L180,60 L202,60 L202,130 L300,130 L300,80 L322,80 L322,130 L420,130 L420,40 L442,40 L442,130 L540,130"/>
+</g>
+<text x="71" y="30" text-anchor="middle" font-size="12" fill="#d00000" font-weight="bold">0.5ms→0°</text>
+<text x="191" y="50" text-anchor="middle" font-size="12" fill="#d00000" font-weight="bold">1ms→45°</text>
+<text x="311" y="70" text-anchor="middle" font-size="12" fill="#d00000" font-weight="bold">1.5ms→90°</text>
+<text x="431" y="30" text-anchor="middle" font-size="12" fill="#d00000" font-weight="bold">2.5ms→180°</text>
+<text x="285" y="148" font-size="11" fill="#666">时间 →（每 20ms 重复一帧，帧内高电平宽度 = 角度指令）</text>
+</svg>
+</div>
+<div class="analogy">类比已学概念：PWM 之于舵机，就像 [[确定性脚本]] 的输入约定——同一种脉冲格式，所有厂家的舵机都认，这就是"协议"的力量。</div>
+</div>
+
+<!-- Q3 -->
+<div class="qcard" id="q3" style="--c:#e09b00">
+<div class="qno">Q3</div>
+<h3>5 根手指 15 个关节，100 块怎么可能每处都装电机？—— 欠驱动</h3>
+<p>人手 21 个自由度需要 21 个"执行器"，那要 21 个舵机？成本爆炸、控制爆炸、手臂粗得像萝卜。解法叫 <span class="term">欠驱动（Underactuation）</span>：<b>执行器数量 &lt; 自由度数量</b>，缺口用"机械智能"补。</p>
+<p>"机械智能"指两样不要钱的东西：<b>弹簧</b>（让未主动驱动的关节自动复位）和<b>机械限位/耦合</b>（让关节按固定次序联动）。耶鲁 OpenHand、InMoov、B站百元机械手，全是这条路。</p>
+<div class="key">关键句：欠驱动 = 用 1 个电机驱动一条"关节链"，缺的自由度由<b>弹簧 + 机械结构被动补齐</b>——省下的是电机，换来的是"抓东西自动贴合形状"的意外之喜。</div>
+<div class="svgbox">
+<svg width="560" height="185" viewBox="0 0 560 185">
+<g font-size="12" fill="#1d3557">
+<text x="20" y="22" font-weight="bold">全驱动：21 舵机（≈￥300+，控制 21 路角度）</text>
+<text x="20" y="112" font-weight="bold">欠驱动：5 舵机（≈￥25，每指只发 1 个"闭合量"）</text>
+</g>
+<g transform="translate(20,32)">
+<g fill="#8d99ae"><rect x="0" y="0" width="26" height="14" rx="3"/><rect x="28" y="0" width="26" height="14" rx="3"/><rect x="56" y="0" width="26" height="14" rx="3"/><rect x="84" y="0" width="26" height="14" rx="3"/><rect x="112" y="0" width="26" height="14" rx="3"/><rect x="140" y="0" width="26" height="14" rx="3"/><rect x="168" y="0" width="26" height="14" rx="3"/><rect x="196" y="0" width="26" height="14" rx="3"/><rect x="224" y="0" width="26" height="14" rx="3"/><rect x="252" y="0" width="26" height="14" rx="3"/><rect x="280" y="0" width="26" height="14" rx="3"/><rect x="308" y="0" width="26" height="14" rx="3"/><rect x="336" y="0" width="26" height="14" rx="3"/><rect x="364" y="0" width="26" height="14" rx="3"/><rect x="392" y="0" width="26" height="14" rx="3"/><rect x="420" y="0" width="26" height="14" rx="3"/><rect x="448" y="0" width="26" height="14" rx="3"/></g>
+<g fill="#d62828"><circle cx="13" cy="28" r="7"/><circle cx="41" cy="28" r="7"/><circle cx="69" cy="28" r="7"/><circle cx="97" cy="28" r="7"/><circle cx="125" cy="28" r="7"/><circle cx="153" cy="28" r="7"/><circle cx="181" cy="28" r="7"/><circle cx="209" cy="28" r="7"/><circle cx="237" cy="28" r="7"/><circle cx="265" cy="28" r="7"/><circle cx="293" cy="28" r="7"/><circle cx="321" cy="28" r="7"/><circle cx="349" cy="28" r="7"/><circle cx="377" cy="28" r="7"/><circle cx="405" cy="28" r="7"/><circle cx="433" cy="28" r="7"/><circle cx="461" cy="28" r="7"/></g>
+<text x="480" y="33" font-size="11" fill="#d62828" font-weight="bold">= 17 个电机！</text>
+</g>
+<g transform="translate(20,122)">
+<g fill="#8d99ae"><rect x="0" y="0" width="26" height="14" rx="3"/><rect x="30" y="8" width="26" height="14" rx="3" transform="rotate(12 30 8)"/><rect x="60" y="16" width="26" height="14" rx="3" transform="rotate(24 60 16)"/></g>
+<g fill="#d62828"><circle cx="0" cy="30" r="8"/></g>
+<text x="10" y="34" font-size="11" fill="#fff" font-weight="bold">×1</text>
+<text x="120" y="20" font-size="12" fill="#1b7a4b" font-weight="bold">1 电机 → 拉一条腱绳 → 3 关节依次联动</text>
+<text x="120" y="40" font-size="12" fill="#1b7a4b">弹簧负责张开复位</text>
+</g>
+</svg>
+</div>
+</div>
+
+<!-- Q4 -->
+<div class="qcard" id="q4" style="--c:var(--teal)">
+<div class="qno">Q4</div>
+<h3>绳驱是怎么让手指"卷"起来的？松手为什么自己弹开？</h3>
+<p><span class="term">绳驱/腱驱（Tendon drive）</span>：舵机装在手掌里，输出轴装一个小卷线轮，一根鱼线（腱绳）依次穿过每节指骨侧面的导索孔，末端固定在指尖。舵机卷线 → 绳被拉紧 → 指节被"拽弯"，像牵线木偶。张开靠每节指骨间的<span class="term">复位弹簧</span>（或弹性材料本身）。</p>
+<p>妙处在于<b>自适应包络</b>：手指碰到物体的那节先停住，绳还在走，剩下的行程继续弯下一节——手指自动"裹"住物体，不管抓的是笔还是瓶子，<b>不需要知道物体形状</b>。这正是耶鲁 OpenHand 论文里强调的 passive adaptivity。</p>
+<div class="key">关键句：绳驱 = 把电机藏进手掌、用"肌腱"传动——体积小、手指轻、还免费送自适应抓取；代价是绳会松、要定期调张力。</div>
+<div class="svgbox">
+<svg width="560" height="190" viewBox="0 0 560 190">
+<rect x="30" y="90" width="90" height="60" rx="8" fill="#ffb703" stroke="#7a4b00" stroke-width="2"/>
+<text x="75" y="125" text-anchor="middle" font-size="11" fill="#5a3a00" font-weight="bold">舵机+卷线轮</text>
+<g stroke="#333" stroke-width="3" fill="none">
+<path d="M120,100 C170,70 210,70 240,95 C270,120 300,130 330,140" stroke="#d62828"/>
+</g>
+<g fill="#2a9d8f"><rect x="150" y="60" width="60" height="16" rx="6"/><rect x="215" y="82" width="60" height="16" rx="6" transform="rotate(18 245 90)"/><rect x="285" y="118" width="60" height="16" rx="6" transform="rotate(35 315 126)"/></g>
+<circle cx="150" cy="68" r="4" fill="#1d3557"/><circle cx="268" cy="98" r="4" fill="#1d3557"/><circle cx="338" cy="136" r="4" fill="#1d3557"/>
+<g stroke="#e09b00" stroke-width="3"><path d="M160,55 C150,42 160,30 150,20" fill="none" marker-end="url(#sp)"/></g>
+<text x="165" y="30" font-size="11" fill="#e09b00" font-weight="bold">弹簧：松手自动弹开</text>
+<text x="380" y="100" font-size="12" fill="#d62828" font-weight="bold">红色 = 腱绳（鱼线）</text>
+<text x="380" y="120" font-size="12" fill="#1d3557">舵机卷线 → 依次拽弯</text>
+<text x="380" y="138" font-size="12" fill="#1d3557">碰到物体的关节先停，</text>
+<text x="380" y="156" font-size="12" fill="#1d3557">行程自动流向下一关节</text>
+<defs><marker id="sp" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#e09b00"/></marker></defs>
+</svg>
+</div>
+<div class="analogy">类比已学概念：这和 [[补间动画与缓动函数]] 里"只给终点，中间自动生成"的思想同源——绳驱只给一个"闭合量"，指节形变自动分配。</div>
+</div>
+
+<!-- Q5 -->
+<div class="qcard" id="q5" style="--c:var(--blue)">
+<div class="qno">Q5</div>
+<h3>控制代码到底在写什么？没硬件我能看懂/跑通哪部分？</h3>
+<p>看了已克隆的耶鲁仓库 <code>repo\Python-3.6\openhand.py</code>，核心抽象极其简洁：<b>上层永远只发"比例量"</b> <code>amnt ∈ [0, 1]</code>（0=全开，1=全闭），类内部再换算成舵机/电机能吃的数值：</p>
+<div class="codeblock"># Yale openhand.py 的思想（简化重述）：
+amnt_release = <span class="hl">0.0</span>   # 全开
+amnt_close   = <span class="hl">0.5</span>   # 半闭
+# move_hand: 把 amnt 映射到每个执行器的行程区间 [min, max]
+# 我们的百元手同理：c∈[0,1] → 每根手指角度 = c × 行程分配比 × 最大角</div>
+<p>没硬件也能跑通的部分：PWM→角度换算、闭合量→关节角耦合、关节角→指尖坐标、抓取序列状态机。这些正是本指南主实验干的事（见实验章节），连<b>力控思想</b>都能看：耶鲁代码里 <code>max_torque=0.4</code> 是把堵转扭矩限制在 40% 保护手指——你买舵机后同样要设限。</p>
+<div class="key">关键句：控制链 = <b>PWM 脉宽 → 舵机角度 → 腱绳行程 → 关节角 → 指尖位置</b>，五环里前四环纯数学，没硬件照样全部验证。</div>
+</div>
+
+<!-- Q6 -->
+<div class="qcard" id="q6" style="--c:var(--purple)">
+<div class="qno">Q6</div>
+<h3>知道了三个关节角度，怎么算指尖在哪？（2D 正运动学）</h3>
+<p><span class="term">正运动学（Forward Kinematics）</span>：已知各关节角，求末端位置。平面三连杆根本不用背 DH 参数表，初中三角函数就够——每节指骨是一个向量，关节角决定向量方向，首尾相加：</p>
+<div class="codeblock">φ₁ = 90° − θ₁                （第一节的绝对朝向，竖直向上为初始）
+φ₂ = φ₁ − θ₂； φ₃ = φ₂ − θ₃  （越弯越"倒向掌心"）
+指尖 = Σ Lₖ·(cos φₖ, sin φₖ)  （Lₖ = 各节指骨长，如 40/26/18mm）</div>
+<div class="key">关键句：正运动学就是"向量接力"——指尖坐标 = 三节指骨向量首尾相接。实验 Step3 已验证：全伸直时指尖恰在 (0, 指长和)。</div>
+<div class="svgbox">
+<svg width="560" height="200" viewBox="0 0 560 200">
+<g stroke="#1d6fb8" stroke-width="5" fill="none" stroke-linecap="round">
+<line x1="80" y1="170" x2="80" y2="90"/>
+<line x1="80" y1="90" x2="118" y2="50"/>
+<line x1="118" y1="50" x2="140" y2="28"/>
+</g>
+<circle cx="80" cy="170" r="7" fill="#d62828"/><circle cx="80" cy="90" r="6" fill="#f77f00"/><circle cx="118" cy="50" r="6" fill="#2a9d8f"/><circle cx="140" cy="28" r="6" fill="#7209b7"/>
+<text x="60" y="188" font-size="11" fill="#d62828" font-weight="bold">MCP θ₁</text>
+<text x="88" y="88" font-size="11" fill="#f77f00" font-weight="bold">PIP θ₂</text>
+<text x="126" y="48" font-size="11" fill="#2a9d8f" font-weight="bold">DIP θ₃</text>
+<text x="150" y="30" font-size="12" fill="#7209b7" font-weight="bold">★ 指尖 (x,y)</text>
+<g stroke="#999" stroke-dasharray="4 3"><line x1="80" y1="170" x2="80" y2="30"/><line x1="80" y1="170" x2="200" y2="170"/></g>
+<text x="86" y="34" font-size="10" fill="#888">y</text><text x="196" y="164" font-size="10" fill="#888">x</text>
+<g font-size="12" fill="#1d3557">
+<text x="300" y="60">θ 全 0 → 指尖 = (0, L₁+L₂+L₃) = (0, 84mm)</text>
+<text x="300" y="84">θ = (90°,60°,28°) → 指尖 = (53.6, −40.5)</text>
+<text x="300" y="108" font-weight="bold" fill="#d00000">实验实测值（Step3 断言通过）</text>
+</g>
+</svg>
+</div>
+</div>
+
+<!-- Q7 -->
+<div class="qcard" id="q7" style="--c:var(--pink)">
+<div class="qno">Q7</div>
+<h3>"仿生"到底仿在哪？和工业夹爪有什么区别？</h3>
+<p>三处硬核仿生：<b>①传动仿生</b>——电机藏"肌肉"位置、鱼线当"肌腱"，跟人手前臂握拳的腱传动同构；<b>②比例仿生</b>——指节长度比 ≈ 人手近节:中节:远节（约 2:1.3:1），抓握轨迹自然；<b>③行为仿生</b>——欠驱动自适应包络正是人手"随便一抓就稳"的被动柔顺。</p>
+<p>工业夹爪反着来：两指平行、刚体传动、位置/力全闭环，抓一种工件调一次参数，快而硬。仿生手反过来：慢、软、不准，但<b>抓什么都像那么回事</b>，还不捏碎鸡蛋。</p>
+<div class="key">关键句：工业夹爪追求"精确可重复"，仿生欠驱动手追求"抓啥都行不挑食"——这是两种设计哲学，不是高低之分。</div>
+</div>
+
+<!-- Q8 -->
+<div class="qcard" id="q8" style="--c:#5a189a">
+<div class="qno">Q8</div>
+<h3>网上开源项目一大堆，该"抄"谁的作业？</h3>
+<table>
+<tr><th>项目</th><th>成本</th><th>难度</th><th>材料获取</th><th>适合谁</th></tr>
+<tr><td><b>B站"小楚君"百元机械手</b>（BV19Dgy6GEeJ）</td><td>&lt;￥100</td><td>★</td><td>网盘全套开源文件（提取码 xesd）+ 雪糕棒/3D打印</td><td>第一次动手的你</td></tr>
+<tr><td><b>MakerWorld 五指灵巧手</b>（ESP32-C3 + PCA9685）</td><td>￥100~200</td><td>★★</td><td>模型全开源，3D打印 + 淘宝舵机</td><td>想要"能编程的进阶版"</td></tr>
+<tr><td><b>Yale OpenHand</b>（grablab，已克隆 repo\）</td><td>数千元</td><td>★★★★</td><td>CAD + 固件 + 论文全公开，用 Dynamixel 数字舵机</td><td>科研/读源码学架构</td></tr>
+<tr><td><b>InMoov</b></td><td>数千元</td><td>★★★★</td><td>全身机器人开源，手只是模块之一</td><td>想最终造整机器人</td></tr>
+</table>
+<div class="key">关键句：入门抄"小楚君"（真·百元全套），进阶抄 MakerWorld（ESP32 可玩 IoT），读代码学架构抄 Yale OpenHand——本次 repo\ 里克隆的就是第三个。</div>
+<div class="warn">注意：抖音作者"了不起的绿豆冰"的教程渠道公开网络查不到（大概率在抖音App内或私域），<b>不必非要找到原作者教程</b>——上面三个公开项目的原理和材料完全覆盖同主题。</div>
+</div>
+
+<!-- Q9 -->
+<div class="qcard" id="q9" style="--c:#b5179e">
+<div class="qno">Q9</div>
+<h3>真要做一只，100 块怎么花？（BOM 清单）</h3>
+<table>
+<tr><th>物料</th><th>规格</th><th>数量</th><th>参考价</th></tr>
+<tr><td>SG90 舵机</td><td>9g 塑料齿</td><td>5</td><td>￥10~15（约￥2~3/个，散装更便宜）</td></tr>
+<tr><td>Arduino Nano/ESP32-C3</td><td>兼容板</td><td>1</td><td>￥10~20</td></tr>
+<tr><td>PCA9685 舵机驱动板</td><td>16 路 I2C（可选）</td><td>1</td><td>￥5~8</td></tr>
+<tr><td>鱼线/编织线</td><td>0.3~0.5mm</td><td>少量</td><td>￥3</td></tr>
+<tr><td>弹簧/弹性绳</td><td>回位用</td><td>少量</td><td>￥3</td></tr>
+<tr><td>3D打印件/雪糕棒+铆钉</td><td>指节+掌板</td><td>1 套</td><td>￥10~30（自打）或 ≈￥0（雪糕棒）</td></tr>
+<tr><td>杜邦线、面包板、5V/2A 电源</td><td>—</td><td>—</td><td>￥15~20（多半家里有）</td></tr>
+<tr><td><b>合计</b></td><td colspan="2">—</td><td><b>≈ ￥56~96</b> ✅ 在 100 元内</td></tr>
+</table>
+<div class="key">关键句：预算大头是主控板和打印件；雪糕棒流派能把整机压到 ￥50 上下。电源别省——5 个舵机同动瞬间电流可到 2A+，用电脑 USB 口供电会重启。</div>
+</div>
+
+<!-- Q10 -->
+<div class="qcard" id="q10" style="--c:#d62828">
+<div class="qno">Q10</div>
+<h3>常见的坑：抖动、没劲、绳松、手指不同步怎么办？</h3>
+<table>
+<tr><th>症状</th><th>根因</th><th>药方</th></tr>
+<tr><td>舵机嗡嗡抖动</td><td>供电不足 / 目标角卡死在机械极限</td><td>独立 5V≥2A 供电共地；代码里给行程留 5° 死区（耶鲁代码同样用 min/max 限位）</td></tr>
+<tr><td>握不住重物</td><td>SG90 扭矩 1.8kg·cm 天花板</td><td>换 MG90S 金属齿；缩短指节；降速（绳张力更足）；耶鲁思路：扭矩上限设 40% 防堵转烧机</td></tr>
+<tr><td>手指卷不紧/回弹慢</td><td>腱绳张力松弛</td><td>加张力调节螺钉；绳打结点涂胶；行程补偿（代码里 c 上限微调）</td></tr>
+<tr><td>五指快慢不一</td><td>各绳初始长度/摩擦不同</td><td>逐一标定"闭合量 c → 视觉对齐"，像耶鲁 README 里 offset 标定那样迭代</td></tr>
+<tr><td>USB 一插就重启</td><td>5 舵机峰值电流 2A+ 拖垮 USB 500mA</td><td>外接电源，<b>必须与逻辑板共地</b></td></tr>
+</table>
+<div class="key">关键句：90% 的机械手翻车是<b>供电和绳张力</b>，不是代码——代码部分恰恰是最简单的。</div>
+</div>
+
+<!-- Q11 -->
+<div class="qcard" id="q11" style="--c:#003049">
+<div class="qno">Q11</div>
+<h3>学完这只手，下一步能升级到什么？</h3>
+<p><b>①体感手套</b>：手套上贴弯曲传感器（或用 MediaPipe 摄像头识别手指关节角，见 GitHub 上 AI-Robotic-Hand 等项目），你的手动、机械手跟着动——正好用到本指南的正运动学做映射。<b>②肌电控制</b>：MyoWare 肌电传感器贴小臂，听"肌肉电话"（￥100+，进阶）。<b>③力控抓握</b>：指尖贴 FSR 压力传感器，接触即停、按力闭合——把欠驱动的"被动柔顺"升级成"主动柔顺"。 <b>④换数字舵机</b>：像耶鲁 OpenHand 那样用可回读角度的 Dynamixel，就能做闭环抓握研究。</p>
+<div class="key">关键句：百元手是机器人操控领域的"Hello World"——PWM、运动学、传感闭环、人机交互，往后每个方向都是一条正经的学习树。</div>
+</div>
+
+<h2 class="sec">五 · 这套知识给我什么能力</h2>
+<div class="qcard" style="--c:var(--blue)">
+<ul class="cap">
+<li><b>讲得清</b>：能向别人解释"100 块的机械手为什么能自适应抓握"（欠驱动+绳驱+弹簧，Q3/Q4）</li>
+<li><b>算得动</b>：PWM 脉宽↔角度、闭合量↔关节角、关节角↔指尖坐标，三条换算链全部手推+代码验证过（实验 Step1~3）</li>
+<li><b>选得对</b>：四个开源流派的成本/难度/适用场景一张表，知道自己该抄谁（Q8）</li>
+<li><b>做得成</b>：拿着 BOM（Q9）和避坑表（Q10）就能下单动手，预期整机 ≤￥100</li>
+<li><b>读得懂</b>：能读懂 Yale OpenHand <code>openhand.py</code> 的"比例量 amnt"抽象和限位/限扭思想（实验 Step2/Step5 对照）</li>
+<li><b>接得上</b>：体感手套/肌电/力控三条升级路径明确（Q11）</li>
+</ul>
+</div>
+
+<h2 class="sec">六 · 动手实验（无硬件·纯软件·已实测）</h2>
+<div class="warn">实验定位：<b>没有购买任何硬件</b>。用 Python 把"PWM→角度→腱绳耦合→正运动学→抓取序列"整条控制链仿真出来，并对照耶鲁真实控制代码。<b>以下全部命令与输出均为实机运行结果</b>，不是预测。环境：Windows 11，Python 3.14.7，numpy 2.5.3，matplotlib 3.11.2。</div>
+
+<div class="step" style="--c:var(--orange)">
+<h4>Step 0 · 准备：克隆耶鲁开源参考仓库</h4>
+<p><b>操作</b>：<code>git clone --depth 1 https://github.com/grablab/Yale-OpenHand-Workshop-2018 repo</code>（637MB 的 CAD 仓库 openhand-hardware 跳过；另注：grablab/openhand-firmware 仓库名不存在，实际固件在 Workshop 与 openhand_node 仓库中——这是本次踩的坑）</p>
+<p><b>验证</b>：<code>git -C repo log --oneline -1</code> → <code>ac11e5c Update README.md</code> ✅（HEAD 实测）</p>
+</div>
+
+<div class="step" style="--c:var(--red)">
+<h4>Step 1 · PWM 脉宽 → 角度映射（舵机的"语言课"）</h4>
+<p><b>目的</b>：搞懂舵机怎么把 0.5~2.5ms 脉宽翻译成 0~180°。<b>实现</b>：<code>pulse_to_angle()</code> 线性映射 + 边界/中位/往返一致性断言。</p>
+<p><b>命令</b>：<code>cd F:\reminder\bionic_hand_diy\exercise &amp;&amp; python bionic_hand_sim.py</code></p>
+<div class="ok"><b>✅ 预期/实测结果</b>：<code>脉宽 1500 us → 90.0 deg（周期 20ms 中占比 7.5%）</code>，断言 <code>[PASS] 中位 1500us→90°，边界 500/2500us→0°/180°，往返映射一致</code></div>
+</div>
+
+<div class="step" style="--c:#e09b00">
+<h4>Step 2 · 绳驱欠驱动耦合：闭合量 c → 三关节角</h4>
+<p><b>目的</b>：复现"一个电机拽一条绳，三关节按 5:3:2 分行程"的欠驱动核心。<b>实现</b>：<code>close_amount_to_angles(c) = min(c·2·share, 1)·θmax</code>，并打印绳行程 <code>Σr·θ</code>。</p>
+<div class="ok"><b>✅ 预期/实测结果</b>：c=1.00 时 MCP 90.0° / PIP 60.0° / DIP 28.0°，绳行程 6.21mm；断言 <code>[PASS] c=0 全伸直、c=1 近端满角/中远端按耦合比到位，绳行程单调递增</code>。对照耶鲁 <code>openhand.py</code>：其 <code>amnt∈[0,1]</code> 比例量抽象与我们完全一致。</div>
+</div>
+
+<div class="step" style="--c:var(--teal)">
+<h4>Step 3 · 2D 正运动学：关节角 → 指尖坐标</h4>
+<p><b>目的</b>：验证"向量接力"公式。<b>实现</b>：<code>phi = 90° − cumsum(θ)</code>，指尖 = Σ Lₖ(cosφₖ, sinφₖ)。</p>
+<div class="ok"><b>✅ 预期/实测结果</b>：全伸直指尖 = (0.0000, +84.0000)mm 恰为指长和；全握拢指尖 = (+53.63, −40.51)mm，收拢且卷向掌心。断言 <code>[PASS]</code>。（调试实录：初版方向约定写反，指尖跑到 (0,−84)，改为初始 +90°、弯曲向掌心后通过）</div>
+</div>
+
+<div class="step" style="--c:var(--blue)">
+<h4>Step 4 · 出图：五指两姿态 + 指尖扫掠轨迹</h4>
+<p><b>目的</b>：让欠驱动"看得见"。<b>实现</b>：matplotlib 绘制 c=0 张开扇形与 c=1 握拢包络笼，及五指指尖轨迹。</p>
+<div class="ok"><b>✅ 预期/实测结果</b>：生成 <code>exercise\fig_hand_poses.png</code>（张开=五指扇形，握拢=各指卷向掌心的包络）与 <code>exercise\fig_finger_trajectory.png</code>（五条类圆弧扫掠线，△起点★终点），已逐张目检确认。</p></div>
+<img src="exercise/fig_hand_poses.png" style="max-width:88%; display:block; margin:6px auto; border:3px solid #ffb703; border-radius:8px;">
+<img src="exercise/fig_finger_trajectory.png" style="max-width:70%; display:block; margin:6px auto; border:3px solid #ffb703; border-radius:8px;">
+</div>
+
+<div class="step" style="--c:var(--purple)">
+<h4>Step 5 · 抓取序列状态机：张开→闭合→保持→释放</h4>
+<p><b>目的</b>：模拟真实控制循环里的动作序列（对标耶鲁 <code>move_hand</code> 序列思想）。<b>实现</b>：序列表 + 合法性断言（除"保持"外角度必须变化；释放必须回到全开位形）。</p>
+<div class="codeblock">阶段        c   | 中指MCP   PIP   DIP | 绳行程mm
+张开     0.00   |    0.0   0.0   0.0 |   0.00
+闭合     1.00   |   90.0  60.0  28.0 |   6.21
+保持     1.00   |   90.0  60.0  28.0 |   6.21
+释放     0.00   |    0.0   0.0   0.0 |   0.00</div>
+<div class="ok"><b>✅ 预期/实测结果</b>：<code>[PASS] 序列状态机合法：闭合/释放为互逆过程，保持阶段角度冻结</code>。总结论：没有买任何硬件，"PWM→角度→耦合→运动学"整条控制链全部验证通过。</div>
+</div>
+
+<h2 class="sec">七 · 来源与延伸阅读</h2>
+<div class="qcard" style="--c:var(--dark)">
+<ul class="cap" style="font-size:12.5px">
+<li>原视频：抖音 @了不起的绿豆冰「不到100块，手搓一只仿生机械手，附上全套详细教程」（video/7675637587922488619；教程分发渠道公开网络无法验证）</li>
+<li>B站【开源】不到100块 0基础低成本机械手：bilibili.com/video/BV19Dgy6GEeJ（网盘全套开源文件，提取码 xesd）</li>
+<li>Yale OpenHand Project：eng.yale.edu/grablab/openhand · 论文 IEEE RAM 2017「Optimizing Open-Source Hand Designs…」；本子项目 repo\ = grablab/Yale-OpenHand-Workshop-2018 @ ac11e5c</li>
+<li>MakerWorld 低成本五指舵机灵巧手（ESP32-C3 + PCA9685）：3dgo.app/models/makerworld/3175799</li>
+<li>CSDN 舵机+3D打印低成本末端执行器保姆级教程（附STL）：blog.csdn.net/k8s6orchestrator/article/details/155061541</li>
+</ul>
+</div>
+
+<div class="foot">bionic_hand_diy · 拾遗学习流水线 · 生成于 2026-10-02 · 实验代码 exercise\bionic_hand_sim.py 可复跑</div>
+</div>
+</body>
+</html>

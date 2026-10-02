@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>高斯泼溅 3DGS 小白指南</title>
+<style>
+@page { size: A4; margin: 12mm 11mm; }
+:root{
+  --pink:#FF2E88; --orange:#FF7A00; --yellow:#FFC400; --green:#00C853;
+  --cyan:#00B8D4; --blue:#2962FF; --purple:#7C3AED; --ink:#1A1230;
+  --bg:#FFF9F0; --card:#FFFFFF;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:12.5px; line-height:1.65;}
+.cover{background:linear-gradient(135deg,#7C3AED 0%,#FF2E88 55%,#FF7A00 100%); color:#fff; border-radius:18px; padding:34px 30px 26px; margin-bottom:14px;}
+.cover h1{font-size:33px; letter-spacing:1px; line-height:1.25;}
+.cover .sub{font-size:15px; opacity:.95; margin-top:8px;}
+.badges{margin-top:14px;}
+.badge{display:inline-block; background:rgba(255,255,255,.22); border:1.5px solid rgba(255,255,255,.7); border-radius:999px; padding:3px 12px; font-size:11.5px; margin:3px 4px 0 0;}
+h2.sec{font-size:20px; margin:18px 0 10px; padding:7px 14px; border-radius:10px; color:#fff;}
+.s-why{background:linear-gradient(90deg,#2962FF,#00B8D4);}
+.s-what{background:linear-gradient(90deg,#FF2E88,#7C3AED);}
+.s-how{background:linear-gradient(90deg,#FF7A00,#FFC400); color:#5b3600;}
+.s-cap{background:linear-gradient(90deg,#00C853,#00B8D4);}
+.s-exp{background:linear-gradient(90deg,#7C3AED,#2962FF);}
+.q{background:var(--card); border-radius:14px; padding:14px 16px 12px; margin-bottom:12px; break-inside:avoid; box-shadow:0 2px 6px rgba(26,18,48,.10); border-top:6px solid;}
+.q.p{border-color:var(--pink);} .q.o{border-color:var(--orange);} .q.g{border-color:var(--green);} .q.c{border-color:var(--cyan);} .q.b{border-color:var(--blue);} .q.v{border-color:var(--purple);}
+.qhead{display:flex; align-items:flex-start; gap:10px;}
+.qnum{flex:0 0 40px; height:40px; border-radius:12px; color:#fff; font-size:22px; font-weight:900; display:flex; align-items:center; justify-content:center;}
+.p .qnum{background:var(--pink);} .o .qnum{background:var(--orange);} .g .qnum{background:var(--green);} .c .qnum{background:var(--cyan);} .b .qnum{background:var(--blue);} .v .qnum{background:var(--purple);}
+.qtitle{font-size:16px; font-weight:800; padding-top:7px;}
+.hl{background:linear-gradient(transparent 55%, #FFE066 55%); font-weight:800;}
+.hl2{background:linear-gradient(transparent 55%, #7CFFB2 55%); font-weight:800;}
+code{background:#2A1E4F; color:#FFE066; border-radius:5px; padding:1px 6px; font-family:Consolas,monospace; font-size:11.5px;}
+pre{background:#221743; color:#E8FF7A; border-radius:10px; padding:10px 13px; font-family:Consolas,monospace; font-size:11px; line-height:1.55; overflow-x:auto; margin:8px 0; break-inside:avoid;}
+pre .cmt{color:#8FE3FF;}
+table{width:100%; border-collapse:collapse; margin:8px 0; break-inside:avoid;}
+th{background:var(--purple); color:#fff; padding:6px 8px; font-size:12px;}
+td{border:1.5px solid #E8DDF5; padding:5px 8px; font-size:11.5px; background:#fff;}
+tr:nth-child(even) td{background:#FBF7FF;}
+.fig{background:#F5F0FF; border:1.5px dashed var(--purple); border-radius:10px; padding:8px; margin:9px 0; text-align:center;}
+.fig svg{max-width:100%;}
+.figcap{font-size:10.5px; color:#5b4a8a; margin-top:3px;}
+.callout{border-radius:10px; padding:9px 13px; margin:9px 0; font-size:12px; break-inside:avoid;}
+.warn{background:#FFF0F5; border-left:6px solid var(--pink);}
+.tip{background:#EBFFF5; border-left:6px solid var(--green);}
+.key{background:#FFF8E1; border-left:6px solid var(--orange);}
+.step{border:2.5px solid var(--purple); border-radius:13px; margin:10px 0; break-inside:avoid; overflow:hidden;}
+.stephead{background:linear-gradient(90deg,#7C3AED,#2962FF); color:#fff; padding:7px 13px; font-weight:800; font-size:13.5px;}
+.stepbody{padding:9px 13px;}
+.tag4{display:inline-block; border-radius:6px; padding:1px 8px; font-size:10.5px; font-weight:800; color:#fff; margin-right:5px;}
+.t-op{background:var(--blue);} .t-why{background:var(--cyan);} .t-got{background:var(--green);} .t-chk{background:var(--orange);}
+.ok{color:var(--green); font-weight:800;}
+.caps{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0;}
+.cap{flex:1 1 46%; background:#fff; border-radius:12px; padding:10px 12px; break-inside:avoid; border:2px solid;}
+.cap b{display:block; font-size:13.5px; margin-bottom:3px;}
+.two{display:flex; gap:10px;} .two>div{flex:1;}
+.small{font-size:10.5px; color:#6b5f8a;}
+.foot{margin-top:14px; background:#1A1230; color:#CDC3F0; border-radius:12px; padding:11px 16px; font-size:11px;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>高斯泼溅 3DGS 小白指南</h1>
+  <div class="sub">从抖音"灵隐寺高斯孪生"作品，到 SIGGRAPH 2023 最佳论文官方开源实现 —— 一文看懂怎么用一堆"会发光的彩色雪球"实时重建真实世界</div>
+  <div class="badges">
+    <span class="badge">官方仓库 graphdeco-inria/gaussian-splatting（24.1k★，本指南锁定 54c035f）</span>
+    <span class="badge">SIGGRAPH 2023 最佳论文</span>
+    <span class="badge">1080p ≥ 30 FPS 实时渲染</span>
+    <span class="badge">纯 CPU 复刻实验 ✅ 实测跑通</span>
+  </div>
+</div>
+
+<h2 class="sec s-why">〇 · 起因：一段刷到的视频</h2>
+<div class="q b">
+  <div class="qhead"><div class="qnum">▶</div><div class="qtitle">抖音上"元游镜相"晒了一条 <span style="color:var(--blue)">高斯孪生应用：灵隐寺</span> 的视频——这是把整座灵隐寺扫描成了 3DGS 场景，拖动视角就能"云游"实景。作品本身闭源、没有教程，<span class="hl">但技术 3DGS 本身有官方开源仓库，值得作为一个学习项目独立开讲</span>。这就是本指南的由来。</div></div>
+  <p style="margin-top:8px">同期的民间项目还有"把濒临消失的百座古戏台装进 3D地图"（元游镜相）。<b>文旅古建数字化</b>正是 3DGS 落地最猛的方向之一：手机拍一圈照片 → 训练 → 得到可自由视角漫游、照片级真实的 3D 场景。</p>
+</div>
+
+<h2 class="sec s-what">一 · 疑问即目录：先搞懂"是什么、为什么"</h2>
+
+<div class="q p">
+  <div class="qhead"><div class="qnum">1</div><div class="qtitle">3DGS 一句话是什么？解决什么问题？</div></div>
+  <p style="margin-top:8px">3DGS（3D Gaussian Splatting，三维高斯泼溅）是一种<span class="hl">三维场景表示 + 实时渲染技术</span>：给一堆从不同角度拍的照片，它重建出整个场景，并且<b>任何新视角都能实时（1080p 下 ≥30 FPS）渲染出照片级画面</b>。这个过程叫"新视角合成"（Novel View Synthesis）。</p>
+  <div class="fig">
+    <svg width="640" height="130" viewBox="0 0 640 130">
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#7C3AED"/></marker></defs>
+      <rect x="8" y="30" width="105" height="70" rx="9" fill="#00B8D4"/><text x="60" y="60" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">一圈照片</text><text x="60" y="78" text-anchor="middle" fill="#fff" font-size="10">(手机/CAMERA 环拍)</text>
+      <rect x="150" y="30" width="130" height="70" rx="9" fill="#7C3AED"/><text x="215" y="60" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">COLMAP + 训练</text><text x="215" y="78" text-anchor="middle" fill="#fff" font-size="10">几十分钟，需 GPU</text>
+      <rect x="316" y="18" width="120" height="94" rx="9" fill="#FF2E88"/><text x="376" y="52" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">.ply 高斯云</text><text x="376" y="70" text-anchor="middle" fill="#fff" font-size="10">百万级彩色椭球</text><text x="376" y="88" text-anchor="middle" fill="#fff" font-size="10">(场景的"全部家当")</text>
+      <rect x="472" y="30" width="160" height="70" rx="9" fill="#00C853"/><text x="552" y="58" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">任意新视角实时渲染</text><text x="552" y="78" text-anchor="middle" fill="#fff" font-size="10">≥30 FPS @1080p</text>
+      <line x1="113" y1="65" x2="146" y2="65" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#ar)"/>
+      <line x1="280" y1="65" x2="312" y2="65" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#ar)"/>
+      <line x1="436" y1="65" x2="468" y2="65" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#ar)"/>
+    </svg>
+    <div class="figcap">图 1：3DGS 的完整流水线——照片进，可漫游的 3D 场景出</div>
+  </div>
+</div>
+
+<div class="q o">
+  <div class="qhead"><div class="qnum">2</div><div class="qtitle">它出现之前人们怎么做？为什么大家被它震撼？</div></div>
+  <table>
+    <tr><th>路线</th><th>怎么做</th><th>痛点</th></tr>
+    <tr><td><b>传统 mesh 重建</b><br>(摄影测量)</td><td>照片→稀疏点云→三角面片网格+贴图</td><td>反光/半透明/复杂植被重建很烂，质感"塑料"</td></tr>
+    <tr><td><b>NeRF (2020)</b><br>(神经辐射场)</td><td>用一个 MLP 神经网络记住整个场景，渲染时每条光线采样几百个点逐一问网络</td><td><span class="hl">渲染一帧要数秒~分钟</span>，训练数小时~数天</td></tr>
+    <tr><td><b>3DGS (2023)</b></td><td>放弃神经网络记场景，改用<span class="hl2">上百万个显式的彩色半透明椭球</span>，渲染走光栅化老路</td><td>实时、训练快、质量还更好 → SIGGRAPH 2023 最佳论文</td></tr>
+  </table>
+  <p><b>一句话记住这场革命</b>：NeRF 把场景"藏进神经网络"，查询慢；3DGS 把场景"摊在桌面上"——每个椭球的位置、颜色、大小都看得见摸得着，GPU 光栅化 naturally 快。</p>
+  <div class="fig">
+    <svg width="640" height="120" viewBox="0 0 640 120">
+      <rect x="10" y="15" width="290" height="90" rx="10" fill="#E3F2FD" stroke="#2962FF" stroke-width="2"/>
+      <text x="155" y="40" text-anchor="middle" font-size="13" font-weight="bold" fill="#2962FF">NeRF：黑盒查表</text>
+      <text x="155" y="63" text-anchor="middle" font-size="11">1 帧 = 每条光线问 MLP 几百次</text>
+      <text x="155" y="83" text-anchor="middle" font-size="11" fill="#D32F2F" font-weight="bold">慢（秒级/帧）</text>
+      <rect x="340" y="15" width="290" height="90" rx="10" fill="#FFF3E0" stroke="#FF7A00" stroke-width="2"/>
+      <text x="485" y="40" text-anchor="middle" font-size="13" font-weight="bold" fill="#FF7A00">3DGS：显式椭球 + 光栅化</text>
+      <text x="485" y="63" text-anchor="middle" font-size="11">椭球直接"啪"地泼到屏幕上</text>
+      <text x="485" y="83" text-anchor="middle" font-size="11" fill="#00A844" font-weight="bold">实时（≥30 帧/秒）</text>
+    </svg>
+    <div class="figcap">图 2：隐式（NeRF）vs 显式（3DGS）——查询式 vs 光栅化</div>
+  </div>
+</div>
+
+<h2 class="sec s-how">二 · 核心原理：一个"高斯"和一场"泼溅"</h2>
+
+<div class="q g">
+  <div class="qhead"><div class="qnum">3</div><div class="qtitle">"一个高斯"到底是什么？它在文件里存了什么？</div></div>
+  <p style="margin-top:8px">每个高斯就是一个<span class="hl">3D 概率雪球</span>：中心最"浓"，向外按高斯函数指数衰减到透明。数学上 <code>G(x)=exp(-½(x-μ)ᵀΣ⁻¹(x-μ))</code>——不用怕这个公式，它只说两件事：<b>μ（中心在哪）</b>和 <b>Σ（朝哪扁、朝哪长）</b>。百万个这样的雪球按不同浓度叠在一起，就是照片级场景。</p>
+  <table>
+    <tr><th>存储字段（.ply 里 62 个 float32）</th><th>含义</th><th>渲染时的还原</th></tr>
+    <tr><td><code>x,y,z</code></td><td>中心位置 μ</td><td>直接用</td></tr>
+    <tr><td><code>scale_0..2</code></td><td>三根轴的长度（半轴）</td><td><span class="hl">存的是 log</span>，用时 exp 还原（保证永远为正）</td></tr>
+    <tr><td><code>rot_0..3</code></td><td>朝向（单位四元数 w,x,y,z）</td><td>归一化后转旋转矩阵 R</td></tr>
+    <tr><td><code>opacity</code></td><td>不透明度</td><td><span class="hl">存的是 logit</span>，用时过 sigmoid 压到 0~1</td></tr>
+    <tr><td><code>f_dc_0..2</code></td><td>基础色（球谐 SH 的直流项）</td><td>color = 0.5 + 0.2821×f_dc</td></tr>
+    <tr><td><code>f_rest_0..44</code></td><td>球谐高阶项（随视角变的颜色）</td><td>次数越高越闪，如高光</td></tr>
+    <tr><td><code>nx,ny,nz</code></td><td>法线占位</td><td>3DGS 不用，全 0</td></tr>
+  </table>
+  <div class="callout key"><b>算笔账（实测）</b>：62 属性 × 4 字节 = <b>248 字节/个高斯</b>。实验 1 里我手工构造了 1500 个高斯 = 372KB；真实场景 100 万~500 万个高斯，一个 .ply 就是 <b>250MB~1.2GB</b>——"3DGS 文件大"是工程落地的头号问题，也是压缩研究（量化/SOG）的用武之地（类比 [[量化与GGUF]]：LLM 权重有损压缩同族思路）。</div>
+</div>
+
+<div class="q c">
+  <div class="qhead"><div class="qnum">4</div><div class="qtitle">训练是怎么回事？照片怎么一步步变成高斯云？</div></div>
+  <div class="fig">
+    <svg width="640" height="128" viewBox="0 0 640 128">
+      <rect x="8" y="20" width="140" height="88" rx="9" fill="#00B8D4"/><text x="78" y="48" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">① SfM 稀疏点云</text><text x="78" y="67" text-anchor="middle" fill="#fff" font-size="9.5">COLMAP 标定相机</text><text x="78" y="84" text-anchor="middle" fill="#fff" font-size="9.5">+ 数万稀疏点</text>
+      <rect x="168" y="20" width="140" height="88" rx="9" fill="#2962FF"/><text x="238" y="48" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">② 每点变高斯</text><text x="238" y="67" text-anchor="middle" fill="#fff" font-size="9.5">点→椭球，随机小尺度</text><text x="238" y="84" text-anchor="middle" fill="#fff" font-size="9.5">初始化</text>
+      <rect x="328" y="20" width="150" height="88" rx="9" fill="#7C3AED"/><text x="403" y="42" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">③ 交错优化循环 ×3万</text><text x="403" y="62" text-anchor="middle" fill="#fff" font-size="9.5">渲染→和真照片比差</text><text x="403" y="79" text-anchor="middle" fill="#fff" font-size="9.5">→梯度更新+密度化</text><text x="403" y="96" text-anchor="middle" fill="#fff" font-size="9.5">(自适应克隆/分裂/剪枝)</text>
+      <rect x="498" y="20" width="134" height="88" rx="9" fill="#00C853"/><text x="565" y="48" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">④ 收敛的 .ply</text><text x="565" y="67" text-anchor="middle" fill="#fff" font-size="9.5">30k 迭代后导出</text><text x="565" y="84" text-anchor="middle" fill="#fff" font-size="9.5">百万高斯</text>
+      <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#FF7A00"/></marker></defs>
+      <line x1="148" y1="64" x2="164" y2="64" stroke="#FF7A00" stroke-width="2.5" marker-end="url(#ar2)"/>
+      <line x1="308" y1="64" x2="324" y2="64" stroke="#FF7A00" stroke-width="2.5" marker-end="url(#ar2)"/>
+      <line x1="478" y1="64" x2="494" y2="64" stroke="#FF7A00" stroke-width="2.5" marker-end="url(#ar2)"/>
+    </svg>
+    <div class="figcap">图 3：训练四步。注意 ① 的"点云"就是灵隐寺扫描数据的入口</div>
+  </div>
+  <p>训练的目标函数 = <b>L1 逐像素差 + (1−SSIM) 结构差</b>（权重 <code>λ_dssim=0.2</code>），共 3 万次迭代。训练中每隔一段做一次<span class="hl">自适应密度控制</span>，这是 3DGS 画质好的第二把钥匙，见下一问。</p>
+</div>
+
+<div class="q v">
+  <div class="qhead"><div class="qnum">5</div><div class="qtitle">场景细节怎么越来越清楚？（克隆 / 分裂 / 剪枝）</div></div>
+  <p style="margin-top:8px">训练中统计每个高斯的<span class="hl">位置梯度累积值</span>——梯度大 = "这个高斯罩不住这一片，照片之间对不齐"。然后分三种手术：</p>
+  <table>
+    <tr><th>操作</th><th>什么情况</th><th>动作</th></tr>
+    <tr><td><b>克隆 clone</b><br>(源码 435 行)</td><td>梯度大且<b>体积小</b>（欠重建，细节没盖住）</td><td>原样复制一份挪过去，数量 ×2</td></tr>
+    <tr><td><b>分裂 split</b><br>(源码 409 行)</td><td>梯度大且<b>体积大</b>（过重建，一个胖球糊了一大片）</td><td>缩到 0.8 倍拆成 2 个小的</td></tr>
+    <tr><td><b>剪枝 prune</b><br>(源码 452 行)</td><td>透明度&lt;0.005，或屏幕上/世界里过大</td><td>直接删掉</td></tr>
+  </table>
+  <div class="callout tip"><b>通俗版</b>：像画家修一幅画——哪里画淡了（欠重建）<b>再点几笔</b>（克隆），哪里涂成一坨（过重建）<b>抹开画细</b>（分裂），废笔<b>擦掉</b>（剪枝）。默认在第 500~15000 迭代间每 100 步做一轮。这段逻辑全部在 <code>scene/gaussian_model.py</code>，是全仓库最值得精读的 60 行。</div>
+</div>
+
+<div class="q p">
+  <div class="qhead"><div class="qnum">6</div><div class="qtitle">颜色怎么随视角变？（球面谐波 SH）</div></div>
+  <p style="margin-top:8px">同一片水面，正面看是蓝的、侧面反射天光是白的——这叫<span class="hl">视角相关颜色</span>。3DGS 给每个高斯不发一个固定颜色，而是发一组<b>球面谐波（Spherical Harmonics）系数</b>（DC 项 + 45 个高阶项，最高 3 阶）。SH 就是"定义在球面上的傅里叶"：低阶给平均色，高阶给高光闪烁。训练从 0 阶开始逐步"解锁"到 3 阶（源码 <code>oneupSHdegree</code>），先学大色块再学细节。</p>
+  <div class="callout key"><b>连回已有知识</b>：[[向量与Embedding]] 是"用一串数表示一个语义"，SH 系数是"用一串数表示一个球面上的颜色函数"——都是<span class="hl">把连续的东西离散成可优化的参数向量</span>。实验 1 里 45 个 f_rest 全填 0，渲染出来就只剩基础色（无视角特效），一样能拼出完整画面。</div>
+</div>
+
+<div class="q b">
+  <div class="qhead"><div class="qnum">7</div><div class="qtitle">"泼溅"是怎么画到屏幕上的？（渲染四步）</div></div>
+  <div class="fig">
+    <svg width="640" height="150" viewBox="0 0 640 150">
+      <ellipse cx="110" cy="75" rx="42" ry="26" fill="#7C3AED" opacity=".85"/>
+      <ellipse cx="110" cy="75" rx="24" ry="14" fill="#B388FF" opacity=".9"/>
+      <text x="110" y="130" text-anchor="middle" font-size="11" font-weight="bold">① 3D 椭球 Σ=R S Sᵀ Rᵀ</text>
+      <line x1="160" y1="75" x2="230" y2="75" stroke="#FF2E88" stroke-width="2.5" marker-end="url(#ar)"/>
+      <ellipse cx="300" cy="75" rx="52" ry="20" fill="#FF2E88" opacity=".85"/>
+      <text x="300" y="130" text-anchor="middle" font-size="11" font-weight="bold">② 透视投影压扁成 2D 椭圆</text>
+      <line x1="360" y1="75" x2="410" y2="75" stroke="#FF7A00" stroke-width="2.5" marker-end="url(#ar)"/>
+      <g>
+        <ellipse cx="480" cy="55" rx="26" ry="15" fill="#FFC400" opacity=".5"/>
+        <ellipse cx="497" cy="80" rx="20" ry="12" fill="#00C853" opacity=".5"/>
+        <ellipse cx="470" cy="92" rx="16" ry="10" fill="#2962FF" opacity=".5"/>
+        <text x="483" y="130" text-anchor="middle" font-size="11" font-weight="bold">③ 按深度排序</text>
+      </g>
+      <line x1="545" y1="75" x2="575" y2="75" stroke="#00B8D4" stroke-width="2.5" marker-end="url(#ar)"/>
+      <rect x="580" y="45" width="52" height="60" rx="6" fill="#2A1E4F"/>
+      <ellipse cx="600" cy="60" rx="18" ry="10" fill="#FFC400" opacity=".9"/>
+      <ellipse cx="606" cy="80" rx="14" ry="8" fill="#00C853" opacity=".7"/>
+      <ellipse cx="594" cy="92" rx="11" ry="7" fill="#2962FF" opacity=".5"/>
+      <text x="606" y="130" text-anchor="middle" font-size="11" font-weight="bold">④ α 混合成像素</text>
+    </svg>
+    <div class="figcap">图 4：泼溅渲染四步——本指南实验 2 用纯 numpy 完整复刻的就是这四步</div>
+  </div>
+  <p>① 由存的 scale/四元数重建 3D 协方差 <code>Σ = R S Sᵀ Rᵀ</code>；② 雅可比矩阵把 3D 协方差"压"成屏幕上的 2D 协方差（论文式 9）；③ <b>按深度排序</b>（官方 GPU 版逐 16×16 tile 排，一帧千万级高斯毫秒完成）；④ 逐像素<b>前向 α 混合</b>：<code>C = Σ cᵢαᵢ·Π(1−αⱼ)</code>，近的先画，透过率乘性衰减，天然处理半透明（灵隐寺香火烟雾就是这么"透"出来的）。</p>
+</div>
+
+<div class="q o">
+  <div class="qhead"><div class="qnum">8</div><div class="qtitle">和我已学的 Three.js / 粒子系统什么关系？</div></div>
+  <p style="margin-top:8px">3DGS 的高斯云<span class="hl">本质是一套"点精灵粒子系统 + 特殊着色"的极端版</span>：</p>
+  <table>
+    <tr><th></th><th>[[粒子系统]]（粒子玫瑰）</th><th>3DGS</th></tr>
+    <tr><td>基本粒子</td><td>一个 gl_Point 大点</td><td>各向异性椭球（可拉长压扁旋转）</td></tr>
+    <tr><td>数据来源</td><td>参数方程算出来</td><td>照片训练优化出来</td></tr>
+    <tr><td>颜色</td><td>顶点色/uniform</td><td>球面谐波，随视角变</td></tr>
+    <tr><td>渲染</td><td>GPU 画点</td><td>GPU 排序+泼溅光栅化</td></tr>
+    <tr><td>数量级</td><td>3.4 万</td><td>百万~千万级</td></tr>
+  </table>
+  <p>生态上两者已经合流：<b>Three.js 有 antropic/3dgs 渲染插件（如 mkkellogg/GaussianSplats3D）</b>，网页直接播 .ply/.splat——你学完 [[Three.js与场景图]] 后完全可以在网页里"云游灵隐寺"。</p>
+</div>
+
+<h2 class="sec s-cap">三 · 这个项目给我什么（能力清单）</h2>
+<div class="caps">
+  <div class="cap" style="border-color:#FF2E88"><b>① 看懂 3DGS 全家桶生态</b>官方实现、NVIDIA gsplat、各压缩/加速分支、网页播放器——能按需求选型，不再"见词懵"。</div>
+  <div class="cap" style="border-color:#FF7A00"><b>② 评估"我能不能做"的算力账</b>训练要 CUDA GPU（论文级 24GB 显存，缩水配置约 8GB）；渲染/查看要求低得多。灵隐寺类文旅项目 = 采集（手机）+训练（云端租卡）两段。</div>
+  <div class="cap" style="border-color:#00C853"><b>③ 看懂 .ply 文件、会写解析器</b>62 字段布局、激活函数（log/logit）——拿到任何 3DGS 资产都能读、能批处理、能转格式。</div>
+  <div class="cap" style="border-color:#00B8D4"><b>④ 理解"照片→可漫游3D"的完整原理链</b>SfM 定位→初始化→可微渲染闭环→密度化精修。这套"渲染和真值对比再反传"的思路在自动驾驶仿真、数字孪生、影视虚拟制片通用。</div>
+  <div class="cap" style="border-color:#2962FF"><b>⑤ 判断商业红线</b>官方代码与光栅化器是 INRIA <b>非商业研究许可</b>，商用需授权；生态里有更宽松许可的替代实现。</div>
+  <div class="cap" style="border-color:#7C3AED"><b>⑥ 与已有技能树合流</b>用 Three.js 网页播放器把 3DGS 场景嵌进浏览器——"粒子系统→点精灵→高斯椭球"一条线打通。</div>
+</div>
+
+<h2 class="sec s-exp">四 · 动手实验（全部实测跑通，无 GPU、纯 CPU）</h2>
+<div class="callout warn" style="margin-bottom:10px"><b>实验设计说明</b>：官方训练需要 CUDA GPU（本机无），故实验走<b>轻量复刻路线</b>——不训练，而是把"一个 3DGS 资产长什么样、渲染数学是什么"亲手拆开。三个实验环环相扣：<b>造数据 → 解析数据 → 复刻渲染管线</b>。环境：Python 3.14 + numpy + Pillow（仅这两个三方库）。</div>
+
+<div class="step">
+  <div class="stephead">实验 1 · 亲手"造"一个 3DGS 场景：合成 PLY 点云（make_synthetic_ply.py）</div>
+  <div class="stepbody">
+    <p><span class="tag4 t-op">操作</span><code>cd F:\reminder\gaussian-splatting\exercise</code> → <code>python make_synthetic_ply.py</code></p>
+    <p><span class="tag4 t-why">目的</span>搞清"一个高斯在文件里存哪些字段"。脚本构造 1500 个高斯：1000 个红-蓝渐变球壳（模拟实体表面）+ 500 个绿色大扁椭球（模拟半透明散射片，像灵隐寺的香火烟雾），按 3DGS 标准 62 字段写二进制 PLY。</p>
+    <p><span class="tag4 t-got">实测结果</span></p>
+<pre>OK: synthetic_scene.ply written, 1500 gaussians, 62 fields each, 372000 bytes payload
+字段清单: ['x','y','z','nx','ny','nz','f_dc_0','f_dc_1','f_dc_2','f_rest_0'] ... ['rot_3']</pre>
+    <p><span class="tag4 t-chk">验证</span><span class="ok">✅ 文件生成、62 字段齐全、372000 字节 = 1500 × 248 字节</span>——"一个高斯 62 个 float32"从数据结构层坐实。</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="stephead">实验 1b · 零依赖解析器：把"雪球档案"读回来（parse_ply.py）</div>
+  <div class="stepbody">
+    <p><span class="tag4 t-op">操作</span><code>python parse_ply.py synthetic_scene.ply</code></p>
+    <p><span class="tag4 t-why">目的</span>手工解析二进制 PLY（不借助任何 ply 库），验证对存储格式的理解，并把 log/logit 编码还原成人能看的参数。</p>
+    <p><span class="tag4 t-got">实测结果</span></p>
+<pre>[header] vertex 数 = 1500, 每点 62 个 float32 属性 = 248 字节
+[payload] 372000 字节 = 1500 x 248 ？ True
+高斯#0: 位置=(-0.768, 0.557, 0.294) 颜色RGB=(0.81, 0.2, 0.59) 三轴尺度=(0.02,0.02,0.02) 不透明度=0.924
+[统计] 包围盒 x[-1.00,1.00] y[-1.15,1.01] z[-1.02,1.01]
+OK: 解析通过 —— 一个 3DGS 高斯 = 62 个 float32（62属性 x 4字节 = 248 字节/个）</pre>
+    <p><span class="tag4 t-chk">验证</span><span class="ok">✅ 尺度 log→exp、透明度 logit→sigmoid、SH DC→RGB 全部还原正确（球壳高斯尺度 0.02、盘状 0.15/0.008/0.15 与构造值一致）</span></p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="stephead">实验 2（主实验）· 纯 numpy 复刻泼溅渲染管线：mini_splat.py</div>
+  <div class="stepbody">
+    <p><span class="tag4 t-op">操作</span><code>python mini_splat.py</code> → 生成 <code>render.png</code></p>
+    <p><span class="tag4 t-why">目的</span>不用任何 GPU/官方光栅化器，亲手实现论文渲染四步：Σ=R S Sᵀ Rᵀ → 雅可比透视投影成 2D 协方差 → 深度排序 → 前向 α 混合。与官方 <code>gaussian_model.py:33-47</code> 的激活函数、<code>build_covariance_from_scaling_rotation</code> 逐行对应。</p>
+    <p><span class="tag4 t-got">实测结果</span></p>
+<pre>载入 1500 个高斯，开始渲染 512x512 ...
+OK: render.png 已生成。1500/1500 个高斯参与了泼溅，背景透过率均值 0.694</pre>
+    <p><span class="tag4 t-chk">验证</span><span class="ok">✅ 打开 render.png：应看到红蓝渐变的高斯球壳 + 底下一片亮绿色散射盘（半透明叠色正确），全图无三角面片——全是椭球"泼"出来的</span>。透过率 0.694 说明背景占比合理，α 混合没有爆掉。</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="stephead">实验 3 · 概念→源码定位：官方仓库精读地图</div>
+  <div class="stepbody">
+    <p><span class="tag4 t-op">操作</span>在 <code>repo\</code> 里 grep 定位（本指南已实测）：</p>
+<pre><span class="cmt"># 密度化主循环</span>   train.py:167-171   add_densification_stats → densify_and_prune
+<span class="cmt"># 三种手术</span>       scene/gaussian_model.py:409 densify_and_split / :435 densify_and_clone / :452 densify_and_prune
+<span class="cmt"># 激活函数</span>       scene/gaussian_model.py:39-47  scaling=torch.exp, opacity=torch.sigmoid
+<span class="cmt"># 协方差构建</span>     scene/gaussian_model.py:33-34  L = build_scaling_rotation(scaling, rotation)
+<span class="cmt"># 渲染入口</span>       gaussian_renderer/__init__.py:91  rasterizer(...) → rendered_image, radii</pre>
+    <p><span class="tag4 t-why">目的</span>把论文术语钉到具体代码行，建立"论文→代码"翻译表。</p>
+    <p><span class="tag4 t-chk">验证</span><span class="ok">✅ 打开 densify_and_clone/split：克隆=原样复制（体积小·欠重建），分裂=scale/0.8N 拆两个（体积大·过重建），剪枝=opacity&lt;0.005——与第 5 问表格完全吻合</span></p>
+  </div>
+</div>
+
+<div class="callout tip"><b>下一步升级路线（需要 GPU 时）</b>：租一张 24GB 显存卡 → 按 README <code>conda env create --file environment.yml</code>（CUDA 11.8、克隆要 <code>--recursive</code> 带 submodules）→ 用手机环拍一个小物件 100~200 张照片 → <code>python convert.py -s &lt;目录&gt;</code>（COLMAP）→ <code>python train.py -s &lt;目录&gt; --eval</code> → 训完用网页播放器在 Three.js 里展示，就是自己的"灵隐寺时刻"。</div>
+
+<div class="foot">
+  <b>信息来源</b>：官方仓库 github.com/graphdeco-inria/gaussian-splatting（SIGGRAPH 2023 最佳论文官方实现，24.1k★，本指南锁定 commit 54c035f）｜论文 "3D Gaussian Splatting for Real-Time Radiance Field Rendering"（Kerbl et al., INRIA）｜抖音"元游镜相"灵隐寺高斯孪生作品（学习动机，作品闭源）｜smzdm《高斯泼溅卷到手机用户》行业盘点（文旅古建应用背景）｜实验全部于 2026-10-02 在本机 Python 3.14 实测跑通。<b>License 提示</b>：官方代码与光栅化器为 INRIA 非商业研究许可，商用需授权。
+</div>
+
+</body>
+</html>
