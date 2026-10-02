@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AI 网站克隆模板小白指南</title>
+<style>
+:root{
+  --c1:#FF3D68; --c2:#FF8A00; --c3:#00C48C; --c4:#7B2FFF; --c5:#00A8FF;
+  --c6:#FFC400; --ink:#1A1030; --bg:#FFF9F0; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+@page{size:A4;margin:12mm}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:var(--ink);background:var(--bg);line-height:1.65;font-size:13px}
+.wrap{width:100%;padding:0 4px}
+.cover{background:linear-gradient(135deg,#FF3D68 0%,#FF8A00 55%,#FFC400 100%);color:#fff;border-radius:20px;padding:34px 30px;margin-bottom:16px;break-inside:avoid}
+.cover h1{font-size:34px;font-weight:900;letter-spacing:1px;text-shadow:0 2px 8px rgba(0,0,0,.25)}
+.cover .sub{font-size:16px;font-weight:700;margin-top:8px;opacity:.95}
+.cover .meta{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+.pill{background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.6);border-radius:999px;padding:3px 14px;font-weight:800;font-size:12px}
+h2.sec{font-size:21px;font-weight:900;margin:20px 0 10px;padding:8px 16px;border-radius:12px;color:#fff;background:linear-gradient(90deg,var(--c4),var(--c5))}
+.qcard{background:var(--card);border-radius:16px;padding:16px 18px;margin-bottom:14px;break-inside:avoid;border-left:8px solid var(--c1);box-shadow:0 3px 10px rgba(26,16,48,.08)}
+.qcard:nth-child(2n){border-left-color:var(--c2)}
+.qcard:nth-child(3n){border-left-color:var(--c3)}
+.qcard:nth-child(4n){border-left-color:var(--c4)}
+.qcard:nth-child(5n){border-left-color:var(--c5)}
+.qnum{display:inline-block;background:var(--c1);color:#fff;font-size:20px;font-weight:900;border-radius:10px;padding:2px 14px;margin-right:8px}
+.qcard h3{display:inline;font-size:16.5px;font-weight:900}
+.hl{background:linear-gradient(transparent 55%,#FFE066 55%);font-weight:900;padding:0 2px}
+.big{font-size:15px;font-weight:900;color:var(--c1)}
+code,.code{font-family:Consolas,monospace;background:#2D1B4E;color:#7DF9FF;border-radius:6px;padding:1px 6px;font-size:12px}
+.block{background:#2D1B4E;color:#E8F7FF;border-radius:12px;padding:12px 14px;font-family:Consolas,monospace;font-size:11.5px;margin:10px 0;white-space:pre-wrap;word-break:break-all}
+.block .cm{color:#FFD166}
+.ok{background:#E6FFF4;border:2.5px solid var(--c3);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:700}
+.ok b{color:#00875A}
+.warn{background:#FFF0E6;border:2.5px solid var(--c2);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:700}
+.warn b{color:#C25E00}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
+th{background:var(--c4);color:#fff;padding:7px 9px;text-align:left}
+td{border-bottom:1.5px solid #EADFF7;padding:6px 9px;background:#fff}
+tr:nth-child(even) td{background:#FAF5FF}
+svg{max-width:100%;height:auto;display:block;margin:8px auto}
+.step{border-radius:14px;padding:12px 16px;margin-bottom:10px;break-inside:avoid;color:#fff}
+.s1{background:linear-gradient(135deg,#FF3D68,#FF6B9C)} .s2{background:linear-gradient(135deg,#FF8A00,#FFB25C)}
+.s3{background:linear-gradient(135deg,#00A8FF,#6BC9FF)} .s4{background:linear-gradient(135deg,#7B2FFF,#A66BFF)}
+.s5{background:linear-gradient(135deg,#00C48C,#5CE0BC)}
+.step h4{font-size:15px;font-weight:900}
+.foot{margin-top:18px;text-align:center;color:#7A6A90;font-size:11px}
+.tag{display:inline-block;background:var(--c6);color:#5B4200;font-weight:900;border-radius:8px;padding:1px 10px;font-size:11.5px;margin:2px 3px 2px 0}
+ul,ol{padding-left:20px;margin:6px 0}
+li{margin:3px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <h1>🧬 AI 网站克隆模板 小白指南</h1>
+  <div class="sub">丢一个网址给 AI，它把整个网站"一对一复刻"成干净的 Next.js 代码</div>
+  <div class="meta">
+    <span class="pill">⭐ 35.6k stars</span>
+    <span class="pill">GitHub: JCodesMore/ai-website-cloner-template</span>
+    <span class="pill">v0.5.1 · MIT</span>
+    <span class="pill">来源：拾遗队列推文</span>
+  </div>
+</div>
+
+<h2 class="sec">一、它到底是什么？（疑问 1、2）</h2>
+
+<div class="qcard"><span class="qnum">Q1</span><h3>它是"模板"，不是软件库——交付的到底是什么？</h3>
+<p>传统开源库你 <code>npm install</code> 后调用它；这个项目反过来——<span class="hl">你安装的是"给 AI 编程智能体看的作业指导书"，真正干活的工人是 Claude Code / Cursor 这些 AI</span>。打开仓库你会发现核心资产只有三样：</p>
+<table>
+<tr><th>资产</th><th>大小</th><th>作用</th></tr>
+<tr><td><code>.agents/skills/clone-website/SKILL.md</code></td><td>506 行</td><td>五阶段克隆流水线的完整提示词（核心中的核心）</td></tr>
+<tr><td><code>.agents/skills/.../inspection-guide.md</code></td><td>80 行</td><td>侦察阶段的检查清单（截什么图、量什么参数）</td></tr>
+<tr><td>Next.js 16 脚手架</td><td>src/ + public/</td><td>预搭好的空 Next.js 项目，克隆结果写进这里</td></tr>
+</table>
+<p>一句话：<span class="hl">它 = 506 行的"方法论提示词" + 一个能编译的空项目骨架</span>。这正是我们知识库里 [[AgentSkills技能包]] 概念的顶级实战案例——把工程经验封装成 SKILL.md 喂给智能体。</p>
+</div>
+
+<div class="qcard"><span class="qnum">Q2</span><h3>直接对 Claude 说"帮我复刻这个网站"不行吗？模板多给了什么？</h3>
+<p>不行，差得很远。直接说一句话，AI 会"凭感觉"做：<span class="big">颜色靠猜、间距靠估、交互靠脑补</span>，做出来是"形似的假货"。模板把手工经验固化成了纪律：</p>
+<ul>
+<li><span class="hl">不许猜</span>：所有样式值必须用 <code>getComputedStyle()</code> 从真实网页抠出来，"看起来像 text-lg"这种估算直接判违规；</li>
+<li><span class="hl">不许一口吞</span>：整个页面不许交给一个 agent 一次做完，必须切块、写规格书、分派给并行的 builder；</li>
+<li><span class="hl">不许半成品</span>：每一步合并后 <code>npm run build</code> 必须绿，"临时坏一下"都不行；</li>
+<li><span class="hl">不许只抄静图</span>：网站是活的——滚动、悬停、点击的每个状态都必须抓下来。</li>
+</ul>
+<p>这就是把"老师傅的手感"翻译成"新工人能执行的工序卡"，是 [[构建流水线与Pass]] + [[质检Gate与自我纠错循环]] 两个已有概念在提示词层的落地。</p>
+</div>
+
+<h2 class="sec">二、五阶段流水线怎么运作？（疑问 3、4、5）</h2>
+
+<div class="qcard"><span class="qnum">Q3</span><h3>总流程：一条流水线，五个阶段</h3>
+<svg viewBox="0 0 760 150" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1A1030"/></marker></defs>
+  <rect x="5" y="30" width="130" height="70" rx="12" fill="#FF3D68"/><text x="70" y="58" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">① 侦察</text><text x="70" y="80" text-anchor="middle" fill="#FFE0E8" font-size="10">截图+抠CSS+扫交互</text>
+  <line x1="135" y1="65" x2="155" y2="65" stroke="#1A1030" stroke-width="2.5" marker-end="url(#ar)"/>
+  <rect x="158" y="30" width="130" height="70" rx="12" fill="#FF8A00"/><text x="223" y="58" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">② 地基</text><text x="223" y="80" text-anchor="middle" fill="#FFF0DB" font-size="10">字体/色板/全局样式/素材</text>
+  <line x1="288" y1="65" x2="308" y2="65" stroke="#1A1030" stroke-width="2.5" marker-end="url(#ar)"/>
+  <rect x="311" y="30" width="130" height="70" rx="12" fill="#00A8FF"/><text x="376" y="58" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">③ 组件规格</text><text x="376" y="80" text-anchor="middle" fill="#D9F0FF" font-size="10">每个区块写 spec 文件</text>
+  <line x1="441" y1="65" x2="461" y2="65" stroke="#1A1030" stroke-width="2.5" marker-end="url(#ar)"/>
+  <rect x="464" y="30" width="130" height="70" rx="12" fill="#7B2FFF"/><text x="529" y="58" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">④ 并行构建</text><text x="529" y="80" text-anchor="middle" fill="#EBDBFF" font-size="10">worktree 里多 agent 同时砌</text>
+  <line x1="594" y1="65" x2="614" y2="65" stroke="#1A1030" stroke-width="2.5" marker-end="url(#ar)"/>
+  <rect x="617" y="30" width="138" height="70" rx="12" fill="#00C48C"/><text x="686" y="58" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">⑤ 组装+QA</text><text x="686" y="80" text-anchor="middle" fill="#D6FFF0" font-size="10">合并路由+像素对比</text>
+  <text x="380" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#7B2FFF">提取与建造并行：像工头巡视工地，查完一段图纸立刻派工，不等全查完</text>
+</svg>
+<p>关键设计：<span class="hl">这不是"先全部侦查、再全部施工"的两段式，而是流水线</span>——工头（主 agent）每侦察完一个区块，马上写规格书、派 builder，自己继续往下侦察。builder 在后台施工的同时，工头的侦察不停，总工期大幅缩短。</p>
+</div>
+
+<div class="qcard"><span class="qnum">Q4</span><h3>为什么每个组件必须先写 spec 文件？精确值为什么不能目测？</h3>
+<p>spec 文件（<code>docs/research/.../components/xxx.spec.md</code）是<span class="hl">侦察工与施工 agent 之间的"合同"</span>，内容全部来自真实测量的 <code>getComputedStyle()</code> 输出：</p>
+<div class="block"><span class="cm">// 每个元素抠出 40+ 个属性，精确到像素</span>
+fontSize: "16px"   fontWeight: "600"   lineHeight: "24px"
+padding: "12px 24px"   borderRadius: "9999px"
+boxShadow: "0 4px 20px rgba(0,0,0,0.1)"
+transition: "all 0.3s ease"</div>
+<p>为什么不能目测？<span class="big">18px 和 text-lg 看着一样，但 line-height 可能差 4px，整页累计就是"神韵不对"</span>。spec 同时是可审计的产物——克隆走样时，回头查 spec 是"侦察量错了"还是"施工抄错了"，责任可定位。这与知识库 [[确定性脚本]] 思想同源：主观感受不可复现，客观测量才能当合同。</p>
+</div>
+
+<div class="qcard"><span class="qnum">Q5</span><h3>"先滚动观察、再点击测试"——最贵的坑</h3>
+<p>SKILL.md 用加粗红字警告：<span class="hl">"克隆失败最昂贵的错误，是把滚动驱动的区块建成点击驱动的"</span>——这不是改几行 CSS 能救的，是整个组件推倒重写。所以工序强制：</p>
+<ol>
+<li><b>先别点！</b>慢慢滚过该区块，观察有没有东西自己动（导航栏变小？卡片浮入？侧栏高亮自动切换？）；</li>
+<li>若有 → 判定为滚动驱动，抓取机制（IntersectionObserver / scroll-snap / position:sticky）；</li>
+<li>确认滚动无反应 → 再用点击/悬停测试；</li>
+<li>把结论写死进 spec：<code>INTERACTION MODEL: scroll-driven</code> 或 <code>click-to-switch</code>。</li>
+</ol>
+<p>另外每个组件要抓<span class="hl">所有状态</span>而非默认态：标签页要每个都点一遍抓内容，导航栏要抓"滚动前/后"两组 CSS 再做差分——差分就是行为说明书。</p>
+</div>
+
+<h2 class="sec">三、并行构建与命名隔离（疑问 6、7）</h2>
+
+<div class="qcard"><span class="qnum">Q6</span><h3>git worktree：多个工人同时施工怎么不打架？</h3>
+<svg viewBox="0 0 760 170" xmlns="http://www.w3.org/2000/svg">
+  <rect x="290" y="8" width="180" height="42" rx="10" fill="#7B2FFF"/><text x="380" y="34" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">主仓库 main（工头）</text>
+  <line x1="380" y1="50" x2="130" y2="88" stroke="#FF3D68" stroke-width="2.5"/>
+  <line x1="380" y1="50" x2="380" y2="88" stroke="#FF8A00" stroke-width="2.5"/>
+  <line x1="380" y1="50" x2="630" y2="88" stroke="#00C48C" stroke-width="2.5"/>
+  <rect x="40" y="90" width="180" height="52" rx="10" fill="#FF3D68"/><text x="130" y="112" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">worktree A</text><text x="130" y="130" text-anchor="middle" fill="#FFE0E8" font-size="10">builder: 导航栏组件</text>
+  <rect x="290" y="90" width="180" height="52" rx="10" fill="#FF8A00"/><text x="380" y="112" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">worktree B</text><text x="380" y="130" text-anchor="middle" fill="#FFF0DB" font-size="10">builder: 英雄区组件</text>
+  <rect x="540" y="90" width="180" height="52" rx="10" fill="#00C48C"/><text x="630" y="112" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">worktree C</text><text x="630" y="130" text-anchor="middle" fill="#D6FFF0" font-size="10">builder: 价格卡组件</text>
+  <text x="380" y="162" text-anchor="middle" font-size="11" font-weight="bold" fill="#7B2FFF">各自独立目录施工 → 互不覆盖 → 完成后逐个 merge 回 main，每次合并跑一次 build 验证</text>
+</svg>
+<p>如果三个 builder 都在同一个目录写文件，同时改 <code>globals.css</code> 就是灾难。<span class="hl">git worktree 让每个 builder 拿到仓库的独立工作副本（独立分支+独立目录）</span>，完工后工头逐个合并、每次合并立即验证编译。这是"小任务、完美结果"原则的工程保障。</p>
+<p>配套纪律是<span class="hl">150 行复杂度预算</span>：一份施工说明书超过约 150 行规格，说明区块太复杂，必须再切小。因为拿到"整个 features 区"的 agent 会偷懒近似，拿到"一张卡片 + 精确 CSS"的 agent 每次都完美交付。</p>
+</div>
+
+<div class="qcard"><span class="qnum">Q7</span><h3>site-key / page-key 里的 SHA-256 是干什么的？</h3>
+<p>每克隆一个站点，产物都装进带"指纹"的命名空间，例如：</p>
+<div class="block">site-key = <span class="cm">nextjs-org</span> + SHA256(网址)前8位 → "nextjs-org-a1b2c3d4"
+产物路径：docs/research/&lt;site-key&gt;/&lt;page-key&gt;/components/hero.spec.md
+          public/sites/&lt;site-key&gt;/&lt;page-key&gt;/images/logo.webp</div>
+<p>目的：<span class="hl">防止克隆第二个网站时覆盖第一个网站的研究资料、截图和素材</span>。可读前缀让人看得懂，哈希后缀保证"github.com"和"gitee.com"这类相似来源绝不撞车——同一套工程里可以安全积累多个克隆作品。</p>
+</div>
+
+<h2 class="sec">四、多 AI 工具兼容与工程纪律（疑问 8、9）</h2>
+
+<div class="qcard"><span class="qnum">Q8</span><h3>一份技能包，四家 AI 工具都能用——"薄桥接"设计</h3>
+<svg viewBox="0 0 760 150" xmlns="http://www.w3.org/2000/svg">
+  <rect x="250" y="10" width="260" height="56" rx="12" fill="#00A8FF"/><text x="380" y="33" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">.agents/skills/clone-website/</text><text x="380" y="53" text-anchor="middle" fill="#D9F0FF" font-size="11">唯一权威规范（SKILL.md 506 行）</text>
+  <rect x="30" y="100" width="160" height="40" rx="10" fill="#FF8A00"/><text x="110" y="125" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Codex CLI 直接读</text>
+  <rect x="210" y="100" width="150" height="40" rx="10" fill="#00C48C"/><text x="285" y="125" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Cursor 直接读</text>
+  <rect x="380" y="100" width="150" height="40" rx="10" fill="#FF3D68"/><text x="455" y="125" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">OpenCode 直接读</text>
+  <rect x="550" y="100" width="180" height="40" rx="10" fill="#7B2FFF"/><text x="640" y="118" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Claude Code</text><text x="640" y="133" text-anchor="middle" fill="#EBDBFF" font-size="9">.claude/commands/ 6 行薄桥接</text>
+  <line x1="110" y1="98" x2="300" y2="68" stroke="#888" stroke-width="2" stroke-dasharray="5,4"/>
+  <line x1="285" y1="98" x2="360" y2="68" stroke="#888" stroke-width="2" stroke-dasharray="5,4"/>
+  <line x1="455" y1="98" x2="420" y2="68" stroke="#888" stroke-width="2" stroke-dasharray="5,4"/>
+  <line x1="640" y1="98" x2="460" y2="68" stroke="#888" stroke-width="2" stroke-dasharray="5,4"/>
+</svg>
+<p>工作流只写一份（<code>.agents/</code>），Cursor/Codex/OpenCode 天然认这个路径；Claude Code 走自己的 <code>.claude/commands/</code>，但那里面<span class="hl">只有 6 行——读规范、执行，没了</span>。好处：改流程只改一处，四家工具同步生效，永不出现"两个版本说法打架"。这是典型的 DRY 原则在 agent 配置层的应用。</p>
+</div>
+
+<div class="qcard"><span class="qnum">Q9</span><h3>为什么把"每次合并必须编译通过"写死成铁律？</h3>
+<p>SKILL.md 尾部有一节"What NOT to Do"，全是<span class="hl">从失败克隆里用血泪换来的禁令</span>（作者原话：每条都花掉过几小时返工）。核心三条：</p>
+<ul>
+<li><b>Build Must Always Compile</b>：并行施工最怕"烂尾楼合流"——每个 builder 完工前必须 <code>npx tsc --noEmit</code> 通过，每次合并后必须 <code>npm run build</code> 通过，<span class="hl">仓库任何时刻都是可运行状态</span>；</li>
+<li><b>Builder 提示词必须内联完整规格</b>：不许说"参考 DESIGN_TOKENS.md"，工人必须拿到全部信息，<span class="hl">零猜测</span>；</li>
+<li><b>不许把新目标当"推倒重来"的许可</b>：克隆第二个站不得碰第一个站的任何路由与产物。</li>
+</ul>
+<p>这和我们知识库 [[质检Gate与自我纠错循环]] 的结论完全一致：AI 生成的代码必须由<span class="hl">客观的确定性裁判</span>（编译器）把关，而非"看起来对"。</p>
+</div>
+
+<h2 class="sec">五、跑起来：条件、边界、验收（疑问 10、11、12）</h2>
+
+<div class="qcard"><span class="qnum">Q10</span><h3>完整跑一次克隆需要什么？</h3>
+<table>
+<tr><th>条件</th><th>说明</th></tr>
+<tr><td>Node.js ≥ 24</td><td>本机 v24.21.0 ✅</td></tr>
+<tr><td>AI 编程智能体</td><td>Claude Code（官方推荐配 Opus）/ Cursor / Codex CLI / OpenCode</td></tr>
+<tr><td><b>浏览器自动化 MCP</b></td><td>Chrome MCP / Playwright MCP 之一——<span class="hl">没有它流程直接拒绝启动</span>，因为侦察阶段全靠真开浏览器量 CSS</td></tr>
+<tr><td>使用方式</td><td>GitHub 点 "Use this template" 建自己的副本（不要直接 clone 原仓库开工）→ 装依赖 → 在项目里输入 <code>/clone-website https://目标.com</code></td></tr>
+</table>
+<p>范围默认：只克隆<b>前端视觉与交互</b>（布局/样式/动效/响应式 + 假数据），<span class="hl">不含真实后端、数据库、登录、实时功能</span>。</p>
+</div>
+
+<div class="qcard"><span class="qnum">Q11</span><h3>法律与伦理边界（README 白纸黑字）</h3>
+<div class="warn"><b>⚠️ 明确禁止：</b>钓鱼/冒充网站；盗用 logo、品牌资产（归原主所有）；违反目标网站服务条款的行为。</div>
+<p><b>正当用途：</b>把 WordPress/Webflow 老站迁移成现代 Next.js 代码库；找回丢失源码的自有网站；<span class="hl">学习生产级网站的布局、动画、响应式实现手法</span>（对学习者价值最大）。一句话：学手法可以，冒名顶替不行。</p>
+</div>
+
+<div class="qcard"><span class="qnum">Q12</span><h3>"像素级"怎么验收？——Phase 5 视觉 QA 对比</h3>
+<p>组装完不许宣告完工。最后一步是把<span class="hl">原站和克隆站并排放，1440px 桌面 + 390px 手机逐区块对比截图</span>，发现差异就回溯：先查 spec 文件——侦察量错了就重测更新规格，量对了就是施工错了、改组件。然后真人式测试全部交互：滚一遍、每个按钮点一遍、悬停全试一遍。全部通过才算交付。最终报告要交代：区块数、组件数、spec 数（必须与组件数相等）、素材下载数、build 状态、遗留差异。</p>
+</div>
+
+<h2 class="sec">六、这个项目给我什么（能力清单）</h2>
+<div class="qcard">
+<p><span class="tag">迁移老站</span><span class="tag">找回丢源码的站</span><span class="tag">学习大厂前端手法</span><span class="tag">快速生成改版底稿</span><span class="tag">研究竞品交互模型</span></p>
+<ul>
+<li><b>学手法</b>：把喜欢的网站克隆下来逐行读代码，比看教程快十倍——这是对学习者最实在的用法；</li>
+<li><b>学方法论</b>：这份 506 行 SKILL.md 本身就是"如何给 AI 写工程级提示词"的范文（规格先行、Gate 把关、并行隔离）；</li>
+<li><b>迁移与救急</b>：老平台网站转 Next.js、丢失源码的站重建；</li>
+<li><b>二次开发</b>：克隆只做"纯仿制"，之后随便改造成自己的版本（注意品牌资产边界）。</li>
+</ul>
+</div>
+
+<h2 class="sec">七、动手实验（本机全部实测通过）</h2>
+
+<div class="step s1"><h4>实验 1：把模板脚手架跑起来（主实验）</h4>
+<p><b>第1步</b> 克隆仓库：<code>git clone https://github.com/JCodesMore/ai-website-cloner-template repo</code> —— 拿到 v0.5.1（f50066d）。<br>
+<b>第2步</b> 装依赖：<code>cd repo && npm install</code> → ✅ 退出码 0，node_modules 生成。<br>
+<b>第3步</b> 质检三连：<code>npm run check</code>（lint + typecheck + build）→ ✅ 退出码 0，真实输出：</p>
+<div class="block" style="background:#1E1230">✓ Compiled successfully in 9.0s
+Finished TypeScript in 1391ms
+✓ Generating static pages using 5 workers (4/4) in 610ms</div>
+<p><b>第4步</b> 起服务验证：<code>npm start</code> 后 <code>curl http://localhost:3000</code> → ✅ <span class="hl">HTTP 200、6727 字节</span>，返回标准 Next.js 首页（Geist 字体 preload + App Router 骨架）。<br>
+<b>✅ 预期结果</b>：四步全绿，说明"空脚手架"完全可用——真实克隆就是在它上面长出组件。</p>
+</div>
+
+<div class="step s2"><h4>实验 2：亲手写一个"侦察阶段"脚本（recon.mjs）</h4>
+<p>浏览器 MCP 我们暂时没有，但侦察的本质可以先用 <code>fetch + 正则</code> 演示：清点目标网页的 img/video/背景图/内联 SVG/字体/favicon，并识别技术栈指纹。脚本在 <code>exercise\recon.mjs</code>，运行 <code>node recon.mjs &lt;url&gt;</code>。实测两组输出：</p>
+<div class="block" style="background:#1E1230">$ node recon.mjs https://example.com   <span class="cm"># 对照组</span>
+→ 713 字节，0 图 0 SVG 0 视频（史上最素网页）
+
+$ node recon.mjs https://nextjs.org    <span class="cm"># 实验组</span>
+→ HTTP 200，366KB HTML，65 个 &lt;img&gt;，77 个内联 SVG
+→ isNextJs = true（发现 /_next/ 指纹），Tailwind 类名命中 267 处</div>
+<p><b>✅ 预期结果</b>：同一脚本对"素人网页"和"生产级网页"产出数量级差异的资产清单——这正是流水线第①阶段要"看清楚再动工"的原因。实验中还修了一个真 bug：<span class="big">String.match 带全局标志会忽略捕获组，必须用非全局正则另取组</span>。</p>
+</div>
+
+<div class="warn"><b>说明</b>：完整五阶段克隆（含截图、getComputedStyle 抠值、并行 builder）需要浏览器 MCP + Claude Code 交互环境，本实验聚焦"验证脚手架可跑 + 侦察原理可复现"，流水线其余环节通过精读 506 行 SKILL.md 掌握。</div>
+
+<div class="qcard">
+<h3>一句话总结</h3>
+<p style="font-size:14.5px"><span class="hl">这个项目证明：AI 的输出质量上限，取决于你给它的工序纪律下限。</span>506 行提示词把"网站复刻"从碰运气的手艺活，变成了侦察有清单、施工有图纸、合并有 Gate、交付有验收的工业流水线——而这四件事，正是我们知识库里 [[构建流水线与Pass]]、[[质检Gate与自我纠错循环]]、[[AgentSkills技能包]]、[[多智能体协作]] 四个概念的一次完美合体演练。</p>
+</div>
+
+<div class="foot">生成于 2026-10-02 · F:\reminder\ai-website-cloner · 拾遗队列 task 1787578514459 · 数据来源：GitHub 仓库实测 + README/SKILL.md 精读</div>
+</div>
+</body>
+</html>
