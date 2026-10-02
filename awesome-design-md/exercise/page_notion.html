@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>AI笔记工具 · 按 Notion DESIGN.md 实现</title>
+<style>
+  /* 以下每条值都取自 design-md/notion/DESIGN.md */
+  :root{
+    --primary:#5645d4; --primary-pressed:#4534b3;
+    --navy:#0a1530; --canvas:#ffffff; --surface:#f6f5f4; --hairline:#e5e3df;
+    --ink:#1a1a1a; --slate:#5d5b54;
+    --tint-peach:#ffe8d4; --tint-rose:#fde0ec; --tint-mint:#d9f3e1;
+  }
+  *{margin:0;box-sizing:border-box}
+  body{background:var(--canvas);color:var(--ink);font-family:"Inter","Segoe UI",sans-serif}
+  .hero{ /* brand-navy 深蓝主视觉带 + 彩色便签点装饰 */
+    background:var(--navy);color:#fff;text-align:center;padding:88px 24px 72px;position:relative}
+  .dot{position:absolute;width:14px;height:14px;border-radius:3px}
+  .d1{background:#f5d75e;top:48px;left:12%}.d2{background:#ff64c8;top:64%;left:6%}
+  .d3{background:#2a9d99;top:24px;right:14%}.d4{background:#dd5b00;bottom:48px;right:8%}
+  .pill{display:inline-block;background:rgba(255,255,255,.12);border-radius:999px;
+    font-size:14px;padding:6px 14px;margin-bottom:20px}
+  h1{ /* hero-display 80px→缩放 60px/600/1.05/-2px */
+    font-size:60px;font-weight:600;line-height:1.05;letter-spacing:-2px;max-width:820px;margin:0 auto 20px}
+  h1 em{font-style:normal;color:#d6b6f6}
+  .sub{font-size:18px;line-height:1.5;color:#a4a097;max-width:600px;margin:0 auto 28px}
+  .cta{ /* 紫色 pill 主 CTA */
+    display:inline-block;background:var(--primary);color:#fff;font-size:16px;font-weight:500;
+    padding:12px 24px;border-radius:999px;text-decoration:none}
+  .cards{display:flex;gap:20px;max-width:1000px;margin:-32px auto 0;padding:0 24px 72px}
+  .card{border-radius:12px;padding:24px;flex:1} /* rounded.lg=12px 卡片 + 粉彩底 */
+  .c1{background:var(--tint-peach)}.c2{background:var(--tint-rose)}.c3{background:var(--tint-mint)}
+  .card h3{font-size:22px;font-weight:600;margin-bottom:8px}
+  .card p{font-size:15px;line-height:1.5;color:var(--slate)}
+</style>
+</head>
+<body>
+  <div class="hero">
+    <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><div class="dot d4"></div>
+    <div class="pill">✨ 松果笔记 2.0 现已发布</div>
+    <h1>让团队的知识<br>长成 <em>Notion</em> 式的彩色花园</h1>
+    <p class="sub">同一份产品文案，严格套用 Notion 的 DESIGN.md：深蓝主视觉带、便签圆点装饰、紫色 pill CTA、粉彩特性卡。</p>
+    <a class="cta" href="#">免费开始使用</a>
+  </div>
+  <div class="cards">
+    <div class="card c1"><h3>🌊 品牌色即性格</h3><p>暖橘、粉、薄荷绿粉彩卡呼应产品里五彩的数据库属性。</p></div>
+    <div class="card c2"><h3>💜 单一紫 pill</h3><p>主 CTA 全站只有一种：#5645d4 胶囊按钮，按下变深一档。</p></div>
+    <div class="card c3"><h3>📸 实机对比</h3><p>与 page_linear.html 同文案不同规范，气质立变——这就是 DESIGN.md 的威力。</p></div>
+  </div>
+</body>
+</html>

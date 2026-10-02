@@ -1,0 +1,1242 @@
+[
+ {
+  "site": "airbnb",
+  "name": "Airbnb-design-analysis",
+  "hex_colors": 23,
+  "sample_colors": [
+   "#ff385c",
+   "#e00b41",
+   "#ffd1da",
+   "#c13515",
+   "#b32505"
+  ],
+  "primary": "#ff385c",
+  "fonts": [
+   "\"'Airbnb Cereal VF', Circular, -apple-system, system-ui, Roboto, 'Helvetica Neue', sans-serif\"",
+   "\"'Airbnb Cereal VF', Circular, sans-serif\""
+  ],
+  "type_scale_keys": 18,
+  "markdown_lines": 545
+ },
+ {
+  "site": "airtable",
+  "name": "Airtable-design-analysis",
+  "hex_colors": 28,
+  "sample_colors": [
+   "#181d26",
+   "#0d1218",
+   "#181d26",
+   "#333840",
+   "#41454d"
+  ],
+  "primary": "#181d26",
+  "fonts": [
+   "\"Haas Groot Disp, Haas, sans-serif\"",
+   "\"Haas, sans-serif\"",
+   "\"Inter Display, system-ui, sans-serif\""
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 554
+ },
+ {
+  "site": "apple",
+  "name": "Apple-design-analysis",
+  "hex_colors": 21,
+  "sample_colors": [
+   "#0066cc",
+   "#0071e3",
+   "#2997ff",
+   "#1d1d1f",
+   "#1d1d1f"
+  ],
+  "primary": "#0066cc",
+  "fonts": [
+   "\"SF Pro Display, system-ui, -apple-system, sans-serif\"",
+   "\"SF Pro Text, system-ui, -apple-system, sans-serif\""
+  ],
+  "type_scale_keys": 16,
+  "markdown_lines": 562
+ },
+ {
+  "site": "binance",
+  "name": "Binance-design-analysis",
+  "hex_colors": 24,
+  "sample_colors": [
+   "#fcd535",
+   "#f0b90b",
+   "#3a3a1f",
+   "#181a20",
+   "#eaecef"
+  ],
+  "primary": "#fcd535",
+  "fonts": [
+   "\"BinanceNova, -apple-system, BlinkMacSystemFont, sans-serif\"",
+   "\"BinanceNova, sans-serif\"",
+   "\"BinancePlex, BinanceNova, sans-serif\""
+  ],
+  "type_scale_keys": 15,
+  "markdown_lines": 634
+ },
+ {
+  "site": "bmw",
+  "name": "BMW-design-analysis",
+  "hex_colors": 25,
+  "sample_colors": [
+   "#1c69d4",
+   "#0653b6",
+   "#d6d6d6",
+   "#262626",
+   "#3c3c3c"
+  ],
+  "primary": "#1c69d4",
+  "fonts": [
+   "\"'BMW Type Next Latin', sans-serif\"",
+   "\"'BMW Type Next Latin', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif\""
+  ],
+  "type_scale_keys": 13,
+  "markdown_lines": 544
+ },
+ {
+  "site": "bmw-m",
+  "name": "BMW-M-design-analysis",
+  "hex_colors": 21,
+  "sample_colors": [
+   "#ffffff",
+   "#ffffff",
+   "#bbbbbb",
+   "#e6e6e6",
+   "#7e7e7e"
+  ],
+  "primary": "#ffffff",
+  "fonts": [
+   "\"BMWTypeNextLatin Light, BMWTypeNextLatin, sans-serif\"",
+   "\"BMWTypeNextLatin Light, sans-serif\"",
+   "\"BMWTypeNextLatin, sans-serif\""
+  ],
+  "type_scale_keys": 13,
+  "markdown_lines": 503
+ },
+ {
+  "site": "bugatti",
+  "name": "Bugatti-design-analysis",
+  "hex_colors": 18,
+  "sample_colors": [
+   "#ffffff",
+   "#ffffff",
+   "#cccccc",
+   "#e6e6e6",
+   "#999999"
+  ],
+  "primary": "#ffffff",
+  "fonts": [
+   "\"Bugatti Display, sans-serif\"",
+   "\"Bugatti Display, serif\"",
+   "\"Bugatti Monospace, ui-monospace, monospace\"",
+   "\"Bugatti Text Regular, serif\""
+  ],
+  "type_scale_keys": 12,
+  "markdown_lines": 454
+ },
+ {
+  "site": "cal",
+  "name": "Cal.com-design-analysis",
+  "hex_colors": 26,
+  "sample_colors": [
+   "#111111",
+   "#242424",
+   "#e5e7eb",
+   "#111111",
+   "#374151"
+  ],
+  "primary": "#111111",
+  "fonts": [
+   "\"Cal Sans, Inter, sans-serif\"",
+   "\"Inter, sans-serif\"",
+   "\"JetBrains Mono, ui-monospace, monospace\""
+  ],
+  "type_scale_keys": 13,
+  "markdown_lines": 542
+ },
+ {
+  "site": "claude",
+  "name": "Claude-design-analysis",
+  "hex_colors": 25,
+  "sample_colors": [
+   "#cc785c",
+   "#a9583e",
+   "#e6dfd8",
+   "#141413",
+   "#3d3d3a"
+  ],
+  "primary": "#cc785c",
+  "fonts": [
+   "\"Copernicus, Tiempos Headline, serif\"",
+   "\"JetBrains Mono, ui-monospace, monospace\"",
+   "\"StyreneB, Inter, sans-serif\""
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 589
+ },
+ {
+  "site": "clay",
+  "name": "Clay-design-analysis",
+  "hex_colors": 29,
+  "sample_colors": [
+   "#0a0a0a",
+   "#1f1f1f",
+   "#e5e5e5",
+   "#0a0a0a",
+   "#3a3a3a"
+  ],
+  "primary": "#0a0a0a",
+  "fonts": [
+   "\"Inter, sans-serif\"",
+   "\"Plain Black, Inter, sans-serif\""
+  ],
+  "type_scale_keys": 13,
+  "markdown_lines": 541
+ },
+ {
+  "site": "clickhouse",
+  "name": "ClickHouse-design-analysis",
+  "hex_colors": 24,
+  "sample_colors": [
+   "#faff69",
+   "#e6eb52",
+   "#3a3a1f",
+   "#ffffff",
+   "#cccccc"
+  ],
+  "primary": "#faff69",
+  "fonts": [
+   "\"Inter, sans-serif\"",
+   "\"JetBrains Mono, ui-monospace, monospace\""
+  ],
+  "type_scale_keys": 15,
+  "markdown_lines": 544
+ },
+ {
+  "site": "cohere",
+  "name": "Cohere-design-analysis",
+  "hex_colors": 23,
+  "sample_colors": [
+   "#17171c",
+   "#000000",
+   "#212121",
+   "#003c33",
+   "#071829"
+  ],
+  "primary": "#17171c",
+  "fonts": [
+   "CohereMono",
+   "CohereText",
+   "Unica77 Cohere Web"
+  ],
+  "type_scale_keys": 12,
+  "markdown_lines": 451
+ },
+ {
+  "site": "coinbase",
+  "name": "Coinbase-design-analysis",
+  "hex_colors": 22,
+  "sample_colors": [
+   "#0052ff",
+   "#003ecc",
+   "#a8b8cc",
+   "#0a0b0d",
+   "#5b616e"
+  ],
+  "primary": "#0052ff",
+  "fonts": [
+   "\"'Coinbase Display', -apple-system, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif\"",
+   "\"'Coinbase Display', sans-serif\"",
+   "\"'Coinbase Mono', 'Coinbase Sans', monospace\"",
+   "\"'Coinbase Sans', sans-serif\""
+  ],
+  "type_scale_keys": 16,
+  "markdown_lines": 570
+ },
+ {
+  "site": "composio",
+  "name": "Composio-design-analysis",
+  "hex_colors": 22,
+  "sample_colors": [
+   "#0007cd",
+   "#0005a3",
+   "#1a26ff",
+   "#ffffff",
+   "#a8a8a8"
+  ],
+  "primary": "#0007cd",
+  "fonts": [
+   "\"'JetBrains Mono', 'Fira Code', monospace\"",
+   "\"'abcDiatype', ui-sans-serif, system-ui, sans-serif\""
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 506
+ },
+ {
+  "site": "cursor",
+  "name": "Cursor-design-analysis",
+  "hex_colors": 22,
+  "sample_colors": [
+   "#f54e00",
+   "#d04200",
+   "#26251e",
+   "#5a5852",
+   "#26251e"
+  ],
+  "primary": "#f54e00",
+  "fonts": [
+   "\"'CursorGothic', sans-serif\"",
+   "\"'CursorGothic', system-ui, 'Helvetica Neue', Helvetica, Arial, sans-serif\"",
+   "\"'JetBrains Mono', 'Fira Code', monospace\""
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 537
+ },
+ {
+  "site": "dell-1996",
+  "name": "Dell 1996 Inspired",
+  "hex_colors": 17,
+  "sample_colors": [
+   "#e91d2a",
+   "#ffffff",
+   "#ffffff",
+   "#ffffff",
+   "#000000"
+  ],
+  "primary": "#e91d2a",
+  "fonts": [
+   "Arial Black",
+   "Helvetica",
+   "Times New Roman"
+  ],
+  "type_scale_keys": 10,
+  "markdown_lines": 632
+ },
+ {
+  "site": "elevenlabs",
+  "name": "ElevenLabs-design-analysis",
+  "hex_colors": 27,
+  "sample_colors": [
+   "#292524",
+   "#0c0a09",
+   "#0c0a09",
+   "#4e4e4e",
+   "#292524"
+  ],
+  "primary": "#292524",
+  "fonts": [
+   "\"'Inter', sans-serif\"",
+   "\"'Waldenburg', 'Times New Roman', serif\"",
+   "\"'Waldenburg', serif\""
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 504
+ },
+ {
+  "site": "expo",
+  "name": "Expo-design-analysis",
+  "hex_colors": 28,
+  "sample_colors": [
+   "#000000",
+   "#1a1a1a",
+   "#0d74ce",
+   "#476cff",
+   "#171717"
+  ],
+  "primary": "#000000",
+  "fonts": [
+   "\"'Inter', -apple-system, system-ui, sans-serif\"",
+   "\"'Inter', sans-serif\"",
+   "\"'JetBrains Mono', 'Fira Code', monospace\""
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 526
+ },
+ {
+  "site": "ferrari",
+  "name": "Ferrari-design-analysis",
+  "hex_colors": 26,
+  "sample_colors": [
+   "#da291c",
+   "#b01e0a",
+   "#9d2211",
+   "#ffffff",
+   "#969696"
+  ],
+  "primary": "#da291c",
+  "fonts": [
+   "\"'FerrariSans', -apple-system, system-ui, sans-serif\"",
+   "\"'FerrariSans', sans-serif\""
+  ],
+  "type_scale_keys": 13,
+  "markdown_lines": 531
+ },
+ {
+  "site": "figma",
+  "name": "Figma-design-analysis",
+  "hex_colors": 20,
+  "sample_colors": [
+   "#000000",
+   "#ffffff",
+   "#000000",
+   "#ffffff",
+   "#000000"
+  ],
+  "primary": "#000000",
+  "fonts": [
+   "figmaMono",
+   "figmaSans"
+  ],
+  "type_scale_keys": 12,
+  "markdown_lines": 578
+ },
+ {
+  "site": "framer",
+  "name": "Framer-design-analysis",
+  "hex_colors": 17,
+  "sample_colors": [
+   "#ffffff",
+   "#000000",
+   "#0099ff",
+   "#ffffff",
+   "#999999"
+  ],
+  "primary": "#ffffff",
+  "fonts": [
+   "GT Walsheim Framer Medium",
+   "GT Walsheim Medium",
+   "Inter",
+   "Inter Variable"
+  ],
+  "type_scale_keys": 12,
+  "markdown_lines": 544
+ },
+ {
+  "site": "hashicorp",
+  "name": "HashiCorp-design-analysis",
+  "hex_colors": 30,
+  "sample_colors": [
+   "#000000",
+   "#ffffff",
+   "#2b89ff",
+   "#ffffff",
+   "#b2b6bd"
+  ],
+  "primary": "#000000",
+  "fonts": [
+   "hashicorpSans"
+  ],
+  "type_scale_keys": 12,
+  "markdown_lines": 575
+ },
+ {
+  "site": "hp",
+  "name": "HP-design-analysis",
+  "hex_colors": 28,
+  "sample_colors": [
+   "#024ad8",
+   "#296ef9",
+   "#0e3191",
+   "#c9e0fc",
+   "#ffffff"
+  ],
+  "primary": "#024ad8",
+  "fonts": [
+   "Forma DJR Micro"
+  ],
+  "type_scale_keys": 16,
+  "markdown_lines": 670
+ },
+ {
+  "site": "ibm",
+  "name": "IBM-design-analysis",
+  "hex_colors": 21,
+  "sample_colors": [
+   "#0f62fe",
+   "#ffffff",
+   "#161616",
+   "#525252",
+   "#8c8c8c"
+  ],
+  "primary": "#0f62fe",
+  "fonts": [
+   "IBM Plex Sans"
+  ],
+  "type_scale_keys": 13,
+  "markdown_lines": 550
+ },
+ {
+  "site": "intercom",
+  "name": "Intercom-design-analysis",
+  "hex_colors": 25,
+  "sample_colors": [
+   "#111111",
+   "#ffffff",
+   "#111111",
+   "#626260",
+   "#7b7b78"
+  ],
+  "primary": "#111111",
+  "fonts": [
+   "Saans",
+   "SaansMono"
+  ],
+  "type_scale_keys": 13,
+  "markdown_lines": 546
+ },
+ {
+  "site": "linear.app",
+  "name": "Linear-design-analysis",
+  "hex_colors": 23,
+  "sample_colors": [
+   "#5e6ad2",
+   "#ffffff",
+   "#828fff",
+   "#5e69d1",
+   "#f7f8f8"
+  ],
+  "primary": "#5e6ad2",
+  "fonts": [
+   "Linear Display",
+   "Linear Mono",
+   "Linear Text"
+  ],
+  "type_scale_keys": 13,
+  "markdown_lines": 548
+ },
+ {
+  "site": "meta",
+  "name": "Meta-design-analysis",
+  "hex_colors": 27,
+  "sample_colors": [
+   "#0064e0",
+   "#0457cb",
+   "#0091ff",
+   "#ffffff",
+   "#000000"
+  ],
+  "primary": "#0064e0",
+  "fonts": [
+   "Optimistic VF"
+  ],
+  "type_scale_keys": 15,
+  "markdown_lines": 683
+ },
+ {
+  "site": "minimax",
+  "name": "MiniMax-design-analysis",
+  "hex_colors": 28,
+  "sample_colors": [
+   "#0a0a0a",
+   "#ffffff",
+   "#181e25",
+   "#ff5530",
+   "#ea5ec1"
+  ],
+  "primary": "#0a0a0a",
+  "fonts": [
+   "DM Sans"
+  ],
+  "type_scale_keys": 15,
+  "markdown_lines": 746
+ },
+ {
+  "site": "mintlify",
+  "name": "Mintlify-design-analysis",
+  "hex_colors": 32,
+  "sample_colors": [
+   "#0a0a0a",
+   "#ffffff",
+   "#00d4a4",
+   "#00b48a",
+   "#7cebcb"
+  ],
+  "primary": "#0a0a0a",
+  "fonts": [
+   "Geist Mono",
+   "Inter"
+  ],
+  "type_scale_keys": 20,
+  "markdown_lines": 852
+ },
+ {
+  "site": "miro",
+  "name": "Miro-design-analysis",
+  "hex_colors": 40,
+  "sample_colors": [
+   "#1c1c1e",
+   "#ffffff",
+   "#ffd02f",
+   "#fcb900",
+   "#fff4c4"
+  ],
+  "primary": "#1c1c1e",
+  "fonts": [
+   "Roobert PRO"
+  ],
+  "type_scale_keys": 18,
+  "markdown_lines": 825
+ },
+ {
+  "site": "mistral.ai",
+  "name": "Mistral-AI-design-analysis",
+  "hex_colors": 36,
+  "sample_colors": [
+   "#fa520f",
+   "#cc3a05",
+   "#ffffff",
+   "#ffd06a",
+   "#ffb83e"
+  ],
+  "primary": "#fa520f",
+  "fonts": [
+   "Inter",
+   "JetBrains Mono",
+   "PP Editorial Old"
+  ],
+  "type_scale_keys": 19,
+  "markdown_lines": 773
+ },
+ {
+  "site": "mongodb",
+  "name": "MongoDB-design-analysis",
+  "hex_colors": 34,
+  "sample_colors": [
+   "#00ed64",
+   "#00b545",
+   "#008c34",
+   "#001e2b",
+   "#00ed64"
+  ],
+  "primary": "#00ed64",
+  "fonts": [
+   "Euclid Circular A",
+   "Source Code Pro"
+  ],
+  "type_scale_keys": 18,
+  "markdown_lines": 767
+ },
+ {
+  "site": "nike",
+  "name": "Nike-design-analysis",
+  "hex_colors": 23,
+  "sample_colors": [
+   "#111111",
+   "#ffffff",
+   "#ffffff",
+   "#f5f5f5",
+   "#111111"
+  ],
+  "primary": "#111111",
+  "fonts": [
+   "Helvetica Neue",
+   "Helvetica Now Display Medium",
+   "Helvetica Now Text",
+   "Helvetica Now Text Medium",
+   "Nike Futura ND"
+  ],
+  "type_scale_keys": 13,
+  "markdown_lines": 575
+ },
+ {
+  "site": "nintendo-2001",
+  "name": "Nintendo.com (2001) Analysis",
+  "hex_colors": 22,
+  "sample_colors": [
+   "#e60012",
+   "#f68d1f",
+   "#ecab37",
+   "#e48600",
+   "#7a8aba"
+  ],
+  "primary": "#e60012",
+  "fonts": [
+   "Arial",
+   "Arial Black"
+  ],
+  "type_scale_keys": 7,
+  "markdown_lines": 649
+ },
+ {
+  "site": "notion",
+  "name": "Notion-design-analysis",
+  "hex_colors": 47,
+  "sample_colors": [
+   "#5645d4",
+   "#4534b3",
+   "#3a2a99",
+   "#ffffff",
+   "#0a1530"
+  ],
+  "primary": "#5645d4",
+  "fonts": [
+   "Notion Sans"
+  ],
+  "type_scale_keys": 17,
+  "markdown_lines": 821
+ },
+ {
+  "site": "nvidia",
+  "name": "NVIDIA-design-analysis",
+  "hex_colors": 27,
+  "sample_colors": [
+   "#76b900",
+   "#000000",
+   "#5a8d00",
+   "#000000",
+   "#ffffff"
+  ],
+  "primary": "#76b900",
+  "fonts": [
+   "NVIDIA-EMEA"
+  ],
+  "type_scale_keys": 18,
+  "markdown_lines": 640
+ },
+ {
+  "site": "ollama",
+  "name": "Ollama-design-analysis",
+  "hex_colors": 19,
+  "sample_colors": [
+   "#000000",
+   "#ffffff",
+   "#000000",
+   "#090909",
+   "#525252"
+  ],
+  "primary": "#000000",
+  "fonts": [
+   "SF Pro Rounded",
+   "ui-monospace",
+   "ui-sans-serif"
+  ],
+  "type_scale_keys": 13,
+  "markdown_lines": 539
+ },
+ {
+  "site": "opencode.ai",
+  "name": "OpenCode-design-analysis",
+  "hex_colors": 27,
+  "sample_colors": [
+   "#201d1d",
+   "#fdfcfc",
+   "#201d1d",
+   "#0f0000",
+   "#302c2c"
+  ],
+  "primary": "#201d1d",
+  "fonts": [
+   "Berkeley Mono"
+  ],
+  "type_scale_keys": 8,
+  "markdown_lines": 521
+ },
+ {
+  "site": "pinterest",
+  "name": "Pinterest-design-analysis",
+  "hex_colors": 30,
+  "sample_colors": [
+   "#e60023",
+   "#ffffff",
+   "#cc001f",
+   "#000000",
+   "#211922"
+  ],
+  "primary": "#e60023",
+  "fonts": [
+   "Pin Sans"
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 597
+ },
+ {
+  "site": "playstation",
+  "name": "PlayStation-design-analysis",
+  "hex_colors": 30,
+  "sample_colors": [
+   "#0070d1",
+   "#0064b7",
+   "#004d8d",
+   "#ffffff",
+   "#0064b7"
+  ],
+  "primary": "#0070d1",
+  "fonts": [
+   "PlayStation SST"
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 661
+ },
+ {
+  "site": "posthog",
+  "name": "PostHog-design-analysis",
+  "hex_colors": 28,
+  "sample_colors": [
+   "#f7a501",
+   "#dd9001",
+   "#b17816",
+   "#23251d",
+   "#23251d"
+  ],
+  "primary": "#f7a501",
+  "fonts": [
+   "IBM Plex Sans Variable",
+   "Source Code Pro",
+   "ui-monospace"
+  ],
+  "type_scale_keys": 20,
+  "markdown_lines": 690
+ },
+ {
+  "site": "raycast",
+  "name": "Raycast-design-analysis",
+  "hex_colors": 24,
+  "sample_colors": [
+   "#ffffff",
+   "#e8e8e8",
+   "#000000",
+   "#f4f4f6",
+   "#cdcdcd"
+  ],
+  "primary": "#ffffff",
+  "fonts": [
+   "Inter"
+  ],
+  "type_scale_keys": 15,
+  "markdown_lines": 669
+ },
+ {
+  "site": "renault",
+  "name": "Renault-design-analysis",
+  "hex_colors": 23,
+  "sample_colors": [
+   "#ffed00",
+   "#e6d200",
+   "#000000",
+   "#000000",
+   "#222222"
+  ],
+  "primary": "#ffed00",
+  "fonts": [
+   "NouvelR"
+  ],
+  "type_scale_keys": 15,
+  "markdown_lines": 589
+ },
+ {
+  "site": "replicate",
+  "name": "Replicate-design-analysis",
+  "hex_colors": 22,
+  "sample_colors": [
+   "#ea2804",
+   "#c01f00",
+   "#ffffff",
+   "#202020",
+   "#3a3a3a"
+  ],
+  "primary": "#ea2804",
+  "fonts": [
+   "basier-square",
+   "jetbrains-mono",
+   "rb-freigeist-neue"
+  ],
+  "type_scale_keys": 17,
+  "markdown_lines": 616
+ },
+ {
+  "site": "resend",
+  "name": "Resend-design-analysis",
+  "hex_colors": 18,
+  "sample_colors": [
+   "#fcfdff",
+   "#000000",
+   "#fcfdff",
+   "#a1a4a5",
+   "#888e90"
+  ],
+  "primary": "#fcfdff",
+  "fonts": [
+   "ABC Favorit",
+   "Domaine Display",
+   "Geist Mono",
+   "Helvetica",
+   "Inter"
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 585
+ },
+ {
+  "site": "revolut",
+  "name": "Revolut-design-analysis",
+  "hex_colors": 32,
+  "sample_colors": [
+   "#494fdf",
+   "#4f55f1",
+   "#3a40c4",
+   "#ffffff",
+   "#191c1f"
+  ],
+  "primary": "#494fdf",
+  "fonts": [
+   "Aeonik Pro",
+   "Inter"
+  ],
+  "type_scale_keys": 16,
+  "markdown_lines": 636
+ },
+ {
+  "site": "sentry",
+  "name": "Sentri-Inspired-design-analysis",
+  "hex_colors": 21,
+  "sample_colors": [
+   "#150f23",
+   "#1f1633",
+   "#ffffff",
+   "#c2ef4e",
+   "#fa7faa"
+  ],
+  "primary": "#150f23",
+  "fonts": [
+   "\"Monaco, Menlo, Ubuntu Mono, monospace\"",
+   "\"Rubik, -apple-system, system-ui, Segoe UI, Helvetica, Arial, sans-serif\"",
+   "\"Rubik, -apple-system, system-ui, sans-serif\"",
+   "\"Sentri Display, Rubik, system-ui, sans-serif\""
+  ],
+  "type_scale_keys": 16,
+  "markdown_lines": 551
+ },
+ {
+  "site": "shopify",
+  "name": "Shopifi-Inspired-design-analysis",
+  "hex_colors": 22,
+  "sample_colors": [
+   "#000000",
+   "#000000",
+   "#ffffff",
+   "#ffffff",
+   "#000000"
+  ],
+  "primary": "#000000",
+  "fonts": [
+   "\"Inter Variable, Inter, Helvetica, Arial, sans-serif\"",
+   "\"NeueHaasGrotesk Display, Helvetica, Arial, sans-serif\"",
+   "\"ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace\""
+  ],
+  "type_scale_keys": 15,
+  "markdown_lines": 516
+ },
+ {
+  "site": "slack",
+  "name": "Slacc-Inspired-design-analysis",
+  "hex_colors": 19,
+  "sample_colors": [
+   "#4a154b",
+   "#481a54",
+   "#611f69",
+   "#592466",
+   "#ffffff"
+  ],
+  "primary": "#4a154b",
+  "fonts": [
+   "\"Salesforce-Avant-Garde, system-ui, -apple-system, BlinkMacSystemFont, sans-serif\"",
+   "\"Salesforce-Sans, system-ui, -apple-system, sans-serif\""
+  ],
+  "type_scale_keys": 15,
+  "markdown_lines": 482
+ },
+ {
+  "site": "spacex",
+  "name": "Spacex-Inspired-design-analysis",
+  "hex_colors": 13,
+  "sample_colors": [
+   "#000000",
+   "#000000",
+   "#ffffff",
+   "#f0f0fa",
+   "#000000"
+  ],
+  "primary": "#000000",
+  "fonts": [
+   "\"D-DIN, Arial, Verdana, sans-serif\"",
+   "\"D-DIN-Bold, Arial Narrow, Arial, Verdana, sans-serif\""
+  ],
+  "type_scale_keys": 8,
+  "markdown_lines": 363
+ },
+ {
+  "site": "stripe",
+  "name": "Stripi-Inspired-design-analysis",
+  "hex_colors": 20,
+  "sample_colors": [
+   "#533afd",
+   "#4434d4",
+   "#2e2b8c",
+   "#665efd",
+   "#b9b9f9"
+  ],
+  "primary": "#533afd",
+  "fonts": [
+   "\"sohne-var, 'SF Pro Display', system-ui, -apple-system, sans-serif\""
+  ],
+  "type_scale_keys": 15,
+  "markdown_lines": 487
+ },
+ {
+  "site": "supabase",
+  "name": "Supabaze-Inspired-design-analysis",
+  "hex_colors": 27,
+  "sample_colors": [
+   "#3ecf8e",
+   "#24b47e",
+   "#4ade80",
+   "#171717",
+   "#212121"
+  ],
+  "primary": "#3ecf8e",
+  "fonts": [
+   "\"Circular, 'Helvetica Neue', Helvetica, Arial, sans-serif\"",
+   "\"ui-monospace, Menlo, Monaco, Consolas, 'Liberation Mono', monospace\""
+  ],
+  "type_scale_keys": 12,
+  "markdown_lines": 462
+ },
+ {
+  "site": "superhuman",
+  "name": "Superhumon-Inspired-design-analysis",
+  "hex_colors": 15,
+  "sample_colors": [
+   "#1b1938",
+   "#0e0c1f",
+   "#ffffff",
+   "#292827",
+   "#73706d"
+  ],
+  "primary": "#1b1938",
+  "fonts": [
+   "\"'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif\""
+  ],
+  "type_scale_keys": 12,
+  "markdown_lines": 448
+ },
+ {
+  "site": "together.ai",
+  "name": "Together-AI-Inspired-design-analysis",
+  "hex_colors": 13,
+  "sample_colors": [
+   "#000000",
+   "#ffffff",
+   "#000000",
+   "#959494",
+   "#959494"
+  ],
+  "primary": "#000000",
+  "fonts": [
+   "PP Neue Montreal Mono, ui-monospace, SF Mono, Menlo, monospace",
+   "The Future, Inter, Helvetica Neue, Arial, sans-serif"
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 633
+ },
+ {
+  "site": "uber",
+  "name": "Uber-Inspired-design-analysis",
+  "hex_colors": 13,
+  "sample_colors": [
+   "#000000",
+   "#ffffff",
+   "#000000",
+   "#5e5e5e",
+   "#afafaf"
+  ],
+  "primary": "#000000",
+  "fonts": [
+   "UberMove, UberMoveText, system-ui, Helvetica Neue, Arial, sans-serif",
+   "UberMoveText, system-ui, Helvetica Neue, Arial, sans-serif"
+  ],
+  "type_scale_keys": 13,
+  "markdown_lines": 636
+ },
+ {
+  "site": "vercel",
+  "name": "Vercel-Inspired-design-analysis",
+  "hex_colors": 36,
+  "sample_colors": [
+   "#171717",
+   "#ffffff",
+   "#171717",
+   "#4d4d4d",
+   "#888888"
+  ],
+  "primary": "#171717",
+  "fonts": [
+   "Geist Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, monospace",
+   "Geist, Inter, system-ui, -apple-system, sans-serif"
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 736
+ },
+ {
+  "site": "vodafone",
+  "name": "Vodafone-Inspired-design-analysis",
+  "hex_colors": 8,
+  "sample_colors": [
+   "#e60000",
+   "#ffffff",
+   "#25282b",
+   "#7e7e7e",
+   "#bebebe"
+  ],
+  "primary": "#e60000",
+  "fonts": [
+   "Vodafone, Vodafone Rg, Helvetica Neue, Arial, sans-serif"
+  ],
+  "type_scale_keys": 17,
+  "markdown_lines": 538
+ },
+ {
+  "site": "voltagent",
+  "name": "Voltagent-Inspired-design-analysis",
+  "hex_colors": 13,
+  "sample_colors": [
+   "#00d992",
+   "#2fd6a1",
+   "#10b981",
+   "#101010",
+   "#f2f2f2"
+  ],
+  "primary": "#00d992",
+  "fonts": [
+   "Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
+   "Inter, system-ui, -apple-system, sans-serif",
+   "SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace",
+   "SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+  ],
+  "type_scale_keys": 16,
+  "markdown_lines": 521
+ },
+ {
+  "site": "warp",
+  "name": "Warp-Inspired-design-analysis",
+  "hex_colors": 9,
+  "sample_colors": [
+   "#f7f5f0",
+   "#2b2622",
+   "#f7f5f0",
+   "#c9c0ad",
+   "#dad2c1"
+  ],
+  "primary": "#f7f5f0",
+  "fonts": [
+   "DM Mono, ui-monospace, SFMono-Regular, Menlo, monospace",
+   "Instrument Serif, Georgia, \"Times New Roman\", serif",
+   "Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
+   "Inter, system-ui, -apple-system, sans-serif"
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 526
+ },
+ {
+  "site": "webflow",
+  "name": "Webflow-Inspired-design-analysis",
+  "hex_colors": 19,
+  "sample_colors": [
+   "#080808",
+   "#ffffff",
+   "#080808",
+   "#222222",
+   "#363636"
+  ],
+  "primary": "#080808",
+  "fonts": [
+   "WF Visual Sans Variable, Inter, system-ui, -apple-system, sans-serif",
+   "WF Visual Sans Variable, Inter, system-ui, sans-serif",
+   "WFVisualSans-Mono, Inconsolata, ui-monospace, SFMono-Regular, Menlo, monospace"
+  ],
+  "type_scale_keys": 16,
+  "markdown_lines": 588
+ },
+ {
+  "site": "wired",
+  "name": "Wired-Inspired-design-analysis",
+  "hex_colors": 9,
+  "sample_colors": [
+   "#000000",
+   "#ffffff",
+   "#000000",
+   "#1a1a1a",
+   "#757575"
+  ],
+  "primary": "#000000",
+  "fonts": [
+   "Apercu, \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+   "BreveText, Georgia, \"Times New Roman\", serif",
+   "WiredDisplay, \"Times New Roman\", Georgia, serif"
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 497
+ },
+ {
+  "site": "wise",
+  "name": "Wise-Inspired-design-analysis",
+  "hex_colors": 22,
+  "sample_colors": [
+   "#9fe870",
+   "#0e0f0c",
+   "#cdffad",
+   "#c5edab",
+   "#e2f6d5"
+  ],
+  "primary": "#9fe870",
+  "fonts": [
+   "Inter, system-ui, sans-serif",
+   "Wise Sans, Inter, system-ui, -apple-system, sans-serif",
+   "Wise Sans, Inter, system-ui, sans-serif"
+  ],
+  "type_scale_keys": 14,
+  "markdown_lines": 544
+ },
+ {
+  "site": "x.ai",
+  "name": "xAI-Inspired-design-analysis",
+  "hex_colors": 18,
+  "sample_colors": [
+   "#ffffff",
+   "#0a0a0a",
+   "#ffffff",
+   "#fafaf7",
+   "#dadbdf"
+  ],
+  "primary": "#ffffff",
+  "fonts": [
+   "GeistMono, ui-monospace, SFMono-Regular, Menlo, Monaco, monospace",
+   "GeistMono, ui-monospace, SFMono-Regular, Menlo, monospace",
+   "universalSans, Inter, system-ui, -apple-system, sans-serif",
+   "universalSans, Inter, system-ui, sans-serif"
+  ],
+  "type_scale_keys": 11,
+  "markdown_lines": 465
+ },
+ {
+  "site": "zapier",
+  "name": "Zapier-Inspired-design-analysis",
+  "hex_colors": 10,
+  "sample_colors": [
+   "#ff4f00",
+   "#fffefb",
+   "#201515",
+   "#2f2a26",
+   "#36342e"
+  ],
+  "primary": "#ff4f00",
+  "fonts": [
+   "Degular Display, Inter, system-ui, -apple-system, sans-serif",
+   "Degular Display, Inter, system-ui, sans-serif",
+   "Inter, system-ui, sans-serif"
+  ],
+  "type_scale_keys": 16,
+  "markdown_lines": 537
+ }
+]

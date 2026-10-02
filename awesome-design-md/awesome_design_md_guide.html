@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>awesome-design-md 小白指南</title>
+<style>
+  @page { size: A4; margin: 12mm; }
+  :root{
+    --c1:#7c3aed; --c2:#f59e0b; --c3:#06b6d4; --c4:#ec4899; --c5:#22c55e; --c6:#ef4444;
+    --ink:#1e1b4b; --paper:#ffffff; --soft:#f5f3ff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{font-family:"Microsoft YaHei","Segoe UI",sans-serif; color:var(--ink); background:var(--paper); font-size:13.5px; line-height:1.65}
+  .cover{background:linear-gradient(135deg,#7c3aed 0%,#ec4899 55%,#f59e0b 100%); color:#fff; border-radius:18px; padding:44px 38px; margin-bottom:22px}
+  .cover h1{font-size:40px; letter-spacing:-1px; line-height:1.2}
+  .cover .sub{font-size:17px; margin-top:12px; opacity:.95}
+  .cover .meta{margin-top:18px; font-size:12.5px; opacity:.9}
+  .badges{margin-top:14px}
+  .badge{display:inline-block; background:rgba(255,255,255,.22); border-radius:999px; padding:4px 14px; font-size:12px; margin-right:8px; font-weight:bold}
+  h2.q{font-size:21px; margin:26px 0 12px; padding:10px 16px; border-radius:12px; color:#fff; break-after:avoid}
+  .q1{background:var(--c1)} .q2{background:var(--c2)} .q3{background:var(--c3)} .q4{background:var(--c4)} .q5{background:var(--c5)} .q6{background:var(--c6)}
+  .qnum{font-size:30px; font-weight:900; margin-right:10px; opacity:.85}
+  .hl{background:linear-gradient(transparent 55%, #fde047 55%); font-weight:bold; padding:0 2px}
+  .big{font-size:15.5px; font-weight:bold}
+  .card{border-radius:14px; padding:16px 18px; margin:10px 0; break-inside:avoid}
+  .card h4{font-size:15px; margin-bottom:6px}
+  .c-purple{background:var(--soft); border-left:6px solid var(--c1)}
+  .c-amber{background:#fffbeb; border-left:6px solid var(--c2)}
+  .c-cyan{background:#ecfeff; border-left:6px solid var(--c3)}
+  .c-pink{background:#fdf2f8; border-left:6px solid var(--c4)}
+  .c-green{background:#f0fdf4; border-left:6px solid var(--c5)}
+  .c-red{background:#fef2f2; border-left:6px solid var(--c6)}
+  table{width:100%; border-collapse:collapse; margin:10px 0; font-size:12.5px; break-inside:avoid}
+  th{background:var(--c1); color:#fff; padding:7px 9px; text-align:left}
+  td{border:1px solid #ddd6fe; padding:6px 9px; background:#fff}
+  tr:nth-child(even) td{background:#faf9ff}
+  code{background:#ede9fe; color:#5b21b6; border-radius:5px; padding:1px 6px; font-family:Consolas,monospace; font-size:12px}
+  pre{background:#1e1b4b; color:#e0e7ff; border-radius:10px; padding:12px 14px; font-size:11.5px; overflow-x:auto; margin:8px 0; break-inside:avoid}
+  pre code{background:none; color:#a5f3fc; padding:0}
+  .kbd{color:#fde047; font-weight:bold}
+  .swatch{display:inline-block; width:52px; border-radius:8px; margin-right:6px; text-align:center; color:#fff; font-size:9.5px; padding:14px 0 3px; font-weight:bold; vertical-align:bottom}
+  .swatch span{display:block; font-weight:normal; opacity:.9}
+  .check{border:3px dashed var(--c5); background:#f0fdf4; border-radius:12px; padding:10px 14px; margin:8px 0; break-inside:avoid}
+  .check b{color:#15803d}
+  .warn{border:3px dashed var(--c6); background:#fef2f2; border-radius:12px; padding:10px 14px; margin:8px 0; break-inside:avoid}
+  .warn b{color:#b91c1c}
+  .shot{width:100%; border-radius:10px; border:3px solid var(--c1); margin:6px 0}
+  .duo{display:flex; gap:10px; break-inside:avoid}
+  .duo>div{flex:1}
+  .caption{font-size:11px; color:#6d28d9; text-align:center; margin-bottom:8px; font-weight:bold}
+  .toc{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 4px}
+  .toc div{border-radius:10px; padding:7px 12px; color:#fff; font-size:12px; font-weight:bold; flex:1 1 46%}
+  .step{display:flex; gap:10px; margin:8px 0; break-inside:avoid}
+  .stepnum{flex:0 0 34px; height:34px; border-radius:50%; background:var(--c2); color:#fff; font-weight:900; font-size:17px; display:flex; align-items:center; justify-content:center}
+  .stepbody{flex:1; background:#fffbeb; border-radius:10px; padding:9px 12px; border-left:5px solid var(--c2)}
+  svg{max-width:100%; height:auto}
+  .footer{margin-top:20px; text-align:center; color:#7c3aed; font-size:11.5px; border-top:2px solid #ddd6fe; padding-top:8px}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>awesome-design-md 小白指南</h1>
+  <div class="sub">74 个大厂的"设计基因"被压缩成一份 Markdown——拷给 AI，一句话生成大厂级 UI</div>
+  <div class="badges">
+    <span class="badge">⭐ GitHub 119k stars</span><span class="badge">📄 73 套 DESIGN.md</span><span class="badge">🏢 Vercel / Notion / Linear / Stripe…</span><span class="badge">🏛 出自 Google Stitch 的 DESIGN.md 标准</span>
+  </div>
+  <div class="meta">仓库：github.com/VoltAgent/awesome-design-md ｜ 学习日期：2026-10-02 ｜ 拾遗任务 ee04155e ｜ 全部实验在 Windows 11 本机实测跑通</div>
+</div>
+
+<div class="card c-purple">
+  <h4>🗂 本指南目录（疑问即目录）</h4>
+  <div class="toc">
+    <div style="background:var(--c1)">① 它是什么？复刻的到底是什么？</div>
+    <div style="background:var(--c2)">② 没有它时人们怎么做 UI？</div>
+    <div style="background:var(--c3)">③ 核心原理：一份 Markdown 怎么管住 AI？</div>
+    <div style="background:var(--c4)">④ 仓库里有什么？全库体检报告</div>
+    <div style="background:var(--c5)">⑤ 解剖一份规范：Linear 是怎么写的</div>
+    <div style="background:var(--c6)">⑥ 动手实验：规范决定气质（实测）</div>
+    <div style="background:linear-gradient(90deg,var(--c1),var(--c4))">⑦ 能力清单：我能用它干什么</div>
+    <div style="background:linear-gradient(90deg,var(--c6),var(--c2))">⑧ 坑与边界 + 和已学概念的关系</div>
+  </div>
+</div>
+
+<!-- Q1 -->
+<h2 class="q q1"><span class="qnum">Q1</span>它是什么？"一键复刻大厂 UI"复刻的到底是什么？</h2>
+<p>抖音热梗说的"让你一键复刻大厂 UI 的开源项目"，就是这个 <span class="hl">VoltAgent/awesome-design-md</span>。它复刻的不是某个网站的代码，而是大厂网站的 <span class="big">"设计基因"——设计系统（Design System）</span>。</p>
+<p><b>一句话定义：</b><span class="hl">把知名网站（Vercel、Notion、Linear、Stripe…共 73 个）的视觉规则——颜色、字体、间距、圆角、按钮长什么样——提炼成一份人话写的 Markdown 文档（DESIGN.md），你拷进自己的项目，AI 编程工具读了它，生成的 UI 就自动"长得很像那家大厂"。</span></p>
+<div class="card c-purple">
+  <h4>📐 DESIGN.md 这个标准从哪来？</h4>
+  <p>这是 <b>Google Stitch</b>（Google 的 AI UI 设计工具）提出的概念：<span class="hl">AGENTS.md 告诉 AI"项目怎么建"，DESIGN.md 告诉 AI"项目该长什么样"。</span>它就是纯文本 Markdown，不需要 Figma 导出、不需要 JSON 工具链——因为 <b>Markdown 恰恰是 LLM 读得最好的格式</b>。本仓库把这个理念做成了"现成大餐"：替你分析好 73 家网站，每家写成一份 DESIGN.md。</p>
+</div>
+<table>
+  <tr><th>文件</th><th>谁读它</th><th>定义什么</th><th>类比</th></tr>
+  <tr><td><code>AGENTS.md</code></td><td>编程 Agent</td><td>项目怎么构建、代码规范</td><td>施工图纸</td></tr>
+  <tr><td><code>DESIGN.md</code></td><td>设计 Agent / AI 编程工具</td><td>界面长什么样、什么气质</td><td><b>装修样板间的说明书</b></td></tr>
+</table>
+
+<!-- Q2 -->
+<h2 class="q q2"><span class="qnum">Q2</span>没有它之前，人们怎么让 AI 做"好看的 UI"？</h2>
+<div class="card c-amber">
+  <h4>😭 旧方法三宗罪</h4>
+  <p><b>① 截图让 AI 猜：</b>贴一张 Vercel 官网截图说"照这个做"。AI 看图只能猜个大概，颜色取不准（截图压缩失真）、字号间距全是目测。<br>
+  <b>② Figma 导出 + 设计令牌工具链：</b>专业但重——要会 Figma、要配 Style Dictionary 之类工具把 token 转成 CSS，个人开发者玩不动。<br>
+  <b>③ 每次口头描述：</b>"简约风、深色、有质感"——每句话 AI 理解都不同，十个页面生成十种风格。<span class="hl">核心病根：审美规范没有一份确定的、AI 可读的"合同"。</span></p>
+</div>
+<p><b>DESIGN.md 的解法：</b>把"合同"写成文本。颜色精确到 <code>#5e6ad2</code>，字号精确到 <code>56px / 字重600 / 字距-1.8px</code>，连"薰衣草紫只许用在 CTA 不许当装饰"这种<i>纪律</i>都写得明明白白。<span class="hl">从"AI 猜审美"变成"AI 照合同施工"。</span></p>
+
+<!-- Q3 -->
+<h2 class="q q3"><span class="qnum">Q3</span>核心原理：一份 Markdown 怎么管住 AI？</h2>
+<p>秘密是<span class="hl">"结构化 token（机器读）+ 散文规则（AI 读）"双层结构</span>。每份 DESIGN.md = YAML frontmatter（给程序解析的色值/字号表）+ Markdown 正文（给 AI 理解的设计原则和组件规范）。</p>
+<svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" style="background:#f5f3ff;border-radius:12px">
+  <rect x="15" y="30" width="150" height="70" rx="10" fill="#7c3aed"/><text x="90" y="60" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">DESIGN.md</text><text x="90" y="80" fill="#ddd6fe" font-size="11" text-anchor="middle">纯文本规范</text>
+  <rect x="15" y="130" width="150" height="70" rx="10" fill="#ec4899"/><text x="90" y="160" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">你的项目根目录</text><text x="90" y="180" fill="#fce7f3" font-size="11" text-anchor="middle">和代码放一起</text>
+  <path d="M90 100 L90 130" stroke="#1e1b4b" stroke-width="3" marker-end="url(#a)"/>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1e1b4b"/></marker><marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#0e7490"/></marker></defs>
+  <rect x="260" y="20" width="180" height="90" rx="10" fill="#06b6d4"/><text x="350" y="52" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">YAML frontmatter</text><text x="350" y="74" fill="#ecfeff" font-size="11" text-anchor="middle">colors / typography / spacing</text><text x="350" y="92" fill="#ecfeff" font-size="11" text-anchor="middle">→ 精确值，脚本可解析</text>
+  <rect x="260" y="140" width="180" height="90" rx="10" fill="#22c55e"/><text x="350" y="172" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">Markdown 正文</text><text x="350" y="194" fill="#f0fdf4" font-size="11" text-anchor="middle">设计原则 / 组件规范 / 禁忌</text><text x="350" y="212" fill="#f0fdf4" font-size="11" text-anchor="middle">→ AI 直接理解气质</text>
+  <path d="M165 65 C220 55 230 65 258 65" stroke="#0e7490" stroke-width="3" fill="none" marker-end="url(#b)"/>
+  <path d="M165 175 C220 185 230 175 258 175" stroke="#0e7490" stroke-width="3" fill="none" marker-end="url(#b)"/>
+  <rect x="510" y="75" width="195" height="100" rx="10" fill="#f59e0b"/><text x="607" y="108" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">AI 编程工具</text><text x="607" y="130" fill="#fffbeb" font-size="11" text-anchor="middle">Cursor / Claude Code / v0</text><text x="607" y="150" fill="#fffbeb" font-size="11" text-anchor="middle">"做个像 Linear 的落地页"</text>
+  <path d="M440 110 L508 120" stroke="#b45309" stroke-width="3" marker-end="url(#a)"/>
+</svg>
+<div class="card c-cyan">
+  <h4>🔑 为什么偏偏是 Markdown？</h4>
+  <p>LLM 的母语就是文本。JSON 要转义、Figma 要插件，而 Markdown <span class="hl">零解析成本、diff 友好、人机共读</span>——你改一行色值，AI 下次生成立刻跟着变。这是"把设计系统民主化"：过去只有大厂设计团队维护得起 design token，现在<span class="hl">拷贝一个文件就拥有 Vercel 级规范</span>。</p>
+</div>
+
+<!-- Q4 -->
+<h2 class="q q4"><span class="qnum">Q4</span>仓库里有什么？——全库体检报告（本机实测）</h2>
+<p>我把 74 个目录全部用脚本扫了一遍（实验代码 <code>exercise/exp1_parse_tokens.py</code>，真实输出）：</p>
+<div class="card c-pink">
+  <h4>🩺 体检数据（2026-10-02，repo 版本 f696123）</h4>
+  <p>• DESIGN.md 总数：<b>74 份</b>（badge 标 73，实际多 1 份 voltagent）<br>
+  • YAML frontmatter 结构化可解析：<b>64 份（86%）</b>，共提取 <b>1491 个精确色值 token</b>、平均每份 <b>14.2 个字号层级</b><br>
+  • 纯散文老格式（无 frontmatter）：<b>10 份</b>——tesla、spotify、kraken、lamborghini、mastercard、runwayml、sanity、starbucks、theverge、lovable<br>
+  • 每份 480~820 行；站点分 9 大类（AI 平台 / 开发者工具 / 数据库 / 金融 / 汽车 / 消费品牌 / 媒体…）</p>
+</div>
+<table>
+  <tr><th>分类举例</th><th>站点</th><th>气质一句话</th></tr>
+  <tr><td>AI 平台</td><td>Claude / Ollama / xAI / Runway</td><td>暖陶土 / 终端黑白 / 极简单色 / 电影暗黑</td></tr>
+  <tr><td>开发者工具</td><td>Vercel / Cursor / Raycast / Warp</td><td>黑白精确 Geist 字体 / 暗色渐变</td></tr>
+  <tr><td>效率笔记</td><td>Notion / Linear / Slack / Miro</td><td>粉彩便签 / 近黑+薰衣草紫 / 深紫红</td></tr>
+  <tr><td>金融科技</td><td>Stripe / Revolut / Wise / Coinbase</td><td>克制专业 / 大胆渐变</td></tr>
+  <tr><td>消费品牌</td><td>Nike / Starbucks / BMW / 法拉利</td><td>大图冲击 / 品牌色统治</td></tr>
+  <tr><td>复古彩蛋</td><td>dell-1996 / nintendo-2001</td><td>90 年代 Windows 质感 🎮</td></tr>
+</table>
+
+<!-- Q5 -->
+<h2 class="q q5"><span class="qnum">Q5</span>解剖一份规范：Linear 是怎么写的</h2>
+<p>拿 <code>design-md/linear.app/DESIGN.md</code>（548 行）开刀。它的自我介绍：近黑画布 <code>#010102</code>（全收藏最深）、浅灰文字、<span class="hl">薰衣草紫 <code>#5e6ad2</code> 是唯一的彩色强调——只许出现在品牌标、焦点环和关键 CTA，绝不许当装饰</span>。</p>
+<div class="duo">
+  <div>
+    <div class="caption">色板（frontmatter 精确值）</div>
+    <div style="background:#f5f3ff;border-radius:10px;padding:10px">
+      <span class="swatch" style="background:#5e6ad2;height:64px">primary<span>#5e6ad2</span></span>
+      <span class="swatch" style="background:#828fff;height:58px">hover<span>#828fff</span></span>
+      <span class="swatch" style="background:#010102;height:64px;color:#8a8f98">canvas<span>#010102</span></span>
+      <span class="swatch" style="background:#0f1011;height:58px;border:1px solid #333">panel<span>#0f1011</span></span>
+      <span class="swatch" style="background:#f7f8f8;height:52px;color:#333">ink<span>#f7f8f8</span></span>
+      <span class="swatch" style="background:#27a644;height:46px">ok<span>#27a644</span></span>
+    </div>
+  </div>
+  <div>
+    <div class="caption">字号阶梯（共 14 级）</div>
+    <table style="margin:0">
+      <tr><th>层级</th><th>规格</th></tr>
+      <tr><td>display-xl</td><td>80px / 600 / 字距-3px</td></tr>
+      <tr><td>display-lg</td><td>56px / 600 / 字距-1.8px</td></tr>
+      <tr><td>headline</td><td>28px / 600 / 字距-0.6px</td></tr>
+      <tr><td>body</td><td>16px / 400 / 行高1.5</td></tr>
+      <tr><td>button</td><td>14px / 510 / 内边距 8×14px</td></tr>
+    </table>
+  </div>
+</div>
+<div class="card c-green">
+  <h4>📋 组件规范长这样（节选原文翻译）</h4>
+  <p><code>button-primary</code>：底色 {colors.primary} + 白字，按钮字 {typography.button}，内边距 8px×14px，圆角 {rounded.md}；悬停变亮紫、按下变深紫。<br>
+  <code>button-secondary</code>：炭色面板底 + 细线边框，用于"Sign in"这类次要动作。<br>
+  <span class="hl">看点：每条规范都引用 token 名而不是裸值——改一处 token，全站按钮跟着变。</span>这正是大厂 design token 思想的"穷人版平替"。</p>
+</div>
+
+<!-- Q6 -->
+<h2 class="q q6"><span class="qnum">Q6</span>动手实验：同一份文案，两套规范，气质立变（实测）</h2>
+<p>实验材料在 <code>awesome-design-md\exercise\</code>，全部命令 Windows 11 实跑。</p>
+<div class="step"><div class="stepnum">1</div><div class="stepbody"><b>操作</b>：<code>python -X utf8 exp1_parse_tokens.py</code>　<b>目的</b>：验证"纯文本规范=机器可读"的声称。<br><b>实现</b>：正则解析全部 frontmatter。<b>✅ 预期结果</b>：<code>64/74 (86%) 解析成功，1491 个色值 token，平均 14.2 个字号层级</code>；10 份老格式无 frontmatter 被点名。</div></div>
+<div class="step"><div class="stepnum">2</div><div class="stepbody"><b>操作</b>：通读 <code>repo\design-md\linear.app\DESIGN.md</code> 与 <code>notion\DESIGN.md</code>，摘出色板/字号/按钮/圆角规范。<br><b>✅ 预期结果</b>：Linear=近黑+单强调色；Notion=白底+深蓝主视觉带+紫 pill CTA+粉彩卡。</div></div>
+<div class="step"><div class="stepnum">3</div><div class="stepbody"><b>操作</b>：手写 <code>page_linear.html</code>——每个 CSS 值都取自 Linear 规范（canvas #010102、panel #0f1011、主按钮 8×14 圆角6、负字距大标题）。<br><b>✅ 预期结果</b>：页面一打开就是"Linear 味"：克制、精密、暗黑。</div></div>
+<div class="step"><div class="stepnum">4</div><div class="stepbody"><b>操作</b>：同一产品文案写 <code>page_notion.html</code>——严格换用 Notion 规范（深蓝 #0a1530 主视觉带、便签圆点、#5645d4 胶囊按钮、粉彩特性卡）。<br><b>✅ 预期结果</b>：同一段话，气质完全不同——证明"规范决定气质"。</div></div>
+<div class="step"><div class="stepnum">5</div><div class="stepbody"><b>操作</b>：<code>msedge --headless --screenshot=shot_linear.png file:///…page_linear.html</code>（notion 同理）实拍取证。<br><b>✅ 预期结果</b>：两张 PNG 如下，肉眼对比立见分晓。</div></div>
+<div class="duo">
+  <div>
+    <img class="shot" src="file:///F:/reminder/awesome-design-md/exercise/shot_linear.png">
+    <div class="caption">▲ 按 Linear 规范：近黑画布，唯一紫色强调</div>
+  </div>
+  <div>
+    <img class="shot" src="file:///F:/reminder/awesome-design-md/exercise/shot_notion.png">
+    <div class="caption">▲ 按 Notion 规范：深蓝主视觉带 + 粉彩卡</div>
+  </div>
+</div>
+<div class="check"><b>✅ 实验结论：</b>同一文案、同一布局骨架，只换一份 DESIGN.md，产物气质天差地别——<b>"设计规范是一份可执行、可拷贝、可交接的资产"</b>坐实。</div>
+
+<!-- Q7 -->
+<h2 class="q q1"><span class="qnum">Q7</span>能力清单：我能用它干什么？</h2>
+<div class="card c-purple">
+  <h4>🎁 5 个立刻能上手的用途</h4>
+  <p><b>① 给 AI 编程工具"装审美"：</b>把想要的 DESIGN.md 拷到项目根目录，对 Cursor/Claude Code 说"按这个规范做登录页"，从此生成的页面不再杂风格。<br>
+  <b>② 快速仿站练手：</b>想学 Vercel 的极简风？照着 frontmatter 的精确值手写一页（就像本指南实验），比看截图猜快 10 倍。<br>
+  <b>③ 产品原型瞬间"变大牌"：</b>个人项目套 Stripe/Linear 规范，演示可信度暴涨。<br>
+  <b>④ 学设计系统的免费教材：</b>74 份规范=74 份大厂设计课，看它们如何定义色阶、字阶、组件纪律。<br>
+  <b>⑤ 做自己的 DESIGN.md：</b>拿一份当模板，改成自己的品牌规范，让 AI 稳定复现<i>你的</i>风格。</p>
+</div>
+
+<!-- Q8 -->
+<h2 class="q q2"><span class="qnum">Q8</span>坑与边界 + 和已学概念的关系</h2>
+<div class="warn"><b>⚠️ 四个坑</b><br>
+<b>① 字体拿不来：</b>规范里的 "Linear Display"、"Airbnb Cereal" 是商业字体，本地没有就会回退到 Inter/系统字体——复刻的是"规则"不是"字体文件"。<br>
+<b>② 86% vs 14%：</b>10 份老格式（tesla/spotify 等）没有结构化 frontmatter，脚本解析不了，AI 也只能读散文，精度打折。<br>
+<b>③ 复刻≠替代原创：</b>套大厂规范做商业产品可能有品牌调性雷同甚至商标观感问题，练手学习最合适。<br>
+<b>④ 越界检查：</b>规范管"长什么样"，不管"对不对"——生成后仍要人工验收（呼应 [[证据优先质检ProofOverClaims]]）。</div>
+<div class="card c-cyan">
+  <h4>🔗 知识库关联</h4>
+  <p>• <b>[[规格书先行SpecDriven]]</b>：DESIGN.md 就是"审美版规格书"——把主观审美翻译成客观可查的数值合同，同一思想在 UI 领域的落地。<br>
+  • <b>[[提示词权威边界]]</b>：规范 = 给 AI 的"设计宪法"，禁止即改：防止 AI 生成过程中的风格漂移。<br>
+  • 项目笔记 <b>[[ai-website-cloner]]</b>：那个项目复刻"结构和代码"，本仓库复刻"视觉规则"，互补两条路。<br>
+  • 新概念入库：<b>[[设计令牌DesignToken]]</b>、<b>[[DESIGN.md规范文档]]</b>。</p>
+</div>
+
+<div class="footer">awesome-design-md 小白指南 ｜ F:\reminder\awesome-design-md\ ｜ 2026-10-02 ｜ 实验材料：exercise\（解析脚本 + 双规范对照页 + 实拍截图）</div>
+</body>
+</html>
