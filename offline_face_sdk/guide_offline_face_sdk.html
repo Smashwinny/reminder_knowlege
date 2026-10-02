@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>离线人脸识别SDK小白指南</title>
+<style>
+:root{
+  --rose:#ff4d6d; --amber:#ffb703; --blue:#3a86ff; --green:#06d6a0; --purple:#9b5de5;
+  --cyan:#00bbf9; --ink:#22223b; --bg:#fffdf5; --card:#ffffff;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+@page{ size:A4; margin:10mm; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.65; font-size:13px;}
+.hero{ background:linear-gradient(135deg,#ff4d6d 0%,#ff8fa3 40%,#ffb703 100%); color:#fff; padding:26px 22px; border-radius:16px; margin-bottom:14px;}
+.hero h1{ font-size:30px; font-weight:900; letter-spacing:1px; text-shadow:2px 2px 0 rgba(0,0,0,.15);}
+.hero .sub{ font-size:14px; margin-top:8px; font-weight:700;}
+.badge{ display:inline-block; background:#fff; color:var(--rose); font-weight:900; border-radius:20px; padding:3px 14px; font-size:12px; margin:8px 6px 0 0;}
+.tldr{ background:#fff3c4; border:3px dashed var(--amber); border-radius:14px; padding:14px 16px; margin-bottom:14px;}
+.tldr b{ color:#c1121f;}
+.toc{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:16px;}
+.toc .item{ background:var(--card); border-radius:10px; padding:8px 6px; text-align:center; font-size:11px; font-weight:700; border-bottom:4px solid var(--blue); break-inside:avoid;}
+.toc .item:nth-child(4n+2){border-bottom-color:var(--rose);}
+.toc .item:nth-child(4n+3){border-bottom-color:var(--green);}
+.toc .item:nth-child(4n+4){border-bottom-color:var(--purple);}
+.toc .num{ font-size:20px; color:var(--rose); font-weight:900; display:block;}
+.q{ background:var(--card); border-radius:14px; padding:16px 18px; margin-bottom:14px; break-inside:avoid; box-shadow:0 2px 8px rgba(34,34,59,.08); border-top:6px solid var(--blue);}
+.q:nth-of-type(2n){border-top-color:var(--rose);}
+.q:nth-of-type(3n){border-top-color:var(--green);}
+.q .qhead{ display:flex; align-items:flex-start; gap:12px;}
+.q .bignum{ font-size:44px; font-weight:900; color:var(--rose); line-height:1; min-width:52px; text-shadow:2px 2px 0 #ffd6dd;}
+.q h2{ font-size:18px; font-weight:900; color:var(--ink); padding-top:4px;}
+.q p{ margin:8px 0;}
+.hl{ background:linear-gradient(transparent 45%,#ffd166 45%); font-weight:900; padding:0 2px;}
+.term{ color:#0a4dbf; font-weight:800;}
+.keybox{ background:#e7f0ff; border-left:6px solid var(--blue); border-radius:8px; padding:10px 12px; margin:10px 0; font-size:12.5px;}
+.warnbox{ background:#ffe5ec; border-left:6px solid var(--rose); border-radius:8px; padding:10px 12px; margin:10px 0; font-size:12.5px;}
+.okbox{ background:#d9f9ef; border-left:6px solid var(--green); border-radius:8px; padding:10px 12px; margin:10px 0; font-size:12.5px;}
+.okbox .t,.warnbox .t,.keybox .t{ font-weight:900;}
+pre{ background:#1d1d2b; color:#e0fbfc; border-radius:8px; padding:10px 12px; font-family:Consolas,monospace; font-size:11px; overflow-x:auto; margin:8px 0; white-space:pre-wrap;}
+code{ font-family:Consolas,monospace; background:#ececff; border-radius:4px; padding:0 4px; font-size:11.5px; color:#5a189a;}
+pre code{ background:none; color:inherit; padding:0;}
+table{ border-collapse:collapse; width:100%; margin:10px 0; font-size:12px;}
+th{ background:var(--purple); color:#fff; padding:6px 8px;}
+td{ border:1px solid #e5e5f0; padding:5px 8px; text-align:center; background:#fff;}
+td.l{ text-align:left;}
+tr:nth-child(even) td{ background:#f8f8ff;}
+svg{ display:block; margin:8px auto; max-width:100%;}
+.cap{ display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+.cap .c{ background:linear-gradient(135deg,#f0f9ff,#e0f2fe); border:2px solid var(--cyan); border-radius:12px; padding:12px;}
+.cap .c b{ color:#0077b6; font-size:14px;}
+.expstep{ background:#fff; border:2px solid var(--amber); border-radius:12px; padding:12px 14px; margin:10px 0; break-inside:avoid;}
+.expstep h3{ color:#b45309; font-size:14.5px; font-weight:900; margin-bottom:6px;}
+.expstep .four{ display:grid; grid-template-columns:88px 1fr; gap:3px 8px; font-size:12px;}
+.expstep .four .k{ font-weight:900; color:var(--rose);}
+.check{ background:#d9f9ef; border-radius:8px; padding:8px 10px; margin-top:8px; font-weight:700; font-size:12px; border:2px solid var(--green);}
+.check::before{ content:"✅ 预期结果："; font-weight:900; color:#0a8a62;}
+.foot{ text-align:center; font-size:11px; color:#888; padding:10px 0 4px;}
+h3.sec{ font-size:16px; font-weight:900; color:#fff; background:linear-gradient(90deg,var(--purple),var(--rose)); display:inline-block; padding:5px 18px; border-radius:8px; margin:6px 0 8px;}
+.tag{display:inline-block; font-size:10px; font-weight:900; border-radius:4px; padding:1px 6px; margin-left:6px; vertical-align:2px;}
+.tag.open{background:#d9f9ef; color:#0a8a62;}
+.tag.closed{background:#ffe5ec; color:#c1121f;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>🛡️ 脸在电脑里，一步都不出去</h1>
+  <div class="sub">Faceplugin「Open Source Face Recognition SDK」小白指南 —— 本地离线人脸识别全链路拆解 + 真机验货</div>
+  <span class="badge"> detections→landmark→align→embed→compare 五步流水线</span>
+  <span class="badge"> 纯 CPU 单脸约 50ms</span>
+  <span class="badge"> 全部权重仅 61MB</span>
+  <span class="badge"> ⚠️ "开源"有水分：核心对齐是闭源 DLL，且无 LICENSE</span>
+</div>
+
+<div class="tldr">
+  <b>一句话总结</b>：这是一个把<b>人脸检测 → 68点关键点 → 人脸对齐 → 特征提取 → 相似度比对</b>整条流水线打包成 Python 函数的 SDK。宣传卖点"100% On-Premise（数据不出设备）"<b>实测属实</b>——不用网、不用显卡，CPU 上单张脸全流程约 50 毫秒。但"开源"成色要打折：检测/关键点/特征三段是真 PyTorch 源码，<b>人脸对齐+姿态估计藏在 70KB 的闭源 DLL 里，仓库连 LICENSE 文件都没有</b>。学它最大的价值：一次看懂人脸识别的完整骨架，顺便学会给"开源项目"验货。
+</div>
+
+<div class="toc">
+  <div class="item"><span class="num">Q1</span>人脸识别分几步？</div>
+  <div class="item"><span class="num">Q2</span>"开源"成色如何验货？</div>
+  <div class="item"><span class="num">Q3</span>1MB 检测器怎么跑？</div>
+  <div class="item"><span class="num">Q4</span>68 个关键点怎么来？</div>
+  <div class="item"><span class="num">Q5</span>为什么必须对齐？</div>
+  <div class="item"><span class="num">Q6</span>IR-50 与 256 维特征</div>
+  <div class="item"><span class="num">Q7</span>相似度公式的秘密</div>
+  <div class="item"><span class="num">Q8</span>闭源姿态估计做啥？</div>
+  <div class="item"><span class="num">Q9</span>CPU 性能实测账单</div>
+  <div class="item"><span class="num">Q10</span>验货实验复盘</div>
+  <div class="item"><span class="num">Q11</span>数据不出设备的边界</div>
+  <div class="item"><span class="num">Q12</span>能拿它做什么？</div>
+</div>
+
+<!-- Q1 -->
+<div class="q">
+  <div class="qhead"><div class="bignum">Q1</div><h2>一次"人脸识别"到底分几步？</h2></div>
+  <p>很多人以为人脸识别是"一个 AI 看一眼就认出你"。实际上它是<b>五道工序的流水线</b>，每道工序各管一件事，这个 SDK 的代码目录结构就是按这五步摆的：</p>
+  <table>
+    <tr><th>工序</th><th>代码目录</th><th>输入→输出</th><th>类比</th></tr>
+    <tr><td>①检测 Detect</td><td>face_detect/</td><td>整张图 → 人脸框(x,y,w,h)+置信度</td><td>人海里先圈出"哪里有脸"</td></tr>
+    <tr><td>②关键点 Landmark</td><td>face_landmark/</td><td>人脸区域 → 68 个坐标点</td><td>标出眼角、鼻尖、嘴角</td></tr>
+    <tr><td>③对齐+姿态 Align/Pose</td><td>face_util/（闭源DLL）</td><td>原图+关键点 → 摆正的 128×128 小图</td><td>把歪头照片"扶正"</td></tr>
+    <tr><td>④特征 Embed</td><td>face_feature/</td><td>摆正小图 → 256 个数字的向量</td><td>把脸变成"身份证号"</td></tr>
+    <tr><td>⑤比对 Compare</td><td>run.py</td><td>两个向量 → 0~100 相似分</td><td>两张身份证号对一下</td></tr>
+  </table>
+  <svg width="640" height="120" viewBox="0 0 640 120">
+    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#ff4d6d"/></marker></defs>
+    <rect x="6" y="30" width="104" height="44" rx="9" fill="#3a86ff"/><text x="58" y="50" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">①检测</text><text x="58" y="66" text-anchor="middle" fill="#dbe7ff" font-size="9">人脸框</text>
+    <rect x="134" y="30" width="104" height="44" rx="9" fill="#9b5de5"/><text x="186" y="50" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">②关键点</text><text x="186" y="66" text-anchor="middle" fill="#eadfff" font-size="9">68 个坐标</text>
+    <rect x="262" y="30" width="104" height="44" rx="9" fill="#ff4d6d"/><text x="314" y="50" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">③对齐</text><text x="314" y="66" text-anchor="middle" fill="#ffd9e1" font-size="9">摆正小图</text>
+    <rect x="390" y="30" width="104" height="44" rx="9" fill="#ffb703"/><text x="442" y="50" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">④特征</text><text x="442" y="66" text-anchor="middle" fill="#fff3d1" font-size="9">256 维向量</text>
+    <rect x="518" y="30" width="104" height="44" rx="9" fill="#06d6a0"/><text x="570" y="50" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">⑤比对</text><text x="570" y="66" text-anchor="middle" fill="#d3fff2" font-size="9">0~100 分</text>
+    <line x1="110" y1="52" x2="131" y2="52" stroke="#ff4d6d" stroke-width="3" marker-end="url(#ar)"/>
+    <line x1="238" y1="52" x2="259" y2="52" stroke="#ff4d6d" stroke-width="3" marker-end="url(#ar)"/>
+    <line x1="366" y1="52" x2="387" y2="52" stroke="#ff4d6d" stroke-width="3" marker-end="url(#ar)"/>
+    <line x1="494" y1="52" x2="515" y2="52" stroke="#ff4d6d" stroke-width="3" marker-end="url(#ar)"/>
+    <rect x="262" y="88" width="104" height="22" rx="6" fill="#ffe5ec"/><text x="314" y="103" text-anchor="middle" fill="#c1121f" font-size="10" font-weight="bold">⚠ 闭源 DLL 环节</text>
+  </svg>
+  <div class="keybox"><span class="t">为什么要拆成流水线？</span>因为每一步都要为下一步"减负"：检测把整图缩小成脸的小框，关键点把框变成几何坐标，对齐把任意角度的头扶正，最后特征提取只需面对"标准姿势的标准小图"。分工越细，每个模型越小越快——这正是它能 CPU 实时跑的原因。</div>
+</div>
+
+<!-- Q2 -->
+<div class="q">
+  <div class="qhead"><div class="bignum">Q2</div><h2>自称"Open Source"，成色到底如何？</h2></div>
+  <p>推文说它"开源、免费、离线"。逐项验货结果如下——<span class="hl">三真一假一缺失</span>：</p>
+  <table>
+    <tr><th>宣传</th><th>实货</th><th>判定</th></tr>
+    <tr><td class="l">检测/关键点/特征</td><td class="l">真 PyTorch 源码 + 权重全在仓库里，可直接读、可改造</td><td>✅ 真</td></tr>
+    <tr><td class="l">100% On-Premise 离线</td><td class="l">实测断网可跑，无任何网络请求</td><td>✅ 真</td></tr>
+    <tr><td class="l">免费、CPU 可跑</td><td class="l">实测纯 CPU 单脸 50ms，无 key 无计费</td><td>✅ 真</td></tr>
+    <tr><td class="l">"开源 SDK"</td><td class="l">人脸对齐 align_vertical 与姿态 getPose68 编译在 <b>FaceUtil.dll / libFaceUtil.so</b>（70KB 闭源二进制）里，只有 ctypes 调用壳</td><td>❌ 灰色</td></tr>
+    <tr><td class="l">License-Open Source 徽章</td><td class="l">仓库里<b>根本没有 LICENSE 文件</b>——法律上默认"保留所有权利"，商用有风险</td><td>⚠ 缺失</td></tr>
+  </table>
+  <div class="warnbox"><span class="t">另一个宣传缺口：</span>README 和官网宣传了<b>活体检测、防照片攻击、表情/属性分析</b>，但仓库代码里只有"检测+关键点+特征+比对"四样。README 的 "Current Capabilities" 自己也只列了这四项。宣传页 ≠ 仓库实货，看项目要<b>以代码为准</b>。</div>
+  <div class="keybox"><span class="t">怎么给"开源"验货？三查：</span>① 查 <code>LICENSE</code> 文件在不在、是哪种协议（MIT/Apache 随便用，AGPL 有传染性）；② 查关键功能是源码还是 <code>.dll/.so/.exe</code> 二进制；③ 查模型权重是否随仓库发布（要外链下载的，外链挂了项目就死）。本项目三条里中了两枪。</div>
+</div>
+
+<!-- Q3 -->
+<div class="q">
+  <div class="qhead"><div class="bignum">Q3</div><h2>1MB 的人脸检测器，凭什么能在 CPU 上跑？</h2></div>
+  <p>它用的检测模型叫 <span class="term">MB-Tiny SSD（slim-320）</span>，权重只有 <b>1.09MB</b>——比一张手机照片还小。这份代码和权重命名与 Linzaer 的《Ultra-Light-Fast-Generic-Face-Detector-1MB》开源项目完全同源（在原项目里叫 version-slim-320.pth）。</p>
+  <p>它快的秘诀有两个：</p>
+  <p>① <span class="hl">骨干网极小</span>：用深度可分离卷积（每个通道单独卷、不再跨通道混合，计算量降一个数量级）堆出的 MobileNet 式骨架，全网络只有几十万参数（普通 ResNet-50 有 2500 万）；</p>
+  <p>② <span class="hl">SSD 单阶段+多尺度</span>：不做"先出候选框再精修"两步，而是卷积过程中在 5 个不同大小的特征网格上一次性预测，每个网格格子里放 2 个预设框（anchor），网络只需微调位置和输出"是不是脸"。</p>
+  <svg width="640" height="150" viewBox="0 0 640 150">
+    <polygon points="20,120 90,45 160,120" fill="#3a86ff" opacity=".25"/>
+    <text x="90" y="135" text-anchor="middle" font-size="10" fill="#3a86ff" font-weight="bold">输入图 320×320</text>
+    <rect x="200" y="35" width="70" height="70" rx="6" fill="#9b5de5" opacity=".85"/><text x="235" y="75" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">大格子</text>
+    <rect x="300" y="20" width="42" height="42" rx="6" fill="#9b5de5" opacity=".65"/><rect x="352" y="20" width="42" height="42" rx="6" fill="#9b5de5" opacity=".65"/><rect x="300" y="72" width="42" height="42" rx="6" fill="#9b5de5" opacity=".65"/><rect x="352" y="72" width="42" height="42" rx="6" fill="#9b5de5" opacity=".65"/>
+    <text x="347" y="130" text-anchor="middle" font-size="10" fill="#9b5de5" font-weight="bold">多层特征网格（大格管大脸/小格管小脸）</text>
+    <rect x="450" y="42" width="76" height="56" fill="none" stroke="#ff4d6d" stroke-width="4" rx="4"/>
+    <text x="560" y="60" font-size="10" fill="#ff4d6d" font-weight="bold">人脸!</text>
+    <text x="560" y="76" font-size="9" fill="#666">score=1.0</text>
+    <text x="560" y="90" font-size="9" fill="#666">框+微调</text>
+  </svg>
+  <div class="okbox"><span class="t">实测：</span>一张 860×520 的图检测一张脸只要 <b>约 20ms（CPU）</b>，检测置信度直接给到 1.000。代价是精度上限不如 RetinaFace 等大模型，且输入被压到 320×320，特别小的脸会漏——个人项目够用，安防级需求要换更强的检测器。</div>
+</div>
+
+<!-- Q4 -->
+<div class="q">
+  <div class="qhead"><div class="bignum">Q4</div><h2>68 个关键点是怎么"回归"出来的？</h2></div>
+  <p>关键点模型是 <span class="term">MobileFaceNet</span> 结构，输入是从人脸框裁出的 <b>64×64 灰度小图</b>，输出层直接吐出 <b>136 个数字 = 68 个 (x,y) 坐标</b>。注意：它不是"找到"这些点，而是<b>一步算出（回归）</b>这些坐标数值——分类网络输出"哪个类别"，它输出 136 个连续数值，结构上是同一套卷积网络，只是最后一层的神经元个数改成了 136。</p>
+  <svg width="640" height="140" viewBox="0 0 640 140">
+    <rect x="30" y="25" width="90" height="90" rx="8" fill="#22223b"/>
+    <ellipse cx="75" cy="70" rx="30" ry="38" fill="none" stroke="#06d6a0" stroke-width="2"/>
+    <circle cx="62" cy="58" r="3" fill="#00bbf9"/><circle cx="88" cy="58" r="3" fill="#00bbf9"/>
+    <polygon points="75,66 70,80 80,80" fill="#ffb703"/>
+    <line x1="62" y1="95" x2="88" y2="95" stroke="#ff4d6d" stroke-width="3"/>
+    <circle cx="55" cy="42" r="2" fill="#fff" opacity=".6"/><circle cx="75" cy="38" r="2" fill="#fff" opacity=".6"/><circle cx="95" cy="42" r="2" fill="#fff" opacity=".6"/>
+    <circle cx="48" cy="70" r="2" fill="#fff" opacity=".6"/><circle cx="102" cy="70" r="2" fill="#fff" opacity=".6"/>
+    <text x="75" y="133" text-anchor="middle" font-size="10" fill="#666">64×64 灰度小图</text>
+    <text x="205" y="75" text-anchor="middle" font-size="26" fill="#ff4d6d" font-weight="bold">→ CNN →</text>
+    <rect x="290" y="40" width="150" height="60" rx="10" fill="#9b5de5"/>
+    <text x="365" y="66" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">输出层：136 个神经元</text>
+    <text x="365" y="84" text-anchor="middle" fill="#eadfff" font-size="10">= 68 × (x, y) 坐标</text>
+    <text x="520" y="75" text-anchor="middle" font-size="26" fill="#ff4d6d" font-weight="bold">→ 贴回 →</text>
+    <text x="590" y="66" text-anchor="middle" font-size="11" fill="#06d6a0" font-weight="bold">原图坐标</text>
+    <text x="590" y="84" text-anchor="middle" font-size="9" fill="#666">68 点一次到位</text>
+  </svg>
+  <div class="keybox"><span class="t">源码里的巧思</span>：模型输出的是 0~1 的<b>相对坐标</b>（占裁剪图的比例），代码最后一步 <code>landmark[:,0]*iExFaceW + iExFaceX</code> 把它乘回裁剪区宽、加回裁剪区左上角，换算成原图绝对坐标——"神经网络算相对值，确定性代码管换算"，两层各干各的。实测每张脸 68 点只要 <b>6ms</b>。</div>
+</div>
+
+<!-- Q5 -->
+<div class="q">
+  <div class="qhead"><div class="bignum">Q5</div><h2>为什么必须先"对齐"？不摆正直接提特征行不行？</h2></div>
+  <p>同一张脸，仰头 30° 拍和正面拍，像素差异大得像两个人。如果直接把整张脸喂给特征网络，网络学到的大量信息是"头的角度"而不是"这个人是谁"。对齐（Alignment）就是<span class="hl">利用关键点把任意角度的脸"焊接"回标准姿势</span>——眼睛永远在同一高度，鼻尖永远居中。</p>
+  <svg width="640" height="130" viewBox="0 0 640 130">
+    <text x="90" y="20" text-anchor="middle" font-size="11" fill="#c1121f" font-weight="bold">不对齐：角度当身份</text>
+    <rect x="40" y="30" width="100" height="80" rx="8" fill="#ffe5ec"/>
+    <text x="90" y="65" text-anchor="middle" font-size="10" fill="#c1121f">歪 30° 的脸 → 向量 A</text>
+    <text x="90" y="88" text-anchor="middle" font-size="10" fill="#c1121f">正脸 → 向量 B</text>
+    <text x="90" y="108" text-anchor="middle" font-size="11" fill="#c1121f" font-weight="bold">A、B 离得远 ✗</text>
+    <text x="320" y="70" text-anchor="middle" font-size="30" fill="#ff4d6d" font-weight="bold">VS</text>
+    <text x="500" y="20" text-anchor="middle" font-size="11" fill="#0a8a62" font-weight="bold">对齐后：只剩"人"的差异</text>
+    <rect x="400" y="30" width="200" height="80" rx="8" fill="#d9f9ef"/>
+    <text x="500" y="60" text-anchor="middle" font-size="10" fill="#0a8a62">歪脸→扶正→标准小图→向量 A'</text>
+    <text x="500" y="84" text-anchor="middle" font-size="10" fill="#0a8a62">正脸→扶正→标准小图→向量 B'</text>
+    <text x="500" y="105" text-anchor="middle" font-size="11" fill="#0a8a62" font-weight="bold">A'、B' 靠得近 ✓（同一人）</text>
+  </svg>
+  <p>这个 SDK 的对齐函数 <code>align_vertical</code> 接收原图 + 关键点，按"两眼水平、脸部垂直"的标准仿射变换输出一张 <b>128×128 摆正小图</b>，再送进特征网络。它和姿态估计一起，<b>编译在那个闭源 DLL 里</b>（见 Q2/Q8）。</p>
+  <div class="keybox"><span class="t">落回术语</span>：对齐在学术上叫"人脸规范化（face normalization）"，本质是一次<b>仿射变换</b>（旋转+缩放+平移，直线变换后仍是直线）。变换参数从哪来？就从 Q4 的关键点来——这就是为什么 ② 和 ③ 在流水线上必须紧挨着。</div>
+</div>
+
+<!-- Q6 -->
+<div class="q">
+  <div class="qhead"><div class="bignum">Q6</div><h2>IR-50 与 256 维特征：一张脸如何变成"身份证号"？</h2></div>
+  <p>特征模型 <span class="term">IR-50</span> = 带 <b>IR（Improved Residual）模块的 ResNet-50</b>——InsightFace 项目的人脸骨干网标准配方：把残差块里的卷积换成"先降维 1×1、3×3、再升维 1×1"的瓶颈结构并去掉偏置。它的训练目标很特别：<span class="hl">不是"认出这是谁"，而是"把同一个人拉近、把不同的人推远"</span>（度量学习，如 ArcFace 损失）。所以训练完把最后的分类层扔掉，倒数第二层输出就是人人可用的"脸向量"。</p>
+  <p>两个实测发现：① 输出是 <b>256 维</b>（多数主流方案是 512 维，这是它自己裁过的版本）；② 向量做了 <b>L2 归一化</b>（实测范数=1.0000），即只留方向、抹掉长度——比较两张脸变成纯比较方向。</p>
+  <p>还有一个"古董级"细节：它的权重不是常规的 <code>.pth</code>，而是一个 56MB 的 <code>irn50_pytorch.npy</code>——一个 numpy 字典存着每个卷积层的名字和数值，代码在启动时用 <code>__conv()</code>/<code>__batch_normalization()</code> 逐个"手工配钥匙"把权重塞进网络。这是从 <b>MXNet（InsightFace 官方训练框架）导出再转 PyTorch</b> 的典型产物——又一次暴露血统。</p>
+  <div class="keybox"><span class="t">和你已有的知识连上</span>：人脸特征向量与文本/图像 embedding 是同一思想——[[向量与Embedding]]：任何东西都映射成高维空间里的一个"坐标"，像不像=坐标近不近。检索靠 [[余弦相似度]]，人脸比对就是它在二维人身上的应用。区别只在：文本用 Transformer 编码器，人脸用 IR-ResNet。</div>
+</div>
+
+<!-- Q7 -->
+<div class="q">
+  <div class="qhead"><div class="bignum">Q7</div><h2>相似度公式 (sum(f1×f2)+1)×50 的秘密</h2></div>
+  <p>run.py 里的比对函数只有一行，却藏着三个知识点：</p>
+  <pre><code>def get_similarity(feat1, feat2):
+    return (np.sum(feat1 * feat2) + 1) * 50   # 输出 0~100，阈值 75</code></pre>
+  <p>① <code>np.sum(f1*f2)</code> 逐元素相乘再求和 = <span class="term">点积</span>。对两个 L2 归一化的向量，<b>点积就等于余弦相似度</b>（cos∈[-1,1]），因为分母 ∥f1∥·∥f2∥=1×1 被归一化吃掉了；</p>
+  <p>② <code>+1)×50</code> 是线性映射：<span class="hl">把 [-1,1] 的余弦拉皮成 0~100 的"漂亮分数"</span>——cos=-1（完全相反）→0 分，cos=0（无关）→50 分，cos=1（自己）→100 分；</p>
+  <p>③ 阈值 75 倒推回去：<b>75 = (cos+1)×50 ⟺ cos = 0.5</b>。"同一人"的判定本质是"两张脸的向量夹角 ≤ 60°"。</p>
+  <svg width="640" height="130" viewBox="0 0 640 130">
+    <line x1="40" y1="70" x2="600" y2="70" stroke="#22223b" stroke-width="3"/>
+    <line x1="40" y1="45" x2="40" y2="95" stroke="#22223b" stroke-width="3"/>
+    <line x1="320" y1="50" x2="320" y2="90" stroke="#9b5de5" stroke-width="2" stroke-dasharray="5,4"/>
+    <line x1="520" y1="50" x2="520" y2="90" stroke="#c1121f" stroke-width="3" stroke-dasharray="5,4"/>
+    <rect x="40" y="78" width="220" height="18" fill="#06d6a0" opacity=".3"/>
+    <rect x="220" y="78" width="300" height="18" fill="#ffb703" opacity=".35"/>
+    <rect x="520" y="78" width="80" height="18" fill="#ff4d6d" opacity=".35"/>
+    <text x="40" y="115" text-anchor="middle" font-size="10">0 分 (cos=-1)</text>
+    <text x="320" y="115" text-anchor="middle" font-size="10">50 分 (cos=0 陌生人背景区)</text>
+    <text x="560" y="115" text-anchor="middle" font-size="10">100 分 (cos=1 自己)</text>
+    <text x="520" y="40" text-anchor="middle" font-size="11" fill="#c1121f" font-weight="bold">阈值75 ⇔ cos=0.5</text>
+    <text x="140" y="40" text-anchor="middle" font-size="10" fill="#0a8a62" font-weight="bold">实测不同人：cos 0.18~0.37（59~69分）✗拒</text>
+    <text x="440" y="40" text-anchor="middle" font-size="10" fill="#0a8a62" font-weight="bold">实测同人跨角度：cos 0.725（86.3分）✓收</text>
+  </svg>
+  <div class="okbox"><span class="t">实测数据（见 Q10）</span>：同一人跨角度 0.725，不同人 0.18~0.37，阈值 0.5 正好躺在沟里，两边留有余量。这个"同异分离度"是衡量任何人脸模型好坏的第一指标。</div>
+</div>
+
+<!-- Q8 -->
+<div class="q">
+  <div class="qhead"><div class="bignum">Q8</div><h2>闭源 getPose68 里到底在做什么？（静态取证）</h2></div>
+  <p>姿态估计（pitch 俯仰 / yaw 偏转 / roll 滚转三个角度）编译在闭源 DLL 里没有源码。但 <code>libFaceUtil.so</code> <b>没剥离符号表</b>，用 <code>strings</code> 命令就能读到内部函数名单：</p>
+  <pre><code>$ strings libFaceUtil.so | grep -v gcc
+_Z11determinantPfi          → 行列式
+_Z14solve_CHOLESKYPfiiS_iS_ → Cholesky 线性方程组求解
+_Z14JacobiSVDImpl_...       → Jacobi 奇异值分解(SVD)
+_Z9RodriguesPKfiiPf         → Rodrigues 旋转向量公式
+_Z9getPose68fffPfiRfS0_S0_  → 对外导出的姿态接口</code></pre>
+  <p>这份"函数户口本"基本可以断定套路：<span class="hl">拿 68 个 2D 关键点去拟合一个通用 3D 人脸模板，用 SVD 最小二乘解出旋转矩阵，再用 Rodrigues 公式把矩阵转成三个欧拉角</span>——这是教科书级的"2D 关键点估头部姿态"经典方法（OpenCV 的 solvePnP 同族）。实测 1.jpg 的姿态 (7.6°, 7.3°, -5.4°)（基本正脸）、2.png 的 (0.1°, -30.8°, -3.6°)（明显左转头 31°），数值合理。</p>
+  <div class="keybox"><span class="t">启示</span>：闭源 ≠ 黑盒。二进制文件的符号表、字符串常量、导入导出表都能"静态取证"。当然最稳的验证还是<b>黑盒对拍</b>：给它标准输入看输出对不对（本项目姿态输出与肉眼观察一致，通过）。</div>
+</div>
+
+<!-- Q9 -->
+<div class="q">
+  <div class="qhead"><div class="bignum">Q9</div><h2>CPU 性能实测账单：50 毫秒花在哪？</h2></div>
+  <p>用 exercise/exp_pipeline.py 对每道工序单独计时（普通桌面 CPU、无显卡、torch 2.4.1+cpu）：</p>
+  <table>
+    <tr><th>工序</th><th>模型</th><th>权重体积</th><th>单脸耗时(CPU)</th><th>占比</th></tr>
+    <tr><td>①检测</td><td>MB-Tiny SSD slim-320</td><td>1.09 MB</td><td>≈20 ms</td><td>40%</td></tr>
+    <tr><td>②关键点</td><td>MobileFaceNet(64×64灰度)</td><td>3.7 MB</td><td>≈6 ms</td><td>12%</td></tr>
+    <tr><td>③姿态</td><td>闭源DLL(纯数学)</td><td>0.07 MB</td><td>≈1 ms</td><td>2%</td></tr>
+    <tr><td>④特征</td><td>IR-50</td><td>56 MB</td><td>≈21 ms</td><td>42%</td></tr>
+    <tr><td>⑤比对</td><td>numpy 点积</td><td>—</td><td>&lt;0.1 ms</td><td>~0%</td></tr>
+  </table>
+  <div class="keybox"><span class="t">两个工程结论</span>：① <b>检测和特征几乎平分秋色</b>，想提速要么减检测分辨率、要么换更小的特征网（如 MobileFaceNet 做特征）；② 对一张图里的 N 张脸，②③④按脸数线性增长而①只跑一次，多人合影时检测占比会被摊薄。另有<b>冷启动成本约 2~3 秒</b>（加载 torch+三个权重），长驻进程无感，CLI 一次性调用很扎眼——做工具时要常驻进程化。</div>
+</div>
+
+<!-- Q10 -->
+<div class="q">
+  <div class="qhead"><div class="bignum">Q10</div><h2>验货实验复盘：变装认得出吗？别人分得开吗？</h2></div>
+  <p><b>实验A · 同脸变装</b>：把 1.jpg 检出的人脸裁出来做 5 种"摧残"——水平翻转、旋转10°、高斯模糊、提亮1.4倍、缩小4倍再放大——再互相打分：</p>
+  <pre><code>          原图脸  翻转  旋转  模糊  提亮  缩放
+原图脸    100.0   99.1  99.9  98.6  98.8  98.1   ← 全部 ≥97.3 判同人</code></pre>
+  <p>结论：<b>常规变装完全打不倒它</b>（这五招恰好都是"像素级变化、几何级不变"的操作，对齐+归一化设计就是冲它们来的）。真正的弱点要用角度刁钻的照片才能打出来——同人跨 31° 时分数掉到 86，掉得比模糊狠得多。</p>
+  <p><b>实验B · 不同人区分</b>：加进两张公开授权样例头像（randomuser.me 的男性/女性标准头像，不采集任何真实人脸）：</p>
+  <pre><code>1.jpg vs 2.png   cos=0.725 → 86.3  ✓同人（官方demo就是同一人两个角度！）
+1.jpg vs 男头像   cos=0.374 → 68.7  ✗正确拒绝
+1.jpg vs 女头像   cos=0.181 → 59.0  ✗正确拒绝
+男头像 vs 女头像  cos=0.193 → 59.6  ✗正确拒绝</code></pre>
+  <div class="okbox"><span class="t">意外彩蛋</span>：官方自带的 demo 图 1.jpg 和 2.png 其实是<b>同一个人的两张照片</b>（run.py 跑出 86.27 判"same person"；姿态数据 7.3° vs -30.8° 佐证是同一人不同角度）——所以官方示例演示的从头到尾都是"同人验证"，从未演示过"拒绝陌生人"。我们在外部加"别人"才补全了这块验收。</div>
+</div>
+
+<!-- Q11 -->
+<div class="q">
+  <div class="qhead"><div class="bignum">Q11</div><h2>"数据不出设备"的价值与边界</h2></div>
+  <p><b>价值</b>：云端人脸 API 的问题不是"识别不准"，而是你的脸变成了别人服务器上的一份<b>不可撤回的资产</b>——可能被缓存、被二次训练、被泄露。本地方案把生物特征数据锁在你自己的进程里：断网可用、无调用费、无账号、特征向量若不落盘则用完即逝。</p>
+  <p><b>但"本地跑"≠隐私自动安全</b>，还有三件事要自己做：</p>
+  <table>
+    <tr><th>风险点</th><th>如果不处理</th><th>该做什么</th></tr>
+    <tr><td class="l">特征向量落盘</td><td class="l">脸向量泄露虽拼不回照片，但可做跨系统追踪关联</td><td class="l">加密存储或派生 ID（参考 [[派生会话ID与结构脱敏]]：sha256 现场派生，不留原值）</td></tr>
+    <tr><td class="l">活体攻击</td><td class="l">拿你照片/屏幕就能骗过摄像头</td><td class="l">本 SDK 无活体检测（宣传有、实货无），高安全场景必须另配</td></tr>
+    <tr><td class="l">闭源DLL的信任</td><td class="l">无法审计对齐环节是否有数据外传逻辑（本SDK实测无网络代码，风险低）</td><td class="l">抓包验证 + 用开源方案（如 insightface）替换该环节</td></tr>
+  </table>
+  <div class="keybox"><span class="t">和知识库连上</span>：这与 [[个人记忆流水线]] 的隐私纪律同一条河——数据在本地加工、密钥不外流、对外只出"结论"不出"原料"。本地人脸识别只是把这条纪律应用在生物特征上。[[本地推理引擎]]（ollama）是同一哲学在 LLM 上的版本：权重在自家厨房，数据不出门。</div>
+</div>
+
+<!-- Q12 -->
+<div class="q">
+  <div class="qhead"><div class="bignum">Q12</div><h2>它给我什么能力？能拿它做什么？</h2></div>
+  <p><b>能力清单（实测有效）</b>：任意图片找人脸并标框 → 输出 68 点关键点 → 输出三轴头部姿态角 → 输出 256 维脸向量 → 0~100 分同人判定 → 全流程离线纯 CPU。Python 三个函数接入：<code>GetImageInfo(图, 最多几张脸)</code>、<code>get_similarity(向量1, 向量2)</code>、阈值 75 自己定。</p>
+  <div class="cap">
+    <div class="c"><b>📷 相册自动聚类</b><br>批量提特征→向量聚类→按人分文件夹。离线照片不想传云盘？正好。</div>
+    <div class="c"><b>⏰ 考勤/签到小工具</b><br>注册几张贴桌子的脸，摄像头抓帧比对过阈值打勾。注意需加活体对抗。</div>
+    <div class="c"><b>🔒 照片自动打码</b><br>检测框反查坐标，对脸区域高斯模糊——发视频前保护路人隐私。</div>
+    <div class="c"><b>🧪 学人脸识别的教具</b><br>五个环节源码齐全、体积小到能逐行读完，改一处参数立刻看到行为变化。</div>
+  </div>
+  <p><b>定位对比</b>：对比 dlib 的 face_recognition 库（要装 C++/cmake，Windows 劝退）它开箱即跑；对比 InsightFace（精度高、模型全、社区大，但坑多）它胜在极简；对比各种云 API 它赢在隐私+免费。一句话：<span class="hl">玩具级场景的最短路径，产品级场景的教材</span>——商用前必须解决 LICENSE 缺失和闭源 DLL 两个法律/审计问题，届时首选换成 insightface 系开源权重。</p>
+</div>
+
+<h3 class="sec">动手实验区（全部真机验证过，CPU 即可）</h3>
+
+<div class="expstep">
+  <h3>实验 1 · 跑通官方基线（1 分钟）</h3>
+  <div class="four">
+    <span class="k">怎么操作</span><span>建 Python 3.9+ 环境，<code>pip install -r requirements.txt</code>，进 repo 目录 <code>python run.py</code></span>
+    <span class="k">目的</span><span>验证整条流水线在你机器上能通（顺便验证"不需要联网"）</span>
+    <span class="k">实现了</span><span>对 test/1.jpg 和 test/2.png 各走一遍五步流水线并比对</span>
+  </div>
+  <div class="check">输出 <code>score = 86.27 → same person</code>，全程约 4.6 秒（大头是首次加载权重），无任何网络请求。</div>
+</div>
+
+<div class="expstep">
+  <h3>实验 2 · 逐工序计时+可视化（exp_pipeline.py）</h3>
+  <div class="four">
+    <span class="k">怎么操作</span><span><code>python exp_pipeline.py ../repo/test/1.jpg</code>（脚本自动切到 repo 根目录跑）</span>
+    <span class="k">目的</span><span>看清每道工序的输入输出和耗时，把 68 个关键点画到人脸上</span>
+    <span class="k">实现了</span><span>检测 20ms / 关键点 6ms / 姿态 1ms / 特征 22ms；特征 256 维、L2范数=1.0；标注图存 exercise/annotated_output.jpg</span>
+  </div>
+  <div class="check">控制台打出四段耗时和 68 点；打开标注图能看到绿色人脸框 + 蓝黄两色关键点贴在五官上。</div>
+</div>
+
+<div class="expstep">
+  <h3>实验 3 · 同脸变装矩阵（exp_similarity.py）</h3>
+  <div class="four">
+    <span class="k">怎么操作</span><span><code>python exp_similarity.py</code>——裁出 1.jpg 的人脸做 5 种变换，输出 7×7 相似度矩阵</span>
+    <span class="k">目的</span><span>验证"同人不同照片"的鲁棒性，理解 score=(cos+1)×50 的取值范围</span>
+    <span class="k">实现了</span><span>翻转/旋转/模糊/提亮/缩放五种变装互相打分 97.3~100，全部 ≥75 判同人</span>
+  </div>
+  <div class="check">矩阵对角线恒为 100（自己 vs 自己），同脸变装列全部 97+。如果某行低于 75，说明那个变换破坏了几何一致性——值得想想为什么。</div>
+</div>
+
+<div class="expstep">
+  <h3>实验 4 · 不同人区分度（exp4_different_person.py）</h3>
+  <div class="four">
+    <span class="k">怎么操作</span><span>下载 2 张公开授权样例头像（randomuser.me，允许 mockup 使用，不采集真实人脸），<code>python exp4_different_person.py</code></span>
+    <span class="k">目的</span><span>补上官方 demo 缺失的"拒绝陌生人"验收，拿到真实的同人/异人分数沟壑</span>
+    <span class="k">实现了</span><span>同人跨角度 86.3 ✓；三个不同人组合 59.0~68.7 ✗ 全部正确拒绝</span>
+  </div>
+  <div class="check">4×4 矩阵呈现清晰的块状：同人块 ≥86，异人块 ≤69，阈值 75 在沟里。同时确认 1.jpg/2.png 官方图实为同一人。</div>
+</div>
+
+<h3 class="sec">坑清单（实测踩过）</h3>
+<div class="warnbox">① <b>相对路径炸弹</b>：SDK 三个模块加载权重全用 <code>"./face_xxx/..."</code> 相对路径，从别的目录 import 直接 FileNotFoundError——必须先 <code>os.chdir(repo根目录)</code>；<br>
+② <b>Python 版本</b>：requirements 钉死 torch==2.4.1，最高支持 Python 3.12，新版 3.14 装不上（需 CPU 版装 3.12 venv）；<br>
+③ <b>Tensor/ndarray 边界</b>：检测返回 torch.Tensor，画图前要 <code>b.numpy()</code>，且特征网络开着梯度要 <code>detach()</code>；<br>
+④ <b>DLL 位数</b>：FaceUtil.dll 是 x64，32 位 Python 加载即崩；Linux 用同名 .so；Mac 无支持；<br>
+⑤ <b>法律风险</b>：无 LICENSE 文件＝默认保留所有权利，"开源"只是 README 徽章说的，商用前先发邮件问作者要授权。</div>
+
+<div class="foot">offline_face_sdk · 基于 Faceplugin-ltd/Open-Source-Face-Recognition-SDK (dd5795f) · 2026-10-03 · 全部实验数据为真机实测</div>
+</body>
+</html>
