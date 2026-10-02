@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>火星编辑器小白指南</title>
+<style>
+  :root{
+    --mars:#ff4d2e;        /* 火星红 主色 */
+    --amber:#ffb300;       /* 琥珀 强调 */
+    --teal:#00b8a9;        /* 青绿 辅助 */
+    --purple:#7c4dff;      /* 紫 强调2 */
+    --ink:#2b1a12;         /* 深棕文字 */
+    --paper:#fff8f0;       /* 米白纸底 */
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  @page{size:A4;margin:12mm}
+  body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--paper);color:var(--ink);font-size:13px;line-height:1.7}
+  .cover{background:linear-gradient(135deg,#ff4d2e 0%,#ff8a00 55%,#ffb300 100%);color:#fff;border-radius:18px;padding:38px 34px;margin-bottom:22px}
+  .cover h1{font-size:34px;letter-spacing:2px;margin-bottom:8px}
+  .cover .sub{font-size:15px;opacity:.95}
+  .cover .meta{margin-top:14px;font-size:12px;background:rgba(255,255,255,.18);display:inline-block;padding:4px 12px;border-radius:20px}
+  h2.sec{font-size:20px;color:var(--mars);border-left:8px solid var(--mars);padding-left:10px;margin:26px 0 12px}
+  .qcard{background:var(--card);border-radius:14px;padding:16px 18px;margin-bottom:16px;border:2px solid #ffe0d1;box-shadow:0 3px 10px rgba(255,77,46,.08);break-inside:avoid}
+  .qnum{display:inline-block;background:var(--mars);color:#fff;font-size:22px;font-weight:900;border-radius:10px;padding:2px 12px;margin-right:8px}
+  .qtitle{font-size:17px;font-weight:900;color:var(--ink);vertical-align:middle}
+  .key{background:linear-gradient(transparent 55%,#ffe08a 55%);font-weight:900;font-size:14px}
+  .hl{background:#e0fff9;font-weight:700;padding:0 3px;border-radius:3px}
+  code{background:#fff0e6;color:#c2410c;padding:1px 6px;border-radius:5px;font-family:Consolas,monospace;font-size:12px;font-weight:700}
+  pre{background:#2b1a12;color:#ffd9a0;padding:12px 14px;border-radius:10px;font-size:12px;overflow-x:auto;margin:8px 0;font-family:Consolas,monospace;line-height:1.55}
+  pre code{background:none;color:inherit;padding:0}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px}
+  th{background:var(--mars);color:#fff;padding:7px 9px;text-align:left}
+  td{border-bottom:1.5px solid #ffe0d1;padding:6px 9px;background:#fffdf9}
+  tr:nth-child(even) td{background:#fff4ec}
+  .story{background:#f3edff;border-left:5px solid var(--purple);padding:10px 14px;border-radius:0 10px 10px 0;margin:10px 0;font-size:12.5px}
+  .warn{background:#fff3c4;border-left:5px solid var(--amber);padding:10px 14px;border-radius:0 10px 10px 0;margin:10px 0}
+  .ok{background:#e2fff4;border:2px dashed var(--teal);border-radius:10px;padding:10px 14px;margin:10px 0;font-weight:700}
+  .step{background:var(--card);border:2px solid #b3f0e8;border-radius:12px;padding:12px 16px;margin-bottom:12px;break-inside:avoid}
+  .step .no{display:inline-block;background:var(--teal);color:#fff;font-weight:900;border-radius:8px;padding:1px 10px;margin-right:6px}
+  .step b.t{color:#00796b}
+  svg{display:block;margin:10px auto}
+  .cap{font-size:11px;color:#8a6d5c;text-align:center;margin-top:-4px}
+  .twocol{display:flex;gap:14px;flex-wrap:wrap}
+  .twocol>div{flex:1;min-width:280px}
+  footer{margin-top:24px;text-align:center;font-size:11px;color:#a08776}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🚀 火星编辑器小白指南</h1>
+  <div class="sub">Markdown 一键变公众号排版：开源工具 Mars Editor 从原理到上手</div>
+  <div class="meta">官网 mars-editor.cc ｜ 网页版 mars-editor.pages.dev ｜ GitHub: whyubel1eve/Mars-Editor（网页版）· Mars-Editor-APP（桌面版）｜ 2026-10-02</div>
+</div>
+
+<h2 class="sec">一句话认识它</h2>
+<div class="qcard">
+  <p><span class="key">火星编辑器 = 一个 Markdown 编辑器 + 一个"微信保镖"转换器。</span>
+  你用 Markdown 写文章，它把全文转成<span class="hl">每一个标签都自带内联样式的富文本</span>，复制后粘贴进微信公众号后台，样式一字不差。开源免费（MIT），有网页版（React）和桌面版（Tauri + Rust，支持 macOS / Windows / Linux），桌面版还内置本地文件防丢失和 Claude Code / Codex CLI 接入。</p>
+</div>
+
+<h2 class="sec">疑问清单（小白视角，从浅到深）</h2>
+
+<!-- Q1 -->
+<div class="qcard">
+  <span class="qnum">Q1</span><span class="qtitle">公众号排版到底难在哪？大家以前怎么干的？</span>
+  <p style="margin-top:8px">微信公众号后台编辑器是个"残缺版 Word"：不支持 Markdown、粘贴外部富文本会掉样式、代码块没有高亮、数学公式基本没戏。写技术文章的人每发一篇都要手动调格式半小时。</p>
+  <table>
+    <tr><th>老办法</th><th>痛点</th></tr>
+    <tr><td>后台手动排版</td><td>每篇 20-60 分钟，纯体力活</td></tr>
+    <tr><td>mdnice / 墨滴等在线工具</td><td>要联网、草稿存别人服务器，怕跑路丢稿</td></tr>
+    <tr><td>壹伴等浏览器插件</td><td>功能绑在插件生态里，不开放</td></tr>
+    <tr><td><b>火星编辑器</b></td><td><b>开源 + 草稿是本地 .md 文件 + 一键转换，三个痛点各补一刀</b></td></tr>
+  </table>
+</div>
+
+<!-- Q2 -->
+<div class="qcard">
+  <span class="qnum">Q2</span><span class="qtitle">为什么粘贴进微信会"排版全丢"？微信编辑器对 HTML 做了什么？</span>
+  <p style="margin-top:8px">微信后台用的是 UEditor 内核，粘贴时会做一次<span class="key">"消毒"（sanitize）</span>：按白名单过滤标签和属性。<span class="key">class 属性和 &lt;style&gt; 标签会被整段删掉，只留下每个标签自带的 style 内联样式</span>。所以普通网页那套"CSS 类 + 样式表"的排版在微信里全军覆没——样式表没了，类名也没了，正文只剩裸文字。</p>
+  <svg width="640" height="170" viewBox="0 0 640 170">
+    <rect x="10" y="20" width="180" height="120" rx="10" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+    <text x="100" y="45" text-anchor="middle" font-size="13" font-weight="bold" fill="#1976d2">普通网页 HTML</text>
+    <text x="100" y="70" text-anchor="middle" font-size="11" fill="#333">&lt;style&gt; p{color:red} &lt;/style&gt;</text>
+    <text x="100" y="90" text-anchor="middle" font-size="11" fill="#333">&lt;p class="tip"&gt;文字&lt;/p&gt;</text>
+    <text x="100" y="115" text-anchor="middle" font-size="11" fill="#888">样式表 + 类名</text>
+    <path d="M200 80 L280 80" stroke="#ff4d2e" stroke-width="4" marker-end="url(#ar)"/>
+    <text x="240" y="68" text-anchor="middle" font-size="12" font-weight="bold" fill="#ff4d2e">微信消毒</text>
+    <rect x="290" y="20" width="160" height="120" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="2" stroke-dasharray="5"/>
+    <text x="370" y="55" text-anchor="middle" font-size="12" fill="#c62828">✂ &lt;style&gt; 被删</text>
+    <text x="370" y="80" text-anchor="middle" font-size="12" fill="#c62828">✂ class 被删</text>
+    <text x="370" y="108" text-anchor="middle" font-size="12" font-weight="bold" fill="#2b1a12">✔ style="…" 保留</text>
+    <path d="M460 80 L530 80" stroke="#00b8a9" stroke-width="4" marker-end="url(#ar)"/>
+    <rect x="538" y="30" width="92" height="100" rx="10" fill="#e2fff4" stroke="#00b8a9" stroke-width="2"/>
+    <text x="584" y="75" text-anchor="middle" font-size="12" font-weight="bold" fill="#00796b">只剩裸文字</text>
+    <text x="584" y="95" text-anchor="middle" font-size="11" fill="#00796b">排版全丢</text>
+    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#ff4d2e"/></marker></defs>
+  </svg>
+  <p class="cap">图 2-1：微信编辑器的"消毒"流水线——只有内联 style 能活着通过</p>
+</div>
+
+<!-- Q3 -->
+<div class="qcard">
+  <span class="qnum">Q3</span><span class="qtitle">"内联样式"是什么？为什么它能一字不差？</span>
+  <p style="margin-top:8px">CSS 样式有三种挂法：<span class="hl">外链样式表</span>（.css 文件）、<span class="hl">页内 &lt;style&gt;</span>、<span class="hl">内联 style 属性</span>（直接写在标签上，如 <code>&lt;p style="color:red"&gt;</code>）。微信只认第三种。火星编辑器把整篇文章<span class="key">每个标题、每段、每个列表项都"焊"上一份完整的 style</span>——样式跟着标签走，不需要任何外部资源，粘贴到哪都原样。代价是 HTML 体积膨胀（本指南实验里一段样例就有 45 处 style），但公众号场景体积不是问题。</p>
+  <div class="twocol">
+    <div><pre><code>&lt;!-- 普通写法（微信会丢） --&gt;
+&lt;style&gt;
+  h2 { color:#ff4d2e }
+&lt;/style&gt;
+&lt;h2&gt;标题&lt;/h2&gt;
+
+&lt;!-- 内联写法（微信保留） --&gt;
+&lt;h2 style="color:#ff4d2e;
+  font-size:24px"&gt;标题&lt;/h2&gt;</code></pre></div>
+    <div><p><b>类比：</b>外链样式像"装修手册放在物业办公室"——进小区（微信）时手册被没收，房子立刻变毛坯；内联样式像<b>把装修直接烧进砖里</b>，房子搬哪都带装修。讲完类比落回术语：<span class="key">style 内联属性是随标签自包含的样式声明，不依赖任何外部选择器</span>。</p></div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="qcard">
+  <span class="qnum">Q4</span><span class="qtitle">Markdown 是怎么一步步变成"内联样式 HTML"的？</span>
+  <p style="margin-top:8px">核心是 <code>markdown-it</code>（JavaScript 生态最常用的 Markdown 解析器）。它先把 Markdown 切成 <span class="hl">Token 流</span>（一串"开门/关门"标记，如 paragraph_open / inline / paragraph_close），默认规则输出普通 HTML。火星编辑器的做法是<span class="key">把全部几十条渲染规则整包覆盖（override），每条规则都输出带主题配色的内联 style 版本</span>，连脚注规则也覆盖了。主题（9 套网页版 / 12 套桌面版）只是配色数据，渲染时通过 env 注入逐规则读取。</p>
+  <svg width="640" height="150" viewBox="0 0 640 150">
+    <rect x="15" y="35" width="120" height="80" rx="10" fill="#fff3c4" stroke="#ffb300" stroke-width="2"/>
+    <text x="75" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#8a6d00">sample.md</text>
+    <text x="75" y="90" text-anchor="middle" font-size="11" fill="#8a6d00">## 标题 **粗**</text>
+    <path d="M140 75 L200 75" stroke="#ff4d2e" stroke-width="3" marker-end="url(#ar)"/>
+    <rect x="208" y="25" width="150" height="100" rx="10" fill="#ffe0d1" stroke="#ff4d2e" stroke-width="2"/>
+    <text x="283" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#c2410c">markdown-it 解析</text>
+    <text x="283" y="72" text-anchor="middle" font-size="11" fill="#c2410c">Token 流:</text>
+    <text x="283" y="90" text-anchor="middle" font-size="10" fill="#c2410c">heading_open → inline → close</text>
+    <text x="283" y="112" text-anchor="middle" font-size="10" fill="#c2410c">（开门→内容→关门）</text>
+    <path d="M363 75 L423 75" stroke="#ff4d2e" stroke-width="3" marker-end="url(#ar)"/>
+    <rect x="430" y="25" width="90" height="100" rx="10" fill="#f3edff" stroke="#7c4dff" stroke-width="2"/>
+    <text x="475" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#5b21b6">渲染规则</text>
+    <text x="475" y="75" text-anchor="middle" font-size="11" fill="#5b21b6">全量覆盖</text>
+    <text x="475" y="95" text-anchor="middle" font-size="10" fill="#5b21b6">+主题 env</text>
+    <path d="M525 75 L585 75" stroke="#ff4d2e" stroke-width="3" marker-end="url(#ar)"/>
+    <rect x="510" y="25" width="120" height="100" rx="10" fill="#e2fff4" stroke="#00b8a9" stroke-width="2"/>
+    <text x="570" y="60" text-anchor="middle" font-size="11" font-weight="bold" fill="#00796b">全内联 HTML</text>
+    <text x="570" y="82" text-anchor="middle" font-size="10" fill="#00796b">&lt;h2 style="…"&gt;</text>
+    <text x="570" y="100" text-anchor="middle" font-size="10" fill="#00796b">0 个 class</text>
+  </svg>
+  <p class="cap">图 4-1：Markdown → Token 流 → 覆盖渲染规则 → 全内联样式 HTML</p>
+</div>
+
+<!-- Q5 -->
+<div class="qcard">
+  <span class="qnum">Q5</span><span class="qtitle">"复制富文本"是怎么实现的？</span>
+  <p style="margin-top:8px">浏览器的剪贴板一次可以写多种格式。火星编辑器用 <code>ClipboardItem</code> <span class="key">同时写入 <code>text/html</code>（那份内联样式 HTML）和 <code>text/plain</code>（纯文本兜底）</span>。粘贴程序自己挑：微信后台挑 text/html，记事本挑 text/plain。老浏览器则回退到"隐藏 contenteditable 容器 + execCommand('copy')"。复制前还有一步细节：<span class="hl">剥掉 data-line 等预览专用标记</span>，防止公众号把这些多余属性原样存下来。纯文本转换时给块级标签补换行，否则整篇会挤成一行（DOMParser 不参与排版，innerText 会退化成 textContent）。</p>
+</div>
+
+<!-- Q6 -->
+<div class="qcard">
+  <span class="qnum">Q6</span><span class="qtitle">图片不放图床，粘到微信里怎么不会挂？</span>
+  <p style="margin-top:8px">常规做法是图片传到图床、正文里放外链——但微信有防盗链，外链图经常裂。火星编辑器反着来：网页版把图片存进浏览器 <span class="hl">IndexedDB</span>（浏览器自带的大容量键值数据库），渲染时转成 <span class="key">data URI（把图片二进制 base64 编码后直接塞进 src="data:image/png;base64,…"）</span>，图片本体跟着 HTML 走。实测粘贴进公众号后台后原样保留，完全不需要图床。桌面版则是图片落工作区 images/ 文件夹，复制时自动内嵌、外链图自动转文末脚注绕防盗链。</p>
+  <div class="warn">⚠ 代价要懂：base64 会让体积膨胀约 33%，图太多文章会重。这是"自包含换体积"的典型取舍。</div>
+</div>
+
+<!-- Q7 -->
+<div class="qcard">
+  <span class="qnum">Q7</span><span class="qtitle">网页版和桌面版差在哪？为什么桌面版要用 Tauri + Rust？</span>
+  <p style="margin-top:8px">网页版受浏览器沙箱限制：摸不到本地文件系统、装不了文件监听、调不了本机命令行。<span class="key">Tauri 2 是"Rust 外壳 + 系统 WebView + 前端页面"的桌面应用框架</span>——界面还是那套 React，但 Rust 后端给了它原生能力。对比 Electron：Electron 捆一个完整 Chromium（每个应用 100+MB），Tauri 用系统自带 WebView，安装包小一个数量级。</p>
+  <table>
+    <tr><th>能力</th><th>网页版</th><th>桌面版（Tauri）</th></tr>
+    <tr><td>Markdown → 内联样式</td><td>✔</td><td>✔（同一套前端代码）</td></tr>
+    <tr><td>草稿存储</td><td>IndexedDB（浏览器里）</td><td><b>本地 .md 文件（真文件系统）</b></td></tr>
+    <tr><td>主题</td><td>9 套</td><td>12 套</td></tr>
+    <tr><td>推公众号草稿箱</td><td>✘</td><td>✔（AppID/AppSecret + IP 白名单）</td></tr>
+    <tr><td>接 Claude Code / Codex</td><td>✘</td><td>✔</td></tr>
+    <tr><td>网页转 Markdown 导入</td><td>✘</td><td>✔（公众号走本地抓取，其他走 Jina Reader）</td></tr>
+  </table>
+</div>
+
+<!-- Q8 -->
+<div class="qcard">
+  <span class="qnum">Q8</span><span class="qtitle">"本地文件防丢失"是怎么做到的？</span>
+  <p style="margin-top:8px">桌面版的设计原则是<span class="key">"草稿就是本地 .md 文件，应用只是文件的视图"</span>：文章存在你指定的文件夹里，编辑器改动直接写盘；反过来，任何程序（包括 AI）改了这些 .md 文件，编辑器通过 <span class="hl">文件监听（vault_watch，类似前端 watchEffect 的"盯着文件系统"版）</span>发现变化并重载界面。应用的数据库只存界面状态，<span class="hl">不碰 CLI 自己的会话文件（~/.claude/projects/ 等内部格式，随时会变）</span>。这样即使火星编辑器明天删库跑路，你的稿子还是一堆普通 .md，任何编辑器都能打开。</p>
+</div>
+
+<!-- Q9 -->
+<div class="qcard">
+  <span class="qnum">Q9</span><span class="qtitle">它是怎么接入 Claude Code / Codex CLI 的？</span>
+  <p style="margin-top:8px">桌面版顶栏的 Agent 面板没有接任何模型 API——它<span class="key">直接把本机已装的 CLI 当子进程启动</span>（Rust 的 <code>std::process::Command</code>），用的是你自己的账号和配置，不用填 key：</p>
+  <pre><code>claude -p "帮我把这篇改成口语化" --output-format stream-json --verbose
+codex exec --json   "帮我把这篇改成口语化"</code></pre>
+  <svg width="640" height="160" viewBox="0 0 640 160">
+    <rect x="15" y="40" width="150" height="85" rx="10" fill="#ffe0d1" stroke="#ff4d2e" stroke-width="2"/>
+    <text x="90" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#c2410c">火星编辑器</text>
+    <text x="90" y="92" text-anchor="middle" font-size="11" fill="#c2410c">(Tauri/Rust 父进程)</text>
+    <path d="M170 70 L245 70" stroke="#ff4d2e" stroke-width="3" marker-end="url(#ar)"/>
+    <text x="207" y="60" text-anchor="middle" font-size="10" fill="#ff4d2e">spawn</text>
+    <rect x="250" y="30" width="140" height="40" rx="8" fill="#f3edff" stroke="#7c4dff" stroke-width="2"/>
+    <text x="320" y="55" text-anchor="middle" font-size="11" font-weight="bold" fill="#5b21b6">claude CLI 子进程</text>
+    <rect x="250" y="85" width="140" height="40" rx="8" fill="#f3edff" stroke="#7c4dff" stroke-width="2"/>
+    <text x="320" y="110" text-anchor="middle" font-size="11" font-weight="bold" fill="#5b21b6">codex CLI 子进程</text>
+    <path d="M395 70 L465 70" stroke="#00b8a9" stroke-width="3" marker-end="url(#ar)"/>
+    <text x="430" y="60" text-anchor="middle" font-size="10" fill="#00796b">JSONL 逐行</text>
+    <rect x="470" y="30" width="155" height="85" rx="10" fill="#e2fff4" stroke="#00b8a9" stroke-width="2"/>
+    <text x="547" y="60" text-anchor="middle" font-size="12" font-weight="bold" fill="#00796b">工作区 .md 文件</text>
+    <text x="547" y="84" text-anchor="middle" font-size="10.5" fill="#00796b">AI 直接改文件</text>
+    <text x="547" y="104" text-anchor="middle" font-size="10.5" fill="#00796b">vault_watch 监听 → 界面刷新</text>
+    <path d="M470 115 C 400 150, 200 150, 100 122" stroke="#ffb300" stroke-width="2.5" fill="none" stroke-dasharray="6" marker-end="url(#ar2)"/>
+    <text x="290" y="148" text-anchor="middle" font-size="10" fill="#8a6d00">文件变化回灌编辑器（不走过 JSONL 通道）</text>
+    <defs>
+      <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#ff4d2e"/></marker>
+      <marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#ffb300"/></marker>
+    </defs>
+  </svg>
+  <p class="cap">图 9-1：Agent 接入 = spawn 本机 CLI + JSONL 流式转发 + 文件监听回读</p>
+  <p style="margin-top:6px">两个 CLI 的输出事件格式完全不同，<span class="hl">Rust 侧不解析不合并，原样逐行转发，翻译成统一时间线是前端的活</span>——"谁需要理解，谁来做"。这与知识库 [[子智能体咨询]] 是同一模式：包装本机 CLI 而非自接 API。注意：Agent 功能要 CLI 版可执行文件，桌面 GUI 版不往 PATH 放可执行文件，检测不到时需另装 CLI。</p>
+</div>
+
+<!-- Q10 -->
+<div class="qcard">
+  <span class="qnum">Q10</span><span class="qtitle">代码里有哪些值得学的工程细节？</span>
+  <table>
+    <tr><th>细节</th><th>做法</th><th>为什么妙</th></tr>
+    <tr><td>highlight.js 懒加载</td><td>动态 import，就绪前代码块按原文转义输出</td><td>数百 KB 的语言包不进首屏，冷启动快；加载完成后触发一次重渲染补高亮</td></tr>
+    <tr><td>零依赖 zip</td><td>用浏览器原生 <code>CompressionStream</code> 自己实现 zip 读写</td><td>备份/还原不引第三方库——知识库 [[零依赖编程]] 的实战版</td></tr>
+    <tr><td>导出长图</td><td>把正文 DOM 塞进 SVG <code>&lt;foreignObject&gt;</code> 序列化后转 750px 宽 PNG</td><td>不依赖 html2canvas，纯浏览器原生子方案</td></tr>
+    <tr><td>滚动同步</td><td>渲染时记录每个块对应的源码行号（data-line / map）</td><td>编辑区和预览区按行号对齐滚动</td></tr>
+    <tr><td>容错哲学</td><td>Agent 模块注释："最坏也只是面板停了，稿子照样改"</td><td>关键路径（文件）与展示路径（面板）分离，坏一层不坏全局</td></tr>
+  </table>
+</div>
+
+<!-- Q11 -->
+<div class="qcard">
+  <span class="qnum">Q11</span><span class="qtitle">"一键推送公众号草稿箱"是怎么回事？</span>
+  <p style="margin-top:8px">微信公众号开放平台提供草稿箱 API。桌面版里填上公众号的 <span class="hl">AppID / AppSecret</span>（公众平台后台申请），并把本机 IP 加进公众号后台的 <span class="key">IP 白名单</span>，即可把排版好的文章直接推成公众号草稿，省掉"复制→粘贴→检查"一步。小白注意：AppSecret 等同账号密钥，只存在自己机器，别截图外传。</p>
+</div>
+
+<!-- Q12 -->
+<div class="qcard">
+  <span class="qnum">Q12</span><span class="qtitle">它和我知道的工具是什么关系？</span>
+  <p style="margin-top:8px">和 <span class="hl">mdnice/墨滴</span>：同类（Markdown→公众号），但火星编辑器开源可自部署 + 桌面版本地文件；和 <span class="hl">Typora/Obsidian</span>：它们是通用 Markdown 编辑器，火星编辑器只专注"写到公众号"这一条管道；和 <span class="hl">壹伴</span>：壹伴是插件生态，火星编辑器是独立应用 + 开源。与知识库已学内容的关联：它的 Agent 接入同 [[子智能体咨询]]；它覆盖 markdown-it 渲染规则的做法是 [[构建流水线与Pass]] 思想（解析 Pass → 渲染 Pass）在前端工具里的体现；懒加载 highlight.js 体现的是"按需加载"。</p>
+</div>
+
+<!-- Q13 -->
+<div class="qcard">
+  <span class="qnum">Q13</span><span class="qtitle">5 分钟上手路径是什么？</span>
+  <p style="margin-top:8px">零安装：打开 <code>mars-editor.pages.dev</code>（网页版）→ 左边写 Markdown → 右边看排版 → 点复制 → 粘进公众号后台。进阶：官网 <code>mars-editor.cc</code> 下载桌面版（Windows 用 NSIS 安装包），草稿落本地文件夹，想要 AI 帮写再装 Claude Code 或 Codex CLI（PATH 里能找到即可被检测到）。</p>
+</div>
+
+<h2 class="sec">这个项目给我什么（能力清单）</h2>
+<div class="qcard">
+  <table>
+    <tr><th>#</th><th>能力</th><th>你能干什么</th></tr>
+    <tr><td>1</td><td>Markdown → 公众号内联样式富文本</td><td>技术笔记发公众号不再手动排版，粘贴即成</td></tr>
+    <tr><td>2</td><td>9-12 套主题 + 三档排版密度</td><td>一句话切整套视觉风格（实测三主题输出色值完全不同）</td></tr>
+    <tr><td>3</td><td>本地 .md 草稿 + 备份 zip 导入导出</td><td>稿子归自己，换工具零锁定</td></tr>
+    <tr><td>4</td><td>AI Agent 面板（桌面版）</td><td>Claude Code/Codex 直接在稿子文件夹里帮你改稿，编辑器实时刷新</td></tr>
+    <tr><td>5</td><td>推公众号草稿箱 / 导长图 PNG / 网页转 MD</td><td>发布管道一条龙：抓网页→AI 改写→排版→推草稿</td></tr>
+    <tr><td>6</td><td>一套可学习的干净前端工程</td><td>markdown-it 规则覆盖、剪贴板双格式、懒加载、Tauri 架构都是可迁移的套路</td></tr>
+  </table>
+</div>
+
+<h2 class="sec">动手实验（全部真实运行，环境：Windows 11 + Node v24.21.0）</h2>
+
+<div class="step"><span class="no">实验 1</span><b class="t">跑起网页版</b><br>
+<b>操作</b>：<code>git clone https://github.com/whyubel1eve/Mars-Editor repo && cd repo && npm install && npx vite --port 5199</code><br>
+<b>目的</b>：验证项目能本地跑起来。<b>实现</b>：Vite 开发服务器。<br>
+<div class="ok">✅ 预期结果：终端输出 <code>VITE v7.3.6 ready in 970 ms → Local: http://localhost:5199/</code>；浏览器打开即编辑器（实测 curl 返回 HTTP 200，页面 lang="zh-CN"）。<br>坑：npm install 对 workerd 的 postinstall 脚本可能被安全策略拦（exit 2），不影响 dev/build——workerd 只有 Cloudflare 部署才用。</div>
+</div>
+
+<div class="step"><span class="no">实验 2</span><b class="t">在 Node 里直接驱动它的渲染管线（主实验）</b><br>
+<b>操作</b>：项目没把渲染器暴露成 CLI，就用它自带的 esbuild 把 <code>src/markdown.ts</code> 打包成 Node 可跑的模块（材料在 <code>exercise\</code>）：
+<pre><code>../repo/node_modules/.bin/esbuild render_entry.ts --bundle --platform=node --format=esm --outfile=render.mjs
+node render.mjs sample.md classicTheme</code></pre>
+<b>目的</b>：亲手验证核心卖点——输出 HTML 里没有 class、全部样式内联。<b>实现</b>：render_entry.ts 调用项目自己的 <code>renderArticle()</code> 渲染 13 行样例文章（含标题/高亮/待办/提示条/代码块/脚注），并自动断言四项微信兼容性检查。<br>
+<div class="ok">✅ 预期结果（实测输出）：<br>
+PASS 正文不含 class 属性（微信会丢弃）<br>
+PASS 正文不含 &lt;style&gt; 标签（微信会丢弃）<br>
+PASS 正文不含 &lt;script&gt; 标签<br>
+PASS 块级标签全部带内联 style ｜ <b>内联 style 总数: 45</b>，退出码 0<br>
+输出样例：<code>&lt;h1 style="font-family:Georgia,…;font-size:28px;…"&gt;火星编辑器转换测试&lt;/h1&gt;</code>——注意 data-line 是预览标记，正式复制前会被 clipboard.ts 剥掉。</div>
+</div>
+
+<div class="step"><span class="no">实验 3</span><b class="t">换主题看差异</b><br>
+<b>操作</b>：<code>node render.mjs sample.md sakuraTheme</code> 和 <code>node render.mjs sample.md darkTheme</code><br>
+<b>目的</b>：验证"主题=配色数据"不是宣传语。<b>实现</b>：同一份 Markdown，不同 Theme 对象进 env。<br>
+<div class="ok">✅ 预期结果（实测）：classic 正文色 <code>#2b2b2b</code>；sakura 背景 <code>#fffafc</code>、高亮条 <code>#ffe0ec</code>（粉）；dark 文字 <code>#c9d4c3</code>、代码 <code>#e6ffe9</code>。三次运行退出码均为 0。</div>
+</div>
+
+<h2 class="sec">知识点地图（入库概念）</h2>
+<div class="qcard">
+  <p><b>本次新入库：</b>[[内联样式与富文本转换]]（微信消毒机制 + markdown-it 规则覆盖 + 剪贴板双格式）｜ [[Tauri桌面应用框架]]（Rust 外壳 + 系统 WebView，对照 Electron）｜ [[本地优先与文件监听]]（草稿即本地文件 + watch 重载 + 不碰工具内部格式）。<br>
+  <b>关联已有：</b>[[子智能体咨询]]（同为包装本机 Claude Code CLI）、[[零依赖编程]]（CompressionStream 自实现 zip）、[[构建流水线与Pass]]（解析/渲染两段式）。</p>
+</div>
+
+<footer>火星编辑器小白指南 · 拾遗任务 1787578235981 · learn-project 流程产出 · 2026-10-02 · 实验数据均来自本机真实运行</footer>
+</body>
+</html>
