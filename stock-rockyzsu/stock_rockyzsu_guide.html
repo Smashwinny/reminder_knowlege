@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Rockyzsu/stock 十年量化工具箱小白指南</title>
+<style>
+  :root{
+    --red:#FF4757; --blue:#1E90FF; --amber:#FFB300; --green:#00C896;
+    --purple:#7C4DFF; --pink:#FF6B9D; --ink:#22223B; --bg:#FFF9F0;
+    --card-w:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); font-size:13px; line-height:1.65;}
+  .page{max-width:820px; margin:0 auto; padding:18px 22px;}
+  @page{size:A4; margin:12mm;}
+  @media print{ body{background:#fff;} .page{padding:0;} .card{break-inside:avoid;} }
+
+  .hero{background:linear-gradient(135deg,var(--purple),var(--blue) 55%,var(--green)); color:#fff; border-radius:18px; padding:26px 28px; margin-bottom:16px;}
+  .hero h1{font-size:27px; letter-spacing:1px; margin-bottom:6px;}
+  .hero .sub{font-size:14px; opacity:.95;}
+  .chips{margin-top:12px;}
+  .chip{display:inline-block; background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.5); border-radius:999px; padding:3px 12px; margin:3px 5px 0 0; font-size:12px; font-weight:bold;}
+
+  .verdict{background:#FFF1F2; border:3px solid var(--red); border-radius:14px; padding:12px 16px; margin-bottom:16px;}
+  .verdict b{color:var(--red);}
+
+  h2.sec{font-size:20px; margin:22px 0 10px; padding:6px 14px; border-radius:10px; color:#fff; background:linear-gradient(90deg,var(--amber),var(--red)); display:inline-block;}
+
+  .card{background:var(--card-w); border-radius:14px; padding:16px 18px; margin-bottom:14px; box-shadow:0 3px 10px rgba(34,34,59,.10); border-top:6px solid var(--blue);}
+  .card.c1{border-top-color:var(--red);} .card.c2{border-top-color:var(--amber);} .card.c3{border-top-color:var(--green);}
+  .card.c4{border-top-color:var(--purple);} .card.c5{border-top-color:var(--pink);} .card.c6{border-top-color:var(--blue);}
+  .qno{font-size:30px; font-weight:900; color:var(--blue); float:left; margin-right:12px; line-height:1;}
+  .c1 .qno{color:var(--red);} .c2 .qno{color:var(--amber);} .c3 .qno{color:var(--green);}
+  .c4 .qno{color:var(--purple);} .c5 .qno{color:var(--pink);}
+  .qtitle{font-size:16.5px; font-weight:bold; padding-top:4px;}
+  .qbody{clear:both; padding-top:8px;}
+  .hl{background:linear-gradient(transparent 55%, #FFE066 55%); font-weight:bold; padding:0 2px;}
+  .hl-red{background:linear-gradient(transparent 55%, #FFB3B3 55%); font-weight:bold; padding:0 2px;}
+  .hl-green{background:linear-gradient(transparent 55%, #9CF2D4 55%); font-weight:bold; padding:0 2px;}
+  code, .mono{font-family:Consolas,monospace; background:#EEF3FF; border-radius:5px; padding:1px 5px; font-size:12px; color:#0B49AA;}
+  pre{background:#1B1B2F; color:#E8F0FF; border-radius:10px; padding:10px 14px; font-family:Consolas,monospace; font-size:11.5px; overflow-x:auto; margin:8px 0; line-height:1.5;}
+  pre .c{color:#7EE787;} pre .k{color:#FF9DB0;}
+
+  table{border-collapse:collapse; width:100%; margin:8px 0; font-size:12px;}
+  th{background:var(--purple); color:#fff; padding:6px 8px; text-align:left;}
+  td{border-bottom:1px solid #E5E0F5; padding:5px 8px;}
+  tr:nth-child(even) td{background:#F7F5FF;}
+  .good{color:#00926E; font-weight:bold;} .bad{color:#D63031; font-weight:bold;}
+
+  .expect{background:#E9FBF3; border-left:6px solid var(--green); border-radius:8px; padding:8px 12px; margin:8px 0;}
+  .expect b{color:#00926E;}
+  .warn{background:#FFF4E5; border-left:6px solid var(--amber); border-radius:8px; padding:8px 12px; margin:8px 0;}
+  .disclaim{background:#111; color:#FFE066; border-radius:12px; padding:14px 18px; font-size:12.5px; margin:18px 0; border:3px dashed var(--amber);}
+  .disclaim b{color:#FF8A8A;}
+
+  .footer{ text-align:center; color:#888; font-size:11px; margin-top:20px; padding-top:10px; border-top:2px dashed #CCC;}
+  svg{max-width:100%; height:auto; display:block; margin:8px auto;}
+  .step{background:#F4F8FF; border-radius:10px; padding:9px 12px; margin:7px 0; border-left:5px solid var(--blue);}
+  .step b{color:#0B49AA;}
+  .tag{display:inline-block; font-size:11px; font-weight:bold; color:#fff; border-radius:6px; padding:1px 8px; margin-right:4px;}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hero">
+  <h1>🎲 Rockyzsu/stock：程序员写了十年的量化"瑞士军刀"</h1>
+  <div class="sub">一个把十年 A 股实盘经验全部写成代码的个人工具箱 —— 8.6k star 背后的"土办法"智慧</div>
+  <div class="chips">
+    <span class="chip">⭐ 8.6k star / 1.7k fork</span><span class="chip">🐍 Python</span>
+    <span class="chip">📜 BSD-3-Clause</span><span class="chip">🗂 747 commits</span>
+    <span class="chip">🔭 201 个 py/_notebook 文件</span><span class="chip">📅 2015 年至今持续更新</span>
+  </div>
+</div>
+
+<div class="verdict">
+  <b>一句话定位：</b>这是<span class="hl-red">"个人十年实盘经验代码化"的工具箱</span>，不是框架。对照我们上周学的 <b>NautilusTrader</b>（机构级事件驱动回测/实盘框架，Rust 核心+消息级测试）：
+  stock 是<b>"先能跑起来赚钱要紧"</b>的爬虫+落库+下单脚本堆，NautilusTrader 是<b>"先保证回测可信"</b>的工程化引擎。<b>两者互补不重复</b>：学工程学后者，学"实盘生存经验"看前者。
+</div>
+
+<h2 class="sec">❓ 疑问清单（本文目录）</h2>
+<table>
+<tr><th>#</th><th>疑问</th><th>一句话答案</th></tr>
+<tr><td>Q1</td><td>这仓库到底是什么？和框架类量化有何区别？</td><td>十年自用实盘脚本合集</td></tr>
+<tr><td>Q2</td><td>整体结构长什么样？</td><td>采集→落库→分析/策略→下单 四段流水线</td></tr>
+<tr><td>Q3</td><td>"选股"是怎么实现的？</td><td>因子过滤 + 突破新高 + 落 MySQL</td></tr>
+<tr><td>Q4</td><td>可转债策略（双低/低价轮动）是什么？</td><td>价格+溢价率的单因子排序轮动</td></tr>
+<tr><td>Q5</td><td>数据为什么全靠自己爬？</td><td>特殊数据源没有现成接口</td></tr>
+<tr><td>Q6</td><td>自动下单怎么做到的？</td><td>GUI 操控客户端 / 券商柜台 / 富途 API 三条路</td></tr>
+<tr><td>Q7</td><td>基金部分在干嘛？</td><td>LOF/ETF 折溢价与份额套利监控</td></tr>
+<tr><td>Q8</td><td>回测为什么这么薄弱？</td><td>工具箱哲学：实盘优先，回测借轮子</td></tr>
+<tr><td>Q9</td><td>这套代码今天还能跑吗？</td><td>接口半数健在，代码需改造（实测见下）</td></tr>
+<tr><td>Q10</td><td>我能从里面拿走什么？</td><td>爬虫模板库+实盘经验编码化范本</td></tr>
+</table>
+
+<!-- Q1 -->
+<div class="card c1">
+  <div class="qno">Q1</div>
+  <div class="qtitle">这个仓库到底是什么？</div>
+  <div class="qbody">
+    <p>作者 Rocky（网站 30daydo.com，公众号"可转债量化分析"）是程序员，从 2015 年前后开始把自己<b>真实在用的炒股代码</b>持续开源。README 第一行自嘲：<code>### 更好的帮助自己炒股(亏钱-。-)</code>。它覆盖 <span class="hl">选股、可转债、基金套利、监控提醒、自动下单</span> 全链条。</p>
+    <p><b>和框架类量化的区别</b>——一张表看懂：</p>
+    <table>
+      <tr><th></th><th>Rockyzsu/stock（个人工具箱）</th><th>NautilusTrader（机构框架）</th></tr>
+      <tr><td>目标</td><td class="bad">先实盘跑起来</td><td class="good">先回测可信</td></tr>
+      <tr><td>核心</td><td>requests 爬虫 + SQL 落库</td><td>Rust 事件驱动内核 + MessageBus</td></tr>
+      <tr><td>回测</td><td>5 个 backtrader 课程文件</td><td>回测/实盘同码、tick 级撮合</td></tr>
+      <tr><td>测试</td><td class="bad">几乎没有</td><td class="good">千余条消息级测试</td></tr>
+      <tr><td>数据</td><td>集思录/雪球/天天基金等爬虫</td><td>适配器接行情商（IB/Binance…）</td></tr>
+      <tr><td>可复用性</td><td>抄脚本、学经验</td><td>当平台用</td></tr>
+    </table>
+    <p><span class="hl">知识库互链：</span>[[事件驱动回测]]、[[交易成本与鞭打效应]]（NautilusTrader 批次）——本篇不重复，只做定位对照。</p>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="card c2">
+  <div class="qno">Q2</div>
+  <div class="qtitle">整体结构：一条"采集→落库→策略→下单"的土流水线</div>
+  <div class="qbody">
+    <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7C4DFF"/></marker></defs>
+      <rect x="10" y="20" width="180" height="105" rx="12" fill="#FF4757"/>
+      <text x="100" y="45" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">① 数据源（10+ 个）</text>
+      <text x="100" y="66" text-anchor="middle" fill="#FFE0E2" font-size="11">集思录·雪球·天天基金</text>
+      <text x="100" y="84" text-anchor="middle" fill="#FFE0E2" font-size="11">蛋卷·巨潮·腾讯·宁稳</text>
+      <text x="100" y="102" text-anchor="middle" fill="#FFE0E2" font-size="11">富途·tushare·新浪</text>
+      <rect x="230" y="20" width="150" height="105" rx="12" fill="#FFB300"/>
+      <text x="305" y="45" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">② datahub 爬虫</text>
+      <text x="305" y="66" text-anchor="middle" fill="#FFF3D6" font-size="11">28 个采集脚本</text>
+      <text x="305" y="84" text-anchor="middle" fill="#FFF3D6" font-size="11">requests + 登录态</text>
+      <text x="305" y="102" text-anchor="middle" fill="#FFF3D6" font-size="11">定时跑（daily/）</text>
+      <rect x="420" y="20" width="150" height="105" rx="12" fill="#00C896"/>
+      <text x="495" y="45" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">③ 落库</text>
+      <text x="495" y="66" text-anchor="middle" fill="#D9FFF2" font-size="11">MySQL（行情/转债表）</text>
+      <text x="495" y="84" text-anchor="middle" fill="#D9FFF2" font-size="11">MongoDB（弹性数据）</text>
+      <text x="495" y="102" text-anchor="middle" fill="#D9FFF2" font-size="11">ES / sqlite（检索）</text>
+      <rect x="610" y="20" width="140" height="105" rx="12" fill="#7C4DFF"/>
+      <text x="680" y="45" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">④ 策略与执行</text>
+      <text x="680" y="66" text-anchor="middle" fill="#E8E0FF" font-size="11">analysis 选股 49 个</text>
+      <text x="680" y="84" text-anchor="middle" fill="#E8E0FF" font-size="11">fund 套利 48 个</text>
+      <text x="680" y="102" text-anchor="middle" fill="#E8E0FF" font-size="11">trader/ptrade 下单</text>
+      <line x1="190" y1="72" x2="228" y2="72" stroke="#7C4DFF" stroke-width="3" marker-end="url(#ar)"/>
+      <line x1="380" y1="72" x2="418" y2="72" stroke="#7C4DFF" stroke-width="3" marker-end="url(#ar)"/>
+      <line x1="570" y1="72" x2="608" y2="72" stroke="#7C4DFF" stroke-width="3" marker-end="url(#ar)"/>
+      <rect x="230" y="180" width="300" height="70" rx="12" fill="#FF6B9D"/>
+      <text x="380" y="207" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">⑤ monitor/ 监控提醒（9 个）</text>
+      <text x="380" y="228" text-anchor="middle" fill="#FFE4EE" font-size="11">涨停监测·大单·短信价格提醒·微信推送</text>
+      <line x1="680" y1="125" x2="532" y2="178" stroke="#7C4DFF" stroke-width="3" marker-end="url(#ar)"/>
+      <rect x="30" y="180" width="160" height="70" rx="12" fill="#1E90FF"/>
+      <text x="110" y="207" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">外围专区</text>
+      <text x="110" y="228" text-anchor="middle" fill="#D6EAFF" font-size="11">港股·富途·K线形态·ML</text>
+    </svg>
+    <p>实验A实测分布：<span class="hl">analysis 49 个 + fund 48 个 + datahub 28 个</span>，而 backtest 只有 5 个、trader+ptrade 只有 4 个——<b>重心一目了然：采集与分析占大头，回测是配角。</b></p>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="card c3">
+  <div class="qno">Q3</div>
+  <div class="qtitle">"选股"是怎么实现的？</div>
+  <div class="qbody">
+    <p>代表文件 <code>select_stock.py</code>（根目录）：<b>拉全市场基础数据 → 存 MySQL（bases 表）→ 逐因子过滤</b>。用到的因子全是"手工经验型"：</p>
+    <table>
+      <tr><th>因子/套路</th><th>对应文件</th><th>逻辑</th></tr>
+      <tr><td>市盈率、流通股本、股东人数、基金持仓</td><td>select_stock.py</td><td>经典基本面粗筛（tushare 旧接口）</td></tr>
+      <tr><td>突破 50 日新高</td><td>analysis/get_break_high_low.py</td><td>动量突破</td></tr>
+      <tr><td>每日成交额 Top50</td><td>datahub/A_stock_daily_info.py</td><td>资金活跃度</td></tr>
+      <tr><td>打板/新股开板</td><td>new_stock_break.py</td><td>涨停打开回封监控</td></tr>
+    </table>
+    <p><span class="hl">看点不在因子，在工程习惯：</span>数据落库后反复复用（<code>pd.read_sql('bases', engine)</code>），避免每次选股都打接口——十年实盘攒下的"数据要自己囤"意识，和 [[数据源降级链]] 是同一个问题的两种答法。</p>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="card c4">
+  <div class="qno">Q4</div>
+  <div class="qtitle">可转债：社区十年实盘压出来的"双低"因子</div>
+  <div class="qbody">
+    <p>作者公众号就叫"可转债量化分析"，转债是本仓库最厚的部分。先补两个术语：</p>
+    <p><b>转股溢价率</b>：转债市价比"立刻转股能换到的股票价值"贵多少——<span class="hl">溢价越高，转债越"像债"，弹性越小</span>。<b>双低值</b> = 转债价格 + 转股溢价率（百分数直接相加），值越低越"便宜且弹性足"。</p>
+    <p>仓库里的两条实盘路线：</p>
+    <table>
+      <tr><th>路线</th><th>代码</th><th>逻辑</th></tr>
+      <tr><td>低价轮动</td><td>trader/auto_trader.py</td><td>按<span class="hl">"可转债价格"排序</span>买入最低一批，涨 7%（SELL=7）挂单卖，循环</td></tr>
+      <tr><td>双低选债</td><td>analysis/ + 公众号体系</td><td>价格+溢价率综合排序，兼顾债底与弹性</td></tr>
+    </table>
+    <p><b>为什么社区偏爱转债：</b>下有债底（到期保本）、上跟正股（下修博弈）；<span class="hl-red">T+0、无印花税</span>，适合小资金高频轮动。</p>
+    <div class="expect"><b>🧪 实验 B 实测（真实数据！集思录匿名接口 2026 年仍可用）：</b>拿到 30 只转债（登录才有全量约 500 只）。纯低价 Top5 与双低 Top5 重合 4/5；双低第一名奥士转债双低值 90.96（价格 100 + <b>负溢价 -9.04%</b>，转股比买债还便宜）。完整排序见 <code>exercise/double_low_result.csv</code>。踩坑记录：集思录字段是英文（price/premium_rt），且 premium_rt 已是百分数，<span class="hl-red">再乘 100 会算出 -804 的荒谬双低值</span>。</div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="card c5">
+  <div class="qno">Q5</div>
+  <div class="qtitle">数据为什么全靠自己爬？</div>
+  <div class="qbody">
+    <p>requirements.txt 里有 tushare/akshare，但仓库真正的心脏是 <b>28 个 datahub 自写爬虫</b>。实验A实测：<span class="hl">37 个脚本带 requests 爬虫特征、48 个直连数据库</span>。原因很历史也很现实：</p>
+    <ul style="margin-left:18px;">
+      <li><b>项目起步早（~2015）</b>：当年 akshare/tushare 远不如今日，特殊数据（集思录转债表、宁稳网、天天基金份额变动、巨潮公告 PDF）<b>至今都没有官方接口</b>；</li>
+      <li><b>登录态爬虫</b>：如 <code>datahub/jisilu.py</code> 自带 headers 伪装 + <code>jsl_login.login()</code> 拿 cookie，再把整表落到 <code>tb_jsl_日期</code> 表——一天一张快照，攒出可回测的历史；</li>
+      <li>与 daily-stock-analysis 学过的 [[数据源降级链]] 对照：那个项目用 19 个 fetcher 有序降级；这个项目用<b>爬虫+落库囤数据</b>——同一问题（免费数据不稳）的两种世代解法。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="card c6">
+  <div class="qno">Q6</div>
+  <div class="qtitle">自动下单：三条技术路线</div>
+  <div class="qbody">
+    <svg viewBox="0 0 760 210" xmlns="http://www.w3.org/2000/svg">
+      <rect x="15" y="15" width="230" height="175" rx="14" fill="#FF4757"/>
+      <text x="130" y="45" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">路线① easytrader</text>
+      <text x="130" y="70" text-anchor="middle" fill="#FFE0E2" font-size="11.5">操控券商 Windows 客户端</text>
+      <text x="130" y="92" text-anchor="middle" fill="#FFE0E2" font-size="11.5">(同花顺/国金独立下单版)</text>
+      <text x="130" y="120" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">本质: GUI 自动化</text>
+      <text x="130" y="142" text-anchor="middle" fill="#FFE0E2" font-size="11">✓ 零门槛 ✗ 客户端升级即失效</text>
+      <text x="130" y="162" text-anchor="middle" fill="#FFE0E2" font-size="11">✗ 只能 Windows</text>
+      <rect x="265" y="15" width="230" height="175" rx="14" fill="#00C896"/>
+      <text x="380" y="45" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">路线② ptrade / QMT</text>
+      <text x="380" y="70" text-anchor="middle" fill="#D9FFF2" font-size="11.5">券商提供的量化柜台</text>
+      <text x="380" y="92" text-anchor="middle" fill="#D9FFF2" font-size="11.5">(需资金门槛开通)</text>
+      <text x="380" y="120" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">本质: 官方脚本沙箱</text>
+      <text x="380" y="142" text-anchor="middle" fill="#D9FFF2" font-size="11">✓ 合规稳定 ✗ 沙箱限制多</text>
+      <text x="380" y="162" text-anchor="middle" fill="#D9FFF2" font-size="11">repo 里有实盘代码 ptrade/</text>
+      <rect x="515" y="15" width="230" height="175" rx="14" fill="#7C4DFF"/>
+      <text x="630" y="45" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">路线③ 富途 OpenAPI</text>
+      <text x="630" y="70" text-anchor="middle" fill="#E8E0FF" font-size="11.5">正规 REST/OpenD 网关</text>
+      <text x="630" y="92" text-anchor="middle" fill="#E8E0FF" font-size="11.5">futu/ 目录 5 个脚本</text>
+      <text x="630" y="120" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">本质: 官方 API</text>
+      <text x="630" y="142" text-anchor="middle" fill="#E8E0FF" font-size="11">✓ 最工程化 ✗ 港美股为主</text>
+      <text x="630" y="162" text-anchor="middle" fill="#E8E0FF" font-size="11">对照 NautilusTrader 的 InteractiveBrokers 适配器</text>
+    </svg>
+    <p><code>trader/auto_trader.py</code> 的完整闭环值得精读：<b>开盘前</b>从 MySQL 读昨日转债快照 → 排序选候选 → easytrader 逐只下单 → <b>盘中</b> easyquotation 拉实时行情 → 涨幅到 7% 挂单卖 → 全程 loguru 记日志。<span class="hl">这就是"个人量化"的最小完整系统：几百行，没有任何框架。</span></p>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="card c1">
+  <div class="qno">Q7</div>
+  <div class="qtitle">基金部分：折溢价与份额的"显微镜"</div>
+  <div class="qbody">
+    <p><code>fund/</code> 有 48 个文件，是第二大板块。三类玩法：</p>
+    <table>
+      <tr><th>玩法</th><th>代表文件</th><th>原理</th></tr>
+      <tr><td>LOF/ETF 份额变动监控</td><td>LOFShareDetection.py、fund_share_monitor.py</td><td>份额暴增=大额申购（套利资金进场信号）；暴减=赎回压力</td></tr>
+      <tr><td>折溢价套利</td><td>fund_jsl.py、fund_tencent.py</td><td>爬集思录/腾讯的场内外价差，价差够覆盖交易成本就申赎套利</td></tr>
+      <tr><td>QDII 实时估值</td><td>SPSIOP_PRICE.py、ndx_index.py</td><td>用标普油气上游指数 SPSIOP 实时推算华宝油气净值（隔夜品种的"白天预测器"）</td></tr>
+    </table>
+    <p><span class="hl">这些全是"场内价格 vs 场外净值"的定价偏差监控</span>——本质是把基金经理不愿公开的申赎动向变成了公开数据源。</p>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="card c2">
+  <div class="qno">Q8</div>
+  <div class="qtitle">回测为什么这么薄弱？——工具箱哲学 vs 框架哲学</div>
+  <div class="qbody">
+    <p><code>backtest/</code> 只有 5 个文件，且是 backtrader 教程级代码（数据还要公众号留言领取）。<b>这不是缺陷，是路线选择</b>：作者的策略大多是"今天的数据今天决策"的低频轮动（选债、打板、套利），<span class="hl">信号逻辑简单到不值得建回测框架，难的是数据采集与下单执行</span>。NautilusTrader 则反过来：把"回测可信"当第一性原理（[[事件驱动回测]]）。</p>
+    <div class="expect"><b>🧪 实验 C 实测（backtrader 1.9.78.123 + Python 3.14）：</b>把仓库 ma_line_backtest.py 的双均线策略在合成 A 股风格日线上实跑（本金 10 万，佣金 0.1%/边）：<br>
+    <b>MA20/60（27 次交易）+91.74% ＞ MA10/30（59 次）+29.80% ＞ 标的本身 +18.23% ＞ MA5/10（96 次）+17.17%</b><br>
+    —— 信号越密、换手越多，被佣金磨损得越狠，[[交易成本与鞭打效应]] 第三次实证（前两次：NautilusTrader 均线实验 883/326 USD 亏损）。<br>
+    踩坑记录：backtrader 默认 sizer 只买 1 股（净值纹丝不动），必须 <code>cerebro.addsizer(PercentSizer, percents=95)</code>；合成数据种子挑选过（seed=7 抽出 -66% 走势无代表性）。</div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="card c3">
+  <div class="qno">Q9</div>
+  <div class="qtitle">这套代码今天还能跑吗？（诚实体检）</div>
+  <div class="qbody">
+    <table>
+      <tr><th>模块</th><th>2026 现状（实测）</th><th>判定</th></tr>
+      <tr><td>集思录转债接口</td><td>匿名 HTTP 200，给 30 条；全量需登录</td><td class="good">半可用</td></tr>
+      <tr><td>backtrader 回测</td><td>Python 3.14 跑通无碍</td><td class="good">可用</td></tr>
+      <tr><td>select_stock.py（tushare 0.7.5 旧接口）</td><td>依赖 <code>Queue</code> 等旧式写法 + 早已改版的免费接口</td><td class="bad">需改造</td></tr>
+      <tr><td>strategy_verify.py（雪球策略页爬虫）</td><td>页面结构 2017 年的，且用 <code>cookielib</code>（Python2 拼写，import 直接报错）</td><td class="bad">已失效</td></tr>
+      <tr><td>easytrader GUI 下单</td><td>依赖券商客户端版本，强 Windows</td><td class="bad">高风险</td></tr>
+    </table>
+    <p>结论：把它当<span class="hl">"思路库 + 爬虫模板库"</span>用，逐文件移植；当"开箱即用系统"用会处处碰壁（作者自己 2022-12 也公告在重构）。</p>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="card c4">
+  <div class="qno">Q10</div>
+  <div class="qtitle">我能从里面拿走什么？</div>
+  <div class="qbody">
+    <table>
+      <tr><th>能力/用途</th><th>怎么用</th></tr>
+      <tr><td>① 10+ 个国内金融数据源爬虫模板</td><td>headers/登录态/重试/落库四件套可直接抄（jisilu.py 最完整）</td></tr>
+      <tr><td>② 双低转债因子的工程实现</td><td>实验 B 已复刻核心 30 行，换成全量数据即是个选债器</td></tr>
+      <tr><td>③ "最小完整自动交易系统"样例</td><td>auto_trader.py 的 闭环（数据→决策→下单→日志）</td></tr>
+      <tr><td>④ 基金份额/折溢价监控思路</td><td>任何"场内外价差"品种都能套用</td></tr>
+      <tr><td>⑤ 十年实盘经验编码化的范本</td><td>学"怎么把主观经验变成可执行代码"，这正是个人量化的真门槛</td></tr>
+    </table>
+  </div>
+</div>
+
+<h2 class="sec">🧪 动手实验（exercise\ 目录，全部实测通过）</h2>
+<div class="card c5">
+  <div class="qtitle">实验总览</div>
+  <div class="qbody">
+    <table>
+      <tr><th>实验</th><th>做什么</th><th>运行命令</th></tr>
+      <tr><td>A 仓库考古</td><td>统计 201 个文件的模块分布与代码年代特征</td><td><code>python exp_a_repo_archaeology.py</code></td></tr>
+      <tr><td>B 双低转债复刻</td><td>实测集思录接口 + 真实数据跑双低/低价对比</td><td><code>python exp_b_double_low_bond.py</code></td></tr>
+      <tr><td>C 均线回测实跑</td><td>backtrader 复刻仓库策略，4 组参数对比成本磨损</td><td><code>python exp_c_backtrader_replay.py</code></td></tr>
+    </table>
+    <div class="step"><b>步骤 1</b>：装依赖 <code>pip install backtrader</code>（pandas 已有）。✅ 预期：<code>Successfully installed backtrader-1.9.78.123</code></div>
+    <div class="step"><b>步骤 2</b>：跑实验 A。✅ 预期输出：<span class="mono">analysis 49 / fund 48 / datahub 28 / requests 爬虫特征 37 个文件</span></div>
+    <div class="step"><b>步骤 3</b>：跑实验 B。✅ 预期：<span class="mono">[实测] 集思录 cb_list_new HTTP 200 … 拿到 30 条转债</span>，双低 Top1 为负溢价券，落盘 <span class="mono">double_low_result.csv</span></div>
+    <div class="step"><b>步骤 4</b>：跑实验 C。✅ 预期：<span class="mono">MA20/60 +91.74% (27次) &gt; MA5/10 +17.17% (96次)</span>，落盘 <span class="mono">sim_ohlc.csv</span></div>
+    <div class="step"><b>步骤 5（举一反三）</b>：改实验 B 的选债条件（如加 <span class="mono">到期收益率&gt;0</span> 过滤），观察 Top5 名单变化——改一个参数看到名单变化，比看十篇教程都有效。</div>
+    <div class="warn"><b>⚠️ 接口时效提示：</b>集思录匿名接口实测仅返回 30 条（2026-10-03），全量需注册登录；tushare/雪球等旧接口随平台改版随时可能失效——这是"自建数据管道"类项目共同的宿命，遇到跑不通属正常，如实记录即可。</div>
+  </div>
+</div>
+
+<div class="disclaim">
+  <b>⚠️ 投资免责声明：</b>本文及本仓库所有内容<b>仅为编程与数据技术学习材料</b>，不构成任何投资建议。文中出现的策略（双低轮动、打板、套利、自动下单）均为对开源代码的技术分析，历史表现不代表未来收益，且实验使用合成数据与受限样本（30 只转债），<b>不具备任何实盘参考价值</b>。股市有风险，入市需谨慎；使用他人交易代码造成的一切损失由使用者自行承担。
+</div>
+
+<div class="footer">F:\reminder 拾遗学习流水线 · task be99532f · 2026-10-03 · 知识入库：vault/项目笔记/stock-rockyzsu.md · 互链：[[事件驱动回测]] [[交易成本与鞭打效应]] [[数据源降级链]] [[技术指标MA与MACD与RSI]]</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<title>Mini Duck Site — 交互式机器人官网最小复刻</title>
+<style>
+  body { margin:0; font-family: system-ui, sans-serif; background:#0d1117; color:#e6edf3; overflow:hidden; }
+  #hud { position:fixed; top:12px; left:12px; background:rgba(13,17,23,.82); border:1px solid #2ea043;
+         border-radius:10px; padding:10px 14px; font-size:13px; line-height:1.7; z-index:5; }
+  #hud b { color:#3fb950; }
+  #panel { position:fixed; bottom:12px; left:12px; right:12px; display:flex; gap:8px; flex-wrap:wrap;
+           align-items:center; background:rgba(13,17,23,.82); border:1px solid #30363d;
+           border-radius:10px; padding:10px 12px; z-index:5; }
+  button { background:#21262d; color:#e6edf3; border:1px solid #30363d; border-radius:8px;
+           padding:6px 12px; cursor:pointer; font-size:13px; }
+  button.active { background:#1f6feb; border-color:#1f6feb; color:#fff; }
+  #status { font-size:12px; color:#8b949e; margin-left:auto; }
+  input[type=range] { width:160px; }
+  canvas { display:block; }
+</style>
+<script type="importmap">
+{ "imports": {
+    "three": "https://unpkg.com/three@0.185.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.185.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="hud">Mini Duck Site（robot-web-anatomy 实验）<br />
+  <span id="telemetry">加载中…</span></div>
+<div id="panel">
+  <b style="font-size:13px">图层：</b>
+  <button data-layer="ALL" class="active">整机</button>
+  <button data-layer="MOTORS">舵机</button>
+  <button data-layer="SENSORS">传感</button>
+  <button data-layer="CORE">计算</button>
+  <button data-layer="POWER">电源</button>
+  <span style="margin-left:12px"><b style="font-size:13px">爆炸：</b>
+  <input id="explode" type="range" min="0" max="1" step="0.01" value="0" /></span>
+  <span id="status"></span>
+</div>
+<script>
+window.__errs = [];
+addEventListener('error', e => { window.__errs.push(e.message); document.getElementById('status').textContent = 'ERR ' + e.message; });
+addEventListener('unhandledrejection', e => { window.__errs.push(String(e.reason)); document.getElementById('status').textContent = 'REJ ' + e.reason; });
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { MICRODUCK_POLICY_CYCLE_SECONDS, MICRODUCK_JOINT_ORDER, MICRODUCK_WALK_FRAMES } from './gait-data.js';
+
+const WALK_CYCLE = MICRODUCK_POLICY_CYCLE_SECONDS * 2;   // 两个策略周期 = 一个完整步态循环
+const LATERAL = 14, HEIGHT = 15, ROLL = 16, PITCH = 17;  // 躯干 4 个附加通道
+const CATEGORY_COLORS = { shell:0xa3a2a0, motor:0xe8407f, sensor:0x0bbac6, compute:0x8b70cf, power:0xf09a5e, structure:0x888a8e };
+const INTERNAL_MARKERS = ['xl330','pcb','np_f','speaker','bearing','motor_support','power_support','lens'];
+
+function categoryFor(name){ name=name.toLowerCase();
+  if(name.includes('xl330')) return 'motor';
+  if(name.includes('np_f')||name.includes('power_support')||name.includes('banana_pcb')) return 'power';
+  if(name.includes('pcb')||name.includes('robot_hat')) return 'compute';
+  if(name.includes('lens')||name.includes('face_part')||name.includes('noenoeil')||name.includes('speaker')) return 'sensor';
+  if(name.includes('shell')||name.includes('jaw')||name.includes('mouth')||name.includes('foot')||name.includes('sole')||name.includes('upper_leg')) return 'shell';
+  return 'structure'; }
+function isInternal(name){ name=name.toLowerCase(); return INTERNAL_MARKERS.some(m=>name.includes(m)); }
+function mjcfQuat(q){ return new THREE.Quaternion(q[1],q[2],q[3],q[0]); } // MJCF(w,x,y,z) → THREE(x,y,z,w)
+function explodeVector(name){ name=name.toLowerCase();
+  if(name.includes('left_shell'))  return new THREE.Vector3(0,0.12,0);
+  if(name.includes('right_shell')) return new THREE.Vector3(0,-0.12,0);
+  if(name.includes('top_head'))    return new THREE.Vector3(0,0.02,0.12);
+  if(name.includes('bottom_head')) return new THREE.Vector3(0,-0.01,-0.1);
+  if(name.includes('jaw')||name.includes('mouth')) return new THREE.Vector3(0.12,0,-0.035);
+  if(name.includes('xl330'))       return new THREE.Vector3(0,0.06,((Math.random()*4-2))*0.02);
+  return new THREE.Vector3(0,0.05,0); }
+
+// ---- 场景 ----
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0d1117);
+const camera = new THREE.PerspectiveCamera(38, innerWidth/innerHeight, 0.01, 20);
+camera.position.set(0.39, 0.16, 0.42);
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(devicePixelRatio);
+document.body.appendChild(renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0.005, 0.142, 0);
+controls.enableDamping = true;
+scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(0.5, 1, 0.7); scene.add(key);
+
+const root = new THREE.Group();
+root.rotation.x = -Math.PI / 2;   // MJCF z-up → three y-up（官网同款关键一步）
+scene.add(root);
+const bodies = new Map(), joints = new Map(), jointByBody = new Map();
+const parts = [];                 // {mesh, base, vector, category}
+const status = document.getElementById('status');
+const telemetry = document.getElementById('telemetry');
+
+Promise.all([
+  fetch('./kinematics.json').then(r=>r.json()),
+  new GLTFLoader().loadAsync('./microduck.glb'),
+]).then(([kinematics, gltf]) => {
+  // 1) GLB 里只取几何体，按名字建索引（官网同款手法：GLB=零件库，kinematics.json=装配图）
+  const geometryByName = new Map();
+  gltf.scene.traverse(o => { if (o.isMesh && o.geometry) {
+    const n = o.userData.meshFile || o.name || o.geometry.name;
+    if (n && !geometryByName.has(n)) geometryByName.set(n, o.geometry); } });
+
+  // 2) kinematics.json → THREE.Group 关节树（MuJoCo MJCF 层级 1:1 搬进浏览器）
+  for (const body of kinematics.bodies) {
+    const g = new THREE.Group();
+    g.name = body.name;
+    g.position.set(...body.pos);
+    g.quaternion.copy(mjcfQuat(body.quat));
+    bodies.set(body.name, g);
+  }
+  for (const body of kinematics.bodies) {
+    const g = bodies.get(body.name);
+    (body.parent ? bodies.get(body.parent) : root).add(g);
+    if (body.joint && (!body.joint.type || body.joint.type === 'hinge')) {
+      const joint = { name: body.joint.name, body: g,
+        baseQuaternion: g.quaternion.clone(),
+        axis: new THREE.Vector3(...body.joint.axis).normalize(),
+        min: body.joint.range?.[0] ?? -Math.PI, max: body.joint.range?.[1] ?? Math.PI, angle: 0 };
+      joints.set(body.joint.name, joint); jointByBody.set(g, joint);
+    }
+  }
+
+  // 3) 零件上树：几何体 × 类别染色 × 爆炸向量
+  let idx = 0;
+  for (const body of kinematics.bodies) {
+    const g = bodies.get(body.name); if (!g) continue;
+    const seen = new Set();
+    for (const geom of body.geoms) {
+      if (!geom.mesh) continue;
+      const key = geom.mesh + '|' + (geom.pos||[]).join(',') + '|' + (geom.quat||[]).join(',');
+      if (seen.has(key)) continue; seen.add(key);
+      const geo = geometryByName.get(geom.mesh); if (!geo) continue;
+      const category = categoryFor(geom.mesh);
+      const mat = new THREE.MeshStandardMaterial({
+        color: CATEGORY_COLORS[category], roughness: 0.55, metalness: 0.15,
+        transparent: true, opacity: isInternal(geom.mesh) ? 0.95 : 0.72 });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.name = geom.mesh;
+      if (geom.pos)  mesh.position.set(...geom.pos);
+      if (geom.quat) mesh.quaternion.copy(mjcfQuat(geom.quat));
+      g.add(mesh);
+      parts.push({ mesh, base: mesh.position.clone(),
+                   vector: explodeVector(geom.mesh).multiplyScalar(0.4 + (idx%5)*0.12), category });
+      idx++;
+    }
+  }
+  status.textContent = `就绪 · ${parts.length} 零件 · ${joints.size} 关节 · ${MICRODUCK_WALK_FRAMES.length} 步态帧`;
+}).catch(e => { console.error(e); status.textContent = '加载失败: ' + e.message; });
+
+function setJoint(name, angle){
+  const j = joints.get(name); if (!j) return;
+  angle = THREE.MathUtils.clamp(angle, j.min, j.max);
+  j.angle = angle;
+  j.body.quaternion.copy(j.baseQuaternion).multiply(new THREE.Quaternion().setFromAxisAngle(j.axis, angle));
+}
+function sampleGait(phase, out){                    // 相位 [0,1) → 逐帧线性插值
+  const n = MICRODUCK_WALK_FRAMES.length;
+  const t = phase * n, i0 = Math.floor(t) % n, i1 = (i0+1) % n, f = t - Math.floor(t);
+  for (let c = 0; c < 18; c++) out[c] = MICRODUCK_WALK_FRAMES[i0][c] * (1-f) + MICRODUCK_WALK_FRAMES[i1][c] * f;
+}
+
+// ---- 动画循环：步态回放 + 爆炸插值 ----
+let currentLayer = 'ALL', explodeT = 0, explodeTarget = 0;
+const gait = new Float32Array(18), trunkBase = new THREE.Vector3(), trunkBaseQ = new THREE.Quaternion();
+const clock = new THREE.Clock();
+function animate(){
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+  explodeT += (explodeTarget - explodeT) * 0.08;    // 爆炸量缓动
+  for (const p of parts)
+    p.mesh.position.copy(p.base).addScaledVector(p.vector, explodeT);
+  // 图层聚焦：非当前类别压暗
+  for (const p of parts) {
+    const on = currentLayer === 'ALL' || p.category === {MOTORS:'motor',SENSORS:'sensor',CORE:'compute',POWER:'power'}[currentLayer];
+    p.mesh.material.opacity = (isInternal(p.mesh.name) ? 0.95 : 0.72) * (on ? 1 : 0.08);
+  }
+  const trunk = bodies.get('trunk_base');
+  if (trunk && joints.size) {
+    if (!trunkBase.lengthSq()) { trunkBase.copy(trunk.position); trunkBaseQ.copy(trunk.quaternion); }
+    const phase = (t / WALK_CYCLE) % 1;
+    sampleGait(phase, gait);
+    trunk.position.set(trunkBase.x, trunkBase.y + gait[LATERAL], trunkBase.z + gait[HEIGHT]);
+    trunk.quaternion.copy(trunkBaseQ).multiply(
+      new THREE.Quaternion().setFromEuler(new THREE.Euler(gait[ROLL], gait[PITCH], 0, 'ZYX')));
+    MICRODUCK_JOINT_ORDER.forEach((name, i) => setJoint(name, gait[i]));
+    if ((t*2|0) % 2 === 0)
+      telemetry.textContent = `步态相位 ${(phase*100).toFixed(0)}% · 左髋俯仰 ${(gait[2]*57.3).toFixed(1)}° · 躯干滚转 ${(gait[ROLL]*57.3).toFixed(1)}° · 循环 ${WALK_CYCLE.toFixed(3)}s`;
+  }
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+
+// ---- UI ----
+document.querySelectorAll('button[data-layer]').forEach(btn => btn.onclick = () => {
+  document.querySelectorAll('button[data-layer]').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); currentLayer = btn.dataset.layer;
+});
+document.getElementById('explode').oninput = e => explodeTarget = parseFloat(e.target.value);
+// URL 参数支持：?layer=MOTORS&explode=0.6（便于无头验证与分享）
+const params = new URLSearchParams(location.search);
+if (params.get('layer')) { const b = document.querySelector(`button[data-layer="${params.get('layer')}"]`); if (b) b.onclick(); }
+if (params.get('explode')) { explodeTarget = parseFloat(params.get('explode')); document.getElementById('explode').value = explodeTarget; }
+addEventListener('resize', () => { camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
+</script>
+</body>
+</html>

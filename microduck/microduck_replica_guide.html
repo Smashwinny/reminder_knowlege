@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Microduck DIY 复刻教程补充篇</title>
+<style>
+:root{
+  --red:#E63946; --orange:#FF8C1A; --yellow:#FFD60A; --green:#06D6A0;
+  --blue:#118AB2; --purple:#7B2CBF; --pink:#FF4D9D; --ink:#1B1B1F;
+  --card-border:#FFB703;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:var(--ink);background:#FFFDF5;font-size:14px;line-height:1.65}
+@page{size:A4;margin:12mm}
+.card{break-inside:avoid;border-radius:16px;padding:18px 22px;margin:14px 0;border:3px solid var(--card-border);background:#fff;box-shadow:4px 4px 0 rgba(230,57,70,.15)}
+.hero{background:linear-gradient(135deg,#FF4D6D 0%,#FF8C1A 55%,#FFD60A 100%);color:#fff;border:none;padding:30px 28px;text-align:center}
+.hero h1{font-size:30px;letter-spacing:1px;text-shadow:1px 2px 0 rgba(0,0,0,.25)}
+.hero p{font-size:14px;margin-top:8px;opacity:.95}
+.qnum{display:inline-block;background:var(--red);color:#fff;font-size:26px;font-weight:900;border-radius:12px;padding:2px 16px;margin-right:10px;vertical-align:middle}
+.qtitle{font-size:20px;font-weight:900;display:inline-block;vertical-align:middle}
+.tag{display:inline-block;font-size:11px;font-weight:700;color:#fff;border-radius:999px;padding:2px 12px;margin-left:8px;vertical-align:middle}
+.hl{background:linear-gradient(transparent 55%,#FFD60A 55%);font-weight:900;padding:0 2px}
+.hl2{background:linear-gradient(transparent 55%,#06D6A0 55%);font-weight:900;padding:0 2px}
+code,.cmd{font-family:Consolas,monospace;background:#1B1B1F;color:#7CFC9B;border-radius:6px;padding:1px 6px;font-size:12.5px}
+.cmd{display:block;padding:10px 14px;margin:8px 0;white-space:pre-wrap;color:#EAF6FF}
+.warn{background:#FFF0F0;border-left:8px solid var(--red);border-radius:8px;padding:10px 14px;margin:10px 0;font-weight:700}
+.good{background:#EDFFF8;border-left:8px solid var(--green);border-radius:8px;padding:10px 14px;margin:10px 0;font-weight:700}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13px}
+th{background:var(--blue);color:#fff;padding:6px 8px}
+td{border:1.5px solid #CDE3EC;padding:5px 8px}
+tr:nth-child(even) td{background:#F2FAFD}
+.step{display:flex;gap:12px;margin:10px 0;align-items:flex-start}
+.stepnum{flex:0 0 34px;height:34px;background:var(--purple);color:#fff;border-radius:50%;font-size:17px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.figure{margin:12px auto;text-align:center}
+.figure svg{max-width:100%;height:auto}
+figcaption,.cap{font-size:12px;color:#555;margin-top:4px}
+.pass{color:#0B9E6E;font-weight:900}
+h2{font-size:15px;color:var(--blue);margin:12px 0 4px;border-bottom:2px dashed var(--blue);display:inline-block}
+.small{font-size:12px;color:#555}
+.cols{display:flex;gap:14px}.cols>div{flex:1}
+@media print{.card{box-shadow:none}}
+</style>
+</head>
+<body>
+
+<div class="card hero">
+  <h1>🦆 Microduck DIY 复刻教程补充篇</h1>
+  <p>来源：yishan(@tspy) X 长文《如何从零 DIY 复刻一只可爱的 Microduck》（15 章，2026-09-02）<br>
+  同项目第三篇（小白指南 → 硬件拆解 → <b>复刻教程</b>）｜拾遗 task f3ccf5fa<br>
+  本篇实验：<code>exercise/contract_check.py</code> 解析两个官方仓库真实源码交叉对拍 <span style="background:#fff;color:#0B9E6E;font-weight:900;border-radius:8px;padding:1px 10px">27/27 PASS</span></p>
+</div>
+
+<div class="card" style="border-color:#7B2CBF">
+  <span class="qnum" style="background:#7B2CBF">0</span><span class="qtitle">复刻一只机器鸭，到底要做哪四件事？</span><span class="tag" style="background:#7B2CBF">路线图</span>
+  <p style="margin-top:8px">文章的核心论断：<span class="hl">复刻不是"把零件装起来"，而是让真机与训练环境共享同一份契约</span>。四件事缺一不可：</p>
+  <div class="figure"><svg viewBox="0 0 760 150" width="760">
+    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1B1B1F"/></marker></defs>
+    <g font-size="13" font-weight="700" text-anchor="middle">
+      <rect x="10" y="35" width="160" height="70" rx="14" fill="#FF4D6D"/><text x="90" y="62" fill="#fff">① 机械重建</text><text x="90" y="84" fill="#fff" font-size="11" font-weight="400">CAD 与 MJCF 逐关节对齐</text>
+      <rect x="205" y="35" width="160" height="70" rx="14" fill="#FF8C1A"/><text x="285" y="62" fill="#fff">② 电气搭建</text><text x="285" y="84" fill="#fff" font-size="11" font-weight="400">15 舵机+IMU 一根菊花链</text>
+      <rect x="400" y="35" width="160" height="70" rx="14" fill="#118AB2"/><text x="480" y="62" fill="#fff">③ 契约对齐</text><text x="480" y="84" fill="#fff" font-size="11" font-weight="400">关节序/坐标系/50Hz 全一致</text>
+      <rect x="595" y="35" width="160" height="70" rx="14" fill="#06A970"/><text x="675" y="62" fill="#fff">④ ONNX+分级调试</text><text x="675" y="84" fill="#fff" font-size="11" font-weight="400">导出策略→十级爬梯上真机</text>
+      <line x1="170" y1="70" x2="203" y2="70" stroke="#1B1B1F" stroke-width="3" marker-end="url(#ar)"/>
+      <line x1="365" y1="70" x2="398" y2="70" stroke="#1B1B1F" stroke-width="3" marker-end="url(#ar)"/>
+      <line x1="560" y1="70" x2="593" y2="70" stroke="#1B1B1F" stroke-width="3" marker-end="url(#ar)"/>
+    </g>
+  </svg><div class="cap">图 0：复刻四步路线（文章 15 章即按此展开）</div></div>
+  <p>四套现成仓库：<code>pollen-robotics/microduck</code>（真机 Rust 运行时）· <code>microduck_rl</code>（MuJoCo+PPO 训练）· <code>elec_RPI_Robot_HAT</code>（电路板 KiCad 原理图+Gerber，官方开源）· <code>fanhao375/microduck-replica</code>（第三方把 47 个网格归并成 15 个装配件、导出定位 STL，总质量约 <b>737g</b>，与官方 744g 基本吻合）。</p>
+</div>
+
+<div class="card">
+  <span class="qnum" style="background:#118AB2">1</span><span class="qtitle">策略每 20ms 看到的 61 维观测向量里装了什么？</span><span class="tag" style="background:#118AB2">契约核心</span>
+  <p style="margin-top:8px">策略网络是只认固定格式表格的"会计"：<span class="hl2">61 列一列都不能错位</span>。布局已被源码 <code>duck-control/src/obs.rs</code> 的注释原文证实：</p>
+  <table>
+    <tr><th>索引</th><th>宽</th><th>内容</th><th>坑</th></tr>
+    <tr><td>0..3</td><td>3</td><td>躯干陀螺仪角速度 (rad/s)</td><td>—</td></tr>
+    <tr><td>3..6</td><td>3</td><td>重力投影单位向量</td><td>模长必须=1</td></tr>
+    <tr><td>6..20</td><td>14</td><td>关节位置 − home pose</td><td>嘴部不在内！</td></tr>
+    <tr><td>20..34</td><td>14</td><td>关节速度 (rad/s)</td><td>同上</td></tr>
+    <tr><td>34..48</td><td>14</td><td>上一时刻原始动作</td><td>缩放前</td></tr>
+    <tr><td>48..61</td><td>13</td><td>命令块：vx/vy/vyaw + 头部4目标 + 身体6位姿</td><td>见下</td></tr>
+  </table>
+  <div class="warn">命令块三个暗坑（obs.rs 注释原话级警告，复刻者最容易栽）：<br>
+  ① body 块顺序是 <b>z, roll, pitch</b>，不是 z, pitch, roll；<br>
+  ② body x/y/yaw <b>恒为零</b>——训练里没绑定，全零是名义编码不是占位符，槽位不可删；<br>
+  ③ 头部目标是<b>喂进观测的命令</b>，不能再加到策略输出上——双重叠加会把头掰弯两次。</div>
+  <p>目标公式：<code>target = home_pose + action_scale × action</code>；ONNX 要求输入 <code>[1,61]</code> 输出 <code>[1,14]</code>，<span class="hl">观测归一化器必须烘进 ONNX 图</span>（手工 .pt 转 ONNX 会漏掉归一化），推理前先 warm-up。</p>
+</div>
+
+<div class="card">
+  <span class="qnum" style="background:#E63946">2</span><span class="qtitle">index-9 陷阱：一行代码怎么毁一只鸭？</span><span class="tag" style="background:#E63946">本次实验实锤</span>
+  <p style="margin-top:8px">运行时目标数组是 <b>15 槽</b>（含嘴），策略输出只有 <b>14 维</b>（不含嘴）。线序与 ID 表（<code>duck-ipc-proto</code>/<code>model.rs</code> 源码原值）：</p>
+  <table>
+    <tr><th>段</th><th>关节</th><th>Dynamixel ID</th></tr>
+    <tr><td>左腿 ×5</td><td>hip_yaw/roll/pitch, knee, ankle</td><td><b>20–24</b></td></tr>
+    <tr><td>头颈 ×4</td><td>neck_pitch, head_pitch/yaw/roll</td><td><b>30–33</b></td></tr>
+    <tr><td>嘴 ×1</td><td>mouth（<b>线序第 9 槽</b>，策略不驱动）</td><td><b>34</b></td></tr>
+    <tr><td>右腿 ×5</td><td>hip_yaw/roll/pitch, knee, ankle</td><td><b>10–14</b></td></tr>
+    <tr><td>IMU 桥</td><td>imu_to_dxl v2 从设备</td><td><b>200</b></td></tr>
+  </table>
+  <div class="figure"><svg viewBox="0 0 760 190" width="760">
+    <g font-size="12" text-anchor="middle" font-weight="700">
+      <text x="380" y="16" font-size="14">策略动作 14 维 → 运行时目标 15 槽</text>
+      <g>
+        <rect x="40" y="30" width="34" height="30" fill="#118AB2"/><rect x="74" y="30" width="34" height="30" fill="#118AB2"/><rect x="108" y="30" width="34" height="30" fill="#118AB2"/><rect x="142" y="30" width="34" height="30" fill="#118AB2"/><rect x="176" y="30" width="34" height="30" fill="#118AB2"/>
+        <rect x="210" y="30" width="34" height="30" fill="#7B2CBF"/><rect x="244" y="30" width="34" height="30" fill="#7B2CBF"/><rect x="278" y="30" width="34" height="30" fill="#7B2CBF"/><rect x="312" y="30" width="34" height="30" fill="#7B2CBF"/>
+        <rect x="346" y="30" width="34" height="30" fill="#118AB2"/><rect x="380" y="30" width="34" height="30" fill="#FF4D6D"/><rect x="414" y="30" width="34" height="30" fill="#118AB2"/><rect x="448" y="30" width="34" height="30" fill="#118AB2"/><rect x="482" y="30" width="34" height="30" fill="#118AB2"/>
+        <text x="146" y="76" fill="#118AB2">左腿 0..5</text><text x="278" y="76" fill="#7B2CBF">头颈 5..9</text><text x="430" y="76" fill="#118AB2">右腿 9..14</text>
+        <text x="397" y="24" fill="#E63946" font-size="11">action[9]=右髋yaw</text>
+      </g>
+      <line x1="290" y1="88" x2="290" y2="112" stroke="#1B1B1F" stroke-width="2.5"/>
+      <text x="290" y="106" font-size="11" font-weight="400">naive 直拷 targets[:14]=action</text>
+      <g transform="translate(0,118)">
+        <rect x="40" y="10" width="34" height="30" fill="#118AB2"/><rect x="74" y="10" width="34" height="30" fill="#118AB2"/><rect x="108" y="10" width="34" height="30" fill="#118AB2"/><rect x="142" y="10" width="34" height="30" fill="#118AB2"/><rect x="176" y="10" width="34" height="30" fill="#118AB2"/>
+        <rect x="210" y="10" width="34" height="30" fill="#7B2CBF"/><rect x="244" y="10" width="34" height="30" fill="#7B2CBF"/><rect x="278" y="10" width="34" height="30" fill="#7B2CBF"/><rect x="312" y="10" width="34" height="30" fill="#7B2CBF"/>
+        <rect x="346" y="10" width="34" height="30" fill="#FF4D6D" stroke="#1B1B1F" stroke-width="3"/><rect x="380" y="10" width="34" height="30" fill="#118AB2"/><rect x="414" y="10" width="34" height="30" fill="#118AB2"/><rect x="448" y="10" width="34" height="30" fill="#118AB2"/><rect x="482" y="10" width="34" height="30" fill="#118AB2"/>
+        <text x="363" y="56" fill="#E63946">嘴槽被灌入右髋 yaw 命令！</text>
+        <text x="560" y="30" font-size="13" text-anchor="start" fill="#E63946">实测：+28.6° 的右髋命令</text>
+        <text x="560" y="48" font-size="13" text-anchor="start" fill="#E63946">被送进嘴部舵机（ID 34）</text>
+      </g>
+      <text x="650" y="140" font-size="12" text-anchor="start" fill="#0B9E6E" font-weight="400">正确映射 = 跳过第 9 槽：</text>
+      <text x="650" y="158" font-size="12" text-anchor="start" font-family="Consolas">slot&lt;9 ? slot : slot+1</text>
+      <text x="650" y="176" font-size="11" text-anchor="start" fill="#555" font-weight="400">即 obs.rs 的 joint_of()</text>
+    </g>
+  </svg><div class="cap">图 1：index-9 陷阱。本篇实验用真实源码常量复现：naive 直拷使 15 槽中 2 段（嘴+右腿全部）错位</div></div>
+  <div class="good">✅ 实验结论（contract_check.py 步骤 4）：把 <code>action[9]=0.5rad</code> 直拷进目标数组，嘴部（ID 34）会收到 <b>+28.6°</b> 的右髋 yaw 命令；正确映射（跳过 index 9）嘴槽为 0。源码里那句 <code>if slot &lt; MOUTH_INDEX { slot } else { slot + 1 }</code> 就是复刻最不能出错的一行代码。</div>
+</div>
+
+<div class="card">
+  <span class="qnum" style="background:#FF8C1A">3</span><span class="qtitle">标称 5V 的舵机，为什么训练时电压随机到 6.5~8.2V？</span><span class="tag" style="background:#FF8C1A">域随机化实证</span>
+  <p style="margin-top:8px">市售 XL330-M288 规格书写 3.7–6.0V（推荐 5V），但训练代码 <code>microduck_constants.py</code> 里明晃晃写着 <code>vin_range=(6.5, 8.2)</code>、运行时以 6.6V 空电/8.2V 满电判断。矛盾吗？</p>
+  <p><span class="hl2">不矛盾——这是域随机化的教科书案例</span>：训练时故意让电池电压在宽区间随机（还叠加负载压降 <code>vin_drop_gain</code>），策略就学会"电压怎么漂都能走"。文章作者也诚实标注：这一电压适配<b>未经实物验证</b>，复刻者不要把"5V 舵机 + 默认运行时"当成已验证方案。</p>
+  <div class="warn">连带推论（文章原话级警示）：结构若从 ~800g 涨到 1.2kg，就是另一套动力学系统——必须更新 MJCF 重训，<b>不能只调大 action_scale 硬扛</b>。</div>
+  <h2>哪些硬件变化必须重训？</h2>
+  <p class="small">换舵机型号/减速比、回差变化、通信延迟变化、增重或质心移动、腿长/足底/摩擦变化、IMU 安装角变化、控制频率变化、增益/滤波变化、电池电压范围变化。正确流程：测新硬件 → 更新 MJCF → 辨识执行器 → 更新域随机化 → smoke test → 重训 → 导出 → CPU 复演 → 真机扶持测试。</p>
+</div>
+
+<div class="card">
+  <span class="qnum" style="background:#06A970">4</span><span class="qtitle">没有经验怎么把真机安全跑起来？——十级调试爬梯</span><span class="tag" style="background:#06A970">安全路线</span>
+  <div class="figure"><svg viewBox="0 0 760 220" width="760">
+    <g font-size="12" font-weight="700">
+      <rect x="10"  y="180" width="225" height="28" rx="6" fill="#FFD60A"/><text x="122" y="199" text-anchor="middle">1 单舵机 ±5° → 2 单腿悬空</text>
+      <rect x="45"  y="148" width="225" height="28" rx="6" fill="#FFC53D"/><text x="157" y="167" text-anchor="middle">3 15 舵机在线扭矩关 → 4 加 IMU</text>
+      <rect x="80"  y="116" width="225" height="28" rx="6" fill="#FF9F1C"/><text x="192" y="135" text-anchor="middle">5 吊架缓慢回 home → 6 离地跑策略</text>
+      <rect x="115" y="84"  width="225" height="28" rx="6" fill="#FF7B00"/><text x="227" y="103" text-anchor="middle">7 双脚接触外扶持 → 8 保护绳独立站 5-10s</text>
+      <rect x="150" y="52"  width="225" height="28" rx="6" fill="#FF4D6D"/><text x="262" y="71" text-anchor="middle">9 扶持行走</text>
+      <rect x="185" y="20"  width="225" height="28" rx="6" fill="#E63946"/><text x="297" y="39" text-anchor="middle" fill="#fff">10 短距离自由行走（从 0.2m 起）</text>
+      <text x="520" y="60" font-size="13" text-anchor="start">每一级只加一点新风险</text>
+      <text x="520" y="82" font-size="12" text-anchor="start" font-weight="400">日志最少记录：61 维观测、14 维动作、</text>
+      <text x="520" y="100" font-size="12" text-anchor="start" font-weight="400">15 目标/实测、IMU 原始块、母线电压、</text>
+      <text x="520" y="118" font-size="12" text-anchor="start" font-weight="400">舵机温度、控制周期时序、视频</text>
+    </g>
+  </svg><div class="cap">图 2：十级调试顺序（每级都有✅验收标准，出问题退一级）</div></div>
+  <p>关键保障机制：IMU 桥接板 <code>imu_to_dxl v2</code> 伪装成 ID 200 的 Dynamixel 从设备挂在同一根总线（第三方参考设计 STM32G031+LSM6DSV16X，45×22mm 两层板），轴映射 <code>[+raw_z, +raw_y, −raw_x]</code>，25 个有效样本（约 0.25s）才就绪——<span class="hl">IMU 必须与 trunk_base 刚性连接</span>。校准用 DYNAMIXEL Wizard 2.0 逐颗做：关扭矩设位置模式→单独验证→贴 ID 标签→并回总线；官方启动代码校验 <code>return_delay_time=0, baud_rate=3, pwm_slope=255, shutdown=52</code>。</p>
+</div>
+
+<div class="card" style="border-color:#06A970">
+  <span class="qnum" style="background:#06A970">5</span><span class="qtitle">动手实验：复刻契约对拍（27/27 全 PASS，无硬件纯源码）</span>
+  <p style="margin-top:6px">实验思想：<span class="hl">文章说的每一条契约，都去两个官方仓库的真实源码里找原文，再写程序交叉对拍</span>。脚本 <code>microduck/exercise/contract_check.py</code>（Python 3.14 + numpy），六步：</p>
+  <div class="step"><div class="stepnum">1</div><div><b>解析运行端源码</b>：正则抽取 <code>duck-ipc-proto/src/lib.rs</code> 的 15 关节线序、<code>model.rs</code> 的 ID 表/MOUTH_INDEX/home pose。✅ 线序 [左腿5|头颈4|嘴|右腿5]、ID 20-24/30-33/34/10-14、IMU=200、1Mbps，与文章逐条一致</div></div>
+  <div class="step"><div class="stepnum">2</div><div><b>home pose 两端对拍</b>：训练端 <code>HOME_FRAME</code>（regex 通配）解析后展开成 14 关节，与运行端 <code>DEFAULT_POSITION</code> 逐值比较。✅ 14/14 全等（如 left_hip_pitch 两端均 −0.4579）；嘴在训练端无 home（策略不驱动）</div></div>
+  <div class="step"><div class="stepnum">3</div><div><b>61 维观测拼装</b>：按 obs.rs 布局用 Python 复现（含 joint_of 跳嘴映射、body 块 z,roll,pitch 顺序、x/y/yaw 恒零）。✅ 形状 (61,)、分块 3+3+14+14+14+13、重力单位向量模长=1、两个暗坑的编码均与源码一致</div></div>
+  <div class="step"><div class="stepnum">4</div><div><b>index-9 陷阱复现</b>：action[9]=0.5 直拷 vs 跳嘴映射。✅ naive 版嘴槽 +28.6°（右髋命令误入嘴）、正确版嘴槽 0、右腿整体后移一槽——2 个槽不同</div></div>
+  <div class="step"><div class="stepnum">5</div><div><b>编码器换算</b>：<code>q = 2π·raw/4096 − π</code>。✅ raw=2048→0、raw=0→−π、raw=4095→距 +π 一个量化格（≈0.088°）</div></div>
+  <div class="step"><div class="stepnum">6</div><div><b>ONNX 契约常量</b>：直接 import <code>publish/manifest.py</code>（纯 stdlib）。✅ OBS_LEN=61、ACTION_LEN=14、control_hz=50、固定文件名 policy.onnx、7 个策略槽位</div></div>
+  <div class="good">✅ 预期结果（真实输出末行）：<code>结果: 27 PASS / 0 FAIL</code>，退出码 0。完整输出存 <code>exercise/run_output.txt</code></div>
+  <p class="small">诚实限制：无真机，本实验验证的是"契约层"（源码常量与映射逻辑）；机械装配、上电、实机行走不在覆盖范围。文章中五处关键论断（61 维布局/ID 表/MOUTH_INDEX/home pose/vin_range）全部在源码中找到原文对应。</p>
+</div>
+
+<div class="card" style="border-color:#7B2CBF;background:linear-gradient(135deg,#F6EFFF 0%,#FFFDF5 60%)">
+  <span class="qnum" style="background:#7B2CBF">6</span><span class="qtitle">这篇教程给我什么？</span>
+  <table>
+    <tr><th>能力</th><th>怎么用</th></tr>
+    <tr><td>一份可执行的复刻路线图</td><td>四仓库 + 十级调试爬梯 + 验收清单，想 DIY 机器鸭照单采购（先 1–3 只舵机再扩 15）</td></tr>
+    <tr><td>Sim2Real 部署契约思维</td><td>任何"仿真训练→真机部署"的机器人项目都适用：obs 布局/单位/坐标系/频率四样对齐先于一切调试</td></tr>
+    <tr><td>域随机化的判断力</td><td>看到规格书与训练参数"矛盾"，先想到域随机化；硬件一变就必须重训，没有捷径</td></tr>
+    <tr><td>安全调试方法论</td><td>限流电源+吊架+保护绳+逐级解锁，可迁移到任何舵机机器人</td></tr>
+    <tr><td>源码即文档的读法</td><td>教程可以过时，<code>manifest.py</code> 的常量和守护进程的拒载逻辑不会骗人</td></tr>
+  </table>
+  <p class="small">知识入库：新概念《策略观测向量与动作契约》已写入 vault；《Sim2Real与MuJoCo仿真》补充电压随机化实证；项目笔记 microduck.md 增补复刻篇段落。</p>
+</div>
+
+<p class="small" style="text-align:center;color:#888">Microduck DIY 复刻教程补充篇 · 拾遗 task f3ccf5fa · 2026-10-03 · 实验真实运行于 Windows 11 + Python 3.14</p>
+</body>
+</html>

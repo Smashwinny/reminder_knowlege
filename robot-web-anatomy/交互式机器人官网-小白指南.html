@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>交互式机器人官网 小白指南</title>
+<style>
+  :root{
+    --rose:#e8407f; --teal:#0bbac6; --purple:#8b70cf; --orange:#f09a5e;
+    --yellow:#f2c94c; --green:#27c281; --blue:#2f6df6; --ink:#1c1e26;
+    --paper:#fffdf7; --grey:#5b5f6b;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:var(--ink);background:var(--paper);margin:0;font-size:13.5px;line-height:1.75}
+  @page{size:A4;margin:12mm}
+  .cover{background:linear-gradient(135deg,var(--rose) 0%,var(--orange) 45%,var(--yellow) 100%);color:#fff;border-radius:18px;padding:34px 30px;margin:0 0 18px}
+  .cover h1{font-size:34px;margin:0 0 10px;letter-spacing:1px}
+  .cover .sub{font-size:15px;opacity:.95}
+  .cover .tagline{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:4px 14px;margin-top:14px;font-weight:bold}
+  h2.section{font-size:21px;margin:26px 0 10px;padding:6px 14px;border-radius:10px;color:#fff}
+  .s-rose{background:var(--rose)} .s-teal{background:var(--teal)} .s-purple{background:var(--purple)}
+  .s-blue{background:var(--blue)} .s-green{background:var(--green)} .s-orange{background:#e07b2a}
+  .card{background:#fff;border-radius:14px;padding:16px 18px;margin:12px 0;border:2px solid #f0e9dd;box-shadow:0 3px 10px rgba(60,40,20,.06);break-inside:avoid}
+  .qnum{display:inline-block;min-width:44px;height:44px;line-height:44px;text-align:center;border-radius:12px;color:#fff;font-size:22px;font-weight:900;margin-right:10px}
+  .qcard h3{display:flex;align-items:center;font-size:16.5px;margin:0 0 8px}
+  .hl{background:linear-gradient(transparent 55%,var(--yellow) 55%);font-weight:bold;padding:0 2px}
+  .big{font-size:15.5px;font-weight:900;color:var(--rose)}
+  code,.cmd{font-family:Consolas,monospace;background:#f4f1e8;border-radius:5px;padding:1px 5px;font-size:12.5px;color:#b3261e}
+  .cmd{display:block;background:#20232b;color:#a6e22e;padding:9px 12px;border-radius:9px;margin:8px 0;white-space:pre-wrap;color:#e6edf3}
+  .cmd .c{color:#7ee787}
+  table{border-collapse:collapse;width:100%;margin:8px 0;font-size:12.5px}
+  th{background:var(--teal);color:#fff;padding:5px 8px;text-align:left}
+  td{border-bottom:1px solid #eee3d0;padding:5px 8px;vertical-align:top}
+  tr:nth-child(even) td{background:#fbf7ee}
+  .step{border-left:5px solid var(--green);background:#f2fbf6;border-radius:0 12px 12px 0;padding:12px 14px;margin:10px 0;break-inside:avoid}
+  .step b.st{color:var(--green);font-size:15px}
+  .ok{background:#e7f9ef;border:2px dashed var(--green);border-radius:10px;padding:8px 12px;margin:8px 0;font-size:13px}
+  .ok b{color:var(--green)}
+  .warn{background:#fff4e5;border:2px dashed var(--orange);border-radius:10px;padding:8px 12px;margin:8px 0}
+  .warn b{color:#d07020}
+  .two{display:flex;gap:12px;flex-wrap:wrap}
+  .two>div{flex:1;min-width:280px}
+  .svgbox{text-align:center;margin:10px 0;break-inside:avoid}
+  .kv{background:var(--purple);color:#fff;border-radius:12px;padding:12px 16px;margin:10px 0;font-size:13.5px;break-inside:avoid}
+  .kv b{color:var(--yellow)}
+  .foot{margin-top:18px;text-align:center;color:var(--grey);font-size:11.5px}
+  .chip{display:inline-block;border-radius:999px;padding:2px 12px;color:#fff;font-size:12px;margin:2px 3px;font-weight:bold}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🦆 交互式机器人官网 小白指南</h1>
+  <div class="sub">从 Microduck Anatomy 学会：把机器人"解剖"在浏览器里 —— GLB 模型 × 关节树 × 策略步态 × 逆运动学 × 爆炸图</div>
+  <div class="tagline">拾遗队列 cb09e4bb · 上游：huggingface.co/spaces/mishig/microduck-anatomy（源码公开）</div>
+</div>
+
+<div class="kv">
+  <b>一句话总览：</b>Hugging Face 工程师给自家机器鸭 Microduck 做了一个"全息解剖"官网——官网页面上那只鸭子不是视频、不是动图，而是<b>官方 3D 模型 + 官方强化学习步态数据在浏览器里实时跑出来的"数字展台"</b>：能旋转、能走路、能拖它的腿（逆运动学）、能把 70 个零件炸开分层看。本指南拆解它的五层方法论，并带你用 <b>200 行代码复刻一个能跑能炸开的迷你版</b>。
+</div>
+
+<h2 class="section s-rose">一、疑问即目录（12 问）</h2>
+
+<div class="card qcard">
+  <h3><span class="qnum" style="background:var(--rose)">Q1</span>这是什么？一个"会解剖自己"的机器人官网</h3>
+  传统机器人官网 = 精修图片 + 参数表格 + 视频宣传片，<span class="hl">用户只能"看"机器人</span>。Microduck Anatomy 换了个思路：把官网本身变成一台<b>虚拟展台</b>——产品自己把自己拆开给你看。它是 Hugging Face（已收购 Pollen Robotics）员工 mishig 做的开源项目，部署在 HF Space 上，源码持续更新。地址：<code>mishig-microduck-anatomy.hf.space</code>。
+  <div class="svgbox"><svg width="560" height="120" viewBox="0 0 560 120">
+    <rect x="10" y="30" width="250" height="60" rx="12" fill="#f4f1e8" stroke="#bbb"/>
+    <text x="135" y="55" text-anchor="middle" font-size="13" fill="#666">传统官网：图片 + 表格 + 视频</text>
+    <text x="135" y="75" text-anchor="middle" font-size="12" fill="#999">用户是观众 👀</text>
+    <text x="280" y="65" text-anchor="middle" font-size="22" fill="#e8407f">→</text>
+    <rect x="300" y="30" width="250" height="60" rx="12" fill="#fce7f1" stroke="#e8407f" stroke-width="2"/>
+    <text x="425" y="55" text-anchor="middle" font-size="13" fill="#e8407f" font-weight="bold">交互式官网：实时 3D 数字展台</text>
+    <text x="425" y="75" text-anchor="middle" font-size="12" fill="#a33264">用户是解剖师 🔬 转动/拆解/拖拽</text>
+  </svg></div>
+</div>
+
+<div class="card qcard">
+  <h3><span class="qnum" style="background:var(--teal)">Q2</span>官网的 3D 模型从哪来？——glTF/GLB 资产管线</h3>
+  <span class="hl">GLB 是三维界的"JPEG"：把网格（形状）、贴图、材质打包成一个自包含二进制文件</span>（glTF 格式的二进制版），浏览器里 <code>GLTFLoader</code> 一行加载。Microduck 官网的妙处：<b>不重新建模</b>，直接用官方仿真仓库（mjlab）里的 <code>microduck.glb</code>（1.28 MB）——和训练机器人用的是同一份模型。
+  <table>
+    <tr><th>文件</th><th>角色</th><th>大小</th></tr>
+    <tr><td><code>microduck.glb</code></td><td><b>零件库</b>：只取每个 mesh 的几何体（geometryByName 索引）</td><td>1.28 MB</td></tr>
+    <tr><td><code>kinematics.json</code></td><td><b>装配图</b>：MuJoCo MJCF 关节树导出（body 层级/位置/四元数/铰链轴）</td><td>28 KB</td></tr>
+    <tr><td><code>gait 数据</code></td><td><b>动作库</b>：RL 策略 50Hz 采样 32 帧 × 18 通道</td><td>6.8 KB</td></tr>
+  </table>
+  <b>方法论金句：几何体和装配关系分开存，网页端自己"总装"。</b>
+</div>
+
+<div class="card qcard">
+  <h3><span class="qnum" style="background:var(--purple)">Q3</span>光有模型不会动：关节树怎么搬进浏览器？</h3>
+  <code>kinematics.json</code> 里有 27 个 body，每个带 <code>pos</code>（位置）、<code>quat</code>（朝向四元数，MJCF 是 w,x,y,z 顺序，three.js 是 x,y,z,w——<b>要换位</b>）、<code>joint</code>（铰链轴 + 角度范围）。网页代码为每个 body 建一个 <code>THREE.Group</code>，按 parent 字段拼成树，铰链记成 JointRig。<span class="hl">给某关节设角度 = 绕轴四元数 × 基础姿态</span>——这正是知识库里[[前向运动学FK与四元数链]]的网页实战版：父关节转，全身子件跟着动。
+  <div class="svgbox"><svg width="560" height="150" viewBox="0 0 560 150">
+    <rect x="20" y="20" width="150" height="40" rx="8" fill="#8b70cf"/><text x="95" y="45" text-anchor="middle" fill="#fff" font-size="13">trunk_base 躯干</text>
+    <rect x="220" y="20" width="150" height="40" rx="8" fill="#a58cd8"/><text x="295" y="45" text-anchor="middle" fill="#fff" font-size="12">hip（铰链·俯仰）</text>
+    <rect x="420" y="20" width="120" height="40" rx="8" fill="#c3b4e8"/><text x="480" y="45" text-anchor="middle" fill="#4a3b6b" font-size="12">knee 膝</text>
+    <line x1="170" y1="40" x2="220" y2="40" stroke="#8b70cf" stroke-width="3"/>
+    <line x1="370" y1="40" x2="420" y2="40" stroke="#8b70cf" stroke-width="3"/>
+    <text x="95" y="90" text-anchor="middle" font-size="11.5" fill="#666">parent 树：json 里 27 个 body</text>
+    <text x="390" y="100" text-anchor="middle" font-size="11.5" fill="#a33264">父动 → 子全动（FK 链）</text>
+    <text x="95" y="115" text-anchor="middle" font-size="11.5" fill="#666">每个铰链 = 轴 + 角度范围</text>
+    <text x="480" y="90" text-anchor="middle" font-size="11.5" fill="#666">ankle / neck / head…</text>
+    <text x="300" y="135" text-anchor="middle" font-size="12" fill="#1c1e26">关节树 = 网页里的"骨架"，GLB 几何体挂上去 = "肉"</text>
+  </svg></div>
+</div>
+
+<div class="card qcard">
+  <h3><span class="qnum" style="background:var(--blue)">Q4</span>走路的动作数据是哪来的？——策略步态驱动网页</h3>
+  这是最"卷"的一步：官网的走路<b>不是动画师 K 的帧</b>，而是 Microduck 官方强化学习策略 <code>BEST_alpha_walking.onnx</code>（在 MuJoCo 里训练，见[[Sim2Real与MuJoCo仿真]]）以 50 Hz 跑出来的真实关节轨迹，采样成 <b>32 帧 × 18 通道</b>（14 个关节角 + 躯干侧偏/高度/滚转/俯仰 4 通道），周期 0.812 秒。网页端每帧按相位插值取一帧，灌进关节树。<span class="hl">用户在官网看到的步态，和真机器人走路的步态是同一份数据——"数字展台"的含金量就在这</span>。
+  <div class="svgbox"><svg width="560" height="120" viewBox="0 0 560 120">
+    <rect x="15" y="30" width="120" height="55" rx="10" fill="#2f6df6"/><text x="75" y="53" text-anchor="middle" fill="#fff" font-size="12">RL 策略 onnx</text><text x="75" y="72" text-anchor="middle" fill="#cfe0ff" font-size="10.5">MuJoCo 50Hz</text>
+    <text x="160" y="62" text-anchor="middle" font-size="16" fill="#2f6df6">→</text>
+    <rect x="185" y="30" width="120" height="55" rx="10" fill="#5b8bf7"/><text x="245" y="53" text-anchor="middle" fill="#fff" font-size="12">32帧×18通道</text><text x="245" y="72" text-anchor="middle" fill="#e2ebff" font-size="10.5">gait-data.js 6.8KB</text>
+    <text x="330" y="62" text-anchor="middle" font-size="16" fill="#2f6df6">→</text>
+    <rect x="355" y="30" width="90" height="55" rx="10" fill="#8facf9"/><text x="400" y="53" text-anchor="middle" fill="#fff" font-size="12">相位插值</text><text x="400" y="72" text-anchor="middle" fill="#eef3ff" font-size="10.5">(t/周期)%1</text>
+    <text x="470" y="62" text-anchor="middle" font-size="16" fill="#2f6df6">→</text>
+    <rect x="485" y="30" width="65" height="55" rx="10" fill="#e8407f"/><text x="517" y="62" text-anchor="middle" fill="#fff" font-size="12">关节树</text>
+    <text x="280" y="108" text-anchor="middle" font-size="12" fill="#a33264">真机的"脑子"直接变成网页的"动作库"，一模一样的走路姿势</text>
+  </svg></div>
+</div>
+
+<div class="card qcard">
+  <h3><span class="qnum" style="background:var(--green)">Q5</span>15 个舵机怎么"各就各位"？——名字分类 + 图层聚焦</h3>
+  网站按 mesh 名字给 70 个零件自动分类：<code>xl330*</code> → 舵机、<code>lens/np_f/speaker</code> → 传感、<code>pcb/robot_hat</code> → 计算、<code>shell/jaw/foot</code> → 外壳……点顶部图层按钮（ENTIRE RIG / SMART SERVOS / VISION / COMPUTE / POWER），不在当前层的零件透明度压到 0.02~0.07，<span class="hl">"分层解剖"的本质就是一张透明度权重表</span>。同时每层配一个"聚焦舞台"：镜头目标点、机位偏移、缩放、爆炸量都预编排好，切层 = 相机补间飞过去（缓动见[[补间动画与缓动函数]]）。
+</div>
+
+<div class="card qcard">
+  <h3><span class="qnum" style="background:var(--rose)">Q6</span>拖鸭腿跟手：浏览器端逆运动学（IK）是什么？</h3>
+  <b>FK 正运动学</b>（已学，[[前向运动学FK与四元数链]]）：给关节角度 → 算脚在哪。<b>IK 逆运动学</b>反过来：你直接拖脚尖到目标点 → 反算每个关节该转多少度。<span class="hl">官网用的是最经典的 CCD（循环坐标下降）迭代</span>：从脚尖往回逐关节"各转一点"——每个关节只解自己那一小段（绕轴的带符号夹角，公式 <code>atan2(轴·(v₁×v₂), v₁·v₂)</code>），每次最多转 0.14 弧度防抽搐，循环 10 轮收敛。和步态叠加的方式很聪明：<code>ikOffset = 当前角 − 步态角</code>，松手后 ikOffset 衰减归零，鸭子自己继续走路。
+  <div class="svgbox"><svg width="560" height="130" viewBox="0 0 560 130">
+    <circle cx="70" cy="65" r="9" fill="#8b70cf"/><text x="70" y="95" text-anchor="middle" font-size="11">髋</text>
+    <circle cx="170" cy="65" r="9" fill="#8b70cf"/><text x="170" y="95" text-anchor="middle" font-size="11">膝</text>
+    <circle cx="270" cy="65" r="9" fill="#8b70cf"/><text x="270" y="95" text-anchor="middle" font-size="11">踝</text>
+    <circle cx="350" cy="60" r="8" fill="#e8407f"/><text x="350" y="42" text-anchor="middle" font-size="11" fill="#e8407f">脚尖(末端)</text>
+    <circle cx="470" cy="30" r="10" fill="none" stroke="#27c281" stroke-width="3" stroke-dasharray="4 3"/><text x="470" y="16" text-anchor="middle" font-size="11.5" fill="#1d8f5c">🎯 你拖到的目标点</text>
+    <line x1="79" y1="65" x2="161" y2="65" stroke="#5b5f6b" stroke-width="5"/><line x1="179" y1="65" x2="261" y2="65" stroke="#5b5f6b" stroke-width="5"/><line x1="279" y1="65" x2="342" y2="61" stroke="#5b5f6b" stroke-width="5"/>
+    <path d="M 358 58 Q 410 40 458 32" stroke="#27c281" stroke-width="2.5" fill="none" stroke-dasharray="5 4"/>
+    <text x="280" y="122" text-anchor="middle" font-size="12" fill="#1d8f5c">CCD：踝→膝→髋 从末端往回逐个"各转一点"，转 10 轮就够到目标</text>
+  </svg></div>
+</div>
+
+<div class="card qcard">
+  <h3><span class="qnum" style="background:var(--teal)">Q7</span>"爆炸图"怎么实现？——一人一个向量 + 缓动</h3>
+  每个零件存三样：<b>原位 base</b>、<b>爆炸方向向量 vector</b>（按名字手写规则：左壳往上、右壳往下、下巴朝前……）、<b>当前插值 t</b>。滑杆拖动时 <code>position = base + vector × t</code>，t 用 <code>0.08/帧</code> 的指数平滑追目标——零件"嗖"地散开又"嗖"地装回。<span class="hl">爆炸图 = 给每个零件发一张"逃跑方向票"，然后集体插值</span>。
+</div>
+
+<div class="card qcard">
+  <h3><span class="qnum" style="background:var(--purple)">Q8</span>蓝图/解剖风格渲染：自定义着色器只有 30 行</h3>
+  官网不走写实路线，而是"工程蓝图"风：全部零件用同一个 <code>ShaderMaterial</code>，GLSL 片元着色器干三件事——<b>rim 边缘光</b>（视线与法线夹角越大越亮，勾轮廓）、<b>hatch 排线</b>（<code>sin(世界坐标×245)</code> 做出斜线纹理，像铅笔稿）、<b>grain 颗粒</b>（像素坐标噪声）。配合 <code>EdgesGeometry</code> 描边线，成品像活的工程图纸。<span class="hl">风格化渲染的核心：颜色不是"贴"上去的，是数学算出来的</span>。
+</div>
+
+<div class="card qcard">
+  <h3><span class="qnum" style="background:var(--blue)">Q9</span>React/Next.js 包 Three.js：'use client' 边界</h3>
+  整个官网其实只有一个页面组件 <code>app/page.tsx</code>，渲染 <code>&lt;MicroduckBlueprint/&gt;</code>。3D 部分整个塞进一个 <code>'use client'</code> 组件：Three.js 要碰 <code>window/canvas/requestAnimationFrame</code>，只能在客户端跑；服务端组件负责静态文案和 SEO。<b>经验法则：Three.js 场景整个生命周期挂在 <code>useEffect</code> 里，卸载时 dispose 干净</b>。部署用 Docker Space（HF）或 Cloudflare Workers（vinext 构建）。
+</div>
+
+<div class="card qcard">
+  <h3><span class="qnum" style="background:var(--green)">Q10</span>鼠标指哪、信息卡出哪？——raycast 拾取 + 诚实文案表</h3>
+  <code>pointermove</code> → <code>Raycaster</code> 拾取零件 → 按 mesh 名查 <code>inspectionCopy</code> 文案表（XL330 →"20×34×26mm · 12位编码器 · TTL总线"）。最值得抄的细节：每张卡片带 <b>confidence 字段</b>——"官方仿真几何确认" / "功能确认·量产布局概念" / "原型机推测"。<span class="hl">官网诚实地告诉你哪句是事实、哪句是推测</span>（呼应[[证据优先质检ProofOverClaims]]和[[事实与判断分离]]）。
+</div>
+
+<div class="card qcard">
+  <h3><span class="qnum" style="background:var(--orange)">Q11</span>相机怎么讲故事？——聚焦舞台编排</h3>
+  官网 5 个章节（整机→舵机→视觉→计算→电源），每章是一个 <code>FocusStage</code> 数据对象：目标点 target、机位 cameraOffset、zoom、爆炸量 explosion、贴纸。切章时相机位置/目标/爆炸量全部指数平滑飞过去——<span class="hl">"镜头语言"被压缩成 5 行数据，改数据就是改分镜</span>。这是"内容数据化"的又一次胜利（同[[确定性图布局]]、[[Mini-notation节奏语言]]一个思想）。
+</div>
+
+<div class="card qcard">
+  <h3><span class="qnum" style="background:var(--rose)">Q12</span>这套思路我能拿做什么？</h3>
+  <span class="chip" style="background:var(--teal)">给自家产品做交互官网</span><span class="chip" style="background:var(--rose)">毕设/作品集 3D 展示页</span><span class="chip" style="background:var(--purple)">机器人调试数字孪生面板</span><span class="chip" style="background:var(--green)">淘宝级"爆炸图"产品页</span><span class="chip" style="background:var(--blue)">3D 硬件教学课件</span>
+  只要你拿得到 <b>GLB 模型 + 一份关节/装配描述</b>，这五层方法论（资产→骨架→动作→交互→分镜）就能整体搬到任何机器人/机械产品上，源码就在 HF Space，MIT 级别开放参考。
+</div>
+
+<h2 class="section s-purple">二、能力清单（这个项目教会你什么）</h2>
+<div class="card">
+  <table>
+    <tr><th>能力</th><th>一句话</th></tr>
+    <tr><td>🧩 GLB 资产管线</td><td>GLTFLoader 只取几何体建索引，几何与装配分离</td></tr>
+    <tr><td>🦴 关节树装配</td><td>MJCF/kinematics.json → THREE.Group 树 + 铰链四元数</td></tr>
+    <tr><td>🚶 策略步态回放</td><td>RL 轨迹帧按相位插值灌关节，真机数据上官网</td></tr>
+    <tr><td>🦾 CCD 逆运动学</td><td>拖末端、逐关节迭代反解，且能与步态叠加</td></tr>
+    <tr><td>💥 爆炸图 + 图层</td><td>每零件一个方向向量 + 透明度权重表 + 聚焦舞台</td></tr>
+    <tr><td>🎨 风格化着色器</td><td>30 行 GLSL：rim 光 + 排线 + 颗粒 = 蓝图风</td></tr>
+  </table>
+</div>
+
+<h2 class="section s-green">三、动手实验：200 行复刻"迷你解剖官网"（已全部实测跑通）</h2>
+<div class="card">
+  <p><b>目标：</b>不碰 React 构建链，用"单 HTML + importmap"最小复刻官网四大能力：<b>GLB 加载装配、策略步态行走、图层聚焦、爆炸图</b>。成果在 <code>robot-web-anatomy\exercise\mini-duck-site\</code>。</p>
+
+  <div class="step"><b class="st">第 1 步 · 备料</b> —— 从 repo 复制官方资产<br>
+  <span class="cmd">cp repo/public/robot/mjlab/microduck.glb   exercise/mini-duck-site/
+cp repo/public/robot/mjlab/kinematics.json exercise/mini-duck-site/</span>
+  目的：拿到"零件库 + 装配图"。✅ 验证：两个文件在，GLB 1.28MB、json 28KB。</div>
+
+  <div class="step"><b class="st">第 2 步 · 提取步态动作库</b> —— 用 node 脚本从上游 TS 库抠出 32 帧数据存成 <code>gait-data.js</code><br>
+  <span class="cmd">node -e "…正则抽取 MICRODUCK_WALK_FRAMES / JOINT_ORDER / CYCLE_SECONDS…"</span>
+  ✅ 验证输出：<b>frames: 32 · channels/frame: 18 · joints: 14 · cycle_s: 0.4061</b></div>
+
+  <div class="step"><b class="st">第 3 步 · 写单页 index.html</b> —— importmap 引 three@0.185，四段核心代码：<br>
+  ① GLTFLoader 只取几何体 → <code>geometryByName</code> 索引；② kinematics.json → Group 树 + JointRig；③ 步态插值灌关节（<b>关键一步：MJCF 是 z-up，要 <code>root.rotation.x = -π/2</code> 转成 three 的 y-up</b>）；④ 图层按钮 + 爆炸滑杆（<code>position = base + vector×t</code>，t 指数平滑）。</div>
+
+  <div class="step"><b class="st">第 4 步 · 起本地服务器</b>（ESM + fetch 不许 file:// 直开）<br>
+  <span class="cmd">cd exercise/mini-duck-site
+python -m http.server 8617</span>
+  ✅ 验证：<code>curl</code> 四个资源全部 <b>200</b>（index/glb/kin/gait）。</div>
+
+  <div class="step"><b class="st">第 5 步 · 无头浏览器截图自证</b>（证据优先！）<br>
+  <span class="cmd">msedge --headless --use-gl=swiftshader --window-size=1280,800 \
+  --virtual-time-budget=25000 --screenshot=verify4.png \
+  "http://localhost:8617/index.html"</span>
+  <div class="ok"><b>✅ 预期结果（实测）：</b>小鸭直立居中行走，HUD 遥测显示「步态相位 81% · 左髋俯仰 −21.0° · 躯干滚转 −2.9° · 循环 0.812s」，状态栏「就绪 · 70 零件 · 14 关节 · 32 步态帧」。</div></div>
+
+  <div class="step"><b class="st">第 6 步 · 交互验证</b> —— URL 参数直驱图层/爆炸<br>
+  <span class="cmd">… --screenshot=verify5.png "http://localhost:8617/index.html?layer=MOTORS&amp;explode=0.65"</span>
+  <div class="ok"><b>✅ 预期结果（实测）：</b>15 个粉色 XL330 舵机方块沿各自方向炸开，外壳压暗成幽灵剪影；<code>?layer=SENSORS</code> 则头部青色镜头组高亮。三张截图 verify4/5/6 存在 exercise 目录。</div></div>
+
+  <div class="warn"><b>⚠️ 实验踩坑记录（两处都是真金白银的教训）：</b>
+  ① <code>gait-data.js</code> 最初用 CommonJS 的 <code>module.exports</code>，浏览器 ESM 报 "does not provide an export named"——改成 <code>export {}</code>；② 第一次截图鸭子"躺倒且巨大"——MJCF 是 z-up、three 是 y-up，<b>必须 root 先转 −90°，躯干步态偏移要写在旋转前的坐标系里</b>（y+侧偏、z+高度）。坐标系转换永远是 3D 第一坑。</div>
+</div>
+
+<h2 class="section s-blue">四、给"以后做机器人产品官网"的落地清单</h2>
+<div class="card">
+  <table>
+    <tr><th>层</th><th>要准备什么</th><th>对应源码位置（microduck-blueprint.tsx）</th></tr>
+    <tr><td>资产</td><td>GLB 模型（官方 CAD/仿真导出均可）</td><td>GLTFLoader + geometryByName（L1049）</td></tr>
+    <tr><td>骨架</td><td>关节/装配描述（MJCF、URDF、自写 json 都行）</td><td>KinematicBody 树 + JointRig（L1072）</td></tr>
+    <tr><td>动作</td><td>关键帧/策略轨迹/程序动画任选其一</td><td>MICRODUCK_WALK_FRAMES + samplePolicyGait</td></tr>
+    <tr><td>交互</td><td>OrbitControls 必选；IK 拖拽进阶</td><td>CCD 求解器 solveActiveIK（L1230）</td></tr>
+    <tr><td>分镜</td><td>FocusStage 数据表（目标/机位/爆炸量）</td><td>LAYERS 常量（L163）</td></tr>
+    <tr><td>文案</td><td>零件信息表 + confidence 诚实标注</td><td>inspectionCopy（L332）</td></tr>
+  </table>
+</div>
+
+<div class="kv">
+  <b>收尾三连：</b>① 官网方法论 = 资产(Geometry) × 骨架(Rig) × 动作(Gait) × 交互(IK) × 分镜(Stage)，五层全部数据化；② 上游源码在 HF Space 公开且持续更新，<b>克隆即学</b>：<code>git clone https://huggingface.co/spaces/mishig/microduck-anatomy</code>；③ 本仓库实验 <code>F:\reminder\robot-web-anatomy\exercise\mini-duck-site\</code>，`python -m http.server` 起来即可复现。
+</div>
+
+<div class="foot">robot-web-anatomy · 拾遗队列 cb09e4bb · 2026-10-03 · 与 microduck（机器人本体）、microduck-hardware-guide（硬件拆解）互为姊妹篇</div>
+</body>
+</html>

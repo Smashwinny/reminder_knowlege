@@ -37,6 +37,12 @@ tags: [项目]
 - 实验三段全 PASS（duck_hardware_lab.py，纯标准库）：MJCF 解析 15-DOF 地图；Dynamixel Protocol 2.0 CRC-16 双实现交叉验证命中标准向量 0xFEE8 + SyncWrite 构造/回读/篡改检测；BOM 三情景（零售 15 只舵机 $412.35 > 整机 $399，批量才回成本线下）
 - 新概念：[[智能舵机与菊花链总线]]（与 [[舵机与PWM角度控制]] 哑巴舵机对照）；诚实记录：无实机，实验 2 仅协议层正确性验证
 
+**复刻教程补充篇**（拾遗 task f3ccf5fa，yishan(@tspy) 的 X 长文《如何从零 DIY 复刻一只可爱的 Microduck》15 章，PDF：`microduck/Microduck DIY复刻教程补充篇.pdf`，实验 `microduck/exercise/contract_check.py`）：
+- 完整复刻路线图：机械重建（第三方 fanhao375/microduck-replica 已把 47 网格归并成 15 装配件，总质量 ~737g）→ 电气（HAT 原理图开源于 elec_RPI_Robot_HAT，KiCad+Gerber）→ 契约对齐 → ONNX 导出 → 十级调试（单舵机→单腿→15 舵机→IMU→吊架回 home→离地跑策略→扶持站→独立站 5-10s→扶持走→0.2m 自由走）
+- **主实验 contract_check.py 27/27 PASS**：复刻契约对拍——解析两仓库真实源码交叉验证 15 关节线序+ID 表（左腿 20-24/头颈 30-33/嘴 34/右腿 10-14/IMU 200/1Mbps）、训练端 HOME_FRAME vs 运行端 DEFAULT_POSITION 14 关节逐值全等、61 维观测拼装（含 body 块 z,roll,pitch 顺序与 x/y/yaw 恒零两个暗坑）、**index-9 陷阱复现**（14 维动作直拷会把 +28.6° 右髋命令送进嘴部舵机）、XL330 raw→rad 编码、ONNX 契约常量（OBS_LEN=61/ACTION_LEN=14/50Hz/policy.onnx 固定名）
+- 新概念：[[策略观测向量与动作契约]]（61 维布局/四道锁/重训触发清单）；[[Sim2Real与MuJoCo仿真]] 补充电压随机化实证 vin_range=(6.5,8.2)
+- 关键警示（文章原话）：结构若从 ~800g 涨到 1.2kg 就是另一套动力学，必须更新 MJCF 重训，不能只调 action_scale；官方 XL330 电压适配（标称 5V vs 训练 6.5-8.2V 随机）作者自认未经实物验证
+
 **后续可深入的方向**：
 - 读 microduck_rl 训练代码，本地训一个自己的步态策略导出 ONNX
 - Linux 机器上跑 `scripts/duck-sim`（真守护进程 + 仿真身体）
