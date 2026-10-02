@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>SLAMFormer-∞ 小白指南</title>
+<style>
+:root{
+  --red:#E63946; --navy:#1D3557; --orange:#F77F00; --teal:#2A9D8F;
+  --yellow:#FFB703; --pink:#D6286E; --purple:#7209B7; --cream:#FFFDF5;
+  --ink:#212529;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink);
+     background:var(--cream); line-height:1.75; font-size:14px;}
+@page{size:A4; margin:12mm;}
+.wrap{width:100%; max-width:190mm; margin:0 auto;}
+h1{font-size:30px; color:#fff; background:linear-gradient(95deg,var(--red),var(--orange));
+   padding:18px 24px; border-radius:14px; margin-bottom:6px;}
+h1 small{display:block; font-size:13px; font-weight:normal; color:#FFE8D6; margin-top:4px;}
+.sub{font-size:12px; color:var(--navy); margin:8px 2px 18px; border-left:5px solid var(--yellow); padding-left:10px;}
+h2{font-size:20px; margin:26px 0 10px; color:var(--navy);
+   border-bottom:3px solid var(--yellow); padding-bottom:4px;}
+.card{background:#fff; border-radius:14px; padding:16px 20px; margin:14px 0;
+      box-shadow:0 3px 10px rgba(29,53,87,.12); break-inside:avoid; border-top:6px solid var(--teal);}
+.qnum{display:inline-block; background:var(--red); color:#fff; font-size:22px; font-weight:bold;
+      border-radius:10px; padding:2px 14px; margin-right:10px; vertical-align:middle;}
+.qtitle{font-size:17px; font-weight:bold; color:var(--navy); vertical-align:middle;}
+.hl{background:linear-gradient(transparent 55%, #FFD166 55%); font-weight:bold; padding:0 2px;}
+.big{font-size:17px; font-weight:bold; color:var(--red);}
+.keybox{background:#EDE7FF; border-left:6px solid var(--purple); border-radius:8px;
+        padding:10px 14px; margin:10px 0; break-inside:avoid;}
+.warnbox{background:#FFEDEA; border-left:6px solid var(--red); border-radius:8px;
+        padding:10px 14px; margin:10px 0; break-inside:avoid;}
+.okbox{background:#E6F7F1; border-left:6px solid var(--teal); border-radius:8px;
+        padding:10px 14px; margin:10px 0; break-inside:avoid;}
+pre{background:#1D3557; color:#EAF4FF; border-radius:8px; padding:10px 14px;
+    font-family:Consolas,monospace; font-size:12px; overflow-x:auto; margin:8px 0; break-inside:avoid;}
+code{font-family:Consolas,monospace; background:#FFF3C4; color:#B23A00; padding:0 4px; border-radius:4px; font-size:12.5px;}
+pre code{background:none; color:inherit;}
+table{border-collapse:collapse; width:100%; margin:10px 0; font-size:12.5px; break-inside:avoid;}
+th{background:var(--navy); color:#fff; padding:7px 9px; text-align:left;}
+td{border-bottom:1.5px solid #E5E9F0; padding:6px 9px; background:#fff;}
+tr:nth-child(even) td{background:#F6F9FF;}
+.svgbox{text-align:center; margin:12px 0; break-inside:avoid;}
+svg{max-width:100%; height:auto;}
+.step{background:#fff; border-radius:12px; border-left:7px solid var(--orange);
+      padding:12px 16px; margin:12px 0; break-inside:avoid; box-shadow:0 2px 8px rgba(247,127,0,.15);}
+.step h3{font-size:15px; color:var(--orange); margin-bottom:6px;}
+.exp{font-size:12px; color:#6C757D;}
+.tag{display:inline-block; background:var(--yellow); color:#5A3E00; font-size:11px;
+     font-weight:bold; border-radius:20px; padding:1px 10px; margin:0 4px 4px 0;}
+a{color:var(--teal); text-decoration:none;}
+.toc{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:14px 0;}
+.toc div{background:#fff; border-radius:10px; padding:8px 12px; font-size:12.5px;
+         border-left:5px solid var(--red); box-shadow:0 2px 6px rgba(0,0,0,.08);}
+.footer{margin-top:24px; text-align:center; font-size:11px; color:#868E96;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>SLAMFormer-∞ 小白指南
+<small>清华 MARS Lab · 业内首个"无距离上限"几何 Transformer SLAM · 拾遗任务 2026-10-03</small>
+</h1>
+<div class="sub">
+来源：抖音【深蓝前沿】短视频 → 查证出真实载体：论文 arXiv 2608.03429（SLAMFormer-∞）+
+开源前作 <a href="https://github.com/Tsinghua-MARS-Lab/SLAM-Former">SLAM-Former</a>（ECCV 2026，BSD-3，521★）。
+本指南：疑问清单 → 图文解答 → 能力清单 → 无 GPU 动手实验（真实运行）。
+<span class="tag">几何 Transformer</span><span class="tag">SLAM</span><span class="tag">KV 剪枝</span><span class="tag">点图</span>
+</div>
+
+<h2>📋 疑问清单（本篇目录）</h2>
+<div class="toc">
+<div>① 抖音里说的"无距离上限"到底是什么？</div>
+<div>② 传统 SLAM 不是挺好，为啥要用 Transformer？</div>
+<div>③ "首帧锚定"为什么是一切麻烦的根源？</div>
+<div>④ 前作 SLAM-Former 怎么把 SLAM 塞进一个模型？</div>
+<div>⑤ 只剪 K/V 不剪 Query 的 KV 剪枝妙在哪？</div>
+<div>⑥ "后端 = 全注意力"是什么神仙操作？</div>
+<div>⑦ SLAMFormer-∞ 的新武器：内存条件动态坐标系</div>
+<div>⑧ 它在圈子里站什么位置？（对比表）</div>
+<div>⑨ 现在能下载到什么？我能跑吗？</div>
+<div>⑩ 无 GPU 动手实验（已真实跑通）</div>
+</div>
+
+<!-- ============ Q1 ============ -->
+<div class="card">
+<span class="qnum">Q1</span><span class="qtitle">抖音说的"业内首个无距离上限几何 Transformer"到底是什么？</span>
+<p>一句话：<span class="hl">清华赵行团队（MARS Lab）做了一个"只靠一段单目视频就能边走边建出稠密 3D 地图"的神经网络，而且走多远都不崩</span>——最新版本 <span class="big">SLAMFormer-∞</span> 实测 17 公里、45 分钟城市驾驶视频，在线重建出全程一致的点云地图。</p>
+<div class="keybox">
+<b>拆解这行宣传语：</b><br>
+· <b>几何 Transformer</b> —— 用 Transformer 直接"算出"三维几何（每帧的相机轨迹 + 每个像素的 3D 坐标）<br>
+· <b>SLAM</b>（即时定位与建图）—— 一边估计"我走到哪了"，一边画出"路上看到了什么"<br>
+· <b>无距离上限</b> —— 传统几何 Transformer 走几百米就内存爆炸/漂移崩溃；它 17 公里不崩
+</div>
+<p class="exp">源流：前作 SLAM-Former（arXiv 2509.16909，ECCV 2026）打地基，SLAMFormer-∞（arXiv 2608.03429，2026-08）突破距离上限。抖音账号"深蓝前沿"转述的正是后者。</p>
+</div>
+
+<!-- ============ Q2 ============ -->
+<div class="card">
+<span class="qnum">Q2</span><span class="qtitle">传统 SLAM 不是挺成熟吗，为什么还要用 Transformer？</span>
+<p>传统 SLAM（ORB-SLAM、DROID-SLAM 等）是一条<b>多工位流水线</b>：特征提取 → 特征匹配 → 位姿优化（BA）→ 回环检测 → 位姿图优化，每个工位都是一套独立算法+手工调参，工位之间靠数据结构传递，任何一环出错全场崩盘。</p>
+<p><span class="hl">几何 Transformer 把整条流水线换成一个"端到端的神经网络工人"</span>：视频帧进去，位姿+点云出来，中间不需要手工特征、不需要标定相机内参。</p>
+<div class="svgbox">
+<svg viewBox="0 0 660 170" xmlns="http://www.w3.org/2000/svg">
+<text x="30" y="24" font-size="13" font-weight="bold" fill="#1D3557">传统 SLAM：五工位流水线</text>
+<g font-size="11" text-anchor="middle">
+<rect x="30" y="38" width="100" height="34" rx="8" fill="#F77F00"/><text x="80" y="59" fill="#fff">特征提取</text>
+<rect x="150" y="38" width="100" height="34" rx="8" fill="#F77F00"/><text x="200" y="59" fill="#fff">特征匹配</text>
+<rect x="270" y="38" width="100" height="34" rx="8" fill="#F77F00"/><text x="320" y="59" fill="#fff">位姿优化 BA</text>
+<rect x="390" y="38" width="100" height="34" rx="8" fill="#F77F00"/><text x="440" y="59" fill="#fff">回环检测</text>
+<rect x="510" y="38" width="110" height="34" rx="8" fill="#F77F00"/><text x="565" y="59" fill="#fff">位姿图优化</text>
+</g>
+<g stroke="#868E96" stroke-width="2" marker-end="url(#arr)">
+<line x1="130" y1="55" x2="146" y2="55"/><line x1="250" y1="55" x2="266" y2="55"/>
+<line x1="370" y1="55" x2="386" y2="55"/><line x1="490" y1="55" x2="506" y2="55"/></g>
+<text x="330" y="92" font-size="11" fill="#E63946" text-anchor="middle">⚠ 每一环都可能断链 · 要调参 · 要相机标定</text>
+<text x="30" y="126" font-size="13" font-weight="bold" fill="#2A9D8F">几何 Transformer：一个端到端工人</text>
+<rect x="30" y="136" width="180" height="30" rx="8" fill="#2A9D8F"/><text x="120" y="155" fill="#fff" font-size="11" text-anchor="middle">视频帧序列</text>
+<rect x="300" y="136" width="120" height="30" rx="8" fill="#7209B7"/><text x="360" y="155" fill="#fff" font-size="11" text-anchor="middle">单个 Transformer</text>
+<rect x="510" y="136" width="110" height="30" rx="8" fill="#E63946"/><text x="565" y="155" fill="#fff" font-size="11" text-anchor="middle">位姿+稠密点云</text>
+<g stroke="#868E96" stroke-width="2" marker-end="url(#arr)">
+<line x1="210" y1="151" x2="296" y2="151"/><line x1="420" y1="151" x2="506" y2="151"/></g>
+<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+<path d="M0,0 L7,3 L0,6 z" fill="#868E96"/></marker></defs>
+</svg></div>
+<p class="exp">代价：网络要"见过"足够多的场景才泛化得好——所以训练数据堆了 ARKitScenes、ScanNet++、MegaDepth 等 7 个数据集，32 张 A100 训 11 小时。</p>
+</div>
+
+<!-- ============ Q3 ============ -->
+<div class="card">
+<span class="qnum">Q3</span><span class="qtitle">"首帧锚定"为什么是一切麻烦的根源？</span>
+<p>几乎所有前代几何 Transformer（DUSt3R / MASt3R / VGGT 这一脉）都有一个隐藏假设：<span class="hl">把所有帧的坐标系钉在"第 1 帧"上——第 1 帧就是原点、就是尺度基准</span>。这就是<b>首帧锚定（first-frame anchoring）</b>。</p>
+<p>短序列没事，一拉长就同时撞上三堵墙：</p>
+<table>
+<tr><th>墙</th><th>表现</th><th>根源</th></tr>
+<tr><td>🧱 记忆墙</td><td>所有帧都要和第 1 帧做注意力，KV 显存随帧数<b>线性涨</b></td><td>锚定要求全局两两可见</td></tr>
+<tr><td>🧱 表达墙</td><td>第 1 帧是个普通的街角，却被迫充当 17km 的"世界原点"</td><td>坐标表达力被一个平庸帧绑架</td></tr>
+<tr><td>🧱 训练墙</td><td>训练只敢用 12 帧（显存限制），测试却要 12000 帧</td><td>训练分布和真实使用差三个数量级</td></tr>
+</table>
+<p><span class="hl">SLAMFormer-∞ 的答案：别锚第 1 帧了——让"当前坐标系"由一份"记忆"（memory conditions）动态指定</span>：走到哪，记忆就把坐标系和尺度"递"到哪。这就像导航时不需要记住出发点，只需要每一步知道"我现在站在上一块路标的什么方位"。</p>
+<div class="warnbox">⚠ 类比讲完落回术语：这份"记忆"在实现上是<b>一组被后端精化过的 map tokens 及其 KV 缓存</b>，它为每个新输入的帧块（chunk）定义局部坐标系和尺度——数学上替代了"第 1 帧位姿 = 单位阵"这个硬编码。</div>
+</div>
+
+<!-- ============ Q4 ============ -->
+<div class="card">
+<span class="qnum">Q4</span><span class="qtitle">前作 SLAM-Former 怎么把整个 SLAM 塞进一个模型？</span>
+<p>开源代码（本仓库 repo\）给出了答案，四个要点：</p>
+<p>① <b>底座是 Pi3</b>：36 层 Transformer，帧内注意力（看自己帧）+ 帧间注意力（看别的帧），图像编码器用 DINOv2 初始化——这正是知识库里 [[点图与前馈重建]] 讲的 DUSt3R→Pi3 一脉的直系后代。</p>
+<p>② <b>每帧只输出"局部点图"</b>：代码里 <code>extract()</code> 返回三件套 <code>local_points / conf / camera_poses</code>（slamformer.py 434-461 行）——每像素 3D 坐标、置信度、相机位姿。注意是<b>局部</b>坐标：不需要提前决定"世界原点在哪"，避开了首帧锚定的一半难题。</p>
+<p>③ <b>前端增量跟踪</b>：来一帧，先和关键帧比一比（<code>kf_th=0.1</code> 阈值），够新颖才立为关键帧，然后增量式更新位姿。</p>
+<p>④ <b>map tokens 记账</b>：每个关键帧变成一组 token 进"总账本"，后端周期性翻账精化（Q6）。</p>
+<div class="okbox">✅ 我们已对开源源码做了逐条核对（实验一，18/18 PASS）：<b>论文说的机制在代码里全找得到</b>——这在"PPT 开源"满天飞的今天很难得。</div>
+</div>
+
+<!-- ============ Q5 ============ -->
+<div class="card">
+<span class="qnum">Q5</span><span class="qtitle">只剪 K/V 不剪 Query 的 KV 剪枝，妙在哪？</span>
+<p>帧越堆越多，注意力里的 KV 缓存是最大的内存杀手（[[KV缓存与上下文]] 的 3D 版）。暴力做法是把旧 token 全砍——但 token 就是点云，砍 token = 砍地图。</p>
+<p><span class="hl">SLAM-Former 的妙手：注意力的输出 = Query 之间的互相计算，K/V 只是"被查询的图书馆"。把图书馆精简，读者（Query）一个不少</span>——所以<b>重建出来的点云一个点都不丢</b>，只是"查资料"变快了。</p>
+<div class="svgbox">
+<svg viewBox="0 0 660 150" xmlns="http://www.w3.org/2000/svg">
+<text x="20" y="22" font-size="13" font-weight="bold" fill="#1D3557">注意力内部：谁可以被精简？</text>
+<g font-size="11">
+<rect x="20" y="40" width="190" height="70" rx="10" fill="#D8F3DC" stroke="#2A9D8F" stroke-width="2"/>
+<text x="115" y="66" text-anchor="middle" font-weight="bold" fill="#1B4332">Query（全体保留）</text>
+<text x="115" y="86" text-anchor="middle" fill="#1B4332">= 要输出点云的"提问者"</text>
+<text x="115" y="103" text-anchor="middle" fill="#E63946" font-weight="bold">砍它 = 丢地图 ✗</text>
+<rect x="240" y="40" width="190" height="70" rx="10" fill="#FFE5EC" stroke="#E63946" stroke-width="2"/>
+<text x="335" y="66" text-anchor="middle" font-weight="bold" fill="#7A1C27">Key / Value（剪枝对象）</text>
+<text x="335" y="86" text-anchor="middle" fill="#7A1C27">= 被查询的"图书馆藏书"</text>
+<text x="335" y="103" text-anchor="middle" fill="#2A9D8F" font-weight="bold">精简它 = 查得快 ✓</text>
+<rect x="460" y="40" width="185" height="70" rx="10" fill="#F1E4FF" stroke="#7209B7" stroke-width="2"/>
+<text x="552" y="62" text-anchor="middle" font-weight="bold" fill="#3C096C">DivPrune 选书法</text>
+<text x="552" y="82" text-anchor="middle" fill="#3C096C">余弦距离贪心挑选</text>
+<text x="552" y="100" text-anchor="middle" fill="#3C096C">保留最"多样"的 token</text>
+</g>
+<line x1="210" y1="75" x2="236" y2="75" stroke="#868E96" stroke-width="2" marker-end="url(#arr2)"/>
+<line x1="430" y1="75" x2="456" y2="75" stroke="#868E96" stroke-width="2" marker-end="url(#arr2)"/>
+<defs><marker id="arr2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+<path d="M0,0 L7,3 L0,6 z" fill="#868E96"/></marker></defs>
+</svg></div>
+<p>保留率 γ 的账（论文实测 + 我们的仿真复现）：<b>γ=12.5% 时重建质量几乎不降</b>（Chamfer 0.026→0.029），推理加速 2/4/8 倍；配合动态保留率，前端复杂度从 O(n²) 降到 O(n·log n)。</p>
+</div>
+
+<!-- ============ Q6 ============ -->
+<div class="card">
+<span class="qnum">Q6</span><span class="qtitle">"后端 = 一次全注意力前向"是什么神仙操作？</span>
+<p>传统后端是捆着最小二乘的全局 BA + 位姿图优化，代码几千行。SLAM-Former 的后端只有一行 mindset：<span class="hl">把全部 map tokens 喂进同一个 Transformer 做一次全注意力，让每一帧"看到"所有帧，直接输出精化后的几何</span>——论文称这等价于回环检测 + 位姿图优化（对照 [[漂移与回环闭合]]：注意力权重自己学会"认路"）。</p>
+<table>
+<tr><th>项目</th><th>值（已对源码核实）</th><th>说明</th></tr>
+<tr><td>触发周期</td><td><code>bn_every = 10</code> 关键帧</td><td>每 10 个关键帧精化一次（demo.py:53）</td></tr>
+<tr><td>操作</td><td>M̄ = f_bn(M) 单次前向</td><td>无迭代、无最小二乘</td></tr>
+<tr><td>闭环</td><td>精化后 KV 写回前端（cache sharing）</td><td>前端拿着"干净账本"继续跟踪</td></tr>
+<tr><td>效果</td><td>TUM RGB-D 平均 ATE 0.039 m</td><td>优于 VGGT-SLAM 0.053 / MASt3R-SLAM 0.060</td></tr>
+</table>
+<p class="exp">节奏感：前端是"秒秒秒"的小步跑，后端是"每 10 步一次的深呼吸"——深呼吸的产出又反哺小步跑。前作即"有界局部计算 + 全局精修"的雏形。</p>
+</div>
+
+<!-- ============ Q7 ============ -->
+<div class="card">
+<span class="qnum">Q7</span><span class="qtitle">SLAMFormer-∞ 的新武器：内存条件动态坐标系</span>
+<p>在前作基础上，∞ 版把"三班倒"制度化——<span class="hl">三种操作节奏共享同一个 Transformer 和几何先验</span>：</p>
+<div class="svgbox">
+<svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg">
+<text x="340" y="20" font-size="14" font-weight="bold" fill="#1D3557" text-anchor="middle">SLAMFormer-∞ 的三节奏循环</text>
+<g font-size="11" text-anchor="middle">
+<rect x="30" y="45" width="180" height="60" rx="12" fill="#2A9D8F"/>
+<text x="120" y="68" fill="#fff" font-weight="bold">① 流式前端（每帧）</text>
+<text x="120" y="88" fill="#E6F7F1">挑关键帧 · 增量估位姿/点图</text>
+<rect x="250" y="45" width="180" height="60" rx="12" fill="#F77F00"/>
+<text x="340" y="68" fill="#fff" font-weight="bold">② 周期性局部后端</text>
+<text x="340" y="88" fill="#FFF3E0">精化最新窗口 · 更新记忆</text>
+<rect x="470" y="45" width="185" height="60" rx="12" fill="#7209B7"/>
+<text x="562" y="68" fill="#fff" font-weight="bold">③ 全局 PGGO</text>
+<text x="562" y="88" fill="#F3E8FF">回环/收尾时联合更新位姿+点图</text>
+</g>
+<g stroke="#1D3557" stroke-width="2.5" marker-end="url(#arr3)" fill="none">
+<path d="M210 75 L246 75"/><path d="M430 75 L466 75"/>
+<path d="M562 105 C562 150, 120 150, 120 109"/></g>
+<text x="340" y="145" font-size="11" fill="#E63946" text-anchor="middle" font-weight="bold">记忆（memory conditions）随循环滚动：为每一帧块动态指定坐标系与尺度 → 无需首帧锚定</text>
+<defs><marker id="arr3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+<path d="M0,0 L7,3 L0,6 z" fill="#1D3557"/></marker></defs>
+</svg></div>
+<p>成绩单：<b>KITTI 全序列 ATE 23.0 m</b>（VGGT-Long 26.4 m）、Waymo 城市段 1.81 m、7-Scenes 0.046 m；17 公里 45 分钟驾驶视频 RGB-only 在线稠密重建，KITTI 02/04/05/09/10 等序列提供可交互 3D 点云对比浏览器。</p>
+<div class="keybox"><b>和前作一句话分界：</b>前作证明了"SLAM 可以塞进一个 Transformer"；∞ 版证明了"这个 Transformer <b>可以没有距离上限</b>"——靠记忆条件坐标系（Q3）+ 有界局部计算 + 无界全局精修。</div>
+</div>
+
+<!-- ============ Q8 ============ -->
+<div class="card">
+<span class="qnum">Q8</span><span class="qtitle">它在几何重建圈子里站什么位置？</span>
+<table>
+<tr><th>方法</th><th>一句话定位</th><th>距离上限</th><th>标定</th></tr>
+<tr><td>DUSt3R / MASt3R</td><td>两图前馈点图（[[点图与前馈重建]] 起点）</td><td>两图</td><td>免</td></tr>
+<tr><td>VGGT</td><td>一次前馈 N 帧全局几何</td><td>训练帧数内</td><td>免</td></tr>
+<tr><td>VGGT-Long / VGGT-SLAM</td><td>滑窗拼接拉长 VGGT</td><td>长，但几何碎片化</td><td>免</td></tr>
+<tr><td>MASt3R-SLAM / DROID-SLAM</td><td>神经前端+传统优化</td><td>长，慢</td><td>MASt3R 免 / DROID 要</td></tr>
+<tr><td>ABot-Recon（已学）</td><td>12 帧上下文流式重建万帧</td><td>长（漂移有界靠回环）</td><td>免</td></tr>
+<tr><td><b>SLAM-Former</b></td><td><b>前后端+记账全在一个 Transformer</b></td><td>受训练长度约束</td><td>免</td></tr>
+<tr><td><b>SLAMFormer-∞</b></td><td><b>记忆条件坐标系 → 前后端都无界</b></td><td><b>无（17km 实证）</b></td><td>免</td></tr>
+</table>
+<p class="exp">互链：[[流式滑窗与O(1)状态]]（ABot-Recon 的 12 帧窗口是"钉死窗口"路线；SLAMFormer 是"记忆滚动"路线，殊途同归都是给 KV 账本封顶）、[[高斯泼溅3DGS]]（点云地图进一步的"照片级渲染"出口）。</p>
+</div>
+
+<!-- ============ Q9 ============ -->
+<div class="card">
+<span class="qnum">Q9</span><span class="qtitle">现在能下载到什么？我能跑吗？</span>
+<table>
+<tr><th>资源</th><th>状态（2026-10-03 实查）</th></tr>
+<tr><td>SLAM-Former 代码</td><td>✅ 已开源（BSD-3，521★）：推理+训练分支+ConvHead 权重（HuggingFace Jarrome/SLAM-Former）</td></tr>
+<tr><td>SLAM-Former 运行门槛</td><td>⚠ 需 CUDA GPU（demo.py 直接 <code>.to('cuda')</code>）；conda + torch 2.9.1；输入=图片文件夹，输出 final.ply + 轨迹 + Rerun/浏览器可视化</td></tr>
+<tr><td>SLAMFormer-∞ 代码</td><td>⚠ 占位仓库（仅 README+BibTeX，2 commits，65★）——论文已挂 arXiv 2608.03429，代码未放</td></tr>
+<tr><td>解读资料</td><td>README 官方推荐的微信解读文 + 项目页（含 KITTI 在线视频/点云浏览器）</td></tr>
+</table>
+<div class="warnbox">⚠ 结论：本机无 GPU，<b>不硬跑推理</b>（权重数 GB 且强依赖 CUDA）；学习路线改为"源码契约对拍 + 内存账本仿真"（Q10），全部 CPU 真实运行。等 SLAMFormer-∞ 放码、或有 GPU 机器时可升级为完整推理实验（命令已在 README 抄好）。</div>
+</div>
+
+<!-- ============ Q10 ============ -->
+<h2>🔬 动手实验（无 GPU · 已全部真实运行）</h2>
+<div class="card">
+<span class="qnum">E1</span><span class="qtitle">代码契约对拍：论文吹的牛，代码里真有吗？</span>
+<p class="exp">材料：exercise\contract_check.py（零依赖，标准库）· 对象：repo\ 真实源码</p>
+<div class="step"><h3>步骤 1：核对 18 条"论文承诺 vs 源码实现"</h3>
+<pre>cd F:\reminder\slamformer\exercise
+python contract_check.py</pre>
+<p><b>目的</b>：逐条验证 retention_ratio=0.5 / DivPrune / 只剪 KV / ConvHead / bn_every=10 / local_points+conf+camera_poses / Pi3-DINOv2 底座 / BSD-3 / 权重发布……</p>
+<div class="okbox">✅ 预期结果（实测）：<b>18/18 PASS</b>。彩蛋：首跑 17/18——论文术语叫 pointmap，代码变量名叫 <code>local_points</code>；"论文语言 ≠ 代码语言"本身就是读研代码的第一课。</div></div>
+</div>
+
+<div class="card">
+<span class="qnum">E2</span><span class="qtitle">KV 内存账本仿真："无距离上限"的数学底气</span>
+<p class="exp">材料：exercise\kv_ledger_sim.py（numpy+matplotlib）</p>
+<div class="step"><h3>步骤 2：算一笔 10 万帧的内存账</h3>
+<pre>python kv_ledger_sim.py</pre>
+<p><b>目的</b>：复现三种 token 保留策略的账本曲线，验证"动态 log 池"让内存近乎封顶。</p>
+<div class="okbox">✅ 预期结果（实测输出，12,000 帧 ≈ 17km 序列）：</div>
+<pre>   帧数 |  A 不剪枝  |  B γ=0.5  |  C 动态log池  | C 相对 A 节省
+    100 | 269.9 MiB | 134.9 MiB |    17.8 MiB  |     15x
+  1,000 |   2.5 GiB |   1.3 GiB |    26.5 MiB  |     98x
+ 12,000 |  31.0 GiB |  15.5 GiB |    36.2 MiB  |    879x
+100,000 | 260.9 GiB | 130.5 GiB |    44.4 MiB  |  6,021x</pre>
+<p>同步生成对比图 <code>exercise\kv_ledger_sim.png</code>：左图三条策略曲线（红线不剪枝线性上天、青线 log 池近乎封顶），右图后端每 10 关键帧精化+KV 写回的节奏图。</p>
+<div class="keybox"><b>实验结论</b>：不剪枝 10 万帧要 261 GiB——谁都扛不住；恒定 γ 只是把斜率打折；<b>动态 log 池才是"无距离上限"的数学前提</b>（44 MiB 跑完 10 万帧）。论文 γ=12.5% 时指标几乎不降（Chamfer 0.026→0.029），说明图书馆精简 7/8 也不误事。</div></div>
+</div>
+
+<h2>🎁 这个项目给我什么（能力清单）</h2>
+<div class="card">
+<ul style="margin-left:18px;">
+<li><b>读懂"几何基础模型"赛道</b>：DUSt3R→VGGT→SLAM-Former→∞ 的演化主线一眼看穿，短视频里的宣传语能翻译成具体机制；</li>
+<li><b>一套"无 GPU 学习法"</b>：源码契约对拍 + 复杂度账本仿真，任何重量级 AI 论文都能零显卡验证其核心主张；</li>
+<li><b>KV 剪枝的通用套路</b>：只剪 K/V 保 Query = "精简图书馆不裁读者"，可迁移到任何长上下文注意力系统（对照 [[流式滑窗与O(1)状态]]）；</li>
+<li><b>"后端=全注意力"的思想实验</b>：迭代优化可以被注意力替代的证据，值得在任何"优化问题"上想一想；</li>
+<li><b>可跑的升级路线</b>：有 GPU 后按 README 四条命令即可复现 TUM/KITTI 推理（权重公开）。</li>
+</ul>
+</div>
+
+<h2>🔗 知识库互链</h2>
+<div class="card">
+<b>新概念</b>：[[首帧锚定与内存条件坐标系]] · [[KV剪枝与多样性保留]] · [[注意力即优化器]]<br>
+<b>关联旧概念</b>：[[点图与前馈重建]]（Pi3 血统）· [[漂移与回环闭合]]（PGGO 对照）·
+[[流式滑窗与O(1)状态]]（窗口 vs 记忆两条路线）· [[KV缓存与上下文]] · [[高斯泼溅3DGS]]（点云→渲染出口）·
+[[新视角合成]]
+</div>
+
+<div class="footer">
+SLAMFormer-∞ 小白指南 · 拾遗任务 bd24c55e · 2026-10-03 ·
+论文 arXiv 2608.03429 / 2509.16909 · github.com/Tsinghua-MARS-Lab/SLAM-Former · 实验 100% 真实运行
+</div>
+</div>
+</body>
+</html>
