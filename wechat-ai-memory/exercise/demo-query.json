@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "conversations": [
+    {
+      "id": "eco-project",
+      "name": "ECO 项目讨论群",
+      "kind": "group",
+      "messages": [
+        {
+          "id": "m002",
+          "sender": "李四",
+          "timestamp": "2026-08-21T09:16:00",
+          "type": "text",
+          "content": "我整理了结果。验证集在第 18 个 epoch 后没有继续改善，但训练集仍在下降，可能出现了过拟合。",
+          "is_outgoing": true
+        }
+      ]
+    }
+  ]
+}

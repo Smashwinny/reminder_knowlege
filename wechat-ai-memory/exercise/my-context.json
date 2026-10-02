@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "conversations": [
+    {
+      "id": "memory-tool-pick",
+      "name": "记忆库选型小组（虚构）",
+      "kind": "group",
+      "messages": [
+        {
+          "id": "n001",
+          "sender": "小A",
+          "timestamp": "2026-09-01T10:00:00",
+          "type": "text",
+          "content": "微信里的项目讨论太散了，Agent 每次都要我口头复述背景，能不能直接把聊天变成上下文？",
+          "is_outgoing": false
+        },
+        {
+          "id": "n002",
+          "sender": "小B",
+          "timestamp": "2026-09-01T10:05:00",
+          "type": "text",
+          "content": "看了下 wechat-ai-memory：本地读取微信 4.x，按会话/日期/关键词筛，导出 PDF、Markdown、JSON 三件套。核心是先把可信数据层做好，RAG 和 MCP 在路线图上还没实现。",
+          "is_outgoing": true
+        },
+        {
+          "id": "n003",
+          "sender": "小A",
+          "timestamp": "2026-09-01T10:08:00",
+          "type": "text",
+          "content": "那它和 Memmy 这种记忆中枢是什么关系？",
+          "is_outgoing": false,
+          "reply_to": "n002"
+        },
+        {
+          "id": "n004",
+          "sender": "小B",
+          "timestamp": "2026-09-01T10:12:00",
+          "type": "text",
+          "content": "分工不同：它管「从微信搬数据进记忆」，Memmy 管「记住了之后怎么检索给任何 Agent」。一个是进料口，一个是仓库。",
+          "is_outgoing": false
+        },
+        {
+          "id": "n005",
+          "sender": "系统",
+          "timestamp": "2026-09-01T11:00:00",
+          "type": "system",
+          "content": "小A 修改群名为「记忆库选型小组」",
+          "is_outgoing": false
+        }
+      ]
+    }
+  ]
+}

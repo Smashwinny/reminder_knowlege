@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>微信AI记忆库小白指南</title>
+<style>
+:root{
+  --green:#07a85b; --green-dark:#0b6e3e; --green-bg:#e7f8ee;
+  --orange:#f97316; --orange-bg:#fff3e6;
+  --purple:#7c3aed; --purple-bg:#f3eafd;
+  --blue:#2563eb; --blue-bg:#e8f0fe;
+  --pink:#e11d48; --pink-bg:#fde8ec;
+  --yellow:#fbbf24; --yellow-hl:#fff1b8;
+  --ink:#1a2332; --muted:#5b6472; --card-border:#e4e8ee;
+}
+@page{ size:A4; margin:12mm 11mm; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); font-size:10.5pt; line-height:1.65; background:#fff; }
+.wrap{ width:100%; }
+
+/* cover */
+.cover{ background:linear-gradient(135deg,#0b6e3e 0%,#07a85b 55%,#34d17c 100%); color:#fff; border-radius:14px; padding:26px 30px 22px; margin-bottom:14px; }
+.cover .tag{ display:inline-block; background:rgba(255,255,255,.22); border-radius:20px; padding:2px 14px; font-size:9pt; letter-spacing:2px; margin-bottom:10px;}
+.cover h1{ font-size:27pt; letter-spacing:1px; margin-bottom:6px;}
+.cover .sub{ font-size:11.5pt; opacity:.95; margin-bottom:10px;}
+.cover .meta{ font-size:8.5pt; opacity:.85; border-top:1px solid rgba(255,255,255,.35); padding-top:8px; display:flex; gap:18px; flex-wrap:wrap;}
+.cover .meta b{ font-size:10.5pt; }
+
+/* section titles */
+.h2{ display:flex; align-items:center; gap:10px; margin:18px 0 10px; }
+.h2 .bar{ width:7px; height:24px; border-radius:4px; background:linear-gradient(180deg,var(--orange),var(--yellow)); }
+.h2 h2{ font-size:15.5pt; color:var(--green-dark); }
+.h2 .en{ font-size:8.5pt; color:var(--muted); margin-top:3px;}
+
+/* question card */
+.q{ border:1.6px solid var(--card-border); border-radius:12px; margin:10px 0; overflow:hidden; break-inside:avoid; }
+.q-head{ display:flex; align-items:center; gap:12px; padding:8px 14px; }
+.q-num{ font-size:22pt; font-weight:900; line-height:1; min-width:44px; text-align:center; }
+.q-title{ font-size:12.5pt; font-weight:800; }
+.q-body{ padding:10px 16px 13px; border-top:1.4px dashed var(--card-border); }
+.q.green{ border-color:#9fdcbb;} .q.green .q-head{background:var(--green-bg);} .q.green .q-num{color:var(--green);}
+.q.orange{ border-color:#ffc59a;} .q.orange .q-head{background:var(--orange-bg);} .q.orange .q-num{color:var(--orange);}
+.q.purple{ border-color:#d6c3f7;} .q.purple .q-head{background:var(--purple-bg);} .q.purple .q-num{color:var(--purple);}
+.q.blue{ border-color:#b9cffc;} .q.blue .q-head{background:var(--blue-bg);} .q.blue .q-num{color:var(--blue);}
+.q.pink{ border-color:#f8b8c6;} .q.pink .q-head{background:var(--pink-bg);} .q.pink .q-num{color:var(--pink);}
+
+.hl{ background:linear-gradient(transparent 55%, var(--yellow-hl) 55%); font-weight:800; padding:0 2px;}
+.hl-o{ background:linear-gradient(transparent 55%, #ffe0c2 55%); font-weight:800; padding:0 2px;}
+.big{ font-size:12pt; font-weight:900; color:var(--green-dark);}
+code, .mono{ font-family:Consolas,"Courier New",monospace; font-size:9pt; background:#f2f4f7; border:1px solid #e0e4ea; border-radius:4px; padding:0 4px; color:#b3341f; }
+pre{ background:#12251c; color:#d6ffe6; border-radius:9px; padding:10px 13px; font-family:Consolas,monospace; font-size:8.6pt; line-height:1.55; overflow:hidden; break-inside:avoid; margin:8px 0; white-space:pre-wrap;}
+pre .c{ color:#7fd7a5; }
+.callout{ border-radius:9px; padding:9px 13px; margin:8px 0; font-size:9.8pt; break-inside:avoid;}
+.callout b.tag{ display:inline-block; border-radius:5px; padding:0 8px; margin-right:7px; color:#fff; font-size:9pt;}
+.co-warn{ background:#fff5e8; border:1.6px solid #f5a54b;} .co-warn b.tag{background:var(--orange);}
+.co-key{ background:var(--green-bg); border:1.6px solid #6fcb98;} .co-key b.tag{background:var(--green);}
+.co-priv{ background:var(--pink-bg); border:1.6px solid #ef8fa5;} .co-priv b.tag{background:var(--pink);}
+table{ border-collapse:collapse; width:100%; margin:8px 0; font-size:9.3pt; break-inside:avoid;}
+th{ background:var(--green-dark); color:#fff; padding:6px 8px; text-align:left; font-size:9.3pt;}
+td{ border:1.2px solid #dfe4ea; padding:5px 8px; vertical-align:top;}
+tr:nth-child(even) td{ background:#f7faf8; }
+td.c, th.c{ text-align:center; }
+svg{ display:block; margin:8px auto; max-width:100%; }
+.fig-cap{ text-align:center; font-size:8.5pt; color:var(--muted); margin:-3px 0 6px;}
+.two{ display:flex; gap:10px; } .two>div{ flex:1; }
+.pill{ display:inline-block; border-radius:14px; padding:1px 10px; font-size:8.6pt; font-weight:700; margin:1px 2px;}
+.pill.g{ background:var(--green-bg); color:var(--green-dark); border:1px solid #8fd8b0;}
+.pill.o{ background:var(--orange-bg); color:#c2530a; border:1px solid #f5b98a;}
+.pill.p{ background:var(--purple-bg); color:var(--purple); border:1px solid #cbb2f4;}
+.pill.b{ background:var(--blue-bg); color:var(--blue); border:1px solid #a9c4fb;}
+.pill.k{ background:#eceff3; color:var(--muted); border:1px solid #d4d9e0;}
+.step{ border:1.6px solid var(--card-border); border-radius:11px; margin:9px 0; break-inside:avoid; overflow:hidden;}
+.step-head{ display:flex; align-items:center; gap:10px; padding:7px 13px; background:linear-gradient(90deg,#0b6e3e,#07a85b); color:#fff;}
+.step-no{ background:#fff; color:var(--green-dark); font-weight:900; border-radius:8px; width:30px; height:22px; display:flex; align-items:center; justify-content:center; font-size:11pt;}
+.step-title{ font-weight:800; font-size:11pt;}
+.step-body{ padding:9px 14px 12px;}
+.ok{ background:#eafaf1; border:1.6px solid #58c48b; border-radius:8px; padding:6px 11px; margin:7px 0 0; font-size:9.3pt;}
+.ok b{ color:var(--green-dark);}
+.foot{ margin-top:14px; border-top:2.5px solid var(--green); padding-top:7px; font-size:8.5pt; color:var(--muted); display:flex; justify-content:space-between;}
+ul,ol{ padding-left:20px; margin:5px 0;} li{ margin:2.5px 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div class="tag">拾遗学习流水线 · 开源项目类 · 小白指南</div>
+  <h1>微信 AI 记忆库 wechat-ai-memory</h1>
+  <div class="sub">把散落在微信里的对话，整理成 Agent 能读、能检索、能引用的本地记忆档案</div>
+  <div class="meta">
+    <span>仓库 <b>ikevss/LOGO127 · wechat-ai-memory</b></span>
+    <span>版本 <b>v0.3.7-alpha</b></span>
+    <span>协议 <b>MIT</b></span>
+    <span>平台 <b>Windows 10/11 × 微信 4.x</b></span>
+    <span>技术栈 <b>Python 3.11+ · PySide6 · Frida · ReportLab · faster-whisper</b></span>
+    <span>学习日期 <b>2026-10-03</b></span>
+  </div>
+</div>
+
+<!-- ============ 开场 ============ -->
+<div class="callout co-key" style="margin-top:2px;">
+  <b class="tag">一句话</b>微信 AI 记忆库是一个<b>本地优先的开源 Windows 工具</b>：直接读取本机微信 4.x 的聊天记录（也支持纯 JSON 数据源），按<b>会话 / 日期 / 关键词</b>筛选后，导出成 <b>PDF + Markdown + 结构化 JSON</b> 三件套——目的不是"备份聊天"，而是给 AI Agent 准备一份<span class="hl">可引用、可追溯的个人上下文记忆</span>。
+</div>
+
+<!-- ============ 疑问 1 ============ -->
+<div class="h2"><div class="bar"></div><h2>疑问即目录：10 个问题讲透它</h2><div class="en">Questions First —— 工科毕业生的视角</div></div>
+
+<div class="q green">
+  <div class="q-head"><div class="q-num">Q1</div><div class="q-title">这是什么？解决什么问题？</div></div>
+  <div class="q-body">
+    <p>Agent 时代有个尴尬现实：<b>模型能不能帮上忙，取决于它懂不懂"事情的来龙去脉"</b>。项目决策、需求变更、关键承诺……这些上下文不在项目管理工具里，而是<span class="hl">散落在微信私聊和群聊里</span>。你给模型几句临时描述，它只能靠猜。</p>
+    <p>这个项目的定位一句话：<b style="color:var(--green-dark)">微信 = 你的最大上下文仓库，但它对 Agent 是个黑盒 → 这个工具把黑盒变成 Agent 可读的档案</b>。导出的 JSON 里每条消息都带 <code>id</code>、<code>sender</code>、<code>timestamp</code>、<code>reply_to</code>，模型引用时能精确回溯到原文——这就是"可追溯"的含义。</p>
+  </div>
+</div>
+
+<div class="q green">
+  <div class="q-head"><div class="q-num">Q2</div><div class="q-title">为什么需要它？没有它之前人们怎么做？</div></div>
+  <div class="q-body">
+    <p>现有的路各有毛病：</p>
+    <table>
+      <tr><th>老办法</th><th>痛点</th></tr>
+      <tr><td>付费闭源导出工具</td><td>要花钱，且聊天记录上传到谁的服务器<b>无法独立审查</b>——心里没底</td></tr>
+      <tr><td>手工复制粘贴 / 截图</td><td>几百条消息不可持续，截图里的文字模型没法直接检索</td></tr>
+      <tr><td>口头向 Agent 复述背景</td><td>转述必有遗漏和失真，承诺、结论这类细节最容易丢</td></tr>
+    </table>
+    <p>它的差异化主张就三条：<span class="hl">开源免费（MIT）、本地优先（无遥测无远程 API）、数据不上传</span>。当前版本先把"可靠的提取与归档"这一层做扎实，语义检索 / RAG / MCP 都排在路线图上（见 Q9）。</p>
+  </div>
+</div>
+
+<div class="q orange">
+  <div class="q-head"><div class="q-num">Q3</div><div class="q-title">它是怎么做到的？整体架构长什么样？</div></div>
+  <div class="q-body">
+    <svg viewBox="0 0 720 300" width="640">
+      <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#5b6472"/></marker></defs>
+      <rect x="10" y="30" width="185" height="88" rx="10" fill="#e7f8ee" stroke="#07a85b" stroke-width="2"/>
+      <text x="102" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#0b6e3e">Windows 微信 4.x</text>
+      <text x="102" y="80" text-anchor="middle" font-size="10.5" fill="#1a2332">Frida 拿密钥 → 解密</text>
+      <text x="102" y="97" text-anchor="middle" font-size="10.5" fill="#1a2332">只读临时副本</text>
+      <rect x="10" y="185" width="185" height="70" rx="10" fill="#e8f0fe" stroke="#2563eb" stroke-width="2"/>
+      <text x="102" y="213" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1d4fb8">Version 1 JSON</text>
+      <text x="102" y="234" text-anchor="middle" font-size="10.5" fill="#1a2332">备用数据源（不碰微信）</text>
+      <rect x="268" y="105" width="150" height="76" rx="10" fill="#fff3e6" stroke="#f97316" stroke-width="2.5"/>
+      <text x="343" y="137" text-anchor="middle" font-size="14" font-weight="bold" fill="#c2530a">ChatSource</text>
+      <text x="343" y="158" text-anchor="middle" font-size="10.5" fill="#1a2332">统一消息接口</text>
+      <rect x="480" y="105" width="105" height="76" rx="10" fill="#f3eafd" stroke="#7c3aed" stroke-width="2"/>
+      <text x="532" y="132" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5b21b6">筛选与预览</text>
+      <text x="532" y="152" text-anchor="middle" font-size="9.5" fill="#1a2332">会话·日期·关键词</text>
+      <rect x="628" y="18" width="86" height="66" rx="9" fill="#fde8ec" stroke="#e11d48" stroke-width="2"/>
+      <text x="671" y="45" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">PDF</text>
+      <text x="671" y="63" text-anchor="middle" font-size="9" fill="#1a2332">气泡排版+图片页</text>
+      <rect x="628" y="110" width="86" height="66" rx="9" fill="#fde8ec" stroke="#e11d48" stroke-width="2"/>
+      <text x="671" y="137" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">Markdown</text>
+      <text x="671" y="155" text-anchor="middle" font-size="9" fill="#1a2332">人读转录稿</text>
+      <rect x="628" y="202" width="86" height="66" rx="9" fill="#fde8ec" stroke="#e11d48" stroke-width="2"/>
+      <text x="671" y="229" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">JSON</text>
+      <text x="671" y="247" text-anchor="middle" font-size="9" fill="#1a2332">机器读规范结构</text>
+      <line x1="195" y1="74" x2="264" y2="125" stroke="#5b6472" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="195" y1="220" x2="264" y2="163" stroke="#5b6472" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="418" y1="143" x2="476" y2="143" stroke="#5b6472" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="585" y1="130" x2="624" y2="62" stroke="#5b6472" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="585" y1="143" x2="624" y2="143" stroke="#5b6472" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="585" y1="158" x2="624" y2="225" stroke="#5b6472" stroke-width="2" marker-end="url(#ar)"/>
+    </svg>
+    <div class="fig-cap">图 1 · 双数据源汇入统一 ChatSource 接口，筛选后分流三格式导出</div>
+    <p>架构上最值得学的一手是<span class="hl">适配器隔离</span>：微信数据适配器（<code>sources/wechat4_*.py</code> 六个模块）和渲染、导出模块完全解耦，两者只通过 <code>ChatSource</code> 抽象接口对话。就算哪天微信改了内部格式把适配层打挂，<b>JSON 数据源和整条导出管线照样独立存活</b>——这也是我们本批次实验敢跑的前提（只用 JSON 入口，绝不碰真实微信）。</p>
+  </div>
+</div>
+
+<div class="q orange">
+  <div class="q-head"><div class="q-num">Q4</div><div class="q-title">微信的数据到底是怎么被读出来的？</div></div>
+  <div class="q-body">
+    <p>微信 4.x 的本地数据库是 <b>SQLCipher 整库加密</b>的，密钥只存在于运行中的微信进程内存里。这个项目的读取流程：</p>
+    <svg viewBox="0 0 720 120" width="640">
+      <defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#07a85b"/></marker></defs>
+      <rect x="8" y="30" width="128" height="60" rx="9" fill="#e7f8ee" stroke="#07a85b" stroke-width="2"/>
+      <text x="72" y="55" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0b6e3e">Frida attach</text>
+      <text x="72" y="74" text-anchor="middle" font-size="9.5" fill="#1a2332">已登录微信进程</text>
+      <rect x="168" y="30" width="140" height="60" rx="9" fill="#e8f0fe" stroke="#2563eb" stroke-width="2"/>
+      <text x="238" y="55" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1d4fb8">取出密钥</text>
+      <text x="238" y="74" text-anchor="middle" font-size="9.5" fill="#1a2332">密钥不写磁盘</text>
+      <rect x="340" y="30" width="160" height="60" rx="9" fill="#fff3e6" stroke="#f97316" stroke-width="2"/>
+      <text x="420" y="55" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#c2530a">复制临时副本</text>
+      <text x="420" y="74" text-anchor="middle" font-size="9.5" fill="#1a2332">原库永远只读不动</text>
+      <rect x="532" y="30" width="130" height="60" rx="9" fill="#fde8ec" stroke="#e11d48" stroke-width="2"/>
+      <text x="597" y="55" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#be123c">解密+读消息</text>
+      <text x="597" y="74" text-anchor="middle" font-size="9.5" fill="#1a2332">关源即删临时文件</text>
+      <line x1="136" y1="60" x2="164" y2="60" stroke="#07a85b" stroke-width="2.4" marker-end="url(#ar2)"/>
+      <line x1="308" y1="60" x2="336" y2="60" stroke="#07a85b" stroke-width="2.4" marker-end="url(#ar2)"/>
+      <line x1="500" y1="60" x2="528" y2="60" stroke="#07a85b" stroke-width="2.4" marker-end="url(#ar2)"/>
+    </svg>
+    <div class="fig-cap">图 2 · "进程内取钥 → 副本上解密"路线：原数据库文件从头到尾不被修改</div>
+    <div class="callout co-priv">
+      <b class="tag">对比已学概念</b>这与 vault 里 <b>[[CleanRoom只读读取器]]</b>（wechat-intelligence-hub 的路线）是<b>同一目标的两条技术路线</b>：CleanRoom 坚持不碰目标进程，密钥材料由用户本人提供（授权问题）；本项目走 <b>Frida 动态注入拿密钥</b>——自动化程度高（用户零操作），但代价是要注入微信进程、被安全软件盯上、且微信升级随时可能打挂。两条路线的隐私底线一致：<b>只读、密钥不落盘、临时文件用完即删</b>。
+    </div>
+  </div>
+</div>
+
+<div class="q purple">
+  <div class="q-head"><div class="q-num">Q5</div><div class="q-title">导出的 JSON 到底长什么样？Agent 怎么"读"？</div></div>
+  <div class="q-body">
+    <p>所谓"Agent 可读"，核心就是这份<b>规范化（normalized）JSON</b>。我们用官方虚构样例 <code>demo_chat.json</code> 实测导出，结构如下：</p>
+<pre>{
+  "version": 1,
+  "conversations": [{
+    "id": "eco-project", "name": "ECO 项目讨论群", "kind": "group",
+    "messages": [{
+      <span class="c">"id"</span>: "m004",                        <span class="c">// 稳定消息 ID（路线图 v0.4 会强化去重）</span>
+      <span class="c">"sender"</span>: "张三", "timestamp": "2026-08-21T09:22:00",
+      <span class="c">"type"</span>: "text",                      <span class="c">// text / image / file / voice / system</span>
+      <span class="c">"content"</span>: "图里有两个信息需要复核：……",
+      <span class="c">"is_outgoing"</span>: false,               <span class="c">// 谁在说话：本人 or 对方</span>
+      <span class="c">"reply_to"</span>: "m003"                   <span class="c">// 引用回复 → 消息间的引用链</span>
+    }, ...]
+  }]
+}</pre>
+    <p>三个设计点：<span class="hl">① <code>is_outgoing</code> 区分"我说的"和"别人说的"</span>——对 Agent 理解立场至关重要；<span class="hl">② <code>reply_to</code> 保留消息引用链</span>——"张三那句话是针对哪张图说的"不再是悬案；<span class="hl">③ <code>type</code> 五类全覆盖</span>，图片/文件导出后指向 <code>_assets</code> 目录的相对路径。这其实是给 LLM 喂上下文时最省 token 又最不丢信息粒度的中间格式。</p>
+  </div>
+</div>
+
+<div class="q purple">
+  <div class="q-head"><div class="q-num">Q6</div><div class="q-title">语音和图片这些"非文字消息"怎么处理？</div></div>
+  <div class="q-body">
+    <div class="two">
+      <div>
+        <p><b style="color:var(--purple)">🔊 语音（SILK 格式）</b></p>
+        <p>微信语音是 <b>SILK</b> 编码（微信自家的语音编解码格式，普通播放器打不开）。项目用 <code>silk-python</code> 解码，再交给 <b>faster-whisper</b>（本地运行的开源转写模型，首次需联网下载约 500 MB 的 small 模型）转成文字并<b>缓存</b>——转写全程在本机，语音不上传。</p>
+      </div>
+      <div>
+        <p><b style="color:var(--purple)">🖼 图片（V2 / WXGF）</b></p>
+        <p>微信 4.x 的图片是自有封装格式（WXGF），需要"原图恢复"；恢复后再做 <b>EXIF 方向修正</b>（按拍摄方向字段转正，避免 PDF 里横躺），输出预览图 + <b>300 DPI 高清独立页</b>。实测 PDF 里图片页还带"来源会话/发送者/时间"的元数据头。</p>
+      </div>
+    </div>
+    <div class="callout co-key"><b class="tag">要点</b>语音转写缓存和模型都存 <code>%LOCALAPPDATA%\WeChatAIMemory</code>，首次下载模型后可完全离线使用——这延续了"本地优先"的承诺。</div>
+  </div>
+</div>
+
+<div class="q blue">
+  <div class="q-head"><div class="q-num">Q7</div><div class="q-title">三方对比：它 vs 微信情报库 vs Memmy，到底什么关系？</div></div>
+  <div class="q-body">
+    <p>流水线已经学过两个同域项目，必须摆在一起看清楚。一句话定位：<span class="hl">wechat-ai-memory 是<b>进料口</b>，wechat-intelligence-hub 是<b>加工车间</b>，Memmy 是<b>仓库+检索台</b></span>——三者其实可以串成一条完整的个人记忆流水线。</p>
+    <table>
+      <tr><th style="width:19%"></th><th>微信 AI 记忆库（本项目）</th><th>微信个人情报库<br>wechat-intelligence-hub</th><th>Memmy 记忆中枢</th></tr>
+      <tr><td><b>解决什么</b></td><td>微信记录 → Agent 可读档案（<b>搬数据</b>）</td><td>微信记录 → 情报日报+行动信号（<b>出情报</b>）</td><td>跨工具记忆的存储与检索（<b>管记忆</b>）</td></tr>
+      <tr><td><b>读微信方式</b></td><td><span class="pill o">Frida 注入取钥</span> + 临时副本解密</td><td><span class="pill g">CleanRoom</span> 不碰进程，本人提供密钥材料</td><td>不读微信（吃各 Agent 的会话记录）</td></tr>
+      <tr><td><b>加工方式</b></td><td>确定性筛选（会话/日期/关键词）+ 排版导出</td><td>[[确定性信号引擎]] 规则打信号、附证据原句</td><td>四层记忆（轨迹→策略→世界模型→技能）+ 混合检索</td></tr>
+      <tr><td><b>输出</b></td><td>PDF / MD / JSON 三件套</td><td>HTML 情报日报</td><td>统一检索 API 给任意 Agent</td></tr>
+      <tr><td><b>Agent 接口</b></td><td>暂无（MCP 在 v0.8 路线图）</td><td>无（人看报）</td><td><b>已有</b>（跨工具共享检索）</td></tr>
+      <tr><td><b>成熟度</b></td><td>v0.3.7-alpha，数据层扎实</td><td>概念验证完善</td><td>全本地闭环可用</td></tr>
+    </table>
+    <svg viewBox="0 0 720 130" width="640">
+      <defs><marker id="ar3" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#2563eb"/></marker></defs>
+      <rect x="10" y="35" width="200" height="64" rx="10" fill="#fff3e6" stroke="#f97316" stroke-width="2.4"/>
+      <text x="110" y="62" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c2530a">① 进料口 · 微信AI记忆库</text>
+      <text x="110" y="83" text-anchor="middle" font-size="9.5" fill="#1a2332">微信 → 干净的规范 JSON</text>
+      <rect x="262" y="35" width="200" height="64" rx="10" fill="#e7f8ee" stroke="#07a85b" stroke-width="2.4"/>
+      <text x="362" y="62" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#0b6e3e">② 加工车间 · 情报库</text>
+      <text x="362" y="83" text-anchor="middle" font-size="9.5" fill="#1a2332">规则引擎筛信号出日报</text>
+      <rect x="514" y="35" width="196" height="64" rx="10" fill="#e8f0fe" stroke="#2563eb" stroke-width="2.4"/>
+      <text x="612" y="62" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1d4fb8">③ 仓库检索 · Memmy</text>
+      <text x="612" y="83" text-anchor="middle" font-size="9.5" fill="#1a2332">四层记忆 × 混合检索 × 全Agent</text>
+      <line x1="210" y1="67" x2="258" y2="67" stroke="#2563eb" stroke-width="2.4" marker-end="url(#ar3)"/>
+      <line x1="462" y1="67" x2="510" y2="67" stroke="#2563eb" stroke-width="2.4" marker-end="url(#ar3)"/>
+      <text x="360" y="122" text-anchor="middle" font-size="9.5" fill="#5b6472">三者拼起来 = 完整的个人记忆流水线：进料 → 加工 → 存储/检索/供给</text>
+    </svg>
+    <div class="fig-cap">图 3 · 三个项目在"个人记忆流水线"上的分工（互链见 vault 概念笔记）</div>
+    <p>关键差异点在<b>消费端</b>：情报库出的是给人看的日报，Memmy 出的是给任何 Agent 用的检索接口；而本项目现在只出到"档案文件"，<span class="hl">它变成真正 Agent 记忆的最后一公里（MCP 只读查询）排在路线图 v0.8</span>。从这个角度看，它当前的 JSON 输出已经可以直接被 Memmy 这类系统当语料吃进去。</p>
+  </div>
+</div>
+
+<div class="q blue">
+  <div class="q-head"><div class="q-num">Q8</div><div class="q-title">隐私红线是怎么设计的？</div></div>
+  <div class="q-body">
+    <table>
+      <tr><th>数据行为</th><th class="c">是否发生</th><th>实现机制</th></tr>
+      <tr><td>上传聊天内容 / 图片 / 导出文件</td><td class="c"><b style="color:var(--pink)">否</b></td><td>无遥测、无远程 API、无 AI 云请求</td></tr>
+      <tr><td>写密钥到磁盘</td><td class="c"><b style="color:var(--pink)">否</b></td><td>Frida 内存取钥，进程结束即消失</td></tr>
+      <tr><td>修改原始微信数据库</td><td class="c"><b style="color:var(--pink)">否</b></td><td>只解密"临时副本"，原库只读</td></tr>
+      <tr><td>发 / 撤 / 改微信消息</td><td class="c"><b style="color:var(--pink)">否</b></td><td>纯读取，无写通道</td></tr>
+      <tr><td>临时文件残留</td><td class="c"><b style="color:var(--pink)">否</b></td><td>数据源关闭时删除临时库与恢复图片</td></tr>
+    </table>
+    <div class="callout co-warn"><b class="tag">但要注意</b>① 未做代码签名，SmartScreen 会拦；Frida 注入行为可能触发安全软件告警——<b>只从官方 Release 下载</b>。② "数据不上传"承诺目前靠<b>自律 + 开源可审查</b>，alpha 阶段没有第三方审计背书。③ 本批次实验的纪律就是这条红线的实践：<b>只用官方虚构 demo 和自造样例数据，绝不连接真实微信库</b>。</div>
+  </div>
+</div>
+
+<div class="q pink">
+  <div class="q-head"><div class="q-num">Q9</div><div class="q-title">现在能干什么、不能干什么？</div></div>
+  <div class="q-body">
+    <p><b>已经能（当前能力）：</b></p>
+    <p>
+      <span class="pill g">本机微信读取（只读副本）</span>
+      <span class="pill g">会话/日期/关键词三重筛选</span>
+      <span class="pill g">文本·图片·文件·语音·系统消息</span>
+      <span class="pill g">语音本地转写（whisper）</span>
+      <span class="pill g">PDF/MD/JSON 三格式导出</span>
+      <span class="pill g">GUI + CLI + JSON 备用入口</span>
+    </p>
+    <p style="margin-top:7px;"><b>还不能（明确的边界）：</b>AI 问答、RAG 语义检索、OCR、向量索引——<span class="hl-o">它现在是"可信数据层"，不是"智能层"</span>。路线图：v0.4 持久记忆库+增量同步 → v0.5 SQLite FTS5 全文检索 → v0.6 结构化实体（人物/项目/决策）→ v0.7 带引用的本地 AI 问答 → v0.8 只读 MCP 接口。也就是说，"变成真 Agent 记忆"是它自己认定的终局，只是当下先把地基打牢。</p>
+  </div>
+</div>
+
+<div class="q pink">
+  <div class="q-head"><div class="q-num">Q10</div><div class="q-title">怎么跑起来？普通用户和开发者各一条路</div></div>
+  <div class="q-body">
+    <div class="two">
+      <div>
+        <p><b style="color:var(--pink)">普通用户（连真微信）</b></p>
+        <ol>
+          <li>Release 下载 <code>WeChatAIMemory-Portable.exe</code>（免安装，内含全部运行库）</li>
+          <li>登录微信 4.x → 点"连接微信"→ 微信重启后 5 分钟内确认</li>
+          <li>选联系人 / 日期 / 关键词 → 生成记忆档案</li>
+        </ol>
+      </div>
+      <div>
+        <p><b style="color:var(--pink)">开发者（只跑 JSON 入口，本次实验路线）</b></p>
+        <ol>
+          <li><code>git clone</code> → 建 venv</li>
+          <li>装依赖（JSON 入口最小集：Pillow + reportlab + zstandard + pycryptodome）</li>
+          <li><code>python -m wechat_context_exporter --source demo_chat.json ...</code></li>
+        </ol>
+      </div>
+    </div>
+    <div class="callout co-warn"><b class="tag">实测坑</b>包的 <code>__init__.py</code> 会连带 import 微信适配层 → <b>即使你只想用 JSON 入口，也必须装 zstandard 和 pycryptodome</b>，否则 <code>ModuleNotFoundError</code>。Frida 和 faster-whisper 这两个大件倒是可以不装（用不到就不触发）。</div>
+  </div>
+</div>
+
+<!-- ============ 能力清单 ============ -->
+<div class="h2"><div class="bar"></div><h2>这个项目给我什么：能力清单</h2><div class="en">What You Get —— 结合当前水平的具体用途</div></div>
+<div class="q green">
+  <div class="q-head"><div class="q-num">⚙</div><div class="q-title">5 个马上能用的场景</div></div>
+  <div class="q-body">
+    <ol>
+      <li><b>给 Agent 补背景</b>：开新会话前，把某项目相关的群聊按日期筛出来导出 JSON/MD，直接贴给 Claude——比口头复述完整得多，且每条可回溯原文。</li>
+      <li><b>自造对话语料</b>：Version 1 JSON 格式简单（本次实验已验证），可以<b>手工构造虚构对话</b>测试任何"聊天记录分析"想法，零隐私风险。</li>
+      <li><b>项目复盘档案</b>：把一个项目周期内的群聊导成带引用链的 PDF，作为结项归档材料。</li>
+      <li><b>为记忆流水线备料</b>：将来把导出的 JSON 喂给 Memmy 类系统做长期记忆——进料口（本项目）×仓库（Memmy）组队。</li>
+      <li><b>学架构范式</b>：适配器隔离 + 统一 ChatSource 抽象 + 备用数据源保活，是"依赖易变外部系统"时极值得抄的工程结构。</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ============ 实验 ============ -->
+<div class="h2"><div class="bar"></div><h2>成就感实验：JSON 备用入口全链路（隐私红线内）</h2><div class="en">All commands verified on Windows 11 · Python 3.14 · 2026-10-03</div></div>
+<div class="callout co-priv"><b class="tag">红线声明</b>本实验全程<b>未连接真实微信</b>：数据源只用官方虚构样例 <code>demo_chat.json</code>（ECO 项目讨论群）和自造样例 <code>my_chat.json</code>（记忆库选型小组，人物情节均为虚构）。</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-no">1</div><div class="step-title">跑通最小环境，列出样例里的会话</div></div>
+  <div class="step-body">
+    <p><b>操作</b>（venv + 最小依赖，Pillow/reportlab/zstandard/pycryptodome 四件）：</p>
+<pre>python -m venv .venv
+.venv\Scripts\pip install Pillow reportlab zstandard pycryptodome
+$env:PYTHONPATH="repo\src"   <span class="c"># 或 pip install -e repo</span>
+.venv\Scripts\python -m wechat_context_exporter --source repo\examples\demo_chat.json</pre>
+    <p><b>目的</b>验证环境与 CLI 数据源识别 ｜ <b>实现</b>不装 Frida/whisper 大件也能驱动整条导出管线 ｜ <b>检测</b></p>
+    <div class="ok"><b>✅ 预期结果（实测）</b>：列出 2 个会话——<code>eco-project ECO 项目讨论群 8 messages</code>、<code>mentor-chat 导师 2 messages</code></div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-no">2</div><div class="step-title">三格式导出：一份档案，三种读者</div></div>
+  <div class="step-body">
+<pre>python -m wechat_context_exporter --source repo\examples\demo_chat.json `
+  --conversation eco-project --start 2026-08-21 --end 2026-08-22 `
+  --output demo-context.pdf --markdown demo-context.md --json demo-context.json</pre>
+    <p><b>目的</b>一次生成 PDF（人看）/ Markdown（转录）/ JSON（机器读）｜ <b>实现</b>日期范围筛选 + 气泡排版 + 图片独立页 ｜ <b>检测</b></p>
+    <div class="ok"><b>✅ 预期结果（实测）</b>：<code>Created demo-context.pdf (2 pages, 8 messages, 1 image pages)</code>；PDF 目检：微信风格左右气泡、引用回复框（Reply to m003）、系统消息居中灰条、训练曲线图带 300DPI 附件页（元数据头：来源/发送者/时间）</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-no">3</div><div class="step-title">关键词筛选：从 8 条里精确捞出 1 条</div></div>
+  <div class="step-body">
+<pre>python -m wechat_context_exporter --source repo\examples\demo_chat.json `
+  --conversation eco-project --query 过拟合 --output demo-query.pdf --json demo-query.json</pre>
+    <p><b>目的</b>验证 <code>--query</code> 按发送者/内容/类型全文匹配 ｜ <b>检测</b></p>
+    <div class="ok"><b>✅ 预期结果（实测）</b>：<code>1 messages</code>，JSON 中唯一命中 m002（李四"……可能出现了过拟合"，is_outgoing: true）</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-no">4</div><div class="step-title">自造样例数据：验证"我的格式我说了算"</div></div>
+  <div class="step-body">
+    <p><b>操作</b>：手写 <code>my_chat.json</code>（虚构"记忆库选型小组"群聊 7 条 + "导师"私聊 1 条，含 reply_to 引用链、system 消息、图片附件），喂进同一管线。自造 PNG 附件用 Pillow 画一张。</p>
+    <p><b>目的</b>验证数据主权——JSON 备用入口不依赖微信也能出完整档案 ｜ <b>检测</b></p>
+    <div class="ok"><b>✅ 预期结果（实测）</b>：<code>Created my-context.pdf (1 pages, 5 messages)</code>；2026-09-01 当天 5 条（n001~n005）日期过滤精确；reply_to 链 n003→n002 保留</div>
+    <div class="callout co-warn" style="margin-top:6px;"><b class="tag">踩坑实录</b>① <code>kind</code> 只认 <code>direct</code>/<code>group</code>，写 <code>private</code> 直接报错 <code>'private' is not a valid ConversationKind</code>（错误信息清晰，护栏合格）；② JSON 字符串里嵌 ASCII 双引号必须转义（改用「」最省事），否则 <code>Expecting ',' delimiter</code>。</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-no">5</div><div class="step-title">体检"Agent 可读性"：规范化 JSON 的字段契约</div></div>
+  <div class="step-body">
+    <p><b>操作</b>：用 Python 检查导出 JSON 的字段完整性与引用链：</p>
+<pre>import json
+d = json.load(open("my-context.json", encoding="utf-8"))
+msgs = d["conversations"][0]["messages"]
+print([m["id"] for m in msgs])                     <span class="c"># ['n001'..'n005']</span>
+print([m["id"] for m in msgs if "reply_to" in m])  <span class="c"># ['n003'] 引用链在</span></pre>
+    <p><b>目的</b>确认 <code>id/sender/timestamp/type/content/is_outgoing/reply_to</code> 六要素齐全——这才是"Agent 能引用原文"的合同 ｜ <b>检测</b></p>
+    <div class="ok"><b>✅ 预期结果（实测）</b>：六字段全在；<code>is_outgoing</code> 布尔正确；引用链无损。结论：<b style="color:var(--green-dark)">数据层确实"可信、可追溯"，配得上它 README 里"先做好地基"的定位</b></div>
+  </div>
+</div>
+
+<!-- ============ 总结 ============ -->
+<div class="h2"><div class="bar"></div><h2>学习结论与三方互链</h2></div>
+<div class="q green">
+  <div class="q-head"><div class="q-num">★</div><div class="q-title">一句话带走 + 知识库互链</div></div>
+  <div class="q-body">
+    <p><span class="big">微信 AI 记忆库 = 个人记忆流水线的"进料口"</span>：它解决的是"上下文原料从哪来"——用双数据源 + 适配器隔离的架构，把最黑的盒子（微信本地库）变成最白的格式（规范 JSON）。智能检索、Agent 接口它都还没做，也不急着做。</p>
+    <p style="margin-top:6px;">vault 互链：<b>[[CleanRoom只读读取器]]</b>（同目标不同路线的读库之争）· <b>[[确定性信号引擎]]</b>（下游加工车间）· <b>[[跨工具个人记忆层]]</b>（下游仓库）· <b>[[记忆四层模型]]</b> / <b>[[混合检索与RRF融合]]</b>（记忆的存法与取法）· <b>[[事实与判断分离]]</b>（它只产事实层，判断留给上层）· <b>[[护栏模式Guardrails]]</b>（ConversationKind 拒收非法值的确定性校验）。</p>
+  </div>
+</div>
+
+<div class="foot">
+  <span>微信 AI 记忆库 wechat-ai-memory · 小白指南 · 拾遗任务 1ae96a78</span>
+  <span>实验全部真实运行 · 未触碰真实微信数据 · 2026-10-03</span>
+</div>
+
+</div>
+</body>
+</html>

@@ -14,3 +14,10 @@ env.REPLICATE_API_TOKEN ("(hidden)")      Environment Variable      local
 ⎔ Starting local server...
 [wrangler:info] Ready on http://127.0.0.1:8787
 [wrangler:info] GET /api/last-updated 200 OK (27ms)
+[wrangler:info] GET /api/posts 200 OK (22ms)
+[wrangler:info] GET /api/posts 200 OK (19ms)
+[wrangler:info] GET /api/posts 200 OK (4ms)
+[wrangler:info] GET / 200 OK (12ms)
+⎔ Reloading local server...
+[wrangler:info] GET /api/posts 200 OK (27ms)
+⎔ Reloading local server...
