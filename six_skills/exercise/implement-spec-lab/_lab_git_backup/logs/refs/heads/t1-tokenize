@@ -1,0 +1,3 @@
+0000000000000000000000000000000000000000 62c350cde5a435b3c2eb52bf3bde43e09b8ca86e lab <lab@example.com> 1790959170 +0800	branch: Created from HEAD
+62c350cde5a435b3c2eb52bf3bde43e09b8ca86e be9dda14dd829ee62fcb8e0d4967a1680cf6c079 lab <lab@example.com> 1790959170 +0800	commit: T1: tokenize + tests
+be9dda14dd829ee62fcb8e0d4967a1680cf6c079 3deee7114643eb3d463f7fa9d4a1f3d7235bccc3 lab <lab@example.com> 1790959183 +0800	commit: T1: switch to stdlib assert tests

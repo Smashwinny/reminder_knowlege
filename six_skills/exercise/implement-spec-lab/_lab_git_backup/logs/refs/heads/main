@@ -1,0 +1,5 @@
+0000000000000000000000000000000000000000 9ca972fb889d2839bd6c794421e8b6987071c3a3 lab <lab@example.com> 1790959140 +0800	commit (initial): chore: init lab
+9ca972fb889d2839bd6c794421e8b6987071c3a3 62c350cde5a435b3c2eb52bf3bde43e09b8ca86e lab <lab@example.com> 1790959159 +0800	commit: docs: spec + ticket graph
+62c350cde5a435b3c2eb52bf3bde43e09b8ca86e 3deee7114643eb3d463f7fa9d4a1f3d7235bccc3 lab <lab@example.com> 1790959195 +0800	merge t1-tokenize: Fast-forward (no commit created; -m option ignored)
+3deee7114643eb3d463f7fa9d4a1f3d7235bccc3 62a919eae69d1b4938f8b317d9af898f8e6081d1 lab <lab@example.com> 1790959195 +0800	merge t2-report: Fast-forward (no commit created; -m option ignored)
+62a919eae69d1b4938f8b317d9af898f8e6081d1 1131b59ecfae413999d147b58c84a9dbfb279ca9 lab <lab@example.com> 1790959215 +0800	merge t3-cli: Fast-forward (no commit created; -m option ignored)

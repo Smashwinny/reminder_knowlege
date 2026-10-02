@@ -1,0 +1,15 @@
+0000000000000000000000000000000000000000 9ca972fb889d2839bd6c794421e8b6987071c3a3 lab <lab@example.com> 1790959140 +0800	commit (initial): chore: init lab
+9ca972fb889d2839bd6c794421e8b6987071c3a3 62c350cde5a435b3c2eb52bf3bde43e09b8ca86e lab <lab@example.com> 1790959159 +0800	commit: docs: spec + ticket graph
+62c350cde5a435b3c2eb52bf3bde43e09b8ca86e 62c350cde5a435b3c2eb52bf3bde43e09b8ca86e lab <lab@example.com> 1790959170 +0800	checkout: moving from main to t1-tokenize
+62c350cde5a435b3c2eb52bf3bde43e09b8ca86e be9dda14dd829ee62fcb8e0d4967a1680cf6c079 lab <lab@example.com> 1790959170 +0800	commit: T1: tokenize + tests
+be9dda14dd829ee62fcb8e0d4967a1680cf6c079 3deee7114643eb3d463f7fa9d4a1f3d7235bccc3 lab <lab@example.com> 1790959183 +0800	commit: T1: switch to stdlib assert tests
+3deee7114643eb3d463f7fa9d4a1f3d7235bccc3 62c350cde5a435b3c2eb52bf3bde43e09b8ca86e lab <lab@example.com> 1790959195 +0800	checkout: moving from t1-tokenize to main
+62c350cde5a435b3c2eb52bf3bde43e09b8ca86e 3deee7114643eb3d463f7fa9d4a1f3d7235bccc3 lab <lab@example.com> 1790959195 +0800	merge t1-tokenize: Fast-forward (no commit created; -m option ignored)
+3deee7114643eb3d463f7fa9d4a1f3d7235bccc3 3deee7114643eb3d463f7fa9d4a1f3d7235bccc3 lab <lab@example.com> 1790959195 +0800	checkout: moving from main to t2-report
+3deee7114643eb3d463f7fa9d4a1f3d7235bccc3 62a919eae69d1b4938f8b317d9af898f8e6081d1 lab <lab@example.com> 1790959195 +0800	commit: T2: report + tests
+62a919eae69d1b4938f8b317d9af898f8e6081d1 3deee7114643eb3d463f7fa9d4a1f3d7235bccc3 lab <lab@example.com> 1790959195 +0800	checkout: moving from t2-report to main
+3deee7114643eb3d463f7fa9d4a1f3d7235bccc3 62a919eae69d1b4938f8b317d9af898f8e6081d1 lab <lab@example.com> 1790959195 +0800	merge t2-report: Fast-forward (no commit created; -m option ignored)
+62a919eae69d1b4938f8b317d9af898f8e6081d1 62a919eae69d1b4938f8b317d9af898f8e6081d1 lab <lab@example.com> 1790959215 +0800	checkout: moving from main to t3-cli
+62a919eae69d1b4938f8b317d9af898f8e6081d1 1131b59ecfae413999d147b58c84a9dbfb279ca9 lab <lab@example.com> 1790959215 +0800	commit: T3: cli entry
+1131b59ecfae413999d147b58c84a9dbfb279ca9 62a919eae69d1b4938f8b317d9af898f8e6081d1 lab <lab@example.com> 1790959215 +0800	checkout: moving from t3-cli to main
+62a919eae69d1b4938f8b317d9af898f8e6081d1 1131b59ecfae413999d147b58c84a9dbfb279ca9 lab <lab@example.com> 1790959215 +0800	merge t3-cli: Fast-forward (no commit created; -m option ignored)
