@@ -1,0 +1,20 @@
+{
+  "round": 2,
+  "prompt": "a tower of blocks\nalternate texture characters\ngrow width toward 15",
+  "art": "#\n#\n#  +\n#  +  #\n#  +  #\n#  +  #  +\n#  +  #  +  #\n#  +  #  +  #",
+  "dimensions": {
+    "proportion": {
+      "value": 0.8667
+    },
+    "symmetry": {
+      "value": 0.25
+    },
+    "density": {
+      "value": 0.4535
+    },
+    "texture": {
+      "value": 1.0
+    }
+  },
+  "overall_score": 0.777
+}

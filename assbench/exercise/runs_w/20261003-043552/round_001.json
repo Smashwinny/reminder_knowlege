@@ -1,0 +1,20 @@
+{
+  "round": 1,
+  "prompt": "a tower of blocks",
+  "art": "#\n#\n#  #",
+  "dimensions": {
+    "proportion": {
+      "value": 0.2667
+    },
+    "symmetry": {
+      "value": 0.3333
+    },
+    "density": {
+      "value": 0.6111
+    },
+    "texture": {
+      "value": 0.0
+    }
+  },
+  "overall_score": 0.2811
+}

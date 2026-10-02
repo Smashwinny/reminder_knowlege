@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AssBench自改进循环-小白指南</title>
+<style>
+:root{
+  --pink:#FF3D7F; --orange:#FF8A00; --teal:#00B8A9; --purple:#6C5CE7;
+  --yellow:#FFC312; --blue:#00A8FF; --ink:#241B35; --bg:#FFF8EF;
+  --card:#FFFFFF; --soft:#FFEFD9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:14px}
+@page{size:A4;margin:12mm}
+.wrap{max-width:186mm;margin:0 auto}
+.cover{background:linear-gradient(135deg,var(--pink),var(--orange) 55%,var(--yellow));border-radius:18px;padding:34px 30px;color:#fff;margin-bottom:18px;position:relative;overflow:hidden}
+.cover h1{font-size:34px;letter-spacing:1px;text-shadow:0 2px 0 rgba(0,0,0,.15)}
+.cover .sub{font-size:16px;margin-top:8px;font-weight:bold;opacity:.97}
+.cover .meta{margin-top:14px;font-size:12px;background:rgba(255,255,255,.22);display:inline-block;padding:5px 14px;border-radius:20px}
+.badge{display:inline-block;background:#fff;color:var(--pink);font-weight:900;border-radius:8px;padding:2px 10px;margin-left:6px}
+h2.sec{font-size:21px;margin:20px 0 10px;padding:8px 16px;border-radius:10px;color:#fff;display:inline-block}
+.s1{background:var(--purple)} .s2{background:var(--teal)} .s3{background:var(--orange)} .s4{background:var(--blue)} .s5{background:var(--pink)}
+.qcard{background:var(--card);border-radius:14px;padding:16px 18px;margin-bottom:14px;box-shadow:0 3px 10px rgba(60,30,90,.10);border-left:8px solid var(--pink);break-inside:avoid}
+.qcard.p{border-left-color:var(--purple)} .qcard.t{border-left-color:var(--teal)} .qcard.o{border-left-color:var(--orange)} .qcard.b{border-left-color:var(--blue)}
+.qhead{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px}
+.qnum{min-width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;font-size:22px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.qcard.p .qnum{background:linear-gradient(135deg,var(--purple),var(--blue))}
+.qcard.t .qnum{background:linear-gradient(135deg,var(--teal),var(--blue))}
+.qcard.o .qnum{background:linear-gradient(135deg,var(--orange),var(--pink))}
+.qcard.b .qnum{background:linear-gradient(135deg,var(--blue),var(--teal))}
+.qtitle{font-size:16.5px;font-weight:900;padding-top:7px}
+.qbody{margin-top:4px}
+.hl{background:linear-gradient(transparent 55%,var(--yellow) 55%);font-weight:900;padding:0 2px}
+.big{font-size:16px;font-weight:900;color:var(--pink)}
+.term{color:var(--purple);font-weight:900}
+.code{background:#241B35;color:#7DF9C6;font-family:Consolas,monospace;border-radius:8px;padding:10px 13px;font-size:12px;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.code .c{color:#FFD666}
+.exp{background:linear-gradient(135deg,#E8FFF4,#D3F8EC);border:2px dashed var(--teal);border-radius:10px;padding:9px 13px;margin:8px 0;font-size:13px}
+.exp b{color:var(--teal)}
+.warn{background:#FFF0F0;border-left:6px solid #FF3B3B;border-radius:8px;padding:9px 13px;margin:8px 0}
+.warn b{color:#E01E1E}
+.tip{background:#F0F4FF;border-left:6px solid var(--blue);border-radius:8px;padding:9px 13px;margin:8px 0}
+table{border-collapse:collapse;width:100%;margin:8px 0;font-size:13px}
+th{background:var(--purple);color:#fff;padding:6px 9px;text-align:left}
+td{border:1.5px solid #E8DCFF;padding:5px 9px;background:#fff}
+tr:nth-child(even) td{background:#FAF6FF}
+svg{display:block;margin:8px auto;max-width:100%;height:auto}
+.figcap{text-align:center;font-size:11.5px;color:#8A7BA8;margin:-4px 0 6px}
+.step{background:var(--card);border-radius:14px;padding:14px 18px;margin-bottom:12px;box-shadow:0 3px 10px rgba(60,30,90,.10);break-inside:avoid;border-top:8px solid var(--teal)}
+.step h3{font-size:15.5px;color:var(--teal);margin-bottom:6px}
+.four{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;font-size:13px;margin:6px 0}
+.four div{padding:3px 0}
+.four b{color:var(--purple)}
+.ability{background:var(--card);border-radius:14px;padding:14px 18px;margin-bottom:12px;box-shadow:0 3px 10px rgba(60,30,90,.10);border-left:8px solid var(--yellow);break-inside:avoid}
+.ability h3{color:var(--orange);font-size:15.5px;margin-bottom:4px}
+.toc{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 16px}
+.toc a{display:block;background:#fff;border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:bold;color:var(--ink);text-decoration:none;border:2px solid var(--soft)}
+.toc a b{color:var(--pink);margin-right:6px}
+.foot{background:linear-gradient(135deg,var(--purple),var(--pink));border-radius:14px;color:#fff;padding:16px 20px;margin-top:16px;font-size:13px}
+.foot a{color:#FFE477}
+.kv{display:inline-block;background:var(--soft);border-radius:8px;padding:2px 10px;margin:2px 4px 2px 0;font-weight:bold;font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <h1>Ass Bench：一条会自己爬坡的提示词循环</h1>
+  <div class="sub">generate → score → steer 自改进循环 · 玩笑外皮 × 真实工程内核 · 250 行源码精读 + 真跑通实验</div>
+  <div class="meta">拾遗任务 2f264330 · 源码：github.com/deveIopedbyed/Ass-Bench (MIT) · 站点 assbench.dev · 2026-10-03</div>
+</div>
+
+<h2 class="sec s1">📖 30 秒说清楚</h2>
+<div class="qcard">
+  <div class="qbody">前端教学博主 <b>Dev Ed</b>（Simo Edwin，developedbyed.com 创始人，YouTube 75 万粉）发推：让 GPT 6 Astra 在一个<b>自改进循环</b>里连续跑了一周，每天人工纠偏两次，输出"保真度"持续上涨——项目叫 <span class="big">Ass Bench</span>，一个恶搞版 AI 跑分网站（assbench.dev），让前沿大模型比拼"画屁股"的保真度，还开了 $1 赞助贴纸。听着纯整活，但仓库是 <span class="big">真实开源</span>：MIT 协议、Python、7 个模块约 250 行，内核是一个<span class="hl">能落地的「生成 → 评分 → 转向」自改进循环（爬山法）</span>——这正是当下 Agent 时代最值钱的模式之一。本指南把玩笑外皮剥掉，把工程内核学透、跑通、改造。</div>
+</div>
+
+<h2 class="sec s1">❓ 疑问清单（即目录）</h2>
+<div class="toc">
+  <a href="#q1"><b>Q1</b>Ass Bench 到底是个啥？</a>
+  <a href="#q2"><b>Q2</b>benchmark 本来该长什么样？它哪里不科学？</a>
+  <a href="#q3"><b>Q3</b>一个玩笑帖凭什么值得学？</a>
+  <a href="#q4"><b>Q4</b>自改进循环怎么转？（核心机制）</a>
+  <a href="#q5"><b>Q5</b>它和反思模式 Reflection 有什么区别？</a>
+  <a href="#q6"><b>Q6</b>rubric 四维加权评分器怎么写？</a>
+  <a href="#q7"><b>Q7</b>steering 为什么"少而小"才不漂移？</a>
+  <a href="#q8"><b>Q8</b>SponsorSlot 赞助贴纸是怎么设计的？</a>
+  <a href="#q9"><b>Q9</b>为什么要有 stub 桩后端和接缝？</a>
+  <a href="#q10"><b>Q10</b>上游评分器藏着什么大坑？</a>
+  <a href="#q11"><b>Q11</b>steer 无限累积会撑爆 prompt 吗？</a>
+  <a href="#q12"><b>Q12</b>循环死锁：注释在却没效果怎么办？</a>
+  <a href="#q13"><b>Q13</b>我能拿这个模式干什么？</a>
+</div>
+
+<!-- Q1 -->
+<h2 class="sec s1" id="q1">Q1 · Ass Bench 到底是个啥？</h2>
+<div class="qcard">
+  <div class="qbody"><p><b>一句话</b>：一个恶搞的"AI 跑分网站"——让各家前沿大模型按同一个提示词生成 3D 雕塑渲染图，按"保真度"排名，名字和内容都是整活。</p>
+  <p style="margin-top:6px">推文原文（2026-09-08，735 万浏览）：跑 GPT 6 Astra 一周 + 每天人工转向，"已正式达到高保真臀部"，还要再自跑一个月、上更多款式，$1 就能在作品上贴你的网址贴纸。站点自称 <i>"An interactive mannequin playground"</i>。</p>
+  <div class="tip"><b>工程视角</b>：剥开段子，它回答一个严肃问题——<span class="hl">"怎么让模型对着一个没有标准答案的目标，自己越做越好？"</span> 推文里的关键词 loop / steering / fidelity score 就是答案的三块积木。</div>
+</div>
+</div>
+
+<!-- Q2 -->
+<h2 class="sec s1" id="q2">Q2 · benchmark 本来该长什么样？它哪里不科学？</h2>
+<div class="qcard p">
+  <div class="qbody">
+  <p><span class="term">benchmark（基准测试）</span>：给模型出一套有标准答案的考卷，按答对率排名。正经 benchmark 有三件套：</p>
+  <table>
+    <tr><th>三件套</th><th>正经 benchmark</th><th>Ass Bench</th></tr>
+    <tr><td>ground truth 标准答案</td><td>有（标注数据集）</td><td style="color:#E01E1E;font-weight:bold">没有——"美"没有标准答案</td></tr>
+    <tr><td>held-out 留出集</td><td>有（防背题）</td><td style="color:#E01E1E;font-weight:bold">没有</td></tr>
+    <tr><td>评分器</td><td>确定性指标 / 人工标注</td><td style="color:#E01E1E;font-weight:bold">启发式 + 人偶尔瞟一眼打字纠偏</td></tr>
+  </table>
+  <p>README 自己都承认："Nothing here is scientific… a benchmark in the loosest possible sense of the word."（最不严格意义上的 benchmark）</p>
+  <div class="warn"><b>学到什么</b>：看到任何"跑分/榜单"，先问三连——有标准答案吗？有留出集吗？评分器确定吗？<span class="hl">三连全挂的榜单，当营销看，别当事实用。</span></div>
+</div>
+</div>
+
+<!-- Q3 -->
+<h2 class="sec s1" id="q3">Q3 · 一个玩笑帖凭什么值得学？</h2>
+<div class="qcard t">
+  <div class="qbody">
+  <p>因为它是典型的<span class="term">"洋葱项目"</span>——外皮是梗，内核是真工程：</p>
+  <svg width="520" height="150" viewBox="0 0 520 150">
+    <ellipse cx="260" cy="75" rx="245" ry="62" fill="#FF3D7F" opacity=".18"/>
+    <ellipse cx="260" cy="75" rx="170" ry="42" fill="#FF8A00" opacity=".28"/>
+    <ellipse cx="260" cy="75" rx="95" ry="25" fill="#00B8A9" opacity=".85"/>
+    <text x="260" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#C2185B">外皮：恶搞 benchmark + 屁股梗 + 赞助贴纸</text>
+    <text x="260" y="58" text-anchor="middle" font-size="13" font-weight="bold" fill="#B65D00">中层：真实开源仓库 · MIT · 250 行 · 接口/评分/循环分层干净</text>
+    <text x="260" y="80" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">内核：generate→score→steer 自改进循环</text>
+  </svg>
+  <div class="figcap">图：玩笑外皮 × 工程中层 × 可迁移内核</div>
+  <p>推文发布 2 天后（2026-09-10）仓库就建好开源——<span class="hl">用梗引流、用真代码接住流量</span>，这本身也是一条值得学的内容工程打法。</p>
+</div>
+</div>
+
+<!-- Q4 -->
+<h2 class="sec s2" id="q4">Q4 · 自改进循环怎么转？（核心机制）</h2>
+<div class="qcard o">
+  <div class="qbody">
+  <p><span class="term">自改进循环（self-improving loop）</span>：不靠一次生成到位，而是让「生成 → 打分 → 修正」转圈，每一圈把上一圈的低分项变成下一圈的指令。仓库 README 的四步原文：</p>
+  <div class="code"><span class="c"># 1. generate</span>  拿当前种子 prompt + 转向注释，让模型生成一版输出
+<span class="c"># 2. score</span>     rubric 评分器给输出打保真分 + 写"哪里要改"的 notes
+<span class="c"># 3. steer</span>     把 notes 翻译成新的修正注释，追加到 prompt 尾部
+<span class="c"># 4. repeat</span>    回到第 1 步，每一圈的全部记录写进 runs/ 目录</div>
+  <svg width="540" height="210" viewBox="0 0 540 210">
+    <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#6C5CE7"/></marker></defs>
+    <rect x="20" y="70" width="110" height="56" rx="12" fill="#00A8FF"/><text x="75" y="94" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">① generate</text><text x="75" y="112" text-anchor="middle" fill="#fff" font-size="10">按 prompt 生成</text>
+    <rect x="215" y="70" width="110" height="56" rx="12" fill="#FF3D7F"/><text x="270" y="94" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">② score</text><text x="270" y="112" text-anchor="middle" fill="#fff" font-size="10">rubric 四维打分</text>
+    <rect x="410" y="70" width="110" height="56" rx="12" fill="#00B8A9"/><text x="465" y="94" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">③ steer</text><text x="465" y="112" text-anchor="middle" fill="#fff" font-size="10">最低分→修正注释</text>
+    <line x1="130" y1="98" x2="207" y2="98" stroke="#6C5CE7" stroke-width="3" marker-end="url(#ar)"/>
+    <line x1="325" y1="98" x2="402" y2="98" stroke="#6C5CE7" stroke-width="3" marker-end="url(#ar)"/>
+    <path d="M465 126 C 465 185, 75 185, 75 134" fill="none" stroke="#FF8A00" stroke-width="3.5" stroke-dasharray="7 5" marker-end="url(#ar)"/>
+    <text x="270" y="182" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#B65D00">④ 注释回灌 prompt → 下一圈（每圈全部记录写 runs/）</text>
+    <rect x="185" y="8" width="170" height="34" rx="10" fill="#FFC312"/><text x="270" y="30" text-anchor="middle" font-size="12.5" font-weight="bold">⛰ 只保留历史最高分 best</text>
+    <line x1="270" y1="42" x2="270" y2="62" stroke="#B8860B" stroke-width="2.5" marker-end="url(#ar)"/>
+  </svg>
+  <div class="figcap">图：generate→score→steer 循环（上方黄色块 = 爬山法的关键：分数只升不降）</div>
+  <p><span class="term">爬山法（hill climbing）</span>：循环里永远记住历史最高分及其 prompt，新的一圈分数更高就更新 best——像登山者只记自己到过的最高营地，<span class="hl">保证"折腾半天至少不退步"</span>。loop.py 全部逻辑只有 40 行：读种子 → 圈内生成/评分/写日志/更新 best → 转向。</p>
+</div>
+</div>
+
+<!-- Q5 -->
+<h2 class="sec s2" id="q5">Q5 · 它和反思模式 Reflection 有什么区别？</h2>
+<div class="qcard">
+  <div class="qbody">
+  <p>知识库里已有 [[反思模式Reflection]]：生成→批评→修改，<b>双停止条件</b>（达标即停 + 轮数上限兜底）。Ass Bench 循环是它的"跑步机变体"——<span class="hl">不设质量阈值，靠人工转向 + 轮数上限，永远在跑</span>。族谱对齐：</p>
+  <table>
+    <tr><th></th><th>反思模式 Reflection</th><th>Ass Bench 爬山循环</th></tr>
+    <tr><td>谁批评</td><td>LLM 自己批评自己</td><td>确定性 rubric + 人偶尔纠偏</td></tr>
+    <tr><td>停止条件</td><td>达标即停 + 轮数上限</td><td>轮数上限（--rounds），人不喊停就一直跑</td></tr>
+    <tr><td>记忆</td><td>批评意见进上下文</td><td>best prompt + best score 单变量</td></tr>
+    <tr><td>目标</td><td>把这一份产出改到合格</td><td>把生成配方（prompt）越调越强</td></tr>
+    <tr><td>风险</td><td>过度自我批评</td><td>评分器坏了就"优化了个寂寞"</td></tr>
+  </table>
+  <div class="tip"><b>选型口诀</b>：改<b>一份产出</b>用反思；<span class="hl">调<b>生成配方</b>（prompt 本身也是资产）用爬山</span>。两者都依赖同一个前提——裁判要可信（[[LLM裁判与自动评估]]）。</div>
+</div>
+</div>
+
+<!-- Q6 -->
+<h2 class="sec s2" id="q6">Q6 · rubric 四维加权评分器怎么写？</h2>
+<div class="qcard t">
+  <div class="qbody">
+  <p><span class="term">rubric（评分细则）</span>：把"好不好"拆成几个可打分的维度，各配权重，加权求总分。config.py 里的默认四维：</p>
+  <svg width="540" height="150" viewBox="0 0 540 150">
+    <rect x="18" y="30" width="118" height="88" rx="12" fill="#FF3D7F"/><text x="77" y="62" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">proportion</text><text x="77" y="84" text-anchor="middle" fill="#fff" font-size="16" font-weight="900">0.30</text><text x="77" y="103" text-anchor="middle" fill="#fff" font-size="10">比例准不准</text>
+    <rect x="150" y="30" width="118" height="88" rx="12" fill="#FF8A00"/><text x="209" y="62" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">shading</text><text x="209" y="84" text-anchor="middle" fill="#fff" font-size="16" font-weight="900">0.25</text><text x="209" y="103" text-anchor="middle" fill="#fff" font-size="10">光影层次</text>
+    <rect x="282" y="30" width="118" height="88" rx="12" fill="#6C5CE7"/><text x="341" y="62" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">silhouette</text><text x="341" y="84" text-anchor="middle" fill="#fff" font-size="16" font-weight="900">0.25</text><text x="341" y="103" text-anchor="middle" fill="#fff" font-size="10">轮廓干净度</text>
+    <rect x="414" y="30" width="118" height="88" rx="12" fill="#00B8A9"/><text x="473" y="62" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">texture</text><text x="473" y="84" text-anchor="middle" fill="#fff" font-size="16" font-weight="900">0.20</text><text x="473" y="103" text-anchor="middle" fill="#fff" font-size="10">表面细节</text>
+    <text x="270" y="142" text-anchor="middle" font-size="12.5" font-weight="bold">总分 overall = Σ 维度分(0~1) × 权重</text>
+  </svg>
+  <div class="figcap">图：四维 rubric 加权（DimensionScore{value, note} → ScoreReport{dimensions, overall, notes}）</div>
+  <p>结构很干净：每维返回 <b>0~1 分 + 一句人话评语</b>，低于 0.5 的评语进 notes——notes 就是下一圈 steering 的原料。数据类只有三个（DimensionScore / ScoreReport / GenerationResult），20 分钟能读完全部源码。</p>
+</div>
+</div>
+
+<!-- Q7 -->
+<h2 class="sec s2" id="q7">Q7 · steering 为什么"少而小"才不漂移？</h2>
+<div class="qcard o">
+  <div class="qbody">
+  <p><span class="term">steering（转向）</span>：每圈把<b>得分最低</b>的至多 2 个维度（steers_per_day=2）翻译成一句修正注释，追加到 prompt 尾部。steering.py 的注释说得极好：</p>
+  <div class="exp"><b>原话</b>："Keeping steers small and few per round is what keeps the loop from drifting."（每圈转向又小又少，循环才不跑偏）</div>
+  <svg width="540" height="140" viewBox="0 0 540 140">
+    <line x1="40" y1="110" x2="500" y2="110" stroke="#CBB9E8" stroke-width="3"/>
+    <path d="M40 100 Q 120 30 200 95 T 360 40 T 500 90" fill="none" stroke="#FF3B3B" stroke-width="3.5" stroke-dasharray="8 5"/>
+    <path d="M40 100 C 140 70, 260 40, 480 22" fill="none" stroke="#00B8A9" stroke-width="4"/>
+    <circle cx="480" cy="22" r="6" fill="#00B8A9"/><circle cx="500" cy="90" r="6" fill="#FF3B3B"/>
+    <text x="150" y="128" text-anchor="middle" font-size="12" font-weight="bold" fill="#00806E">小步转向：稳步逼近目标（teal）</text>
+    <text x="400" y="128" text-anchor="middle" font-size="12" font-weight="bold" fill="#C40000">大步乱转：来回震荡（红虚线）</text>
+    <text x="270" y="14" text-anchor="middle" font-size="12" font-weight="bold">纵轴：保真分 ↑</text>
+  </svg>
+  <div class="figcap">图：转向步长与漂移——max_steers=2 限流就是防左边的红线</div>
+  <p>与知识库 [[修改与约束分离]] 完全同源：一次只改最少的东西，改完再看效果，<span class="hl">单变量迭代才分得清"哪个改动起了作用"</span>。</p>
+</div>
+</div>
+
+<!-- Q8 -->
+<h2 class="sec s2" id="q8">Q8 · SponsorSlot 赞助贴纸是怎么设计的？</h2>
+<div class="qcard">
+  <div class="qbody">
+  <p>推文里"$1 赞助贴纸"在代码里是 config.py 的 <span class="term">SponsorSlot</span> 数据类：{name, url}，随圈写进每轮 JSON 记录。README 特意声明："<i>it does not change generation or scoring</i>"——赞助<b>只进日志元数据，绝不碰生成与评分</b>。</p>
+  <svg width="540" height="120" viewBox="0 0 540 120">
+    <rect x="30" y="20" width="220" height="76" rx="12" fill="#00A8FF"/><text x="140" y="52" text-anchor="middle" fill="#fff" font-size="13.5" font-weight="bold">生成 + 评分主链路</text><text x="140" y="76" text-anchor="middle" fill="#fff" font-size="11">generate → score → steer</text>
+    <rect x="310" y="20" width="200" height="76" rx="12" fill="#FFC312"/><text x="410" y="52" text-anchor="middle" font-size="13.5" font-weight="bold">SponsorSlot 赞助贴纸</text><text x="410" y="76" text-anchor="middle" font-size="11">只写进 runs/ 的 JSON 元数据</text>
+    <line x1="250" y1="58" x2="308" y2="58" stroke="#B8860B" stroke-width="2.5" stroke-dasharray="6 4"/>
+    <text x="279" y="46" text-anchor="middle" font-size="10" fill="#B8860B">只写不读</text>
+    <text x="270" y="112" text-anchor="middle" font-size="12" font-weight="bold">变现逻辑被隔离在日志层——主链路零污染</text>
+  </svg>
+  <div class="figcap">图：赞助 = 纯元数据旁路（关注点分离的教科书小案例）</div>
+</div>
+</div>
+
+<!-- Q9 -->
+<h2 class="sec s3" id="q9">Q9 · 为什么要有 stub 桩后端和接缝？</h2>
+<div class="qcard p">
+  <div class="qbody">
+  <p>model_client.py 定义了 <span class="term">ABC 抽象接口 ModelClient</span>（一个 generate(prompt) 方法），目前只注册了一个 <span class="term">stub（桩）后端</span>——随机编个输出编号的假模型。这是<span class="term">接缝设计（seam）</span>：</p>
+  <svg width="540" height="130" viewBox="0 0 540 130">
+    <rect x="25" y="15" width="150" height="100" rx="12" fill="#6C5CE7"/><text x="100" y="50" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">loop / scorer / steer</text><text x="100" y="74" text-anchor="middle" fill="#fff" font-size="11">循环骨架（已完工）</text>
+    <rect x="220" y="40" width="120" height="50" rx="10" fill="#241B35"/><text x="280" y="70" text-anchor="middle" fill="#7DF9C6" font-size="12" font-weight="bold">ModelClient 接口</text>
+    <rect x="390" y="15" width="125" height="40" rx="10" fill="#00B8A9"/><text x="452" y="40" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">stub 假模型（现在）</text>
+    <rect x="390" y="72" width="125" height="40" rx="10" fill="#FF8A00" stroke-dasharray="6 4"/><text x="452" y="97" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">真模型后端（未来）</text>
+    <line x1="175" y1="65" x2="218" y2="65" stroke="#6C5CE7" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="340" y1="65" x2="386" y2="38" stroke="#6C5CE7" stroke-width="2.5"/>
+    <line x1="340" y1="65" x2="386" y2="90" stroke="#6C5CE7" stroke-width="2.5" stroke-dasharray="5 4"/>
+  </svg>
+  <div class="figcap">图：接口是插排——stub 先插上让骨架跑通，真后端来了即插即换</div>
+  <div class="tip"><b>可复用打法</b>：任何"依赖外部服务"的项目，先造桩把<b>骨架逻辑</b>（循环、日志、CLI、report）全部跑通测好，真服务接入时只写一个子类。<span class="hl">骨架的测试期不需要 API key、不花一分钱。</span>与 [[双数据源适配器隔离]]、[[零依赖编程]] 同一思想家族。</div>
+</div>
+</div>
+
+<!-- Q10 -->
+<h2 class="sec s3" id="q10">Q10 · 上游评分器藏着什么大坑？</h2>
+<div class="qcard b">
+  <div class="qbody">
+  <p>scorer.py 的占位评分器用 Python 内置 <span class="term">hash()</span> 造 0~1 分——而 Python 的 hash 对字符串<b>每个进程加盐随机</b>（PYTHONHASHSEED）。实测铁证：</p>
+  <div class="code"><span class="c"># 同一行代码，两个进程输出不同：</span>
+进程A: hash(('proportion','studio render')) = 2560065321882644929
+进程B: hash(('proportion','studio render')) = -4392188187258516437
+<span class="c"># 连跑两遍循环，同一 prompt 分数不同：</span>
+第1遍 Best score: <b>0.6450</b>   第2遍 Best score: <b>0.6350</b></div>
+  <div class="warn"><b>坑</b>：分数不可复现 → "自改进"的爬坡曲线全是噪声，<span class="hl">评分器必须确定性</span>（[[确定性脚本]]：同输入同输出，裁判才可信）。修法：用 hashlib（跨进程稳定）或纯算术启发式。</div>
+  <p>第二个隐患：loop 只对 <b>best</b> 爬山，但 prompt 是在"当前 prompt"上持续追加——一旦中途走歪，best 是旧配方、prompt 已经变形，两者脱节。</p>
+</div>
+</div>
+
+<!-- Q11 -->
+<h2 class="sec s3" id="q11">Q11 · steer 无限累积会撑爆 prompt 吗？</h2>
+<div class="qcard o">
+  <div class="qbody">
+  <p>会。steering.py 只追加、不去重、不设总长上限。实测第二遍循环的 best prompt：</p>
+  <div class="code">studio render, soft rim light, … <b>-- add more surface texture detail</b> -- sharpen
+the silhouette edges; <b>add more surface texture detail</b> -- adjust proportions…
+… -- <b>add more surface texture detail</b>; improve shading … -- <b>add more surface
+texture detail</b>   <span class="c">← 同一句注释重复 4 次，prompt 单调膨胀</span></div>
+  <p>三重风险：<b>上下文预算被吃掉</b>（[[上下文预算与战略压缩]]）、互相矛盾的注释打架、旧注释污染新方向。我在实验版里的修法：<span class="hl">幂等去重（注释已在 prompt 里就不再加）+ 达标停注（某维 ≥0.95 就不再为它转向）</span>——两条一共 6 行代码。</p>
+</div>
+</div>
+
+<!-- Q12 -->
+<h2 class="sec s3" id="q12">Q12 · 循环死锁：注释在却没效果怎么办？</h2>
+<div class="qcard p">
+  <div class="qbody">
+  <p>我第一次跑自己的实验版就踩了真死锁，卡在 0.4550 不动：<b>texture 注释明明已经在 prompt 里，分数却永远是 0</b>——而 steer 一看"注释已存在"就去重跳过，永远无法再引导这个维度。</p>
+  <svg width="540" height="125" viewBox="0 0 540 125">
+    <rect x="25" y="15" width="150" height="90" rx="12" fill="#FF3D7F"/><text x="100" y="48" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">steer：注释已在</text><text x="100" y="72" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">→ 去重跳过</text>
+    <rect x="215" y="15" width="150" height="90" rx="12" fill="#6C5CE7"/><text x="290" y="48" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">generate：参数被锁</text><text x="290" y="72" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">在另一分支里 → 纹理仍不出现</text>
+    <rect x="405" y="15" width="112" height="90" rx="12" fill="#FF3B3B"/><text x="461" y="48" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">score：永远 0 分</text><text x="461" y="72" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">循环卡死</text>
+    <line x1="175" y1="60" x2="213" y2="60" stroke="#6C5CE7" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="365" y1="60" x2="403" y2="60" stroke="#6C5CE7" stroke-width="2.5" marker-end="url(#ar)"/>
+    <text x="270" y="118" text-anchor="middle" font-size="12" font-weight="bold">修法 = 让"注释生效"与"其他参数"正交（互不锁死）</text>
+  </svg>
+  <div class="figcap">图：幂等去重 × 参数耦合 = 自改进循环的隐蔽死锁（实测复现）</div>
+  <div class="exp"><b>教训</b>：给循环加"防重复"安全带时，必须保证<span class="hl">每个 steer 注释独立生效（正交）</span>，否则安全带本身会把循环勒死。验证方法：跑 7 轮看分数是否封顶——封顶在 &lt;1.0 就是死锁信号。</div>
+</div>
+</div>
+
+<!-- Q13 -->
+<h2 class="sec s3" id="q13">Q13 · 我能拿这个模式干什么？</h2>
+<div class="qcard t">
+  <div class="qbody">
+  <p>把 generate/score/steer 三个槽位换成你自己的东西，这个 40 行的循环立刻迁移：</p>
+  <table>
+    <tr><th>场景</th><th>generate 生成什么</th><th>score 怎么评</th><th>steer 转什么向</th></tr>
+    <tr><td>提示词调优</td><td>用 prompt 跑文生图/写作</td><td>启发式或 LLM 裁判打分</td><td>低分维度 → 补充指令</td></tr>
+    <tr><td>代码润色</td><td>改写代码片段</td><td>lint + 测试通过率（确定性！）</td><td>报错/坏味道 → 修复指令</td></tr>
+    <tr><td>文案打磨</td><td>改写标题/文案</td><td>长度/关键词/AI味检测器</td><td>扣分点 → 风格指令</td></tr>
+    <tr><td>排版生成</td><td>生成海报/页面参数</td><td>设计令牌校验（[[设计令牌DesignToken]]）</td><td>违规项 → 布局指令</td></tr>
+  </table>
+  <p>铁律不变：<b>评分器要确定性、转向要小步、prompt 要去重、best 要记牢</b>。</p>
+</div>
+</div>
+
+<h2 class="sec s4">🧰 这个项目给我什么（能力清单）</h2>
+<div class="ability"><h3>① 一套 40 行的自改进循环骨架</h3>读得懂、抄得走：generate/score/steer 三槽位 + best 爬山 + runs/ 全量日志，任何生成型任务都能套。</div>
+<div class="ability"><h3>② rubric 评分器的标准写法</h3>维度 × 权重 × 0~1 分 × 人话评语，评语即下一圈转向原料——把"好不好"变成可加总的数字。</div>
+<div class="ability"><h3>③ 接缝 + 桩的工程打法</h3>ABC 接口先立、stub 桩先跑、真后端后插：骨架开发期零 API 成本、零外部依赖。</div>
+<div class="ability"><h3>④ 识别"伪 benchmark"的三连问</h3>有标准答案吗？有留出集吗？评分确定吗？——以后看任何 AI 榜单先过这三关。</div>
+<div class="ability"><h3>⑤ 自改进循环的三个坑与修法</h3>hash 不可复现（换确定性算法）、prompt 膨胀（幂等去重+达标停注）、注释锁死（参数正交）——都是亲手踩出来的。</div>
+
+<h2 class="sec s4">🧪 动手实验（全部真实跑通，命令可复制）</h2>
+
+<div class="step"><h3>实验准备 · 环境（1 分钟）</h3>
+<div class="four">
+  <div><b>怎么操作</b>：装 Python 3.10+，<b>怎么目的</b>：跑上游仓库只依赖 PyYAML</div>
+  <div><b>实现了什么</b>：Python 3.14.7 + pyyaml 6.0.3</div>
+  <div><b>怎么验证</b>：<b>预期结果</b>：<code>python -c "import yaml" </code> 无报错</div>
+</div>
+</div>
+
+<div class="step"><h3>步骤 1 · 跑通上游 stub 循环（先让骨架转起来）</h3>
+<div class="four">
+  <div><b>怎么操作</b>：<code>cd F:\reminder\assbench\repo</code><br><code>python -m ass_bench.cli run --rounds 5 --steers-per-day 2</code></div>
+  <div><b>目的</b>：零 API key 体验完整 generate→score→steer 循环</div>
+  <div><b>实现了什么</b>：5 轮循环 + 每轮 JSON 日志落盘</div>
+  <div><b>怎么验证</b>：见下方 ✅</div>
+</div>
+<div class="exp">✅ <b>预期结果</b>：打印 <code>Finished 5 rounds. Best score: 0.6450</code>（实测）+ <code>Logs written to: runs\20261003-043203</code>；runs\时间戳\round_001.json 里有 prompt、四维分数、notes、sponsor 字段。</div>
+</div>
+
+<div class="step"><h3>步骤 2 · 查看分数曲线 + 发现"分数会变"的大坑</h3>
+<div class="four">
+  <div><b>怎么操作</b>：<code>python -m ass_bench.cli report</code><br>再原样重跑一遍 run 命令，对比 Best score</div>
+  <div><b>目的</b>：读懂每轮日志；亲手抓出 hash() 不可复现坑</div>
+  <div><b>实现了什么</b>：两遍分数不同 → 定位 scorer.py 的 hash() 盐随机</div>
+  <div><b>怎么验证</b>：见下方 ✅</div>
+</div>
+<div class="exp">✅ <b>预期结果</b>：report 打印 round 1~5 的 score 列表；两遍 run 的 Best score <b>不相等</b>（实测 0.6450 vs 0.6350）——这就是"评分器不确定，爬坡全靠蒙"。</div>
+</div>
+
+<div class="step"><h3>步骤 3 · 跑文字版真收敛循环（主实验）</h3>
+<div class="four">
+  <div><b>怎么操作</b>：<code>cd F:\reminder\assbench\exercise</code><br><code>python ascii_loop.py --rounds 7</code></div>
+  <div><b>目的</b>：把 stub 换成真评分器 + 真生成，亲眼看分数爬坡收敛</div>
+  <div><b>实现了什么</b>：确定性 ASCII 金字塔渲染器 + 四维真实启发式 + 幂等转向</div>
+  <div><b>怎么验证</b>：见下方 ✅</div>
+</div>
+<div class="code">round  proportion  symmetry  density  texture  overall
+   1      0.2667    0.3333   0.6111   0.0000  <b>0.3161</b>
+   2      0.8667    0.2500   0.4535   1.0000  <b>0.6359</b>
+   3      1.0000    1.0000   1.0000   1.0000  <b>1.0000</b>
+  -> all dimensions >= 0.95, converged; stop early</div>
+<div class="exp">✅ <b>预期结果</b>：3 轮收敛到满分提前停；最终画出一座居中、带 +# 交替纹理的 15 宽金字塔；<b>再跑一遍逐位一致</b>（可复现，对照步骤 2 的坑）。</div>
+</div>
+
+<div class="step"><h3>步骤 4 · 改权重，看评分器怎么被"拨盘"</h3>
+<div class="four">
+  <div><b>怎么操作</b>：<code>python ascii_loop.py --rounds 3 --weights-json "{\"proportion\":0.70,\"symmetry\":0.10,\"density\":0.10,\"texture\":0.10}"</code></div>
+  <div><b>目的</b>：验证四维权重是"总分校准旋钮"</div>
+  <div><b>实现了什么</b>：同样前两轮，总分曲线整个变形</div>
+  <div><b>怎么验证</b>：见下方 ✅</div>
+</div>
+<div class="exp">✅ <b>预期结果</b>：维度分完全不变，但 round1 总分 0.3161→<b>0.2811</b>、round2 0.6359→<b>0.7770</b>——总分变了、排序逻辑没变（steer 只看维度绝对分，<b>权重不参与转向</b>，这是循环的已知局限）。</div>
+</div>
+
+<div class="step"><h3>步骤 5 · 亲手复现"死锁"（选做，最烧脑）</h3>
+<div class="four">
+  <div><b>怎么操作</b>：把 ascii_loop.py 的 generate 里 <code>elif p["texture"] and k % 2 == 1</code> 改回旧版锁进 fill 分支的写法</div>
+  <div><b>目的</b>：亲眼看到幂等去重 + 参数耦合 = 循环卡死</div>
+  <div><b>实现了什么</b>：分数封顶在 0.4550 纹理永远 0 分</div>
+  <div><b>怎么验证</b>：见下方 ✅</div>
+</div>
+<div class="exp">✅ <b>预期结果</b>：7 轮跑满不提前停，overall 卡 0.4550 纹路不变——对照修复版 3 轮满分，你就真正"拥有"了这个坑。</div>
+</div>
+
+<h2 class="sec s5">📌 结论：三句话带走</h2>
+<div class="qcard">
+  <div class="qbody">
+    <p style="font-size:15px"><span class="big">1.</span> Ass Bench 是<b>玩笑外皮的真实循环</b>：generate→score→steer + best 爬山，40 行核心代码，任何生成型任务都能套。</p>
+    <p style="font-size:15px;margin-top:6px"><span class="big">2.</span> 循环的生命线是<span class="hl">评分器的确定性</span>——上游 hash() 坑实测证明：裁判会漂，爬坡就是噪声。</p>
+    <p style="font-size:15px;margin-top:6px"><span class="big">3.</span> 转向要<span class="hl">小步、去重、正交</span>：大步漂移、重复膨胀、注释锁死，三个坑我都替你踩过并给出修法。</p>
+  </div>
+</div>
+
+<div class="foot">
+  <b>知识库关联</b>：本指南沉淀概念 [[提示词爬山法PromptHillClimbing]]、[[接缝与桩实现StubSeam]]，与 [[反思模式Reflection]]、[[LLM裁判与自动评估]]、[[修改与约束分离]]、[[确定性脚本]]、[[上下文预算与战略压缩]]、[[双数据源适配器隔离]] 互链。
+  <div style="margin-top:6px;font-size:12px;opacity:.92">源码：github.com/deveIopedbyed/Ass-Bench（MIT，2026-09-10）· 站点：assbench.dev · 推文：x.com/developedbyed/status/2097431364270248104 · 实验：F:\reminder\assbench\exercise\ascii_loop.py</div>
+</div>
+
+</div>
+</body>
+</html>
