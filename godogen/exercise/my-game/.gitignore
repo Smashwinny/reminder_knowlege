@@ -1,0 +1,10 @@
+.claude
+CLAUDE.md
+godot.md
+/tripo-out
+assets
+screenshots
+.godot
+*.import
+bin/
+obj/

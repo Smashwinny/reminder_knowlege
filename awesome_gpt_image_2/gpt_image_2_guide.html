@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>awesome-gpt-image-2 小白指南</title>
+<style>
+  :root{
+    --orange:#FF4D00; --purple:#7C3AED; --cyan:#00B8D9; --pink:#FF2D87;
+    --green:#00C853; --yellow:#FFD600; --blue:#2962FF;
+    --ink:#1A1B25; --bg:#FFF8F0; --card:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  @page{ size:A4; margin:12mm; }
+  body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.65; font-size:13px;}
+  .wrap{ width:100%; max-width:190mm; margin:0 auto;}
+  /* ===== 封面 ===== */
+  .cover{ background:linear-gradient(135deg,#FF4D00 0%,#FF2D87 45%,#7C3AED 100%); color:#fff; border-radius:18px; padding:34px 30px 26px; break-inside:avoid;}
+  .cover h1{ font-size:34px; letter-spacing:1px; text-shadow:2px 2px 0 rgba(0,0,0,.18);}
+  .cover .sub{ font-size:15px; margin-top:8px; opacity:.96;}
+  .badges{ margin-top:14px;}
+  .badge{ display:inline-block; background:#fff; color:var(--orange); font-weight:900; border-radius:999px; padding:4px 14px; margin:3px 6px 0 0; font-size:12px; box-shadow:2px 2px 0 rgba(0,0,0,.15);}
+  .meta{ margin-top:14px; font-size:11.5px; opacity:.92;}
+  /* ===== 目录 ===== */
+  .toc{ background:var(--card); border:3px solid var(--yellow); border-radius:14px; padding:16px 20px; margin-top:14px; break-inside:avoid;}
+  .toc h2{ color:var(--orange); font-size:17px; margin-bottom:8px;}
+  .toc .q{ display:inline-block; background:#FFF3E0; border-left:4px solid var(--orange); border-radius:6px; padding:3px 10px; margin:3px 4px 3px 0; font-size:11.5px; font-weight:bold;}
+  /* ===== 疑问卡片 ===== */
+  .qcard{ background:var(--card); border-radius:14px; padding:20px 22px 16px; margin-top:16px; break-inside:avoid; border-top:8px solid var(--orange); box-shadow:0 3px 10px rgba(255,77,0,.10);}
+  .qcard.purple{border-top-color:var(--purple); box-shadow:0 3px 10px rgba(124,58,237,.10);}
+  .qcard.cyan{border-top-color:var(--cyan); box-shadow:0 3px 10px rgba(0,184,217,.10);}
+  .qcard.pink{border-top-color:var(--pink); box-shadow:0 3px 10px rgba(255,45,135,.10);}
+  .qcard.green{border-top-color:var(--green); box-shadow:0 3px 10px rgba(0,200,83,.10);}
+  .qcard.blue{border-top-color:var(--blue); box-shadow:0 3px 10px rgba(41,98,255,.10);}
+  .qnum{ font-size:40px; font-weight:900; color:var(--orange); line-height:1; float:left; margin-right:14px;}
+  .purple .qnum{color:var(--purple);} .cyan .qnum{color:var(--cyan);} .pink .qnum{color:var(--pink);} .green .qnum{color:var(--green);} .blue .qnum{color:var(--blue);}
+  .qtitle{ font-size:18px; font-weight:900; padding-top:6px;}
+  .qbody{ clear:both; margin-top:10px;}
+  .hl{ background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:900; padding:0 2px;}
+  .hl-pink{ background:linear-gradient(transparent 55%, #FFD1E8 55%); font-weight:900;}
+  .hl-cyan{ background:linear-gradient(transparent 55%, #B2F5FF 55%); font-weight:900;}
+  .term{ background:#EDE7FF; border-left:4px solid var(--purple); border-radius:6px; padding:8px 12px; margin:8px 0; font-size:12.5px;}
+  .story{ background:#FFF9E6; border:2px dashed var(--yellow); border-radius:10px; padding:10px 14px; margin:10px 0; font-size:12.5px;}
+  .story b:first-child{ color:var(--orange);}
+  code{ background:#263040; color:#7CFC9B; border-radius:4px; padding:1px 6px; font-family:Consolas,monospace; font-size:11.5px;}
+  pre{ background:#1E2430; color:#E8ECF5; border-radius:10px; padding:12px 14px; font-size:11px; line-height:1.55; overflow:hidden; margin:8px 0; font-family:Consolas,monospace;}
+  pre .g{color:#7CFC9B;} pre .y{color:#FFE066;} pre .p{color:#FF9ECC;} pre .b{color:#7EC8FF;}
+  table{ width:100%; border-collapse:collapse; margin:10px 0; font-size:12px;}
+  th{ background:var(--purple); color:#fff; padding:7px 9px; text-align:left;}
+  td{ border:2px solid #EEE6FF; padding:6px 9px; background:#fff;}
+  tr:nth-child(even) td{ background:#FAF7FF;}
+  .fig{ text-align:center; margin:10px 0;}
+  .figcap{ font-size:11px; color:#666; margin-top:2px;}
+  /* 实验卡 */
+  .step{ background:#F4FBFF; border:2px solid var(--cyan); border-radius:12px; padding:12px 16px; margin:10px 0; break-inside:avoid;}
+  .step h4{ color:var(--cyan); font-size:14px; margin-bottom:6px;}
+  .step .why{ font-size:12px; color:#555;}
+  .ok{ background:#E9FBEF; border:2px solid var(--green); border-radius:10px; padding:8px 12px; margin-top:8px; font-size:12px; font-weight:bold;}
+  .ok::before{ content:"✅ 预期结果："; color:var(--green);}
+  .concl{ background:linear-gradient(90deg,#FF4D00,#FF2D87); color:#fff; border-radius:14px; padding:18px 22px; margin-top:16px; break-inside:avoid;}
+  .concl h2{ font-size:18px; margin-bottom:8px;}
+  .foot{ text-align:center; color:#999; font-size:11px; margin:14px 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ============ 封面 ============ -->
+<div class="cover">
+  <h1>awesome-gpt-image-2 小白指南</h1>
+  <div class="sub">Prompt as Code：把"抽卡的玄学"变成"可参数化的代码资产" —— 541 条逆向工程提示词案例库全解</div>
+  <div class="badges">
+    <span class="badge">🏆 GitHub 趋势榜 第一</span>
+    <span class="badge">📦 541 条结构化案例</span>
+    <span class="badge">🧩 21 套工业模板</span>
+    <span class="badge">🤖 自带 Agent Skill</span>
+  </div>
+  <div class="meta">上游仓库：github.com/freestylefly/awesome-gpt-image-2（作者：苍何）｜学习产出：F:\reminder\awesome_gpt_image_2\｜2026-10-02</div>
+</div>
+
+<!-- ============ 目录 ============ -->
+<div class="toc">
+  <h2>❓ 疑问即目录（工科毕业生十二连问）</h2>
+  <span class="q">Q1 提示词合集凭什么登顶趋势榜？</span><span class="q">Q2 Prompt as Code 是什么？</span><span class="q">Q3 "逆向工程"具体怎么做的？</span><span class="q">Q4 541 个案例怎么组织？</span><span class="q">Q5 合格提示词长什么样（六块协议）？</span><span class="q">Q6 散文式 vs 结构化差在哪？</span><span class="q">Q7 [占位符] 是什么套路？</span><span class="q">Q8 工业模板+避坑指南说了什么？</span><span class="q">Q9 541 条数据里有什么规律？（实测）</span><span class="q">Q10 自带的 Agent Skill 干嘛的？</span><span class="q">Q11 我能拿它干什么？（能力清单）</span><span class="q">Q12 怎么保证我写的提示词合格？</span>
+</div>
+
+<!-- ============ Q1 ============ -->
+<div class="qcard">
+  <div class="qnum">Q1</div>
+  <div class="qtitle">一个"提示词合集"仓库，凭什么登顶 GitHub 趋势榜第一？</div>
+  <div class="qbody">
+    <p>GPT-Image2 火了之后，X（推特）上每天都有人晒"神图"并附上提示词。<b>苍何</b>干的事情是：把这些散落的提示词一条条扒下来、<span class="hl">逆向拆解、去掉原文照搬（全部 AI 重写保证原创）、打上类别/风格/场景标签</span>，攒成了一个 541 条案例的数据库——最初是 329 条，如今 541 条。推文说的就是它先冲到趋势榜第二（仅次于 Codex），随后登顶第一。</p>
+    <p>登顶的原因不是"收集得多"，而是它把散装经验做成了<span class="hl-cyan">三件别人没有的东西</span>：① <b>结构化数据</b>（cases.json，可以被脚本和 Agent 检索）；② <b>工业模板</b>（从案例中提炼的 21 套"填空即用"模板，每套带避坑指南）；③ <b>Agent Skill</b>（把整个库打包成 AI 编程助手能调用的技能包）。</p>
+    <div class="fig">
+      <svg width="560" height="120" viewBox="0 0 560 120">
+        <rect x="30" y="40" width="150" height="60" rx="8" fill="#FFD600"/>
+        <text x="105" y="65" text-anchor="middle" font-size="13" font-weight="bold">散装推文提示词</text>
+        <text x="105" y="85" text-anchor="middle" font-size="11">X 上一图一贴，用完就沉</text>
+        <path d="M195 70 L245 70" stroke="#FF4D00" stroke-width="4" marker-end="url(#ar)"/>
+        <text x="220" y="58" text-anchor="middle" font-size="12" fill="#FF4D00" font-weight="bold">逆向</text>
+        <rect x="250" y="30" width="150" height="80" rx="8" fill="#7C3AED"/>
+        <text x="325" y="60" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">awesome-gpt-image-2</text>
+        <text x="325" y="80" text-anchor="middle" font-size="11" fill="#fff">541 案例 · 标签 · 模板 · Skill</text>
+        <path d="M415 70 L465 70" stroke="#00C853" stroke-width="4" marker-end="url(#ar)"/>
+        <rect x="470" y="40" width="70" height="60" rx="8" fill="#00C853"/>
+        <text x="505" y="65" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">🏆 榜一</text>
+        <text x="505" y="83" text-anchor="middle" font-size="10" fill="#fff">趋势榜</text>
+        <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#FF4D00"/></marker></defs>
+      </svg>
+      <div class="figcap">图1：登顶之路 = 把散装经验重造成"可复用的数据资产"</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Q2 ============ -->
+<div class="qcard purple">
+  <div class="qnum">Q2</div>
+  <div class="qtitle">"Prompt as Code（提示词即代码）"到底是什么意思？</div>
+  <div class="qbody">
+    <div class="term"><b>一句话定义</b>：把图像提示词从"一次性的文案"升级为<b>有固定结构、有参数槽位、可批量生成、可测试质检的代码资产</b>。仓库原话：把散文式提示词<b>压缩成结构化协议</b>（compress prose-style prompts into structured protocols）。</div>
+    <p>我们知识库里已有 <b>[[提示词模板]]</b>（LangChain 的带变量槽位提示词对象）。Prompt as Code 是同一思想在<b>图像生成</b>领域的落地，但更进一步：文本模板管"话术里的槽位"，Prompt as Code 管的是<span class="hl">整条提示词的"架构"——主体、构图、风格、文字、比例、约束各占一个固定的"代码块"</span>，像写代码一样分模块，像改常量一样改参数。</p>
+    <div class="fig">
+      <svg width="560" height="150" viewBox="0 0 560 150">
+        <rect x="15" y="15" width="240" height="120" rx="10" fill="#FFE3D6"/>
+        <text x="135" y="38" text-anchor="middle" font-size="13" font-weight="bold" fill="#D84315">散文式（玄学抽卡）</text>
+        <text x="135" y="62" text-anchor="middle" font-size="11">"帮我画一个好看的 App 界面"</text>
+        <text x="135" y="84" text-anchor="middle" font-size="11">结构 ✗ · 复用 ✗ · 批量 ✗ · 质检 ✗</text>
+        <text x="135" y="108" text-anchor="middle" font-size="11">每次生成都在赌运气</text>
+        <rect x="305" y="15" width="240" height="120" rx="10" fill="#E8F5FF"/>
+        <text x="425" y="38" text-anchor="middle" font-size="13" font-weight="bold" fill="#0277BD">Prompt as Code（工程）</text>
+        <text x="425" y="62" text-anchor="middle" font-size="11">主体任务 / 构图布局 / 风格材质</text>
+        <text x="425" y="82" text-anchor="middle" font-size="11">文字标签 / 比例输出 / 约束负向</text>
+        <text x="425" y="108" text-anchor="middle" font-size="11" font-weight="bold" fill="#0277BD">结构 ✓ 复用 ✓ 批量 ✓ 质检 ✓</text>
+        <path d="M262 75 L298 75" stroke="#FF4D00" stroke-width="5" marker-end="url(#ar2)"/>
+        <text x="280" y="62" text-anchor="middle" font-size="12" fill="#FF4D00" font-weight="bold">协议化</text>
+        <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#FF4D00"/></marker></defs>
+      </svg>
+      <div class="figcap">图2：同一个需求的两种写法——右边的"每个格子"都可控、可替换、可检查</div>
+    </div>
+    <div class="story"><b>类比</b>：散文式提示词像"跟装修师傅口头说'给我装得温馨点'"；Prompt as Code 像<b>施工图纸</b>——哪面墙什么颜色、插座打在哪、用什么牌子的漆，全部写死。师傅（模型）没了自由发挥，你也没了惊吓。</div>
+  </div>
+</div>
+
+<!-- ============ Q3 ============ -->
+<div class="qcard cyan">
+  <div class="qnum">Q3</div>
+  <div class="qtitle">"逆向工程提示词"具体是怎么做的？</div>
+  <div class="qbody">
+    <p>仓库自嘲是"无情逆向机器"。流程其实很朴素，分四步：</p>
+    <table>
+      <tr><th>步骤</th><th>做什么</th><th>本仓库的对应物</th></tr>
+      <tr><td><b>① 收集</b></td><td>蹲守 X 上带提示词的 GPT-Image2 晒图帖，记录图 + 原提示词 + 作者</td><td>每条案例都有 <code>sourceUrl</code> 指回原推</td></tr>
+      <tr><td><b>② 拆解</b></td><td>按六块协议把散文提示词归位（见 Q5），提炼出可复用的"骨架"</td><td>docs/templates.md 的 21 套模板</td></tr>
+      <tr><td><b>③ 重写</b></td><td>用 AI 把原文重写（避免照搬侵权），保留结构</td><td>README 标注 100% Original AI Rewritten</td></tr>
+      <tr><td><b>④ 归档</b></td><td>打标签（类别/风格/场景）、编 case id、生成画廊和 JSON 数据</td><td>cases.json + docs/gallery-*.md</td></tr>
+    </table>
+    <div class="fig">
+      <svg width="560" height="90" viewBox="0 0 560 90">
+        <g font-size="12" font-weight="bold" text-anchor="middle">
+          <rect x="18" y="22" width="110" height="46" rx="8" fill="#FF4D00"/><text x="73" y="44" fill="#fff">① 收集</text><text x="73" y="60" fill="#fff" font-size="10" font-weight="normal">X 晒图+提示词</text>
+          <rect x="168" y="22" width="110" height="46" rx="8" fill="#FF9800"/><text x="223" y="44" fill="#fff">② 拆解</text><text x="223" y="60" fill="#fff" font-size="10" font-weight="normal">六块协议归位</text>
+          <rect x="318" y="22" width="110" height="46" rx="8" fill="#7C3AED"/><text x="373" y="44" fill="#fff">③ AI 重写</text><text x="373" y="60" fill="#fff" font-size="10" font-weight="normal">保结构去照搬</text>
+          <rect x="468" y="22" width="76" height="46" rx="8" fill="#00C853"/><text x="506" y="44" fill="#fff">④ 归档</text><text x="506" y="60" fill="#fff" font-size="10" font-weight="normal">打标签入库</text>
+          <path d="M128 45 L164 45 M278 45 L314 45 M428 45 L464 45" stroke="#1A1B25" stroke-width="3"/>
+        </g>
+      </svg>
+      <div class="figcap">图3：逆向四步流水线——本质是"数据工程"，不是玄学</div>
+    </div>
+    <p><span class="hl">关键洞察</span>：逆向的对象不是模型权重，而是<b>社区验证过的提示词写法</b>。"这张图为什么好"的答案，往往就藏在它提示词的某个结构块里。</p>
+  </div>
+</div>
+
+<!-- ============ Q4 ============ -->
+<div class="qcard pink">
+  <div class="qnum">Q4</div>
+  <div class="qtitle">541 个案例是怎么组织的？——三层标签体系 + 一份 JSON 数据库</div>
+  <div class="qbody">
+    <p>每条案例是一个 JSON 对象：<code>id / title / prompt / category / styles / scenes / sourceUrl / githubUrl</code>。组织检索靠三层标签：</p>
+    <ul style="margin:6px 0 6px 20px;">
+      <li><b>类别 category（13 个）</b>：回答"画的是什么类型"——海报字体 90、摄影写实 78、UI 界面 73、插画艺术 59、图表信息图 53、产品电商 42……</li>
+      <li><b>风格 styles（19 个）</b>：回答"什么质感"——UI(250)、Realistic(217)、Poster(199)、3D、Classical……</li>
+      <li><b>场景 scenes（10 个）</b>：回答"用在什么场合"——Tech、Commerce、Education……</li>
+    </ul>
+    <div class="fig">
+      <svg width="560" height="130" viewBox="0 0 560 130">
+        <rect x="200" y="8" width="160" height="34" rx="8" fill="#FF2D87"/>
+        <text x="280" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">case #544 幼儿词汇卡</text>
+        <path d="M280 42 L280 56 M120 56 L440 56 M120 56 L120 70 M280 56 L280 70 M440 56 L440 70" stroke="#888" stroke-width="2" fill="none"/>
+        <g text-anchor="middle" font-size="12" font-weight="bold">
+          <rect x="50" y="70" width="140" height="40" rx="8" fill="#FF4D00"/><text x="120" y="88" fill="#fff">类别</text><text x="120" y="103" fill="#fff" font-size="10" font-weight="normal">Charts &amp; Infographics</text>
+          <rect x="210" y="70" width="140" height="40" rx="8" fill="#7C3AED"/><text x="280" y="88" fill="#fff">风格</text><text x="280" y="103" fill="#fff" font-size="10" font-weight="normal">UI · Poster · Realistic</text>
+          <rect x="370" y="70" width="140" height="40" rx="8" fill="#00B8D9"/><text x="440" y="88" fill="#fff">场景</text><text x="440" y="103" fill="#fff" font-size="10" font-weight="normal">Tech · Education</text>
+        </g>
+      </svg>
+      <div class="figcap">图4：一条案例的三层标签——Agent 可以按"类别+风格+场景"组合检索</div>
+    </div>
+    <p>这份 <code>data/cases.json</code> 就是整个项目的"心脏"：网站画廊、PDF 文档、Agent Skill 全部从它生成（<code>npm run generate:style-skill</code>）。<span class="hl">数据和展示分离——这是典型的工程做法</span>。</p>
+  </div>
+</div>
+
+<!-- ============ Q5 ============ -->
+<div class="qcard">
+  <div class="qnum">Q5</div>
+  <div class="qtitle">一条合格的图像提示词长什么样？——六块协议（本指南最重要一页）</div>
+  <div class="qbody">
+    <p>拿仓库案例 <b>#544《幼儿词汇拆解学习卡》</b>开刀，任何好提示词都能拆进这六个抽屉：</p>
+    <table>
+      <tr><th style="width:16%">块</th><th style="width:44%">#544 原文怎么写</th><th>它锁定了什么</th></tr>
+      <tr><td><b>① 主体任务</b></td><td><code>Create a clean, child-friendly educational vocabulary poster...</code></td><td>画什么 + 给谁用，一句话锁边界</td></tr>
+      <tr><td><b>② 构图布局</b></td><td><code>[FRUIT] on the left ... [PART] on the right. Connect with a dotted arrow...</code></td><td>左大右小 + 箭头连接，空间关系写死</td></tr>
+      <tr><td><b>③ 文字标签</b></td><td><code>the word "[FRUIT NAME]" in large bold uppercase letters at the top...</code></td><td>文字逐字指定——<span class="hl-pink">文字渲染是图像模型最大翻车点</span></td></tr>
+      <tr><td><b>④ 风格材质</b></td><td><code>pastel-blue background, rounded panels, realistic fruit photography...</code></td><td>风格靠具体名词堆，不靠"好看"这种虚词</td></tr>
+      <tr><td><b>⑤ 整体氛围</b></td><td><code>should feel bright, educational, modern, uncluttered...</code></td><td>兜底氛围句，补前四块管不到的整体感</td></tr>
+      <tr><td><b>⑥ 比例输出负向</b></td><td><code>Vertical 4:5 composition, high resolution, ... no unnecessary decorations</code></td><td>比例 + 分辨率 + "不要什么"收尾</td></tr>
+    </table>
+    <div class="story"><b>讲个故事</b>：把提示词想象成给一位<b>外国天才画师</b>下订单。他画技无敌但完全不懂"潜台词"——你说"好看"，他就按自己审美来；你写"左 2/3 放苹果实物、右侧放横切面、虚线箭头连接、顶部大写粗体标苹果英文"，他就分毫不差。六块协议，就是把"订单"说成他无法误解的程度。</div>
+    <div class="fig">
+      <svg width="560" height="100" viewBox="0 0 560 100">
+        <g font-size="11.5" font-weight="bold" text-anchor="middle">
+          <rect x="12" y="20" width="88" height="56" rx="9" fill="#FF4D00"/><text x="56" y="44" fill="#fff">① 主体</text><text x="56" y="60" fill="#fff" font-size="9.5" font-weight="normal">画什么/给谁</text>
+          <rect x="104" y="20" width="88" height="56" rx="9" fill="#FF9800"/><text x="148" y="44" fill="#fff">② 构图</text><text x="148" y="60" fill="#fff" font-size="9.5" font-weight="normal">元素在哪</text>
+          <rect x="196" y="20" width="88" height="56" rx="9" fill="#FFD600"/><text x="240" y="44">③ 文字</text><text x="240" y="60" font-size="9.5" font-weight="normal">逐字锁定</text>
+          <rect x="288" y="20" width="88" height="56" rx="9" fill="#00C853"/><text x="332" y="44" fill="#fff">④ 风格</text><text x="332" y="60" fill="#fff" font-size="9.5" font-weight="normal">质感名词堆</text>
+          <rect x="380" y="20" width="80" height="56" rx="9" fill="#00B8D9"/><text x="420" y="44" fill="#fff">⑤ 氛围</text><text x="420" y="60" fill="#fff" font-size="9.5" font-weight="normal">兜底感觉</text>
+          <rect x="464" y="20" width="84" height="56" rx="9" fill="#7C3AED"/><text x="506" y="44" fill="#fff">⑥ 输出</text><text x="506" y="60" fill="#fff" font-size="9.5" font-weight="normal">比例+负向</text>
+        </g>
+        <text x="280" y="94" text-anchor="middle" font-size="11" fill="#FF4D00" font-weight="bold">六块顺序可以变，但缺块就会"抽卡"</text>
+      </svg>
+      <div class="figcap">图5：六块协议——awesome-gpt-image-2 全部 21 套模板的共同骨架</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Q6 ============ -->
+<div class="qcard purple">
+  <div class="qnum">Q6</div>
+  <div class="qtitle">散文式 vs 结构化，差别到底在哪？（同一个需求两种写法）</div>
+  <div class="qbody">
+<pre>
+<span class="y">// 散文式（抽卡）</span>
+画一个好看的健身 App 界面
+
+<span class="g">// Prompt as Code（结构化，来自仓库 UI 模板）</span>
+为<span class="y">[产品类型]</span>生成一张<span class="y">[平台]</span>界面图。
+核心功能：<span class="y">[功能点A]</span>、<span class="y">[功能点B]</span>、<span class="y">[功能点C]</span>。
+视觉风格：<span class="y">[极简/科技/拟物]</span>，主色<span class="y">[颜色]</span>，强调色<span class="y">[颜色]</span>。
+布局：<span class="y">[顶部导航/双栏/卡片流]</span>，信息层级清晰，留白充足。
+输出：高保真UI截图，文字清晰可读，比例<span class="y">[9:16/16:9]</span>。
+</pre>
+    <table>
+      <tr><th>维度</th><th>散文式</th><th>结构化</th></tr>
+      <tr><td><b>可复现</b></td><td>同一个提示词两次出图天差地别</td><td>关键变量全锁定，波动只在细节</td></tr>
+      <tr><td><b>可批量</b></td><td>改需求=重写整段文案</td><td><span class="hl">改一个参数即可批量生产变体</span></td></tr>
+      <tr><td><b>可质检</b></td><td>没法机器检查"写得全不全"</td><td>缺哪一块一查便知（见实验4 Lint）</td></tr>
+      <tr><td><b>可给 Agent 用</b></td><td>模糊指令让 Agent 无所适从</td><td>JSON 模板可直接作为 API 入参</td></tr>
+    </table>
+    <p>仓库还提供 <b>JSON 进阶模板</b>（"推荐给 Agent 调用"）：把六块写成 JSON 字段（<code>platform / layout / style.primary_color / content.cards...</code>），Agent 填 JSON 就像填表单，生成前还能校验字段合法性。</p>
+  </div>
+</div>
+
+<!-- ============ Q7 ============ -->
+<div class="qcard cyan">
+  <div class="qnum">Q7</div>
+  <div class="qtitle">提示词里的 <code>[FRUIT]</code> 占位符是什么套路？</div>
+  <div class="qbody">
+    <p>逆向出来的社区提示词里大量出现 <code>[FRUIT]</code>、<code>[PART NAME]</code>、<code>[产品类型]</code> 这类<b>大写方括号槽位</b>。它是提示词界的"变量名"：原帖作者晒的是"苹果版"，你把 <code>[FRUIT]</code> 换成"芒果"，就得到同款构图的芒果版——<span class="hl">一张图的方法论，变成一类图的生成器</span>。</p>
+    <p>和知识库里 <b>[[提示词模板]]</b>（LangChain 的 <code>{variable}</code> 语法）对比：思想一模一样，只是语法不同、运行时不同——图像提示词的"运行时"是<b>你自己（或脚本）做字符串替换</b>，LangChain 的运行时是框架的 <code>format()</code>。实验 3 就是用 Python 函数实现了这个替换。</p>
+    <div class="term"><b>防坑（实测）</b>：占位符替换完必须检查没有残留——实验 4 的 Lint 里专门有一条"无残留占位符"，因为把 <code>[FRUIT]</code> 原样发给模型，模型真可能画一个写着"[FRUIT]"的水果。</div>
+  </div>
+</div>
+
+<!-- ============ Q8 ============ -->
+<div class="qcard pink">
+  <div class="qnum">Q8</div>
+  <div class="qtitle">21 套工业模板 + 避坑指南，都讲了什么？</div>
+  <div class="qbody">
+    <p><code>docs/templates.md</code>（1080 行）从案例里提炼了 21 套模板，覆盖 13 个类别，每套 = <b>常规模板（填空散文）+ JSON 进阶模板（给 Agent）+ 避坑指南</b>。避坑指南全是实操血泪，摘两套感受一下：</p>
+    <table>
+      <tr><th style="width:22%">模板</th><th>避坑指南（原文摘录）</th></tr>
+      <tr><td><b>UI 与界面</b></td><td>不要给模糊指令，明确"平台+比例+布局"，否则模型像实习生乱排版；<span class="hl-pink">强制文字锁定</span>，要求"文字绝对可读"，避免乱码按钮；截图要区分平台特征（X 有蓝勾认证、小红书是双列瀑布流）；车机等特殊屏幕比例（21:9）必须写在最前面。</td></tr>
+      <tr><td><b>图表与信息图</b></td><td>主题要具体："老年人日常健康管理指南"而非"健康"；模块 3-5 个并写明模块间逻辑（箭头/连线）；先定图表类型（流程图/对比图/时间线）再填内容。</td></tr>
+    </table>
+    <div class="fig">
+      <svg width="560" height="95" viewBox="0 0 560 95">
+        <rect x="60" y="14" width="440" height="64" rx="10" fill="#FFF3E0" stroke="#FF9800" stroke-width="2"/>
+        <text x="80" y="38" font-size="12" font-weight="bold" fill="#E65100">模板 = 骨架（固定话术） + [槽位]（每张图变化的部分） + 避坑指南（前人踩坑清单）</text>
+        <text x="80" y="62" font-size="11" fill="#555">"直接复制填空，再也不用玄学抽卡" —— 仓库原话</text>
+      </svg>
+      <div class="figcap">图6：模板三件套。21 套模板 = 21 个开箱即用的"图纸"</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Q9 ============ -->
+<div class="qcard green">
+  <div class="qnum">Q9</div>
+  <div class="qtitle">541 条数据里藏着什么规律？（实验 1 实测）</div>
+  <div class="qbody">
+    <p>我们把 <code>cases.json</code> 当数据库查了一遍（脚本见 <code>exercise\ex1_stats.py</code>，输出为真实运行结果）：</p>
+    <table>
+      <tr><th>指标</th><th>实测值</th><th>解读</th></tr>
+      <tr><td>案例总数</td><td><b>541</b>（13 类别 / 19 风格 / 10 场景）</td><td>README 写 544，数据文件 541——以数据为准</td></tr>
+      <tr><td>类别 Top3</td><td>海报字体 90 · 摄影写实 78 · UI 73</td><td>"能当生产资料用"的类型最多</td></tr>
+      <tr><td>提示词长度</td><td>平均 <b>1257</b> 字符（中位 1041，最长 8143）</td><td><span class="hl">好提示词约 200-300 个汉字</span>，一句话远远不够</td></tr>
+      <tr><td>风格/材质描述覆盖</td><td><b>73%</b></td><td>最普及的结构块</td></tr>
+      <tr><td>文字渲染要求覆盖</td><td><b>64%</b></td><td>印证"文字是重点关照对象"</td></tr>
+      <tr><td>比例锁定覆盖</td><td>27%（负向约束 28%、占位符 5%）</td><td>社区提示词也不全规范——所以需要模板和 Lint 补齐</td></tr>
+    </table>
+    <div class="fig">
+      <svg width="560" height="150" viewBox="0 0 560 150">
+        <g font-size="11.5">
+          <text x="10" y="24" font-weight="bold">风格/材质</text><rect x="95" y="12" width="365" height="16" rx="4" fill="#00C853"/><text x="466" y="25" font-weight="bold" fill="#00C853">73%</text>
+          <text x="10" y="52" font-weight="bold">文字渲染</text><rect x="95" y="40" width="320" height="16" rx="4" fill="#2962FF"/><text x="421" y="53" font-weight="bold" fill="#2962FF">64%</text>
+          <text x="10" y="80" font-weight="bold">负向约束</text><rect x="95" y="68" width="140" height="16" rx="4" fill="#FF9800"/><text x="241" y="81" font-weight="bold" fill="#E65100">28%</text>
+          <text x="10" y="108" font-weight="bold">比例锁定</text><rect x="95" y="96" width="135" height="16" rx="4" fill="#FF2D87"/><text x="236" y="109" font-weight="bold" fill="#FF2D87">27%</text>
+          <text x="10" y="136" font-weight="bold">占位符槽位</text><rect x="95" y="124" width="25" height="16" rx="4" fill="#7C3AED"/><text x="126" y="137" font-weight="bold" fill="#7C3AED">5%</text>
+        </g>
+      </svg>
+      <div class="figcap">图7：541 条案例的结构化特征覆盖率（ex1_stats.py 实测绘制）</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Q10 ============ -->
+<div class="qcard blue">
+  <div class="qnum">Q10</div>
+  <div class="qtitle">仓库自带的 Agent Skill 是干嘛的？</div>
+  <div class="qbody">
+    <p><code>agents/skills/gpt-image-2-style-library/</code> 是一个标准的 <b>SKILL.md 技能包</b>（同知识库 [[AgentSkills技能包]] 的格式），还发布成了 npm 包 <code>gpt-image-2-style-library</code>。它教会 AI 编程助手：</p>
+    <ol style="margin:6px 0 6px 20px;">
+      <li>听懂意图 → 按序匹配：<b>模板类别 → 风格标签 → 场景标签 → 最近的案例</b>；</li>
+      <li>候选不止一个时，给 2-3 个选项让用户挑，不自作主张；</li>
+      <li>用<b>六块结构</b>组装最终提示词（主体任务/构图布局/风格材质/文字标签/比例输出/约束负向）；</li>
+      <li>输出默认"可复制的提示词放最前"，约束写具体（精确文字、比例、可读标签）。</li>
+    </ol>
+    <p><span class="hl-cyan">妙处</span>：Skill 的知识源就是 <code>data/style-library.json</code>——和网站、文档同源生成。改一处数据，网站、Skill、文档三处同步。这就是"数据即单一事实源（single source of truth）"。</p>
+  </div>
+</div>
+
+<!-- ============ Q11 ============ -->
+<div class="qcard">
+  <div class="qnum">Q11</div>
+  <div class="qtitle">能力清单：我能拿它干什么？</div>
+  <div class="qbody">
+    <table>
+      <tr><th style="width:34%">能力</th><th>怎么用（结合我们已有水平）</th></tr>
+      <tr><td>🎯 查模板直接抄</td><td>打开 <code>docs/templates.md</code>，按类别找模板填空，配任何图像模型（GPT-Image、即梦、可画、GLM 出图）都能用——<b>模板是模型无关的方法论</b></td></tr>
+      <tr><td>🔍 检索同款案例</td><td>在 <code>cases.json</code> 里按类别+风格筛，看 541 条真实提示词怎么写（每条带原图对比）</td></tr>
+      <tr><td>🤖 装进 AI 编程助手</td><td><code>npm run install:skill</code> 把 style-library 装进 Claude Code / Codex 的技能目录，以后说"帮我生成 XX 图的提示词"自动走模板</td></tr>
+      <tr><td>🏭 批量生产变体</td><td>像实验 3 那样把模板写成函数，一个循环生成 100 张商品图的提示词</td></tr>
+      <tr><td>🛠 逆向自己的好图</td><td>按 Q3 四步流水线，把自己满意的出图提示词拆解归档，攒私有库</td></tr>
+      <tr><td>📖 学提示词工程</td><td>21 套模板的避坑指南本身就是最好的提示词工程教材</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ============ Q12 ============ -->
+<div class="qcard purple">
+  <div class="qnum">Q12</div>
+  <div class="qtitle">怎么保证自己拼出来的提示词是合格的？——Prompt Lint</div>
+  <div class="qbody">
+    <p>模板是"写对"的方法，还需要"查错"的机制。我们把避坑指南翻译成 <b>7 条确定性规则</b>（主体明确/比例锁定/文字要求/风格材质/构图布局/负向约束/无残留占位符），写成了 <code>ex4_lint.py</code>——一个提示词"出厂质检器"。</p>
+    <p>这正是知识库 <b>[[质检Gate与自我纠错循环]]</b> 在提示工程里的落地：<span class="hl">裁判必须是确定性脚本</span>，LLM 拿到"哪条不达标"的具体清单才能自动改写重提，形成纠错循环。</p>
+    <div class="fig">
+      <svg width="560" height="105" viewBox="0 0 560 105">
+        <g text-anchor="middle" font-size="12" font-weight="bold">
+          <rect x="30" y="28" width="120" height="48" rx="9" fill="#7C3AED"/><text x="90" y="50" fill="#fff">填模板/组装</text><text x="90" y="66" fill="#fff" font-size="10" font-weight="normal">ex3_assemble.py</text>
+          <rect x="220" y="28" width="120" height="48" rx="9" fill="#FF4D00"/><text x="280" y="50" fill="#fff">Prompt Lint</text><text x="280" y="66" fill="#fff" font-size="10" font-weight="normal">ex4_lint.py · 7 规则</text>
+          <rect x="410" y="28" width="120" height="48" rx="9" fill="#00C853"/><text x="470" y="50" fill="#fff">PASS → 发给模型</text><text x="470" y="66" fill="#fff" font-size="10" font-weight="normal">FAIL → 按清单改写</text>
+          <path d="M150 52 L216 52 M340 52 L406 52" stroke="#1A1B25" stroke-width="3"/>
+          <path d="M280 76 L280 92 L150 92 L150 52" stroke="#FF2D87" stroke-width="2.5" fill="none" marker-end="url(#ar3)"/>
+          <text x="215" y="88" font-size="10.5" fill="#FF2D87" font-weight="bold">FAIL 带着失败原因回流</text>
+        </g>
+        <defs><marker id="ar3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#FF2D87"/></marker></defs>
+      </svg>
+      <div class="figcap">图8：组装 → Lint → 过 Gate 才出场的提示词流水线</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 实验 ============ -->
+<div class="qcard green">
+  <div class="qnum">🧪</div>
+  <div class="qtitle">动手实验：解构 → 重组 → Lint 流水线（全部真实运行）</div>
+  <div class="qbody">
+    <p>环境：Windows 11 + Python 3（<code>setx PYTHONUTF8 1</code> 已设，防中文 GBK 假失败）。材料在 <code>F:\reminder\awesome_gpt_image_2\exercise\</code>。四步实验都不调外部 API，纯本地跑，随时可复现。</p>
+
+    <div class="step">
+      <h4>实验 1｜把 541 条案例当数据库查（ex1_stats.py）</h4>
+      <p class="why"><b>操作</b>：<code>cd F:\reminder\awesome_gpt_image_2\exercise &amp;&amp; python -X utf8 ex1_stats.py</code>　<b>目的</b>：验证"这是一个结构化数据集，不是句子合集"。</p>
+      <pre><span class="y">案例总数: 541</span>  (13 类别 / 19 风格 / 10 场景)
+类别Top3: 海报字体 <span class="g">90</span> · 摄影写实 <span class="g">78</span> · UI <span class="g">73</span>
+提示词长度: 最短 10 / 平均 <span class="p">1257</span> / 中位 1041 / 最长 8143
+结构化覆盖率: 风格材质 <span class="g">73%</span> · 文字渲染 <span class="g">64%</span> · 比例锁定 <span class="p">27%</span> · 占位符 <span class="p">5%</span></pre>
+      <div class="ok">终端按行打印类别分布条形图（# 号）与覆盖率百分比；同时发现数据文件是 541 条（README 写 544），学会"以数据为准"。</div>
+    </div>
+
+    <div class="step">
+      <h4>实验 2｜解剖一条真实提示词（ex2_deconstruct.py）</h4>
+      <p class="why"><b>操作</b>：<code>python -X utf8 ex2_deconstruct.py</code>　<b>目的</b>：把案例 #544 的原文亲手拆进六块协议。</p>
+      <div class="ok">脚本先打印 #544 英文原文全文，再逐块输出「①主体→⑥输出」六段：每段给原文节选 + 一句"它锁定了什么"。拆完你就掌握了逆向的核心动作。</div>
+    </div>
+
+    <div class="step">
+      <h4>实验 3｜Prompt as Code：模板函数化组装（ex3_assemble.py）</h4>
+      <p class="why"><b>操作</b>：<code>python -X utf8 ex3_assemble.py</code>　<b>目的</b>：体验"改一个参数=换一版提示词"。</p>
+      <pre>【版本A】...主色<span class="y">荧光绿</span>...   【版本B】...主色<span class="y">落日橙</span>...
+【两版 diff】
+<span class="p">-视觉风格：极简，主色荧光绿，强调色深灰。</span>
+<span class="g">+视觉风格：极简，主色落日橙，强调色深灰。</span></pre>
+      <div class="ok">两版提示词并排打印 + unified diff 只有 1 行不同——结构完整性与参数化同时得到验证。</div>
+    </div>
+
+    <div class="step">
+      <h4>实验 4｜Prompt Lint 出厂质检（ex4_lint.py）</h4>
+      <p class="why"><b>操作</b>：<code>python -X utf8 ex4_lint.py</code>　<b>目的</b>：用确定性规则拦截不合格提示词。</p>
+      <pre>[合格样例（实验3组装结果）] 得分 <span class="g">100/100</span>  ✅ PASS
+[不合格样例 "画一个好看的app界面"] 得分 <span class="p">14/100</span>  ❌ FAIL
+   ✗ 比例锁定 / ✗ 文字渲染 / ✗ 风格材质 / ✗ 构图布局 / ✗ 负向约束 ...</pre>
+      <div class="ok">PASS/FAIL 判定 + 逐条失败原因清单。把 FAIL 清单喂回给 LLM 改写，就是一条完整的自纠错循环。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 总结 ============ -->
+<div class="concl">
+  <h2>📌 一页带走</h2>
+  <p>① awesome-gpt-image-2 的本质是把<b>社区提示词经验重造成数据资产</b>（541 案例 + 21 模板 + 1 个 Skill），所以能登顶趋势榜；② 核心方法论是 <b>Prompt as Code</b>：六块协议（主体/构图/文字/风格/氛围/输出负向）+ [槽位] + 避坑指南；③ 好提示词平均 1257 字符——<b>一句话抽不出好图</b>；④ 先查模板再填空，提交前跑一遍 <b>Prompt Lint</b>；⑤ 模板是模型无关的，GPT-Image、即梦、GLM 出图都能套用。</p>
+</div>
+
+<div class="foot">F:\reminder\awesome_gpt_image_2 · 学习产出 PDF · 2026-10-02 · 配套实验脚本 exercise\ex1~ex4 · 知识入库：vault\概念\ 与 vault\项目笔记\awesome_gpt_image_2.md</div>
+</div>
+</body>
+</html>

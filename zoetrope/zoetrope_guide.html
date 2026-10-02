@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>zoetrope 小白指南</title>
+<style>
+  :root{
+    --pink:#FF2E88; --orange:#FF7A00; --yellow:#FFC400; --cyan:#00B8D9;
+    --purple:#7C3AED; --green:#00C853; --red:#FF1744; --blue:#2962FF;
+    --ink:#1A1030; --bg:#FFFDF5; --card:#FFFFFF;
+  }
+  @page{ size:A4; margin:12mm; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink);
+        background:var(--bg); font-size:13px; line-height:1.65; }
+  .cover{ background:linear-gradient(135deg,#FF2E88 0%,#FF7A00 55%,#FFC400 100%);
+          color:#fff; border-radius:18px; padding:34px 30px; margin-bottom:18px; }
+  .cover h1{ font-size:38px; letter-spacing:1px; margin-bottom:8px; text-shadow:2px 2px 0 rgba(0,0,0,.18);}
+  .cover .sub{ font-size:16px; font-weight:bold; opacity:.97; }
+  .cover .meta{ margin-top:12px; font-size:12px; opacity:.92; }
+  .badge{ display:inline-block; background:#fff; color:var(--pink); font-weight:bold;
+          border-radius:999px; padding:2px 12px; font-size:12px; margin-right:6px;}
+  h2.sec{ font-size:22px; margin:20px 0 10px; padding:6px 14px; border-radius:10px;
+          color:#fff; background:linear-gradient(90deg,var(--purple),var(--pink)); }
+  h2.sec.green{ background:linear-gradient(90deg,#00897B,var(--green)); }
+  h2.sec.orange{ background:linear-gradient(90deg,var(--orange),var(--yellow)); color:#5A2D00;}
+  .toc{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+  .toc span{ background:#fff; border:2px solid var(--cyan); color:var(--cyan);
+             border-radius:999px; padding:3px 10px; font-size:11px; font-weight:bold;}
+  .qcard{ background:var(--card); border-radius:14px; padding:16px 18px; margin:12px 0;
+          border-left:8px solid var(--pink); box-shadow:0 3px 8px rgba(26,16,48,.10);
+          break-inside:avoid; }
+  .qcard.c1{border-left-color:var(--pink);} .qcard.c2{border-left-color:var(--orange);}
+  .qcard.c3{border-left-color:var(--cyan);} .qcard.c4{border-left-color:var(--purple);}
+  .qcard.c5{border-left-color:var(--green);}
+  .qnum{ font-size:30px; font-weight:900; color:var(--pink); float:right; opacity:.28; line-height:1;}
+  .qcard h3{ font-size:16px; margin-bottom:8px; color:var(--ink); }
+  .hl{ background:linear-gradient(transparent 55%, #FFE082 55%); font-weight:bold; padding:0 2px;}
+  .big{ font-size:15px; font-weight:900; color:var(--purple); }
+  .red{ color:var(--red); font-weight:bold;} .green{ color:#00875A; font-weight:bold;}
+  code, .cmd{ font-family:Consolas,"Courier New",monospace; background:#212121; color:#69F0AE;
+              border-radius:5px; padding:1px 6px; font-size:12px;}
+  pre.cmdblk{ font-family:Consolas,monospace; background:#1E1E2E; color:#C3F584; border-radius:10px;
+              padding:10px 14px; margin:8px 0; font-size:12px; overflow-x:auto; break-inside:avoid;}
+  pre.cmdblk .c{color:#7C7C9A;} pre.cmdblk .y{color:#FFD54F;}
+  table{ border-collapse:collapse; width:100%; margin:8px 0; break-inside:avoid;}
+  th{ background:var(--purple); color:#fff; padding:6px 8px; font-size:12px;}
+  td{ border:1.5px solid #E0D6F5; padding:5px 8px; font-size:12px; background:#fff;}
+  tr:nth-child(even) td{ background:#FAF7FF; }
+  .svgwrap{ text-align:center; margin:10px 0; break-inside:avoid;}
+  .note{ background:#E8F7FF; border:2px dashed var(--cyan); border-radius:10px; padding:8px 12px; margin:8px 0; break-inside:avoid;}
+  .warn{ background:#FFF3E0; border:2px dashed var(--orange); border-radius:10px; padding:8px 12px; margin:8px 0; break-inside:avoid;}
+  .step{ background:#fff; border:2.5px solid var(--green); border-radius:14px; padding:12px 16px;
+         margin:10px 0; break-inside:avoid; box-shadow:0 3px 8px rgba(0,200,83,.12);}
+  .step h4{ color:#00875A; font-size:14px; margin-bottom:6px;}
+  .step .tag{ display:inline-block; font-size:11px; font-weight:bold; border-radius:6px;
+              padding:1px 8px; margin:2px 6px 2px 0;}
+  .tag.do{background:#00E676;color:#003300;} .tag.why{background:#B388FF;color:#fff;}
+  .tag.ok{background:#FFE082;color:#5A2D00;}
+  .expect{ background:#E8F5E9; border-left:6px solid var(--green); border-radius:8px;
+           padding:7px 12px; margin-top:7px; font-size:12px;}
+  .cap{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0;}
+  .cap div{ flex:1 1 30%; background:#fff; border-radius:12px; padding:10px 12px;
+            border-top:5px solid var(--orange); box-shadow:0 2px 6px rgba(0,0,0,.08); break-inside:avoid;}
+  .cap b{ color:var(--orange); }
+  .footer{ text-align:center; color:#8A7FA8; font-size:11px; margin-top:16px;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🦁 zoetrope 小白指南</h1>
+  <div class="sub">给你的 Claude Code 会话装一台"西洋镜"——实时看主 agent 派生子 agent 的流动图</div>
+  <div class="meta">
+    <span class="badge">开源项目</span><span class="badge">Rust · MIT</span><span class="badge">v0.2.0</span><span class="badge">~979★</span><br>
+    仓库：github.com/furkankly/zoetrope ｜ 产出：2026-10-02 ｜ 实验环境：Windows 11 + 官方预编译二进制
+  </div>
+</div>
+
+<div class="toc">
+  <span>Q1 是什么</span><span>Q2 为什么需要</span><span>Q3 数据从哪来</span><span>Q4 图上画的是什么</span><span>Q5 时间旅行原理</span><span>Q6 安装使用</span><span>Q7 活没活着怎么判断</span><span>Q8 格式私有会崩吗</span><span>Q9 零网络</span><span>Q10 终端怎么画图</span><span>Q11 和已学知识的关系</span><span>Q12 能力清单</span>
+</div>
+
+<h2 class="sec">开胃故事：为什么叫"西洋镜"？</h2>
+<div class="qcard c1">
+  <p>zoetrope 的中文名叫<b>西洋镜（走马灯）</b>：一串静止的画面快速转过，看起来就"动"了。
+  Claude Code 干活时，你的终端里只有唰唰滚动的文字；而在磁盘上，它其实一直在
+  <span class="hl">一行一行地写"日志"</span>。zoetrope 做的就是把这串静止的日志行快速"转"起来——
+  <span class="big">让你亲眼看见一个会话如何分裂出子 agent、子 agent 又调了哪些工具</span>，
+  就像看一场实况转播或赛后录像。作者是 furkankly，Rust 编写，MIT 协议，2026 年刚开源就收获了约 979 颗星。</p>
+</div>
+
+<h2 class="sec">疑问解答（每个疑问一张卡）</h2>
+
+<div class="qcard c1"><div class="qnum">Q1</div>
+  <h3>zoetrope 到底是什么？一句话说清</h3>
+  <p><span class="big">一个只读的小工具：把 Claude Code（或 Codex）的会话，实时画成一张"流动图"</span>，
+  在终端里看，也可以在浏览器里看。它不做任何修改、不联网，纯粹是一台"监视器 + 录像机"：
+  会话正在跑时可以<code>跟随直播</code>，会话结束后可以<code>倒带回放</code>。
+  图上每个 agent 是一张卡片，卡片之间的连线表示"谁派生了谁"，卡片下的小徽章（chip）显示它在用什么工具。</p>
+  <div class="svgwrap">
+  <svg width="560" height="150" viewBox="0 0 560 150">
+    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7C3AED"/></marker></defs>
+    <rect x="10" y="45" width="120" height="46" rx="10" fill="#FF2E88"/>
+    <text x="70" y="65" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">● main agent</text>
+    <text x="70" y="82" text-anchor="middle" fill="#FFD1E3" font-size="10">⚒ Edit ×2 ✓</text>
+    <rect x="215" y="8" width="130" height="42" rx="10" fill="#00B8D9"/>
+    <text x="280" y="26" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">● Explore</text>
+    <text x="280" y="41" text-anchor="middle" fill="#D8F6FF" font-size="10">subagent · running</text>
+    <rect x="215" y="88" width="130" height="42" rx="10" fill="#7C3AED"/>
+    <text x="280" y="106" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">● code-review</text>
+    <text x="280" y="121" text-anchor="middle" fill="#E5D8FF" font-size="10">workflow group</text>
+    <rect x="420" y="45" width="120" height="46" rx="10" fill="#00C853"/>
+    <text x="480" y="65" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">✓ workflow-sub</text>
+    <text x="480" y="82" text-anchor="middle" fill="#D9FFE8" font-size="10">⚒ Write 4.0s ✓</text>
+    <line x1="130" y1="58" x2="212" y2="30" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="130" y1="80" x2="212" y2="108" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="345" y1="105" x2="417" y2="72" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#ar)"/>
+    <text x="280" y="146" text-anchor="middle" fill="#8A7FA8" font-size="11">卡片=agent · 箭头=Spawn(派生) · 徽章=工具调用（⚒ ×次数 ✓成功 ✗失败 ⏳进行中）</text>
+  </svg></div>
+</div>
+
+<div class="qcard c2"><div class="qnum">Q2</div>
+  <h3>为什么需要它？没有它之前人们怎么看 agent 在干嘛？</h3>
+  <p>以前只有三种"土办法"：① 盯着终端看文字滚动，派生了子 agent 时只看到一句
+  <code>Async agent launched</code>，之后它在干嘛完全是黑箱；② 会话结束后去翻
+  <code>~/.claude/projects/</code> 里的 JSONL 日志——几千行 JSON，肉眼没法看；
+  ③ 装各种需要联网上传日志的第三方面板（隐私堪忧）。
+  zoetrope 的答案：<span class="hl">直接把日志文件"翻译"成一张会动的图，全程只读本机文件、零网络</span>。
+  主实验里我们看到一段真实转录被折叠成 <code>1 agent, 56 tool calls (50✓ 6✗)</code>——一眼看完全貌。</p>
+</div>
+
+<div class="qcard c3"><div class="qnum">Q3</div>
+  <h3>数据从哪来？JSONL 会话转录是什么？</h3>
+  <p>Claude Code 每开一个会话，就在 <code>~/.claude/projects/&lt;项目路径编码&gt;/</code> 下
+  建一个 <span class="hl">JSONL 文件（每行一个独立 JSON 对象的日志文件）</span>，
+  会话的每一步——你发的提示词、模型的思考、每次工具调用的开始/结果、派生子 agent 的记录——
+  都<b>追加</b>一行进去。这个文件是官方内部格式、没有公开文档。
+  Codex 的对应物在 <code>~/.codex/sessions/</code>，文件名以 rollout 开头。
+  zoetrope 把它当作 <span class="big">append-only 事件日志</span>：只管往下读新行，
+  每行独立解析，坏一行就跳过，绝不致命。本机真实的转录路径例如：<br>
+  <code>C:\Users\Windows\.claude\projects\F--reminder\a3ffe5cf-0024-....jsonl</code></p>
+  <div class="svgwrap">
+  <svg width="560" height="120" viewBox="0 0 560 120">
+    <rect x="15" y="20" width="170" height="84" rx="10" fill="#212121"/>
+    <text x="100" y="40" text-anchor="middle" fill="#69F0AE" font-size="10" font-family="monospace">{"type":"user","msg":"..."}</text>
+    <text x="100" y="56" text-anchor="middle" fill="#69F0AE" font-size="10" font-family="monospace">{"type":"assistant","tool":"Bash"}</text>
+    <text x="100" y="72" text-anchor="middle" fill="#69F0AE" font-size="10" font-family="monospace">{"toolUseId":"t1","result":...}</text>
+    <text x="100" y="88" text-anchor="middle" fill="#FFD54F" font-size="10" font-family="monospace">{...每完成一步追加一行}</text>
+    <text x="100" y="14" text-anchor="middle" fill="#1A1030" font-size="11" font-weight="bold">JSONL 转录（只追加）</text>
+    <line x1="190" y1="62" x2="255" y2="62" stroke="#FF2E88" stroke-width="3" marker-end="url(#ar)"/>
+    <text x="222" y="52" text-anchor="middle" fill="#FF2E88" font-size="10">tail 追读</text>
+    <rect x="260" y="20" width="130" height="84" rx="10" fill="#FF7A00"/>
+    <text x="325" y="55" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">zoetrope</text>
+    <text x="325" y="74" text-anchor="middle" fill="#FFF3E0" font-size="10">解析→折叠→画图</text>
+    <line x1="395" y1="62" x2="450" y2="62" stroke="#00B8D9" stroke-width="3"/>
+    <rect x="452" y="34" width="94" height="56" rx="10" fill="#00B8D9"/>
+    <text x="499" y="58" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">终端 TUI</text>
+    <text x="499" y="76" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">/ 浏览器</text>
+  </svg></div>
+</div>
+
+<div class="qcard c4"><div class="qnum">Q4</div>
+  <h3>流动图上的节点、边、chip 分别是什么？</h3>
+  <table>
+    <tr><th>元素</th><th>含义</th><th>真实例子（实测输出）</th></tr>
+    <tr><td><b>agent 卡片</b></td><td>一个智能体：主 agent / 子 agent / workflow 组</td><td><code>● claude · ⚒ 5 · Workflow · active · 520 tok</code></td></tr>
+    <tr><td><b>边（箭头）</b></td><td>Spawn：主 agent 通过 Agent/Task 工具派生子 agent</td><td>main → Explore / general-purpose ×2</td></tr>
+    <tr><td><b>工具 chip</b></td><td>连续同名工具调用聚合成一枚计数徽章</td><td><code>⚒ bash ×5</code>、<code>⚒ Grep 5.0s ✓</code>、<code>⚒ Bash 10s ✗</code></td></tr>
+    <tr><td><b>时间线</b></td><td>底部可拖动的进度条，按"事件"而非墙钟时间索引</td><td>空档被压缩，密集区被放大</td></tr>
+  </table>
+  <p><span class="hl">chip 聚合是个贴心设计</span>：agent 连读 20 个文件，不会闪过 20 枚 chip，
+  而是一枚 <code>⚒ read ×20</code> 计数徽章在慢慢变大；只有连续 2.5 秒（RUN_GAP）没再有同名调用，
+  这枚 chip 才算"冷却"，下一次同名调用会开一枚新 chip。</p>
+</div>
+
+<div class="qcard c1"><div class="qnum">Q5</div>
+  <h3>"直播"和"时间旅行回放"是怎么实现的？</h3>
+  <p>zoetrope 内部维护一条<b>事件时间线</b>和一个<span class="big">播放头（playhead）</span>——和视频播放器一模一样：
+  回放就是播放头从头往前走；直播就是播放头钉在文件末尾追新行。
+  关键在于它区分了<span class="hl">两台时钟</span>（作者称之为全项目最重要的设计）：</p>
+  <table>
+    <tr><th></th><th>内容时钟 content-time</th><th>呈现时钟 presentation-time</th></tr>
+    <tr><td><b>是什么</b></td><td>会话自己的时间戳（播放头的位置）</td><td>你看了多久（真实秒表）</td></tr>
+    <tr><td><b>管什么</b></td><td>状态：谁在运行、工具成没成功</td><td>动画：镜头滑动、chip 余晖、蚂蚁线</td></tr>
+    <tr><td><b>暂停/拖动时</b></td><td>永远可以问到"此刻为真"</td><td>立即冻结，倒带不重播动画</td></tr>
+  </table>
+  <p>把"事实"和"动画"分开，才可能做到<span class="big">往回拖动进度条时，图会真的"缩回"过去的样子</span>，
+  而动画不会乱闪。默认回放速度 8 倍（<code>--speed N</code> 可调），长空闲被对数曲线压缩——
+  5 分钟的等待仍比 5 秒的停顿显示得长，但不会让你干等。</p>
+</div>
+
+<div class="qcard c2"><div class="qnum">Q6</div>
+  <h3>怎么安装？基本命令有哪些？（本机实测版）</h3>
+  <pre class="cmdblk"><span class="c"># Windows 无 Rust 工具链时的最简路径（本机采用，已验证）：</span>
+<span class="c"># 1. 从 GitHub Releases 下载 zoetrope-0.2.0-x86_64-pc-windows-msvc.zip，解压出 zoe.exe</span>
+F:\reminder\zoetrope\bin\zoe.exe --version        <span class="c"># → zoe 0.2.0</span>
+
+<span class="c"># 其他平台：</span>
+brew install furkankly/tap/zoetrope               <span class="c"># macOS / Linux</span>
+cargo install zoetrope                             <span class="c"># 有 Rust 工具链的话</span>
+
+<span class="c"># 日常使用（全部实测）：</span>
+zoe                                                <span class="c"># 跟随当前项目的直播会话</span>
+zoe &lt;file.jsonl&gt;                                   <span class="c"># 从头回放一段录像</span>
+zoe a3ffe5cf                                       <span class="c"># 按会话 id 前缀回放（不用记全 UUID）</span>
+zoe &lt;file.jsonl&gt; --follow                          <span class="c"># 打开时就钉在直播边缘</span>
+zoe &lt;file.jsonl&gt; --speed 20                        <span class="c"># 20 倍速回放</span>
+zoe inspect &lt;file|id&gt;                              <span class="c"># 无界面：直接打印会话树（脚本友好）</span></pre>
+  <p>打开后的按键：<code>space</code> 播放/暂停 ｜ <code>[</code> <code>]</code> 上/下一个提示词时代 ｜
+  <code>g</code> 跳回直播 ｜ <code>s</code> 空档压缩开关 ｜ <code>f</code> 跟随镜头 ｜ <code>?</code> 帮助 ｜ <code>q</code> 退出。</p>
+</div>
+
+<div class="qcard c3"><div class="qnum">Q7</div>
+  <h3>子 agent 几分钟不吭声，它怎么判断"还在干活"还是"挂了"？</h3>
+  <p>这是整个项目最难、也最值得学的部分。转录里<span class="red">没有一个"子 agent 完成了"的事件</span>。
+  作者踩过的坑被写进了架构文档：</p>
+  <p>❌ <b>陷阱一</b>：主 agent 调 Agent 工具的返回值写的是
+  <code>"Async agent launched successfully"</code>——这是<span class="hl">"派生回执"，不是"完成通知"</span>。
+  早期版本把回执当完成，子 agent 卡片刚出生就标 Done，闪一下又活了（chip 闪烁 bug）。</p>
+  <p>❌ <b>陷阱二</b>：子 agent 143 秒没输出，"安静判定"就宣布它 Done——结果它真正的工具错误报出来时，
+  图上已经把它当历史了。教训浓缩成一条原则：<span class="big">未完成的工具调用（pending tool_call）本身就是"还在干活"的铁证，优先级高于一切推测</span>。</p>
+  <p>✅ <b>现在的三层判定</b>：① 权威终止信号（task-notification / workflow journal result）→ 终态，锁死；
+  ② 有 pending 工具调用 → 一定 Running；③ 都没有时才用"120 秒活跃窗口"启发式——
+  而且是<span class="hl">可逆的</span>：一旦它又动了，状态立刻翻回 Running。</p>
+  <div class="svgwrap">
+  <svg width="560" height="118" viewBox="0 0 560 118">
+    <rect x="12" y="34" width="150" height="50" rx="10" fill="#FF1744"/>
+    <text x="87" y="55" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">有终止通知?</text>
+    <text x="87" y="72" text-anchor="middle" fill="#FFCDD2" font-size="9">(journal / task-notification)</text>
+    <rect x="212" y="34" width="140" height="50" rx="10" fill="#FF7A00"/>
+    <text x="282" y="55" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">有 pending 工具?</text>
+    <text x="282" y="72" text-anchor="middle" fill="#FFF3E0" font-size="9">未完成的调用=铁证</text>
+    <rect x="402" y="34" width="146" height="50" rx="10" fill="#00C853"/>
+    <text x="475" y="55" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">120s 活跃窗口</text>
+    <text x="475" y="72" text-anchor="middle" fill="#D9FFE8" font-size="9">可逆推断：动了就翻回 Running</text>
+    <line x1="162" y1="59" x2="209" y2="59" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="352" y1="59" x2="399" y2="59" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#ar)"/>
+    <text x="87" y="20" text-anchor="middle" fill="#8A7FA8" font-size="10">是→终态锁死(Done/Failed)</text>
+    <text x="282" y="20" text-anchor="middle" fill="#8A7FA8" font-size="10">是→Running（ground truth）</text>
+  </svg></div>
+</div>
+
+<div class="qcard c4"><div class="qnum">Q8</div>
+  <h3>转录格式是官方私有的，官方一改它就崩吗？</h3>
+  <p>格式确实没文档、随版本可能变。zoetrope 的对策是两层：</p>
+  <p>① <b>防御性解析</b>：每一行 JSONL 独立解析，认不出的记录类型直接跳过——
+  <span class="hl">坏一行绝不拖垮整个会话</span>，最多是图上少画一个元素；</p>
+  <p>② <b>provider 边界</b>：代码里有一条铁律——"provider 只陈述记录里写了什么，核心来推断没写出来的含义"。
+  Claude 格式的怪癖（比如"缺 is_error 字段 = 成功"）只允许写在 <code>src/provider/claude/</code> 里，
+  且必须配一个用真实数据验证的测试夹具。想支持新工具（比如其他 agent CLI）？
+  加一个 provider 目录即可，核心一行不改。识别格式时它<b>看文件内容</b>而不是看路径/扩展名——
+  实验里 codex 的 rollout 文件被自动识别，无需任何参数。</p>
+</div>
+
+<div class="qcard c5"><div class="qnum">Q9</div>
+  <h3>"零网络"是什么意思？为什么反复强调？</h3>
+  <p>会话转录里全是你的代码、提示词、甚至 API 相关上下文——交给一个联网的第三方面板等于把工作日志上传出去。
+  zoetrope 的承诺是<span class="big">可证明的零网络</span>：依赖树里根本没有 HTTP 客户端，
+  就连异步运行时 tokio 都编译成不带 <code>net</code> 特性的版本；
+  任何人都能用 <code>cargo tree</code> 亲自验证"没有一条依赖通向网络"。
+  浏览器版同理：WASM 在你浏览器里解析本地文件，文件不上传。</p>
+</div>
+
+<div class="qcard c1"><div class="qnum">Q10</div>
+  <h3>终端里黑底白字怎么"画图"？同一个核心怎么跑进浏览器？</h3>
+  <p>靠 Rust 的 <b>TUI 框架 ratatui</b>（在终端里用字符块画出卡片、边框、进度条的库），
+  加上作者自研的图布局组件 <b>rataflow</b>。更有意思的是架构：
+  模型 / 时间线 / 渲染全部放在一个<span class="hl">不做任何 I/O 的核心库</span>里，
+  外面套两件"壳"——终端壳（native）和浏览器壳（编译成 WebAssembly，用 ratzilla 框架）。
+  所以浏览器版和终端版画出来的图<b>是同一份代码</b>。实测中我们 даже 在无终端环境下抓到了它渲染的
+  字符帧：<code>● claude ⚒ 5 · Workflow</code>、<code>⚒ Grep 5.0s ✓</code>、卡片间连线
+  <code>╭─┴─</code>——这就是字符版"显卡"。</p>
+</div>
+
+<div class="qcard c2"><div class="qnum">Q11</div>
+  <h3>和我已经学过的 Agent 知识什么关系？</h3>
+  <p>之前学 [[多智能体协作]] 和 [[子智能体咨询]] 时，"主 agent 派生子 agent"只存在于文字描述里；
+  zoetrope 把这条链路第一次<b>画了出来</b>。对照记忆：</p>
+  <table>
+    <tr><th>已学概念</th><th>在 zoetrope 图上长这样</th></tr>
+    <tr><td>[[Agent循环]]：思考→调工具→观察→再思考</td><td>一张 agent 卡片不断更新的 chip 序列（⚒ Bash → ⚒ Read → ⚒ Edit）</td></tr>
+    <tr><td>[[工具调用生命周期]]：调用→pending→结果</td><td>chip 的 ⏳→✓/✗ 三态，且 pending 被当作"活着的铁证"（Q7）</td></tr>
+    <tr><td>[[多智能体协作]]：主 agent 拆任务给子 agent</td><td>Spawn 边连出的树；workflow 组节点再往下挂子节点</td></tr>
+    <tr><td>会话日志 / 状态持久化（Checkpoint 思路）</td><td>JSONL 事件日志 = 持续追加的"存档"，zoetrope 从存档重建任意时刻状态</td></tr>
+  </table>
+</div>
+
+<div class="qcard c3"><div class="qnum">Q12</div>
+  <h3>这个项目给我什么？（能力清单见下一节）</h3>
+  <p>一句话总结它教给我们的三件"可迁移"的事：
+  <span class="hl">① append-only 事件日志 + 折叠（fold）= 任意时刻状态可重建</span>；
+  <span class="hl">② 派生状态必须可逆、且永远不许覆盖真实记录</span>；
+  <span class="hl">③ 内容时钟与呈现时钟分离，才有可 scrub 的时间旅行</span>。
+  这三条不止用于可视化——任何"从日志重建状态"的系统（监控面板、调试器、回放测试）都是同一套思路。</p>
+</div>
+
+<h2 class="sec green">第五步：这个项目给我什么（能力清单）</h2>
+<div class="cap">
+  <div><b>1. 实时监督长任务</b><br>让 Claude Code 跑大活时，另开一个终端 <code>zoe</code> 直播看：哪个子 agent 卡住了、哪个工具反复失败，一眼可见。</div>
+  <div><b>2. 复盘历史会话</b><br><code>zoe inspect &lt;id前缀&gt;</code> 秒出会话树：几个 agent、56 次调用、6 次编辑、哪里失败过——写复盘笔记的素材机。</div>
+  <div><b>3. 理解别人的 agent 工程</b><br>回放开源项目的会话录像，看别人怎么拆任务、怎么用子 agent，是学习 agent 编排的"比赛录像"。</div>
+  <div><b>4. 无界面脚本集成</b><br><code>zoe inspect</code> 输出纯文本会话树，可以塞进脚本/CI 做会话统计（agent 数、失败工具数、token 量）。</div>
+  <div><b>5. 隐私安全分享</b><br>浏览器版零上传，或直接用仓库自带 demo.jsonl 给同事演示"我们的 agent 是怎么干活的"。</div>
+  <div><b>6. 学 Rust TUI 架构</b><br>ratatui + 自研 rataflow + no-IO 核心库 + WASM 双端，是"核心逻辑与呈现分离"的教科书式范例。</div>
+</div>
+
+<h2 class="sec orange">第六步：动手实验（全部命令已在 Windows 11 实测跑通）</h2>
+
+<div class="step"><h4>实验 1 ｜ 安装并验证 zoe.exe</h4>
+  <span class="tag do">操作</span> 打开 <a href="https://github.com/furkankly/zoetrope/releases">Releases 页</a>，下载 <code>zoetrope-0.2.0-x86_64-pc-windows-msvc.zip</code>（mac/linux 用 brew/cargo），解压得到 <code>zoe.exe</code>，然后在 PowerShell 里运行：<br>
+  <code>F:\reminder\zoetrope\bin\zoe.exe --version</code><br>
+  <span class="tag why">目的</span> 确认二进制可执行、版本正确（Windows 无需装 Rust）。<br>
+  <div class="expect">✅ 预期结果：输出 <code>zoe 0.2.0</code>（实测如此）。</div>
+</div>
+
+<div class="step"><h4>实验 2 ｜ 找到本机自己的会话转录</h4>
+  <span class="tag do">操作</span> <code>dir %USERPROFILE%\.claude\projects\</code>，进入你项目对应的文件夹（如 <code>F--reminder</code>），挑一个 <code>.jsonl</code> 文件，复制文件名里的 UUID 前缀（如 <code>a3ffe5cf</code>）。<br>
+  <span class="tag why">目的</span> 明白 zoetrope 的"燃料"就在你磁盘上，每个会话一个文件。<br>
+  <div class="expect">✅ 预期结果：看到一堆 <code>&lt;UUID&gt;.jsonl</code>，文件越多说明会话越多（实测本机 F--reminder 下有多个）。</div>
+</div>
+
+<div class="step"><h4>实验 3 ｜ 无界面回放自己的历史会话</h4>
+  <span class="tag do">操作</span> <code>zoe.exe inspect a3ffe5cf</code>（换成你的 id 前缀；也可以 <code>inspect &lt;完整jsonl路径&gt;</code>）。<br>
+  <span class="tag why">目的</span> 用最直观的方式看"日志 → 会话树"的折叠结果。<br>
+  <div class="expect">✅ 预期结果（实测）：打印会话标题、模式、<b>agent 数 / 工具调用数 / 文件编辑数</b>，以及每个 agent 的模型、工具成败统计（如 <code>tools: 56 (50✓ 6✗)</code>）和 token 量。失败的调用会带 ✗ 被如实标出。</div>
+</div>
+
+<div class="step"><h4>实验 4 ｜ 真终端里看流动图动起来（本任务的核心爽点）</h4>
+  <span class="tag do">操作</span> 在 Windows Terminal / PowerShell 里运行：<br>
+  <pre class="cmdblk">F:\reminder\zoetrope\bin\zoe.exe F:\reminder\zoetrope\repo\assets\claude\demo.jsonl
+<span class="c"># 或直接直播当前项目正在跑的会话：</span>
+F:\reminder\zoetrope\bin\zoe.exe</pre>
+  <span class="tag why">目的</span> 亲眼看到 agent 卡片被 Spawn 边连成树、chip 逐个亮起、时间线从左往右流动；再按 <code>[</code>/<code>]</code> 在提示词"时代"间跳跃，按 <code>s</code> 体会空档压缩开关。<br>
+  <div class="expect">✅ 预期结果：出现深色背景的字符图：左上主 agent 卡片，往下分叉出 Explore / general-purpose / claude-code-guide 子卡片，workflow 组下再挂 2 个子 agent；工具 chip 逐个显示 ⚒ Grep 5.0s ✓、⚒ Bash 10s ✗ 等（本实验在无终端环境抓帧验证过渲染内容，交互版留给你在真终端体验）。<code>q</code> 退出。</div>
+</div>
+
+<div class="step"><h4>实验 5 ｜ 直播监督 + Codex 格式（选做）</h4>
+  <span class="tag do">操作</span> 让 Claude Code 跑一个长任务，另开终端 <code>zoe</code> 看直播；再试 <code>zoe inspect &lt;codex rollout 文件&gt;</code> 或浏览器版 <a href="https://zoetrope.furkankly.dev">zoetrope.furkankly.dev</a>。<br>
+  <span class="tag why">目的</span> 验证"直播跟随"（播放头钉在文件末尾追新行）与多 provider 自动识别。<br>
+  <div class="expect">✅ 预期结果（实测 codex 部分）：自动识别为 codex 会话，显示 <code>app: codex-tui · version: 0.149.1 · model: gpt-5.6-terra · 4 agent(s), 46 tool call(s)</code>。</div>
+</div>
+
+<div class="note"><b>踩坑记录（本机实测）</b>：
+① Windows 无 Rust 工具链时直接用预编译 zip，别硬上 cargo；
+② 在 Claude Code/脚本的非交互环境里跑 <code>zoe</code>（无 inspect）会往 stdout 狂吐 ANSI 转义帧——这说明 TUI 在渲染，但人要看得在<b>真实终端</b>里跑；
+③ JSONL 路径里的项目目录名是路径编码（如 <code>F--reminder</code> = F:\reminder），别用原始路径去找。</div>
+
+<h2 class="sec">一页带走：zoetrope 教给我们的三件事</h2>
+<div class="qcard c5">
+  <p><span class="big">1. 事件日志是最高级的存档。</span> 只追加、不可变、每行独立——从它出发可以重建任意时刻的状态（fold 折叠模型），倒带=重新折叠前缀。</p>
+  <p><span class="big">2. 推断必须可逆，铁证优先于推测。</span> "没消息"不等于"完成了"：pending 工具调用是铁证，安静时长只是可逆推断——这个原则适用于一切监控/看板系统。</p>
+  <p><span class="big">3. 事实与动画分两台钟。</span> 状态读内容时钟（会话时间戳），动画走呈现时钟（真实秒表）——所以才能放心地拖动时间线"时间旅行"。</p>
+</div>
+
+<div class="footer">zoetrope 小白指南 · 拾遗任务 1787578354014 · 2026-10-02 · 所有命令实测于 Windows 11 · 仓库 github.com/furkankly/zoetrope (MIT)</div>
+</body>
+</html>
