@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8">
+<title>workout-guide 小白指南</title>
+<style>
+@page{size:A4;margin:12mm}
+:root{--p:#ff4d3a;--s:#ffb800;--g:#00c46a;--b:#2467ff;--pu:#8b5cf6;--ink:#16181d;--bg:#fff9f0;--dark:#181b22}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","Segoe UI",sans-serif;background:var(--bg);color:var(--ink);font-size:13px;line-height:1.62}
+.cover{background:linear-gradient(135deg,#ff4d3a 0%,#ff8a00 55%,#ffb800 100%);color:#fff;border-radius:18px;padding:30px 34px;margin-bottom:16px}
+.cover h1{font-size:34px;letter-spacing:1px;text-shadow:2px 2px 0 rgba(0,0,0,.18)}
+.cover .sub{font-size:15px;margin-top:8px;font-weight:700}
+.cover .meta{margin-top:12px;font-size:12px;opacity:.95}
+.badge{display:inline-block;background:#fff;color:var(--p);font-weight:900;border-radius:99px;padding:2px 12px;margin-right:6px;font-size:12px}
+h2.sec{font-size:20px;color:#fff;background:var(--b);border-radius:10px;padding:6px 16px;margin:18px 0 10px}
+.q{background:#fff;border-radius:14px;padding:14px 18px 12px;margin-bottom:12px;border-left:10px solid var(--b);break-inside:avoid;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.q.p{border-left-color:var(--p)}.q.s{border-left-color:var(--s)}.q.g{border-left-color:var(--g)}.q.pu{border-left-color:var(--pu)}
+.qh{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.qn{font-size:26px;font-weight:900;color:var(--p);min-width:44px}
+.qt{font-size:16px;font-weight:900}
+.hl{background:linear-gradient(transparent 55%,#ffd54d 55%);font-weight:900;padding:0 2px}
+.red{color:var(--p);font-weight:900}.grn{color:#00915a;font-weight:900}.blu{color:var(--b);font-weight:900}
+code,.cd{font-family:Consolas,"Courier New",monospace}
+.cd{display:block;background:var(--dark);color:#e8ecf5;border-radius:8px;padding:8px 12px;margin:6px 0;font-size:11.5px;line-height:1.55;white-space:pre-wrap}
+.cd .c{color:#7ee787}.cd .k{color:#ff9d6b}
+ul{margin:4px 0 6px 20px}li{margin:2px 0}
+table{border-collapse:collapse;width:100%;margin:6px 0;font-size:12px}
+th{background:var(--b);color:#fff;padding:5px 8px;text-align:left}
+td{border-bottom:1px solid #eee;padding:4px 8px;background:#fff}
+tr:nth-child(even) td{background:#fdf3e7}
+.fig{background:#fff;border:2px dashed var(--pu);border-radius:12px;padding:8px;margin:8px 0;text-align:center;break-inside:avoid}
+.fig .cap{font-size:11px;color:var(--pu);font-weight:700;margin-top:2px}
+.ok{background:#e6fff0;border:2px solid var(--g);border-radius:10px;padding:8px 12px;margin:6px 0;font-weight:700}
+.warn{background:#fff2e6;border:2px solid var(--s);border-radius:10px;padding:8px 12px;margin:6px 0}
+.step{background:#fff;border-radius:12px;border:2px solid var(--g);padding:12px 16px;margin-bottom:10px;break-inside:avoid}
+.step h4{color:#00915a;font-size:14px;margin-bottom:4px}
+.small{font-size:11px;color:#666}
+</style></head><body>
+
+<div class="cover">
+<h1>🏋️ workout-guide 开源健身动作插画库</h1>
+<div class="sub">302 个动作 · 906 张 SVG 矢量插画 · 一个 TypeScript npm 包 —— 做健身 App 的"图标库"，但是给动作用的</div>
+<div class="meta">
+<span class="badge">GitHub 1.3k★ · 曾登周榜第 5</span><span class="badge">@bryllim/workout-guide</span><span class="badge">代码 MIT / 插画 CC BY-SA 4.0</span><br>
+拾遗任务 4e83f48a · 来源：抖音 JavaPub《做健身 App 必备！302 个动作全部开源》 · 仓库 github.com/bryllim/workout-guide · 2026-10-03
+</div>
+</div>
+
+<h2 class="sec">0️⃣ 一句话 & 疑问地图（疑问即目录）</h2>
+<div class="q g"><div class="qh"><div class="qn">🎯</div><div class="qt">它是什么？</div></div>
+<div><span class="hl">workout-guide 是一个"动作插画素材库 + 查询工具包"：302 个健身动作，每个动作 3 帧（起-中-止）统一风格的 SVG 线稿插画，打包成框架无关的 TypeScript npm 包</span>，再配一个可搜索的在线画廊。做健身 App 最贵的不是代码，是<span class="red">几百张风格统一的动作图</span>——这个项目把这块成本直接归零。</div></div>
+
+<div class="q"><div class="qh"><div class="qn">Q1</div><div class="qt">为什么需要它？没有它之前人们怎么做？</div></div>
+<div>健身 App（Keep、 workout-cool、Hevy 这类）每个训练动作都要配图。自己做的三条老路：</div>
+<table><tr><th>老路</th><th>代价</th></tr>
+<tr><td>请插画师画 300+ 张动作图</td><td>数千到上万元，周期以月计，风格难统一</td></tr>
+<tr><td>扒 Everkinetic 等老数据集的 PNG</td><td>风格陈旧不统一、无结构化元数据、License 模糊</td></tr>
+<tr><td>用照片/视频</td><td>版权风险大、体积大、深浅主题难适配</td></tr></table>
+<div><span class="hl">workout-guide 的答案：开源 + 统一矢量风格 + 结构化元数据 + 明确双许可</span>，一次解决四个痛点。</div></div>
+
+<div class="q s"><div class="qh"><div class="qn">Q2</div><div class="qt">302 个动作哪来的？和 Everkinetic 什么关系？</div></div>
+<div>作者 Bryl Lim 在<span class="blu">Everkinetic</span>（一个老牌开源动作数据集，CC BY-SA 4.0）基础上二次创作：把老图重绘成统一风格线稿、补画大量新动作、补齐中间帧。实测 manifest：906 帧中 <span class="red">76 帧带 Everkinetic 上游溯源标注</span>（记录来源 URL + 改动说明），其余为作者新绘。这是开源二创的<span class="hl">教科书操作：逐帧写清"从哪来、改了什么"</span>，CC BY-SA 的署名-相同方式共享义务落到了每个文件。</div>
+<div class="fig"><svg width="620" height="120" viewBox="0 0 620 120">
+<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#8b5cf6"/></marker></defs>
+<rect x="10" y="30" width="130" height="60" rx="10" fill="#e8dcff"/><text x="75" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#5b21b6">Everkinetic 数据集</text><text x="75" y="75" text-anchor="middle" font-size="11" fill="#5b21b6">老 PNG · CC BY-SA 4.0</text>
+<rect x="230" y="30" width="160" height="60" rx="10" fill="#fff" stroke="#8b5cf6" stroke-width="2"/><text x="310" y="52" text-anchor="middle" font-size="13" font-weight="bold" fill="#5b21b6">重绘/补帧/统一风格</text><text x="310" y="72" text-anchor="middle" font-size="11" fill="#5b21b6">76/906 帧保留溯源</text>
+<rect x="480" y="30" width="130" height="60" rx="10" fill="#ffe0d6"/><text x="545" y="52" text-anchor="middle" font-size="13" font-weight="bold" fill="#b3261e">workout-guide</text><text x="545" y="72" text-anchor="middle" font-size="11" fill="#b3261e">906 帧 SVG · 同许可</text>
+<line x1="140" y1="60" x2="228" y2="60" stroke="#8b5cf6" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="390" y1="60" x2="478" y2="60" stroke="#8b5cf6" stroke-width="2.5" marker-end="url(#ar)"/></svg>
+<div class="cap">图2-1 二创链：继承 CC BY-SA 4.0，逐帧 attribution 记来源与改动</div></div></div>
+
+<div class="q"><div class="qh"><div class="qn">Q3</div><div class="qt">仓库怎么组织？核心只有 80 行代码？</div></div>
+<div>npm workspaces monorepo，四块：</div>
+<div class="fig"><svg width="640" height="150" viewBox="0 0 640 150">
+<rect x="14" y="16" width="140" height="110" rx="10" fill="#ffe0d6"/><text x="84" y="42" text-anchor="middle" font-size="12" font-weight="bold" fill="#b3261e">packages/</text><text x="84" y="62" text-anchor="middle" font-size="11" fill="#b3261e">workout-guide 包</text><text x="84" y="80" text-anchor="middle" font-size="11" fill="#b3261e">manifest.json</text><text x="84" y="98" text-anchor="middle" font-size="11" fill="#b3261e">assets/ 906帧</text><text x="84" y="116" text-anchor="middle" font-size="11" fill="#b3261e">src/ 仅80行!</text>
+<rect x="180" y="16" width="130" height="110" rx="10" fill="#ddf6e8"/><text x="245" y="42" text-anchor="middle" font-size="12" font-weight="bold" fill="#00754a">apps/site</text><text x="245" y="62" text-anchor="middle" font-size="11" fill="#00754a">Astro 画廊/详情页</text><text x="245" y="80" text-anchor="middle" font-size="11" fill="#00754a">落地页+指南</text><text x="245" y="104" text-anchor="middle" font-size="10" fill="#00754a">bryllim.github.io</text>
+<rect x="336" y="16" width="130" height="110" rx="10" fill="#dbe8ff"/><text x="401" y="42" text-anchor="middle" font-size="12" font-weight="bold" fill="#1746b0">scripts/</text><text x="401" y="62" text-anchor="middle" font-size="11" fill="#1746b0">目录导入+校验</text><text x="401" y="80" text-anchor="middle" font-size="11" fill="#1746b0">validate-catalog</text><text x="401" y="98" text-anchor="middle" font-size="11" fill="#1746b0">vectorize-assets</text>
+<rect x="492" y="16" width="134" height="110" rx="10" fill="#fff2cc"/><text x="559" y="42" text-anchor="middle" font-size="12" font-weight="bold" fill="#8a6100">tests/e2e</text><text x="559" y="62" text-anchor="middle" font-size="11" fill="#8a6100">Playwright 端到端</text><text x="559" y="80" text-anchor="middle" font-size="11" fill="#8a6100">vitest 单测</text>
+<line x1="154" y1="70" x2="178" y2="70" stroke="#999" stroke-width="2"/><line x1="310" y1="70" x2="334" y2="70" stroke="#999" stroke-width="2"/><line x1="466" y1="70" x2="490" y2="70" stroke="#999" stroke-width="2"/></svg>
+<div class="cap">图3-1 monorepo 四块结构</div></div>
+<div>API 面极小：<span class="hl">4 个函数 + 2 个 Map 索引，共 80 行 TypeScript</span>。价值大头在资产和元数据，代码只是"查询壳"——<span class="blu">内容型开源项目的典型形态</span>。</div></div>
+
+<div class="q s"><div class="qh"><div class="qn">Q4</div><div class="qt">manifest.json 数据结构长什么样？</div></div>
+<div>一个 302 元素的数组，每条动作记录：</div>
+<div class="cd"><span class="k">{</span> <span class="c">"id"</span>: "exercise-bench-press",  <span class="c">"slug"</span>: "bench-press",  <span class="c">"name"</span>: "Bench Press",
+  <span class="c">"exerciseType"</span>: "weight_reps",   <span class="k">// 5 种：weight_reps/bodyweight_reps/duration/distance_duration/assisted_bodyweight</span>
+  <span class="c">"equipment"</span>: "Barbell",          <span class="k">// 17 种器械</span>
+  <span class="c">"primaryMuscle"</span>: "Chest",        <span class="k">// 20 个主肌群；secondaryMuscles 还有协同肌</span>
+  <span class="c">"isStretch"</span>: false,
+  <span class="c">"frames"</span>: [ { <span class="c">"index"</span>: 1, <span class="c">"path"</span>: "assets/bench-press/frame-1.svg", <span class="c">"width"</span>: 512, <span class="c">"height"</span>: 512,
+                <span class="c">"attribution"</span>: { creator, license: "CC BY-SA 4.0",
+                                 <span class="k">source: { name:"Everkinetic", url, changes:"Rasterized…vector-traced" } } }</span>, …共3帧 ] <span class="k">}</span></div>
+<div>实测分布：器械 <span class="blu">Bodyweight 111 / Dumbbell 45 / Machine 35 / Barbell 29</span>；肌群 <span class="blu">Core 45 / Glutes 38 / Quads 35 / Chest 26</span>。<span class="hl">每帧自带宽高和出处——数据即合同，App 端不用猜</span>。</div></div>
+
+<div class="q"><div class="qh"><div class="qn">Q5</div><div class="qt">为什么每动作只有 3 帧？3 帧够吗？</div></div>
+<div>动作示范的目的是<span class="hl">看清轨迹，不是以假乱真</span>。起势→中程→止点 3 帧恰好覆盖：起点教摆位、中程教轨迹、止点教收缩。对比方案：视频几十 MB、GIF 数 MB、3 帧 SVG 总共约 <span class="red">7KB/动作</span>。循环播放时 1→2→3→2→1 的"钟摆式"循环就自然连贯（本指南实验 4 的图鉴就是这么做的，CSS 十几行搞定）。</div>
+<div class="fig"><svg width="620" height="110" viewBox="0 0 620 110">
+<rect x="20" y="14" width="170" height="70" rx="10" fill="#181b22"/><text x="105" y="45" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">frame-1 起势</text><text x="105" y="66" text-anchor="middle" font-size="11" fill="#9aa4b5">摆位 · 握距 · 起点</text>
+<rect x="225" y="14" width="170" height="70" rx="10" fill="#181b22"/><text x="310" y="45" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">frame-2 中程</text><text x="310" y="66" text-anchor="middle" font-size="11" fill="#9aa4b5">运动轨迹 · 关节角度</text>
+<rect x="430" y="14" width="170" height="70" rx="10" fill="#181b22"/><text x="515" y="45" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">frame-3 止点</text><text x="515" y="66" text-anchor="middle" font-size="11" fill="#9aa4b5">峰值收缩 · 完成位</text>
+<text x="207" y="55" text-anchor="middle" font-size="18" fill="#ff4d3a" font-weight="bold">→</text><text x="412" y="55" text-anchor="middle" font-size="18" fill="#ff4d3a" font-weight="bold">→</text>
+<text x="310" y="102" text-anchor="middle" font-size="11" fill="#8b5cf6" font-weight="bold">循环播放 1→2→3→2→1（钟摆式）＝ 一个完整动作示范</text></svg>
+<div class="cap">图5-1 三帧法：最小帧数覆盖完整动作语义</div></div></div>
+
+<div class="q s"><div class="qh"><div class="qn">Q6</div><div class="qt">双许可（MIT + CC BY-SA 4.0）怎么理解？商用要注意什么？</div></div>
+<div><span class="hl">一个仓库两套许可，按"内容类型"划界</span>：</div>
+<table><tr><th>部分</th><th>许可</th><th>你能干什么</th><th>义务</th></tr>
+<tr><td>代码 / 文档（src、scripts、site）</td><td>MIT</td><td>随便用、改、闭源商用</td><td>保留版权声明</td></tr>
+<tr><td>插画资产（assets/ 全部 906 帧）</td><td>CC BY-SA 4.0</td><td>免费商用</td><td><b>署名</b>（标注 Bryl Lim / workout-guide）+ <b>相同方式共享</b>（你若修改分发这些图，修改版也得 CC BY-SA 4.0）</td></tr></table>
+<div class="warn">⚠️ 实操要点：App 里用原版图 = 署名即可（放"关于"页）；<span class="red">改了图再分发，改的部分也必须开源同许可</span>。npm 包的 license 字段特意写成 "SEE LICENSE IN LICENSES.md" 逼使用户看两份许可。溯源链上游 Everkinetic 也是 CC BY-SA 4.0，许可兼容不冲突。</div></div>
+
+<div class="q"><div class="qh"><div class="qn">Q7</div><div class="qt">图片怎么到用户手机上？CDN 分发链路是什么？</div></div>
+<div><code>getAssetUrl('push-up', 1)</code> 默认返回：
+<div class="cd">https://cdn.jsdelivr.net/npm/<span class="c">@bryllim/workout-guide@1.0.0</span>/assets/push-up/frame-1.png</div>
+<span class="hl">npm 包本身就是"CDN 源"：jsDelivr 自动镜像 npm 上的任何包并提供全球边缘缓存</span>——不花一分钱基础设施，App 换 URL 版本号即灰度升级（<code>@1.0.0</code>→<code>@latest</code>）。也可以 <code>{baseUrl:'https://myapp.com/assets/'}</code> 指向自托管。三个真实坑（实验全部踩到）：</div>
+<div class="warn">坑1：发布版 manifest 帧路径是 <b>.png</b> 不是 .svg——仓库里 svg+png 双份（svg 2.3MB 是矢量源，png 兼容兜底），npm 包只发 manifest 引用的 PNG；
+坑2：<code>{baseUrl}</code> 会拼出 <b>assets/assets/</b> 双前缀——frame.path 自带 <code>assets/</code> 前缀，baseUrl 应指向包根而不是 assets 目录；
+坑3：<b>SVG 是白色线稿+透明底</b>，放在白色背景上直接"隐身"——官方画廊是深色主题，自建 UI 必须给深色容器（或改 fill）。</div></div>
+
+<div class="q s"><div class="qh"><div class="qn">Q8</div><div class="qt">"框架无关的 npm 包"是怎么做到的？</div></div>
+<div>三招：<span class="hl">① 预构建 dist</span>（发布时带好 index.js ESM + index.cjs CJS + index.d.ts 类型，装了就能用，不需要用户配构建器）；<span class="hl">② package.json exports 双入口</span>（<code>.</code> 主入口、<code>./manifest.json</code>、<code>./assets/*</code> 直取原始资产）；<span class="hl">③ 零运行时依赖</span>——不绑 React/Vue，输出纯数据对象。React 直接 <code>getAssetUrl</code> 放 <code>&lt;img src&gt;</code>，React Native 用 <code>require()</code> 静态图，Vue/原生 JS 同理。实测 <code>npm install</code> 后 Node ESM 直接 <code>import</code> 成功（实验 3）。</div>
+<div class="fig"><svg width="620" height="120" viewBox="0 0 620 120">
+<rect x="235" y="12" width="150" height="42" rx="21" fill="#2467ff"/><text x="310" y="38" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">@bryllim/workout-guide</text>
+<rect x="30" y="80" width="130" height="32" rx="8" fill="#e8dcff"/><text x="95" y="101" text-anchor="middle" font-size="12" fill="#5b21b6">React / Next</text>
+<rect x="180" y="80" width="130" height="32" rx="8" fill="#e8dcff"/><text x="245" y="101" text-anchor="middle" font-size="12" fill="#5b21b6">Vue / Svelte</text>
+<rect x="330" y="80" width="130" height="32" rx="8" fill="#e8dcff"/><text x="395" y="101" text-anchor="middle" font-size="12" fill="#5b21b6">React Native</text>
+<rect x="480" y="80" width="130" height="32" rx="8" fill="#e8dcff"/><text x="545" y="101" text-anchor="middle" font-size="12" fill="#5b21b6">Node / 原生 JS</text>
+<line x1="270" y1="54" x2="105" y2="78" stroke="#999" stroke-width="2"/><line x1="295" y1="54" x2="250" y2="78" stroke="#999" stroke-width="2"/><line x1="330" y1="54" x2="390" y2="78" stroke="#999" stroke-width="2"/><line x1="355" y1="54" x2="540" y2="78" stroke="#999" stroke-width="2"/></svg>
+<div class="cap">图8-1 一包多端：预构建 + exports + 零依赖 = 框架无关</div></div></div>
+
+<div class="q"><div class="qh"><div class="qn">Q9</div><div class="qt">搜索为什么大小写、重音、符号都打不倒它？</div></div>
+<div>秘密在 <code>normalizeSearchText</code> 的归一化管道，实测 <code>"Café &amp; Lunge!" → "cafe and lunge"</code>：
+<div class="cd">toLowerCase()                    <span class="k">// 大小写统一</span>
+.normalize('NFD') + 去组合重音符   <span class="k">// café → cafe（把 é 拆成 e + ́ 再删掉）</span>
+.replace(/&/g,' and ')           <span class="k">// 符号转词：&amp; 就是 and</span>
+.replace(/[^a-z0-9]+/g,' ')      <span class="k">// 其余符号→空格</span>
+.trim() + 空格折叠               <span class="k">// 多空格合一</span></div>
+查询和被查字段走<span class="hl">同一个归一化函数再比较——"规范化后比相等/包含"，比上搜索引擎轻一个数量级，302 条本地内存过滤瞬间完成</span>。多词查询用"每个 token 都须命中"（AND 语义）。</div></div>
+
+<div class="q s"><div class="qh"><div class="qn">Q10</div><div class="qt">906 张图 + manifest 怎么保证不出现坏数据？</div></div>
+<div>仓库 <code>scripts/</code> 里有 <code>validate-catalog.mjs</code> 校验脚本 + <code>npm run check</code> 总门，理念就是知识库里学过的<span class="blu">质检 Gate 与自我纠错循环</span>：目录导入→校验→过门才能合并。我照着这个思路自己写了零依赖质检脚本（实验 1），7 项检查全过：</div>
+<div class="ok">✅ 302 动作 = manifest 记录数；✅ 906 帧记录 = 906 个磁盘 SVG（账实相符）；✅ 每帧 512×512；✅ 文件头含 &lt;svg&gt;；✅ 每帧 attribution 带 CC BY-SA 4.0；✅ 每动作恰好 3 帧；✅ slug 无重复。→ <b>质检 0 异常</b></div>
+<div><span class="hl">数据集项目的可信度不靠宣传靠对账：声明数、文件数、字段值三方一致才算数</span>。</div></div>
+
+<div class="q"><div class="qh"><div class="qn">Q11</div><div class="qt">它和同类项目什么关系？什么时候选它？</div></div>
+<table><tr><th>项目</th><th>形态</th><th>选它的场景</th></tr>
+<tr><td><b>workout-guide</b></td><td>插画库 + 查询包（302 动作）</td><td>要<b>风格统一的活动插画</b>、要自建 UI、要轻量</td></tr>
+<tr><td>yuhonas/free-exercise-db</td><td>纯 JSON 数据集（800+ 动作）+ 英文说明</td><td>要文字说明/属性，图不讲究</td></tr>
+<tr><td>GitHub topic: workout 数据集</td><td>1300+ 动作 GIF 数据</td><td>要海量但接受 GIF 体积与风格混杂</td></tr>
+<tr><td>Snouzy/workout-cool</td><td>完整健身平台（产品）</td><td>要现成 App 而非素材</td></tr></table>
+<div>一句话：<span class="hl">要"图"选 workout-guide，要"字"选 free-exercise-db，要"现成产品"选 workout-cool</span>。</div></div>
+
+<div class="q s"><div class="qh"><div class="qn">Q12</div><div class="qt">我怎么用它做一个健身 App 的最小动作页？</div></div>
+<div>四步（全部真实跑通，见下一节）：npm 装包 → <code>searchExercises</code> 按肌群/器械筛动作 → <code>getAssetUrl</code> 拿图（或本地 assets）→ 三帧 CSS 动画轮播。实验 4 产出的 <code>exercise_gallery.html</code> 就是零框架的最小完整示例：302 卡片 + 筛选 + 悬停播放，共 139KB。</div></div>
+
+<h2 class="sec">🧪 动手实验（全部真实运行，输出为实测）</h2>
+<div class="step"><h4>实验 1+2｜manifest 数据体检 + 资产完整性质检 Gate（零依赖，Python 标准库）</h4>
+<div class="cd"><span class="c"># 怎么操作：python 01_manifest_audit.py（读 repo 的 manifest + assets 对账）</span>
+[1] manifest 动作数: 302 | 帧记录: 906 (302x3=906 PASS) | 磁盘 SVG: 906 (PASS)
+[3] 器械 Top: Bodyweight 111 / Dumbbell 45 / Machine 35 / Barbell 29（共17种）
+    肌群 Top: Core 45 / Glutes 38 / Quads 35 / Chest 26（共20群）
+[4] 质检 Gate: 路径存在/512尺寸/SVG头/CC溯源/3帧/slug唯一 → 0 异常 PASS
+[5] Everkinetic 溯源帧: 76/906（其余为作者新绘）</div>
+<div class="ok">✅ 预期结果（实测）：学会了"数据集对账"方法——不数宣传页的数，直接对 manifest 和磁盘</div></div>
+
+<div class="step"><h4>实验 3｜真装 npm 包，调四个 API（Node 24 ESM）</h4>
+<div class="cd"><span class="c"># npm install @bryllim/workout-guide（35MB，含 dist+assets+manifest）</span>
+getExercise('push-up')  → Push-up | Bodyweight | Chest | 3帧
+searchExercises('press',{equipment:'Dumbbell'}) → 6 个（Arnold Press…）
+searchExercises('',{primaryMuscle:'chest',equipment:'bodyweight'}) → 12 个
+getAssetUrl('push-up',1) → https://cdn.jsdelivr.net/npm/@bryllim/workout-guide@1.0.0/assets/push-up/frame-1.png
+normalizeSearchText('Café &amp; Lunge!') → "cafe and lunge"
+getExercise('不存在') → null（不抛异常，查询API契约友好）</div>
+<div class="ok">✅ 预期结果（实测）：装包 4 秒，零配置 import 成功；同时踩到 3 个真实坑（.png 路径 / assets 双前缀 / 白线稿需深底）</div></div>
+
+<div class="step"><h4>实验 4｜生成"302 动作图鉴浏览器"（零依赖静态页 + CSS 三帧动画）</h4>
+<div class="cd"><span class="c"># python 03_build_gallery.py → exercise_gallery.html（139KB）+ assets_svg/ 906 帧（2.3MB）</span>
+功能：302 卡片 · 20 肌群/17 器械下拉筛选 · 悬停播放 起-中-止 steps 动画
+验证：Edge 无头截图 → 302 卡全部渲染（首测白底"隐身"，加深色底后修复）</div>
+<div class="ok">✅ 预期结果（实测）：一个 HTML + 一个资产目录 = 可离线浏览的完整动作库，双击即用</div></div>
+
+<h2 class="sec">🎁 这个项目给我什么（能力清单）</h2>
+<div class="q pu"><ul>
+<li><b>直接拿来用</b>：自研健身 App/小程序时 302 动作插画 + 元数据即插即用（署名即可免费商用）</li>
+<li><b>动作数据骨架</b>：器械/肌群/动作类型/计次方式的结构化字段，直接当自己数据库的种子数据</li>
+<li><b>三帧动画模式</b>：几 KB 的 SVG 实现动作示范，比视频/GIF 轻百倍，适配深浅主题</li>
+<li><b>数据集工程范本</b>：manifest 即合同 + 逐条溯源 + 校验脚本，可复用到任何素材库项目</li>
+<li><b>内容型开源范本</b>：代码 80 行、价值在内容——"做开源不一定要写复杂代码"</li>
+<li><b>jsDelivr 分发术</b>：npm 包当 CDN 源，零基础设施全球分发</li>
+</ul></div>
+
+<div class="q" style="border-left-color:#888"><div class="qh"><div class="qn">📌</div><div class="qt">一页记忆卡</div></div>
+<div class="cd">workout-guide = 302 动作 × 3 帧 SVG + manifest 元数据 + 80 行查询 API
+许可   = 代码 MIT（随便用）/ 插画 CC BY-SA 4.0（署名+改图同许可）
+分发   = npm 包即 CDN 源（jsDelivr 自动镜像），版本号即灰度
+三个坑 = npm 发布 .png 非 .svg；baseUrl 双 assets 前缀；白线稿必须深色底
+一句话 = 做健身 App，图的部分已经有人替你画好了</div></div>
+
+</body></html>

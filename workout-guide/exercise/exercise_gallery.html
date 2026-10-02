@@ -1,0 +1,1558 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8">
+<title>302 动作图鉴浏览器 · workout-guide 实验</title>
+<style>
+:root{--p:#ff4d3a;--s:#ffb800;--g:#00c46a;--b:#2467ff;--ink:#16181d;--bg:#fff9f0}
+*{box-sizing:border-box;margin:0}
+body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);padding:24px}
+h1{color:var(--p);font-size:28px}h1 small{color:var(--b);font-size:14px}
+.bar{margin:14px 0;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:9}
+select{margin-right:10px;padding:8px 12px;border:2px solid var(--b);border-radius:10px;font-size:14px;background:#fff}
+#cnt{font-weight:700;color:var(--g)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.card{background:#fff;border:2px solid #ffe0c2;border-radius:14px;padding:10px;break-inside:avoid}
+.card:hover{border-color:var(--p)}
+.anim{position:relative;width:100%;aspect-ratio:1;background:#181b22;border-radius:10px}
+.anim img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0}
+.anim img:first-child{opacity:1}
+@media (prefers-reduced-motion:no-preference){
+.card:hover .anim img{animation:cyc 1.05s steps(1) infinite}
+}
+@keyframes cyc{0%{opacity:1}33%{opacity:0}40%{opacity:0}0%{opacity:0}}
+.anim img:nth-child(1){animation:none}
+@keyframes f1{0%,32%{opacity:1}33%,100%{opacity:0}}
+@keyframes f2{0%,32%{opacity:0}33%,65%{opacity:1}66%,100%{opacity:0}}
+@keyframes f3{0%,65%{opacity:0}66%,99%{opacity:1}100%{opacity:0}}
+.card:hover .anim img:nth-child(1){animation:f1 1.2s steps(1) infinite}
+.card:hover .anim img:nth-child(2){animation:f2 1.2s steps(1) infinite}
+.card:hover .anim img:nth-child(3){animation:f3 1.2s steps(1) infinite}
+.name{font-size:13px;font-weight:700;margin:6px 0 4px;min-height:2.4em}
+.tags span{font-size:10px;padding:2px 7px;border-radius:99px;margin-right:4px;color:#fff;font-weight:700}
+.t1{background:var(--p)}.t2{background:var(--b)}.t3{background:var(--g)}
+</style></head><body>
+<h1>🏋️ 302 动作图鉴 <small>bryllim/workout-guide · 本地 SVG 三帧起-中-止动画 · 悬停卡片播放</small></h1>
+<div class="bar">
+<select id="fm"><option value="">全部主肌群（20）</option><option value="Adductors">Adductors Adductors</option><option value="Back">背 Back</option><option value="Biceps">二头 Biceps</option><option value="Calves">小腿 Calves</option><option value="Chest">胸 Chest</option><option value="Core">核心 Core</option><option value="Forearms">前臂 Forearms</option><option value="Glutes">臀 Glutes</option><option value="Hamstrings">腘绳 Hamstrings</option><option value="Hips">Hips Hips</option><option value="Lats">Lats Lats</option><option value="Legs">Legs Legs</option><option value="Lower Back">Lower Back Lower Back</option><option value="Mobility">Mobility Mobility</option><option value="Posterior Chain">Posterior Chain Posterior Chain</option><option value="Quads">股四头 Quads</option><option value="Rear Delts">Rear Delts Rear Delts</option><option value="Shoulders">肩 Shoulders</option><option value="Triceps">三头 Triceps</option><option value="Upper Back">Upper Back Upper Back</option></select>
+<select id="fe"><option value="">全部器械（17）</option><option value="Barbell">Barbell</option><option value="Bench">Bench</option><option value="Bodyweight">Bodyweight</option><option value="Box">Box</option><option value="Cable">Cable</option><option value="Cardio">Cardio</option><option value="Chair">Chair</option><option value="Doorway">Doorway</option><option value="Dumbbell">Dumbbell</option><option value="Kettlebell">Kettlebell</option><option value="Machine">Machine</option><option value="Plate">Plate</option><option value="Pull-up Bar">Pull-up Bar</option><option value="Resistance Band">Resistance Band</option><option value="Stability Ball">Stability Ball</option><option value="Towel">Towel</option><option value="Wall">Wall</option></select>
+显示 <span id="cnt"></span> 个动作
+</div>
+<div class="grid"><div class="card" data-muscle="Chest" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/bench-press/frame-1.svg" alt="Bench Press"><img src="assets_svg/bench-press/frame-2.svg" alt=""><img src="assets_svg/bench-press/frame-3.svg" alt=""></div>
+  <div class="name">Bench Press</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/incline-bench-press/frame-1.svg" alt="Incline Bench Press"><img src="assets_svg/incline-bench-press/frame-2.svg" alt=""><img src="assets_svg/incline-bench-press/frame-3.svg" alt=""></div>
+  <div class="name">Incline Bench Press</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/incline-dumbbell-press/frame-1.svg" alt="Incline Dumbbell Press"><img src="assets_svg/incline-dumbbell-press/frame-2.svg" alt=""><img src="assets_svg/incline-dumbbell-press/frame-3.svg" alt=""></div>
+  <div class="name">Incline Dumbbell Press</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-bench-press/frame-1.svg" alt="Dumbbell Bench Press"><img src="assets_svg/dumbbell-bench-press/frame-2.svg" alt=""><img src="assets_svg/dumbbell-bench-press/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Bench Press</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/decline-bench-press/frame-1.svg" alt="Decline Bench Press"><img src="assets_svg/decline-bench-press/frame-2.svg" alt=""><img src="assets_svg/decline-bench-press/frame-3.svg" alt=""></div>
+  <div class="name">Decline Bench Press</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/machine-chest-press/frame-1.svg" alt="Machine Chest Press"><img src="assets_svg/machine-chest-press/frame-2.svg" alt=""><img src="assets_svg/machine-chest-press/frame-3.svg" alt=""></div>
+  <div class="name">Machine Chest Press</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/pec-deck/frame-1.svg" alt="Pec Deck"><img src="assets_svg/pec-deck/frame-2.svg" alt=""><img src="assets_svg/pec-deck/frame-3.svg" alt=""></div>
+  <div class="name">Pec Deck</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/cable-fly/frame-1.svg" alt="Cable Fly"><img src="assets_svg/cable-fly/frame-2.svg" alt=""><img src="assets_svg/cable-fly/frame-3.svg" alt=""></div>
+  <div class="name">Cable Fly</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/push-up/frame-1.svg" alt="Push-up"><img src="assets_svg/push-up/frame-2.svg" alt=""><img src="assets_svg/push-up/frame-3.svg" alt=""></div>
+  <div class="name">Push-up</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/weighted-push-up/frame-1.svg" alt="Weighted Push-up"><img src="assets_svg/weighted-push-up/frame-2.svg" alt=""><img src="assets_svg/weighted-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Weighted Push-up</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Bodyweight</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/overhead-press/frame-1.svg" alt="Overhead Press"><img src="assets_svg/overhead-press/frame-2.svg" alt=""><img src="assets_svg/overhead-press/frame-3.svg" alt=""></div>
+  <div class="name">Overhead Press</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/seated-dumbbell-press/frame-1.svg" alt="Dumbbell Seated Shoulder Press"><img src="assets_svg/seated-dumbbell-press/frame-2.svg" alt=""><img src="assets_svg/seated-dumbbell-press/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Seated Shoulder Press</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/arnold-press/frame-1.svg" alt="Arnold Press"><img src="assets_svg/arnold-press/frame-2.svg" alt=""><img src="assets_svg/arnold-press/frame-3.svg" alt=""></div>
+  <div class="name">Arnold Press</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/lateral-raise/frame-1.svg" alt="Lateral Raise"><img src="assets_svg/lateral-raise/frame-2.svg" alt=""><img src="assets_svg/lateral-raise/frame-3.svg" alt=""></div>
+  <div class="name">Lateral Raise</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/cable-lateral-raise/frame-1.svg" alt="Cable Lateral Raise"><img src="assets_svg/cable-lateral-raise/frame-2.svg" alt=""><img src="assets_svg/cable-lateral-raise/frame-3.svg" alt=""></div>
+  <div class="name">Cable Lateral Raise</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/front-raise/frame-1.svg" alt="Front Raise"><img src="assets_svg/front-raise/frame-2.svg" alt=""><img src="assets_svg/front-raise/frame-3.svg" alt=""></div>
+  <div class="name">Front Raise</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Rear Delts" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/rear-delt-fly/frame-1.svg" alt="Rear Delt Fly"><img src="assets_svg/rear-delt-fly/frame-2.svg" alt=""><img src="assets_svg/rear-delt-fly/frame-3.svg" alt=""></div>
+  <div class="name">Rear Delt Fly</div>
+  <div class="tags"><span class="t1">Rear Delts</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Rear Delts" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/reverse-pec-deck/frame-1.svg" alt="Reverse Pec Deck"><img src="assets_svg/reverse-pec-deck/frame-2.svg" alt=""><img src="assets_svg/reverse-pec-deck/frame-3.svg" alt=""></div>
+  <div class="name">Reverse Pec Deck</div>
+  <div class="tags"><span class="t1">Rear Delts</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Upper Back" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/face-pull/frame-1.svg" alt="Face Pull"><img src="assets_svg/face-pull/frame-2.svg" alt=""><img src="assets_svg/face-pull/frame-3.svg" alt=""></div>
+  <div class="name">Face Pull</div>
+  <div class="tags"><span class="t1">Upper Back</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/upright-row/frame-1.svg" alt="Upright Row"><img src="assets_svg/upright-row/frame-2.svg" alt=""><img src="assets_svg/upright-row/frame-3.svg" alt=""></div>
+  <div class="name">Upright Row</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Posterior Chain" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/deadlift/frame-1.svg" alt="Deadlift"><img src="assets_svg/deadlift/frame-2.svg" alt=""><img src="assets_svg/deadlift/frame-3.svg" alt=""></div>
+  <div class="name">Deadlift</div>
+  <div class="tags"><span class="t1">Posterior Chain</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/romanian-deadlift/frame-1.svg" alt="Romanian Deadlift"><img src="assets_svg/romanian-deadlift/frame-2.svg" alt=""><img src="assets_svg/romanian-deadlift/frame-3.svg" alt=""></div>
+  <div class="name">Romanian Deadlift</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/barbell-row/frame-1.svg" alt="Barbell Row"><img src="assets_svg/barbell-row/frame-2.svg" alt=""><img src="assets_svg/barbell-row/frame-3.svg" alt=""></div>
+  <div class="name">Barbell Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/t-bar-row/frame-1.svg" alt="T-Bar Row"><img src="assets_svg/t-bar-row/frame-2.svg" alt=""><img src="assets_svg/t-bar-row/frame-3.svg" alt=""></div>
+  <div class="name">T-Bar Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-bent-over-row/frame-1.svg" alt="Dumbbell Bent Over Row"><img src="assets_svg/dumbbell-bent-over-row/frame-2.svg" alt=""><img src="assets_svg/dumbbell-bent-over-row/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Bent Over Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/one-arm-dumbbell-row/frame-1.svg" alt="One-Arm Dumbbell Row"><img src="assets_svg/one-arm-dumbbell-row/frame-2.svg" alt=""><img src="assets_svg/one-arm-dumbbell-row/frame-3.svg" alt=""></div>
+  <div class="name">One-Arm Dumbbell Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/chest-supported-row/frame-1.svg" alt="Chest Supported Row"><img src="assets_svg/chest-supported-row/frame-2.svg" alt=""><img src="assets_svg/chest-supported-row/frame-3.svg" alt=""></div>
+  <div class="name">Chest Supported Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/seated-row/frame-1.svg" alt="Seated Cable Row"><img src="assets_svg/seated-row/frame-2.svg" alt=""><img src="assets_svg/seated-row/frame-3.svg" alt=""></div>
+  <div class="name">Seated Cable Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/machine-row/frame-1.svg" alt="Machine Row"><img src="assets_svg/machine-row/frame-2.svg" alt=""><img src="assets_svg/machine-row/frame-3.svg" alt=""></div>
+  <div class="name">Machine Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/lat-pulldown/frame-1.svg" alt="Lat Pulldown"><img src="assets_svg/lat-pulldown/frame-2.svg" alt=""><img src="assets_svg/lat-pulldown/frame-3.svg" alt=""></div>
+  <div class="name">Lat Pulldown</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/close-grip-lat-pulldown/frame-1.svg" alt="Close-Grip Lat Pulldown"><img src="assets_svg/close-grip-lat-pulldown/frame-2.svg" alt=""><img src="assets_svg/close-grip-lat-pulldown/frame-3.svg" alt=""></div>
+  <div class="name">Close-Grip Lat Pulldown</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/straight-arm-pulldown/frame-1.svg" alt="Straight-Arm Pulldown"><img src="assets_svg/straight-arm-pulldown/frame-2.svg" alt=""><img src="assets_svg/straight-arm-pulldown/frame-3.svg" alt=""></div>
+  <div class="name">Straight-Arm Pulldown</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/pull-up/frame-1.svg" alt="Pull-up"><img src="assets_svg/pull-up/frame-2.svg" alt=""><img src="assets_svg/pull-up/frame-3.svg" alt=""></div>
+  <div class="name">Pull-up</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/assisted-pull-up/frame-1.svg" alt="Assisted Pull-up"><img src="assets_svg/assisted-pull-up/frame-2.svg" alt=""><img src="assets_svg/assisted-pull-up/frame-3.svg" alt=""></div>
+  <div class="name">Assisted Pull-up</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Machine</span><span class="t3">assisted_bodyweight</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/weighted-pull-up/frame-1.svg" alt="Weighted Pull-up"><img src="assets_svg/weighted-pull-up/frame-2.svg" alt=""><img src="assets_svg/weighted-pull-up/frame-3.svg" alt=""></div>
+  <div class="name">Weighted Pull-up</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Bodyweight</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/chin-up/frame-1.svg" alt="Chin-up"><img src="assets_svg/chin-up/frame-2.svg" alt=""><img src="assets_svg/chin-up/frame-3.svg" alt=""></div>
+  <div class="name">Chin-up</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Upper Back" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/shrug/frame-1.svg" alt="Barbell Shrug"><img src="assets_svg/shrug/frame-2.svg" alt=""><img src="assets_svg/shrug/frame-3.svg" alt=""></div>
+  <div class="name">Barbell Shrug</div>
+  <div class="tags"><span class="t1">Upper Back</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/squat/frame-1.svg" alt="Squat"><img src="assets_svg/squat/frame-2.svg" alt=""><img src="assets_svg/squat/frame-3.svg" alt=""></div>
+  <div class="name">Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/front-squat/frame-1.svg" alt="Front Squat"><img src="assets_svg/front-squat/frame-2.svg" alt=""><img src="assets_svg/front-squat/frame-3.svg" alt=""></div>
+  <div class="name">Front Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/hack-squat/frame-1.svg" alt="Hack Squat"><img src="assets_svg/hack-squat/frame-2.svg" alt=""><img src="assets_svg/hack-squat/frame-3.svg" alt=""></div>
+  <div class="name">Hack Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/leg-press/frame-1.svg" alt="Leg Press"><img src="assets_svg/leg-press/frame-2.svg" alt=""><img src="assets_svg/leg-press/frame-3.svg" alt=""></div>
+  <div class="name">Leg Press</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/bulgarian-split-squat/frame-1.svg" alt="Bulgarian Split Squat"><img src="assets_svg/bulgarian-split-squat/frame-2.svg" alt=""><img src="assets_svg/bulgarian-split-squat/frame-3.svg" alt=""></div>
+  <div class="name">Bulgarian Split Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/walking-lunge/frame-1.svg" alt="Walking Lunge"><img src="assets_svg/walking-lunge/frame-2.svg" alt=""><img src="assets_svg/walking-lunge/frame-3.svg" alt=""></div>
+  <div class="name">Walking Lunge</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/step-up/frame-1.svg" alt="Step-Up"><img src="assets_svg/step-up/frame-2.svg" alt=""><img src="assets_svg/step-up/frame-3.svg" alt=""></div>
+  <div class="name">Step-Up</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/leg-extension/frame-1.svg" alt="Leg Extension"><img src="assets_svg/leg-extension/frame-2.svg" alt=""><img src="assets_svg/leg-extension/frame-3.svg" alt=""></div>
+  <div class="name">Leg Extension</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/leg-curl/frame-1.svg" alt="Leg Curl"><img src="assets_svg/leg-curl/frame-2.svg" alt=""><img src="assets_svg/leg-curl/frame-3.svg" alt=""></div>
+  <div class="name">Leg Curl</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/seated-leg-curl/frame-1.svg" alt="Seated Leg Curl"><img src="assets_svg/seated-leg-curl/frame-2.svg" alt=""><img src="assets_svg/seated-leg-curl/frame-3.svg" alt=""></div>
+  <div class="name">Seated Leg Curl</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/hip-thrust/frame-1.svg" alt="Hip Thrust"><img src="assets_svg/hip-thrust/frame-2.svg" alt=""><img src="assets_svg/hip-thrust/frame-3.svg" alt=""></div>
+  <div class="name">Hip Thrust</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/glute-bridge/frame-1.svg" alt="Glute Bridge"><img src="assets_svg/glute-bridge/frame-2.svg" alt=""><img src="assets_svg/glute-bridge/frame-3.svg" alt=""></div>
+  <div class="name">Glute Bridge</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/good-morning/frame-1.svg" alt="Good Morning"><img src="assets_svg/good-morning/frame-2.svg" alt=""><img src="assets_svg/good-morning/frame-3.svg" alt=""></div>
+  <div class="name">Good Morning</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Calves" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/standing-calf-raise/frame-1.svg" alt="Standing Calf Raise"><img src="assets_svg/standing-calf-raise/frame-2.svg" alt=""><img src="assets_svg/standing-calf-raise/frame-3.svg" alt=""></div>
+  <div class="name">Standing Calf Raise</div>
+  <div class="tags"><span class="t1">小腿</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Calves" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/seated-calf-raise/frame-1.svg" alt="Seated Calf Raise"><img src="assets_svg/seated-calf-raise/frame-2.svg" alt=""><img src="assets_svg/seated-calf-raise/frame-3.svg" alt=""></div>
+  <div class="name">Seated Calf Raise</div>
+  <div class="tags"><span class="t1">小腿</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/bicep-curl/frame-1.svg" alt="Bicep Curl"><img src="assets_svg/bicep-curl/frame-2.svg" alt=""><img src="assets_svg/bicep-curl/frame-3.svg" alt=""></div>
+  <div class="name">Bicep Curl</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/hammer-curl/frame-1.svg" alt="Hammer Curl"><img src="assets_svg/hammer-curl/frame-2.svg" alt=""><img src="assets_svg/hammer-curl/frame-3.svg" alt=""></div>
+  <div class="name">Hammer Curl</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/preacher-curl/frame-1.svg" alt="Preacher Curl"><img src="assets_svg/preacher-curl/frame-2.svg" alt=""><img src="assets_svg/preacher-curl/frame-3.svg" alt=""></div>
+  <div class="name">Preacher Curl</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/cable-curl/frame-1.svg" alt="Cable Curl"><img src="assets_svg/cable-curl/frame-2.svg" alt=""><img src="assets_svg/cable-curl/frame-3.svg" alt=""></div>
+  <div class="name">Cable Curl</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Forearms" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/reverse-curl/frame-1.svg" alt="Reverse Curl"><img src="assets_svg/reverse-curl/frame-2.svg" alt=""><img src="assets_svg/reverse-curl/frame-3.svg" alt=""></div>
+  <div class="name">Reverse Curl</div>
+  <div class="tags"><span class="t1">前臂</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Forearms" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/wrist-curl/frame-1.svg" alt="Wrist Curl"><img src="assets_svg/wrist-curl/frame-2.svg" alt=""><img src="assets_svg/wrist-curl/frame-3.svg" alt=""></div>
+  <div class="name">Wrist Curl</div>
+  <div class="tags"><span class="t1">前臂</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/tricep-pushdown/frame-1.svg" alt="Tricep Pushdown"><img src="assets_svg/tricep-pushdown/frame-2.svg" alt=""><img src="assets_svg/tricep-pushdown/frame-3.svg" alt=""></div>
+  <div class="name">Tricep Pushdown</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/overhead-tricep-extension/frame-1.svg" alt="Overhead Tricep Extension"><img src="assets_svg/overhead-tricep-extension/frame-2.svg" alt=""><img src="assets_svg/overhead-tricep-extension/frame-3.svg" alt=""></div>
+  <div class="name">Overhead Tricep Extension</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/skull-crusher/frame-1.svg" alt="Skull Crusher"><img src="assets_svg/skull-crusher/frame-2.svg" alt=""><img src="assets_svg/skull-crusher/frame-3.svg" alt=""></div>
+  <div class="name">Skull Crusher</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/close-grip-bench-press/frame-1.svg" alt="Close-Grip Bench Press"><img src="assets_svg/close-grip-bench-press/frame-2.svg" alt=""><img src="assets_svg/close-grip-bench-press/frame-3.svg" alt=""></div>
+  <div class="name">Close-Grip Bench Press</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/dip/frame-1.svg" alt="Dip"><img src="assets_svg/dip/frame-2.svg" alt=""><img src="assets_svg/dip/frame-3.svg" alt=""></div>
+  <div class="name">Dip</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/assisted-dip/frame-1.svg" alt="Assisted Dip"><img src="assets_svg/assisted-dip/frame-2.svg" alt=""><img src="assets_svg/assisted-dip/frame-3.svg" alt=""></div>
+  <div class="name">Assisted Dip</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Machine</span><span class="t3">assisted_bodyweight</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/plank/frame-1.svg" alt="Plank"><img src="assets_svg/plank/frame-2.svg" alt=""><img src="assets_svg/plank/frame-3.svg" alt=""></div>
+  <div class="name">Plank</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/side-plank/frame-1.svg" alt="Side Plank"><img src="assets_svg/side-plank/frame-2.svg" alt=""><img src="assets_svg/side-plank/frame-3.svg" alt=""></div>
+  <div class="name">Side Plank</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/hanging-leg-raise/frame-1.svg" alt="Hanging Leg Raise"><img src="assets_svg/hanging-leg-raise/frame-2.svg" alt=""><img src="assets_svg/hanging-leg-raise/frame-3.svg" alt=""></div>
+  <div class="name">Hanging Leg Raise</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/cable-crunch/frame-1.svg" alt="Cable Crunch"><img src="assets_svg/cable-crunch/frame-2.svg" alt=""><img src="assets_svg/cable-crunch/frame-3.svg" alt=""></div>
+  <div class="name">Cable Crunch</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/ab-wheel/frame-1.svg" alt="Ab Wheel Rollout"><img src="assets_svg/ab-wheel/frame-2.svg" alt=""><img src="assets_svg/ab-wheel/frame-3.svg" alt=""></div>
+  <div class="name">Ab Wheel Rollout</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/running/frame-1.svg" alt="Running"><img src="assets_svg/running/frame-2.svg" alt=""><img src="assets_svg/running/frame-3.svg" alt=""></div>
+  <div class="name">Running</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Cardio</span><span class="t3">distance_duration</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/walking/frame-1.svg" alt="Walking"><img src="assets_svg/walking/frame-2.svg" alt=""><img src="assets_svg/walking/frame-3.svg" alt=""></div>
+  <div class="name">Walking</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Cardio</span><span class="t3">distance_duration</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/cycling/frame-1.svg" alt="Cycling"><img src="assets_svg/cycling/frame-2.svg" alt=""><img src="assets_svg/cycling/frame-3.svg" alt=""></div>
+  <div class="name">Cycling</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Cardio</span><span class="t3">distance_duration</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/rowing/frame-1.svg" alt="Rowing"><img src="assets_svg/rowing/frame-2.svg" alt=""><img src="assets_svg/rowing/frame-3.svg" alt=""></div>
+  <div class="name">Rowing</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Cardio</span><span class="t3">distance_duration</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/stair-climber/frame-1.svg" alt="Stair Climber"><img src="assets_svg/stair-climber/frame-2.svg" alt=""><img src="assets_svg/stair-climber/frame-3.svg" alt=""></div>
+  <div class="name">Stair Climber</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Cardio</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-fly/frame-1.svg" alt="Dumbbell Fly"><img src="assets_svg/dumbbell-fly/frame-2.svg" alt=""><img src="assets_svg/dumbbell-fly/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Fly</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/incline-cable-fly/frame-1.svg" alt="Incline Cable Fly"><img src="assets_svg/incline-cable-fly/frame-2.svg" alt=""><img src="assets_svg/incline-cable-fly/frame-3.svg" alt=""></div>
+  <div class="name">Incline Cable Fly</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/decline-dumbbell-press/frame-1.svg" alt="Decline Dumbbell Press"><img src="assets_svg/decline-dumbbell-press/frame-2.svg" alt=""><img src="assets_svg/decline-dumbbell-press/frame-3.svg" alt=""></div>
+  <div class="name">Decline Dumbbell Press</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/smith-machine-bench-press/frame-1.svg" alt="Smith Machine Bench Press"><img src="assets_svg/smith-machine-bench-press/frame-2.svg" alt=""><img src="assets_svg/smith-machine-bench-press/frame-3.svg" alt=""></div>
+  <div class="name">Smith Machine Bench Press</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/landmine-press/frame-1.svg" alt="Landmine Press"><img src="assets_svg/landmine-press/frame-2.svg" alt=""><img src="assets_svg/landmine-press/frame-3.svg" alt=""></div>
+  <div class="name">Landmine Press</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/chest-dip/frame-1.svg" alt="Chest Dip"><img src="assets_svg/chest-dip/frame-2.svg" alt=""><img src="assets_svg/chest-dip/frame-3.svg" alt=""></div>
+  <div class="name">Chest Dip</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/weighted-dip/frame-1.svg" alt="Weighted Dip"><img src="assets_svg/weighted-dip/frame-2.svg" alt=""><img src="assets_svg/weighted-dip/frame-3.svg" alt=""></div>
+  <div class="name">Weighted Dip</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Bodyweight</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/machine-shoulder-press/frame-1.svg" alt="Machine Shoulder Press"><img src="assets_svg/machine-shoulder-press/frame-2.svg" alt=""><img src="assets_svg/machine-shoulder-press/frame-3.svg" alt=""></div>
+  <div class="name">Machine Shoulder Press</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/standing-dumbbell-press/frame-1.svg" alt="Standing Dumbbell Press"><img src="assets_svg/standing-dumbbell-press/frame-2.svg" alt=""><img src="assets_svg/standing-dumbbell-press/frame-3.svg" alt=""></div>
+  <div class="name">Standing Dumbbell Press</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/push-press/frame-1.svg" alt="Push Press"><img src="assets_svg/push-press/frame-2.svg" alt=""><img src="assets_svg/push-press/frame-3.svg" alt=""></div>
+  <div class="name">Push Press</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/machine-lateral-raise/frame-1.svg" alt="Machine Lateral Raise"><img src="assets_svg/machine-lateral-raise/frame-2.svg" alt=""><img src="assets_svg/machine-lateral-raise/frame-3.svg" alt=""></div>
+  <div class="name">Machine Lateral Raise</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/cable-front-raise/frame-1.svg" alt="Cable Front Raise"><img src="assets_svg/cable-front-raise/frame-2.svg" alt=""><img src="assets_svg/cable-front-raise/frame-3.svg" alt=""></div>
+  <div class="name">Cable Front Raise</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Plate">
+  <div class="anim"><img src="assets_svg/plate-front-raise/frame-1.svg" alt="Plate Front Raise"><img src="assets_svg/plate-front-raise/frame-2.svg" alt=""><img src="assets_svg/plate-front-raise/frame-3.svg" alt=""></div>
+  <div class="name">Plate Front Raise</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Plate</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Rear Delts" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/bent-over-rear-delt-raise/frame-1.svg" alt="Bent-Over Rear Delt Raise"><img src="assets_svg/bent-over-rear-delt-raise/frame-2.svg" alt=""><img src="assets_svg/bent-over-rear-delt-raise/frame-3.svg" alt=""></div>
+  <div class="name">Bent-Over Rear Delt Raise</div>
+  <div class="tags"><span class="t1">Rear Delts</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Rear Delts" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/cable-rear-delt-fly/frame-1.svg" alt="Cable Rear Delt Fly"><img src="assets_svg/cable-rear-delt-fly/frame-2.svg" alt=""><img src="assets_svg/cable-rear-delt-fly/frame-3.svg" alt=""></div>
+  <div class="name">Cable Rear Delt Fly</div>
+  <div class="tags"><span class="t1">Rear Delts</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/pendlay-row/frame-1.svg" alt="Pendlay Row"><img src="assets_svg/pendlay-row/frame-2.svg" alt=""><img src="assets_svg/pendlay-row/frame-3.svg" alt=""></div>
+  <div class="name">Pendlay Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/inverted-row/frame-1.svg" alt="Inverted Row"><img src="assets_svg/inverted-row/frame-2.svg" alt=""><img src="assets_svg/inverted-row/frame-3.svg" alt=""></div>
+  <div class="name">Inverted Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/meadows-row/frame-1.svg" alt="Meadows Row"><img src="assets_svg/meadows-row/frame-2.svg" alt=""><img src="assets_svg/meadows-row/frame-3.svg" alt=""></div>
+  <div class="name">Meadows Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/single-arm-cable-row/frame-1.svg" alt="Single-Arm Cable Row"><img src="assets_svg/single-arm-cable-row/frame-2.svg" alt=""><img src="assets_svg/single-arm-cable-row/frame-3.svg" alt=""></div>
+  <div class="name">Single-Arm Cable Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/wide-grip-lat-pulldown/frame-1.svg" alt="Wide-Grip Lat Pulldown"><img src="assets_svg/wide-grip-lat-pulldown/frame-2.svg" alt=""><img src="assets_svg/wide-grip-lat-pulldown/frame-3.svg" alt=""></div>
+  <div class="name">Wide-Grip Lat Pulldown</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/neutral-grip-pull-up/frame-1.svg" alt="Neutral-Grip Pull-up"><img src="assets_svg/neutral-grip-pull-up/frame-2.svg" alt=""><img src="assets_svg/neutral-grip-pull-up/frame-3.svg" alt=""></div>
+  <div class="name">Neutral-Grip Pull-up</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/assisted-chin-up/frame-1.svg" alt="Assisted Chin-up"><img src="assets_svg/assisted-chin-up/frame-2.svg" alt=""><img src="assets_svg/assisted-chin-up/frame-3.svg" alt=""></div>
+  <div class="name">Assisted Chin-up</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Machine</span><span class="t3">assisted_bodyweight</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/weighted-chin-up/frame-1.svg" alt="Weighted Chin-up"><img src="assets_svg/weighted-chin-up/frame-2.svg" alt=""><img src="assets_svg/weighted-chin-up/frame-3.svg" alt=""></div>
+  <div class="name">Weighted Chin-up</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Bodyweight</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/rack-pull/frame-1.svg" alt="Rack Pull"><img src="assets_svg/rack-pull/frame-2.svg" alt=""><img src="assets_svg/rack-pull/frame-3.svg" alt=""></div>
+  <div class="name">Rack Pull</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lower Back" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/back-extension/frame-1.svg" alt="Back Extension"><img src="assets_svg/back-extension/frame-2.svg" alt=""><img src="assets_svg/back-extension/frame-3.svg" alt=""></div>
+  <div class="name">Back Extension</div>
+  <div class="tags"><span class="t1">Lower Back</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Upper Back" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-shrug/frame-1.svg" alt="Dumbbell Shrug"><img src="assets_svg/dumbbell-shrug/frame-2.svg" alt=""><img src="assets_svg/dumbbell-shrug/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Shrug</div>
+  <div class="tags"><span class="t1">Upper Back</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/goblet-squat/frame-1.svg" alt="Goblet Squat"><img src="assets_svg/goblet-squat/frame-2.svg" alt=""><img src="assets_svg/goblet-squat/frame-3.svg" alt=""></div>
+  <div class="name">Goblet Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/smith-machine-squat/frame-1.svg" alt="Smith Machine Squat"><img src="assets_svg/smith-machine-squat/frame-2.svg" alt=""><img src="assets_svg/smith-machine-squat/frame-3.svg" alt=""></div>
+  <div class="name">Smith Machine Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/belt-squat/frame-1.svg" alt="Belt Squat"><img src="assets_svg/belt-squat/frame-2.svg" alt=""><img src="assets_svg/belt-squat/frame-3.svg" alt=""></div>
+  <div class="name">Belt Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Posterior Chain" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/sumo-deadlift/frame-1.svg" alt="Sumo Deadlift"><img src="assets_svg/sumo-deadlift/frame-2.svg" alt=""><img src="assets_svg/sumo-deadlift/frame-3.svg" alt=""></div>
+  <div class="name">Sumo Deadlift</div>
+  <div class="tags"><span class="t1">Posterior Chain</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Posterior Chain" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/trap-bar-deadlift/frame-1.svg" alt="Trap Bar Deadlift"><img src="assets_svg/trap-bar-deadlift/frame-2.svg" alt=""><img src="assets_svg/trap-bar-deadlift/frame-3.svg" alt=""></div>
+  <div class="name">Trap Bar Deadlift</div>
+  <div class="tags"><span class="t1">Posterior Chain</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/lying-leg-curl/frame-1.svg" alt="Lying Leg Curl"><img src="assets_svg/lying-leg-curl/frame-2.svg" alt=""><img src="assets_svg/lying-leg-curl/frame-3.svg" alt=""></div>
+  <div class="name">Lying Leg Curl</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/nordic-hamstring-curl/frame-1.svg" alt="Nordic Hamstring Curl"><img src="assets_svg/nordic-hamstring-curl/frame-2.svg" alt=""><img src="assets_svg/nordic-hamstring-curl/frame-3.svg" alt=""></div>
+  <div class="name">Nordic Hamstring Curl</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/single-leg-romanian-deadlift/frame-1.svg" alt="Single-Leg Romanian Deadlift"><img src="assets_svg/single-leg-romanian-deadlift/frame-2.svg" alt=""><img src="assets_svg/single-leg-romanian-deadlift/frame-3.svg" alt=""></div>
+  <div class="name">Single-Leg Romanian Deadlift</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/reverse-lunge/frame-1.svg" alt="Reverse Lunge"><img src="assets_svg/reverse-lunge/frame-2.svg" alt=""><img src="assets_svg/reverse-lunge/frame-3.svg" alt=""></div>
+  <div class="name">Reverse Lunge</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/split-squat/frame-1.svg" alt="Split Squat"><img src="assets_svg/split-squat/frame-2.svg" alt=""><img src="assets_svg/split-squat/frame-3.svg" alt=""></div>
+  <div class="name">Split Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/cable-kickback/frame-1.svg" alt="Cable Kickback"><img src="assets_svg/cable-kickback/frame-2.svg" alt=""><img src="assets_svg/cable-kickback/frame-3.svg" alt=""></div>
+  <div class="name">Cable Kickback</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/hip-abduction-machine/frame-1.svg" alt="Hip Abduction Machine"><img src="assets_svg/hip-abduction-machine/frame-2.svg" alt=""><img src="assets_svg/hip-abduction-machine/frame-3.svg" alt=""></div>
+  <div class="name">Hip Abduction Machine</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/single-leg-glute-bridge/frame-1.svg" alt="Single-Leg Glute Bridge"><img src="assets_svg/single-leg-glute-bridge/frame-2.svg" alt=""><img src="assets_svg/single-leg-glute-bridge/frame-3.svg" alt=""></div>
+  <div class="name">Single-Leg Glute Bridge</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/barbell-glute-bridge/frame-1.svg" alt="Barbell Glute Bridge"><img src="assets_svg/barbell-glute-bridge/frame-2.svg" alt=""><img src="assets_svg/barbell-glute-bridge/frame-3.svg" alt=""></div>
+  <div class="name">Barbell Glute Bridge</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-glute-bridge/frame-1.svg" alt="Dumbbell Glute Bridge"><img src="assets_svg/dumbbell-glute-bridge/frame-2.svg" alt=""><img src="assets_svg/dumbbell-glute-bridge/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Glute Bridge</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-hip-thrust/frame-1.svg" alt="Dumbbell Hip Thrust"><img src="assets_svg/dumbbell-hip-thrust/frame-2.svg" alt=""><img src="assets_svg/dumbbell-hip-thrust/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Hip Thrust</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/smith-machine-hip-thrust/frame-1.svg" alt="Smith Machine Hip Thrust"><img src="assets_svg/smith-machine-hip-thrust/frame-2.svg" alt=""><img src="assets_svg/smith-machine-hip-thrust/frame-3.svg" alt=""></div>
+  <div class="name">Smith Machine Hip Thrust</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/smith-machine-romanian-deadlift/frame-1.svg" alt="Smith Machine Romanian Deadlift"><img src="assets_svg/smith-machine-romanian-deadlift/frame-2.svg" alt=""><img src="assets_svg/smith-machine-romanian-deadlift/frame-3.svg" alt=""></div>
+  <div class="name">Smith Machine Romanian Deadlift</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-romanian-deadlift/frame-1.svg" alt="Dumbbell Romanian Deadlift"><img src="assets_svg/dumbbell-romanian-deadlift/frame-2.svg" alt=""><img src="assets_svg/dumbbell-romanian-deadlift/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Romanian Deadlift</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Kettlebell">
+  <div class="anim"><img src="assets_svg/kettlebell-romanian-deadlift/frame-1.svg" alt="Kettlebell Romanian Deadlift"><img src="assets_svg/kettlebell-romanian-deadlift/frame-2.svg" alt=""><img src="assets_svg/kettlebell-romanian-deadlift/frame-3.svg" alt=""></div>
+  <div class="name">Kettlebell Romanian Deadlift</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Kettlebell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/cable-pull-through/frame-1.svg" alt="Cable Pull-Through"><img src="assets_svg/cable-pull-through/frame-2.svg" alt=""><img src="assets_svg/cable-pull-through/frame-3.svg" alt=""></div>
+  <div class="name">Cable Pull-Through</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/machine-glute-kickback/frame-1.svg" alt="Machine Glute Kickback"><img src="assets_svg/machine-glute-kickback/frame-2.svg" alt=""><img src="assets_svg/machine-glute-kickback/frame-3.svg" alt=""></div>
+  <div class="name">Machine Glute Kickback</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/cable-standing-hip-abduction/frame-1.svg" alt="Cable Standing Hip Abduction"><img src="assets_svg/cable-standing-hip-abduction/frame-2.svg" alt=""><img src="assets_svg/cable-standing-hip-abduction/frame-3.svg" alt=""></div>
+  <div class="name">Cable Standing Hip Abduction</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Adductors" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/cable-standing-hip-adduction/frame-1.svg" alt="Cable Standing Hip Adduction"><img src="assets_svg/cable-standing-hip-adduction/frame-2.svg" alt=""><img src="assets_svg/cable-standing-hip-adduction/frame-3.svg" alt=""></div>
+  <div class="name">Cable Standing Hip Adduction</div>
+  <div class="tags"><span class="t1">Adductors</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Adductors" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/hip-adduction-machine/frame-1.svg" alt="Hip Adduction Machine"><img src="assets_svg/hip-adduction-machine/frame-2.svg" alt=""><img src="assets_svg/hip-adduction-machine/frame-3.svg" alt=""></div>
+  <div class="name">Hip Adduction Machine</div>
+  <div class="tags"><span class="t1">Adductors</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/smith-machine-bulgarian-split-squat/frame-1.svg" alt="Smith Machine Bulgarian Split Squat"><img src="assets_svg/smith-machine-bulgarian-split-squat/frame-2.svg" alt=""><img src="assets_svg/smith-machine-bulgarian-split-squat/frame-3.svg" alt=""></div>
+  <div class="name">Smith Machine Bulgarian Split Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/smith-machine-reverse-lunge/frame-1.svg" alt="Smith Machine Reverse Lunge"><img src="assets_svg/smith-machine-reverse-lunge/frame-2.svg" alt=""><img src="assets_svg/smith-machine-reverse-lunge/frame-3.svg" alt=""></div>
+  <div class="name">Smith Machine Reverse Lunge</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/smith-machine-split-squat/frame-1.svg" alt="Smith Machine Split Squat"><img src="assets_svg/smith-machine-split-squat/frame-2.svg" alt=""><img src="assets_svg/smith-machine-split-squat/frame-3.svg" alt=""></div>
+  <div class="name">Smith Machine Split Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/heel-elevated-goblet-squat/frame-1.svg" alt="Heel-Elevated Goblet Squat"><img src="assets_svg/heel-elevated-goblet-squat/frame-2.svg" alt=""><img src="assets_svg/heel-elevated-goblet-squat/frame-3.svg" alt=""></div>
+  <div class="name">Heel-Elevated Goblet Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-sumo-squat/frame-1.svg" alt="Dumbbell Sumo Squat"><img src="assets_svg/dumbbell-sumo-squat/frame-2.svg" alt=""><img src="assets_svg/dumbbell-sumo-squat/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Sumo Squat</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Posterior Chain" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-sumo-deadlift/frame-1.svg" alt="Dumbbell Sumo Deadlift"><img src="assets_svg/dumbbell-sumo-deadlift/frame-2.svg" alt=""><img src="assets_svg/dumbbell-sumo-deadlift/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Sumo Deadlift</div>
+  <div class="tags"><span class="t1">Posterior Chain</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/front-foot-elevated-split-squat/frame-1.svg" alt="Front-Foot Elevated Split Squat"><img src="assets_svg/front-foot-elevated-split-squat/frame-2.svg" alt=""><img src="assets_svg/front-foot-elevated-split-squat/frame-3.svg" alt=""></div>
+  <div class="name">Front-Foot Elevated Split Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/deficit-reverse-lunge/frame-1.svg" alt="Deficit Reverse Lunge"><img src="assets_svg/deficit-reverse-lunge/frame-2.svg" alt=""><img src="assets_svg/deficit-reverse-lunge/frame-3.svg" alt=""></div>
+  <div class="name">Deficit Reverse Lunge</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-lateral-lunge/frame-1.svg" alt="Dumbbell Lateral Lunge"><img src="assets_svg/dumbbell-lateral-lunge/frame-2.svg" alt=""><img src="assets_svg/dumbbell-lateral-lunge/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Lateral Lunge</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-curtsy-lunge/frame-1.svg" alt="Dumbbell Curtsy Lunge"><img src="assets_svg/dumbbell-curtsy-lunge/frame-2.svg" alt=""><img src="assets_svg/dumbbell-curtsy-lunge/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Curtsy Lunge</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/landmine-squat/frame-1.svg" alt="Landmine Squat"><img src="assets_svg/landmine-squat/frame-2.svg" alt=""><img src="assets_svg/landmine-squat/frame-3.svg" alt=""></div>
+  <div class="name">Landmine Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/landmine-romanian-deadlift/frame-1.svg" alt="Landmine Romanian Deadlift"><img src="assets_svg/landmine-romanian-deadlift/frame-2.svg" alt=""><img src="assets_svg/landmine-romanian-deadlift/frame-3.svg" alt=""></div>
+  <div class="name">Landmine Romanian Deadlift</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Kettlebell">
+  <div class="anim"><img src="assets_svg/kettlebell-swing/frame-1.svg" alt="Kettlebell Swing"><img src="assets_svg/kettlebell-swing/frame-2.svg" alt=""><img src="assets_svg/kettlebell-swing/frame-3.svg" alt=""></div>
+  <div class="name">Kettlebell Swing</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Kettlebell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/glute-focused-back-extension/frame-1.svg" alt="Glute-Focused Back Extension"><img src="assets_svg/glute-focused-back-extension/frame-2.svg" alt=""><img src="assets_svg/glute-focused-back-extension/frame-3.svg" alt=""></div>
+  <div class="name">Glute-Focused Back Extension</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/reverse-hyperextension/frame-1.svg" alt="Reverse Hyperextension"><img src="assets_svg/reverse-hyperextension/frame-2.svg" alt=""><img src="assets_svg/reverse-hyperextension/frame-3.svg" alt=""></div>
+  <div class="name">Reverse Hyperextension</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Machine</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Calves" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/donkey-calf-raise/frame-1.svg" alt="Donkey Calf Raise"><img src="assets_svg/donkey-calf-raise/frame-2.svg" alt=""><img src="assets_svg/donkey-calf-raise/frame-3.svg" alt=""></div>
+  <div class="name">Donkey Calf Raise</div>
+  <div class="tags"><span class="t1">小腿</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Calves" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/leg-press-calf-raise/frame-1.svg" alt="Leg Press Calf Raise"><img src="assets_svg/leg-press-calf-raise/frame-2.svg" alt=""><img src="assets_svg/leg-press-calf-raise/frame-3.svg" alt=""></div>
+  <div class="name">Leg Press Calf Raise</div>
+  <div class="tags"><span class="t1">小腿</span><span class="t2">Machine</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/wall-sit/frame-1.svg" alt="Wall Sit"><img src="assets_svg/wall-sit/frame-2.svg" alt=""><img src="assets_svg/wall-sit/frame-3.svg" alt=""></div>
+  <div class="name">Wall Sit</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/jump-squat/frame-1.svg" alt="Jump Squat"><img src="assets_svg/jump-squat/frame-2.svg" alt=""><img src="assets_svg/jump-squat/frame-3.svg" alt=""></div>
+  <div class="name">Jump Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/incline-dumbbell-curl/frame-1.svg" alt="Incline Dumbbell Curl"><img src="assets_svg/incline-dumbbell-curl/frame-2.svg" alt=""><img src="assets_svg/incline-dumbbell-curl/frame-3.svg" alt=""></div>
+  <div class="name">Incline Dumbbell Curl</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/concentration-curl/frame-1.svg" alt="Concentration Curl"><img src="assets_svg/concentration-curl/frame-2.svg" alt=""><img src="assets_svg/concentration-curl/frame-3.svg" alt=""></div>
+  <div class="name">Concentration Curl</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/ez-bar-curl/frame-1.svg" alt="EZ-Bar Curl"><img src="assets_svg/ez-bar-curl/frame-2.svg" alt=""><img src="assets_svg/ez-bar-curl/frame-3.svg" alt=""></div>
+  <div class="name">EZ-Bar Curl</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/spider-curl/frame-1.svg" alt="Spider Curl"><img src="assets_svg/spider-curl/frame-2.svg" alt=""><img src="assets_svg/spider-curl/frame-3.svg" alt=""></div>
+  <div class="name">Spider Curl</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/rope-hammer-curl/frame-1.svg" alt="Rope Hammer Curl"><img src="assets_svg/rope-hammer-curl/frame-2.svg" alt=""><img src="assets_svg/rope-hammer-curl/frame-3.svg" alt=""></div>
+  <div class="name">Rope Hammer Curl</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Biceps" data-equip="Barbell">
+  <div class="anim"><img src="assets_svg/drag-curl/frame-1.svg" alt="Drag Curl"><img src="assets_svg/drag-curl/frame-2.svg" alt=""><img src="assets_svg/drag-curl/frame-3.svg" alt=""></div>
+  <div class="name">Drag Curl</div>
+  <div class="tags"><span class="t1">二头</span><span class="t2">Barbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/rope-tricep-pushdown/frame-1.svg" alt="Rope Tricep Pushdown"><img src="assets_svg/rope-tricep-pushdown/frame-2.svg" alt=""><img src="assets_svg/rope-tricep-pushdown/frame-3.svg" alt=""></div>
+  <div class="name">Rope Tricep Pushdown</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-skull-crusher/frame-1.svg" alt="Two Dumbbell Skullcrusher"><img src="assets_svg/dumbbell-skull-crusher/frame-2.svg" alt=""><img src="assets_svg/dumbbell-skull-crusher/frame-3.svg" alt=""></div>
+  <div class="name">Two Dumbbell Skullcrusher</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/single-dumbbell-skullcrusher/frame-1.svg" alt="Single Dumbbell Skullcrusher"><img src="assets_svg/single-dumbbell-skullcrusher/frame-2.svg" alt=""><img src="assets_svg/single-dumbbell-skullcrusher/frame-3.svg" alt=""></div>
+  <div class="name">Single Dumbbell Skullcrusher</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-overhead-tricep-extension/frame-1.svg" alt="Dumbbell Overhead Tricep Extension"><img src="assets_svg/dumbbell-overhead-tricep-extension/frame-2.svg" alt=""><img src="assets_svg/dumbbell-overhead-tricep-extension/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Overhead Tricep Extension</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/single-arm-dumbbell-tricep-extension/frame-1.svg" alt="Single Arm Dumbbell Tricep Extension"><img src="assets_svg/single-arm-dumbbell-tricep-extension/frame-2.svg" alt=""><img src="assets_svg/single-arm-dumbbell-tricep-extension/frame-3.svg" alt=""></div>
+  <div class="name">Single Arm Dumbbell Tricep Extension</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/bench-dip/frame-1.svg" alt="Bench Dip"><img src="assets_svg/bench-dip/frame-2.svg" alt=""><img src="assets_svg/bench-dip/frame-3.svg" alt=""></div>
+  <div class="name">Bench Dip</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/tricep-kickback/frame-1.svg" alt="Tricep Kickback"><img src="assets_svg/tricep-kickback/frame-2.svg" alt=""><img src="assets_svg/tricep-kickback/frame-3.svg" alt=""></div>
+  <div class="name">Tricep Kickback</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Forearms" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/wrist-extension/frame-1.svg" alt="Wrist Extension"><img src="assets_svg/wrist-extension/frame-2.svg" alt=""><img src="assets_svg/wrist-extension/frame-3.svg" alt=""></div>
+  <div class="name">Wrist Extension</div>
+  <div class="tags"><span class="t1">前臂</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Forearms" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/farmer-carry/frame-1.svg" alt="Farmer Carry"><img src="assets_svg/farmer-carry/frame-2.svg" alt=""><img src="assets_svg/farmer-carry/frame-3.svg" alt=""></div>
+  <div class="name">Farmer Carry</div>
+  <div class="tags"><span class="t1">前臂</span><span class="t2">Dumbbell</span><span class="t3">distance_duration</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/crunch/frame-1.svg" alt="Crunch"><img src="assets_svg/crunch/frame-2.svg" alt=""><img src="assets_svg/crunch/frame-3.svg" alt=""></div>
+  <div class="name">Crunch</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/reverse-crunch/frame-1.svg" alt="Reverse Crunch"><img src="assets_svg/reverse-crunch/frame-2.svg" alt=""><img src="assets_svg/reverse-crunch/frame-3.svg" alt=""></div>
+  <div class="name">Reverse Crunch</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/russian-twist/frame-1.svg" alt="Russian Twist"><img src="assets_svg/russian-twist/frame-2.svg" alt=""><img src="assets_svg/russian-twist/frame-3.svg" alt=""></div>
+  <div class="name">Russian Twist</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/bicycle-crunch/frame-1.svg" alt="Bicycle Crunch"><img src="assets_svg/bicycle-crunch/frame-2.svg" alt=""><img src="assets_svg/bicycle-crunch/frame-3.svg" alt=""></div>
+  <div class="name">Bicycle Crunch</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/mountain-climber/frame-1.svg" alt="Mountain Climber"><img src="assets_svg/mountain-climber/frame-2.svg" alt=""><img src="assets_svg/mountain-climber/frame-3.svg" alt=""></div>
+  <div class="name">Mountain Climber</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/dead-bug/frame-1.svg" alt="Dead Bug"><img src="assets_svg/dead-bug/frame-2.svg" alt=""><img src="assets_svg/dead-bug/frame-3.svg" alt=""></div>
+  <div class="name">Dead Bug</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/bird-dog/frame-1.svg" alt="Bird Dog"><img src="assets_svg/bird-dog/frame-2.svg" alt=""><img src="assets_svg/bird-dog/frame-3.svg" alt=""></div>
+  <div class="name">Bird Dog</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/pallof-press/frame-1.svg" alt="Pallof Press"><img src="assets_svg/pallof-press/frame-2.svg" alt=""><img src="assets_svg/pallof-press/frame-3.svg" alt=""></div>
+  <div class="name">Pallof Press</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/cable-woodchop/frame-1.svg" alt="Cable Woodchop"><img src="assets_svg/cable-woodchop/frame-2.svg" alt=""><img src="assets_svg/cable-woodchop/frame-3.svg" alt=""></div>
+  <div class="name">Cable Woodchop</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/half-kneeling-pallof-press/frame-1.svg" alt="Half-Kneeling Pallof Press"><img src="assets_svg/half-kneeling-pallof-press/frame-2.svg" alt=""><img src="assets_svg/half-kneeling-pallof-press/frame-3.svg" alt=""></div>
+  <div class="name">Half-Kneeling Pallof Press</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Cable</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Cable">
+  <div class="anim"><img src="assets_svg/cable-pallof-hold/frame-1.svg" alt="Cable Pallof Hold"><img src="assets_svg/cable-pallof-hold/frame-2.svg" alt=""><img src="assets_svg/cable-pallof-hold/frame-3.svg" alt=""></div>
+  <div class="name">Cable Pallof Hold</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Cable</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Pull-up Bar">
+  <div class="anim"><img src="assets_svg/hanging-knee-raise/frame-1.svg" alt="Hanging Knee Raise"><img src="assets_svg/hanging-knee-raise/frame-2.svg" alt=""><img src="assets_svg/hanging-knee-raise/frame-3.svg" alt=""></div>
+  <div class="name">Hanging Knee Raise</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Pull-up Bar</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Machine">
+  <div class="anim"><img src="assets_svg/captains-chair-knee-raise/frame-1.svg" alt="Captain's Chair Knee Raise"><img src="assets_svg/captains-chair-knee-raise/frame-2.svg" alt=""><img src="assets_svg/captains-chair-knee-raise/frame-3.svg" alt=""></div>
+  <div class="name">Captain's Chair Knee Raise</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Machine</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bench">
+  <div class="anim"><img src="assets_svg/decline-sit-up/frame-1.svg" alt="Decline Sit-Up"><img src="assets_svg/decline-sit-up/frame-2.svg" alt=""><img src="assets_svg/decline-sit-up/frame-3.svg" alt=""></div>
+  <div class="name">Decline Sit-Up</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bench</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Plate">
+  <div class="anim"><img src="assets_svg/weighted-crunch/frame-1.svg" alt="Weighted Crunch"><img src="assets_svg/weighted-crunch/frame-2.svg" alt=""><img src="assets_svg/weighted-crunch/frame-3.svg" alt=""></div>
+  <div class="name">Weighted Crunch</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Plate</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/weighted-russian-twist/frame-1.svg" alt="Weighted Russian Twist"><img src="assets_svg/weighted-russian-twist/frame-2.svg" alt=""><img src="assets_svg/weighted-russian-twist/frame-3.svg" alt=""></div>
+  <div class="name">Weighted Russian Twist</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Dumbbell">
+  <div class="anim"><img src="assets_svg/dumbbell-side-bend/frame-1.svg" alt="Dumbbell Side Bend"><img src="assets_svg/dumbbell-side-bend/frame-2.svg" alt=""><img src="assets_svg/dumbbell-side-bend/frame-3.svg" alt=""></div>
+  <div class="name">Dumbbell Side Bend</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Dumbbell</span><span class="t3">weight_reps</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/elliptical/frame-1.svg" alt="Elliptical"><img src="assets_svg/elliptical/frame-2.svg" alt=""><img src="assets_svg/elliptical/frame-3.svg" alt=""></div>
+  <div class="name">Elliptical</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Cardio</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/swimming/frame-1.svg" alt="Swimming"><img src="assets_svg/swimming/frame-2.svg" alt=""><img src="assets_svg/swimming/frame-3.svg" alt=""></div>
+  <div class="name">Swimming</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Cardio</span><span class="t3">distance_duration</span></div>
+</div>
+<div class="card" data-muscle="Calves" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/jump-rope/frame-1.svg" alt="Jump Rope"><img src="assets_svg/jump-rope/frame-2.svg" alt=""><img src="assets_svg/jump-rope/frame-3.svg" alt=""></div>
+  <div class="name">Jump Rope</div>
+  <div class="tags"><span class="t1">小腿</span><span class="t2">Cardio</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/assault-bike/frame-1.svg" alt="Assault Bike"><img src="assets_svg/assault-bike/frame-2.svg" alt=""><img src="assets_svg/assault-bike/frame-3.svg" alt=""></div>
+  <div class="name">Assault Bike</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Cardio</span><span class="t3">distance_duration</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/skierg/frame-1.svg" alt="SkiErg"><img src="assets_svg/skierg/frame-2.svg" alt=""><img src="assets_svg/skierg/frame-3.svg" alt=""></div>
+  <div class="name">SkiErg</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Cardio</span><span class="t3">distance_duration</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/hiking/frame-1.svg" alt="Hiking"><img src="assets_svg/hiking/frame-2.svg" alt=""><img src="assets_svg/hiking/frame-3.svg" alt=""></div>
+  <div class="name">Hiking</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Cardio</span><span class="t3">distance_duration</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/treadmill-incline-walk/frame-1.svg" alt="Treadmill Incline Walk"><img src="assets_svg/treadmill-incline-walk/frame-2.svg" alt=""><img src="assets_svg/treadmill-incline-walk/frame-3.svg" alt=""></div>
+  <div class="name">Treadmill Incline Walk</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Cardio</span><span class="t3">distance_duration</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Cardio">
+  <div class="anim"><img src="assets_svg/battle-ropes/frame-1.svg" alt="Battle Ropes"><img src="assets_svg/battle-ropes/frame-2.svg" alt=""><img src="assets_svg/battle-ropes/frame-3.svg" alt=""></div>
+  <div class="name">Battle Ropes</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Cardio</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/incline-push-up/frame-1.svg" alt="Incline Push-up"><img src="assets_svg/incline-push-up/frame-2.svg" alt=""><img src="assets_svg/incline-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Incline Push-up</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/knee-push-up/frame-1.svg" alt="Knee Push-up"><img src="assets_svg/knee-push-up/frame-2.svg" alt=""><img src="assets_svg/knee-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Knee Push-up</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/wide-push-up/frame-1.svg" alt="Wide Push-up"><img src="assets_svg/wide-push-up/frame-2.svg" alt=""><img src="assets_svg/wide-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Wide Push-up</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/diamond-push-up/frame-1.svg" alt="Diamond Push-up"><img src="assets_svg/diamond-push-up/frame-2.svg" alt=""><img src="assets_svg/diamond-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Diamond Push-up</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/decline-push-up/frame-1.svg" alt="Decline Push-up"><img src="assets_svg/decline-push-up/frame-2.svg" alt=""><img src="assets_svg/decline-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Decline Push-up</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/pike-push-up/frame-1.svg" alt="Pike Push-up"><img src="assets_svg/pike-push-up/frame-2.svg" alt=""><img src="assets_svg/pike-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Pike Push-up</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/feet-elevated-pike-push-up/frame-1.svg" alt="Feet-Elevated Pike Push-up"><img src="assets_svg/feet-elevated-pike-push-up/frame-2.svg" alt=""><img src="assets_svg/feet-elevated-pike-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Feet-Elevated Pike Push-up</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/archer-push-up/frame-1.svg" alt="Archer Push-up"><img src="assets_svg/archer-push-up/frame-2.svg" alt=""><img src="assets_svg/archer-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Archer Push-up</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/typewriter-push-up/frame-1.svg" alt="Typewriter Push-up"><img src="assets_svg/typewriter-push-up/frame-2.svg" alt=""><img src="assets_svg/typewriter-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Typewriter Push-up</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/explosive-push-up/frame-1.svg" alt="Explosive Push-up"><img src="assets_svg/explosive-push-up/frame-2.svg" alt=""><img src="assets_svg/explosive-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Explosive Push-up</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/hindu-push-up/frame-1.svg" alt="Hindu Push-up"><img src="assets_svg/hindu-push-up/frame-2.svg" alt=""><img src="assets_svg/hindu-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Hindu Push-up</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Upper Back" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/scapular-push-up/frame-1.svg" alt="Scapular Push-up"><img src="assets_svg/scapular-push-up/frame-2.svg" alt=""><img src="assets_svg/scapular-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Scapular Push-up</div>
+  <div class="tags"><span class="t1">Upper Back</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/push-up-shoulder-tap/frame-1.svg" alt="Push-up Shoulder Tap"><img src="assets_svg/push-up-shoulder-tap/frame-2.svg" alt=""><img src="assets_svg/push-up-shoulder-tap/frame-3.svg" alt=""></div>
+  <div class="name">Push-up Shoulder Tap</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Wall">
+  <div class="anim"><img src="assets_svg/wall-push-up/frame-1.svg" alt="Wall Push-up"><img src="assets_svg/wall-push-up/frame-2.svg" alt=""><img src="assets_svg/wall-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Wall Push-up</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Wall</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Wall">
+  <div class="anim"><img src="assets_svg/wall-walk/frame-1.svg" alt="Wall Walk"><img src="assets_svg/wall-walk/frame-2.svg" alt=""><img src="assets_svg/wall-walk/frame-3.svg" alt=""></div>
+  <div class="name">Wall Walk</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Wall</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Wall">
+  <div class="anim"><img src="assets_svg/wall-handstand-push-up/frame-1.svg" alt="Wall Handstand Push-up"><img src="assets_svg/wall-handstand-push-up/frame-2.svg" alt=""><img src="assets_svg/wall-handstand-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Wall Handstand Push-up</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Wall</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/handstand-push-up/frame-1.svg" alt="Handstand Push-up"><img src="assets_svg/handstand-push-up/frame-2.svg" alt=""><img src="assets_svg/handstand-push-up/frame-3.svg" alt=""></div>
+  <div class="name">Handstand Push-up</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Chair">
+  <div class="anim"><img src="assets_svg/chair-dip/frame-1.svg" alt="Chair Dip"><img src="assets_svg/chair-dip/frame-2.svg" alt=""><img src="assets_svg/chair-dip/frame-3.svg" alt=""></div>
+  <div class="name">Chair Dip</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Chair</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Doorway">
+  <div class="anim"><img src="assets_svg/doorway-row/frame-1.svg" alt="Doorway Row"><img src="assets_svg/doorway-row/frame-2.svg" alt=""><img src="assets_svg/doorway-row/frame-3.svg" alt=""></div>
+  <div class="name">Doorway Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Doorway</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Towel">
+  <div class="anim"><img src="assets_svg/towel-row/frame-1.svg" alt="Towel Row"><img src="assets_svg/towel-row/frame-2.svg" alt=""><img src="assets_svg/towel-row/frame-3.svg" alt=""></div>
+  <div class="name">Towel Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Towel</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Upper Back" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/prone-y-raise/frame-1.svg" alt="Prone Y Raise"><img src="assets_svg/prone-y-raise/frame-2.svg" alt=""><img src="assets_svg/prone-y-raise/frame-3.svg" alt=""></div>
+  <div class="name">Prone Y Raise</div>
+  <div class="tags"><span class="t1">Upper Back</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Upper Back" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/prone-t-raise/frame-1.svg" alt="Prone T Raise"><img src="assets_svg/prone-t-raise/frame-2.svg" alt=""><img src="assets_svg/prone-t-raise/frame-3.svg" alt=""></div>
+  <div class="name">Prone T Raise</div>
+  <div class="tags"><span class="t1">Upper Back</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lower Back" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/superman/frame-1.svg" alt="Superman"><img src="assets_svg/superman/frame-2.svg" alt=""><img src="assets_svg/superman/frame-3.svg" alt=""></div>
+  <div class="name">Superman</div>
+  <div class="tags"><span class="t1">Lower Back</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lower Back" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/superman-hold/frame-1.svg" alt="Superman Hold"><img src="assets_svg/superman-hold/frame-2.svg" alt=""><img src="assets_svg/superman-hold/frame-3.svg" alt=""></div>
+  <div class="name">Superman Hold</div>
+  <div class="tags"><span class="t1">Lower Back</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Upper Back" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/reverse-snow-angel/frame-1.svg" alt="Reverse Snow Angel"><img src="assets_svg/reverse-snow-angel/frame-2.svg" alt=""><img src="assets_svg/reverse-snow-angel/frame-3.svg" alt=""></div>
+  <div class="name">Reverse Snow Angel</div>
+  <div class="tags"><span class="t1">Upper Back</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Forearms" data-equip="Pull-up Bar">
+  <div class="anim"><img src="assets_svg/dead-hang/frame-1.svg" alt="Dead Hang"><img src="assets_svg/dead-hang/frame-2.svg" alt=""><img src="assets_svg/dead-hang/frame-3.svg" alt=""></div>
+  <div class="name">Dead Hang</div>
+  <div class="tags"><span class="t1">前臂</span><span class="t2">Pull-up Bar</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Pull-up Bar">
+  <div class="anim"><img src="assets_svg/active-hang/frame-1.svg" alt="Active Hang"><img src="assets_svg/active-hang/frame-2.svg" alt=""><img src="assets_svg/active-hang/frame-3.svg" alt=""></div>
+  <div class="name">Active Hang</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Pull-up Bar</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Pull-up Bar">
+  <div class="anim"><img src="assets_svg/scapular-pull-up/frame-1.svg" alt="Scapular Pull-up"><img src="assets_svg/scapular-pull-up/frame-2.svg" alt=""><img src="assets_svg/scapular-pull-up/frame-3.svg" alt=""></div>
+  <div class="name">Scapular Pull-up</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Pull-up Bar</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Pull-up Bar">
+  <div class="anim"><img src="assets_svg/negative-pull-up/frame-1.svg" alt="Negative Pull-up"><img src="assets_svg/negative-pull-up/frame-2.svg" alt=""><img src="assets_svg/negative-pull-up/frame-3.svg" alt=""></div>
+  <div class="name">Negative Pull-up</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Pull-up Bar</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Pull-up Bar">
+  <div class="anim"><img src="assets_svg/commando-pull-up/frame-1.svg" alt="Commando Pull-up"><img src="assets_svg/commando-pull-up/frame-2.svg" alt=""><img src="assets_svg/commando-pull-up/frame-3.svg" alt=""></div>
+  <div class="name">Commando Pull-up</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Pull-up Bar</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Pull-up Bar">
+  <div class="anim"><img src="assets_svg/l-sit-pull-up/frame-1.svg" alt="L-Sit Pull-up"><img src="assets_svg/l-sit-pull-up/frame-2.svg" alt=""><img src="assets_svg/l-sit-pull-up/frame-3.svg" alt=""></div>
+  <div class="name">L-Sit Pull-up</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Pull-up Bar</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Towel">
+  <div class="anim"><img src="assets_svg/towel-pull-up/frame-1.svg" alt="Towel Pull-up"><img src="assets_svg/towel-pull-up/frame-2.svg" alt=""><img src="assets_svg/towel-pull-up/frame-3.svg" alt=""></div>
+  <div class="name">Towel Pull-up</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Towel</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/bodyweight-squat/frame-1.svg" alt="Bodyweight Squat"><img src="assets_svg/bodyweight-squat/frame-2.svg" alt=""><img src="assets_svg/bodyweight-squat/frame-3.svg" alt=""></div>
+  <div class="name">Bodyweight Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/pistol-squat/frame-1.svg" alt="Pistol Squat"><img src="assets_svg/pistol-squat/frame-2.svg" alt=""><img src="assets_svg/pistol-squat/frame-3.svg" alt=""></div>
+  <div class="name">Pistol Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/assisted-pistol-squat/frame-1.svg" alt="Assisted Pistol Squat"><img src="assets_svg/assisted-pistol-squat/frame-2.svg" alt=""><img src="assets_svg/assisted-pistol-squat/frame-3.svg" alt=""></div>
+  <div class="name">Assisted Pistol Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/shrimp-squat/frame-1.svg" alt="Shrimp Squat"><img src="assets_svg/shrimp-squat/frame-2.svg" alt=""><img src="assets_svg/shrimp-squat/frame-3.svg" alt=""></div>
+  <div class="name">Shrimp Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/cossack-squat/frame-1.svg" alt="Cossack Squat"><img src="assets_svg/cossack-squat/frame-2.svg" alt=""><img src="assets_svg/cossack-squat/frame-3.svg" alt=""></div>
+  <div class="name">Cossack Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/sissy-squat/frame-1.svg" alt="Sissy Squat"><img src="assets_svg/sissy-squat/frame-2.svg" alt=""><img src="assets_svg/sissy-squat/frame-3.svg" alt=""></div>
+  <div class="name">Sissy Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/forward-lunge/frame-1.svg" alt="Forward Lunge"><img src="assets_svg/forward-lunge/frame-2.svg" alt=""><img src="assets_svg/forward-lunge/frame-3.svg" alt=""></div>
+  <div class="name">Forward Lunge</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/lateral-lunge/frame-1.svg" alt="Lateral Lunge"><img src="assets_svg/lateral-lunge/frame-2.svg" alt=""><img src="assets_svg/lateral-lunge/frame-3.svg" alt=""></div>
+  <div class="name">Lateral Lunge</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/curtsy-lunge/frame-1.svg" alt="Curtsy Lunge"><img src="assets_svg/curtsy-lunge/frame-2.svg" alt=""><img src="assets_svg/curtsy-lunge/frame-3.svg" alt=""></div>
+  <div class="name">Curtsy Lunge</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/skater-squat/frame-1.svg" alt="Skater Squat"><img src="assets_svg/skater-squat/frame-2.svg" alt=""><img src="assets_svg/skater-squat/frame-3.svg" alt=""></div>
+  <div class="name">Skater Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Box">
+  <div class="anim"><img src="assets_svg/single-leg-box-squat/frame-1.svg" alt="Single-Leg Box Squat"><img src="assets_svg/single-leg-box-squat/frame-2.svg" alt=""><img src="assets_svg/single-leg-box-squat/frame-3.svg" alt=""></div>
+  <div class="name">Single-Leg Box Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Box</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Box">
+  <div class="anim"><img src="assets_svg/step-down/frame-1.svg" alt="Step-Down"><img src="assets_svg/step-down/frame-2.svg" alt=""><img src="assets_svg/step-down/frame-3.svg" alt=""></div>
+  <div class="name">Step-Down</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Box</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Calves" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/calf-raise/frame-1.svg" alt="Calf Raise"><img src="assets_svg/calf-raise/frame-2.svg" alt=""><img src="assets_svg/calf-raise/frame-3.svg" alt=""></div>
+  <div class="name">Calf Raise</div>
+  <div class="tags"><span class="t1">小腿</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Calves" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/single-leg-calf-raise/frame-1.svg" alt="Single-Leg Calf Raise"><img src="assets_svg/single-leg-calf-raise/frame-2.svg" alt=""><img src="assets_svg/single-leg-calf-raise/frame-3.svg" alt=""></div>
+  <div class="name">Single-Leg Calf Raise</div>
+  <div class="tags"><span class="t1">小腿</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/glute-bridge-march/frame-1.svg" alt="Glute Bridge March"><img src="assets_svg/glute-bridge-march/frame-2.svg" alt=""><img src="assets_svg/glute-bridge-march/frame-3.svg" alt=""></div>
+  <div class="name">Glute Bridge March</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/frog-pump/frame-1.svg" alt="Frog Pump"><img src="assets_svg/frog-pump/frame-2.svg" alt=""><img src="assets_svg/frog-pump/frame-3.svg" alt=""></div>
+  <div class="name">Frog Pump</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/donkey-kick/frame-1.svg" alt="Donkey Kick"><img src="assets_svg/donkey-kick/frame-2.svg" alt=""><img src="assets_svg/donkey-kick/frame-3.svg" alt=""></div>
+  <div class="name">Donkey Kick</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/fire-hydrant/frame-1.svg" alt="Fire Hydrant"><img src="assets_svg/fire-hydrant/frame-2.svg" alt=""><img src="assets_svg/fire-hydrant/frame-3.svg" alt=""></div>
+  <div class="name">Fire Hydrant</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/clamshell/frame-1.svg" alt="Clamshell"><img src="assets_svg/clamshell/frame-2.svg" alt=""><img src="assets_svg/clamshell/frame-3.svg" alt=""></div>
+  <div class="name">Clamshell</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/hip-airplane/frame-1.svg" alt="Hip Airplane"><img src="assets_svg/hip-airplane/frame-2.svg" alt=""><img src="assets_svg/hip-airplane/frame-3.svg" alt=""></div>
+  <div class="name">Hip Airplane</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/side-lying-hip-abduction/frame-1.svg" alt="Side-Lying Hip Abduction"><img src="assets_svg/side-lying-hip-abduction/frame-2.svg" alt=""><img src="assets_svg/side-lying-hip-abduction/frame-3.svg" alt=""></div>
+  <div class="name">Side-Lying Hip Abduction</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/side-lying-leg-raise/frame-1.svg" alt="Side-Lying Leg Raise"><img src="assets_svg/side-lying-leg-raise/frame-2.svg" alt=""><img src="assets_svg/side-lying-leg-raise/frame-3.svg" alt=""></div>
+  <div class="name">Side-Lying Leg Raise</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/lying-hamstring-walkout/frame-1.svg" alt="Lying Hamstring Walkout"><img src="assets_svg/lying-hamstring-walkout/frame-2.svg" alt=""><img src="assets_svg/lying-hamstring-walkout/frame-3.svg" alt=""></div>
+  <div class="name">Lying Hamstring Walkout</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Towel">
+  <div class="anim"><img src="assets_svg/towel-hamstring-curl/frame-1.svg" alt="Towel Hamstring Curl"><img src="assets_svg/towel-hamstring-curl/frame-2.svg" alt=""><img src="assets_svg/towel-hamstring-curl/frame-3.svg" alt=""></div>
+  <div class="name">Towel Hamstring Curl</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Towel</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Stability Ball">
+  <div class="anim"><img src="assets_svg/stability-ball-hamstring-curl/frame-1.svg" alt="Stability Ball Hamstring Curl"><img src="assets_svg/stability-ball-hamstring-curl/frame-2.svg" alt=""><img src="assets_svg/stability-ball-hamstring-curl/frame-3.svg" alt=""></div>
+  <div class="name">Stability Ball Hamstring Curl</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Stability Ball</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-glute-bridge/frame-1.svg" alt="Banded Glute Bridge"><img src="assets_svg/banded-glute-bridge/frame-2.svg" alt=""><img src="assets_svg/banded-glute-bridge/frame-3.svg" alt=""></div>
+  <div class="name">Banded Glute Bridge</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-hip-thrust/frame-1.svg" alt="Banded Hip Thrust"><img src="assets_svg/banded-hip-thrust/frame-2.svg" alt=""><img src="assets_svg/banded-hip-thrust/frame-3.svg" alt=""></div>
+  <div class="name">Banded Hip Thrust</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-frog-pump/frame-1.svg" alt="Banded Frog Pump"><img src="assets_svg/banded-frog-pump/frame-2.svg" alt=""><img src="assets_svg/banded-frog-pump/frame-3.svg" alt=""></div>
+  <div class="name">Banded Frog Pump</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-clamshell/frame-1.svg" alt="Banded Clamshell"><img src="assets_svg/banded-clamshell/frame-2.svg" alt=""><img src="assets_svg/banded-clamshell/frame-3.svg" alt=""></div>
+  <div class="name">Banded Clamshell</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-lateral-walk/frame-1.svg" alt="Banded Lateral Walk"><img src="assets_svg/banded-lateral-walk/frame-2.svg" alt=""><img src="assets_svg/banded-lateral-walk/frame-3.svg" alt=""></div>
+  <div class="name">Banded Lateral Walk</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-monster-walk/frame-1.svg" alt="Banded Monster Walk"><img src="assets_svg/banded-monster-walk/frame-2.svg" alt=""><img src="assets_svg/banded-monster-walk/frame-3.svg" alt=""></div>
+  <div class="name">Banded Monster Walk</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-squat/frame-1.svg" alt="Banded Squat"><img src="assets_svg/banded-squat/frame-2.svg" alt=""><img src="assets_svg/banded-squat/frame-3.svg" alt=""></div>
+  <div class="name">Banded Squat</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-donkey-kick/frame-1.svg" alt="Banded Donkey Kick"><img src="assets_svg/banded-donkey-kick/frame-2.svg" alt=""><img src="assets_svg/banded-donkey-kick/frame-3.svg" alt=""></div>
+  <div class="name">Banded Donkey Kick</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-fire-hydrant/frame-1.svg" alt="Banded Fire Hydrant"><img src="assets_svg/banded-fire-hydrant/frame-2.svg" alt=""><img src="assets_svg/banded-fire-hydrant/frame-3.svg" alt=""></div>
+  <div class="name">Banded Fire Hydrant</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-kickback/frame-1.svg" alt="Banded Kickback"><img src="assets_svg/banded-kickback/frame-2.svg" alt=""><img src="assets_svg/banded-kickback/frame-3.svg" alt=""></div>
+  <div class="name">Banded Kickback</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-standing-hip-abduction/frame-1.svg" alt="Banded Standing Hip Abduction"><img src="assets_svg/banded-standing-hip-abduction/frame-2.svg" alt=""><img src="assets_svg/banded-standing-hip-abduction/frame-3.svg" alt=""></div>
+  <div class="name">Banded Standing Hip Abduction</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Glutes" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-seated-hip-abduction/frame-1.svg" alt="Banded Seated Hip Abduction"><img src="assets_svg/banded-seated-hip-abduction/frame-2.svg" alt=""><img src="assets_svg/banded-seated-hip-abduction/frame-3.svg" alt=""></div>
+  <div class="name">Banded Seated Hip Abduction</div>
+  <div class="tags"><span class="t1">臀</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Upper Back" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/band-pull-apart/frame-1.svg" alt="Band Pull-Apart"><img src="assets_svg/band-pull-apart/frame-2.svg" alt=""><img src="assets_svg/band-pull-apart/frame-3.svg" alt=""></div>
+  <div class="name">Band Pull-Apart</div>
+  <div class="tags"><span class="t1">Upper Back</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Upper Back" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-face-pull/frame-1.svg" alt="Banded Face Pull"><img src="assets_svg/banded-face-pull/frame-2.svg" alt=""><img src="assets_svg/banded-face-pull/frame-3.svg" alt=""></div>
+  <div class="name">Banded Face Pull</div>
+  <div class="tags"><span class="t1">Upper Back</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-row/frame-1.svg" alt="Banded Row"><img src="assets_svg/banded-row/frame-2.svg" alt=""><img src="assets_svg/banded-row/frame-3.svg" alt=""></div>
+  <div class="name">Banded Row</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Lats" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-lat-pulldown/frame-1.svg" alt="Banded Lat Pulldown"><img src="assets_svg/banded-lat-pulldown/frame-2.svg" alt=""><img src="assets_svg/banded-lat-pulldown/frame-3.svg" alt=""></div>
+  <div class="name">Banded Lat Pulldown</div>
+  <div class="tags"><span class="t1">Lats</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-pallof-press/frame-1.svg" alt="Banded Pallof Press"><img src="assets_svg/banded-pallof-press/frame-2.svg" alt=""><img src="assets_svg/banded-pallof-press/frame-3.svg" alt=""></div>
+  <div class="name">Banded Pallof Press</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-woodchop/frame-1.svg" alt="Banded Woodchop"><img src="assets_svg/banded-woodchop/frame-2.svg" alt=""><img src="assets_svg/banded-woodchop/frame-3.svg" alt=""></div>
+  <div class="name">Banded Woodchop</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Resistance Band">
+  <div class="anim"><img src="assets_svg/banded-dead-bug/frame-1.svg" alt="Banded Dead Bug"><img src="assets_svg/banded-dead-bug/frame-2.svg" alt=""><img src="assets_svg/banded-dead-bug/frame-3.svg" alt=""></div>
+  <div class="name">Banded Dead Bug</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Resistance Band</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/hollow-body-hold/frame-1.svg" alt="Hollow Body Hold"><img src="assets_svg/hollow-body-hold/frame-2.svg" alt=""><img src="assets_svg/hollow-body-hold/frame-3.svg" alt=""></div>
+  <div class="name">Hollow Body Hold</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/hollow-rock/frame-1.svg" alt="Hollow Rock"><img src="assets_svg/hollow-rock/frame-2.svg" alt=""><img src="assets_svg/hollow-rock/frame-3.svg" alt=""></div>
+  <div class="name">Hollow Rock</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/v-up/frame-1.svg" alt="V-Up"><img src="assets_svg/v-up/frame-2.svg" alt=""><img src="assets_svg/v-up/frame-3.svg" alt=""></div>
+  <div class="name">V-Up</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/flutter-kick/frame-1.svg" alt="Flutter Kick"><img src="assets_svg/flutter-kick/frame-2.svg" alt=""><img src="assets_svg/flutter-kick/frame-3.svg" alt=""></div>
+  <div class="name">Flutter Kick</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/lying-leg-raise/frame-1.svg" alt="Lying Leg Raise"><img src="assets_svg/lying-leg-raise/frame-2.svg" alt=""><img src="assets_svg/lying-leg-raise/frame-3.svg" alt=""></div>
+  <div class="name">Lying Leg Raise</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/toe-touch/frame-1.svg" alt="Toe Touch"><img src="assets_svg/toe-touch/frame-2.svg" alt=""><img src="assets_svg/toe-touch/frame-3.svg" alt=""></div>
+  <div class="name">Toe Touch</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/heel-tap/frame-1.svg" alt="Heel Tap"><img src="assets_svg/heel-tap/frame-2.svg" alt=""><img src="assets_svg/heel-tap/frame-3.svg" alt=""></div>
+  <div class="name">Heel Tap</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/plank-shoulder-tap/frame-1.svg" alt="Plank Shoulder Tap"><img src="assets_svg/plank-shoulder-tap/frame-2.svg" alt=""><img src="assets_svg/plank-shoulder-tap/frame-3.svg" alt=""></div>
+  <div class="name">Plank Shoulder Tap</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/plank-jack/frame-1.svg" alt="Plank Jack"><img src="assets_svg/plank-jack/frame-2.svg" alt=""><img src="assets_svg/plank-jack/frame-3.svg" alt=""></div>
+  <div class="name">Plank Jack</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/bear-plank/frame-1.svg" alt="Bear Plank"><img src="assets_svg/bear-plank/frame-2.svg" alt=""><img src="assets_svg/bear-plank/frame-3.svg" alt=""></div>
+  <div class="name">Bear Plank</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/bear-crawl/frame-1.svg" alt="Bear Crawl"><img src="assets_svg/bear-crawl/frame-2.svg" alt=""><img src="assets_svg/bear-crawl/frame-3.svg" alt=""></div>
+  <div class="name">Bear Crawl</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Triceps" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/crab-walk/frame-1.svg" alt="Crab Walk"><img src="assets_svg/crab-walk/frame-2.svg" alt=""><img src="assets_svg/crab-walk/frame-3.svg" alt=""></div>
+  <div class="name">Crab Walk</div>
+  <div class="tags"><span class="t1">三头</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/inchworm/frame-1.svg" alt="Inchworm"><img src="assets_svg/inchworm/frame-2.svg" alt=""><img src="assets_svg/inchworm/frame-3.svg" alt=""></div>
+  <div class="name">Inchworm</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/l-sit-hold/frame-1.svg" alt="L-Sit Hold"><img src="assets_svg/l-sit-hold/frame-2.svg" alt=""><img src="assets_svg/l-sit-hold/frame-3.svg" alt=""></div>
+  <div class="name">L-Sit Hold</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/seated-knee-tuck/frame-1.svg" alt="Seated Knee Tuck"><img src="assets_svg/seated-knee-tuck/frame-2.svg" alt=""><img src="assets_svg/seated-knee-tuck/frame-3.svg" alt=""></div>
+  <div class="name">Seated Knee Tuck</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/side-plank-hip-dip/frame-1.svg" alt="Side Plank Hip Dip"><img src="assets_svg/side-plank-hip-dip/frame-2.svg" alt=""><img src="assets_svg/side-plank-hip-dip/frame-3.svg" alt=""></div>
+  <div class="name">Side Plank Hip Dip</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/copenhagen-plank/frame-1.svg" alt="Copenhagen Plank"><img src="assets_svg/copenhagen-plank/frame-2.svg" alt=""><img src="assets_svg/copenhagen-plank/frame-3.svg" alt=""></div>
+  <div class="name">Copenhagen Plank</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/dragon-flag/frame-1.svg" alt="Dragon Flag"><img src="assets_svg/dragon-flag/frame-2.svg" alt=""><img src="assets_svg/dragon-flag/frame-3.svg" alt=""></div>
+  <div class="name">Dragon Flag</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/burpee/frame-1.svg" alt="Burpee"><img src="assets_svg/burpee/frame-2.svg" alt=""><img src="assets_svg/burpee/frame-3.svg" alt=""></div>
+  <div class="name">Burpee</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/half-burpee/frame-1.svg" alt="Half Burpee"><img src="assets_svg/half-burpee/frame-2.svg" alt=""><img src="assets_svg/half-burpee/frame-3.svg" alt=""></div>
+  <div class="name">Half Burpee</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Core" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/squat-thrust/frame-1.svg" alt="Squat Thrust"><img src="assets_svg/squat-thrust/frame-2.svg" alt=""><img src="assets_svg/squat-thrust/frame-3.svg" alt=""></div>
+  <div class="name">Squat Thrust</div>
+  <div class="tags"><span class="t1">核心</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/high-knees/frame-1.svg" alt="High Knees"><img src="assets_svg/high-knees/frame-2.svg" alt=""><img src="assets_svg/high-knees/frame-3.svg" alt=""></div>
+  <div class="name">High Knees</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/jumping-jack/frame-1.svg" alt="Jumping Jack"><img src="assets_svg/jumping-jack/frame-2.svg" alt=""><img src="assets_svg/jumping-jack/frame-3.svg" alt=""></div>
+  <div class="name">Jumping Jack</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/skater-hop/frame-1.svg" alt="Skater Hop"><img src="assets_svg/skater-hop/frame-2.svg" alt=""><img src="assets_svg/skater-hop/frame-3.svg" alt=""></div>
+  <div class="name">Skater Hop</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/lateral-shuffle/frame-1.svg" alt="Lateral Shuffle"><img src="assets_svg/lateral-shuffle/frame-2.svg" alt=""><img src="assets_svg/lateral-shuffle/frame-3.svg" alt=""></div>
+  <div class="name">Lateral Shuffle</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Calves" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/fast-feet/frame-1.svg" alt="Fast Feet"><img src="assets_svg/fast-feet/frame-2.svg" alt=""><img src="assets_svg/fast-feet/frame-3.svg" alt=""></div>
+  <div class="name">Fast Feet</div>
+  <div class="tags"><span class="t1">小腿</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Legs" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/sprawl/frame-1.svg" alt="Sprawl"><img src="assets_svg/sprawl/frame-2.svg" alt=""><img src="assets_svg/sprawl/frame-3.svg" alt=""></div>
+  <div class="name">Sprawl</div>
+  <div class="tags"><span class="t1">Legs</span><span class="t2">Bodyweight</span><span class="t3">bodyweight_reps</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/seal-jack/frame-1.svg" alt="Seal Jack"><img src="assets_svg/seal-jack/frame-2.svg" alt=""><img src="assets_svg/seal-jack/frame-3.svg" alt=""></div>
+  <div class="name">Seal Jack</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Mobility" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/cat-cow-stretch/frame-1.svg" alt="Cat-Cow Stretch"><img src="assets_svg/cat-cow-stretch/frame-2.svg" alt=""><img src="assets_svg/cat-cow-stretch/frame-3.svg" alt=""></div>
+  <div class="name">Cat-Cow Stretch</div>
+  <div class="tags"><span class="t1">Mobility</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/arm-circles/frame-1.svg" alt="Arm Circles"><img src="assets_svg/arm-circles/frame-2.svg" alt=""><img src="assets_svg/arm-circles/frame-3.svg" alt=""></div>
+  <div class="name">Arm Circles</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Mobility" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/worlds-greatest-stretch/frame-1.svg" alt="World's Greatest Stretch"><img src="assets_svg/worlds-greatest-stretch/frame-2.svg" alt=""><img src="assets_svg/worlds-greatest-stretch/frame-3.svg" alt=""></div>
+  <div class="name">World's Greatest Stretch</div>
+  <div class="tags"><span class="t1">Mobility</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Mobility" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/leg-swings-stretch/frame-1.svg" alt="Leg Swings"><img src="assets_svg/leg-swings-stretch/frame-2.svg" alt=""><img src="assets_svg/leg-swings-stretch/frame-3.svg" alt=""></div>
+  <div class="name">Leg Swings</div>
+  <div class="tags"><span class="t1">Mobility</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Mobility" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/torso-twist-stretch/frame-1.svg" alt="Torso Twists"><img src="assets_svg/torso-twist-stretch/frame-2.svg" alt=""><img src="assets_svg/torso-twist-stretch/frame-3.svg" alt=""></div>
+  <div class="name">Torso Twists</div>
+  <div class="tags"><span class="t1">Mobility</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Chest" data-equip="Doorway">
+  <div class="anim"><img src="assets_svg/doorway-chest-stretch/frame-1.svg" alt="Doorway Chest Stretch"><img src="assets_svg/doorway-chest-stretch/frame-2.svg" alt=""><img src="assets_svg/doorway-chest-stretch/frame-3.svg" alt=""></div>
+  <div class="name">Doorway Chest Stretch</div>
+  <div class="tags"><span class="t1">胸</span><span class="t2">Doorway</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Back" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/childs-pose/frame-1.svg" alt="Child's Pose"><img src="assets_svg/childs-pose/frame-2.svg" alt=""><img src="assets_svg/childs-pose/frame-3.svg" alt=""></div>
+  <div class="name">Child's Pose</div>
+  <div class="tags"><span class="t1">背</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Hips" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/kneeling-hip-flexor-stretch/frame-1.svg" alt="Kneeling Hip Flexor Stretch"><img src="assets_svg/kneeling-hip-flexor-stretch/frame-2.svg" alt=""><img src="assets_svg/kneeling-hip-flexor-stretch/frame-3.svg" alt=""></div>
+  <div class="name">Kneeling Hip Flexor Stretch</div>
+  <div class="tags"><span class="t1">Hips</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/hamstring-stretch/frame-1.svg" alt="Hamstring Stretch"><img src="assets_svg/hamstring-stretch/frame-2.svg" alt=""><img src="assets_svg/hamstring-stretch/frame-3.svg" alt=""></div>
+  <div class="name">Hamstring Stretch</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Quads" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/standing-quad-stretch/frame-1.svg" alt="Standing Quad Stretch"><img src="assets_svg/standing-quad-stretch/frame-2.svg" alt=""><img src="assets_svg/standing-quad-stretch/frame-3.svg" alt=""></div>
+  <div class="name">Standing Quad Stretch</div>
+  <div class="tags"><span class="t1">股四头</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Hamstrings" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/seated-forward-fold-stretch/frame-1.svg" alt="Seated Forward Fold"><img src="assets_svg/seated-forward-fold-stretch/frame-2.svg" alt=""><img src="assets_svg/seated-forward-fold-stretch/frame-3.svg" alt=""></div>
+  <div class="name">Seated Forward Fold</div>
+  <div class="tags"><span class="t1">腘绳</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Shoulders" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/cross-body-shoulder-stretch/frame-1.svg" alt="Cross-Body Shoulder Stretch"><img src="assets_svg/cross-body-shoulder-stretch/frame-2.svg" alt=""><img src="assets_svg/cross-body-shoulder-stretch/frame-3.svg" alt=""></div>
+  <div class="name">Cross-Body Shoulder Stretch</div>
+  <div class="tags"><span class="t1">肩</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Calves" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/wall-calf-stretch/frame-1.svg" alt="Wall Calf Stretch"><img src="assets_svg/wall-calf-stretch/frame-2.svg" alt=""><img src="assets_svg/wall-calf-stretch/frame-3.svg" alt=""></div>
+  <div class="name">Wall Calf Stretch</div>
+  <div class="tags"><span class="t1">小腿</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div>
+<div class="card" data-muscle="Hips" data-equip="Bodyweight">
+  <div class="anim"><img src="assets_svg/butterfly-stretch/frame-1.svg" alt="Butterfly Stretch"><img src="assets_svg/butterfly-stretch/frame-2.svg" alt=""><img src="assets_svg/butterfly-stretch/frame-3.svg" alt=""></div>
+  <div class="name">Butterfly Stretch</div>
+  <div class="tags"><span class="t1">Hips</span><span class="t2">Bodyweight</span><span class="t3">duration</span></div>
+</div></div>
+<script>
+const cards=[...document.querySelectorAll('.card')];
+function apply(){
+  const m=fm.value,eq=fe.value;let n=0;
+  cards.forEach(c=>{const ok=(!m||c.dataset.muscle===m)&&(!eq||c.dataset.equip===eq);
+    c.style.display=ok?'':'none';if(ok)n++;});
+  cnt.textContent=n;
+}
+fm.onchange=fe.onchange=apply;apply();
+</script></body></html>
