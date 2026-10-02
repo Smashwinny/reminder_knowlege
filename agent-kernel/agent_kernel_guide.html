@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Agent 内核拆解</title>
+<style>
+:root{
+  --pink:#FF3B6B; --teal:#00B8A0; --purple:#7B2FF2; --orange:#FF8A00;
+  --blue:#1E6FFF; --yellow:#FFD60A; --green:#2ECC71;
+  --ink:#1F2333; --bg:#FFFDF7;
+}
+@page{ size:A4; margin:12mm; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:12.5px; line-height:1.65; }
+.wrap{ max-width:186mm; margin:0 auto; }
+
+.cover{ background:linear-gradient(135deg,var(--orange) 0%,var(--pink) 50%,var(--purple) 100%); color:#fff; border-radius:18px; padding:30px 34px; margin-bottom:14px; }
+.cover .kicker{ display:inline-block; background:var(--yellow); color:#7A2E00; font-weight:900; font-size:13px; padding:3px 12px; border-radius:20px; letter-spacing:1px; }
+.cover h1{ font-size:32px; line-height:1.25; margin:12px 0 8px; text-shadow:0 2px 10px rgba(0,0,0,.25); }
+.cover h1 em{ font-style:normal; color:var(--yellow); }
+.cover p.sub{ font-size:13.5px; opacity:.95; }
+.cover .meta{ margin-top:12px; font-size:11px; opacity:.85; border-top:1px dashed rgba(255,255,255,.5); padding-top:8px; }
+
+.hook{ display:flex; gap:10px; margin:0 0 14px; }
+.hook .box{ flex:1; border-radius:12px; padding:10px 12px; color:#fff; }
+.hook .box b{ font-size:13px; }
+.hook .b1{ background:var(--pink); } .hook .b2{ background:var(--teal); } .hook .b3{ background:var(--purple); }
+.hook .tag{ font-size:10px; background:rgba(255,255,255,.25); border-radius:10px; padding:1px 8px; }
+
+h2.sec{ font-size:19px; margin:20px 0 10px; padding:7px 14px; border-radius:10px; color:#fff; background:linear-gradient(90deg,var(--purple),var(--blue)); }
+h2.sec .en{ font-size:11px; opacity:.85; font-weight:400; margin-left:8px; }
+
+.q{ border:2.5px solid var(--ink); border-radius:14px; margin:0 0 13px; overflow:hidden; break-inside:avoid; background:#fff; box-shadow:4px 4px 0 rgba(31,35,51,.15); }
+.q .head{ display:flex; align-items:center; gap:10px; padding:8px 14px; }
+.q .num{ font-size:24px; font-weight:900; min-width:44px; text-align:center; border-radius:10px; padding:2px 0; color:#fff; }
+.q h3{ font-size:14.5px; }
+.q .body{ padding:9px 14px 12px; border-top:2px dashed rgba(31,35,51,.18); }
+.q1 .num{background:var(--pink);} .q1 .head{background:#FFE3EA;}
+.q2 .num{background:var(--teal);} .q2 .head{background:#DDF7F3;}
+.q3 .num{background:var(--purple);} .q3 .head{background:#EFE4FF;}
+.q4 .num{background:var(--orange);} .q4 .head{background:#FFEBD6;}
+.q5 .num{background:var(--blue);} .q5 .head{background:#DCE9FF;}
+.q6 .num{background:var(--green);} .q6 .head{background:#DFF7E8;}
+
+.hl{ background:linear-gradient(transparent 45%, var(--yellow) 45%); font-weight:900; padding:0 2px; }
+.hl-t{ background:linear-gradient(transparent 45%, #8BFBDF 45%); font-weight:900; padding:0 2px; }
+code{ font-family:Consolas,monospace; background:#F0F2F8; border:1px solid #D8DCEC; border-radius:5px; padding:0 4px; font-size:11.5px; color:#B4235A; }
+pre{ background:#1F2333; color:#EAF0FF; border-radius:10px; padding:9px 12px; font-family:Consolas,monospace; font-size:11px; line-height:1.55; overflow-x:auto; break-inside:avoid; white-space:pre-wrap; }
+pre .c{ color:#7EE787; } pre .k{ color:#FF9DBB; } pre .y{ color:#FFD60A; }
+.term{ color:var(--blue); font-weight:900; }
+
+table{ border-collapse:collapse; width:100%; margin:8px 0; break-inside:avoid; font-size:11px; }
+th{ background:var(--ink); color:#fff; padding:5px 8px; text-align:left; }
+td{ border:1.5px solid #D8DCEC; padding:4px 8px; background:#fff; }
+tr:nth-child(even) td{ background:#F7F9FF; }
+
+.svgbox{ text-align:center; margin:8px 0; break-inside:avoid; }
+.svgbox .cap{ font-size:10.5px; color:#666; margin-top:2px; }
+
+.callout{ border-radius:10px; padding:8px 12px; margin:8px 0; break-inside:avoid; font-size:12px; }
+.callout b.t{ display:inline-block; font-size:11px; border-radius:8px; padding:0 8px; color:#fff; margin-right:6px; }
+.co-warn{ background:#FFF3D6; border:2px solid var(--orange); } .co-warn b.t{background:var(--orange);}
+.co-fact{ background:#E8F8FF; border:2px solid var(--blue); } .co-fact b.t{background:var(--blue);}
+.co-win{ background:#E7F9EE; border:2px solid var(--green); } .co-win b.t{background:var(--green);}
+
+.step{ border-radius:12px; margin:0 0 11px; break-inside:avoid; border:2px solid; overflow:hidden; }
+.step .sh{ padding:6px 12px; color:#fff; font-weight:900; font-size:13.5px; }
+.step .sb{ padding:9px 12px; background:#fff; }
+.s1{border-color:var(--pink);} .s1 .sh{background:var(--pink);}
+.s2{border-color:var(--orange);} .s2 .sh{background:var(--orange);}
+.s3{border-color:var(--purple);} .s3 .sh{background:var(--purple);}
+.s4{border-color:var(--teal);} .s4 .sh{background:var(--teal);}
+.s5{border-color:var(--blue);} .s5 .sh{background:var(--blue);}
+.step .goal{ font-size:11px; color:#555; }
+.expect{ background:#E7F9EE; border-left:4px solid var(--green); padding:6px 10px; border-radius:0 8px 8px 0; font-size:11.5px; margin-top:6px; }
+.expect b{ color:#0E7A3C; }
+
+.abil{ display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 4px; }
+.abil .a{ flex:1 1 47%; border-radius:10px; padding:8px 11px; color:#fff; font-size:12px; }
+.abil .a b{ display:block; font-size:13px; margin-bottom:2px; }
+.a1{background:var(--pink);} .a2{background:var(--orange);} .a3{background:var(--teal);} .a4{background:var(--purple);} .a5{background:var(--blue);} .a6{background:var(--green);}
+
+.footer{ margin-top:16px; border-radius:12px; background:var(--ink); color:#CBD3F0; padding:10px 16px; font-size:11px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ═══════════ 封面 ═══════════ -->
+<div class="cover">
+  <span class="kicker">拾遗队列 · task 756d4781</span>
+  <h1>Agent 内核拆解<br>—— <em>110 行的 while 循环</em>，到工业级差在哪</h1>
+  <p class="sub">六周拆解 pi / codex / grok-build 三个工业级 coding agent 的收官系列：每篇一篇解析笔记 + 一个可运行的 mini-agent 阶段代码，从"Agent 就是个 while 循环"一路拆到"沙箱与审批是两件独立的事"</p>
+  <div class="meta">样本仓库：github.com/yanhua1010/build-your-own-coding-agent（41★，HEAD 1e607db，六篇全发布）｜对照上游：earendil-works/pi（~78k★）· openai/codex（~101k★）· xai-org/grok-build（~23k★）｜实验：mini-agent 真跑通 + 协议 shim 自写 + 136 条离线断言全过｜产出：2026-10-03</div>
+</div>
+
+<div class="hook">
+  <div class="box b1"><span class="tag">起点</span><br><b>"pi 这种也算工业级？<br>加几个工具不就完了？"</b><br>系列因这个质疑而生</div>
+  <div class="box b2"><span class="tag">做法</span><br><b>拆三个工业级实现</b><br>每篇笔记带行号引用<br>+ 一个可运行 step</div>
+  <div class="box b3"><span class="tag">结论</span><br><b>pi 算工业级，但不能拿来就用</b><br>内核可以 110 行<br>工业级差距是一张清单</div>
+</div>
+
+<!-- ═══════════ Q1-Q12 ═══════════ -->
+<h2 class="sec">疑问即目录 · 十二问拆完一个 Agent 内核</h2>
+
+<div class="q q1">
+  <div class="head"><div class="num">Q1</div><h3>这个系列是什么来头？"Agent 就是个 while 循环"这句话可信吗？</h3></div>
+  <div class="body">
+    <p>出处是 X 用户 @yanhua1010 的六周系列【Agent 内核拆解】，收官帖回应读者的质疑——"pi 这种也算工业级？加几个工具不就完了？"。配套 GitHub 仓库 <b>build-your-own-coding-agent</b> 把方法论写得很清楚：<span class="hl">每篇文章 = 一篇带行号引用的源码解析笔记（对照 pi 的真实 commit）+ 一个能独立运行的 mini-agent 阶段代码</span>。五篇笔记覆盖：①agent loop ②统一 LLM API 与错误契约 ③工具调用 ④上下文压缩 ⑤权限与安全，第六篇收官总结。</p>
+    <p style="margin-top:6px">"while 循环"这句话<b>可信且有实锤</b>：pi 的整个内核 <code>agent-loop.ts</code> 只有 792 行，其中主循环本体 <code>runLoop</code> 只占 126 行；教学版 mini-agent 的第一步（step01）<span class="hl-t">118 行就写完了一个能真干活的 coding agent</span>。但"能跑"和"工业级"之间的距离，正是这个系列六周要讲清的东西。</p>
+    <div class="svgbox"><svg width="560" height="120" viewBox="0 0 560 120">
+      <rect x="10" y="30" width="120" height="60" rx="10" fill="#FF3B6B"/>
+      <text x="70" y="55" text-anchor="middle" fill="#fff" font-size="13" font-weight="900">step01</text>
+      <text x="70" y="75" text-anchor="middle" fill="#fff" font-size="15" font-weight="900">118 行</text>
+      <text x="160" y="65" fill="#1F2333" font-size="18" font-weight="900">→</text>
+      <rect x="185" y="30" width="120" height="60" rx="10" fill="#FF8A00"/>
+      <text x="245" y="55" text-anchor="middle" fill="#fff" font-size="13" font-weight="900">+工具流水线</text>
+      <text x="245" y="75" text-anchor="middle" fill="#fff" font-size="15" font-weight="900">step03</text>
+      <text x="335" y="65" fill="#1F2333" font-size="18" font-weight="900">→</text>
+      <rect x="360" y="30" width="90" height="60" rx="10" fill="#00B8A0"/>
+      <text x="405" y="55" text-anchor="middle" fill="#fff" font-size="13" font-weight="900">+压缩</text>
+      <text x="405" y="75" text-anchor="middle" fill="#fff" font-size="15" font-weight="900">step04</text>
+      <text x="470" y="65" fill="#1F2333" font-size="18" font-weight="900">→</text>
+      <rect x="490" y="20" width="65" height="80" rx="10" fill="#7B2FF2"/>
+      <text x="522" y="50" text-anchor="middle" fill="#fff" font-size="13" font-weight="900">工业级</text>
+      <text x="522" y="70" text-anchor="middle" fill="#fff" font-size="11">792行内核</text>
+      <text x="522" y="86" text-anchor="middle" fill="#fff" font-size="11">+3324行会话层</text>
+    </svg><div class="cap">mini-agent 路线图：每篇一个可运行阶段，逐步逼近工业级</div></div>
+  </div>
+</div>
+
+<div class="q q2">
+  <div class="head"><div class="num">Q2</div><h3>118 行的 mini-agent 里到底有什么？"智能"藏在哪一行？</h3></div>
+  <div class="body">
+    <p>step01 的 <code>agent.mjs</code> 一共四块：<b>三个工具</b>（read_file / write_file / run_command，各配 schema 和执行函数）、<b>一个最简沙箱</b>（<code>safePath</code>：只准操作当前工作目录）、<b>一个 fetch</b>（调 OpenAI 兼容接口）、<b>核心循环</b>。所谓"智能"就是这十几行：</p>
+<pre><span class="c">// —— 核心：agent loop。整个"智能"就在这个循环里 ——</span>
+<span class="k">while</span> (true) {
+  <span class="k">const</span> msg = <span class="k">await</span> chat(messages);        <span class="c">// 1. 把对话发给模型</span>
+  messages.push(msg);
+  <span class="k">if</span> (!msg.tool_calls?.length) <span class="k">return</span>;      <span class="c">// 2. 模型不再要工具 → 结束</span>
+  <span class="k">for</span> (<span class="k">const</span> call <span class="k">of</span> msg.tool_calls) {
+    <span class="k">try</span> { result = String(tools[name].run(args)); }
+    <span class="k">catch</span> (err) { result = <span class="y">`错误: ${err.message}`</span>; } <span class="c">// 3. 错误不抛出！</span>
+    messages.push({ role: <span class="y">"tool"</span>, tool_call_id: call.id, content: result }); <span class="c">// 4. 塞回对话</span>
+  }
+}</pre>
+    <p>已经学过 [[Agent循环]] 的会认出来：这就是那个循环的最裸形态——<span class="hl">没有任何框架魔法，调模型 → 有工具调用就执行 → 结果塞回消息列表 → 再调，直到模型收手</span>。真正值得划重点的是第 3 行注释：</p>
+    <div class="callout co-win"><b class="t">关键设计</b><span class="hl">工具执行出错时把错误文本"还给模型"而不是抛给用户</span>——模型读到"文件不存在"会自己 <code>ls</code> 排查再重试。Agent 的健壮性来自"把错误还给模型"，这就是自我纠错循环的最小实现。实验 B 真机验证过这一条（见实验部分）。</div>
+  </div>
+</div>
+
+<div class="q q3">
+  <div class="head"><div class="num">Q3</div><h3>38 家模型厂商，为什么只需要 11 个 API 实现？</h3></div>
+  <div class="body">
+    <p>大多数人做"多模型支持"会按<b>服务商</b>建目录：openai/、anthropic/、deepseek/……每加一家就重写一遍流式解析。pi 把它拆成了<span class="term">两个独立的维度</span>：</p>
+    <ul style="margin:6px 0 6px 18px">
+      <li><b>API</b> = 协议格式（怎么说话）：11 种，如 <code>openai-completions</code>、<code>anthropic-messages</code>、<code>google-generative-ai</code>…</li>
+      <li><b>Provider</b> = 服务商（跟谁说话）：38 家，每家只是一个 15~30 行的<b>纯配置文件</b>（baseUrl + 鉴权 + 模型清单 + 指向哪个 API）</li>
+    </ul>
+    <p>DeepSeek、Groq、月之暗面、智谱、xAI……20 家都兼容 OpenAI 的 completions 格式，<span class="hl">共用同一份 1504 行的解析代码</span>。接一家新 provider 的代价是 <b>15 行</b>（DeepSeek 的 provider 文件全文就 15 行，全是配置、零解析逻辑）。mini-agent 的 step02 照抄了这个设计：三家 provider 配置共用同一份 <code>openai-completions.mjs</code>。</p>
+    <div class="svgbox"><svg width="560" height="150" viewBox="0 0 560 150">
+      <rect x="20" y="15" width="240" height="120" rx="12" fill="#EFE4FF" stroke="#7B2FF2" stroke-width="2.5"/>
+      <text x="140" y="38" text-anchor="middle" fill="#7B2FF2" font-size="13" font-weight="900">API 维度（协议）× 11 个实现</text>
+      <rect x="40" y="50" width="90" height="26" rx="6" fill="#7B2FF2"/><text x="85" y="67" text-anchor="middle" fill="#fff" font-size="10.5">openai-completions</text>
+      <rect x="140" y="50" width="100" height="26" rx="6" fill="#7B2FF2"/><text x="190" y="67" text-anchor="middle" fill="#fff" font-size="10.5">anthropic-messages</text>
+      <text x="140" y="105" text-anchor="middle" fill="#7B2FF2" font-size="10.5">+ google / bedrock / …共 11 个</text>
+      <text x="140" y="125" text-anchor="middle" fill="#7B2FF2" font-size="10.5">每个 1500 行左右，只写一次</text>
+      <text x="280" y="80" text-anchor="middle" fill="#1F2333" font-size="26" font-weight="900">×</text>
+      <rect x="300" y="15" width="240" height="120" rx="12" fill="#DCE9FF" stroke="#1E6FFF" stroke-width="2.5"/>
+      <text x="420" y="38" text-anchor="middle" fill="#1E6FFF" font-size="13" font-weight="900">Provider 维度（服务商）× 38 家</text>
+      <rect x="318" y="50" width="60" height="26" rx="6" fill="#1E6FFF"/><text x="348" y="67" text-anchor="middle" fill="#fff" font-size="10.5">DeepSeek</text>
+      <rect x="385" y="50" width="45" height="26" rx="6" fill="#1E6FFF"/><text x="407" y="67" text-anchor="middle" fill="#fff" font-size="10.5">GLM</text>
+      <rect x="437" y="50" width="45" height="26" rx="6" fill="#1E6FFF"/><text x="459" y="67" text-anchor="middle" fill="#fff" font-size="10.5">Kimi</text>
+      <text x="420" y="105" text-anchor="middle" fill="#1E6FFF" font-size="10.5">+ Groq / xAI / Cerebras / …共 38 家</text>
+      <text x="420" y="125" text-anchor="middle" fill="#1E6FFF" font-size="10.5">每家 15~30 行，只是配置</text>
+    </svg><div class="cap">协议 × 服务商两维拆分：新厂商只是加一行配置，不再重写解析</div></div>
+  </div>
+</div>
+
+<div class="q q4">
+  <div class="head"><div class="num">Q4</div><h3>什么叫"永不 reject 的错误契约"？为什么上层敢一行 try/catch 都不写？</h3></div>
+  <div class="body">
+    <p>这是整个系列里<span class="hl">最值得学的一条软件设计</span>。pi 的内核循环分支用的是 <code>stopReason</code> 字段，而不是 try/catch——凭什么？答案是一条<b>类型级契约</b>：<code>stream()</code> 函数的返回类型不是 <code>Promise</code>，而是同步返回一个 <code>EventStream</code>。<span class="hl">调用方无处 await，也就无处 try/catch——契约不靠文档约定，靠类型系统强制</span>。所有失败（鉴权挂了、网络断了、模块加载失败）都被编码成流内的 <code>error</code> 事件和一条 <code>stopReason: "error"</code> 的消息。</p>
+    <p>妙处在于配套的第二条规则（note 03）：方向完全相反——<span class="hl-t">调模型的函数永不抛异常，但工具函数必须抛异常</span>。两条规则看似矛盾，其实看"错误的接收方是谁"就通了：</p>
+    <table>
+      <tr><th></th><th>模型调用失败</th><th>工具执行失败</th></tr>
+      <tr><td><b>接收方</b></td><td>程序（处理不了网络故障，只能优雅退出）</td><td>模型（读懂"文件不存在"会自己排查重试）</td></tr>
+      <tr><td><b>处理方式</b></td><td>降级成 <code>stopReason</code> 事件，绝不 reject</td><td>抛出异常 → 内核 catch 成 <code>isError: true</code> 结果回喂</td></tr>
+    </table>
+    <div class="callout co-fact"><b class="t">一眼看懂</b>判断一条错误该"抛"还是该"吞"，先问：<b>这个错误的读者是程序还是模型？</b>读者是模型，就用模型读得懂的话（错误文本）说给它听。</div>
+  </div>
+</div>
+
+<div class="q q5">
+  <div class="head"><div class="num">Q5</div><h3>一次工具调用在内核里经过哪三段？为什么一半的内核代码都在管工具？</h3></div>
+  <div class="body">
+    <p>反直觉的数字：pi 内核 792 行里，<span class="hl">工具执行相关占 418 行（53%）</span>，主循环本体只有 126 行。模型那边只有一次 <code>stream()</code> 调用，工具这边才是内核真正的复杂度。一次调用经过<span class="term">三段式流水线</span>：</p>
+    <div class="svgbox"><svg width="560" height="105" viewBox="0 0 560 105">
+      <rect x="10" y="20" width="165" height="62" rx="10" fill="#FF3B6B"/>
+      <text x="92" y="42" text-anchor="middle" fill="#fff" font-size="13" font-weight="900">① prepare（65行）</text>
+      <text x="92" y="60" text-anchor="middle" fill="#fff" font-size="10">找工具→参数schema校验</text>
+      <text x="92" y="74" text-anchor="middle" fill="#fff" font-size="10">→权限钩子（拦截挂这）</text>
+      <text x="192" y="55" fill="#1F2333" font-size="18" font-weight="900">→</text>
+      <rect x="210" y="20" width="150" height="62" rx="10" fill="#FF8A00"/>
+      <text x="285" y="42" text-anchor="middle" fill="#fff" font-size="13" font-weight="900">② execute（42行）</text>
+      <text x="285" y="60" text-anchor="middle" fill="#fff" font-size="10">真正执行（唯一并行段）</text>
+      <text x="285" y="74" text-anchor="middle" fill="#fff" font-size="10">支持流式 partialResult</text>
+      <text x="377" y="55" fill="#1F2333" font-size="18" font-weight="900">→</text>
+      <rect x="395" y="20" width="155" height="62" rx="10" fill="#00B8A0"/>
+      <text x="472" y="42" text-anchor="middle" fill="#fff" font-size="13" font-weight="900">③ finalize（46行）</text>
+      <text x="472" y="60" text-anchor="middle" fill="#fff" font-size="10">afterToolCall 钩子可改写</text>
+      <text x="472" y="74" text-anchor="middle" fill="#fff" font-size="10">结果 / 标记 isError</text>
+    </svg><div class="cap">三段式：权限审批挂在 prepare（钩子返回 {block:true} 即拒绝，拦截信息回喂模型）</div></div>
+    <p>mini-agent 的 step03 抄了这套骨架，还加了三个防御，每个都是"只有真踩过坑才会写"的代码：</p>
+    <ul style="margin:4px 0 4px 18px">
+      <li><b>截断的整批作废</b>：输出被 token 上限截断时，工具参数 JSON 可能残缺却"看起来合法"、schema 校验都能通过——pi 的做法是<span class="hl">整批标记失败，一个都不执行</span>；</li>
+      <li><b>一票降级、全票终止</b>：一批工具里只要有一个声明必须串行（比如 edit 和 bash 混批），整批降级串行；反过来必须全批都要求终止才提前终止，单个工具不能替整批做主；</li>
+      <li><b>按文件排队</b>：并发写同一文件会互相踩，所以按文件路径排队、不同文件才并行。</li>
+    </ul>
+  </div>
+</div>
+
+<div class="q q6">
+  <div class="head"><div class="num">Q6</div><h3>并行执行三个工具，"完成顺序"和"喂回顺序"为什么必须不一样？</h3></div>
+  <div class="body">
+    <p>模型一次发出三个调用（耗时 3s / 1s / 2s）。如果串行执行要 6 秒；并行执行 3 秒就完。但这里藏着一个新手必踩的坑：<span class="hl">喂回模型的结果顺序必须保持模型给出的调用顺序（1-2-3），而完成顺序是乱的（2-3-1）</span>——因为对话历史必须确定，不然模型看到的上下文每次都不一样。实验 C 实测：</p>
+<pre>模型给出的调用顺序： call_1(3s)  call_2(1s)  call_3(2s)
+实时事件（完成顺序）：
+  +0.0s 开始 call_1   +0.0s 开始 call_2   +0.0s 开始 call_3
+  +1.0s 完成 call_2 ← 谁快谁先    +2.0s 完成 call_3    +3.0s 完成 call_1
+喂回模型的 toolResult 顺序：call_1  call_2  call_3  ←历史还是 1-2-3
+总耗时 3.0s（串行的话是 6s）</pre>
+    <p>pi 更进一步，把"三个顺序"刻意错开：准备阶段<b>串行</b>（权限确认弹窗不能几个同时弹）、开始事件和结果消息按<b>源顺序</b>发（transcript 稳定）、完成事件按<b>完成顺序</b>发（UI 先亮先完成的）。<span class="hl-t">只把 execute 那一段包进 Promise.all——"只并行该并行的那一段"</span>，这是 mini-agent 做并行工具最容易做错的地方。</p>
+  </div>
+</div>
+
+<div class="q q7">
+  <div class="head"><div class="num">Q7</div><h3>上下文快满了怎么办？compaction 的阈值、切割点和摘要模板是怎么设计的？</h3></div>
+  <div class="body">
+    <p>已经学过 [[上下文预算与战略压缩]]（Claude Code 用户侧的"什么时候主动 /compact"），这一篇补上<b>实现者视角</b>：agent 内部怎么自动做压缩（[[Compaction上下文压缩算法]]）。pi 的方案四步：</p>
+    <ul style="margin:4px 0 4px 18px">
+      <li><b>算账</b>：token 估算用"字符数÷4"，且<span class="hl">优先用 provider 返回的真实 usage，只对之后新增的消息做估算</span>；</li>
+      <li><b>触发</b>：两种路径——阈值触发（用到 <code>window − reserveTokens</code> 就压，默认预留 16384）和溢出触发（provider 报错，用约 25 种正则匹配各家溢出报错文案，还要排除限流误判）；</li>
+      <li><b>切割</b>：从后往前累加，保留最近 <code>keepRecentTokens</code>（默认 20000）原文，更早的进摘要；切割点只落在"整轮边界"，落在轮中间要做 split-turn 两段摘要；</li>
+      <li><b>摘要</b>：固定模板（Goal / Progress(Done/In Progress/Blocked) / Key Decisions / Next Steps），迭代压缩时带旧摘要增量更新；末尾还附<b>文件操作清单</b>（读过/改过哪些文件）——<span class="hl">从 tool_calls 参数里提取，不靠模型记忆</span>。</li>
+    </ul>
+    <div class="svgbox"><svg width="560" height="128" viewBox="0 0 560 128">
+      <text x="14" y="20" font-size="11" fill="#1F2333" font-weight="900">压缩前 799 tok</text>
+      <rect x="14" y="28" width="110" height="26" fill="#FFD60A" stroke="#1F2333"/><text x="69" y="45" text-anchor="middle" font-size="10">旧对话（进摘要）</text>
+      <rect x="126" y="28" width="70" height="26" fill="#FF8A00" stroke="#1F2333"/><text x="161" y="45" text-anchor="middle" font-size="10" fill="#fff">split?</text>
+      <rect x="198" y="28" width="240" height="26" fill="#2ECC71" stroke="#1F2333"/><text x="318" y="45" text-anchor="middle" font-size="10">最近消息（保留原文 467 tok）</text>
+      <line x1="196" y1="20" x2="196" y2="62" stroke="#FF3B6B" stroke-width="3"/>
+      <text x="196" y="14" text-anchor="middle" font-size="10" fill="#FF3B6B" font-weight="900">✂ 切割点=第7条</text>
+      <text x="14" y="80" font-size="11" fill="#1F2333" font-weight="900">压缩后 594 tok（释放 205）</text>
+      <rect x="14" y="88" width="200" height="26" fill="#7B2FF2"/><text x="114" y="105" text-anchor="middle" font-size="10" fill="#fff">结构化摘要 127 tok</text>
+      <rect x="216" y="88" width="222" height="26" fill="#2ECC71"/><text x="327" y="105" text-anchor="middle" font-size="10">保留原文 467 tok（原封不动）</text>
+    </svg><div class="cap">实验 D 实测数字：800 窗口、阈值 680，799 tok 触发；切割点第 7 条，799→594</div></div>
+  </div>
+</div>
+
+<div class="q q8">
+  <div class="head"><div class="num">Q8</div><h3>四个 coding agent 的安全哲学差在哪？"沙箱"和"审批"为什么是两件独立的事？</h3></div>
+  <div class="body">
+    <p>收官系列最核心的认知框架：<span class="hl">两个正交的轴——sandbox（能不能做到：OS 层面 agent 碰得到什么）× approval（该不该做：这个动作要不要人点头）</span>。DeepSeek Harness 的文档把话说得最透：<b>"审批对话框不是文件系统边界，沙箱也不能替代用户意图。"</b>一个 agent 可以有沙箱没审批，也可以有审批没沙箱。四方实测对照：</p>
+    <table>
+      <tr><th>维度</th><th>pi</th><th>DeepSeek Harness</th><th>codex</th><th>grok-build</th></tr>
+      <tr><td><b>OS 沙箱</b></td><td>无（故意，外包容器）</td><td>内建，<b>默认 read-only（开）</b></td><td>内建，<b>默认开</b>（Seatbelt/bwrap+seccomp）</td><td>内建（Landlock/Seatbelt），<b>默认 off（关）</b></td></tr>
+      <tr><td><b>文件隔离</b></td><td>不硬隔离</td><td>写限 cwd</td><td>内核硬隔离，.git 强制只读</td><td>worktree 独立副本（CoW）</td></tr>
+      <tr><td><b>审批</b></td><td>钩子，默认不拦</td><td>插件化，headless fail-closed</td><td>4 档，默认 OnRequest</td><td>5 档，默认 Ask，Auto 档走 LLM 分类器</td></tr>
+      <tr><td><b>网络</b></td><td>外包</td><td>沙箱不管网络</td><td>默认禁网 + 域名代理</td><td>子进程 seccomp 仅 strict/Linux</td></tr>
+      <tr><td><b>独门</b></td><td>诚实的最小主义</td><td>沙箱/审批显式分离</td><td>.git 保护 + 升级审批</td><td>规则 DSL + 命令语义解析</td></tr>
+    </table>
+    <div class="callout co-warn"><b class="t">实用外卖</b>"我用的 agent 安全吗"的答案常常取决于<span class="hl">默认配置和你跑在哪</span>，而不是它有没有这个能力。<b>别假设你的 agent 替你兜底，去看它默认跑在哪一档。</b></div>
+  </div>
+</div>
+
+<div class="q q9">
+  <div class="head"><div class="num">Q9</div><h3>grok-build 能力最强，为什么反而默认最不设防？"能力 ≠ 默认姿态"怎么理解？</h3></div>
+  <div class="body">
+    <p>系列里最大的反转：grok-build 把安全能力堆得最满——OS 沙箱（Landlock/Seatbelt+seccomp 手写 BPF、内核强制不可逆）、worktree 物理副本隔离、密钥脱敏、企业签名策略闸……<span class="hl">但 OS 沙箱的默认值是 <code>"off"</code></span>（解析顺序 <code>requirement &gt; CLI &gt; env &gt; config &gt; "off"</code>）。能力清单和默认姿态是两张表。</p>
+    <p>默认就把 agent 关进内核沙箱的只有 <b>codex 和 dsh</b>。还有一个耐人寻味的细节：codex 提供一键全放开 <code>--yolo</code>，官方注释明说<span class="hl-t">"仅供本身已在外部沙箱里运行的环境"</span>——连最重装的 codex 都承认"外部容器 + 关内建沙箱"是合法用法，pi 只是把这个默认前提摆到了台面上。</p>
+    <div class="callout co-fact"><b class="t">光谱</b>pi（全外包，诚实告诉你边界）—— grok-build（能力全但默认关，偏"外包心态"）—— codex / dsh（默认内建强制）。没有标准答案，只有显式做出的取舍。</div>
+  </div>
+</div>
+
+<div class="q q10">
+  <div class="head"><div class="num">Q10</div><h3>pi 故意不做沙箱，是懒惰还是设计？</h3></div>
+  <div class="body">
+    <p>是设计，且声明得非常诚实。<code>SECURITY.md</code> 原话：<b>"the Pi coding agent intentionally does not have a sandbox"</b>。它的信任模型只有一句话：<span class="term">信任边界 = 运行 pi 的那个用户账号</span>。三条推论：①不防御"已拿到本地写权限的攻击者"（他本来就能改你的 shell 启动脚本）；②明说 prompt injection 防不住（<code>AGENTS.md</code>/代码注释里塞一句恶意指令就能骗过它，官方用词 "cannot be protected against"，参见 [[提示注入]]）；③真正的隔离（容器/VM）是<b>用户的责任</b>。</p>
+    <p>但 pi 也不是完全裸奔，它把力气花在唯一真正的安全闸上：<span class="hl">工作区信任门控</span>——项目目录里凡是能"往 agent 里塞指令或代码"的资源（settings、extensions、skills、SYSTEM.md…）加载前都要先过信任检查，不信任就忽略并警告；且用"两遍加载"保证<b>在你做出信任决定之前，项目本地的扩展代码一行都不会被执行</b>。其余层面（审批钩子、路径解析、bash 工具的 env 清洗 + 进程树 kill）都是"降低误伤的护栏"而非安全边界。</p>
+  </div>
+</div>
+
+<div class="q q11">
+  <div class="head"><div class="num">Q11</div><h3>从 110 行到工业级，差距清单到底有哪些？</h3></div>
+  <div class="body">
+    <p>收官帖承诺的总结。按笔记提炼，差距分四层：</p>
+    <table>
+      <tr><th>层</th><th>mini-agent 已有</th><th>工业级还差什么</th></tr>
+      <tr><td><b>循环</b></td><td>单层 while</td><td>双层循环（内层管工具+用户插话 steering，外层管 follow-up 续跑）；失败路径也补发完整事件序列（事件序列在任何路径下闭合，UI 和持久化才能写得极简）</td></tr>
+      <tr><td><b>工具</b></td><td>try/catch + 顺序执行</td><td>三段式流水线 + 权限钩子 + 并行三顺序 + 截断整批作废 + 按文件排队</td></tr>
+      <tr><td><b>上下文</b></td><td>无限增长</td><td>token 记账 + 双路径触发压缩 + 切割点算法 + 结构化摘要 + 文件操作追踪</td></tr>
+      <tr><td><b>安全</b></td><td>safePath + env 清洗</td><td>信任门控 + 审批策略 + OS 沙箱（或诚实外包）+ 密钥防泄</td></tr>
+    </table>
+    <p>笔记给的"值得抄的清单"优先级：①双层循环骨架 + emit 事件 ②错误编码进流、绝不 reject ③工具三段式 + 权限钩子 ④截断整批失败防御（一行 if，但显专业）⑤steering 队列 ⑥失败路径补发事件。<b>可以不抄的</b>：并行三顺序错开、双轨 context、运行中换模型——作为"工业级 vs 教学级"的对比素材讲到即可。</p>
+  </div>
+</div>
+
+<div class="q q12">
+  <div class="head"><div class="num">Q12</div><h3>回答开头那个质疑：pi 到底算不算工业级？</h3></div>
+  <div class="body">
+    <p>收官帖的结论：<span class="hl">pi 算工业级，但拿来直接用也不能什么都不管。</span>"工业级"不体现在代码行数（内核反而极简），而体现在每个设计决定都是<b>显式取舍且有清晰边界</b>：错误契约靠类型系统强制、工具流水线防住截断/竞态/并发踩踏、压缩算法防住 25 种 provider 的溢出报错、安全立场诚实到写进 SECURITY.md。而"不能什么都不管"是指：它的沙箱外包给你、它防不了注入、它的默认姿态需要你自己核对——<b>看懂这些取舍，正是这个系列教的东西</b>。</p>
+    <div class="callout co-win"><b class="t">一句话带走</b>Agent 内核 = <b>一个 while 循环 + 一条错误契约 + 一条流水线 + 一个压缩器 + 一张安全取舍表</b>。110 行能跑，工业级的差距是每一处"真踩过坑才会写"的防御。</div>
+  </div>
+</div>
+
+<!-- ═══════════ 实验 ═══════════ -->
+<h2 class="sec">动手实验 · 六个全部真实运行（含 2 个在线 + 4 个离线）</h2>
+
+<div class="q q1">
+  <div class="head"><div class="num">实A</div><h3>主实验：真跑通 step01 mini-agent（含自写协议适配 shim）</h3></div>
+  <div class="body">
+    <p class="goal">背景：本机仅有 z.ai 的 Anthropic 协议端点（OpenAI 兼容端点无余额），而 mini-agent 只会说 OpenAI 的 chat/completions 协议——这正好是 Q3"协议适配层"的活教材，我们顺手写了一个 130 行的零依赖 shim（<code>exercise\anthropic-shim.mjs</code>）：OpenAI 请求 → Anthropic /v1/messages，响应逆向转换，支持流式 SSE 合成，429 自动等 65s 重试。</p>
+    <div class="step s1"><div class="sh">第 1 步 · 启动协议适配层</div><div class="sb">
+      <p><code>node exercise\anthropic-shim.mjs 8787</code>（需 ANTHROPIC_BASE_URL / ANTHROPIC_AUTH_TOKEN 环境变量）</p>
+      <p class="goal">目的：给 mini-agent 造一个"假的 OpenAI 端点"。验证：curl 打 <code>http://localhost:8787/v1/chat/completions</code>，非流式返回 <code>{"choices":[{"message":{"content":"OK"}...}]}</code>，流式返回 <code>data: {...chat.completion.chunk...}</code> 分帧 + <code>data: [DONE]</code> ✅ 两条路径均实测通过</p>
+    </div></div>
+    <div class="step s2"><div class="sh">第 2 步 · 在隔离工作区跑 mini-agent</div><div class="sb">
+      <pre>cd exercise\live-demo
+set LLM_BASE_URL=http://localhost:8787/v1/chat/completions   ← 坑：step01 要完整路径（含 /chat/completions）
+set DEEPSEEK_API_KEY=shim &amp; set LLM_MODEL=glm-4.6
+node ..\..\repo\steps\01-minimal-loop\agent.mjs "创建文件 poem.txt，内容为三行关于秋天的小诗（中文）。写完后用 run_command 显示它的内容确认。"</pre>
+      <p class="goal">目的：验证 118 行的循环真的能自主完成"写文件+验证"两段任务。</p>
+      <div class="expect"><b>✅ 实测输出</b>：agent 自主发起 2 次工具调用——<code>write_file {"path":"poem.txt","content":"秋风拂过金黄的稻田，…"}</code> → <code>run_command {"command":"cat poem.txt"}</code> → 总结"已完成"。poem.txt 真实落盘（90 字节）✅</div>
+    </div></div>
+    <div class="step s3"><div class="sh">第 3 步 · 沙箱拒绝 + 错误回灌验证（实验 B）</div><div class="sb">
+      <pre>node agent.mjs "读取 F:\reminder\CLAUDE.md 的内容并总结前100字。"</pre>
+      <p class="goal">目的：验证 Q2 的核心设计——工作目录外的路径被 <code>safePath</code> 拒绝后，错误文本回喂模型会怎样。</p>
+      <div class="expect"><b>✅ 实测输出</b>：read_file 报错"拒绝访问工作目录之外的路径"→ 错误回灌模型 → 模型改试 run_command 后<b>主动放弃绕过</b>，最终回答：说明沙箱保护是刻意设计、给出"把文件复制进工作区"的替代方案。<b>错误不抛出、还给模型、模型自己修</b>——教科书行为在真机上复现了。</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="q q2">
+  <div class="head"><div class="num">实C-F</div><h3>四个离线实验：并行顺序 / 压缩 / 安全 / 回归自测（零 API 消耗）</h3></div>
+  <div class="body">
+    <div class="step s4"><div class="sh">实C · 并行工具顺序（steps/03）</div><div class="sb">
+      <p><code>node steps/03-tools/demo-order.mjs</code> → <b>✅ 实测</b>：3s/1s/2s 三工具总耗时 3.0s（串行 6s）；完成序 2-3-1、喂回序 1-2-3，"执行是并发的，历史是确定的"（详见 Q6）。</p>
+    </div></div>
+    <div class="step s5"><div class="sh">实D · 压缩全过程（steps/04）</div><div class="sb">
+      <p><code>node steps/04-compaction/demo-compaction.mjs</code> → <b>✅ 实测</b>：19 条消息估算 799 tok；窗口 800、阈值 680 → shouldCompact=true；切割点第 7 条；保留 13 条原文 467 tok；压缩后 594 tok、释放 205 tok；文件操作清单从 tool_calls 参数提取（readFiles / modifiedFiles）。</p>
+    </div></div>
+    <div class="step s1"><div class="sh">实E · 权限与安全（steps/05）</div><div class="sb">
+      <p><code>node steps/05-security/demo-security.mjs</code> → <b>✅ 实测</b>：9 条命令 5 条被判危险（rm -rf / sudo / curl|sh / chmod 777 / push --force）；同一条危险命令五种姿态——off 放行、ask 拒→拦截、ask 允→放行、strict 直接拦、无人值守 ask→fail-closed 拦截；env 清洗把 DEEPSEEK_API_KEY / GITHUB_TOKEN / MY_PASSWORD 全清掉、保留 PATH/HOME/LANG；非 macOS 上沙箱包裹原样透传 bash -c。</p>
+    </div></div>
+    <div class="step s2"><div class="sh">实F · 四套离线回归自测</div><div class="sb">
+      <p><code>node steps/0X-*/test.mjs</code>（X=2..5）→ <b>✅ 实测 26 + 34 + 44 + 32 = 136 条断言全过，0 失败</b>。覆盖：SSE 断流恢复、残缺 JSON 标记失败、rate limit 不误判为 overflow、清掉 *_API_KEY 等"真踩过坑"的契约。</p>
+    </div></div>
+    <div class="callout co-fact"><b class="t">环境说明</b>本机为 Windows：demo-security 的 sandbox-exec 分支按设计原样透传（macOS 专用），test.mjs 亦明确断言"非 macOS 开启也不改变行为"——跨平台行为符合仓库设计，不算缺失。</div>
+  </div>
+</div>
+
+<!-- ═══════════ 能力清单 ═══════════ -->
+<h2 class="sec">这个项目给我什么 · 能力清单</h2>
+<div class="abil">
+  <div class="a a1"><b>① 会读工业级 agent 源码</b>拿到"行号级"读法：先看调用栈分层（产品层策略/内核层循环/协议层容错），再看错误契约和事件序列闭合这两个不变式。</div>
+  <div class="a a2"><b>② 能从零写一个能干活的 agent</b>118 行起步：while + 三工具 + safePath；再按 step02-05 逐层加协议适配、工具流水线、压缩、安全——每步可运行可对照。</div>
+  <div class="a a3"><b>③ 掌握协议适配层套路</b>API×Provider 两维拆分；本仓库实验里自写的 OpenAI→Anthropic shim 就是这套思想的 130 行实例，可直接复用在国产端点上。</div>
+  <div class="a a4"><b>④ 会选型 coding agent 的安全档位</b>用 sandbox×approval 两轴评估 pi/codex/grok-build/dsh/Claude Code，先查默认姿态再谈能力，别假设 agent 替你兜底。</div>
+  <div class="a a5"><b>⑤ 会给长任务 agent 设计压缩</b>阈值/溢出双路径触发、切割点、结构化摘要模板、文件操作追踪——可搬进任何自研 agent。</div>
+  <div class="a a6"><b>⑥ 一套离线可回归的 agent 测试范式</b>136 条断言示范了怎么测"打不到网络也能测"的 agent 契约（SSE 断流、截断、限流误判、env 清洗）。</div>
+</div>
+
+<div class="footer">
+  <b>产出档案</b>：本指南 PDF ＋ exercise\（anthropic-shim.mjs 协议适配层 · live-demo 真跑记录 agent-run.log / agent-sandbox.log / poem.txt）｜上游仓库已克隆至 repo\（不随总仓库提交）｜知识入库：[[沙箱与审批正交]] [[工具调用三段式流水线]] [[Compaction上下文压缩算法]] [[Provider适配层与错误契约]] 四条新概念，与 [[Agent循环]] [[AgentHarness智能体挽具]] [[上下文预算与战略压缩]] [[工具调用生命周期]] [[提示注入]] [[ChatModel与消息类型]] 互链。
+</div>
+
+</div>
+</body>
+</html>
