@@ -1,0 +1,5 @@
+file 'F:/reminder/ai_shortdrama_tools/exercise/output/segment_0.mp4'
+file 'F:/reminder/ai_shortdrama_tools/exercise/output/segment_1.mp4'
+file 'F:/reminder/ai_shortdrama_tools/exercise/output/segment_2.mp4'
+file 'F:/reminder/ai_shortdrama_tools/exercise/output/segment_3.mp4'
+file 'F:/reminder/ai_shortdrama_tools/exercise/output/segment_4.mp4'

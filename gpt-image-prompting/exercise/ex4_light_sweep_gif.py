@@ -54,12 +54,16 @@ def softbox_frame(base_arr, center_x, band_w=W * 0.28, peak=34.0, warm=0.55):
     sigma = band_w / 4.0  # 光带边缘高斯羽化（softbox 亮度分布）
     prof = np.exp(-0.5 * ((xs - center_x) / sigma) ** 2)          # (W,)
     prof[prof < np.exp(-0.5 * 3.2 ** 2)] = 0.0  # 3.2σ 外硬截止：光带有确定支撑域
-    add = (peak * prof)[None, :, None]                            # (1,W,1)
-    warm_gain = 1.0 + warm * prof                                 # 暖色轻微提升
+    # 坑：叠加向量必须保持 1D(W,) 与 (H,W) 做尾轴广播。
+    # 若 reshape 成 (1,W,1) 再加 (H,W)，当 H==W 时会静默广播成 (H,W,W)
+    # （800x800 图 = 4GB 临时数组），且每像素错拿 prof[0] 的值。
+    r_add, g_add, b_add = peak * prof, peak * prof * 0.92, peak * prof * 0.80
+    wg_r = 1.0 + warm * prof                       # 暖色轻微提升（R 增益最大）
+    wg_g = 1.0 + (warm - 0.35) * prof * 0.3
     out = base_arr.astype(np.float64).copy()
-    out[..., 0] = np.clip(out[..., 0] * warm_gain + add, 0, 255)  # R 受暖偏+亮度
-    out[..., 1] = np.clip(out[..., 1] * (1.0 + (warm - 0.35) * prof * 0.3) + add * 0.92, 0, 255)
-    out[..., 2] = np.clip(out[..., 2] + add * 0.80, 0, 255)       # B 提升最少 -> 偏暖
+    out[..., 0] = np.clip(out[..., 0] * wg_r + r_add, 0, 255)  # R 受暖偏+亮度
+    out[..., 1] = np.clip(out[..., 1] * wg_g + g_add, 0, 255)
+    out[..., 2] = np.clip(out[..., 2] + b_add, 0, 255)         # B 提升最少 -> 偏暖
     return out.astype(np.uint8)
 
 # ---------- 第 3 步：扫光序列（底图像素从头到尾完全复用） ----------
@@ -72,47 +76,51 @@ def sweep_frames(base, n=48):
 # ---------- 第 4 步：验证 ----------
 def verify(base, frames, centers_list):
     base_arr = np.asarray(base).astype(np.int16)
-    xs = np.arange(W)
     sigma = (W * 0.28) / 4.0
     logo = (138, 300, 262, 480)  # 标签/Logo/文字区域
     lb = base_arr[logo[1]:logo[3], logo[0]:logo[2]]
 
-    far_identical = 0      # 光带远离时，整帧应与底图逐像素一致
-    far_idx = [0, len(frames) - 1] + list(range(0, len(frames), 8))
-    for c in far_idx:
-        fr = np.asarray(frames[c]).astype(np.int16)
-        if np.abs(fr - base_arr).sum() == 0:
-            far_identical += 1
-    logo_seen_untouched = 0
+    # 不变量1：每一帧在光带 3.2σ 支撑域之外与底图逐像素严格一致（几何冻结的构造性证明）
+    xs = np.arange(W, dtype=np.float64)
+    ok1, worst = 0, 0
+    for c, fr_img in zip(centers_list, frames):
+        fr = np.asarray(fr_img).astype(np.int16)
+        outside = np.abs(xs - c) >= 3.2 * sigma
+        d = np.abs(fr[:, outside] - base_arr[:, outside]).max()
+        worst = max(worst, d)
+        if d == 0:
+            ok1 += 1
+    print(f"[V1] 48帧光带支撑域外逐像素==底图: {ok1}/48 (最大偏差 {worst}) "
+          + ("PASS" if ok1 == 48 and worst == 0 else "FAIL"))
+
+    # 不变量2：光带未触及时的 Logo/文字像素零改动
+    ok2, tot2 = 0, 0
     for c in centers_list:
-        # 光带 3σ 覆盖不到标签区时，Logo/文字像素必须零改动
-        band_reach = 3 * sigma
-        if not (c + band_reach > logo[0] and c - band_reach < logo[2]):
-            idx = int((c - centers_list[0]) / (centers_list[1] - centers_list[0]))
+        if c + 3.2 * sigma <= logo[0] or c - 3.2 * sigma >= logo[2]:
+            tot2 += 1
+            idx = int(round((c - centers_list[0]) / (centers_list[1] - centers_list[0])))
             fr = np.asarray(frames[idx]).astype(np.int16)
             if np.abs(fr[logo[1]:logo[3], logo[0]:logo[2]] - lb).sum() == 0:
-                logo_seen_untouched += 1
-    n_far = len(far_idx)
-    logo_checks = sum(1 for c in centers_list
-                      if not (c + 3 * sigma > logo[0] and c - 3 * sigma < logo[2]))
-    print(f"[V1] 光带远离帧整帧==底图: {far_identical}/{n_far} PASS"
-          if far_identical == n_far else f"[V1] FAIL {far_identical}/{n_far}")
-    print(f"[V2] Logo/文字区零改动帧: {logo_seen_untouched}/{logo_checks} PASS"
-          if logo_seen_untouched == logo_checks else "[V2] FAIL")
+                ok2 += 1
+    print(f"[V2] Logo/文字区零改动帧: {ok2}/{tot2} " + ("PASS" if ok2 == tot2 and tot2 > 0 else "FAIL"))
 
-    # GIF 回读验证
+    # GIF 回读验证（GIF 为 256 色调色板，有损编码：报告量化偏差的实际量级）
+    # 结论口径：几何不变量在合成帧层严格为 0（V1/V2）；GIF 调色板层只引入色差、不动几何
     import io
+    pal = frames[0].quantize(colors=256, method=Image.Quantize.MEDIANCUT)
+    q_frames = [f.quantize(palette=pal, dither=Image.Dither.NONE) for f in frames]
     buf = io.BytesIO()
-    frames[0].save(buf, format="GIF", save_all=True, append_images=frames[1:],
-                   duration=50, loop=0)
+    q_frames[0].save(buf, format="GIF", save_all=True, append_images=q_frames[1:],
+                     duration=50, loop=0)
     buf.seek(0)
     g = Image.open(buf)
     n_ok = g.n_frames == len(frames)
     loop_ok = g.info.get("loop") == 0
     f0 = np.asarray(g.convert("RGB")).astype(np.int16)
-    f0_ok = np.abs(f0 - np.asarray(frames[0]).astype(np.int16)).max() <= 1
+    dq = np.abs(f0 - np.asarray(frames[0]).astype(np.int16))
+    q_max, q_mean = dq.max(), dq.mean()
     print(f"[V3] GIF 回读: n_frames={g.n_frames}=={len(frames)} {n_ok}, loop=0 {loop_ok}, "
-          f"首帧回读偏差<=1 {f0_ok}")
+          f"首帧量化色差 max={q_max} mean={q_mean:.2f} (mean<=3 {q_mean <= 3})")
     return buf.getvalue()
 
 # ---------- 第 5 步：反例演示（模拟"多帧重绘抖动"，确定性种子，非真实模型输出） ----------
@@ -137,6 +145,14 @@ def jitter_metric(frames, base):
         diffs.append(d.mean())
     return diffs
 
+def bottle_edge_x(img, row=None):
+    """行扫描：瓶身左边缘的 x 坐标（背景→琥珀色瓶身的第一个突变列）。"""
+    row = row or H // 2
+    arr = np.asarray(img).astype(np.int16)
+    bg = arr[row, 5].astype(np.int16)
+    d = np.abs(arr[row] - bg).sum(axis=1)
+    return int(np.argmax(d > 60))
+
 if __name__ == "__main__":
     base = build_base()
     base.save("ex4_base.png")
@@ -153,8 +169,12 @@ if __name__ == "__main__":
 
     jf = jitter_fail_demo(base)
     jd = jitter_metric(jf, base)
-    print(f"[S4] 反例(模拟逐帧重绘, seed=7): 各帧与底图 MAD={['%.2f' % x for x in jd]} "
-          f"max={max(jd):.2f} -> 瓶身/文字几何被逐帧搬动")
+    base_edge = bottle_edge_x(base)
+    j_edges = [bottle_edge_x(f) - base_edge for f in jf]
+    s_edge = bottle_edge_x(frames[0]) - base_edge
+    print(f"[S4] 反例(模拟逐帧重绘, seed=7): MAD={['%.2f' % x for x in jd]} max={max(jd):.2f}；"
+          f"瓶身左边缘位移={['%+d' % e for e in j_edges]}px -> 几何被逐帧搬动")
     # 扫光管线同指标应为 0（光带远离时整帧==底图）
     sd = jitter_metric([frames[0]], base)
-    print(f"[S5] 对照(底图复用管线): 首帧 MAD={sd[0]:.2f} -> 0 改动，几何由构造保证")
+    print(f"[S5] 对照(底图复用管线): 首帧 MAD={sd[0]:.2f}，瓶身边缘位移 {s_edge:+d}px -> "
+          f"0 改动，几何由构造保证")

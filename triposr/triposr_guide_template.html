@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>TripoSR 小白指南</title>
+<style>
+  @page { size: A4; margin: 12mm; }
+  :root{
+    --red:#e63946; --orange:#ff9f1c; --yellow:#ffd166; --green:#06d6a0;
+    --blue:#1d9bf0; --purple:#9b5de5; --ink:#2b2d42; --bg:#fff8f0; --card:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:13.5px; line-height:1.7;}
+  .cover{background:linear-gradient(135deg,#e63946 0%,#ff9f1c 55%,#ffd166 100%); border-radius:18px; padding:34px 36px; color:#fff; margin-bottom:22px;}
+  .cover h1{margin:0 0 6px; font-size:34px; letter-spacing:1px; text-shadow:2px 2px 0 rgba(0,0,0,.18);}
+  .cover .sub{font-size:16px; font-weight:bold; opacity:.97;}
+  .chips{margin-top:14px; display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{background:rgba(255,255,255,.92); color:#c1121f; font-weight:bold; border-radius:999px; padding:4px 14px; font-size:12.5px;}
+  h2.sec{display:inline-block; font-size:21px; margin:26px 0 12px; padding:4px 18px; border-radius:10px; color:#fff;}
+  .s1{background:var(--red);} .s2{background:var(--blue);} .s3{background:var(--green);} .s4{background:var(--purple);} .s5{background:var(--orange);}
+  .qcard{background:var(--card); border-radius:14px; padding:16px 20px 14px; margin:12px 0; box-shadow:0 2px 10px rgba(43,45,66,.08); break-inside:avoid; border-top:6px solid var(--blue);}
+  .qcard:nth-child(odd){border-top-color:var(--orange);}
+  .qnum{font-size:30px; font-weight:900; color:var(--red); line-height:1; margin-right:8px;}
+  .qtitle{font-size:16.5px; font-weight:900;}
+  .qbody{margin-top:8px;}
+  .hl{background:linear-gradient(transparent 55%, #ffe066 55%); font-weight:bold; padding:0 2px;}
+  .term{color:var(--purple); font-weight:bold;}
+  .big{font-size:15.5px; font-weight:900; color:var(--red);}
+  table{border-collapse:collapse; width:100%; margin:10px 0; break-inside:avoid;}
+  th{background:var(--blue); color:#fff; padding:7px 9px; font-size:13px;}
+  td{border:1.5px solid #e5e5e5; padding:6px 9px; background:#fff; font-size:12.8px;}
+  tr:nth-child(even) td{background:#f2f7ff;}
+  .tag{display:inline-block; border-radius:6px; padding:1px 8px; font-size:11.5px; font-weight:bold; color:#fff; margin-right:4px;}
+  .svgbox{background:#f6f9ff; border:2px dashed var(--blue); border-radius:12px; padding:10px; margin:12px 0; break-inside:avoid; text-align:center;}
+  .svgbox .cap{font-size:12px; color:#555; margin-top:6px; font-weight:bold;}
+  .imgrow{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:10px 0; break-inside:avoid;}
+  .imgcard{background:#fff; border-radius:12px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.12); text-align:center;}
+  .imgcard img{border-radius:8px; display:block;}
+  .imgcard .cap{font-size:11.5px; font-weight:bold; color:#444; margin-top:4px;}
+  .step{background:#fff; border-radius:14px; margin:12px 0; padding:14px 18px; box-shadow:0 2px 8px rgba(0,0,0,.08); break-inside:avoid; border-left:8px solid var(--green);}
+  .step h4{margin:0 0 6px; font-size:15.5px; color:#0a7a5c;}
+  .cmd{background:#1b2033; color:#a7f3d0; font-family:Consolas,monospace; font-size:11.8px; border-radius:8px; padding:9px 12px; margin:6px 0; white-space:pre-wrap; word-break:break-all;}
+  .out{background:#fffbe8; border:1.5px solid var(--yellow); font-family:Consolas,monospace; font-size:11.8px; border-radius:8px; padding:8px 12px; margin:6px 0; white-space:pre-wrap; word-break:break-all;}
+  .ok{background:#e7fbf3; border:2px solid var(--green); border-radius:10px; padding:8px 12px; margin:8px 0; font-weight:bold;}
+  .warn{background:#fff0f0; border:2px solid var(--red); border-radius:10px; padding:8px 12px; margin:8px 0;}
+  .pit{background:#fff; border-radius:12px; margin:9px 0; padding:10px 16px; box-shadow:0 2px 6px rgba(0,0,0,.08); break-inside:avoid; border-left:8px solid var(--red);}
+  .pit b{color:var(--red);}
+  .ability{display:flex; gap:10px; flex-wrap:wrap;}
+  .ab{flex:1 1 30%; min-width:220px; background:linear-gradient(160deg,#ffffff,#f1f8ff); border:2px solid var(--blue); border-radius:12px; padding:10px 14px; break-inside:avoid;}
+  .ab b{color:var(--blue);}
+  .footer{margin-top:24px; text-align:center; color:#888; font-size:11.5px;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>TripoSR 小白指南</h1>
+  <div class="sub">一张照片，几秒钟，变出可旋转、可下载、能进 Three.js 的 3D 模型</div>
+  <div class="chips">
+    <span class="chip">⭐ GitHub 7000+ 星</span>
+    <span class="chip">📜 MIT 全开源（代码+权重）</span>
+    <span class="chip">⚡ 0.5 秒 @A100 / 2.3 秒 @RTX 4070 实测</span>
+    <span class="chip">🦆 本机真跑通：小黄鸭 86,480 面</span>
+    <span class="chip">🧩 Stability AI × Tripo 联合出品</span>
+  </div>
+</div>
+
+<h2 class="sec s1">₀ 这条推文到底在说什么（以及为什么值得学）</h2>
+<div class="qcard">
+  <div class="qbody">
+    一条葡萄牙语推文说：<span class="hl">"对正在测试 GPT-6 Astra 的人这是金矿，Tripo 收集了 153+ 个 Astra 提示词，覆盖真实的 3D 与游戏工作流"</span>。顺着链接查下去，指向的是 Tripo（tripo3d.ai，背后公司 VAST AI）维护的 <b>3D 提示词库</b>——现已收录 488 条针对 Astra / Claude / Kimi 的提示词与案例，每条都带源码链接和 GitHub 项目。
+    <br><br>
+    表面看是"商业 AI 工具的效果展示"，但按"能不能动手"的标准一查证：<span class="big">Tripo 背后有一整条可动手的开源链路</span>——本地图生 3D 模型 TripoSR（MIT 协议，权重随便下）、官方 MCP 服务器 tripo-mcp（把 3D 生成接进 Claude）、Python SDK。商业云API只是这条链路的"付费加速版"。所以本指南学的是：AI 文生 3D / 图生 3D 这件事的<b>完整原理 + 本机实战</b>。
+  </div>
+</div>
+
+<div class="svgbox">
+<svg width="700" height="128" viewBox="0 0 700 128" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#e63946"/></marker></defs>
+  <rect x="8" y="30" width="120" height="56" rx="10" fill="#1d9bf0"/>
+  <text x="68" y="53" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">推文里的提示词库</text>
+  <text x="68" y="72" text-anchor="middle" fill="#dbeeff" font-size="10">488 条 Astra/Claude/Kimi</text>
+  <rect x="170" y="30" width="120" height="56" rx="10" fill="#9b5de5"/>
+  <text x="230" y="53" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">AI 写提示词/代码</text>
+  <text x="230" y="72" text-anchor="middle" fill="#efe6ff" font-size="10">GPT-6 Astra 等</text>
+  <rect x="332" y="30" width="120" height="56" rx="10" fill="#ff9f1c"/>
+  <text x="392" y="53" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">3D 生成引擎</text>
+  <text x="392" y="72" text-anchor="middle" fill="#fff3e0" font-size="10">Tripo 云 API / TripoSR 本地</text>
+  <rect x="494" y="30" width="110" height="56" rx="10" fill="#06d6a0"/>
+  <text x="549" y="53" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">GLB 3D 资产</text>
+  <text x="549" y="72" text-anchor="middle" fill="#dcfff5" font-size="10">游戏 / Three.js / Blender</text>
+  <line x1="128" y1="58" x2="168" y2="58" stroke="#e63946" stroke-width="2.5" marker-end="url(#a)"/>
+  <line x1="290" y1="58" x2="330" y2="58" stroke="#e63946" stroke-width="2.5" marker-end="url(#a)"/>
+  <line x1="452" y1="58" x2="492" y2="58" stroke="#e63946" stroke-width="2.5" marker-end="url(#a)"/>
+  <rect x="560" y="96" width="132" height="24" rx="8" fill="#e63946"/>
+  <text x="626" y="112" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">本指南学红色这条链</text>
+</svg>
+<div class="cap">图 0 ｜ 从"看热闹"（左）到"动手做"（右）：提示词只是入口，3D 生成引擎才是要吃透的核心</div>
+</div>
+
+<h2 class="sec s1">一、入门四问：它是什么，凭什么快</h2>
+
+<div class="qcard"><span class="qnum">Q1</span><span class="qtitle">TripoSR 一句话是什么？和 Tripo 网站什么关系？</span>
+  <div class="qbody">
+    <span class="hl">TripoSR 是一个"单张照片 → 3D 网格模型"的开源前馈模型：喂一张图，一次神经网络前向推理就直接吐出 3D 网格，不需要多视角照片，也不需要逐场景训练。</span>它是 Stability AI 和 Tripo AI（VAST 公司）2024 年 3 月的联合作品，是学术模型 <span class="term">LRM（Large Reconstruction Model，大型重建模型）</span>思路的工程化精品。
+    <br><br>
+    和 Tripo 网站的关系：<b>Tripo 网站是商业 3D 生成平台</b>（文生 3D、图生 3D，质量更高、在线用），<b>TripoSR 是同一批人放出来的开源"极速版"</b>——类似"商用版 Cursor 和开源 small 模型"的关系：一个真能打，一个让你把原理和管线整个搬回家研究。
+  </div>
+</div>
+
+<div class="qcard"><span class="qnum">Q2</span><span class="qtitle">没有它之前，从一张照片拿 3D 模型要怎么干？为什么不行？</span>
+  <div class="qbody">
+    老三样，各有硬伤：
+    <table>
+      <tr><th>路线</th><th>怎么干</th><th>硬伤</th></tr>
+      <tr><td><b>摄影测量</b>（COLMAP 类）</td><td>绕物体拍几十上百张照片，三角化+多视图立体重建</td><td>要拍一圈，分钟级，弱纹理区域全是洞</td></tr>
+      <tr><td><b>NeRF / 3DGS</b>（知识库已有两条笔记）</td><td>也是一圈照片，训练神经网络或高斯椭球云来"记住"场景</td><td><span class="hl">每个新物体都要重新训练几分钟到几十分钟，输出是"照片级画面"而不是干净网格</span></td></tr>
+      <tr><td><b>手工建模</b></td><td>Blender 里拉顶点</td><td>一小时起步，还考验美术功底</td></tr>
+    </table>
+    TripoSR 的答案：<span class="hl">把"重建"变成"模式识别"</span>——模型在几十万 3D 物体上预训练过，见过足够多的椅子，所以看到一张新椅子照片，<b>一次前向推理（约 2 秒）</b>直接"脑补"出完整 3D，既不拍一圈、也不逐物体训练。
+  </div>
+</div>
+
+<div class="qcard"><span class="qnum">Q3</span><span class="qtitle">LRM「大型重建模型」凭什么一次前向就出 3D？</span>
+  <div class="qbody">
+    关键思想一句话：<span class="hl">把 3D 重建当成"翻译"——图片是源语言，3D 场景表示是目标语言，用 Transformer 一次翻译到位。</span>
+    <br><br>
+    打个比方（讲完落回术语）：传统重建像<b>画家写生</b>，要对着一处反复端详（逐像素优化、迭代收敛），画一张画用一套时间；LRM 像<b>熟读十万张脸的画像师</b>，瞥一眼就凭"经验"（预训练权重里的先验）直接落笔成画。技术上：
+    <ul style="margin:6px 0;">
+      <li>输入图先过 <span class="term">DINO ViT-B/16</span>（Meta 的自监督视觉 Transformer）提特征——相当于"读懂"图里是什么；</li>
+      <li>然后一组<b>可学习的 3D 场景 token</b>（TripoSR 里是 3×32×32=3072 个）通过 16 层 Transformer 的<b>交叉注意力</b>去"看"图片特征，把自己的值刷新成对这个 3D 物体的完整描述；</li>
+      <li>因为训练时见过海量"图 ↔ 3D"配对，<span class="big">先验知识全焊死在权重里</span>，推理时不需要任何迭代优化——这就是"快"的全部秘密。</li>
+    </ul>
+    与知识库里 <b>[[点图与前馈重建]]</b>（DUSt3R 一脉）对照：那一家是"每像素回归 (X,Y,Z) 坐标点云"，输入是多张图、输出是点云；LRM 这一支输入单图、输出是"可查询的 3D 场景表示"（三平面），<b>同属"前馈替代迭代优化"思想</b>，但拿的是不同表示。
+  </div>
+</div>
+
+<div class="qcard"><span class="qnum">Q4</span><span class="qtitle">Triplane 三平面表示是什么？为什么不用 NeRF 的 MLP、也不用 3DGS 的高斯？</span>
+  <div class="qbody">
+    <span class="term">Triplane（三平面）</span>：把一个 3D 物体的信息"压扁"存进三张互相垂直的 2D 特征图——XY 平面、YZ 平面、XZ 平面各一张。<span class="hl">空间中任意一点的特征 = 从这一点向三个平面各做一次投影，把三个特征向量拼接起来</span>。就像用"身份证号、户口本、学籍档案"三份材料共同描述一个人：单独一份信息不全，三份一对就是完整的你。
+    <table>
+      <tr><th>表示</th><th>存什么</th><th>取一点的特征</th><th>缺点</th></tr>
+      <tr><td>NeRF 原版</td><td>一个大 MLP（坐标→颜色密度）</td><td>跑一遍 MLP</td><td>查询慢，训练更慢</td></tr>
+      <tr><td><b>Triplane</b></td><td>3 张 64×64×40 特征图 + 小 MLP 解码</td><td>3 次查表 + 拼接 + 小 MLP</td><td>内存 3 倍（可接受）</td></tr>
+      <tr><td>3DGS</td><td>百万个彩色椭球</td><td>直接就是数据本身</td><td>不便转成网格资产</td></tr>
+    </table>
+    Triplane 的妙处：<span class="hl">Transformer 天然输出的是"一组 token"，而三平面恰好就是"三张由 token 摆成的图"</span>——3072 个 token 重排成 3×32×32，过一个转置卷积上采样成 3×64×64，后面接个小 MLP 就能查任意点的密度和颜色。它让"Transformer 直接生成 3D 表示"变得毫不别扭，这是 LRM 家族选它的核心原因。TripoSR 实测配置：3 平面 × 64×64 × 40 通道，解码 MLP 仅 9 层×64 神经元。
+  </div>
+</div>
+
+<h2 class="sec s2">二、管线四问：一张照片进来，网格怎么出去</h2>
+
+<div class="svgbox">
+<svg width="720" height="150" viewBox="0 0 720 150" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="b" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#1d9bf0"/></marker></defs>
+  <rect x="6" y="40" width="86" height="52" rx="9" fill="#ffd166"/><text x="49" y="62" text-anchor="middle" font-size="11" font-weight="bold">输入图 512²</text><text x="49" y="79" text-anchor="middle" font-size="9.5">rembg 抠背景</text>
+  <rect x="108" y="40" width="86" height="52" rx="9" fill="#06d6a0"/><text x="151" y="62" text-anchor="middle" font-size="11" font-weight="bold">DINO ViT</text><text x="151" y="79" text-anchor="middle" font-size="9.5">1024 个图 token</text>
+  <rect x="210" y="40" width="96" height="52" rx="9" fill="#1d9bf0"/><text x="258" y="62" text-anchor="middle" font-size="11" font-weight="bold">Transformer ×16</text><text x="258" y="79" text-anchor="middle" font-size="9.5">交叉注意力刷新</text>
+  <rect x="322" y="40" width="96" height="52" rx="9" fill="#9b5de5"/><text x="370" y="58" text-anchor="middle" font-size="11" font-weight="bold">三平面 token</text><text x="370" y="74" text-anchor="middle" font-size="9.5">3×32×32×1024</text><text x="370" y="87" text-anchor="middle" font-size="9.5">→上采样3×64×64×40</text>
+  <rect x="434" y="40" width="86" height="52" rx="9" fill="#ff9f1c"/><text x="477" y="62" text-anchor="middle" font-size="11" font-weight="bold">NeRF MLP</text><text x="477" y="79" text-anchor="middle" font-size="9.5">查密度/颜色</text>
+  <rect x="536" y="40" width="86" height="52" rx="9" fill="#e63946"/><text x="579" y="58" text-anchor="middle" font-size="11" font-weight="bold">密度场</text><text x="579" y="74" text-anchor="middle" font-size="9.5">256³ 采样体</text><text x="579" y="87" text-anchor="middle" font-size="9.5">σ&gt;25 = 实体</text>
+  <rect x="638" y="40" width="76" height="52" rx="9" fill="#2b2d42"/><text x="676" y="62" text-anchor="middle" font-size="11" font-weight="bold">mesh.glb</text><text x="676" y="79" text-anchor="middle" font-size="9.5">8.4 万面</text>
+  <line x1="92" y1="66" x2="106" y2="66" stroke="#1d9bf0" stroke-width="2.5" marker-end="url(#b)"/>
+  <line x1="194" y1="66" x2="208" y2="66" stroke="#1d9bf0" stroke-width="2.5" marker-end="url(#b)"/>
+  <line x1="306" y1="66" x2="320" y2="66" stroke="#1d9bf0" stroke-width="2.5" marker-end="url(#b)"/>
+  <line x1="418" y1="66" x2="432" y2="66" stroke="#1d9bf0" stroke-width="2.5" marker-end="url(#b)"/>
+  <line x1="520" y1="66" x2="534" y2="66" stroke="#1d9bf0" stroke-width="2.5" marker-end="url(#b)"/>
+  <line x1="622" y1="66" x2="636" y2="66" stroke="#1d9bf0" stroke-width="2.5" marker-end="url(#b)"/>
+  <text x="360" y="128" text-anchor="middle" font-size="10.5" fill="#666">RTX 4070 实测：整条链路 ≈ 2.3 秒（不含抠图与网格提取）</text>
+</svg>
+<div class="cap">图 1 ｜ TripoSR 推理管线全景（依据 repo\tsr\system.py 与 HF config.yaml 逐行核对）</div>
+</div>
+
+<div class="qcard"><span class="qnum">Q5</span><span class="qtitle">Marching Cubes 在管线末尾干什么活？</span>
+  <div class="qbody">
+    模型输出的是<b>连续的密度场</b>（空间每点一个" solidity "数值），而我们要的是<b>离散网格</b>（顶点+三角面）。<span class="term">Marching Cubes（移动立方体）</span>就是两者之间的翻译官：把空间切成 256×256×256 的小方块格子，逐格子检查 8 个角点的密度——<span class="hl">凡是"角点有的在物体内部（σ&gt;阈值）、有的在外部"的格子，等值面必从中间穿过，就在这个格子里切出一小片三角面</span>。全部格子扫完，几万片小三角拼成水密网格。名字里的"marching"就是指扫描格子像行军一样一格格推进。
+    <br><br>
+    实验彩蛋：官方实现依赖的 <b>torchmcubes 需要本地编译 CUDA 扩展</b>（要装 CUDA Toolkit + MSVC），本机没有。我们用 scikit-image 的 marching_cubes 写了 40 行<b>接口兼容垫片（shim）</b>顶上——GPU 上跑主网络、只在最后网格提取一步落 CPU，效果相同（这正是上游代码自带的 CPU 回退路径）。<span class="hl">"不改核心代码、只替换最边缘的依赖"是给老项目续命的常用手法。</span>
+  </div>
+</div>
+
+<div class="qcard"><span class="qnum">Q6</span><span class="qtitle">输入照片要做什么预处理？</span>
+  <div class="qbody">
+    两步，都自动：
+    <ol style="margin:6px 0 6px 18px;">
+      <li><span class="term">rembg 抠背景</span>：U²-Net 把主体从背景里抠出来（AI 3D 模型只认"白底灰底的孤立物体"，照片里的杂乱背景会污染重建）；实测连"玻璃碗里的小黄鸭"都能正确分离主体；</li>
+      <li><span class="term">前景缩放</span>（resize_foreground，默认前景占比 85%）+ 缩放到 512×512 + 灰底混合——让物体居中、大小标准化，模型见到的分布才和训练时一致。</li>
+    </ol>
+    也可以用 <code>--no-remove-bg</code> 跳过第 1 步，前提是你自己保证图是干净灰底的。
+  </div>
+</div>
+
+<div class="qcard"><span class="qnum">Q7</span><span class="qtitle">一次推理内部，数据到底怎么流？（读代码版）</span>
+  <div class="qbody">
+    按 <code>repo\tsr\system.py</code> 的 <code>forward()</code> 逐行对应：
+    <span class="cmd">image 512² → DINO 编码 → 1024 个图特征 token (768 维)
+3072 个可学习 triplane token（初始化自 tokenizer）
+   ⇄ 16 层 Transformer1D，交叉注意力看图特征（cross_attention_dim=768）
+→ detokenize 重排成 3×32×32×1024
+→ ConvTranspose2d(stride 2) 上采样 → 3×64×64×40（post_processor）
+→ 任意点特征 = 三平面双线性采样拼接 120 维 → NeRFMLP(9×64) → 密度σ/颜色RGB</span>
+    网格提取时再对 256³ 个格子中心全查一遍密度（chunk 8192 一批），σ&gt;25 处用 marching cubes 萃取，<span class="hl">顶点颜色 = 把顶点坐标再送一次同样的三平面查询拿 RGB</span>——所以顶点色和几何出自同一个三平面场，天然对齐。
+  </div>
+</div>
+
+<div class="qcard"><span class="qnum">Q8</span><span class="qtitle">--mc-resolution 等参数怎么影响结果？（实测数据）</span>
+  <div class="qbody">
+    <table>
+      <tr><th>--mc-resolution</th><th>网格顶点</th><th>三角面</th><th>提取耗时(实测)</th><th>观感</th></tr>
+      <tr><td>128</td><td>10,210</td><td>20,420</td><td>0.27 s</td><td>轮廓略糙，预览够用</td></tr>
+      <tr><td><b>256（默认）</b></td><td>42,076</td><td>84,156</td><td>1.79 s</td><td>细节与体积的最佳平衡</td></tr>
+      <tr><td>384</td><td>95,578</td><td>191,164</td><td>5.77 s</td><td>更顺滑，收益已递减</td></tr>
+    </table>
+    <div class="imgrow">
+      <div class="imgcard"><img width="200" src="__IMG_R128__"><div class="cap">mc-res 128（渲染帧）</div></div>
+      <div class="imgcard"><img width="200" src="__IMG_R384__"><div class="cap">mc-res 384（渲染帧）</div></div>
+    </div>
+    规律：<span class="hl">分辨率×3 → 面数×9.4（约立方增长）、耗时×21</span>。另有 <code>--foreground-ratio</code>（抠图后主体占比）、<code>--chunk-size</code>（显存不够调小）、<code>threshold=25</code>（密度阈值，调大模型变"瘦"）。
+  </div>
+</div>
+
+<h2 class="sec s3">三、应用四问：产出能干什么，生态怎么玩</h2>
+
+<div class="qcard"><span class="qnum">Q9</span><span class="qtitle">顶点色 vs 烘焙贴图，差在哪？（都实测了）</span>
+  <div class="qbody">
+    <b>顶点色（默认）</b>：颜色存在每个顶点上，导出即所得，文件小（1.7MB）；放大曲面时颜色分辨率受顶点密度限制。<b>烘焙贴图（--bake-texture）</b>：用 xatlas 把网格摊开成 UV 图，把颜色"画"进一张 1024~2048² 的贴图，细节更省、适合进游戏引擎（10.4MB/1024²）。
+    <div class="imgrow">
+      <div class="imgcard"><img width="230" src="__IMG_TEXTURE__"><div class="cap">小黄鸭的 1024² UV 贴图（实验 4 实际产出）</div></div>
+    </div>
+    <span class="warn">⚠️ 实测坑：上游 <code>tsr/bake_texture.py</code> 的 <code>positions_to_colors()</code> 建张量时漏了 <code>.to(device)</code>，GPU 跑烘焙必报 "grid is on cpu"。exercise\run_bake.py 里一行修复，已实测跑通（32.4 秒烘焙完成）。</span>
+  </div>
+</div>
+
+<div class="qcard"><span class="qnum">Q10</span><span class="qtitle">和知识库里的 DUSt3R 一脉（点图前馈重建）到底什么异同？</span>
+  <div class="qbody">
+    共同点：<span class="hl">都是"前馈替代迭代优化"——Transformer 把几何知识焊进权重，一次前向出结果</span>，都追求快。差异在<b>任务与表示</b>：
+    <table>
+      <tr><th></th><th>[[点图与前馈重建]]（DUSt3R/Pi3）</th><th>TripoSR（LRM 系）</th></tr>
+      <tr><td>输入</td><td>1~N 张照片（可拍一圈）</td><td>仅 1 张</td></tr>
+      <tr><td>输出</td><td>逐像素 (X,Y,Z) 点图（真实尺度感）</td><td>三平面隐式场 → 水密网格 + 顶点色</td></tr>
+      <tr><td>强项</td><td>场景级重建、位姿估计、SLAM 前端</td><td>物体级"生成"，可以脑补被遮挡的背面</td></tr>
+      <tr><td>本质</td><td>重建（reconstruction）：照片里有的才画</td><td>受条件约束的生成（generation）：背面靠先验想象</td></tr>
+    </table>
+    一句话：<span class="big">DUSt3R 是"测绘员"，TripoSR 是"雕塑家"——雕塑家敢雕没看到的那一面，代价是那一面可能雕错。</span>
+  </div>
+</div>
+
+<div class="qcard"><span class="qnum">Q11</span><span class="qtitle">Tripo 生态全景：提示词库、云 API、MCP、开源模型怎么配合？</span>
+  <div class="qbody">
+    <div class="svgbox" style="margin:6px 0;">
+    <svg width="680" height="140" viewBox="0 0 680 140" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="10" width="200" height="52" rx="10" fill="#1d9bf0"/><text x="110" y="32" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">TripoSR（本指南主角）</text><text x="110" y="50" text-anchor="middle" fill="#dbeeff" font-size="10">MIT 开源 · 本地 GPU · 免费无限制</text>
+      <rect x="10" y="78" width="200" height="52" rx="10" fill="#9b5de5"/><text x="110" y="100" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">tripo-mcp（207★ MIT）</text><text x="110" y="118" text-anchor="middle" fill="#efe6ff" font-size="10">官方 MCP 服务器：Claude 直接生成 3D</text>
+      <rect x="250" y="44" width="180" height="52" rx="10" fill="#ff9f1c"/><text x="340" y="66" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Tripo 云 API（商业）</text><text x="340" y="84" text-anchor="middle" fill="#fff3e0" font-size="10">文生3D/图生3D · 质量更高 · 送免费积分</text>
+      <rect x="470" y="10" width="200" height="52" rx="10" fill="#06d6a0"/><text x="570" y="32" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">3D 提示词库 488 条</text><text x="570" y="50" text-anchor="middle" fill="#dcfff5" font-size="10">Astra/Claude/Kimi · 带源码链接</text>
+      <rect x="470" y="78" width="200" height="52" rx="10" fill="#e63946"/><text x="570" y="100" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">下游：Blender/Three.js/游戏</text><text x="570" y="118" text-anchor="middle" fill="#ffe3e3" font-size="10">GLB 一把梭（[[glTF与GLB资产管线]]）</text>
+      <line x1="210" y1="36" x2="248" y2="58" stroke="#888" stroke-width="2" stroke-dasharray="5,4"/>
+      <line x1="210" y1="104" x2="248" y2="82" stroke="#888" stroke-width="2" stroke-dasharray="5,4"/>
+      <line x1="430" y1="58" x2="468" y2="42" stroke="#888" stroke-width="2" stroke-dasharray="5,4"/>
+      <line x1="430" y1="82" x2="468" y2="98" stroke="#888" stroke-width="2" stroke-dasharray="5,4"/>
+    </svg>
+    </div>
+    给 AI 助手接上 3D 能力的两条路：<b>路线 A（免费本地）</b>——照 tripo-mcp 的工具 schema 自己包一层本地 TripoSR 命令（MCP 服务器原理见知识库 [[MCP服务器]]）；<b>路线 B（云质量）</b>——装官方 tripo-mcp，注册 Tripo 拿免费积分，Claude 一句话出模。提示词库则是给 GPT-6 Astra 这类模型喂"3D 生成任务怎么描述"的弹药库。
+  </div>
+</div>
+
+<div class="qcard"><span class="qnum">Q12</span><span class="qtitle">局限与失败案例长什么样？</span>
+  <div class="qbody">
+    <ul style="margin:6px 0 6px 18px;">
+      <li><b>只信一张图，背面靠想象</b>：照片没拍到的背面全凭先验"编"，纹理复杂图案（T恤上的字）背面必糊；</li>
+      <li><b>主体要"一个物体"</b>：多人合影、大场景直接翻车，它是物体级模型不是场景级；</li>
+      <li><b>细薄结构易断</b>：椅腿、杯把手这类细长结构有时缺肢（128 分辨率下尤甚）；</li>
+      <li><b>玻璃/透明材质</b>：抠图阶段就把玻璃碗抠没了，透明物体重建基本无解；</li>
+      <li><b>几何精度是"看起来对"</b>：不是测量级，3D 打印前要 Blender 里检查。</li>
+    </ul>
+    实战中它最舒服的位置：<span class="hl">游戏 demo 的道具灰模、Three.js 网页的快速素材、"我有个想法"的 10 秒验证</span>——先出模再精修，而不是直接出成品。
+  </div>
+</div>
+
+<h2 class="sec s4">四、这个项目给我什么（能力清单）</h2>
+<div class="ability">
+  <div class="ab"><b>① 照片秒变 3D 素材</b><br>任何商品/手办/家具照片 → GLB，2~30 秒，喂给 Three.js 网页或 Blender。</div>
+  <div class="ab"><b>② 游戏道具流水线</b><br>概念图 → TripoSR 灰模 → 引擎里占位试玩，美术确认后再精修。</div>
+  <div class="ab"><b>③ 给 Claude/Agent 装 3D 手</b><br>参考 tripo-mcp 的 schema 把本地 TripoSR 包成 MCP 工具，对话式生 3D。</div>
+  <div class="ab"><b>④ 数据批处理</b><br>run.py 支持一次喂多张图，批量建低模库。</div>
+  <div class="ab"><b>⑤ 学习 LRM 家族的活教材</b><br>代码 5 千行级，是读 triplane/LRM/NeRF 解码的最小完整实现。</div>
+  <div class="ab"><b>⑥ 二创起点</b><br>换 DINO 编码器、调 triplane 分辨率、接 ControlNet 式条件——都有清晰插槽。</div>
+</div>
+
+<h2 class="sec s5">五、动手实验：RTX 4070 实测全记录（6 步）</h2>
+
+<div class="step"><h4>实验 0 ｜ 环境搭建（一次性）</h4>
+<b>目的</b>：跑起最小可用环境。<b>操作</b>（仓库克隆 + 独立 venv，Python 3.12）：
+<div class="cmd">git clone https://github.com/VAST-AI-Research/TripoSR repo
+D:\python\python.exe -m venv repo\.venv
+repo\.venv\Scripts\pip install torch --index-url https://download.pytorch.org/whl/cu126
+repo\.venv\Scripts\pip install "numpy<2.3" omegaconf==2.3.0 Pillow einops==0.7.0 "transformers==4.35.0" "huggingface-hub==0.17.3" "trimesh==4.4.9" rembg onnxruntime "imageio[ffmpeg]" xatlas scikit-image scipy moderngl==5.10.0
+curl -L -o repo\pretrained\model.ckpt https://huggingface.co/stabilityai/TripoSR/resolve/main/model.ckpt   # 1.68 GB</div>
+权重 1,677,246,742 字节与 HF 标称 content-length 逐字节一致。官方 requirements 的 torchmcubes 需编译 CUDA 扩展（本机无 nvcc），用 exercise\torchmcubes.py（skimage 垫片，40 行）+ <code>PYTHONPATH</code> 顶替。</div>
+
+<div class="step"><h4>实验 1 ｜ 官方示例图 → 3D 网格（跑通即胜利）</h4>
+<b>目的</b>：验证管线端到端。<b>操作</b>：
+<div class="cmd">cd repo
+PYTHONPATH=F:\reminder\triposr\exercise .venv\Scripts\python.exe run.py examples/chair.png --device cuda:0 --pretrained-model-name-or-path pretrained --output-dir ../exercise/out_chair --model-save-format glb</div>
+<b>真实输出</b>：
+<div class="out">Initializing model finished in 4603.06ms.
+Processing images finished in 8121.06ms.     ← rembg 抠图（首次含下载 U²-Net 权重）
+Running model finished in 2265.61ms.          ← DINO+Transformer+三平面，真正的"秒生"
+Extracting mesh finished in 1793.65ms.        ← 256³ marching cubes（skimage 垫片）
+Exporting mesh finished in 10.53ms.
+→ out_chair/0/mesh.glb  1.68MB  42,076 顶点 / 84,156 面 / 水密=True</div>
+<div class="ok">✅ 预期结果：mesh.glb 生成，trimesh 读回 vertices≈4.2 万、faces≈8.4 万、is_watertight()==True（实测一致）</div></div>
+
+<div class="step"><h4>实验 2 ｜ 自选照片：玻璃碗里的小黄鸭</h4>
+<b>目的</b>：用非官方、有干扰物的真实照片验证泛化。<b>操作</b>：同上，把输入换成 <code>exercise\duck.jpg</code>（Wikimedia Commons 公版图，779×495），输出目录 out_duck。
+<div class="out">Running model finished in 2268.98ms.   Extracting mesh finished in 1733.51ms.
+→ 86,480 面，水密 True；NeRF 环绕渲染帧：黄身、红嘴、橘脚清晰可辨 ✅</div>
+<div class="imgrow">
+  <div class="imgcard"><img width="180" src="__IMG_DUCK_INPUT__"><div class="cap">输入：照片原图</div></div>
+  <div class="imgcard"><img width="180" src="__IMG_DUCK_RENDER__"><div class="cap">输出：3D 模型环绕渲染帧</div></div>
+  <div class="imgcard"><img width="180" src="__IMG_CHAIR_INPUT__"><div class="cap">对照：官方椅子（抠图后）</div></div>
+  <div class="imgcard"><img width="180" src="__IMG_CHAIR_RENDER__"><div class="cap">对照：椅子 3D 渲染帧</div></div>
+</div></div>
+
+<div class="step"><h4>实验 3 ｜ 扫参：--mc-resolution 128 / 256 / 384</h4>
+<b>目的</b>：亲眼看"分辨率→面数→耗时"的立方关系。<b>操作</b>：改 <code>--mc-resolution</code> 各跑一次。
+<div class="out">128 → 10,210 顶点 / 20,420 面 / 提取 0.27s
+256 → 42,076 顶点 / 84,156 面 / 提取 1.79s
+384 → 95,578 顶点 / 191,164 面 / 提取 5.77s
+规律：分辨率×3 ⇒ 面数×9.4（≈立方），耗时×21</div>
+<div class="ok">✅ 检测：三组 GLB 面数均与公式 (res-1)³×2 量级吻合；对比渲染帧见 Q8</div></div>
+
+<div class="step"><h4>实验 4 ｜ 烘焙贴图 + 修上游 bug</h4>
+<b>目的</b>：拿到带 UV 贴图的游戏级资产；顺便体验"给开源项目修 bug"。<b>操作</b>：直接跑 <code>--bake-texture</code> 会炸：
+<div class="out">RuntimeError: Expected all tensors to be on the same device, but got grid is on cpu,
+different from other tensors on cuda:0   ← 上游 tsr/bake_texture.py 漏 .to(device)</div>
+用 exercise\run_bake.py（一行修复版）重跑：
+<div class="cmd">PYTHONPATH=F:\reminder\triposr\exercise .venv\Scripts\python.exe ../exercise/run_bake.py ../exercise/duck.jpg ../exercise/out_duck_bake</div>
+<div class="out">bake finished in 32394.98ms
+→ mesh_tex.glb 10.4MB + texture.png 1024²（见 Q9 实拍图）✅</div></div>
+
+<div class="step"><h4>实验 5 ｜ 产出进 Three.js：交互查看器</h4>
+<b>目的</b>：闭环到"网页能转的 3D 资产"（呼应 img2threejs 学的 Three.js）。<b>操作</b>：双击 <code>exercise\viewer.html</code>——GLB 已 base64 内嵌，无需服务器。Edge 无头截图实测椅子网格真实渲染成功（左键旋转/滚轮缩放）。
+<div class="cmd">msedge --headless --screenshot=viewer_test.png file:///F:/reminder/triposr/exercise/viewer.html</div>
+<div class="ok">✅ 检测：截图出现带顶点色的椅子网格（本指南已存证 viewer_test.png）；页内可一键切换椅子/小黄鸭</div></div>
+
+<h2 class="sec s5">六、踩坑实录（环境五坑 + 一行救一个）</h2>
+<div class="pit"><b>坑 1｜torchmcubes 要编译 CUDA 扩展</b>：本机无 nvcc/MSVC 必挂 → exercise\torchmcubes.py 用 skimage 写接口兼容垫片，PYTHONPATH 注入，零编译。</div>
+<div class="pit"><b>坑 2｜huggingface-hub 版本连环套</b>：transformers 4.35 → tokenizers 0.14 要求 hub&lt;0.18，装 hub 0.25 直接 ResolutionImpossible → 钉 <code>huggingface-hub==0.17.3</code>。</div>
+<div class="pit"><b>坑 3｜trimesh 4.0.5 遇 numpy 2</b>：GLB 导出报 <code>'numpy.ndarray' object has no attribute 'ptp'</code>（numpy 2.0 移除了 ptp 方法）→ 升 trimesh 4.4.9。</div>
+<div class="pit"><b>坑 4｜xatlas 0.0.9 没有 py3.12 wheel</b>：pip 悄悄尝试源码编译 → 装 0.0.11（有 wheel）。</div>
+<div class="pit"><b>坑 5｜rembg 装完还不能用</b>：报 "No onnxruntime backend found" → 显式 <code>pip install onnxruntime</code>（rembg 只声明可选依赖）。</div>
+<div class="pit"><b>坑 6｜上游烘焙 bug</b>：positions_to_colors 漏 .to(device)，GPU 必炸 → run_bake.py 一行修复（见实验 4）。</div>
+
+<div class="footer">生成于 2026-10-03 ｜ 拾遗任务 598b82a6 ｜ 所有命令与数字均为 F:\reminder\triposr 本机实测（RTX 4070 / torch 2.14.1+cu126 / Python 3.12）｜ 参考：github.com/VAST-AI-Research/TripoSR · arXiv:2403.02151 · tripo3d.ai/3d-prompts</div>
+
+</body>
+</html>

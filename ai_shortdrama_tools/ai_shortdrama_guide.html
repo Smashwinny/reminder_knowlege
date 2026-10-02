@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AI 短剧工厂</title>
+<style>
+  :root{
+    --red:#FF3B5C; --orange:#FF9F1C; --teal:#2EC4B6; --blue:#3A86FF;
+    --purple:#8338EC; --yellow:#FFD60A; --ink:#1B1B2F; --paper:#FFFDF7;
+    --pink-bg:#FFF0F3; --blue-bg:#EBF2FF; --teal-bg:#E8FAF8; --yellow-bg:#FFF9E0;
+    --purple-bg:#F5EDFF; --orange-bg:#FFF3E2;
+  }
+  @page{ size:A4; margin:12mm; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--paper); font-size:13.5px; line-height:1.65; }
+  .cover{ background:linear-gradient(135deg,#FF3B5C 0%,#FF9F1C 45%,#8338EC 100%); color:#fff; border-radius:22px; padding:42px 36px; margin-bottom:18px; }
+  .cover h1{ font-size:44px; letter-spacing:2px; text-shadow:0 3px 0 rgba(0,0,0,.18); }
+  .cover .sub{ font-size:17px; margin-top:12px; opacity:.95; }
+  .cover .badge{ display:inline-block; background:#fff; color:var(--red); font-weight:900; border-radius:999px; padding:4px 16px; margin:14px 8px 0 0; font-size:14px; }
+  h2.q{ font-size:21px; margin:26px 0 10px; padding:10px 16px; border-radius:12px; color:#fff; break-inside:avoid; }
+  .qnum{ display:inline-block; font-size:30px; font-weight:900; margin-right:10px; transform:rotate(-4deg); }
+  .card{ border-radius:14px; padding:16px 18px; margin:10px 0; break-inside:avoid; border:2.5px solid; }
+  .c-red{background:var(--pink-bg);border-color:var(--red);} .c-blue{background:var(--blue-bg);border-color:var(--blue);}
+  .c-teal{background:var(--teal-bg);border-color:var(--teal);} .c-yellow{background:var(--yellow-bg);border-color:var(--orange);}
+  .c-purple{background:var(--purple-bg);border-color:var(--purple);} .c-orange{background:var(--orange-bg);border-color:var(--orange);}
+  .hl{ background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:900; padding:0 2px; }
+  .big{ font-size:17px; font-weight:900; }
+  .term{ color:var(--purple); font-weight:900; border-bottom:2px dotted var(--purple); }
+  code, .cmd{ font-family:Consolas,"Courier New",monospace; background:#1B1B2F; color:#7CFC9B; border-radius:7px; padding:2px 7px; font-size:12px; }
+  pre.cmdblock{ background:#1B1B2F; color:#E8F7FF; border-radius:10px; padding:12px 14px; font-size:12px; overflow-x:auto; margin:8px 0; break-inside:avoid; border-left:6px solid var(--teal);}
+  pre.cmdblock .c{ color:#FFD60A; } pre.cmdblock .o{ color:#7CFC9B; }
+  table{ border-collapse:collapse; width:100%; margin:10px 0; break-inside:avoid; font-size:12.5px; }
+  th{ background:var(--purple); color:#fff; padding:7px 8px; }
+  td{ border:1.5px solid #E4DCF2; padding:6px 8px; background:#fff; }
+  tr:nth-child(even) td{ background:#FAF7FF; }
+  .ok{ color:#0B8457; font-weight:900; } .warn{ color:var(--red); font-weight:900; }
+  .svgbox{ text-align:center; margin:10px 0; break-inside:avoid; }
+  .exp-step{ border-radius:14px; border:3px solid var(--teal); background:#fff; margin:14px 0; break-inside:avoid; overflow:hidden; }
+  .exp-step .head{ background:linear-gradient(90deg,var(--teal),var(--blue)); color:#fff; font-weight:900; font-size:15.5px; padding:8px 14px; }
+  .exp-step .body{ padding:12px 14px; }
+  .four{ display:flex; gap:8px; margin:8px 0; }
+  .four div{ flex:1; border-radius:10px; padding:8px; text-align:center; font-weight:900; color:#fff; font-size:12px; }
+  .check{ background:#EAFBF0; border:2px dashed #0B8457; border-radius:10px; padding:8px 12px; margin:8px 0; font-size:12.5px; }
+  .check b{ color:#0B8457; }
+  .footer{ text-align:center; color:#888; font-size:11px; margin:22px 0 6px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🎬 AI 短剧工厂开箱指南</h1>
+  <div class="sub">一条推文 8 个开源项目全验货 · 深挖 28.5k★ Pixelle-Video · 零 API 费离线跑通"主题→成片"流水线</div>
+  <span class="badge">清单 8/8 全真</span><span class="badge">Pixelle-Video 28,581★</span><span class="badge">实验真实产出 28.36s 成片</span><span class="badge">2026-10-03</span>
+</div>
+
+<div class="card c-yellow">
+<span class="big">📦 这份指南的来历</span><br>
+推主 @denziideng 发帖整理了 8 个 GitHub 高星 AI 短剧项目。我们用 GitHub API <span class="hl">逐个验货：8/8 全部真实存在</span>，其中 2 个链接因组织改名已 301 重定向（<code>saturndec→waooAI</code>、<code>AIDC-AI→ATH-MaaS</code>），并非假仓库。深挖其中最高星的 <b>Pixelle-Video</b>（阿里国际 AIDC 团队出品，Apache-2.0），其余 7 个做成选型对比。
+</div>
+
+<h2 class="q" style="background:var(--red)"><span class="qnum">Q1</span>一条"主题"是怎么变成一部片的？</h2>
+<div class="card c-red">
+把视频创作拆成<b>工厂流水线</b>：过去你要自己写文案、找图师、请配音、开剪辑软件；Pixelle-Video 把这四件事变成<b>六个自动衔接的工序</b>，你只在第一站投喂一个词，比如"为什么人工智能短剧正在爆火"。
+</div>
+<div class="svgbox">
+<svg width="700" height="150" viewBox="0 0 700 150">
+<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#FF3B5C"/></marker></defs>
+<g font-size="12" font-weight="bold" text-anchor="middle">
+<rect x="8"  y="45" width="98" height="52" rx="10" fill="#FF3B5C"/><text x="57"  y="67" fill="#fff">① 文案生成</text><text x="57" y="85" fill="#fff" font-size="10">LLM 写解说词</text>
+<rect x="122" y="45" width="98" height="52" rx="10" fill="#FF9F1C"/><text x="171" y="67" fill="#fff">② 配图规划</text><text x="171" y="85" fill="#fff" font-size="10">每句→图像提示词</text>
+<rect x="236" y="45" width="98" height="52" rx="10" fill="#2EC4B6"/><text x="285" y="67" fill="#fff">③ 逐帧处理</text><text x="285" y="85" fill="#fff" font-size="10">TTS+配图+合成</text>
+<rect x="350" y="45" width="98" height="52" rx="10" fill="#3A86FF"/><text x="399" y="67" fill="#fff">④ 片段合成</text><text x="399" y="85" fill="#fff" font-size="10">图+音→MP4 段</text>
+<rect x="464" y="45" width="98" height="52" rx="10" fill="#8338EC"/><text x="513" y="67" fill="#fff">⑤ 无缝拼接</text><text x="513" y="85" fill="#fff" font-size="10">concat demuxer</text>
+<rect x="578" y="45" width="98" height="52" rx="10" fill="#E6398B"/><text x="627" y="67" fill="#fff">⑥ 后期+BGM</text><text x="627" y="85" fill="#fff" font-size="10">amix 混音出片</text>
+<line x1="106" y1="71" x2="120" y2="71" stroke="#FF3B5C" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="220" y1="71" x2="234" y2="71" stroke="#FF3B5C" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="334" y1="71" x2="348" y2="71" stroke="#FF3B5C" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="448" y1="71" x2="462" y2="71" stroke="#FF3B5C" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="562" y1="71" x2="576" y2="71" stroke="#FF3B5C" stroke-width="2.5" marker-end="url(#ar)"/>
+</g>
+<text x="350" y="20" text-anchor="middle" font-size="14" font-weight="900" fill="#1B1B2F">你只投喂一个主题 ▼ 出来一部成片</text>
+<text x="350" y="132" text-anchor="middle" font-size="11" fill="#666">对应源码：pixelle_video/pipelines/standard.py（StandardPipeline）</text>
+</svg>
+</div>
+<div class="card c-blue"><span class="term">流水线（Pipeline）</span>：把大任务切成顺序工序，上一站的产出就是下一站的原料——和你知识库里 [[构建流水线与Pass]] 是同一思想，只是这次的"工件"从代码变成了视频帧。</div>
+
+<h2 class="q" style="background:var(--orange)"><span class="qnum">Q2</span>为什么整条流水线围着一张"分镜表"转？</h2>
+<div class="card c-orange">
+流水线各站之间传的不是视频文件，而是一份 <span class="hl">Storyboard（分镜表）JSON</span>——这是全项目最重要的数据结构。每个 <span class="term">StoryboardFrame</span> 记录一帧的"剧本、画面描述、素材路径、时长"，六个工序都在往这张表里<b>填空</b>。
+</div>
+<div class="svgbox">
+<svg width="700" height="210" viewBox="0 0 700 210">
+<g font-size="12" text-anchor="middle" font-weight="bold">
+<rect x="30" y="18" width="300" height="176" rx="12" fill="#FFF9E0" stroke="#FF9F1C" stroke-width="3"/>
+<text x="180" y="44" fill="#B25E00">StoryboardFrame × N</text>
+<g text-anchor="start" font-weight="normal" fill="#1B1B2F">
+<text x="50" y="72">narration:        <tspan fill="#FF3B5C" font-weight="bold">"十年前，做一支视频需要…"</tspan></text>
+<text x="50" y="96">image_prompt:     <tspan fill="#3A86FF" font-weight="bold">"cinematic wide shot, …"</tspan></text>
+<text x="50" y="120">audio_path:       <tspan fill="#0B8457" font-weight="bold">audio_0.mp3 ← TTS 站填</tspan></text>
+<text x="50" y="144">image_path:       <tspan fill="#8338EC" font-weight="bold">frame_0.png ← 配图站填</tspan></text>
+<text x="50" y="168">duration:         <tspan fill="#B25E00" font-weight="bold">4.94s ← 合成站回填</tspan></text>
+</g>
+</g>
+<g font-size="12" font-weight="bold" text-anchor="middle">
+<rect x="420" y="30" width="240" height="40" rx="8" fill="#2EC4B6"/><text x="540" y="55" fill="#fff">文案站：只写前两个字段</text>
+<rect x="420" y="82" width="240" height="40" rx="8" fill="#3A86FF"/><text x="540" y="107" fill="#fff">素材站：补齐 path 字段</text>
+<rect x="420" y="134" width="240" height="40" rx="8" fill="#8338EC"/><text x="540" y="159" fill="#fff">合成站：回填时长，表满=片成</text>
+<line x1="336" y1="100" x2="412" y2="100" stroke="#FF9F1C" stroke-width="3" marker-end="url(#ar)"/>
+</g>
+</svg>
+</div>
+<div class="card c-yellow">这就是知识库里的 [[提示词模板]] 思路再进一步：<b>LLM 的输出被结构化 JSON 钉死</b>（每句解说 5~20 词、每条图像提示词 30~60 词，超了重来），后面所有工序只认字段不认人话。结构化中间表 = 流水线的<b>传送带</b>。</div>
+
+<h2 class="q" style="background:var(--blue)"><span class="qnum">Q3</span>8 个项目共同的死穴：角色"变脸"问题</h2>
+<div class="card c-blue">
+AI 生视频最致命的不是画质也不是配音，而是<span class="hl">同一角色换个镜头就换张脸</span>——模型每次生成都是独立抽签。8 个项目里有一半的主打功能都在打这一个点。
+</div>
+<div class="svgbox">
+<svg width="700" height="170" viewBox="0 0 700 170">
+<g font-size="11.5" font-weight="bold" text-anchor="middle">
+<rect x="14" y="20" width="158" height="118" rx="12" fill="#EBF2FF" stroke="#3A86FF" stroke-width="3"/>
+<text x="93" y="44" fill="#3A86FF">① 定妆照锚点</text><text x="93" y="64" fill="#333">给角色生成设定图</text><text x="93" y="82" fill="#333">每次生成都参考它</text><text x="93" y="112" fill="#8338EC" font-size="10.5">moyin-creator</text><text x="93" y="128" fill="#8338EC" font-size="10.5">6层身份锚点</text>
+<rect x="188" y="20" width="158" height="118" rx="12" fill="#F5EDFF" stroke="#8338EC" stroke-width="3"/>
+<text x="267" y="44" fill="#8338EC">② 首尾关键帧</text><text x="267" y="64" fill="#333">镜头起点终点先画死</text><text x="267" y="82" fill="#333">模型只补中间插值</text><text x="267" y="112" fill="#8338EC" font-size="10.5">BigBanana</text><text x="267" y="128" fill="#8338EC" font-size="10.5">Keyframe工作流</text>
+<rect x="362" y="20" width="158" height="118" rx="12" fill="#E8FAF8" stroke="#2EC4B6" stroke-width="3"/>
+<text x="441" y="44" fill="#0B8457">③ 资产复用制</text><text x="441" y="64" fill="#333">角色/场景/服装入库</text><text x="441" y="82" fill="#333">跨镜头跨集只引用</text><text x="441" y="112" fill="#8338EC" font-size="10.5">Jellyfish</text><text x="441" y="128" fill="#8338EC" font-size="10.5">一致性一等公民</text>
+<rect x="536" y="20" width="158" height="118" rx="12" fill="#FFF0F3" stroke="#FF3B5C" stroke-width="3"/>
+<text x="615" y="44" fill="#FF3B5C">④ 参考图注入</text><text x="615" y="64" fill="#333">真实照片/宠物照</text><text x="615" y="82" fill="#333">钉进每一帧生成</text><text x="615" y="112" fill="#8338EC" font-size="10.5">ViMax</text><text x="615" y="128" fill="#8338EC" font-size="10.5">AutoCameo</text>
+</g>
+<text x="350" y="160" text-anchor="middle" font-size="11" fill="#666">四派思路殊途同归：先固定"是谁/在哪"，再让模型自由发挥剩下的部分</text>
+</svg>
+</div>
+
+<h2 class="q" style="background:var(--purple)"><span class="qnum">Q4</span>"抽卡式"与"工业化"两代工具的代差在哪？</h2>
+<div class="card c-purple">
+BigBanana README 里那句暴论值得记住：<span class="hl">"先有演员和片场，再开机"</span>。8 个项目实际分成两代：
+</div>
+<table>
+<tr><th>维度</th><th>第一代：抽卡式（一键生成）</th><th>第二代：工业化（Script-to-Asset-to-Keyframe）</th></tr>
+<tr><td><b>代表</b></td><td>Pixelle-Video / ViMax / huobao-drama（解说向）</td><td>BigBanana / Jellyfish / moyin-creator / Toonflow（剧情向）</td></tr>
+<tr><td><b>工作方式</b></td><td>输入主题→LLM 直接扩写→每帧独立生成</td><td>剧本→角色/场景资产入库→关键帧锁定→镜头生成</td></tr>
+<tr><td><b>角色稳定性</b></td><td class="warn">弱：每帧是独立抽签</td><td class="ok">强：定妆照+衣橱+上下文三重锁定</td></tr>
+<tr><td><b>适合内容</b></td><td>解说/科普/书单号短视频（旁白为主，人物少）</td><td>连载短剧/漫剧/网文改编（角色要跨集存活）</td></tr>
+<tr><td><b>上手成本</b></td><td class="ok">低：一句话出片</td><td class="warn">高：要做分镜和台词微调</td></tr>
+</table>
+<div class="card c-purple">一句话记忆：<span class="hl">解说视频拼的是产能，剧情短剧拼的是一致性</span>。选工具先问自己"我的角色需要跨镜头存活吗"。</div>
+
+<h2 class="q" style="background:var(--teal)"><span class="qnum">Q5</span>图像/视频后端凭什么说换就换？</h2>
+<div class="card c-teal">
+Pixelle-Video 的招牌是 <span class="term">原子能力灵活组合</span>：文案、配图、视频、语音每个环节都是独立"原子"，各配一张后端菜单。你的图像可以走本地 ComfyUI 工作流、走 RunningHub 云端 48G 显存机器、或直连 DashScope/Seedream API——<b>改配置不改代码</b>。
+</div>
+<div class="svgbox">
+<svg width="700" height="185" viewBox="0 0 700 185">
+<g font-size="11.5" font-weight="bold" text-anchor="middle">
+<rect x="230" y="12" width="240" height="36" rx="9" fill="#2EC4B6"/><text x="350" y="35" fill="#fff">流水线：这一帧需要一张配图（抽象需求）</text>
+<rect x="120" y="72" width="460" height="34" rx="9" fill="#FFD60A"/><text x="350" y="94" fill="#7A5A00">能力路由层（按配置挑一个真实可用的后端）</text>
+<rect x="24"  y="130" width="200" height="44" rx="9" fill="#3A86FF"/><text x="124" y="148" fill="#fff">本地 ComfyUI 工作流</text><text x="124" y="164" fill="#fff" font-size="10">自建 GPU，跑 workflows/selfhost</text>
+<rect x="250" y="130" width="200" height="44" rx="9" fill="#8338EC"/><text x="350" y="148" fill="#fff">RunningHub 云端</text><text x="350" y="164" fill="#fff" font-size="10">免显卡，API 租用 48G 显存机</text>
+<rect x="476" y="130" width="200" height="44" rx="9" fill="#FF3B5C"/><text x="576" y="148" fill="#fff">直连模型 API</text><text x="576" y="164" fill="#fff" font-size="10">DashScope / Seedream / Kling…</text>
+<line x1="350" y1="48" x2="350" y2="68" stroke="#FF3B5C" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="230" y1="106" x2="140" y2="126" stroke="#FF3B5C" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="350" y1="106" x2="350" y2="126" stroke="#FF3B5C" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="470" y1="106" x2="560" y2="126" stroke="#FF3B5C" stroke-width="2.5" marker-end="url(#ar)"/>
+</g>
+</svg>
+</div>
+<div class="card c-teal">这正是知识库里的 [[能力层与后端路由]]：流水线只提"抽象需求"，路由层按配置顺序挑第一个真实可用的后端。模型换代（WAN 2.1 → Seedance 2.0）只动配置表，流水线代码零改动。上游甚至把同一能力封装成 <b>MCP 工具</b>（依赖 fastmcp），别的 Agent 也能调它出片。</div>
+
+<h2 class="q" style="background:var(--red)"><span class="qnum">Q6</span>免费配音是哪来的？edge-tts 的秘密</h2>
+<div class="card c-red">
+Pixelle-Video 默认 TTS 引擎是 <span class="term">edge-tts</span>（pyproject 里锁死 7.2.7 版本）。它调用的是 <span class="hl">Microsoft Edge 浏览器"大声朗读"功能的 WebSocket 接口</span>——就是 Edge 里右键网页"朗读此内容"用的那套神经语音，被逆向封装成了 Python 库，所以免费、免 key、音色还是商业级的。
+</div>
+<pre class="cmdblock">python -c <span class="c">"import asyncio, edge_tts; \
+asyncio.run(edge_tts.Communicate('你好短剧', 'zh-CN-XiaoxiaoNeural').save('hi.mp3'))"</span>
+<span class="o"># 3 秒后得到 hi.mp3 —— 一行代码，商业级中文女声，0 元</span></pre>
+<div class="card c-orange">上游支持两条 TTS 路线：<b>local</b>（edge-tts 免费直连）和 <b>comfyui</b>（工作流跑 Index-TTS 等，支持参考音频克隆音色）。免费路线够用时，别急着上付费的。</div>
+
+<h2 class="q" style="background:var(--blue)"><span class="qnum">Q7</span>一张 PNG + 一段 MP3，怎么变成 MP4？</h2>
+<div class="card c-blue">ffmpeg 三板斧，正是上游 <code>services/video.py</code> 干的活：</div>
+<table>
+<tr><th>板斧</th><th>命令核心</th><th>干什么</th></tr>
+<tr><td><b>① loop 定格</b></td><td><code>-loop 1 -i frame.png -i audio.mp3 -shortest</code></td><td>静态图循环播放，配上一句语音，<b>-shortest 让段长=语音长</b>，一帧变一段</td></tr>
+<tr><td><b>② concat 拼接</b></td><td><code>-f concat -safe 0 -i list.txt -c copy</code></td><td>concat demuxer 按清单<b>无损拼接</b>（-c copy 不重编码，秒级完成）</td></tr>
+<tr><td><b>③ amix 混音</b></td><td><code>-filter_complex amix ... volume=0.15</code></td><td>旁白 + BGM（音量压到 15%）混成一条音轨</td></tr>
+</table>
+<div class="card c-yellow"><span class="warn">⚠ 实验亲踩的坑</span>：混音时如果只把 <code>amix</code> 的音频流传给输出，<span class="hl">视频流会被整个丢掉，成片变成"音频文件"</span>。必须 <code>ffmpeg.output(video_stream, mixed_audio, ...)</code> 两路都写。第二个坑：<code>ffmpeg-python</code> 的两个 <code>input()</code> 不能链式连写，要先分别建流再一起传给 <code>output()</code>。</div>
+
+<h2 class="q" style="background:var(--purple)"><span class="qnum">Q8</span>代码架构长什么样？为什么好读？</h2>
+<div class="card c-purple">
+仓库仅约 2 万行 Python，五层结构清晰：<b>api/</b>（FastAPI 路由）+ <b>web/</b>（Streamlit 双前端）→ <b>pipelines/</b>（流水线编排）→ <b>services/</b>（TTS/LLM/视频等原子能力）→ <b>models/</b>（Storyboard 数据类）。
+</div>
+<div class="card c-teal">编排层用的是<span class="term">模板方法模式</span>：<code>LinearVideoPipeline</code> 把流水线钉成 8 个生命周期钩子（setup→content→title→visuals→storyboard→assets→post→finalize），子类 StandardPipeline / AssetBasedPipeline / CustomPipeline 各自只覆写需要的钩子。<span class="hl">想加一条新流水线 = 继承后改 2~3 个钩子</span>，这就是它 5 条流水线却不显乱的原因。</div>
+<div class="svgbox">
+<svg width="700" height="120" viewBox="0 0 700 120">
+<g font-size="12" font-weight="bold" text-anchor="middle">
+<rect x="40" y="14" width="180" height="40" rx="9" fill="#FF9F1C"/><text x="130" y="40" fill="#fff">用户：WebUI / REST API</text>
+<rect x="260" y="14" width="180" height="40" rx="9" fill="#2EC4B6"/><text x="350" y="40" fill="#fff">任务管理 api/tasks</text>
+<rect x="480" y="14" width="180" height="40" rx="9" fill="#3A86FF"/><text x="570" y="40" fill="#fff">流水线 pipelines/ ×5</text>
+<rect x="150" y="72" width="220" height="40" rx="9" fill="#8338EC"/><text x="260" y="98" fill="#fff">原子能力 services/（可插拔）</text>
+<rect x="420" y="72" width="220" height="40" rx="9" fill="#FF3B5C"/><text x="530" y="98" fill="#fff">Storyboard 分镜表（传送带）</text>
+<line x1="220" y1="54" x2="255" y2="70" stroke="#FF3B5C" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="440" y1="54" x2="500" y2="70" stroke="#FF3B5C" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="370" y1="54" x2="300" y2="70" stroke="#FF3B5C" stroke-width="2.5" marker-end="url(#ar)"/>
+</g>
+</svg>
+</div>
+
+<h2 class="q" style="background:var(--orange)"><span class="qnum">Q9</span>8 个项目验货报告与选型指南</h2>
+<table>
+<tr><th>项目</th><th>★</th><th>定位一句话</th><th>技术栈</th><th>注意点</th></tr>
+<tr><td><b>Pixelle-Video</b> ⭐深挖</td><td>28,581</td><td>主题一句话→解说短视频，流水线最干净</td><td>Python/FastAPI/Streamlit/ffmpeg</td><td class="ok">Apache-2.0；配图/视频环节仍需模型后端</td></tr>
+<tr><td>Toonflow</td><td>16,339</td><td>无限画布+Agent+可视化工作流，21 国语言</td><td>TypeScript/Bun</td><td>偏平台级，体量大</td></tr>
+<tr><td>huobao-drama</td><td>15,630</td><td>一句话生成完整短剧（剧本→成片）</td><td>Nuxt3+Hono+Mastra+SKILL.md</td><td class="warn">CC BY-NC-SA 禁商用；强绑 firemux API key</td></tr>
+<tr><td>waoowaoo</td><td>14,346</td><td>画布式 AI 影视工作台（Docker 自托管）</td><td>Docker/Caddy/NextAuth</td><td class="warn">preview 阶段；安装要自签 TLS</td></tr>
+<tr><td>ViMax</td><td>12,531</td><td>学术派 Agentic 视频：Idea/Script/Novel→Video</td><td>Python/Agent Loop/uv</td><td class="ok">HKUDS 出品，含论文与技术报告</td></tr>
+<tr><td>Jellyfish</td><td>6,595</td><td>短剧制片工作台，资产一致性一等公民</td><td>异步任务系统+OpenAPI</td><td class="warn">2026-07 后停更</td></tr>
+<tr><td>moyin-creator</td><td>4,639</td><td>生产级批量化，主打 Seedance 2.0</td><td>多模态引用+参数校验</td><td>深度依赖付费视频模型</td></tr>
+<tr><td>BigBanana</td><td>2,257</td><td>反抽卡工业化漫剧工作台</td><td>浏览器 IndexedDB 本地存储</td><td>配套付费课程营销较多</td></tr>
+</table>
+<div class="card c-orange"><span class="big">验货结论：</span>8/8 真实，无假货。2 个链接过期但 301 跳转可达（GitHub 组织改名：<code>saturndec→waooAI</code>、<code>AIDC-AI→ATH-MaaS</code>——原阿里国际 AIDC 团队项目群整体迁移）。<span class="hl">新手首选 Pixelle-Video（架构最干净、文档全、免费 TTS 可玩），连载剧情创作选 BigBanana/Jellyfish 路线</span>。</div>
+
+<h2 class="q" style="background:var(--teal)"><span class="qnum">Q10</span>学完我能干什么？</h2>
+<div class="card c-teal">
+<ol style="margin-left:18px">
+<li><b>零成本做解说短视频</b>：edge-tts 配音 + 本地合成，配图用你已有的 API key 即可出片（书单号/科普号直接可用）；</li>
+<li><b>把流水线当模板抄</b>：Storyboard 传送带 + 模板方法钩子，可平移到任何"批量生成"场景（批量海报、批量播客）；</li>
+<li><b>给别的 Agent 当手脚</b>：项目自带 fastmcp，可把"出片"注册成 MCP 工具，让 Claude/其他 Agent 一句话调它；</li>
+<li><b>选型不踩坑</b>：8 个项目的两代分野与许可证红线（如 huobao 禁商用）已在手；</li>
+<li><b>验货方法论</b>：GitHub API 查 301 重定向——链接失效 ≠ 项目造假，转发清单前先 API 验一遍。</li>
+</ol>
+</div>
+
+<h2 class="q" style="background:#E6398B"><span class="qnum">🧪</span>动手实验：零 API 费离线复刻流水线</h2>
+<div class="card c-yellow">
+目标：不装 ComfyUI、不买任何 API key，用 5 个脚本走完"主题→成片"全流程，产出一条 <span class="hl">28.36 秒、846 帧、带 BGM 的竖屏成片</span>。LLM 写文案这一环用预写剧本代替（离线），其余每一环都真实执行。环境：Python 3.11+，<code>pip install edge-tts==7.2.7 ffmpeg-python pillow imageio-ffmpeg</code>（imageio-ffmpeg 自带静态 ffmpeg，无需系统安装）。
+</div>
+
+<div class="exp-step"><div class="head">Step 1｜ex1_storyboard.py —— 生成"传送带"分镜表</div>
+<div class="body">
+<b>操作</b>：<code>python ex1_storyboard.py</code>　<b>目的</b>：拿到流水线的结构化中间表示（字段 1:1 对齐上游 StoryboardFrame）<br>
+<b>实现</b>：1 个主题 + 5 帧解说词/图像提示词 → <code>output/storyboard.json</code><br>
+<div class="check"><b>✅ 预期结果</b>：打印 5 帧文案并以 <code>[ex1] PASS</code> 收尾；storyboard.json 里每帧有 narration 与 image_prompt 字段。</div>
+</div></div>
+
+<div class="exp-step"><div class="head">Step 2｜ex2_frames.py —— PIL 离线"配图 + 烧字幕"</div>
+<div class="body">
+<b>操作</b>：<code>python ex2_frames.py</code>　<b>目的</b>：代替 ComfyUI 出图环节，体验"帧模板合成"<br>
+<b>实现</b>：5 张 1080×1920 渐变底图，主题大字 + 底部字幕直接画进图（对应上游 composed_image_path 的烧字幕逻辑）<br>
+<div class="check"><b>✅ 预期结果</b>：<code>[ex2] PASS: 5 张 1080x1920 配图生成</code>；改 ACCENTS 里任意色值重跑，图立刻变装（参数→产物可见变化）。</div>
+</div></div>
+
+<div class="exp-step"><div class="head">Step 3｜ex3_tts.py —— edge-tts 真实联网配音</div>
+<div class="body">
+<b>操作</b>：<code>python ex3_tts.py</code>　<b>目的</b>：与上游同库同版本（7.2.7）合成每帧旁白<br>
+<b>实现</b>：zh-CN-XiaoxiaoNeural 音色、+8% 语速，5 段 mp3 落盘并回填 audio_path<br>
+<div class="check"><b>✅ 预期结果</b>：5 个 audio_*.mp3，29~40KB；<code>[ex3] PASS: 5 段真实微软 TTS 语音合成</code>。实测输出：audio_0.mp3 29,664 bytes … audio_4.mp3 30,096 bytes。</div>
+</div></div>
+
+<div class="exp-step"><div class="head">Step 4｜ex4_compose.py —— ffmpeg 三板斧出片</div>
+<div class="body">
+<b>操作</b>：<code>python ex4_compose.py</code>　<b>目的</b>：复刻上游逐帧合成→拼接→BGM 后期<br>
+<b>实现</b>：① loop+shortest 切出 5 段（4.94/6.02/6.72/5.59/5.02s）② concat -c copy 无缝拼 ③ 上游自带 <code>bgm/default.mp3</code> 以 0.15 音量 amix 混入<br>
+<div class="check"><b>✅ 预期结果</b>：<code>预期总时长≈28.29s，成片实际 28.36s</code>，<code>final_video.mp4 (590 KB)</code>。<span class="warn">踩坑记录</span>：混音漏传视频流会让成片只剩音频；ffmpeg-python 双 input 不能链式。</div>
+</div></div>
+
+<div class="exp-step"><div class="head">Step 5｜ex5_verify.py —— 成片体检（finalize 环节）</div>
+<div class="body">
+<b>操作</b>：<code>python ex5_verify.py</code>　<b>目的</b>：校验分镜表字段闭环 + 解码计数<br>
+<b>实现</b>：逐帧检查 图/音/段/时长 四字段全非空；用 null muxer 解码数帧<br>
+<div class="check"><b>✅ 预期结果（实测）</b>：5 帧 ×4 字段全 PASS；<code>成片解码帧数: 846 (30fps x ~28.2s)</code>；<code>[ex5] PASS</code>。整条链路耗时不到 2 分钟，0 元。</div>
+</div></div>
+
+<div class="card c-blue"><span class="big">🚀 进阶方向</span>：把 ex2 的 PIL 占位图换成真·AI 配图（配 DashScope 或 ComfyUI 的 key 跑上游原版流水线）；用 <code>uv run</code> 起上游 WebUI（<code>start_web.bat</code>）在浏览器里跑同一条流水线；或给上游提一条"自定义帧模板"的 PR。</div>
+
+<div class="footer">F:\reminder\ai_shortdrama_tools · 拾遗队列 task 9762410e · 实验脚本 exercise/ex1~ex5 · 产出 2026-10-03</div>
+</body>
+</html>

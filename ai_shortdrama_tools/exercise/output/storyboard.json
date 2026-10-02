@@ -1,0 +1,50 @@
+{
+  "topic": "为什么人工智能短剧正在爆火",
+  "frames": [
+    {
+      "index": 0,
+      "narration": "十年前，做一支视频需要摄像机、演员和剪辑台。",
+      "image_prompt": "cinematic wide shot, vintage film set, camera crew, warm light",
+      "image_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\frame_0.png",
+      "audio_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\audio_0.mp3",
+      "video_segment_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\segment_0.mp4",
+      "duration": 4.94
+    },
+    {
+      "index": 1,
+      "narration": "今天，一句话就能让 AI 写文案、画配图、配音、剪辑成片。",
+      "image_prompt": "futuristic AI studio, holographic screens, neon blue glow",
+      "image_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\frame_1.png",
+      "audio_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\audio_1.mp3",
+      "video_segment_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\segment_1.mp4",
+      "duration": 6.02
+    },
+    {
+      "index": 2,
+      "narration": "短剧平台把这条流水线推到了极致：剧本、分镜、角色一个都不放过。",
+      "image_prompt": "storyboard wall, comic panels, production desk, dramatic light",
+      "image_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\frame_2.png",
+      "audio_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\audio_2.mp3",
+      "video_segment_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\segment_2.mp4",
+      "duration": 6.72
+    },
+    {
+      "index": 3,
+      "narration": "开源社区给出了八套答案，从抽卡式生成到工业化工作台。",
+      "image_prompt": "github repository constellation, glowing nodes, dark background",
+      "image_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\frame_3.png",
+      "audio_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\audio_3.mp3",
+      "video_segment_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\segment_3.mp4",
+      "duration": 5.59
+    },
+    {
+      "index": 4,
+      "narration": "而真正的分水岭，是角色一致性：换个镜头不能变脸。",
+      "image_prompt": "character concept art, identity anchor, multiple angles, same face",
+      "image_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\frame_4.png",
+      "audio_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\audio_4.mp3",
+      "video_segment_path": "F:\\reminder\\ai_shortdrama_tools\\exercise\\output\\segment_4.mp4",
+      "duration": 5.02
+    }
+  ]
+}
