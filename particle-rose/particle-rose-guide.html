@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>粒子玫瑰小白指南</title>
+<style>
+:root{
+  --rose:#e91e4f; --rose2:#ff5c8a; --gold:#ffb300; --teal:#00b8a9; --purple:#7c4dff;
+  --ink:#2b1430; --paper:#fff8fb; --card:#ffffff; --dark:#1a0b20;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:var(--ink);background:var(--paper);font-size:14px;line-height:1.75}
+@page{margin:12mm}
+.cover{background:linear-gradient(135deg,#e91e4f 0%,#ff5c8a 45%,#ffb300 100%);color:#fff;border-radius:18px;padding:38px 36px;margin-bottom:22px}
+.cover h1{margin:0 0 8px;font-size:40px;letter-spacing:2px;text-shadow:0 3px 10px rgba(0,0,0,.25)}
+.cover .sub{font-size:17px;opacity:.96}
+.cover .meta{margin-top:16px;font-size:13px;background:rgba(255,255,255,.22);display:inline-block;padding:6px 14px;border-radius:999px}
+.coverflex{display:flex;gap:20px;align-items:center}
+.coverflex svg{flex-shrink:0}
+h2.q{display:flex;align-items:center;gap:14px;font-size:21px;margin:26px 0 10px;color:#fff;background:linear-gradient(90deg,var(--rose),var(--rose2));padding:10px 18px;border-radius:12px}
+h2.q .no{font-size:30px;font-weight:900;background:#fff;color:var(--rose);width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 8px rgba(233,30,79,.4)}
+.card{background:var(--card);border-radius:14px;padding:16px 20px;margin:10px 0 18px;border:2px solid #ffd3e0;box-shadow:0 4px 14px rgba(233,30,79,.08);break-inside:avoid}
+.key{background:linear-gradient(transparent 55%,#ffe07a 55%);font-weight:900;font-size:15.5px;padding:0 2px}
+.big{font-size:17px;font-weight:900;color:var(--rose)}
+.term{color:var(--purple);font-weight:700}
+code,.cmd{font-family:Consolas,"Courier New",monospace;background:var(--dark);color:#7dffce;padding:2px 7px;border-radius:6px;font-size:12.5px}
+.codeblock{background:var(--dark);color:#e8fff5;border-radius:10px;padding:13px 16px;font-family:Consolas,monospace;font-size:12.5px;line-height:1.65;overflow-x:auto;margin:10px 0;break-inside:avoid}
+.codeblock .c{color:#7d8ba1}.codeblock .k{color:#ff79a8}.codeblock .f{color:#7dd7ff}
+pre.codeblock{white-space:pre-wrap}
+.imgbox{text-align:center;margin:12px 0;break-inside:avoid}
+.imgbox img{max-width:100%;border-radius:12px;border:3px solid var(--rose2);box-shadow:0 6px 18px rgba(233,30,79,.25)}
+.imgbox .cap{font-size:12.5px;color:#8a5468;margin-top:6px}
+.two{display:flex;gap:14px;flex-wrap:wrap}
+.two>div{flex:1;min-width:280px}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13px;break-inside:avoid}
+th{background:var(--rose);color:#fff;padding:7px 10px;text-align:left}
+td{border-bottom:1.5px solid #ffd3e0;padding:6px 10px;background:#fff}
+tr:nth-child(even) td{background:#fff4f8}
+.check{background:#e6fff4;border:2px solid #00b8a9;border-radius:10px;padding:10px 14px;margin:10px 0;break-inside:avoid}
+.check b{color:var(--teal)}
+.warn{background:#fff4e0;border:2px solid var(--gold);border-radius:10px;padding:10px 14px;margin:10px 0;break-inside:avoid}
+.warn b{color:#c77700}
+.step{display:flex;gap:14px;margin:14px 0;break-inside:avoid}
+.step .sn{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--purple),#b388ff);color:#fff;font-weight:900;font-size:19px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(124,77,255,.4)}
+.step .sb{flex:1;background:#fff;border:2px solid #e1ccff;border-radius:12px;padding:11px 15px}
+.step h4{margin:0 0 6px;font-size:15px;color:var(--purple)}
+.toc{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}
+.toc a{display:flex;gap:9px;align-items:center;background:#fff;border:2px solid #ffd3e0;border-radius:10px;padding:8px 11px;text-decoration:none;color:var(--ink);font-size:13px;font-weight:700;break-inside:avoid}
+.toc .no{background:var(--rose);color:#fff;border-radius:8px;min-width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0}
+.sec{break-inside:avoid}
+.tag{display:inline-block;background:var(--teal);color:#fff;border-radius:999px;padding:2px 11px;font-size:12px;font-weight:700;margin-right:6px}
+</style>
+</head>
+<body>
+
+<!-- ============ 封面 ============ -->
+<div class="cover">
+  <div class="coverflex">
+    <svg width="150" height="150" viewBox="0 0 150 150">
+      <g transform="translate(75,62)">
+        <ellipse cx="0" cy="6" rx="52" ry="14" fill="rgba(255,255,255,.25)"/>
+        <g fill="#ff8fab">
+          <ellipse cx="-38" cy="0" rx="20" ry="9" transform="rotate(-28 -38 0)"/>
+          <ellipse cx="38" cy="0" rx="20" ry="9" transform="rotate(28 38 0)"/>
+          <ellipse cx="-20" cy="-12" rx="18" ry="9" transform="rotate(-52 -20 -12)"/>
+          <ellipse cx="20" cy="-12" rx="18" ry="9" transform="rotate(52 20 -12)"/>
+        </g>
+        <g fill="#ff5c8a">
+          <ellipse cx="-16" cy="-4" rx="14" ry="8" transform="rotate(-30 -16 -4)"/>
+          <ellipse cx="16" cy="-4" rx="14" ry="8" transform="rotate(30 16 -4)"/>
+        </g>
+        <circle cx="0" cy="-8" r="9" fill="#c2185b"/>
+        <path d="M0 14 Q -6 60 2 86" stroke="#8bc34a" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </g>
+    </svg>
+    <div>
+      <h1>粒子玫瑰小白指南</h1>
+      <div class="sub">逻辑和浪漫并存，代码与玫瑰共生 —— 用「参数方程 + 粒子系统」复现爆款创意编程作品</div>
+      <div class="meta">学习主题：Creative Coding · 粒子系统 · 参数曲面 ｜ 实验栈：Python/matplotlib + Three.js ｜ 2026-10-02</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+<b>这件作品是什么：</b>2026 年 8 月，关智博（@guanzhiboisme）在 X 上发布了一条"粒子玫瑰"视频——数万个发光粒子从混沌星云中缓缓汇聚，最终凝成一朵带茎的红玫瑰，获 5.6 万+ 浏览，评论区齐刷刷求教程。作者没放源码，但这类效果是成熟的 <span class="term">Creative Coding（创意编程）</span> 主题：<span class="key">一朵玫瑰 = 一组参数方程算出的"目标点云" + 一场从混沌到目标的粒子旅行</span>。本指南带你亲手复现它——两套实现（Python 静态版 + Three.js 交互版）全部实测跑通。
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,var(--purple),#b388ff)">疑问清单（本指南的目录）</h2>
+<div class="toc">
+  <a href="#q1"><span class="no">1</span>粒子玫瑰到底是什么？</a>
+  <a href="#q2"><span class="no">2</span>不用建模软件，公式怎么"长出"一朵花？</a>
+  <a href="#q3"><span class="no">3</span>一片花瓣的公式是怎么推导的？★核心</a>
+  <a href="#q4"><span class="no">4</span>多层花瓣怎么叠才像玫瑰？</a>
+  <a href="#q5"><span class="no">5</span>3.4 万个点为什么会"发光"？</a>
+  <a href="#q6"><span class="no">6</span>粒子怎么从混沌汇聚成玫瑰？</a>
+  <a href="#q7"><span class="no">7</span>为什么动画写在着色器里而不是 JS 里？</a>
+  <a href="#q8"><span class="no">8</span>随机数有什么讲究？</a>
+  <a href="#q9"><span class="no">9</span>画面为什么会"过曝"？怎么救？</a>
+  <a href="#q10"><span class="no">10</span>无头浏览器怎么给 WebGL 拍照验证？</a>
+  <a href="#q11"><span class="no">11</span>这套技术和已学的 Three.js 是什么关系？</a>
+  <a href="#q12"><span class="no">12</span>学完能拿来做什么？</a>
+</div>
+
+<!-- ============ Q1 ============ -->
+<h2 class="q" id="q1"><span class="no">1</span>粒子玫瑰到底是什么？</h2>
+<div class="card sec">
+<p>拆开看，"粒子玫瑰"是两个老技术的组合拳：</p>
+<table>
+<tr><th>组成</th><th>负责什么</th><th>一句话原理</th></tr>
+<tr><td><b>参数曲面</b><br>（几何）</td><td>回答"粒子最终站哪里"</td><td>用数学公式描述玫瑰的表面，在表面上海量采样点</td></tr>
+<tr><td><b>粒子系统</b><br>（动画）</td><td>回答"粒子怎么动起来"</td><td>每个粒子有起点和终点，按时间插值从起点飞到终点</td></tr>
+</table>
+<p><span class="key">玫瑰负责"美"，粒子负责"动"——把一朵静态数学花变成一场汇聚动画，就是这件作品的全部秘密。</span>没有建模、没有贴图、没有 AI，只有公式和插值。</p>
+</div>
+
+<!-- ============ Q2 ============ -->
+<h2 class="q" id="q2"><span class="no">2</span>不用建模软件，公式怎么"长出"一朵花？</h2>
+<div class="card sec">
+<p>这正是知识库里已有的<span class="term">程序化建模</span>思想："写菜谱，不捏泥人"。玫瑰的"菜谱"分三段：</p>
+<p><span class="tag">花头</span>四层花瓣（内层小而直立包心 → 外层大而水平外翻），每层用一套花瓣公式</p>
+<p><span class="tag">花蕊</span>中心一小簇深红高斯散点</p>
+<p><span class="tag">花茎</span>一条带正弦微弯的绿色粒子线，从花底垂到 z≈−2.7</p>
+<p>类比：<b>花瓣层像"包烧卖"</b>——最里面几皮捏得最拢（近乎竖直），越往外皮越摊开，最后几皮几乎平躺在笼屉上。数学上就是让每层的花瓣沿一条"从竖直弯到外翻"的弧线铺开。</p>
+</div>
+
+<!-- ============ Q3 ============ -->
+<h2 class="q" id="q3"><span class="no">3</span>一片花瓣的公式是怎么推导的？★核心</h2>
+<div class="card sec">
+<div class="two"><div>
+<p>一片花瓣是一个参数曲面，两个自变量：</p>
+<p><span class="key">t ∈ [0,1]：沿瓣长走（0=瓣根贴花心，1=瓣尖）<br>s ∈ [-1,1]：沿瓣宽走（-1=左缘，0=中肋，+1=右缘）</span></p>
+<p>分四步搭出来：</p>
+<p><b>① 中心线弧线：</b>瓣根偏离竖直 <code>a0</code>、瓣尖偏离 <code>a1</code>，中间线性过渡 α(t)=a0+(a1−a0)t，投到水平/竖直：<code>r=R·sin α，z=zb+R·cos α</code></p>
+<p><b>② 瓣宽包络：</b>瓣根窄、瓣中宽、瓣尖收：<code>w(t)=0.40·(2π/n)·sin(π·t')^0.7</code>——乘 (2π/n) 让瓣宽<b>随瓣数自适应</b>，瓣多则每瓣窄，留出缝隙不糊团</p>
+<p><b>③ 横向内折：</b><code>z += R·fold·s²·t</code>——瓣面两侧比中肋低，呈勺状（s² 让中肋处为 0、两缘最大）</p>
+<p><b>④ 瓣尖上卷：</b><code>z += R·curl·tip²</code>（tip 是 t>0.55 后平滑启动的量）——真实玫瑰外层瓣尖往回勾，这一项是"像不像玫瑰"的点睛之笔</p>
+</div><div>
+<div class="imgbox"><svg viewBox="0 0 340 300" width="100%">
+<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#e91e4f"/></marker></defs>
+<!-- axes -->
+<line x1="40" y1="250" x2="320" y2="250" stroke="#bbb"/><line x1="40" y1="250" x2="40" y2="30" stroke="#bbb"/>
+<text x="300" y="266" font-size="12" fill="#888">r（离花轴）</text><text x="20" y="40" font-size="12" fill="#888">z</text>
+<!-- arc centerline -->
+<path d="M 60 240 Q 90 100 220 70" stroke="#e91e4f" stroke-width="4" fill="none" marker-end="url(#ar)"/>
+<text x="150" y="95" font-size="13" fill="#e91e4f" font-weight="bold">中心线：α(t)=a0→a1 的弧线</text>
+<!-- width envelope -->
+<ellipse cx="120" cy="150" rx="14" ry="42" transform="rotate(-62 120 150)" fill="rgba(255,92,138,.28)" stroke="#ff5c8a" stroke-dasharray="4 3"/>
+<text x="88" y="215" font-size="12" fill="#ff5c8a" font-weight="bold">瓣宽包络 w(t)：根窄→中宽→尖收</text>
+<!-- fold arrows -->
+<path d="M 120 148 q 20 -8 36 -2" stroke="#7c4dff" stroke-width="2.5" fill="none" marker-end="url(#ar)"/>
+<text x="150" y="140" font-size="12" fill="#7c4dff" font-weight="bold">横折 fold·s²：两缘低于中肋→勺状</text>
+<!-- curl -->
+<path d="M 222 68 q 18 -14 14 -30" stroke="#ffb300" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+<text x="200" y="26" font-size="12" fill="#c77700" font-weight="bold">瓣尖上卷 curl·tip²</text>
+<text x="46" y="236" font-size="11" fill="#888">瓣根 α=a0</text>
+</svg><div class="cap">花瓣公式的四个组成部分（侧视示意）</div></div>
+</div></div>
+<div class="codeblock"><span class="c"># 完整花瓣采样（Python 版；Three.js 版逐行同款）</span>
+t = rng.random(n); s = rng.uniform(-1, 1, n)          <span class="c"># 随机撒点</span>
+alpha = a0 + (a1 - a0) * t                            <span class="c"># ① 弧线</span>
+r = R * np.sin(alpha); zc = zb + R * np.cos(alpha)
+w = 0.40*(2π/n) * np.sin(π*clip(0.12+0.88t))^0.7      <span class="c"># ② 包络</span>
+phi = 瓣朝向 + s * w
+x, y = r*cos(phi), r*sin(phi)
+z = zc + R*fold*s²*t + R*curl*tip²                    <span class="c"># ③④ 形变</span>
+x,y,z += 高斯微抖动(0.012)                             <span class="c"># "绒"感</span></div>
+</div>
+
+<!-- ============ Q4 ============ -->
+<h2 class="q" id="q4"><span class="no">4</span>多层花瓣怎么叠才像玫瑰？</h2>
+<div class="card sec">
+<div class="two"><div>
+<p>单层花瓣只是"一个荷叶边"，玫瑰感来自<b>四层递进 + 三个防糊手段</b>：</p>
+<table>
+<tr><th>层</th><th>瓣数</th><th>弧线 a0→a1</th><th>性格</th></tr>
+<tr><td>内层</td><td>4</td><td>8°→35°</td><td>直立捧心</td></tr>
+<tr><td>中内</td><td>7</td><td>22°→56°</td><td>半拢</td></tr>
+<tr><td>中外</td><td>10</td><td>40°→76°</td><td>摊开</td></tr>
+<tr><td>外层</td><td>14</td><td>58°→93°</td><td>近水平外翻+尖卷</td></tr>
+</table>
+<p><b>防糊三招：</b>① 瓣宽∝(2π/瓣数)，瓣多的层瓣窄，留缝；② 每层相位 phase 错开（π/7、π/4、π/16），上下层花瓣互相插空；③ 内层 z_base 抬高，让花心"凸"出来。</p>
+</div><div>
+<div class="imgbox"><svg viewBox="0 0 320 320" width="100%">
+<circle cx="160" cy="160" r="140" fill="none" stroke="#ffc9d8" stroke-width="2" stroke-dasharray="5 4"/>
+<g fill="none" stroke="#e91e4f" stroke-width="2.5">
+  <!-- outer 14 petals -->
+  <g transform="translate(160,160)"><path id="p14" d="M 0 0 L 136 0" stroke-opacity=".45"/>
+  <g id="ring14"></g></g>
+</g>
+<g transform="translate(160,160)" fill="#ff5c8a" fill-opacity=".8">
+  <g id="ring7"></g>
+</g>
+<g transform="translate(160,160)" fill="#c2185b">
+  <g id="ring4"></g>
+</g>
+<circle cx="160" cy="160" r="10" fill="#8e002c"/>
+<text x="118" y="308" font-size="12" fill="#888" text-anchor="middle">俯视：三层相位错开、外层瓣多而窄</text>
+<script type="text/javascript"><![CDATA[
+function ring(id, n, r1, r2, w, phase){const g=document.getElementById(id);if(!g)return;for(let i=0;i<n;i++){const a=phase+i*2*Math.PI/n;const p=document.createElementNS('http://www.w3.org/2000/svg','ellipse');p.setAttribute('cx',(r1+r2)/2*Math.cos(a));p.setAttribute('cy',(r1+r2)/2*Math.sin(a));p.setAttribute('rx',(r2-r1)/2+6);p.setAttribute('ry',w);p.setAttribute('transform',`rotate(${a*180/Math.PI} ${(r1+r2)/2*Math.cos(a)} ${(r1+r2)/2*Math.sin(a)})`);g.appendChild(p);}}
+ring('ring14',14,50,140,11,0.2);ring('ring7',7,26,95,14,Math.PI/7);ring('ring4',4,6,58,16,0);
+]]></script>
+</svg><div class="cap">俯视分层示意（示意环，非真实渲染）</div></div>
+</div></div>
+<p><span class="key">"包心结构"是玫瑰和荷花、蒲公英在公式层面的本质区别：瓣尖角 a1 从内向外逐层增大（35°→93°），一朵花里藏着一条"从抱拢到放开"的连续谱。</span></p>
+</div>
+
+<!-- ============ Q5 ============ -->
+<h2 class="q" id="q5"><span class="no">5</span>3.4 万个点为什么会"发光"？</h2>
+<div class="card sec">
+<p>Three.js 里所有 3.4 万个点装进<b>一个</b> <code>THREE.Points</code> 对象（场景图里的一个节点），发光感来自三个渲染开关的组合：</p>
+<table>
+<tr><th>技术</th><th>作用</th><th>不开会怎样</th></tr>
+<tr><td><span class="term">点精灵 gl_PointSize</span></td><td>每个顶点渲染成一个带纹理的正方形面片（不是 1 像素点）</td><td>粒子小成沙砾，没有形体感</td></tr>
+<tr><td><span class="term">软边圆形</span> smoothstep</td><td>片元着色器里按到点中心距离做圆形淡出</td><td>每个粒子是硬边方块，放大有"马赛克"感</td></tr>
+<tr><td><span class="term">加法混合 AdditiveBlending</span></td><td>重叠粒子的颜色相加——叠得越多越亮，向着白色逼近</td><td>画面像平平的纸片，没有光感</td></tr>
+</table>
+<p><span class="key">加法混合 = "光的叠照"：两束光重叠处更亮。密集处自动过亮成白、稀疏处透出深红——粒子云的"辉光层次"是免费的。</span></p>
+<p>配套纪律：开加法混合必须配 <code>depthWrite:false</code>（粒子不写深度），否则先画粒子会挡住后面的粒子，透明就失效了。</p>
+<p>对比：matplotlib 版没有这些（普通散射点），所以同一样公式，matplotlib 版像"绒布剪影"，Three.js 版像"霓虹雕塑"——<b>数学相同，观感差距全在渲染开关上</b>。</p>
+</div>
+
+<!-- ============ Q6 ============ -->
+<h2 class="q" id="q6"><span class="no">6</span>粒子怎么从混沌汇聚成玫瑰？</h2>
+<div class="card sec">
+<div class="two"><div>
+<p>每个粒子带两套坐标，存在同一条几何体的两个属性里：</p>
+<p><code>aStart</code>：混沌起点——半径 6 左右的大球壳随机点（略向下偏，像一片星云）<br><code>aTarget</code>：玫瑰目标点——Q3/Q4 的公式算出的位置</p>
+<p>动画每帧只更新一个数：<b>全局进度 uProgress: 0→1</b>。顶点着色器里：</p>
+<div class="codeblock">float p = clamp((uProgress - delay) / 0.65, 0., 1.);
+p = easeInOutCubic(p);          <span class="c">// 缓动</span>
+vec3 pos = mix(aStart, aTarget, p);</div>
+<p><b>两个灵魂细节：</b><br>① <span class="term">每粒子随机延迟 delay（0~0.35）</span>——粒子不是齐步走，像潮水般此起彼伏地抵达；<br>② <span class="term">缓动函数 easeInOutCubic</span>——起步慢、中段快、到位前减速"刹车"，机械感秒变生命感。</p>
+<p>到位后再叠加 <code>sin(时间+种子)</code> 的微小呼吸漂移——花就"活"了。</p>
+</div><div>
+<div class="imgbox"><svg viewBox="0 0 320 260" width="100%">
+<line x1="20" y1="200" x2="300" y2="200" stroke="#ddd"/>
+<circle cx="55" cy="120" r="34" fill="rgba(124,77,255,.15)" stroke="#7c4dff" stroke-width="2"/>
+<circle cx="40" cy="105" r="2.5" fill="#7c4dff"/><circle cx="68" cy="132" r="2.5" fill="#7c4dff"/><circle cx="60" cy="98" r="2.5" fill="#7c4dff"/><circle cx="75" cy="112" r="2.5" fill="#7c4dff"/><circle cx="47" cy="130" r="2.5" fill="#7c4dff"/>
+<text x="55" y="175" font-size="12" fill="#7c4dff" text-anchor="middle" font-weight="bold">aStart 星云</text>
+<g transform="translate(210,118)">
+<circle cx="0" cy="0" r="26" fill="rgba(233,30,79,.12)" stroke="#e91e4f" stroke-width="2"/>
+<circle cx="-14" cy="-6" r="2.5" fill="#e91e4f"/><circle cx="12" cy="-10" r="2.5" fill="#e91e4f"/><circle cx="15" cy="8" r="2.5" fill="#e91e4f"/><circle cx="-4" cy="14" r="2.5" fill="#e91e4f"/><circle cx="0" cy="0" r="4" fill="#8e002c"/>
+<text x="0" y="55" font-size="12" fill="#e91e4f" text-anchor="middle" font-weight="bold">aTarget 玫瑰</text>
+</g>
+<path d="M 92 118 Q 150 60 180 112" stroke="#ffb300" stroke-width="3" fill="none" stroke-dasharray="6 4" marker-end="url(#ar)"/>
+<text x="150" y="46" font-size="12.5" fill="#c77700" text-anchor="middle" font-weight="bold">mix(start,target,ease(p))</text>
+<!-- easing curve -->
+<path d="M 30 244 Q 60 244 90 210 T 150 226 T 210 226" stroke="none"/>
+<path d="M 240 250 l 0 0" stroke="none"/>
+</svg><div class="cap">每个粒子：星云 →（缓动插值）→ 玫瑰上的专属座位</div></div>
+</div></div>
+</div>
+
+<!-- ============ Q7 ============ -->
+<h2 class="q" id="q7"><span class="no">7</span>为什么动画写在着色器里而不是 JS 里？</h2>
+<div class="card sec">
+<div class="two"><div>
+<p>3.4 万粒子 × 每帧 60 次刷新 = 每秒 200 万次位置更新。两个做法的天壤之别：</p>
+<table>
+<tr><th></th><th>CPU（JS 逐帧改坐标）</th><th>GPU（顶点着色器）</th></tr>
+<tr><td>数据在哪</td><td>内存 ↔ 显存来回搬</td><td>常住显存，零搬运</td></tr>
+<tr><td>谁算</td><td>JS 主线程串行</td><td>数千核心并行</td></tr>
+<tr><td>每帧成本</td><td>3.4万次循环+上传</td><td>改 1 个 uniform 变量</td></tr>
+</table>
+<p><span class="key">着色器方案：JS 每帧只更新 uProgress 一个数（从 0 走到 1），3.4 万粒子的位置全部由 GPU 各自算——CPU 几乎零负担，还稳 60 帧。</span></p>
+</div><div>
+<div class="imgbox"><svg viewBox="0 0 300 230" width="100%">
+<rect x="15" y="20" width="120" height="70" rx="10" fill="#ede7ff" stroke="#7c4dff" stroke-width="2"/>
+<text x="75" y="48" font-size="13" fill="#7c4dff" text-anchor="middle" font-weight="bold">CPU (JS)</text>
+<text x="75" y="70" font-size="12" fill="#555" text-anchor="middle">只发一个数：progress</text>
+<path d="M 75 90 l 0 30" stroke="#7c4dff" stroke-width="3" marker-end="url(#ar)"/>
+<text x="88" y="112" font-size="11" fill="#7c4dff">1 个 uniform</text>
+<rect x="15" y="130" width="270" height="80" rx="10" fill="#ffe3ec" stroke="#e91e4f" stroke-width="2"/>
+<text x="150" y="160" font-size="13" fill="#e91e4f" text-anchor="middle" font-weight="bold">GPU 顶点着色器（数千核并行）</text>
+<text x="150" y="185" font-size="12" fill="#555" text-anchor="middle">3.4 万个顶点各自算 mix(start,target,ease(p))</text>
+<circle cx="45" cy="198" r="3" fill="#e91e4f"/><circle cx="65" cy="198" r="3" fill="#e91e4f"/><circle cx="85" cy="198" r="3" fill="#e91e4f"/><circle cx="105" cy="198" r="3" fill="#e91e4f"/><circle cx="125" cy="198" r="3" fill="#e91e4f"/><circle cx="145" cy="198" r="3" fill="#e91e4f"/><circle cx="165" cy="198" r="3" fill="#e91e4f"/><circle cx="185" cy="198" r="3" fill="#e91e4f"/><circle cx="205" cy="198" r="3" fill="#e91e4f"/><circle cx="225" cy="198" r="3" fill="#e91e4f"/><circle cx="245" cy="198" r="3" fill="#e91e4f"/>
+</svg><div class="cap">CPU 发令、GPU 齐算：并行粒子动画的标准架构</div></div>
+</div></div>
+</div>
+
+<!-- ============ Q8 ============ -->
+<h2 class="q" id="q8"><span class="no">8</span>随机数有什么讲究？</h2>
+<div class="card sec">
+<p>两个容易忽略但决定成败的细节：</p>
+<p><b>① 固定种子 = 可复现。</b>JS 里 <code>Math.random()</code> 没法设种子，每次刷新是另一朵花；实验用 <span class="term">mulberry32(42)</span> 自实现可播种随机数——<span class="key">种子固定，粒子云 100% 复现，改一个参数前后对比才有意义</span>（这也呼应知识库的"确定性脚本"概念：同输入同输出，才好当实验品）。</p>
+<p><b>② 高斯抖动 ≠ 均匀抖动。</b>花瓣表面叠加 <code>gauss()×0.012</code> 的微小偏移（Box-Muller 变换生成正态分布）：均匀抖动像"沙纸"，高斯抖动中心密、边缘稀，才有<b>绒雾般的体积感</b>。</p>
+<div class="warn"><b>坑：</b>把抖动调到 0.05 以上花瓣轮廓就散架了；"绒感"要的是 1% 量级的扰动，不是噪声。</div>
+</div>
+
+<!-- ============ Q9 ============ -->
+<h2 class="q" id="q9"><span class="no">9</span>画面为什么会"过曝"？怎么救？</h2>
+<div class="card sec">
+<p>实测第一版 Three.js 截图整个花头糊成一张白饼。原因和药方：</p>
+<table>
+<tr><th>病因</th><th>药方（本次实测有效）</th></tr>
+<tr><td>点尺寸 <code>uSize=3.2</code> 太大，相邻粒子面片大量重叠，加法叠加爆白</td><td>降到 <b>0.62</b>（经验：加法混合下点宜小而多，不宜大而糊）</td></tr>
+<tr><td>每个粒子不透明度太高</td><td>软边 alpha 乘 <b>0.55</b></td></tr>
+<tr><td>中心亮核 + 辉光增益过猛</td><td>亮核 0.35→<b>0.10</b>，颜色增益 (0.75+0.6g)→(0.80+0.5g)</td></tr>
+</table>
+<p><span class="key">加法混合的调参心法：亮度是"叠"出来的，单粒子要刻意调暗；单看每个粒子灰暗得可惜，合在一起才刚刚好。</span></p>
+<div class="two">
+<div class="imgbox"><img src="exercise/rose_final.png" style="max-width:100%;border-radius:10px"><div class="cap">调参后：层次分明的发光玫瑰</div></div>
+</div>
+</div>
+
+<!-- ============ Q10 ============ -->
+<h2 class="q" id="q10"><span class="no">10</span>无头浏览器怎么给 WebGL 拍照验证？</h2>
+<div class="card sec">
+<p>实验程序"是否真的画出了玫瑰"不能靠嘴说——用 Edge 无头模式自动截图当证据（呼应知识库"证据优先质检"：看实机画面，不看日志）：</p>
+<div class="codeblock">msedge --headless=new --disable-gpu --use-angle=swiftshader \
+  --window-size=900,1000 --virtual-time-budget=9000 \
+  --screenshot="rose_final.png" \
+  "file:///F:/reminder/particle-rose/exercise/rose.html?final=1"</div>
+<p>三个关键开关：</p>
+<p><b>① <code>--use-angle=swiftshader</code></b>：无 GPU 环境用 CPU 软渲染 WebGL（无头模式下 <code>--disable-gpu</code> 会禁真硬件加速，SwiftShader 兜底）；<br>
+<b>② <code>--virtual-time-budget=9000</code></b>：把页面的时钟快进 9 秒——rAF 动画瞬间跑完 5.2 秒的汇聚，不用真等；<br>
+<b>③ <code>?final=1</code></b>：页面内置的跳关参数，直接把进度钉在 100%，截图结果确定。</p>
+<div class="check"><b>✅ 实测：</b>该命令在本机真实输出 rose_final.png（87KB→调参后 221KB），画面为完整发光玫瑰；把 budget 改成 3200 得到 21% 进度的混沌星云图——<b>一条命令即可抽取动画任意时刻的确定性帧</b>。</div>
+</div>
+
+<!-- ============ Q11 ============ -->
+<h2 class="q" id="q11"><span class="no">11</span>这套技术和已学的 Three.js 是什么关系？</h2>
+<div class="card sec">
+<p>对照知识库已有概念：</p>
+<table>
+<tr><th>已有概念</th><th>本项目的新增量</th></tr>
+<tr><td>[[Three.js与场景图]]</td><td>Points 只是场景图里又一个节点；但动画发生在<b>顶点着色器</b>里，完全绕过场景图的变换层级——场景图管"静态组织"，着色器管"海量并行"</td></tr>
+<tr><td>[[程序化建模]]</td><td>上一课用代码拼"积木"（几何体+布尔），本课用参数方程描述<b>连续曲面</b>——菜谱更细了，细到每个点的坐标都有公式</td></tr>
+<tr><td>[[确定性脚本]]</td><td>固定随机种子让粒子云可复现，是参数实验的对照前提</td></tr>
+<tr><td>[[证据优先质检ProofOverClaims]]</td><td>无头截图 = AI/自动化流程的"眼睛"，WebGL 页面同样适用</td></tr>
+</table>
+<p>新概念两条：<span class="term">粒子系统</span>（起点/终点双缓冲+缓动插值的群体动画范式）与<span class="term">参数曲面采样</span>（两个参数的方程描述三维表面）。</p>
+</div>
+
+<!-- ============ Q12 ============ -->
+<h2 class="q" id="q12"><span class="no">12</span>学完能拿来做什么？</h2>
+<div class="card sec">
+<table>
+<tr><th>玩法</th><th>怎么改</th></tr>
+<tr><td>节日表白页 / 贺卡</td><td>把 aTarget 换成心形参数方程（已有大量开源公式），其余一行不改</td></tr>
+<tr><td>粒子烟花</td><td>目标点改"爆炸球面"，缓动改 ease-out，加重力项</td></tr>
+<tr><td>星系/星云可视化</td><td>目标点按对数螺旋线分布（旋臂），颜色按半径渐变</td></tr>
+<tr><td>Logo / 文字粒子动画</td><td>aTarget 从 Canvas 2D 读像素点坐标——任何图形都能"粒子化"</td></tr>
+<tr><td>数据雕塑</td><td>目标点=你的数据（如词频、传感器序列），把抽象数据变成可旋转的形体</td></tr>
+</table>
+<p><span class="key">一套"起点+目标+缓动"的管线，换掉目标点云，就是另一个作品——这就是 Creative Coding 的杠杆率。</span></p>
+</div>
+
+<!-- ============ 实验 ============ -->
+<h2 class="q" style="background:linear-gradient(90deg,var(--teal),#5ffcd8)"><span class="no" style="color:var(--teal)">✦</span>动手实验：亲手种出一朵粒子玫瑰（已实测通过）</h2>
+<div class="card">
+<p><b>实验目标：</b>从零跑通"数学验证 → 交互动画 → 参数改造 → 自动化取证"四步，实验材料在 <code>particle-rose\exercise\</code>。</p>
+
+<div class="step"><div class="sn">1</div><div class="sb"><h4>准备：拿到 three.js 并放进本地 vendor 目录</h4>
+<p><b>操作：</b><br><code>curl -sL -o exercise/vendor/three.min.js https://unpkg.com/three@0.128.0/build/three.min.js</code></p>
+<p><b>目的：</b>本地化依赖，双击 HTML 就能跑（不走 <code>npm install</code>，也不联网）。<br><b>为什么是 r128：</b>这是带 UMD 版（<code>three.min.js</code> 全局变量）的最后几个版本之一——<b>新版只有 ES Module，而 ES Module 在 <code>file://</code> 协议下会被 CORS 拦截，双击打不开</b>。这是新手最常见的"明明没错却黑屏"的坑。</p>
+<div class="check"><b>✅ 验证：</b><code>wc -c three.min.js</code> 输出 603445 字节，文件头含 "three.js Authors"。</div>
+</div></div>
+
+<div class="step"><div class="sn">2</div><div class="sb"><h4>先用 Python 验证玫瑰公式（数学先于动画）</h4>
+<p><b>操作：</b><br><code>pip install matplotlib numpy</code> → <code>python exercise/rose_mpl.py</code></p>
+<p><b>目的：</b>动画会掩盖公式错误，先用最朴素的 3D 散点图确认"玫瑰长得对不对"。<br><b>实现：</b>四层弧线花瓣（4/7/10/14 瓣）+ 花蕊 + 花茎，共 34,400 粒子，一次性渲染成静态图。</p>
+<div class="check"><b>✅ 预期结果：</b>输出 <code>rose_mpl.png</code>（实测 34400 粒子，约 3 秒出图）：黑底上一朵层叠红玫瑰、绿色弯茎。若改 <code>a1</code> 各层角度，花型立刻变（比如全改 90° 变成平盘子——这就是"包心结构"的对照实验）。</div>
+</div></div>
+
+<div class="step"><div class="sn">3</div><div class="sb"><h4>打开 Three.js 交互版，看混沌汇聚动画</h4>
+<p><b>操作：</b>双击 <code>exercise/rose.html</code>（或命令行 <code>start exercise\rose.html</code>）。</p>
+<p><b>目的：</b>体验完整作品：34,400 粒子从星云汇聚成玫瑰，5.2 秒，鼠标可拖动旋转、滚轮缩放。<br><b>实现：</b>同一套公式 + GPU 着色器动画（Q6/Q7）。</p>
+<div class="check"><b>✅ 预期结果：</b>左上角 HUD 显示"粒子数 34,400 · 进度 xx%"；进度走到 100% 后呈现发光玫瑰，与下图中图一致。</div>
+</div></div>
+
+<div class="step"><div class="sn">4</div><div class="sb"><h4>改参数，看公式如何回应（成就感时刻）</h4>
+<p><b>操作 &amp; 预期：</b>在浏览器地址栏的 URL 后面加参数刷新：</p>
+<table>
+<tr><th>URL</th><th>现象（均已实测截图）</th></tr>
+<tr><td><code>rose.html?k=0.55</code></td><td>每层瓣数减半（4/7/10/14 → 2/4/6/8），花瓣变大变肥， rose_k06.png</td></tr>
+<tr><td><code>rose.html?blue=1</code></td><td>红玫瑰变蓝玫瑰（颜色通道整体映射），rose_blue.png</td></tr>
+<tr><td>源码里改 <code>DURATION = 5200</code></td><td>汇聚变快/变慢，动画节奏随你掌控</td></tr>
+</table>
+<div class="check"><b>✅ 验证标准：</b>每次改参数刷新，花型/颜色应立刻变化且<b>每次刷新形状相同</b>（固定种子的可复现性，Q8）。</div>
+</div></div>
+
+<div class="step"><div class="sn">5</div><div class="sb"><h4>无头截图：给作品拍"确定性"的证件照</h4>
+<p><b>操作：</b>运行 Q10 的 msedge 无头命令。</p>
+<p><b>目的：</b>把"我画出来了"变成可存档、可对比的 PNG 证据——这是所有 AI/自动化图形工作流的验收基建。</p>
+<div class="check"><b>✅ 预期结果：</b>rose_final.png（100% 成品）、rose_morph.png（21% 混沌星云）两张确定性帧落盘，尺寸 900×1000。</div>
+</div></div>
+
+<h3 style="color:var(--rose)">实验产物一览</h3>
+<div class="two">
+<div class="imgbox"><img src="exercise/rose_morph.png"><div class="cap">① 21%：混沌星云（起点态）</div></div>
+<div class="imgbox"><img src="exercise/rose_morph2.png"><div class="cap">② 100%：汇聚完成的发光玫瑰</div></div>
+<div class="imgbox"><img src="exercise/rose_k06.png"><div class="cap">③ ?k=0.55：瓣数减半的实验组</div></div>
+<div class="imgbox"><img src="exercise/rose_blue.png"><div class="cap">④ ?blue=1：蓝色变体</div></div>
+<div class="imgbox"><img src="exercise/rose_mpl.png" style="max-height:340px"><div class="cap">⑤ Python/matplotlib 版：同一公式的朴素验证</div></div>
+</div>
+</div>
+
+<div class="card" style="background:linear-gradient(135deg,#2b1430,#4a1d52);color:#ffd3e0;border:none">
+<b style="color:var(--gold);font-size:16px">一句话带走：</b><span style="font-size:15px">粒子玫瑰 = <b>参数方程给出"美的坐标"</b> + <b>缓动插值负责"浪漫的抵达"</b>。公式管形，时间管情，GPU 管量——逻辑和浪漫并存，这句话在代码层面是字面成立的。</span>
+</div>
+
+</body>
+</html>

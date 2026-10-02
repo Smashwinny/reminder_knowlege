@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>粒子玫瑰 · Three.js</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  #hud {
+    position: fixed; left: 16px; top: 14px; color: #ff9db0;
+    font: 14px/1.7 "Microsoft YaHei", sans-serif; pointer-events: none;
+    text-shadow: 0 0 6px rgba(255, 40, 80, .8);
+  }
+  #hud b { color: #fff; font-size: 16px; }
+</style>
+</head>
+<body>
+<div id="hud">
+  <b>粒子玫瑰 · Three.js</b><br>
+  鼠标拖动旋转 · 滚轮缩放<br>
+  <span id="stat"></span>
+</div>
+<script src="vendor/three.min.js"></script>
+<script src="vendor/OrbitControls.js"></script>
+<script>
+// =====================================================================
+// 粒子玫瑰 · Three.js 版
+// 核心思想（与 rose_mpl.py 完全同一套数学）：
+//   1. 用参数方程算出"玫瑰表面"上 N 个目标点（四层弧线花瓣+花蕊+花茎）
+//   2. 每个粒子再配一个随机的"混沌起点"（一个大球壳上的散点）
+//   3. 动画 = 每帧把粒子位置从起点向目标点做缓动插值（easing + lerp）
+//      progress: 0 → 1，粒子就从星云汇聚成一朵玫瑰
+//   URL 加 ?final=1 可直接跳到汇聚完成状态（用于无头截图验证）
+// =====================================================================
+
+// ---------- 1. 生成玫瑰目标点（与 Python 版同一公式） ----------
+function mulberry32(seed) {            // 可复现随机数（固定种子 → 每次刷新同一朵花）
+  return function () {
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const rand = mulberry32(42);
+const gauss = () => {                  // Box-Muller 高斯抖动
+  const u = Math.max(rand(), 1e-9), v = rand();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+};
+
+const D = Math.PI / 180;
+// URL 参数：?k=0.6 整体缩放每层瓣数 | ?blue=1 蓝色玫瑰 | ?final=1 跳过动画
+const PARAMS = new URLSearchParams(location.search);
+const K = Math.max(0.3, parseFloat(PARAMS.get('k') || '1') || 1);
+const BLUE = PARAMS.has('blue');
+// 每层花瓣：瓣数 / 弧线半径 / 瓣根角a0 / 瓣尖角a1 / 横折fold / 尖卷curl / 基高z_base / 相位phase / 粒子数n / 颜色[c根,c尖]
+const LAYERS = [
+  { n: 4,  R: 0.40, a0:  8*D, a1: 35*D, fold: 0.30, curl: 0.10, zb: 0.46, phase: 0.00,      N: 5000,  c0: [0.42,0.00,0.05], c1: [0.88,0.08,0.16] },
+  { n: 7,  R: 0.65, a0: 22*D, a1: 56*D, fold: 0.26, curl: 0.18, zb: 0.34, phase: Math.PI/7, N: 7000,  c0: [0.50,0.01,0.06], c1: [0.97,0.14,0.22] },
+  { n: 10, R: 0.88, a0: 40*D, a1: 76*D, fold: 0.22, curl: 0.28, zb: 0.24, phase: Math.PI/4, N: 9000,  c0: [0.58,0.03,0.08], c1: [1.00,0.22,0.30] },
+  { n: 14, R: 1.02, a0: 58*D, a1: 93*D, fold: 0.18, curl: 0.40, zb: 0.14, phase: Math.PI/16,N: 11000, c0: [0.66,0.05,0.10], c1: [1.00,0.40,0.47] },
+];
+if (K !== 1) for (const L of LAYERS) L.n = Math.max(2, Math.round(L.n * K));
+if (BLUE) for (const L of LAYERS) { L.c0 = [L.c0[2]*0.9, L.c0[1]*0.7, L.c0[0]*2.2]; L.c1 = [L.c1[2]*0.9, L.c1[1]*0.7, L.c1[0]*2.2]; }
+
+const targets = [], colors = [], starts = [];
+const START_R = 6.0;                   // 混沌起点球壳半径
+
+function addParticles(pos, col) {
+  targets.push(pos.x, pos.y, pos.z);
+  colors.push(col.r, col.g, col.b);
+  // 混沌起点：随机方向 × 随机半径的大球壳（略偏下方，像星云散开）
+  const u = rand() * 2 - 1, th = rand() * Math.PI * 2;
+  const rr = START_R * (0.6 + 0.4 * rand());
+  const sr = Math.sqrt(1 - u * u);
+  starts.push(sr * Math.cos(th) * rr, sr * Math.sin(th) * rr * 0.8 - 1.0, u * rr);
+}
+
+for (const L of LAYERS) {
+  for (let i = 0; i < L.N; i++) {
+    const t = rand();                                  // 沿瓣长
+    const s = rand() * 2 - 1;                          // 沿瓣宽
+    const alpha = L.a0 + (L.a1 - L.a0) * t;            // 中心线弧线
+    const r = L.R * Math.sin(alpha);
+    const zc = L.zb + L.R * Math.cos(alpha);
+    const w = 0.40 * (2 * Math.PI / L.n) * Math.pow(Math.sin(Math.PI * Math.min(0.12 + 0.88 * t, 1)), 0.7);
+    const petal = Math.floor(rand() * L.n);            // 属于哪一瓣
+    const phi = 2 * Math.PI * petal / L.n + L.phase + s * w;
+
+    let x = r * Math.cos(phi), y = r * Math.sin(phi);
+    let z = zc + L.R * L.fold * s * s * t;             // 横向内折
+    const tip = Math.max(0, Math.min(1, (t - 0.55) / 0.45));
+    z += L.R * L.curl * tip * tip;                     // 瓣尖上卷
+    x += gauss() * 0.012; y += gauss() * 0.012; z += gauss() * 0.012;
+
+    const mix = (a, b) => a + (b - a) * t;
+    addParticles(
+      { x, y, z },                                     // 注意：这里 y 是"上下"，下面统一把 z 当高度
+      { r: mix(L.c0[0], L.c1[0]), g: mix(L.c0[1], L.c1[1]), b: mix(L.c0[2], L.c1[2]) }
+    );
+  }
+}
+
+// 花蕊
+for (let i = 0; i < 1500; i++)
+  addParticles(
+    { x: gauss() * 0.06, y: gauss() * 0.06, z: 0.72 + gauss() * 0.07 },
+    { r: 0.35, g: 0.00, b: 0.04 }
+  );
+// 花茎
+for (let i = 0; i < 900; i++) {
+  const t = i / 899;
+  addParticles(
+    { x: 0.15 * Math.sin(2.2 * t), y: 0.10 * Math.sin(3.1 * t + 1.0), z: 0.05 - 2.7 * t },
+    { r: 0.10, g: 0.45, b: 0.12 }
+  );
+}
+
+const COUNT = targets.length / 3;
+
+// ---------- 2. Three.js 场景 ----------
+// 统一坐标：数学公式里的 z 是"高度"，Three.js 里 y 才是高度 → 生成时(x,y,z) 映射为 (x,z,y)
+const T = new Float32Array(targets.length), S = new Float32Array(starts.length);
+for (let i = 0; i < COUNT; i++) {
+  T[i*3] = targets[i*3];     T[i*3+1] = targets[i*3+2]; T[i*3+2] = targets[i*3+1];
+  S[i*3] = starts[i*3];      S[i*3+1] = starts[i*3+2]; S[i*3+2] = starts[i*3+1];
+}
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x000000, 0.10);
+const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100);
+camera.position.set(0, 1.2, 4.2);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setClearColor(0x000000);
+document.body.appendChild(renderer.domElement);
+
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.target.set(0, -0.4, 0);
+
+const geo = new THREE.BufferGeometry();
+geo.setAttribute('position', new THREE.BufferAttribute(T.slice(), 3));  // 当前位置（动画改写它）
+geo.setAttribute('color',    new THREE.BufferAttribute(new Float32Array(colors), 3));
+geo.setAttribute('aStart',   new THREE.BufferAttribute(S, 3));
+geo.setAttribute('aTarget',  new THREE.BufferAttribute(T, 3));
+
+const mat = new THREE.ShaderMaterial({
+  transparent: true,
+  depthWrite: false,
+  blending: THREE.AdditiveBlending,
+  uniforms: {
+    uProgress: { value: 0 },     // 0=混沌 → 1=玫瑰
+    uSize:     { value: 0.62 },
+    uTime:     { value: 0 },
+  },
+  vertexShader: `
+    attribute vec3 aStart;
+    attribute vec3 aTarget;
+    attribute float aSeed;
+    uniform float uProgress;   // 缓动后的全局进度
+    uniform float uSize;
+    uniform float uTime;
+    varying vec3 vColor;
+    varying float vGlow;
+    // 每个粒子带一点随机延迟，汇聚时像"流水"而不是"齐步走"
+    float ease(float x) { return x < 0.5 ? 4.0*x*x*x : 1.0 - pow(-2.0*x + 2.0, 3.0) / 2.0; }
+    void main() {
+      float delay = fract(aSeed * 7.13) * 0.35;                 // 0~0.35 的随机延迟
+      float p = clamp((uProgress - delay) / (1.0 - 0.35), 0.0, 1.0);
+      p = ease(p);
+      vec3 pos = mix(aStart, aTarget, p);
+      // 到位后绕自身目标点做微小呼吸漂移，让花"活着"
+      float w = sin(uTime * 1.5 + aSeed * 40.0) * 0.012 * p;
+      pos += w * vec3(sin(aSeed*91.0), cos(aSeed*57.0), sin(aSeed*23.0));
+      vColor = color;
+      vGlow = p;
+      vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+      gl_PointSize = uSize * (1.0 + 0.5*(1.0-p)) * (60.0 / -mv.z);
+      gl_Position = projectionMatrix * mv;
+    }`,
+  fragmentShader: `
+    varying vec3 vColor;
+    varying float vGlow;
+    void main() {
+      vec2 d = gl_PointCoord - 0.5;
+      float m = smoothstep(0.5, 0.05, length(d)) * 0.55;   // 圆形软边粒子（压低透明度防过曝）
+      float core = smoothstep(0.18, 0.0, length(d));
+      vec3 c = vColor * (0.80 + 0.5 * vGlow) + core * 0.10 * vGlow;
+      gl_FragColor = vec4(c, m);
+    }`,
+  vertexColors: true,
+});
+// 每粒子随机种子（延迟用）
+{
+  const seeds = new Float32Array(COUNT);
+  for (let i = 0; i < COUNT; i++) seeds[i] = rand();
+  geo.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 1));
+}
+const points = new THREE.Points(geo, mat);
+scene.add(points);
+
+// ---------- 3. 动画循环 ----------
+const isFinal = PARAMS.has('final');
+const t0 = performance.now();
+const DURATION = 5200;                 // 汇聚动画总时长 ms
+
+function tick(now) {
+  const el = (now - t0);
+  const raw = isFinal ? 1 : Math.min(el / DURATION, 1);
+  mat.uniforms.uProgress.value = raw;
+  mat.uniforms.uTime.value = el / 1000;
+  document.getElementById('stat').textContent =
+    '粒子数 ' + COUNT.toLocaleString() + ' · 进度 ' + Math.round(raw * 100) + '%';
+  controls.update();
+  renderer.render(scene, camera);
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+</body>
+</html>
