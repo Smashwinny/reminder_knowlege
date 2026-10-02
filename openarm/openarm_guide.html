@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>OpenArm 小白指南</title>
+<style>
+:root{
+  --pink:#E91E63; --blue:#2196F3; --orange:#FF6D00; --purple:#7C4DFF;
+  --green:#00C853; --yellow:#FFD600; --cyan:#00B8D4; --red:#FF1744;
+  --ink:#1A1A2E; --bg:#FFFFFF;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+@page{size:A4; margin:12mm;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink);
+     font-size:13px; line-height:1.65; background:#fff;}
+.cover{background:linear-gradient(135deg,#E91E63 0%,#7C4DFF 55%,#2196F3 100%);
+       color:#fff; border-radius:18px; padding:34px 30px; margin-bottom:14px;}
+.cover h1{font-size:34px; letter-spacing:1px; margin-bottom:8px;}
+.cover .sub{font-size:16px; opacity:.95;}
+.cover .meta{margin-top:14px; font-size:12px; opacity:.85;}
+.badge{display:inline-block; background:#fff; color:var(--pink); font-weight:bold;
+       border-radius:20px; padding:2px 14px; font-size:13px; margin-right:8px;}
+.toc{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;}
+.toc span{background:#FFF3E0; border:2px solid var(--orange); border-radius:14px;
+          padding:3px 10px; font-size:11.5px; font-weight:bold;}
+.qcard{border-radius:16px; padding:18px 20px; margin-bottom:13px; break-inside:avoid;
+       border-left:10px solid;}
+.qcard.p{border-color:var(--pink); background:#FCE4EC;}
+.qcard.b{border-color:var(--blue); background:#E3F2FD;}
+.qcard.o{border-color:var(--orange); background:#FFF3E0;}
+.qcard.v{border-color:var(--purple); background:#EDE7F6;}
+.qcard.g{border-color:var(--green); background:#E8F5E9;}
+.qcard.c{border-color:var(--cyan); background:#E0F7FA;}
+.qnum{font-size:34px; font-weight:900; float:left; margin:0 14px 0 0; line-height:1;}
+.qcard.p .qnum{color:var(--pink);} .qcard.b .qnum{color:var(--blue);}
+.qcard.o .qnum{color:var(--orange);} .qcard.v .qnum{color:var(--purple);}
+.qcard.g .qnum{color:var(--green);} .qcard.c .qnum{color:var(--cyan);}
+h2{font-size:19px; margin-bottom:8px; padding-top:2px;}
+.hl{background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:bold;
+    padding:0 2px;}
+.big{font-size:15px; font-weight:900;}
+.code{background:#1A1A2E; color:#AEFFC1; border-radius:8px; padding:8px 12px;
+      font-family:Consolas,monospace; font-size:11.5px; margin:6px 0; white-space:pre-wrap;}
+.tag{display:inline-block; border-radius:6px; padding:1px 8px; font-size:11px;
+     font-weight:bold; color:#fff; margin:1px 2px;}
+table{border-collapse:collapse; width:100%; margin:8px 0; font-size:12px;}
+th{background:var(--purple); color:#fff; padding:5px 8px; text-align:left;}
+td{border:1.5px solid #D1C4E9; padding:4px 8px; background:#fff;}
+tr:nth-child(even) td{background:#F3E5F5;}
+.svgbox{text-align:center; margin:8px 0;}
+svg{max-width:100%; height:auto;}
+.exp{border:3px dashed var(--green); border-radius:14px; padding:14px 18px;
+     margin:10px 0; break-inside:avoid; background:#F1F8E9;}
+.exp h3{color:var(--green); font-size:16px; margin-bottom:6px;}
+.ok{background:var(--green); color:#fff; border-radius:8px; padding:6px 12px;
+    font-weight:bold; display:inline-block; margin-top:4px;}
+.warn{background:#FFEBEE; border-left:6px solid var(--red); border-radius:8px;
+      padding:8px 12px; margin:6px 0; font-size:12px;}
+.step{background:#fff; border-radius:10px; padding:8px 12px; margin:6px 0;
+      border:2px solid #A5D6A7;}
+.step b{color:var(--green);}
+.cap{border:3px solid var(--yellow); background:#FFFDE7; border-radius:16px;
+     padding:16px 20px; margin:12px 0; break-inside:avoid;}
+.cap h2{color:#F57F17;}
+.grid2{display:flex; gap:10px; flex-wrap:wrap;}
+.grid2>div{flex:1 1 46%; break-inside:avoid;}
+.foot{background:#263238; color:#B0BEC5; border-radius:12px; padding:12px 18px;
+      font-size:11px; margin-top:10px;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🦾 OpenArm 小白指南</h1>
+  <div class="sub">具身智能的"Linux 时刻"——日本 enactic 全开源 7-DOF 人形双臂平台全拆解</div>
+  <div class="meta">
+    <span class="badge">开源硬件 CERN-OHL-S</span><span class="badge">软件全 Apache-2.0</span>
+    <span class="badge">9 个子仓库</span><span class="badge">无硬件可玩 4 实验</span><br>
+    来源：X @AYi_AInotes 推文（2026-09）｜GitHub：enactic/openarm｜文档：docs.openarm.dev<br>
+    产出：F:\reminder\openarm（含 exercise 4 个真跑通实验）｜2026-10-03
+  </div>
+</div>
+
+<div class="toc">
+  <span>Q1 是什么</span><span>Q2 Linux时刻</span><span>Q3 QDD反驱</span><span>Q4 重力补偿</span>
+  <span>Q5 主从遥操作</span><span>Q6 CAN/MIT帧</span><span>Q7 7DOF布局</span><span>Q8 MJCF解剖</span>
+  <span>Q9 数据集</span><span>Q10 Sim2Real</span><span>Q11 开源许可</span><span>Q12 怎么上手</span>
+</div>
+
+<!-- Q1 -->
+<div class="qcard p">
+  <div class="qnum">Q1</div><h2>OpenArm 到底是什么？开源了哪些东西？</h2>
+  <b>一句话</b>：<span class="hl">一套 7 自由度、按人体比例（160~165cm 人群）设计的开源机械臂</span>，东京机器人公司
+  enactic 把<strong>从 CAD 图纸到电机固件到控制代码的全部家底</strong>都放上了 GitHub，整机约 $6,500、双臂 14-DOF 约 $13,000，负载约 6kg。
+  <p>它不是"一个仓库"，而是 <span class="big">1 个门户 + 9 个子仓库</span>的家族（实测盘点见实验①）：</p>
+  <table>
+    <tr><th>子仓库</th><th>装的是什么</th><th>许可证</th></tr>
+    <tr><td><b>openarm_hardware</b></td><td>CAD 图纸（STEP 全装配/STL 可打印）+ BOM + 接线图（实体放 Google Drive，GitHub Releases 镜像）</td><td><b style="color:var(--pink)">CERN-OHL-S v2</b></td></tr>
+    <tr><td>openarm_can</td><td>C++17 CAN 总线电机控制库（达妙电机）</td><td>Apache-2.0</td></tr>
+    <tr><td>openarm_mujoco</td><td>MuJoCo 模型 v0.3/v1/v2 + 浏览器 WASM 版</td><td>Apache-2.0</td></tr>
+    <tr><td>openarm_description</td><td>URDF/xacro 机器人描述（ROS 用）</td><td>Apache-2.0</td></tr>
+    <tr><td>openarm_ros2 / openarm_isaac_lab</td><td>ROS2 集成 / Isaac Lab 训练环境</td><td>Apache-2.0</td></tr>
+    <tr><td>openarm_teleop</td><td>主从遥操作（单边/双边控制）</td><td>Apache-2.0</td></tr>
+    <tr><td>openarm_dataset / dora-openarm</td><td>数据采集（LeRobot 格式）/ Dora 数据流节点</td><td>Apache-2.0</td></tr>
+  </table>
+  <p>还有个理念产品 <b>OpenArm Cell</b>：统一背景、光照、相机的标准化评测台，让全球研究者的数据<span class="hl">在同一条生产线上产出</span>。</p>
+</div>
+
+<!-- Q2 -->
+<div class="qcard o">
+  <div class="qnum">Q2</div><h2>为什么叫具身智能的"Linux 时刻"？</h2>
+  <p>类比两条历史：<b>1991 年 Linux</b> 把只有大厂玩得起的 Unix 服务器系统搬上每个人的电脑；
+  <b>2005 年 RepRap</b> 把工业 3D 打印机拆成.self 复制的开源套件。共同点：</p>
+  <div class="svgbox">
+  <svg width="640" height="150" viewBox="0 0 640 150">
+    <rect x="10" y="20" width="180" height="100" rx="12" fill="#FFCDD2" stroke="#E91E63" stroke-width="3"/>
+    <text x="100" y="50" text-anchor="middle" font-size="14" font-weight="bold" fill="#B71C1C">过去：封闭力控双臂</text>
+    <text x="100" y="75" text-anchor="middle" font-size="22" font-weight="900" fill="#E91E63">$数万 ~ $10万+</text>
+    <text x="100" y="100" text-anchor="middle" font-size="11" fill="#555">大厂专属 · 算法被硬件锁死</text>
+    <path d="M200 70 L280 70" stroke="#FF6D00" stroke-width="5" marker-end="url(#arr)"/>
+    <defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#FF6D00"/></marker></defs>
+    <rect x="290" y="20" width="180" height="100" rx="12" fill="#C8E6C9" stroke="#00C853" stroke-width="3"/>
+    <text x="380" y="50" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">现在：OpenArm 全开源</text>
+    <text x="380" y="75" text-anchor="middle" font-size="22" font-weight="900" fill="#00C853">$6,500 / 单臂</text>
+    <text x="380" y="100" text-anchor="middle" font-size="11" fill="#555">图纸+BOM+固件+代码全拿走</text>
+    <rect x="490" y="30" width="140" height="80" rx="12" fill="#E1BEE7" stroke="#7C4DFF" stroke-width="3"/>
+    <text x="560" y="60" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A148C">研究者只管</text>
+    <text x="560" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A148C">算法层创新</text>
+  </svg></div>
+  <p><span class="hl">硬件被开源降维成"平民基建"后，竞争的赛道才转移到算法和数据上</span>——这就是"时刻"的含义。</p>
+</div>
+
+<!-- Q3 -->
+<div class="qcard b">
+  <div class="qnum">Q3</div><h2>QDD 准直驱是什么？为什么"高反驱"= 安全？</h2>
+  <p><b>QDD（Quasi-Direct Drive，准直驱）</b>：电机几乎不经大减速比齿轮箱、直接驱动关节（小比减速或皮带一级）。
+  对比传统工业臂的大减速比谐波箱：</p>
+  <div class="svgbox">
+  <svg width="640" height="160" viewBox="0 0 640 160">
+    <rect x="15" y="15" width="290" height="130" rx="12" fill="#FFE0B2" stroke="#FF6D00" stroke-width="3"/>
+    <circle cx="80" cy="80" r="26" fill="#FF6D00"/><circle cx="150" cy="80" r="44" fill="#FB8C00"/>
+    <text x="80" y="85" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">电机</text>
+    <text x="150" y="85" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">大齿轮箱</text>
+    <text x="255" y="45" text-anchor="middle" font-size="13" font-weight="bold" fill="#E65100">传统：减速比大</text>
+    <text x="255" y="68" font-size="11" fill="#555">· 手掰不动关节（反驱困难）</text>
+    <text x="255" y="88" font-size="11" fill="#555">· 撞人时电机"感觉不到"</text>
+    <text x="255" y="108" font-size="11" fill="#555">· 断电关节锁死/刹车</text>
+    <rect x="335" y="15" width="290" height="130" rx="12" fill="#B3E5FC" stroke="#2196F3" stroke-width="3"/>
+    <circle cx="400" cy="80" r="26" fill="#2196F3"/><line x1="430" y1="80" x2="475" y2="80" stroke="#2196F3" stroke-width="6"/>
+    <circle cx="475" cy="80" r="12" fill="#1976D2"/>
+    <text x="400" y="85" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">电机</text>
+    <text x="560" y="45" text-anchor="middle" font-size="13" font-weight="bold" fill="#0D47A1">QDD：近直驱</text>
+    <text x="560" y="68" font-size="11" fill="#555">· 手能直接掰动关节（高反驱）</text>
+    <text x="560" y="88" font-size="11" fill="#555">· 力矩透过电机"绕组"传回来=免费力传感器</text>
+    <text x="560" y="108" font-size="11" fill="#555">· 断电即顺从，撞人自动卸力</text>
+  </svg></div>
+  <p><b>反驱性（Backdrivability）</b>= 你从输出端施力，电机端会被带着转。<span class="hl">反驱越好，电机绕组切割磁感线产生的反电动势就天然把碰撞力"报"给控制器</span>——不需要额外六维力传感器就获得全身触觉。这就是 OpenArm 能"用手拖拽示教"的物理根基。</p>
+  <p>类比：[[智能舵机与菊花链总线]] 里的舵机是"内置减速箱的哑巴+工号报数"；QDD 电机反过来，<b>减掉减速箱换取力觉透明</b>。</p>
+</div>
+
+<!-- Q4 -->
+<div class="qcard v">
+  <div class="qnum">Q4</div><h2>重力补偿是怎么让机械臂"失重"的？</h2>
+  <p>高反驱是把双刃剑：<span class="hl">断电的 QDD 手臂会被自己的重量拖着塌下去</span>。我的仿真实验A实测（MuJoCo，v1 模型，总质量 5.39kg）：
+  力矩全零 2 秒，肩关节 joint2 从 0° 掉了 <b style="color:var(--red)">100.1°</b>，峰值角速度 7.64 rad/s。</p>
+  <p>解法 = <b>重力补偿（Gravity Compensation）前馈</b>：按当前位姿，用动力学模型算出"每个关节恰好抵住自重所需的力矩 τ<sub>g</sub>"，先发给电机。
+  剩下的才是人手/算法要出的力——于是手臂摸起来像<b>失重的漂浮状态</b>，拖拽示教毫不费力。</p>
+  <div class="svgbox">
+  <svg width="620" height="130" viewBox="0 0 620 130">
+    <line x1="60" y1="100" x2="300" y2="100" stroke="#9E9E9E" stroke-width="4"/>
+    <circle cx="60" cy="100" r="10" fill="#7C4DFF"/>
+    <circle cx="180" cy="55" r="8" fill="#FF6D00"/><circle cx="300" cy="70" r="8" fill="#FF6D00"/>
+    <line x1="60" y1="100" x2="180" y2="55" stroke="#7C4DFF" stroke-width="12" stroke-linecap="round"/>
+    <line x1="180" y1="55" x2="300" y2="70" stroke="#7C4DFF" stroke-width="9" stroke-linecap="round"/>
+    <path d="M180 55 L180 100" stroke="#E91E63" stroke-width="3" marker-end="url(#arr2)"/>
+    <path d="M300 70 L300 105" stroke="#E91E63" stroke-width="3" marker-end="url(#arr2)"/>
+    <defs><marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#E91E63"/></marker></defs>
+    <text x="188" y="80" font-size="11" fill="#E91E63" font-weight="bold">G₁</text><text x="308" y="92" font-size="11" fill="#E91E63" font-weight="bold">G₂</text>
+    <text x="330" y="45" font-size="13" font-weight="bold" fill="#4A148C">τ = G(q) + τ_人手</text>
+    <text x="330" y="70" font-size="11.5" fill="#555">G(q)：动力学模型算出的</text>
+    <text x="330" y="90" font-size="11.5" fill="#555">"抵住自重"前馈力矩向量</text>
+    <text x="330" y="110" font-size="11.5" fill="#555">人在叠加项上轻轻施力即可</text>
+  </svg></div>
+  <p>实验B 实测对照：竖直伸展位（重力矩最大的位姿）保持 3 秒——<span class="hl">纯 PD 反馈 joint2 残差 0.051°、joint6 残差 0.135°；加上重力补偿前馈后 7 个关节误差全部归零（改善 100%）</span>。前馈管"已知"，反馈管"意外"，这就是控制里的黄金搭档。</p>
+</div>
+
+<!-- Q5 -->
+<div class="qcard g">
+  <div class="qnum">Q5</div><h2>主从遥操作：单边 vs 双边（力反馈）差在哪？</h2>
+  <p>OpenArm 用一台<b>同款手臂当主控手柄（Leader Arm）</b>，与从臂（Follower）1:1 跟随，leader 侧控制环跑 <b>500Hz</b>。</p>
+  <div class="svgbox">
+  <svg width="640" height="150" viewBox="0 0 640 150">
+    <rect x="15" y="20" width="180" height="105" rx="12" fill="#C8E6C9" stroke="#00C853" stroke-width="3"/>
+    <text x="105" y="50" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Leader 主臂</text>
+    <text x="105" y="75" text-anchor="middle" font-size="11" fill="#555">人手抓着它运动</text>
+    <text x="105" y="95" text-anchor="middle" font-size="11" fill="#555">读关节角 + 算重力补偿</text>
+    <rect x="245" y="20" width="150" height="105" rx="12" fill="#FFF9C4" stroke="#F9A825" stroke-width="3"/>
+    <text x="320" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#F57F17">单边控制</text>
+    <text x="320" y="80" text-anchor="middle" font-size="11" fill="#555">只把角度抄给从臂</text>
+    <text x="320" y="100" text-anchor="middle" font-size="11" fill="#555">（抄作业）</text>
+    <rect x="445" y="20" width="180" height="105" rx="12" fill="#FFCCBC" stroke="#FF5722" stroke-width="3"/>
+    <text x="535" y="50" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF360C">Follower 从臂</text>
+    <text x="535" y="75" text-anchor="middle" font-size="11" fill="#555">真实世界抓东西</text>
+    <text x="535" y="95" text-anchor="middle" font-size="11" fill="#555">受力 τ 反传回主臂</text>
+    <path d="M195 60 L245 60" stroke="#00C853" stroke-width="4" marker-end="url(#a3)"/>
+    <path d="M395 60 L445 60" stroke="#00C853" stroke-width="4" marker-end="url(#a3)"/>
+    <path d="M445 100 L395 100" stroke="#FF5722" stroke-width="4" stroke-dasharray="6 4" marker-end="url(#a4)"/>
+    <path d="M245 100 L195 100" stroke="#FF5722" stroke-width="4" stroke-dasharray="6 4" marker-end="url(#a4)"/>
+    <defs>
+      <marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#00C853"/></marker>
+      <marker id="a4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#FF5722"/></marker>
+    </defs>
+    <text x="320" y="143" text-anchor="middle" font-size="12" fill="#D84315" font-weight="bold">红色虚线 = 双边控制才有：受力力矩原路传回人手（力反馈）</text>
+  </svg></div>
+  <p><b>单边（unilateral）</b>：从臂抄主臂角度，抓没抓到东西，人手毫无感觉。<b>双边（bilateral）</b>：从臂每个关节受到的外力矩，经同样"高反驱"的主臂转成真实的推拉感——<span class="hl">捏鸡蛋的力度感直接回到你掌心</span>。正因主从臂是同一套 QDD 硬件，力才"透得回来"；这也解释了为什么主臂叫 <b>KER（Kinematic EXO-frame Replica，外骨骼式复刻架）</b>架构。</p>
+  <p>teleop 仓库里正是三个控制器文件：gravity_compasation / unilateral_control / bilateral_control（C++，500Hz 定时线程）。</p>
+</div>
+
+<!-- Q6 -->
+<div class="qcard c">
+  <div class="qnum">Q6</div><h2>一条 CAN 线怎么指挥 7 个电机？MIT 帧的 8 字节里藏了什么？</h2>
+  <p>OpenArm 每个关节一颗<b>达妙（Damiao）QDD 电机</b>，全部挂在一条 <b>CAN 总线</b>上（2 线差分，[[智能舵机与菊花链总线]] 的"一根线串一串"思想，只是协议换成汽车级的 CAN）。控制库 openarm_can 支持 13 种达妙型号、4 种控制模式（MIT / POS_VEL / VEL / POS_FORCE）。</p>
+  <p>最核心的是 <b>MIT 模式</b>（源自 MIT 猎豹机器人约定）：一条 8 字节帧塞下 5 个控制量——</p>
+  <div class="svgbox">
+  <svg width="660" height="170" viewBox="0 0 660 170">
+    <text x="330" y="18" text-anchor="middle" font-size="13" font-weight="bold" fill="#006064">8 字节 = 16bit q + 12bit dq + 12bit kp + 12bit kd + 12bit tau = 64bit 满排</text>
+    <g font-size="11" font-weight="bold" text-anchor="middle">
+      <rect x="20"  y="35" width="80" height="34" fill="#4DD0E1"/><text x="60"  y="56">q 高8</text>
+      <rect x="100" y="35" width="80" height="34" fill="#4DD0E1"/><text x="140" y="56">q 低8</text>
+      <rect x="180" y="35" width="80" height="34" fill="#80DEEA"/><text x="220" y="56">dq 高8</text>
+      <rect x="260" y="35" width="80" height="34" fill="#B2EBF2"/><text x="300" y="56">dq低4|kp高4</text>
+      <rect x="340" y="35" width="80" height="34" fill="#80DEEA"/><text x="380" y="56">kp 低8</text>
+      <rect x="420" y="35" width="80" height="34" fill="#B2EBF2"/><text x="460" y="56">kd 高8</text>
+      <rect x="500" y="35" width="80" height="34" fill="#E0F7FA"/><text x="540" y="56">kd低4|tau高4</text>
+      <rect x="580" y="35" width="60" height="34" fill="#E0F7FA"/><text x="610" y="56">tau低8</text>
+    </g>
+    <text x="60" y="90" text-anchor="middle" font-size="10" fill="#006064">位置 16bit</text>
+    <text x="330" y="105" text-anchor="middle" font-size="10" fill="#006064">速度/刚度/阻尼/力矩 各 12bit 定点压缩</text>
+    <rect x="20" y="118" width="620" height="40" rx="8" fill="#E0F7FA" stroke="#00B8D4" stroke-width="2"/>
+    <text x="330" y="136" text-anchor="middle" font-size="12" fill="#006064" font-weight="bold">定点映射：u = (x-min)/(max-min) × (2^bits-1)　（DM4310：q∈±12.5rad, dq∈±30rad/s, tau∈±10N·m）</text>
+    <text x="330" y="152" text-anchor="middle" font-size="11" fill="#00838F">反馈帧另有布局：D0=电机ID|错误码&lt;&lt;4，q16|dq12|tau12 + 两路温度</text>
+  </svg></div>
+  <p>实验③我把它用 Python 逐位复刻并与手算对照：<code>q=1.0rad → 0x8A3D</code> 完全一致，1000 组随机值编解码往返误差全部 ≤ 半个分辨率（0.00019 rad）。<span class="hl">所谓"电机协议"不过是一张定点压缩的位排布表</span>——拆开就不再神秘。</p>
+  <p>9 种错误码（过压/欠压/过流/过热/失联/过载…）藏在反馈帧 D0 高 4 位，电机指示灯就靠它闪。</p>
+</div>
+
+<!-- Q7 -->
+<div class="qcard p">
+  <div class="qnum">Q7</div><h2>7 自由度怎么布局？为什么不是 6 个？</h2>
+  <p>人臂就是 7 DOF：肩 3 + 肘 1 + 腕 3。OpenArm 的 MJCF 实测关节表（含限位）：</p>
+  <table>
+    <tr><th>关节</th><th>轴</th><th>限位</th><th>类比人体</th></tr>
+    <tr><td>joint1</td><td>Z（竖直）</td><td>-80° ~ +200°</td><td>肩：内外旋</td></tr>
+    <tr><td>joint2</td><td>X</td><td>-100° ~ +100°</td><td>肩：前后摆</td></tr>
+    <tr><td>joint3</td><td>Z</td><td>±90°</td><td>肩：侧摆</td></tr>
+    <tr><td>joint4</td><td>Y</td><td>0° ~ +140°</td><td><b>肘</b></td></tr>
+    <tr><td>joint5~7</td><td>Z/X/Y</td><td>±90° / ±45° / ±90°</td><td>腕：3 轴球窝</td></tr>
+    <tr><td>finger×2</td><td>slide（平移）</td><td>0 ~ 44mm</td><td>平行夹指（equality 耦合同步）</td></tr>
+  </table>
+  <p><b>为什么 7 &gt; 6？</b>6 个自由度只够把末端摆到"任意位置+任意姿态"，但 7 DOF 多出一个<span class="hl">冗余自由度：末端定住不动，手臂还能在内部"换姿势"</span>（自运动）——绕开桌腿、避开障碍、让肘更贴近身体，像人手肘不动也能拧钥匙一样。代价是逆运动学从"唯一解"变成"无穷解"，要靠优化挑最舒服的那个（见 [[逆运动学IK与CCD迭代]]）。</p>
+  <p>链条与 [[前向运动学FK与四元数链]] 完全同构：7 个 hinge + 2 个 slide 手指沿运动链折叠，实验②里我摆出 joint2=90°+joint4=90° 的抓取姿，末端位移 683mm，与模型几何吻合。</p>
+</div>
+
+<!-- Q8 -->
+<div class="qcard b">
+  <div class="qnum">Q8</div><h2>MuJoCo 模型文件里，机械臂长什么样？</h2>
+  <p>openarm_mujoco 提供 v0.3 / v1 / v2 三代 MJCF + 浏览器 WASM 版。v1 单臂实测：<b>nq=9, nv=9, 执行器 8 个, 刚体 10 个, 总质量 5.390kg, dt=2ms</b>。文件结构四件套：</p>
+  <div class="code">default     → 类"CSS"：class="motor" 统一 damping=0.25, frictionloss=0.02
+worldbody   → link1→…→link7→hand→finger×2 严格嵌套（[[Three.js与场景图]] 同款父子树）
+tendon      → 固定滑绳 0.5×finger1 + 0.5×finger2
+equality    → 把两根手指焊成"同步开合"约束
+actuator    → 8 个 motor（joint2 特例 ctrlrange=±12，注释：克服全伸展重力）</div>
+  <p>两个值得学的细节：① 手指不是双执行器——<span class="hl">1 个执行器 + equality 约束让两指镜像同步</span>，省钱又天然同步；
+  ② <b>visual 与 collision 网格分离</b>（视觉用精细 OBJ、碰撞用粗包络 STL），渲染好看、碰撞便宜——所有物理引擎的通用手法。</p>
+  <p>实验②离屏渲染出机械臂结构剪影（exercise/ex2_render.png）；断电实验证明这个模型"物理是活的"：不给力矩它就诚实地塌下去。</p>
+</div>
+
+<!-- Q9 -->
+<div class="qcard g">
+  <div class="qnum">Q9</div><h2>遥操作采下来的数据长什么样？（LeRobot 格式）</h2>
+  <p>模仿学习的"燃料"就是遥操作数据。openarm_dataset 采用 Hugging Face <b>LeRobot v2.1/v3.0 格式</b>（parquet + 视频）。官方自带的测试数据实测（实验④）：</p>
+  <div class="code">episodes: 2 条（1 成功 1 失败——失败数据也留档！）
+观测 7 键：arms/{right,left}/{qpos,qvel,qtorque} 各 (746, 8) + lifter/elevation
+动作键：  arms/{right,left}/qpos + lifter/elevation
+列名：    joint1..joint7 + gripper，时间戳精度到纳秒，帧间隔 4.0ms = 250Hz</div>
+  <p>三个要点：① <b>8 列 = 7 关节 + 夹爪</b>，和 [[策略观测向量与动作契约]] 的"逐槽对齐"契约一模一样；
+  ② <span class="hl">观测里带 qtorque（力矩）——这是 QDD 免费力传感器的红利</span>，普通舵机臂想记都记不了；
+  ③ 连"失败 episode"都保留，因为模仿学习恰恰需要负样本。</p>
+</div>
+
+<!-- Q10 -->
+<div class="qcard v">
+  <div class="qnum">Q10</div><h2>Sim-to-Real 路线：从 MuJoCo 到真机怎么走？</h2>
+  <div class="svgbox">
+  <svg width="640" height="140" viewBox="0 0 640 140">
+    <rect x="15" y="30" width="130" height="80" rx="12" fill="#EDE7F6" stroke="#7C4DFF" stroke-width="3"/>
+    <text x="80" y="60" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#4527A0">① 仿真训练</text>
+    <text x="80" y="82" text-anchor="middle" font-size="10.5" fill="#555">MuJoCo / Isaac Lab</text>
+    <text x="80" y="98" text-anchor="middle" font-size="10.5" fill="#555">RL/域随机化</text>
+    <rect x="175" y="30" width="130" height="80" rx="12" fill="#E3F2FD" stroke="#2196F3" stroke-width="3"/>
+    <text x="240" y="60" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1565C0">② 遥操作采集</text>
+    <text x="240" y="82" text-anchor="middle" font-size="10.5" fill="#555">Leader-Follower 250Hz</text>
+    <text x="240" y="98" text-anchor="middle" font-size="10.5" fill="#555">LeRobot 数据集</text>
+    <rect x="335" y="30" width="130" height="80" rx="12" fill="#FFF3E0" stroke="#FF6D00" stroke-width="3"/>
+    <text x="400" y="60" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#E65100">③ 策略部署</text>
+    <text x="400" y="82" text-anchor="middle" font-size="10.5" fill="#555">openarm_can → CAN</text>
+    <text x="400" y="98" text-anchor="middle" font-size="10.5" fill="#555">MIT 帧直控电机</text>
+    <rect x="495" y="30" width="130" height="80" rx="12" fill="#E8F5E9" stroke="#00C853" stroke-width="3"/>
+    <text x="560" y="60" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1B5E20">④ OpenArm Cell</text>
+    <text x="560" y="82" text-anchor="middle" font-size="10.5" fill="#555">标准化光照/背景/相机</text>
+    <text x="560" y="98" text-anchor="middle" font-size="10.5" fill="#555">全球可复现</text>
+    <path d="M145 70 L175 70 M305 70 L335 70 M465 70 L495 70" stroke="#7C4DFF" stroke-width="4" marker-end="url(#a5)"/>
+    <defs><marker id="a5" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#7C4DFF"/></marker></defs>
+    <text x="320" y="133" text-anchor="middle" font-size="11.5" fill="#555">同一套 URDF/MJCF 描述贯穿四站——"模型即合同"，sim 与 real 看到的是同一具身体</text>
+  </svg></div>
+  <p>与 [[Sim2Real与MuJoCo仿真]]（microduck）同一条路，但 OpenArm 把<span class="hl">"身体描述"标准化成公共基建</span>：MJCF/URDF/Isaac 三格式同源维护，仿真里调好的策略，参数语义与真机 CAN 指令一一对应。</p>
+</div>
+
+<!-- Q11 -->
+<div class="qcard o">
+  <div class="qnum">Q11</div><h2>CERN-OHL-S 和 Apache-2.0 有什么区别？</h2>
+  <table>
+    <tr><th></th><th>Apache-2.0（软件仓库）</th><th>CERN-OHL-S v2（硬件 CAD）</th></tr>
+    <tr><td>管的对象</td><td>代码</td><td>物理设计文件（STEP/STL/BOM）</td></tr>
+    <tr><td>传染性</td><td>宽松：可闭源二进制分发</td><td><b style="color:var(--red)">强互惠（S=Strongly Reciprocal）</b>：改了硬件设计并"对外分发"（卖/发）成品，设计文件也必须开源</td></tr>
+    <tr><td>类比</td><td>MIT/GPL 之间的宽松派</td><td>硬件界的 GPL</td></tr>
+    <tr><td>对你的意思</td><td>随便改随便商用</td><td>自用随意；<span class="hl">想拿它做闭源商业臂？门都没有</span></td></tr>
+  </table>
+  <p>这套"软件宽松 + 硬件强互惠"的双许可组合是开源硬件项目的标准操作：代码放开吸引生态，图纸用 OHL-S 防止白嫖成品闭源售卖。</p>
+</div>
+
+<!-- Q12 -->
+<div class="qcard c">
+  <div class="qnum">Q12</div><h2>我没有 $6,500 的硬件，能拿 OpenArm 玩什么？</h2>
+  <p>本次四个真实跑通的实验就是答案（全部 0 硬件、0 费用，Windows 直接跑）：</p>
+  <table>
+    <tr><th>实验</th><th>做了什么</th><th>硬核产出</th></tr>
+    <tr><td>①仓库盘点</td><td>脚本统计 1 门户 + 6 子仓库的文件/体积/许可证</td><td>开源范围一张表（发现 CAD 实体在 Google Drive）</td></tr>
+    <tr><td>②MuJoCo 仿真</td><td>加载 v1 MJCF → FK 摆位 → 断电下坠 → PD vs PD+重力补偿 → 离屏渲染</td><td>重力补偿让 7 关节保持误差改善 <b>100%</b></td></tr>
+    <tr><td>③MIT 协议复刻</td><td>Python 逐位实现定点编解码 + 1000 组 roundtrip + 错误码解剖</td><td>4/4 PASS，误差 ≤ 半分辨率</td></tr>
+    <tr><td>④真实数据集</td><td>pip 装 openarm_dataset 读官方采样数据</td><td>250Hz×8 关节契约、含 qtorque、含失败样本</td></tr>
+  </table>
+  <p>再进阶的路线：改 MJCF 换关节限位重新仿真 → 跑 Isaac Lab 强化学习任务 → 用 dora-openarm 接自己的输入设备做"伪主臂"（键盘/手柄替 $6,500 的 Leader）。</p>
+</div>
+
+<!-- 能力清单 -->
+<div class="cap">
+  <h2>🎁 这个项目给我什么（能力清单）</h2>
+  <p>① <b>一套能整体照抄的开源机器人工程范式</b>：描述层（MJCF/URDF）↔ 通信层（CAN/MIT 帧）↔ 控制层（重力补偿/双边遥操作）↔ 数据层（LeRobot）各就各位，任何机器人项目都长这样；</p>
+  <p>② <b>QDD 力控思路</b>：想给任何电机加"力觉"，先看反驱性 + 学重力补偿前馈（实验②的 100% 改善可直接复用到别的臂）；</p>
+  <p>③ <b>MIT 定点帧格式</b>：嵌入式与电机对话的通用语法（达妙/宇树/小米电机都兼容此约定）；</p>
+  <p>④ <b>进入具身智能研究的最低成本门票</b>：MuJoCo 免装浏览器版 + 官方数据集，今天就能开始；</p>
+  <p>⑤ <b>开源硬件双许可示范</b>：自己以后开源硬件项目照此搭配；</p>
+  <p>⑥ 与已学项目互补：<b>microduck 是腿（足式 RL）</b>，<b>reachy-mini 是脸（表情桌面机器人）</b>，<b>OpenArm 是手（力操作双臂）</b>——三条线合起来就是具身智能的"身·脸·手"全家福。</p>
+</div>
+
+<!-- 实验 -->
+<div class="exp">
+  <h3>🧪 动手实验实录（4 个实验全部真实运行，无硬件诚实记录）</h3>
+  <div class="step"><b>实验①</b> 仓库盘点：<code>python exercise/ex1_repo_survey.py</code> → 输出 7 行体积/许可表。✅ 预期结果：openarm_hardware 行显示仅 10 文件（CAD 指针仓库，实体在 Google Drive，CERN-OHL-S），其余子仓库全 Apache-2.0。</div>
+  <div class="step"><b>实验②</b> MuJoCo 仿真：<code>python exercise/ex2_mujoco_arm_sim.py</code> → 模型解剖 + FK + 两个对照子实验。✅ 预期结果：断电 2s joint2 掉 100.1°；竖直伸展保持 3s，纯 PD 残差最大 0.135°，加重力补偿后全 0；side 视角结构剪影存 ex2_render.png。</div>
+  <div class="step"><b>实验③</b> 协议复刻：<code>python exercise/ex3_mit_protocol.py</code>。✅ 预期结果：8 字节帧 8A 3D 77 73 33 4C CB FF 手算一致；1000 组往返误差 ≤ 半分辨率；4/4 组检查全 PASS。</div>
+  <div class="step"><b>实验④</b> 数据集：<code>python exercise/ex4_dataset_load.py</code>。✅ 预期结果：episode 0 观测 7 键、右臂 qpos (746,8)、帧间隔 4.0ms（250Hz）、8 维全程行程 0.46~0.55 rad。</div>
+  <div class="warn">⚠️ 诚实记录：所有结论来自仿真与官方离线数据，未接触真实硬件——反驱手感、CAN 时序、电机噪声均未验证；实验②渲染因金属材质无环境贴图偏暗，仅作结构剪影；本版 openarm_dataset 的 load_obs 需传 episode dict（README 的 load_obs(0) 是旧签名）。</div>
+</div>
+
+<div class="foot">
+  OpenArm：enactic（东京）· 门户 github.com/enactic/openarm · 文档 docs.openarm.dev · 学习产出位于 F:\reminder\openarm（exercise/ 含全部实验脚本与输出）· 知识入库：QDD准直驱与反驱力控 / 主从遥操作与双边力反馈 / CAN总线与MIT电机帧 · 2026-10-03
+</div>
+
+</body>
+</html>

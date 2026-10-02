@@ -6,3 +6,4 @@
 06:37 [实验] exercise/wikiskill_toy.py 真跑通：ex1 演化循环 ModelA 12.5%→87.5%（模型冻结，技能4条）；ex2 门控拒坏技能回滚 skills、wiki 只增不删、审计拦重复提案；ex3 跨模型迁移 B 50%→87.5% 正迁移 + leap 子集 1/2 负迁移实证；ex4 N=40 vs N=80 维护/提案调用均 3 次不变、rollout 120→240。真实输出已存 exercise/output.txt。开始写 PDF 指南 HTML。
 06:42 [PDF] WikiSkill-小白指南.pdf 生成成功（1.29MB，Edge 无头打印，ASCII 临时名后改名，位于 wikiskill\ 子项目目录内）。进入知识入库查重。
 06:44 [入库] 查重通过（vault 无 wikiskill/共演化/不回滚 既有条目）→ 新建概念2条（WikiSkill共演化循环/知识层永不回滚原则）+ 项目笔记 wikiskill + 00-总览 新领域分区与索引行。站点已标完成。纲要表追加第58行。
+06:45 [git] 提交 72c133f 并 push 成功（pull --rebase 因其他 worker 未暂存改动跳过，push 直达）。任务完成。

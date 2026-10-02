@@ -1,0 +1,1337 @@
+PaperRoute · Devlog
+VOL. 01   NO. 001
+PRICE 25¢
+THE MORNING EDITION
+DEVELOPMENT ARCHIVE
+SEVEN MORNINGS
+01 JULY TO 12 SEPTEMBER 2026
+From the editor
+This one’s close to my heart.
+This is a project I’ve wanted to build for so long. I loved Paperboy on the Game Boy, and doing a paper round was one of my first ever jobs, so this one’s close to my heart. For the longest time I’ve wanted to remake something similar. This game is completely inspired by it, but it isn’t a copy. I wanted my own take on the concept, including the art direction.
+Back when Fable first released in July, I had a stab at it, thinking it might be the first time I could actually pull it off. I burned a lot of time and didn’t get very far. Then Astra came out, and that changed everything. When I jumped into Astra I gave it the original game as a reference, and it almost one-shotted it in its own art style. But that was never really the vision I had for this Paperboy game. I wanted something more 3D and immersive, with a much richer visual experience, so I changed the angle and made it dynamic. It wasn’t without its difficulties. As you can see from this devlog, a hell of a lot of work went into it in a very short space of time: the modelling, the visuals, the rendering, right through to the website itself.
+I’ve tried to turn this around as fast as I can, seeing as it caught some wind on X. And unlike most of the demo prototypes I’ve seen flying around on X, I wanted to make something that was actually playable end to end, to show that these new models can, with a bit of effort, steering and focus, create full end-to-end games.
+Enjoy.
+BuiltBySketch, September 2026
+Development archive
+From grey-box streets to an illustrated paper route. Over the hurdles.
+69 archived checkpoints through 8 September 2026. The stats cover 1 July to 12 September 2026, four days past the hosted launch. The original capture set is 38 commits through 66e1bab, starting at “P0 baseline: PRD, engineering standards, architecture contract”, which contains no runnable app. 69 fresh screenshots cover its 37 runnable commits. 7 September adds 14 commits and 2 separate branch experiments. 8 September adds 15 commits.
+7 September 2026 update: 14 game commits
+through
+ba54583
+.
+The range statistics above cover 1 July to 12 September. These historical checkpoints do not carry individual time, token or AI stream estimates.
+2 separate branch experiments
+, since reviewed and folded into the main game: the window-smash camera now ships with it.
+8 September 2026 update: 15 game commits
+through
+1af3b18
+.
+The range statistics above cover 1 July to 12 September. These historical checkpoints do not carry individual time, token or AI stream estimates.
+83 saved development renders add rider, building and material studies to the 69 original screenshots.
+1 July–12 September 2026 · Europe/London
+39h
+Tracked coverage
+25.2h human + 13.8h agent-only
+25.2h
+Human
+Includes historical presence defaults; see caveat below.
+13.8h
+Agent-only
+Tracked coverage without human presence.
+30h 15m
+Agent runtime
+Additive across parallel agents.
+1.56B
+Total tokens
+26.2M input · 6.0M output · 1.53B cached
+$2,175.36
+API value
+Repriced usage, not additional spend.
+90
+Commits
+69 archived checkpoints; 50 contain images.
+11
+Active days
+1 July to 12 September · Europe/London
+Presence tracking only started on 6 September. Before that, tracked time counts me as present by default. After it, two thirds of tracked time had nobody at the keyboard. Tracked coverage and agent runtime overlap; do not add them. The 25.2 human hours include roughly 14 hours before presence measurement, counted as present by default. In the measured window cited in the audit, human time was 5.1 hours against 10.4 agent-only. API value reflects pricing backfills that repriced existing work. The difference from the earlier cost snapshot is not extra spend. Net changes: 769,390 lines across 4,458 files (+787,592 / −18,202). Not tracked: roughly 20 to 30 minutes writing the original brief before DevClocked was running.
+The reporting range is 1 July to 12 September 2026, Europe/London, scoped to Paperroute across all repositories. Range totals use the dashboard's get_analytics_summary_scoped, get_analytics_ai_usage and dc_model_costs sources, as verified in the 12 September handoff. The figures match that screenshot snapshot. Tracked coverage consists of human and agent-only time. Agent runtime is additive across parallel agents and overlaps tracked coverage; do not add them.
+About these figures
+Presence tracking only started on 6 September. Before that, tracked time counts me as present by default. After it, two thirds of tracked time had nobody at the keyboard. API value includes pricing backfills that repriced existing work; its change is not additional spend. The 69 archived checkpoints end on 8 September; they are distinct from the 90 commits in the reporting range. Per-checkpoint activity allocations and incomplete AI stream counts are not published as time or usage figures.
+Saved
+range snapshot
+and
+image provenance
+are included in this archive.
+01 / 01 Jul 22:35 BST / be42ac9 / iOS
+P0 baseline: PRD, engineering standards, architecture contract
+Not tracked: roughly 20 to 30 minutes writing the original brief for this Fable attempt, before DevClocked was running.
+Planning and architecture documents only. This commit contains no runnable app.
+02 / 01 Jul 23:43 BST / d70f0c3 / iOS
+P0 feel prototype: ride + throw + dog + signature camera, grey-box Easy Street
+Original framebuffer rotated 90 degrees clockwise for landscape display; no other image changes.
+iOS simulator gameplay · 2622 × 1206
+03 / 02 Jul 01:10 BST / d55b976 / iOS
+P1 vertical slice: Monday day flow, obstacle course, haptics, newspaper results, stylised visuals
+Original framebuffer rotated 90 degrees clockwise for landscape display; no other image changes.
+iOS simulator gameplay · 2622 × 1206
+04 / 02 Jul 08:06 BST / 37ea095 / iOS
+docs: build plan & progress checklist through P1
+Original framebuffer rotated 90 degrees clockwise for landscape display; no other image changes. The runtime files match d55b976; this commit was launched and captured separately.
+iOS simulator gameplay · 2622 × 1206
+05 / 02 Jul 08:15 BST / 6d3ff33 / iOS
+docs: art-direction study of Abeto's Messenger; camera tight-profile experiment queued
+Original framebuffer rotated 90 degrees clockwise for landscape display; no other image changes. The runtime files match 37ea095; this commit was launched and captured separately.
+iOS simulator gameplay · 2622 × 1206
+06 / 02 Jul 22:45 BST / b8ccd6b / iOS
+P2-art: Messenger cel look, authored 3D rider, street-level camera
+Original framebuffer rotated 90 degrees clockwise for landscape display; no other image changes.
+iOS simulator gameplay · 2622 × 1206
+07 / 02 Jul 22:49 BST / 1a85f00 / iOS
+docs: P2-art handoff notes, next-session pick-up order; check in rider .blend + asset pipeline scripts under ArtSource/
+Original framebuffer rotated 90 degrees clockwise for landscape display; no other image changes. The runtime files match b8ccd6b; this commit was launched and captured separately.
+iOS simulator gameplay · 2622 × 1206
+08 / 07 Jul 16:26 BST / 70113f5 / iOS
+Playtest fixes: rider orientation & steering feel, solved throw arcs, oncoming traffic, street-level camera framing
+Original framebuffer rotated 90 degrees clockwise for landscape display; no other image changes.
+iOS simulator gameplay · 2622 × 1206
+09 / 04 Sep 21:47 BST / 8e57e64 / Browser
+Build browser route with aimed ballistic paper throws
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+10 / 04 Sep 22:27 BST / bf0311f / Browser
+Refine curved neighbourhood, character joints and pursuit gameplay
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+11 / 04 Sep 22:52 BST / 5eed5f3 / Browser
+Rebuild detailed models, pencil contours and uphill ramp
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+12 / 04 Sep 23:03 BST / 2c8ff41 / Browser
+Checkpoint mobile gestures and subtle trajectory guide
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+13 / 04 Sep 23:08 BST / 5072651 / Browser
+Verify native mobile multitouch checkpoint
+The runtime files match 2c8ff41; this commit was launched and captured separately.
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+14 / 04 Sep 23:32 BST / 3f7abd5 / Browser
+Add isolated illustrated summer study and standalone art boards
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Separate summer art study · 1600 × 1000
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Summer rider study
+Front, side and rear views of the rider in the separate summer art study.
+House silhouettes
+Craftsman, cottage and ranch models in the summer style lab.
+Tree silhouettes
+Three foliage shapes compared under the same study lighting.
+Street props
+Fence, mailbox and utility pole from the summer art study.
+Summer asset board
+The saved review board combines actual WebGL asset captures from the study.
+Image provenance
+reviews/illustrated-summer/03-character.png
+at
+3f7abd5
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/illustrated-summer/04-houses.png
+at
+3f7abd5
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/illustrated-summer/05-trees.png
+at
+3f7abd5
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/illustrated-summer/09-props.png
+at
+3f7abd5
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/illustrated-summer/asset-style-board.png
+at
+3f7abd5
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+15 / 05 Sep 07:57 BST / 24d0367 / Browser
+Bring illustrated summer colour and asset character into playable world
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Colour pass baseline
+Saved matching desktop view before the playable summer colour pass.
+Summer colours in play
+The same street after warmer sunlight, stronger colours and the painted sky treatment.
+Image provenance
+reviews/playable-summer/before-desktop.png
+at
+24d0367
+· Saved baseline before this checkpoint change; the image first enters Git at the containing checkpoint.
+reviews/playable-summer/after-desktop.png
+at
+24d0367
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+16 / 05 Sep 08:34 BST / 7b0f47f / Browser
+Replace playable house bodies with authored Blender asset families
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+First authored house families
+The original four-family Blender house board saved with this checkpoint.
+Bicycle and dog shapes
+Isolated review of the procedural bicycle and dog before the later skinned dog replacement.
+Authored houses in the street
+The new Blender house bodies placed along the playable route.
+Image provenance
+ArtSource/playable-houses/house-contact.png
+at
+7b0f47f
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/house-models/bike-dog-forms.png
+at
+7b0f47f
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/house-models/after-desktop.png
+at
+7b0f47f
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+17 / 05 Sep 10:09 BST / 1c507d3 / Browser
+Checkpoint denser gardens, authored assets and street hazards
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Seven house families
+The expanded house-family board as it existed at the garden checkpoint.
+Authored dog sculpt
+Blender review render of the connected dog mesh, collar and body forms.
+Dog stride in Three.js
+The actual imported dog and procedural gait in an isolated runtime scene.
+Layered front gardens
+Staged street view showing fences, planting and denser garden boundaries.
+Image provenance
+ArtSource/playable-houses/house-contact.png
+at
+1c507d3
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+ArtSource/playable-dog/front-three-quarter.png
+at
+1c507d3
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+ArtSource/playable-dog/runtime-stride.png
+at
+1c507d3
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/garden-density/street-110.png
+at
+1c507d3
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+18 / 05 Sep 10:52 BST / 4c6d997 / Browser
+Refine hero street art, park course and rider impacts
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Hero house board
+The house-family board saved during the hero-street refinement.
+House and garden detail
+A saved hero-house view shows architectural depth, planting and street lighting.
+Park course view
+A staged review view of the park obstacles and dirt course.
+Street impact view
+A saved impact review frame places the rider and bicycle beside the street hazards.
+Image provenance
+ArtSource/playable-houses/house-contact.png
+at
+4c6d997
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/hero-house/after-25.png
+at
+4c6d997
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/hero-street/street-380.png
+at
+4c6d997
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/hero-street/fall-45.png
+at
+4c6d997
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+19 / 05 Sep 12:18 BST / 847e341 / Browser
+Add painterly surface language, organic rider forms and finish courtyard
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Rider without materials
+Neutral clay side view exposes the rider silhouette and bicycle fit.
+Rider with materials
+Matching side view applies the blue shirt, red bicycle and ochre paper bag.
+Painted street surfaces
+A staged street view records the painterly house, garden and ground treatment.
+Close street study
+The saved micro-slice focuses on the rider, front garden and house frontage.
+Image provenance
+reviews/lookdev/rider-clay-side.png
+at
+847e341
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/lookdev/rider-side.png
+at
+847e341
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/lookdev/street-31.png
+at
+847e341
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/lookdev/micro-slice.png
+at
+847e341
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+20 / 05 Sep 13:56 BST / 135e12d / Browser
+Add illustrated form rendering and articulated riding poses
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Illustrated rendering board
+Saved renderer review board compares material and line treatments alongside clay views.
+Connected rider sculpt
+Neutral clay front view of the sculpted rider on the gameplay skeleton.
+Steering pose
+The actual runtime steering calculation poses the rider and turns the front wheel.
+Dog gallop extension
+A clay frame isolates the running dog's extended stride.
+Fall bracing pose
+The runtime rider and bicycle separate during the final-life fall sequence.
+Arrival foot placement
+A clay frame records the rider planting a foot during the controlled route-end stop.
+Image provenance
+reviews/illustrated-lines/render-style-board.png
+at
+135e12d
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/sculpted-rider/rider-clay-front.png
+at
+135e12d
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/sculpted-rider/steer-right.png
+at
+135e12d
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/dog-gallop/clay-reach.png
+at
+135e12d
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/rider-actions/fall-brace.png
+at
+135e12d
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/rider-actions/arrival-foot-down.png
+at
+135e12d
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+21 / 05 Sep 14:58 BST / e1e036c / Browser
+Fix rider clothing and cap fit; reduce curved-world render cost
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Cap and shirt fit before
+Saved rear clay baseline exposes the earlier cap and shoulder fit.
+Cap and shirt fit after
+Matching rear clay view records the revised cap coverage and garment fit.
+Repaired rider in colour
+A closer side view records the fitted cap, shoulder and blue shirt.
+Image provenance
+reviews/rider-fit-performance/before-rider-clay-rear.png
+at
+e1e036c
+· Saved baseline before this checkpoint change; the image first enters Git at the containing checkpoint.
+reviews/rider-fit-performance/after-rider-clay-rear.png
+at
+e1e036c
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/rider-fit-performance/after-rider-side.png
+at
+e1e036c
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+22 / 05 Sep 16:40 BST / f650563 / Browser
+Reshape rider and animate street activity; restore fallback foliage
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Rider shape comparison
+The saved comparison board places the earlier and reshaped clay rider side by side.
+Shirt comparison
+The saved painted comparison records the rear shirt and bag before and after this pass.
+Throw release and shirt
+A runtime release pose shows the reshaped rider, bag and animated shirt hem.
+Image provenance
+reviews/shirt-flutter/rider-comparison.png
+at
+f650563
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/shirt-flutter/shirt-comparison.png
+at
+f650563
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/shirt-flutter/after-throw-release.png
+at
+f650563
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+23 / 05 Sep 18:55 BST / 2ee9085 / Browser
+Add extruded SVG title intro before route instructions
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Assembled title intro · 1440 × 1000 The house-model response was temporarily delayed to keep the assembled loading title visible, matching the repository title-intro capture script. Game source files were unchanged.
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Desktop title intro
+Saved browser capture of the extruded PaperRoute title over the street.
+Portrait title intro
+The same title sequence framed for a portrait screen.
+Image provenance
+reviews/title-intro/desktop.png
+at
+2ee9085
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/title-intro/mobile.png
+at
+2ee9085
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+24 / 05 Sep 18:55 BST / 17731bc / Browser
+Checkpoint organic rider sculpt and neutral clay review
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Head before sculpt pass
+Matching clay head baseline from the earlier rider checkpoint.
+Head after sculpt pass
+The revised face, hair and forward cap in the same neutral review setup.
+Organic rider in clay
+Three-quarter review of the new head and open garment mesh on the bicycle.
+Organic rider review board
+The saved board collects full rider and head views in neutral clay.
+Image provenance
+reviews/organic-rider/before-head-quarter.png
+at
+17731bc
+· Saved baseline before this checkpoint change; the image first enters Git at the containing checkpoint.
+reviews/organic-rider/after-head-quarter.png
+at
+17731bc
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/organic-rider/after-quarter.png
+at
+17731bc
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/organic-rider/clay-turnaround.png
+at
+17731bc
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+25 / 05 Sep 21:04 BST / 5f105f8 / Browser
+Checkpoint Meshy rider rig and bicycle contact fitting
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+First Meshy rider fit
+The initial imported rider fit as captured at this checkpoint, before later garment repairs.
+Initial bicycle contacts
+Side review of the first Meshy rider's seated pose and bicycle fit.
+Initial imported head
+Close clay view of the initial Meshy head, cap and hair.
+Image provenance
+reviews/meshy-rider/after-quarter.png
+at
+5f105f8
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/meshy-rider/after-side.png
+at
+5f105f8
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/meshy-rider/after-head-quarter.png
+at
+5f105f8
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+26 / 05 Sep 21:18 BST / 54ac463 / Browser
+Condense riding HUD into a top rail with animated score gains
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Portrait score feedback
+The original saved portrait HUD shows the condensed top rail and score gain.
+Landscape HUD
+The original landscape capture records the condensed riding information rail.
+Image provenance
+reviews/mobile-hud/portrait-points.png
+at
+54ac463
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/mobile-hud/landscape-riding.png
+at
+54ac463
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+27 / 05 Sep 21:59 BST / 9610969 / Browser
+Repair rider garment geometry and capture full bicycle views
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Repaired Meshy turnaround
+Full bicycle front, side and rear views after the garment repair.
+Repaired rider and bicycle
+The updated three-quarter capture replaces the earlier Meshy review at this checkpoint.
+Revised head review
+Close clay capture saved with the repaired rider review.
+Image provenance
+reviews/meshy-rider/turnaround.png
+at
+9610969
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/meshy-rider/after-quarter.png
+at
+9610969
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/meshy-rider/after-head-quarter.png
+at
+9610969
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+28 / 05 Sep 23:10 BST / 8954774 / Browser
+Bring portrait mobile camera closer and frame delivery houses
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Portrait camera before
+Matching portrait street position before the closer delivery-side framing.
+Portrait camera after
+The revised portrait camera brings the rider and delivery houses closer.
+Image provenance
+reviews/mobile-camera/before-portrait-110.png
+at
+8954774
+· Saved baseline before this checkpoint change; the image first enters Git at the containing checkpoint.
+reviews/mobile-camera/after-portrait-110.png
+at
+8954774
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+29 / 06 Sep 09:09 BST / 7a5ad65 / Browser
+Refine riding response, stabilize ink and enforce car contact
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Coasting posture
+A saved side view records the rider's normal riding posture.
+Sprint posture
+The matching side view shows the rider leaning forward at higher speed.
+Recessed pothole
+Close review of the road opening and its irregular inner walls.
+Image provenance
+reviews/ride-refinements/coast.png
+at
+7a5ad65
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/ride-refinements/sprint.png
+at
+7a5ad65
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/ride-refinements/pothole.png
+at
+7a5ad65
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+30 / 06 Sep 09:57 BST / e496b07 / Browser
+Correct bag materials and rebuild a loose animated shirt hem
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Bag and shirt before
+Saved rear baseline shows the pale bag flap and earlier lower shirt fit.
+Bag and shirt after
+Matching rear review records the corrected bag material and looser shirt hem.
+Garment repair in the street
+A review-camera view places the corrected bag and shirt in the game world.
+Image provenance
+reviews/bag-shirt/before-rear.png
+at
+e496b07
+· Saved baseline before this checkpoint change; the image first enters Git at the containing checkpoint.
+reviews/bag-shirt/after-rear.png
+at
+e496b07
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/bag-shirt/game-quarter.png
+at
+e496b07
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+31 / 06 Sep 13:15 BST / 1d1c870 / Browser
+Add two-sided deliveries, moving puddles and daily curved ramps
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Monday park layout
+Overhead review of the daily park ramp and obstacle arrangement.
+Ramp jump
+A saved midair frame records the bicycle clearing the park water feature.
+Puddle surface
+Close review of the irregular water mesh and painted ripple treatment.
+Left-side delivery view
+A fixed gameplay-camera capture records the left pavement and mailboxes.
+Right-side delivery view
+The companion capture records the right pavement and opposite row of houses.
+Image provenance
+reviews/park-ramps/monday-overhead.png
+at
+1d1c870
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/park-ramps/midair.png
+at
+1d1c870
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/puddle-water/after-close.png
+at
+1d1c870
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/two-sided-route/desktop-left.png
+at
+1d1c870
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/two-sided-route/desktop-right.png
+at
+1d1c870
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+32 / 06 Sep 14:49 BST / eb5a7b5 / Browser
+Preserve the source rider head and repair garment layering
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Original source head
+A saved clay render of the source face, cap and hair for comparison.
+Preserved reduced head
+Matching reduced-head render records the source-preserving geometry treatment.
+Source-preserving rider materials
+The repaired rider and bicycle in simple material colours without game post-processing.
+Image provenance
+reviews/source-head/original/head-clay.png
+at
+eb5a7b5
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/source-head/preserved-40k-clay/head-clay.png
+at
+eb5a7b5
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/rider-source-final/material-quarter.png
+at
+eb5a7b5
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+33 / 06 Sep 16:50 BST / 1473201 / Browser
+Rebuild rider arms and sleeves and preserve the shorts hems
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Arm and sleeve baseline
+Close clay capture shows the arm and sleeve geometry before this repair.
+Arm and sleeve repair
+Matching clay view shows the rebuilt elbow, wrist and sleeve opening.
+Shorts hem materials
+Close material review records the retained folded cuffs and skin boundaries.
+Articulated rider turnaround
+Saved front, side and rear clay board after the arm and garment repair.
+Image provenance
+reviews/rider-articulation/before/after-arm-side.png
+at
+1473201
+· Saved baseline before this checkpoint change; the image first enters Git at the containing checkpoint.
+reviews/rider-articulation/final/after-arm-side.png
+at
+1473201
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/rider-articulation/final/material-shorts.png
+at
+1473201
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/rider-articulation/final/turnaround.png
+at
+1473201
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+34 / 06 Sep 18:26 BST / 45586d2 / Browser
+Give the existing bicycle straighter BMX handlebars
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+BMX bars from the front
+An isolated bicycle view shows the straighter grips, crossbar and basket.
+BMX bicycle three-quarter view
+The existing frame and wheels with the revised handlebars.
+Image provenance
+reviews/bmx-bars/front.png
+at
+45586d2
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/bmx-bars/quarter.png
+at
+45586d2
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+35 / 06 Sep 19:23 BST / 6c8b08f / Browser
+Add source-preserving rider rig and wider BMX review renders
+The runtime files match 45586d2; this commit was launched and captured separately.
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Posed source model
+The saved source render includes the rider, papers and source bicycle before rig fitting.
+Source-preserving rig
+Neutral render of the new rider rig fitted to the bicycle.
+Fitted bicycle
+An isolated review render records the bicycle used for the new posed rider.
+Separated rider geometry
+The saved render isolates the rider after separating it from the source bicycle.
+Image provenance
+reviews/posed-rider/source/quarter.png
+at
+6c8b08f
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/posed-rider/rigged/quarter.png
+at
+6c8b08f
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/posed-rider/fit/bike-quarter.png
+at
+6c8b08f
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/posed-rider/final-separated/quarter.png
+at
+6c8b08f
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+36 / 06 Sep 20:12 BST / 1471930 / Browser
+Add textured rider still and cycling loop previews
+The runtime files match 6c8b08f; this commit was launched and captured separately.
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Material region preview
+A saved colour-region view records the rider material assignments before the textured bicycle preview.
+Textured rider preview
+The first saved textured three-quarter still at this checkpoint.
+Textured rear preview
+Rear review records the paper bag, cap and clothing colours.
+Image provenance
+reviews/posed-rider/material-regions/quarter.png
+at
+1471930
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/posed-rider/textured/quarter.png
+at
+1471930
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/posed-rider/textured/rear.png
+at
+1471930
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+37 / 06 Sep 20:24 BST / 53a1761 / Browser
+Add hair-matched eyebrows and printed newspaper textures
+The runtime files match 1471930; this commit was launched and captured separately.
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Eyebrows and head texture
+Close textured head review after matching the eyebrows to the hair.
+Printed newspaper artwork
+The saved flat newspaper texture used for the rider's paper props.
+Image provenance
+reviews/posed-rider/textured/head.png
+at
+53a1761
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+ArtSource/posed-rider/newsprint.png
+at
+53a1761
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+38 / 06 Sep 21:17 BST / 66e1bab / Browser
+Replace browser rider with approved textured rig and fitted bicycle
+Desktop gameplay · 1440 × 1000
+Portrait touch gameplay · 390 × 844
+Development renders
+Existing saved review images from this checkpoint. Select an image to open the original.
+Approved rig in runtime
+The imported textured rider and fitted bicycle in the actual Three.js review scene.
+Textured throw pose
+Runtime review of the approved rider releasing a paper.
+Textured sprint pose
+Runtime review of the approved rider leaning into a sprint.
+Textured fall pose
+Runtime review of the approved rider and bicycle during a fall.
+Image provenance
+reviews/posed-rider/textured/runtime-ride.png
+at
+66e1bab
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/posed-rider/textured/runtime-throw.png
+at
+66e1bab
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/posed-rider/textured/runtime-sprint.png
+at
+66e1bab
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+reviews/posed-rider/textured/runtime-fall.png
+at
+66e1bab
+· Saved development review associated with this checkpoint; staged and isolated views are not ordinary gameplay captures.
+7 September 2026 / Commit log
+New characters, clearer controls and reactive encounters.
+Commit-backed additions with existing review artifacts. No new gameplay captures were made for this archive update.
+Sustained 60 fps remains unproven across the user’s real viewport and ordinary play. One controlled 70-second Chrome run at fa7d3a1 held 60 fps; another run on the same build averaged 58.3 fps. The later d12817d headed run averaged 58.7 fps with 70 intervals above 20 ms. ba54583 makes no new sustained-frame-rate claim.
+39 / 07 Sep 00:03 BST /
+dd62476
+/ Browser
+Daily routes and mailbox radar
+Each day varies subscriber locations and obstacles. The lower-left radar shows upcoming mailboxes and their side of the road. Hidden scene work was reduced.
+Desktop route and mailbox radar
+Review image saved at dd62476. Review scenes may be staged; these are not newly captured full-route runs.
+Portrait route and mailbox radar
+Review image saved at dd62476. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+reviews/week-radar-performance/verification.json
+at
+dd62476
+. SHA-256
+1e095feda721f61e6c7afef911c8d19f76200b878c710e3f2b2d2cdf44eac58b
+.
+reviews/week-radar-performance/final-desktop.png
+at
+dd62476
+. SHA-256
+d4642884780de128d9a45bd4a42d0fda8b9a0501bdefd67142cf5c4a698c0449
+.
+reviews/week-radar-performance/final-portrait.png
+at
+dd62476
+. SHA-256
+fd27cdce722e4b00ef594331199568343ef32f6021e9a40c96db91dbcfdec2d0
+.
+40 / 07 Sep 09:02 BST /
+9c16e21
+/ Browser
+Traffic, mobile braking and window damage
+Traffic clearance, pull-back braking, throw/success/miss sounds and visible window damage were added. The original generated chiptune was later replaced by the supplied music track.
+Broken-window impact study
+Review image saved at 9c16e21. Review scenes may be staged; these are not newly captured full-route runs.
+Touch braking in the game
+Review image saved at 9c16e21. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+web/tests/browser/window-smash.spec.js
+at
+9c16e21
+. SHA-256
+9094738995c9abb5f1a65c00086c84746e425c425bfe5e956257e0a7cb36a664
+.
+reviews/windows/detail-shatter.png
+at
+9c16e21
+. SHA-256
+4b8119458a869fa1a739510057dda6ed0e73358b268ab8a15d56fcbbd7e683a0
+.
+reviews/controls-audio-smash/mobile-braking.png
+at
+9c16e21
+. SHA-256
+bfb6a9b2831d36eec0ce59f4086b396cc8832610c4f91958ff2f1d5d389be2f8
+.
+41 / 07 Sep 09:27 BST /
+3081494
+/ Browser
+Estate lawns and a larger park
+Unfenced estate houses add open lawns and set-back mailboxes. The road leads into a larger park with textured forked paths, separate ramps and targets.
+Open estate lawn
+Review image saved at 3081494. Review scenes may be staged; these are not newly captured full-route runs.
+Forked park paths
+Review image saved at 3081494. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+web/tests/park-course.test.js
+at
+3081494
+. SHA-256
+dbb976c904fef5f914a2413373dab82527a2fe18cd00d05fb9de6e8db8de8d4f
+.
+reviews/neighbourhood-park/desktop-estate.png
+at
+3081494
+. SHA-256
+da132f72b8fb2639187ba30ad86151a9ce2a4d8b2c07f0a5a8d6e595f6db1709
+.
+reviews/neighbourhood-park/desktop-fork.png
+at
+3081494
+. SHA-256
+8c3a23871eb8d8214a2e6944178773b74a9771555ee30ee283e7c7a4fc20299e
+.
+42 / 07 Sep 10:13 BST /
+265bbf5
+/ Browser
+Layered synth experiment
+The generated theme gained a layered progressive synth arrangement. This was an intermediate audio direction; e899291 replaced it with Retro Melody.
+Evidence and source paths
+web/src/audio-synth.js
+at
+265bbf5
+. SHA-256
+92852c5841048d21c087f91ea42e14d701ba786a3e4252cf6274c84b8508a9f0
+.
+43 / 07 Sep 10:49 BST /
+1420f41
+/ Browser
+Rigged newsman encounter
+The supplied newsman was simplified, rigged and animated to leave a house through its porch, garden path and driveway. Later gait repairs are recorded at 6896d37.
+Textured newsman rig
+Review image saved at 1420f41. Review scenes may be staged; these are not newly captured full-route runs.
+Newsman leaving the garden
+Review image saved at 1420f41. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+ArtSource/grumpy-newsman/README.md
+at
+1420f41
+. SHA-256
+4706e49276bc143290ecd64071e171adb39409ed746119134fedf77d23772f81
+.
+reviews/grumpy-newsman/final-textured-front.png
+at
+1420f41
+. SHA-256
+c447405518bb957c0b67442c45baea3ab4159908c3075490958df48cab5a9482
+.
+reviews/grumpy-newsman/house-garden-path-close.png
+at
+1420f41
+. SHA-256
+d52ee8126e6fa5aa61341717e31e0f5b7e52e90ac362d53dadebc3202b90be1e
+.
+44 / 07 Sep 11:06 BST /
+13d95ba
+/ Browser
+Newsman integration verification
+The integration checkpoint retained the house encounter and made the dog-chase browser check deterministic with a controlled clock. Assertions and screenshots no longer let unrelated later obstacles advance the chase.
+Evidence and source paths
+web/tests/browser/game.spec.js
+at
+13d95ba
+. SHA-256
+2fbee3c75b92a06098da0d62f13be724c2c25f647e95aa7e4f074627e33d30ec
+.
+45 / 07 Sep 11:12 BST /
+e899291
+/ Browser
+Supplied Retro Melody theme
+The supplied Retro Melody MP3 replaced the generated theme. Music streams through one looping media element and a Web Audio gain alongside the sound effects. Default-on and continuous results playback follow at ba54583.
+Evidence and source paths
+web/src/audio.js
+at
+e899291
+. SHA-256
+3ee0229fd97d6e23a20efda45ba63214cd52e4fe17993ff18831cf5c75c7410c
+.
+46 / 07 Sep 11:15 BST /
+ad4ec6d
+/ Browser
+Puddle entry sound
+Entering a puddle now emits the splash sound event. Water slows the rider without taking a life.
+Evidence and source paths
+web/src/simulation.js
+at
+ad4ec6d
+. SHA-256
+7ca32771f9a2272a26a80f9d337ce8a83d3c9a41d08c94bb5f783db4b05a2b2c
+.
+47 / 07 Sep 12:40 BST /
+6896d37
+/ Browser
+Character, traffic, title and pond repairs
+The newsman gait and shoe alignment were corrected. Rider sock cuffs, paper textures and shoe caps were repaired while preserving source geometry. Cars can overtake parked traffic. The supplied SVG title has clean contours and rotating letter entrances. Late estate lots and a larger curved pond ramp add a once-per-day dry-landing bonus.
+Estate lots near the park
+Review image saved at 6896d37. Review scenes may be staged; these are not newly captured full-route runs.
+Supplied SVG title in the browser
+Review image saved at 6896d37. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+reviews/september-7-corrections.md
+at
+6896d37
+. SHA-256
+f6a4cb33d757849b7066378a880236df00d84933e7d3e108f05963544f083805
+.
+reviews/late-estates/desktop-late-left.png
+at
+6896d37
+. SHA-256
+ddfc5dff35dc9f7cdbecd96cc402c4af42478b21ad1b96a05a533fb8fb42e7fd
+.
+reviews/title-intro/desktop.png
+at
+6896d37
+. SHA-256
+a82dc94701091bf3b619e89611b5618fc9b463bda2c3604e00b41789d1d6b4a7
+.
+48 / 07 Sep 15:18 BST /
+d595ada
+/ Browser
+Toy-controller boy and newspaper sequence
+The authored boy replaced the toy-controller boys, with a rigged walking loop and shared runtime textures. Five supplied newspaper artworks became the three-page introduction and live results screens. Frame pacing work reduced geometry and shader costs; later performance measurements remain mixed.
+Authored boy with the remote-control toy
+Review image saved at d595ada. Review scenes may be staged; these are not newly captured full-route runs.
+First newspaper briefing
+Review image saved at d595ada. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+reviews/joyful-pilot/README.md
+at
+d595ada
+. SHA-256
+b5c0a8a887fa5a71ca5a3b8e86abe921ca19fe2146a3475da8c3bdc5458690be
+.
+reviews/joyful-pilot/in-game/boy-and-toy.png
+at
+d595ada
+. SHA-256
+f6a6d0b328ee6b69badeaa9ffef4d27cce754c1bdf669055b09becc493b26b10
+.
+reviews/newspaper-screens/intro-desktop.png
+at
+d595ada
+. SHA-256
+b341b19d4c85617745c329847564327d17f1fc71e875324df6a2e837179d00e2
+.
+49 / 07 Sep 16:36 BST /
+fa7d3a1
+/ Browser
+Shared remote gaze and scene clarity
+The boy gained shared-target pupil controls. Defence papers physically distract dogs, estate paving follows the curved ground, and render resolution increased. Newspaper buttons now own their complete black fill, live label and arrow.
+Textured walking and gaze review
+Review image saved at fa7d3a1. Review scenes may be staged; these are not newly captured full-route runs.
+Next-day newspaper with live button
+Review image saved at fa7d3a1. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+reviews/september-fixes/README.md
+at
+fa7d3a1
+. SHA-256
+0fab979c41219043c621ee2ead26845b148d665b99d444604956bbd74afafeca
+.
+reviews/pilot-gaze/after/walk-0.png
+at
+fa7d3a1
+. SHA-256
+0ddfa348b485d0ee1d3af7aa85088ac4b9caa0d1f0334b2bf9f1b6040aea896e
+.
+reviews/newspaper-buttons/mobile-partial.png
+at
+fa7d3a1
+. SHA-256
+ca3778203942e87391ec36b04ab3cff260e434f149b887bc9803106830f60592
+.
+50 / 07 Sep 17:03 BST /
+379d407
+/ Browser
+Lower, inward pupils
+The visible pupil placement moved inward and down to match the supplied reference. The review covers the full runtime loop; original body geometry, texture maps and non-head animation remain preserved.
+Textured walking and gaze review
+Review image saved at 379d407. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+reviews/pilot-inward-gaze/README.md
+at
+379d407
+. SHA-256
+54f329d6270ba77c6e14cfe6a876830edbdb31849ce6f8d100453c31c38e313e
+.
+reviews/pilot-inward-gaze/after/walk-0.png
+at
+379d407
+. SHA-256
+9ec909fab756ae84b3a37d5665982d36a2eac4ce8014fd7899f19d7bdaef0741
+.
+51 / 07 Sep 18:08 BST /
+d12817d
+/ Browser
+Mobile controls and floating HUD
+Sideways drag and holding keep cruise speed; deliberate up/down drags sprint and brake. Mailbox assist works farther from the kerb. Points/day/speed moved top left, settings top right, radar bottom left and inventory bottom right. Controller clothing variants share resources, and twelve nose UV corners were repaired.
+Floating HUD in portrait
+Review image saved at d12817d. Review scenes may be staged; these are not newly captured full-route runs.
+Shared-resource clothing variants
+Review image saved at d12817d. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+reviews/mobile-playability/README.md
+at
+d12817d
+. SHA-256
+1f9c520edf32f1d33285f4691244544367397b0dc0d3a8bbc3752b25271fbafe
+.
+reviews/mobile-playability/hud/portrait-riding.png
+at
+d12817d
+. SHA-256
+7ec3ae53915719297fe8cef27d9c25564cf3b634714d4c0b0513325a2a46667e
+.
+reviews/mobile-playability/controller-colours.png
+at
+d12817d
+. SHA-256
+cf70c84302d07c620b0718475b82d28752c809dcca6b5cceedab61434009cb0b
+.
+52 / 07 Sep 18:32 BST /
+ba54583
+/ Browser
+Dog pounce, continuous music and wet tracks
+Dogs flank for one second before a .75-second pounce. Camera-visible paper defence reserves the release animation and scores only on physical catch. Car avoidance resolves overlapping clearance zones and caps fetch speed. Music defaults on after the first gesture, preserves explicit mute and continues through results/day changes. Puddles gain ripples and short fading tyre tracks.
+Dog airborne during its pounce
+Review image saved at ba54583. Review scenes may be staged; these are not newly captured full-route runs.
+Puddle edge and ripple review
+Review image saved at ba54583. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+reviews/dog-water-audio/README.md
+at
+ba54583
+. SHA-256
+a58a6802e44c6d9ca9bedb6ee4ba4c218203ccdac1aa493f194d5706a92dac91
+.
+reviews/dog-water-audio/dog/pounce-peak.png
+at
+ba54583
+. SHA-256
+054c634e206a53291f8b00cdb07e9b3bea69f455c6b3120901e27bcf660b1ec2
+.
+reviews/dog-water-audio/water/after-close.png
+at
+ba54583
+. SHA-256
+ae5be2d659ef3c2b5bb5f6980ce037601a221261e70e28dbfe09f5a505285e8d
+.
+Separate branch experiments
+These previews are recorded independently of the 14 game commits above. They were reviewed and folded into the main game after this checkpoint.
+E1 / 07 Sep 19:04 BST /
+c03bbb5
+/ Browser
+Window-impact camera experiment
+The camera blends toward a real targeted window over .46 seconds, holds impact for .42 seconds and returns over .6 seconds. Only visual shard age slows. The regular chase camera still supplies aiming and visible-dog checks; the rider, traffic, paper flight, scoring and input state continue unchanged. Reduced motion retains the ordinary camera.
+Separate review branch. Reviewed and folded into the main game after this checkpoint.
+Branch
+feat/window-smash-camera
+.
+311 unit tests pass, including 12 complete-state comparisons with and without the camera observation. Desktop and portrait previews cover both house rows, +400-point impacts, return to the rider and the camera-off comparison. Existing keyboard X and mobile hold/release checks pass. Comfort and pacing remain for user review; no sustained-60-fps claim is made.
+Left-side window impact, desktop
+Review image saved at c03bbb5. Review scenes may be staged; these are not newly captured full-route runs.
+Right-side window impact, desktop
+Review image saved at c03bbb5. Review scenes may be staged; these are not newly captured full-route runs.
+Left-side window impact, portrait
+Review image saved at c03bbb5. Review scenes may be staged; these are not newly captured full-route runs.
+Right-side window impact, portrait
+Review image saved at c03bbb5. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+reviews/window-smash-camera/README.md
+at
+c03bbb5
+. SHA-256
+adba51ea11d7c22e89d2cef8d11f3ca978dd5b8f09ad0e0573d4cdbf0dee67f2
+.
+reviews/window-smash-camera/gameplay-equivalence.json
+at
+c03bbb5
+. SHA-256
+84c8a0a641414e555f416faaf0ffbd6465a67392122047e34177847866faad8f
+.
+reviews/window-smash-camera/left-1280-impact.png
+at
+c03bbb5
+. SHA-256
+cb3e1949732e4c8612a4bfb55c57ea4e7405facc096f7376d0f9daad55aaed83
+.
+reviews/window-smash-camera/right-1280-impact.png
+at
+c03bbb5
+. SHA-256
+20b0c74da4c9c87a009961dfec1ec9c0dd0ba4cc1dbd754d6d834a97e99b0f3f
+.
+reviews/window-smash-camera/left-390-impact.png
+at
+c03bbb5
+. SHA-256
+05b79d93b17f08ad487548e122d171c78253d38d2f82599d10ee3082e0afacf6
+.
+reviews/window-smash-camera/right-390-impact.png
+at
+c03bbb5
+. SHA-256
+5637144f91fb173cebe1b346eae5adbb0db36b780df1b05a52b67bbe1ceae674
+.
+reviews/window-smash-camera/camera-swing-preview.webm
+at
+c03bbb5
+. SHA-256
+9a2635591510e20bfca92ae1d5fbe8a7f4bcfad0080a375a0e2eec8b90636e3c
+.
+E2 / 07 Sep 19:18 BST /
+2ae85c8
+/ Browser
+Daily start and park target experiment
+Every day opens with an animated day name and the current subscriber delivery count. The rider holds one foot on the ground for two seconds, then returns it to the pedal over .65 seconds before accelerating from rest. A private intro clock keeps the route, hazards and papers frozen. Pause freezes the card and pose; skipping preserves the mount; music continues. Park targets have solid backings attached to their posts, with the right-hand faces turned inward and hit centers unchanged.
+Separate review branch. Reviewed and folded into the main game after this checkpoint.
+Branch
+feat/day-intro-polish
+.
+332 unit tests, 17 distinct production browser checks and the production build pass. Independent review has no remaining findings and adds three proof tests. Checks cover seven-day state preservation, input handoff, pause, replay, instruction order, actual skinned-foot contact and target geometry/projectile scoring. The existing large-chunk warning remains. The full unrelated browser suite and a new performance benchmark were not run.
+Stationary daily title hold, desktop
+Review image saved at 2ae85c8. Review scenes may be staged; these are not newly captured full-route runs.
+Stationary daily title hold, portrait
+Review image saved at 2ae85c8. Review scenes may be staged; these are not newly captured full-route runs.
+Attached target boards on both park paths
+Review image saved at 2ae85c8. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+reviews/day-intro/README.md
+at
+2ae85c8
+. SHA-256
+0c4f4e6d169d670859265074f97ab9685f8bd308cf2860797ad270f0ba9b0cd5
+.
+reviews/day-intro/validation.json
+at
+2ae85c8
+. SHA-256
+5c80b2b30ccd2f2b8ac9f8447b4fa4196d1a53967f30d549a8665a875ee6db24
+.
+reviews/day-intro/independent-review.json
+at
+2ae85c8
+. SHA-256
+38c179851b3cee057ae455009f2296e9d8b8a80b816e9708c09c3dce1effee2f
+.
+reviews/day-intro/desktop.png
+at
+2ae85c8
+. SHA-256
+6e489c666013f41da1c00ada5f5436b3b6fc9c8609c307fae5a0ecbf47beba77
+.
+reviews/day-intro/mobile.png
+at
+2ae85c8
+. SHA-256
+fb75befbf55d231261c1a8f4ceb41e42fba52f479afafeffc0d9a471613dd87b
+.
+reviews/day-intro/park.png
+at
+2ae85c8
+. SHA-256
+dc68cfdfc21f44ef305cc701bf0c9ee85bda58486013ade7edb764e234e045bf
+.
+8 September 2026 / Commit log
+The paper round goes public.
+Hosted launch on Vercel at paperroute.lol: landing page, player entry, share card, Supabase-backed leaderboard and the illustrated newspaper layout. Two merge commits that joined the launch branch into main are not listed separately.
+No new frame-rate claim.
+53 / 07 Sep 18:57 BST /
+b623911
+/ Browser
+September 7 checkpoint records
+The September 7 gameplay checkpoints and their validation notes were written into the archive records.
+54 / 07 Sep 19:20 BST /
+1dfcef6
+/ Browser
+Camera and day-intro preview records
+The window-impact camera and day-intro preview branches were recorded as separate preview checkpoints.
+55 / 07 Sep 21:23 BST /
+f085787
+/ Browser
+Hosted launch plan
+A written plan for taking the game off the local preview server and onto a hosted address.
+56 / 07 Sep 21:46 BST /
+60a50d6
+/ Browser
+Landing page and the move to /play/
+The game moved to /play/ behind a new landing page and a Vercel configuration. Style-lab is dropped from the production build; Open Graph images, a portrait rotate prompt and a shared PLAY_URL constant for the browser suite were added.
+57 / 07 Sep 22:32 BST /
+2deaa04
+/ Browser
+Player name entry and results byline
+Players name themselves before riding and the name prints on the results byline. The name is sanitised, saved to localStorage and prefilled on return, and game keyboard input now ignores keystrokes inside text fields.
+58 / 07 Sep 23:03 BST /
+de215a9
+/ Browser
+Share card and local best runs
+The results screen shares a 1080px PNG through the Web Share API, with download and clipboard fallbacks. Finished runs are kept in localStorage and the top five show on the intro sheet.
+59 / 08 Sep 00:02 BST /
+d5bbe0c
+/ Browser
+Launch review fixes
+The share card and summary take the site host at runtime, Open Graph URLs are absolute from the Vercel production URL, harness scripts load /play/, the card labels its score as the week total, and art and audio caching drops to one day. A mobile HUD route test was seeded.
+60 / 08 Sep 00:15 BST /
+5e5f584
+/ Browser
+The newspaper landing page
+The landing page was rebuilt from the newspaper starter: a wordmark masthead, uppercase Roboto Condensed Black headlines, the website illustration export and a seven-day week grid, with copy checked against the simulation.
+61 / 08 Sep 07:48 BST /
+b6daa84
+/ Browser
+Gallery, league table and nameplate
+Duplicate how-to-play blocks merged, the day name moved into the week grid’s left column, the wordmark cropped to its ink and the riding frame filled. Six gameplay captures, a devlog notice and a top-ten league table were added, with a full /leaderboard/ page behind it.
+62 / 08 Sep 08:50 BST /
+152bc32
+/ Browser
+Supabase-backed leaderboard
+The placeholder league table was replaced by a gated leaderboard backed by Supabase.
+63 / 08 Sep 09:03 BST /
+69e3b33
+/ Browser
+One twelve-column grid
+Every band on the landing page now spans 4, 3 or 2 columns of one shared twelve-column grid across three breakpoints, with Play now as the header call to action, a two-row week strip, a black how-we-built-it box beside the league table and a window-smash gallery tile.
+64 / 08 Sep 09:57 BST /
+ae231f4
+/ Browser
+Open Graph card and footer credit
+The Open Graph card was split with the paperboy art and the footer picked up its making credit.
+65 / 08 Sep 11:10 BST /
+30c8b99
+/ Browser
+Filling the lead grid
+The drawn border was cropped out of the hero art so the page frame is the only rule, the figure stretches to the row height, the headline rises to 86px at 1440, and the assignment stats stack below 1440 where the three-up row overflowed the column.
+66 / 08 Sep 14:47 BST /
+709c047
+/ Browser
+Launch scores and the published page
+Fictional launch scores were seeded into the league table and the latest landing page was published.
+67 / 08 Sep 14:56 BST /
+1af3b18
+/ Browser
+Varied launch handles
+The seeded launch handles were varied and BuiltBySketch put first in the table.
+The published landing page at 1440
+Review image saved at 1af3b18. Review scenes may be staged; these are not newly captured full-route runs.
+The published landing page at 390
+Review image saved at 1af3b18. Review scenes may be staged; these are not newly captured full-route runs.
+Evidence and source paths
+web/dist capture at 1af3b18 (1440x4614)
+at
+1af3b18
+. SHA-256
+e49d765b438c2267c09fc9ba31debba8989bc54d7f81ccf65d1dd9269f98b13e
+.
+web/dist capture at 1af3b18 (390x8765)
+at
+1af3b18
+. SHA-256
+58926e8dd6ad3fc8906bcd53358dc85f765215a350189d23cf4b5131cfd9f9af
+.
+Back to the front page
+Ride your own week
+The Daily Post
+Game and website made with Graft by
+BuiltBySketch
++ GPT Astra
