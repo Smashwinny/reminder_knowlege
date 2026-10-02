@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Strudel 小白指南</title>
+<style>
+  :root {
+    --pink: #e91e63; --purple: #7c4dff; --cyan: #00bcd4; --orange: #ff6d00;
+    --yellow: #ffd600; --green: #00c853; --blue: #2962ff; --ink: #212036;
+    --paper: #fffdf7;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", "Microsoft YaHei", sans-serif; color: var(--ink); background: var(--paper); margin: 0; font-size: 14px; line-height: 1.65; }
+  .page { padding: 0 6mm; }
+  @page { size: A4; margin: 10mm 8mm; }
+  h1, h2, h3 { margin: 0; }
+  .cover { background: linear-gradient(135deg, var(--purple) 0%, var(--pink) 55%, var(--orange) 100%); color: #fff; border-radius: 18px; padding: 26px 30px; margin: 0 0 14px; }
+  .cover .kicker { background: rgba(255,255,255,.22); display: inline-block; padding: 3px 14px; border-radius: 999px; font-weight: 700; letter-spacing: 1px; font-size: 13px; }
+  .cover h1 { font-size: 40px; margin: 10px 0 6px; text-shadow: 2px 2px 0 rgba(0,0,0,.18); }
+  .cover p { margin: 4px 0; font-size: 15px; opacity: .96; }
+  .cover .sub { font-size: 22px; font-weight: 800; color: var(--yellow); }
+  .hotbox { background: #fff; border: 3px dashed var(--pink); border-radius: 14px; padding: 12px 16px; margin: 0 0 16px; }
+  .hotbox b.t { color: var(--pink); font-size: 16px; }
+  .card { border-radius: 14px; padding: 14px 18px 12px; margin: 0 0 12px; break-inside: avoid; border: 2.5px solid; background: #fff; }
+  .card .qnum { font-size: 34px; font-weight: 900; line-height: 1; float: left; margin: 2px 12px 0 0; }
+  .card h2 { font-size: 18.5px; margin-bottom: 8px; }
+  .card:after { content: ""; display: block; clear: both; }
+  .tag { display: inline-block; font-size: 11.5px; font-weight: 800; color: #fff; border-radius: 999px; padding: 1px 10px; margin-left: 6px; vertical-align: 3px; }
+  .big { font-size: 16px; font-weight: 800; background: linear-gradient(transparent 62%, var(--yellow) 62%); padding: 0 2px; }
+  .huge { font-size: 18px; font-weight: 900; color: #fff; background: var(--pink); padding: 1px 8px; border-radius: 6px; }
+  code, .mono { font-family: Consolas, "Cascadia Code", monospace; }
+  code.inline { background: #212036; color: #ffe45e; border-radius: 5px; padding: 1px 7px; font-size: 13px; }
+  .codeblock { background: #23223a; color: #e8f7ff; border-radius: 10px; padding: 10px 14px; margin: 8px 0; font-size: 13px; line-height: 1.55; overflow-x: hidden; white-space: pre-wrap; }
+  .codeblock .cm { color: #7de87d; }
+  .codeblock .out { color: #ffd166; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 13px; }
+  th { background: var(--purple); color: #fff; padding: 5px 9px; text-align: left; }
+  td { border-bottom: 1.5px solid #e5e0f5; padding: 4px 9px; vertical-align: top; }
+  tr:nth-child(even) td { background: #f6f3ff; }
+  .ok { color: var(--green); font-weight: 800; }
+  .warn { color: var(--orange); font-weight: 800; }
+  .step { border-left: 8px solid var(--cyan); background: #f0fbfd; border-radius: 10px; padding: 10px 14px; margin: 10px 0; break-inside: avoid; }
+  .step h3 { color: #007c91; font-size: 15.5px; margin-bottom: 5px; }
+  .expect { background: #e8f9e8; border: 2.5px solid var(--green); border-radius: 10px; padding: 8px 12px; margin-top: 7px; font-size: 13px; }
+  .expect b { color: var(--green); }
+  svg { max-width: 100%; height: auto; }
+  .figbox { text-align: center; margin: 8px 0 4px; }
+  .figbox .cap { font-size: 12px; color: #666; margin-top: 2px; }
+  .twocol { display: flex; gap: 12px; } .twocol > div { flex: 1; }
+  .footer { background: var(--ink); color: #cfd0ff; border-radius: 12px; padding: 12px 18px; font-size: 12.5px; margin-top: 14px; }
+  .ability li { margin: 4px 0; }
+  .pill { display:inline-block; border-radius: 8px; padding: 1px 9px; font-weight: 800; color: #fff; margin-right: 6px; font-size: 12.5px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="cover">
+  <span class="kicker">拾遗学习流水线 · 开源项目类</span>
+  <h1>Strudel 小白指南</h1>
+  <p class="sub">用代码写音乐：浏览器里的现场编程（Live Coding）乐器</p>
+  <p>一言以蔽之：<b>写一行 JavaScript，浏览器立刻播放一段音乐；改一个字符，音乐当场变样</b>。这就是 Strudel——Haskell 老牌作曲语言 TidalCycles 的 JavaScript 移植版。</p>
+  <p>热点来源：X 用户 @ozzyxs1a 发帖"其实你可以直接用 Claude 做音乐"（15万+浏览），评论区猜测用的正是 Strudel / TidalCycles 这类实时编码音乐工具。</p>
+</div>
+
+<div class="hotbox">
+  <b class="t">🔥 热点溯源：Claude 真能做音乐吗？</b><br>
+  能，而且链路比想象中简单：<b>Claude（或任何人）写出 Strudel 代码 → 浏览器 REPL 解析成"事件时间表" → Web Audio 引擎发声</b>。LLM 特别适合干这件事：音乐意图 → mini-notation 字符串，正好是"文本进、文本出"，而发声、节拍、音色全由 Strudel 负责。本指南所有代码都在本地 Node 真实跑通，并渲染出了真正可听的 .wav 文件。
+</div>
+
+<!-- ==================== 疑问卡片 ==================== -->
+
+<div class="card" style="border-color:var(--pink)">
+  <span class="qnum" style="color:var(--pink)">Q1</span>
+  <h2>"用 Claude 做音乐"到底是怎么回事？<span class="tag" style="background:var(--pink)">热点解密</span></h2>
+  <p>音乐从来没离开过"符号文本"：乐谱本身就是代码。Strudel 把乐谱简化成一行行 JavaScript 字符串，例如 <code class="inline">s("bd sd hh cp")</code> 就是一段四分音符鼓点。而写这些字符串不需要会乐器、不需要乐理功底，只需要会"描述节奏"——<span class="big">这恰好是 LLM 最擅长的事：你说"来一段 90 BPM 的 lo-fi 鼓点"，它直接吐出一段 Strudel 代码，粘贴进 strudel.cc 就响</span>。推文里的视频大概率就是：Claude 生成代码 → strudel.cc 播放，全程不到一分钟。</p>
+</div>
+
+<div class="card" style="border-color:var(--purple)">
+  <span class="qnum" style="color:var(--purple)">Q2</span>
+  <h2>Strudel 是什么？和 TidalCycles 什么关系？<span class="tag" style="background:var(--purple)">身世</span></h2>
+  <p><b>TidalCycles（简称 Tidal）</b>：2014 年起，音乐家 Alex McLean 用 Haskell 写的"模式作曲语言"，在"algorave（算法锐舞）"现场演出圈用了十年，但安装要装 Haskell + SuperCollider 两套环境，劝退无数人。</p>
+  <p><b>Strudel</b>：2022 年 Alex McLean 和 Felix Roos 用 JavaScript 重写的 Tidal——<span class="big">打开 strudel.cc 网页就能用，零安装，自带声音引擎</span>。官方文档原话：Tidal "本身不发声"，要外挂 SuperCollider 的 SuperDirt；Strudel 则"完全在浏览器里自己发声"。上游仓库本在 GitHub（felixroos/strudel），现开发主力已迁往 Codeberg（uzu/strudel）。</p>
+</div>
+
+<div class="card" style="border-color:var(--cyan)">
+  <span class="qnum" style="color:var(--cyan)">Q3</span>
+  <h2>不装任何软件，浏览器凭什么能出声？<span class="tag" style="background:var(--cyan)">原理</span></h2>
+  <p>靠浏览器内置的 <b>Web Audio API</b>（网页版的数字音频工作站）。Strudel 的分层架构如下——上半部分是"谱面"，下半部分是"音箱"：</p>
+  <div class="figbox">
+  <svg width="740" height="216" viewBox="0 0 740 216" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI">
+    <defs>
+      <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#555"/></marker>
+    </defs>
+    <rect x="10" y="12" width="150" height="52" rx="10" fill="#ffd600"/><text x="85" y="34" text-anchor="middle" font-size="14" font-weight="800">你 / Claude</text><text x="85" y="52" text-anchor="middle" font-size="12">写 mini-notation 字符串</text>
+    <rect x="200" y="12" width="170" height="52" rx="10" fill="#ff9800"/><text x="285" y="34" text-anchor="middle" font-size="14" font-weight="800">@strudel/mini</text><text x="285" y="52" text-anchor="middle" font-size="12">解析节奏语言 → Pattern 对象</text>
+    <rect x="410" y="12" width="150" height="52" rx="10" fill="#7c4dff"/><text x="485" y="34" text-anchor="middle" font-size="14" font-weight="800">@strudel/core</text><text x="485" y="52" text-anchor="middle" font-size="12">queryArc 算事件时间表</text>
+    <rect x="600" y="12" width="130" height="52" rx="10" fill="#e91e63"/><text x="665" y="34" text-anchor="middle" font-size="14" font-weight="800">Hap 事件流</text><text x="665" y="52" text-anchor="middle" font-size="12">何时/奏什么/多大声</text>
+    <rect x="230" y="130" width="220" height="60" rx="10" fill="#00bcd4"/><text x="340" y="154" text-anchor="middle" font-size="14" font-weight="800">superdough 声音引擎</text><text x="340" y="172" text-anchor="middle" font-size="12">采样器(鼓) + 合成器(音色)</text>
+    <rect x="490" y="130" width="240" height="60" rx="10" fill="#00c853"/><text x="610" y="154" text-anchor="middle" font-size="14" font-weight="800">Web Audio API</text><text x="610" y="172" text-anchor="middle" font-size="12">浏览器原生音频 → 喇叭 🔊</text>
+    <line x1="160" y1="38" x2="196" y2="38" stroke="#555" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="370" y1="38" x2="406" y2="38" stroke="#555" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="560" y1="38" x2="596" y2="38" stroke="#555" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="665" y1="64" x2="450" y2="128" stroke="#555" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="450" y1="190" x2="486" y2="190" stroke="#555" stroke-width="2.5" marker-end="url(#ar)"/>
+    <text x="105" y="105" font-size="13" fill="#007c91" font-weight="700">↑ 纯计算，无声卡也能跑（本指南实验段）</text>
+    <text x="475" y="112" font-size="13" fill="#007c91" font-weight="700">↓ 需要浏览器（strudel.cc 在线玩）</text>
+  </svg>
+  <div class="cap">图1 Strudel 架构：谱面（可 headless 运行）与发声（浏览器 Web Audio）解耦</div>
+  </div>
+  <p><span class="big">这个解耦是本次实验的关键：上半段（字符串 → 事件时间表）是纯数学，Node 里就能跑</span>——所以我们能在无声卡的环境下验证"Claude 写的音乐逻辑对不对"，再渲染成 wav 亲耳验收。</p>
+</div>
+
+<div class="card" style="border-color:var(--orange)">
+  <span class="qnum" style="color:var(--orange)">Q4</span>
+  <h2>mini-notation：一行字符串怎么变成一段节奏？<span class="tag" style="background:var(--orange)">核心语法</span></h2>
+  <p>mini-notation 是 Strudel 的"谱面简谱"，符号极少但表达力极强（每个事件的真实输出见实验2）：</p>
+  <table>
+    <tr><th>符号</th><th>含义</th><th>例子（实测输出）</th></tr>
+    <tr><td><code class="inline">空格</code></td><td>顺次排队，均分一拍</td><td><code class="inline">"bd sd bd sd"</code> → 4 个事件各占 ¼ 循环</td></tr>
+    <tr><td><code class="inline">~</code></td><td>休止符（空一拍）</td><td><code class="inline">"bd ~ sd ~"</code> → 只有 2 个事件</td></tr>
+    <tr><td><code class="inline">*n</code></td><td>循环内重复 n 次（提速）</td><td><code class="inline">"hh*4"</code> → 半循环内挤 4 个踩镲</td></tr>
+    <tr><td><code class="inline">/n</code></td><td>放慢 n 倍</td><td><code class="inline">"bd/2"</code> → 两循环才响一次</td></tr>
+    <tr><td><code class="inline">[ ]</code></td><td>分组：方括号整体占一格，内部再细分</td><td><code class="inline">"[bd sd] hh*2"</code> → bd、sd 挤进前半拍</td></tr>
+    <tr><td><code class="inline">&lt; &gt;</code></td><td>交替：每循环换一个</td><td><code class="inline">"&lt;bd sd&gt; hh"</code> → 第1循环 bd，第2循环 sd</td></tr>
+    <tr><td><code class="inline">(a,b)</code></td><td>欧几里得节奏：a 声尽量均匀散进 b 格</td><td><code class="inline">"bd(3,8)"</code> → 0, 0.38, 0.75 处三声</td></tr>
+    <tr><td><code class="inline">c3 f#2</code></td><td>音符名 + 八度（C 调 12 平均律）</td><td><code class="inline">"c a f e"</code> → 四个音高事件</td></tr>
+  </table>
+  <p><b>bd</b>=底鼓(kick)，<b>sd</b>=军鼓(snare)，<b>hh</b>=踩镲(hihat)，<b>cp</b>=拍手(clap)，<b>~</b>=rest——这套缩写沿用自 Tidal 的 Dirt 采样库。</p>
+</div>
+
+<div class="card" style="border-color:var(--blue)">
+  <span class="qnum" style="color:var(--blue)">Q5</span>
+  <h2>"Live Coding 现场编程"与 algorave 是什么？<span class="tag" style="background:var(--blue)">文化</span></h2>
+  <p><b>Live coding（现场编码）</b>是一种表演艺术：音乐家/艺术家在观众面前<b>现场写代码</b>，大屏幕投影给观众看，代码改一行音乐当场变化——不编译、不重启、不打断节拍。<b>Algorave</b> 就是拿这种表演开派对的场景（2011 年始于伦敦），全球已有数百位活跃表演者。Strudel 的 REPL 就是为此设计的：代码热替换，鼓点从不中断。所以那条推文里的视频，本质是"一个人（或 Claude）在现场编程演奏"。</p>
+</div>
+
+<div class="card" style="border-color:var(--green)">
+  <span class="qnum" style="color:var(--green)">Q6</span>
+  <h2>为什么说 Strudel 是"函数式"音乐？<span class="tag" style="background:var(--green)">核心思想</span></h2>
+  <p><span class="big">Pattern 不是音频，是"带时间坐标的函数"：给它一段时间区间，它返回这段时间内该发生的事件列表</span>。于是变换函数可以对 pattern 做纯数学运算：</p>
+  <table>
+    <tr><th>变换</th><th>语义</th><th>实测（"bd sd hh cp"，2 循环）</th></tr>
+    <tr><td><code class="inline">.fast(2)</code></td><td>整体加速 2 倍</td><td>事件数 8 → 16，坐标全部压缩一半</td></tr>
+    <tr><td><code class="inline">.slow(2)</code></td><td>整体放慢 2 倍</td><td>事件数 8 → 4（铺满两倍时长）</td></tr>
+    <tr><td><code class="inline">.rev()</code></td><td>时间倒放</td><td>坐标 0,.25,.5,.75 → .75,.5,.25,0</td></tr>
+    <tr><td><code class="inline">.add(3)</code></td><td>音符整体移调（加 3 个半音）</td><td>c a f e → midi 值 48/57/53/52 变 51/60/56/55</td></tr>
+    <tr><td><code class="inline">.off(0.25, p)</code></td><td>复制一份、错开 ¼ 循环叠加</td><td>制作回声/卡农效果</td></tr>
+  </table>
+  <p>这就是 Tidal 论文标题里的 "pattern as function of time"：因为 pattern 是函数，才能像数据一样被 map/reverse/zip——<b>把函数式编程的思想搬进了作曲</b>。</p>
+</div>
+
+<div class="card" style="border-color:var(--pink)">
+  <span class="qnum" style="color:var(--pink)">Q7</span>
+  <h2>queryArc：字符串是怎么变成"何时发声"的？<span class="tag" style="background:var(--pink)">事件模型</span></h2>
+  <p>核心数据结构有两个：</p>
+  <p><b>Hap（事件）</b>= <code class="inline">{ whole: 起止时间(分数), value: 内容 }</code>。时间用<b>分数（Fraction）</b>而不是小数——因为节奏是 1/2、1/4、1/8 不断二分/三分的，分数运算<b>永不丢精度</b>（实测输出 <code class="inline">a: 0 - 1/2, b: 1/2 - 3/4, c: 3/4 - 1</code>）。</p>
+  <p><b>queryArc(begin, end)</b>= 问 pattern："从第 begin 循环到第 end 循环，你有哪些事件？"pattern 返回 Hap 列表，声音引擎照单发货。<span class="big">整个 Strudel 就是一个"时间 → 事件"的查询系统</span>；我们实验里渲染 wav，正是消费同一个 queryArc 输出。</p>
+</div>
+
+<div class="card" style="border-color:var(--purple)">
+  <span class="qnum" style="color:var(--purple)">Q8</span>
+  <h2>欧几里得节奏 bd(3,8) 是什么原理？<span class="tag" style="background:var(--purple)">彩蛋算法</span></h2>
+  <p>把 3 声"尽量均匀"地撒进 8 格——用欧几里得 GCD 算法分配间隔。实测 <code class="inline">bd(3,8)</code> 落在 <b>0、0.38、0.75</b>：正是古巴 clave 节奏的骨架。有趣的事实：这类"最大均匀分布"节奏遍布非洲、中东、 electronic 音乐——<b>一条数学公式统一了世界各地的传统节奏</b>，这是 Tidal 最出名的卖点之一。</p>
+</div>
+
+<div class="card" style="border-color:var(--cyan)">
+  <span class="qnum" style="color:var(--cyan)">Q9</span>
+  <h2>怎么叠出一整首歌？<span class="tag" style="background:var(--cyan)">stack 编曲</span></h2>
+  <p><code class="inline">stack(鼓, 镲, 贝斯, 琶音)</code> 把多个 pattern 纵向叠加同时播放——就是多轨录音机的代码版。我们主实验的"谱子"总共 5 行：</p>
+  <div class="codeblock"><span class="cm">// 实验4的歌曲：5 个 pattern 叠成 4 循环 lo-fi 小段</span>
+stack(
+  mini('bd ~ bd ~ bd ~ bd bd'),                        <span class="cm">// 底鼓</span>
+  mini('~ sd ~ sd ~ sd ~ sd'),                         <span class="cm">// 军鼓踩 2/4 拍</span>
+  mini('hh*8'),                                        <span class="cm">// 踩镲八连音</span>
+  mini('&lt;c3 e3 g3&gt; &lt;a2 c3 e3&gt; &lt;f2 a2 c3&gt; &lt;g2 b2 d3&gt;'), <span class="cm">// 每循环换和弦</span>
+  mini('&lt;c2 g1&gt;*2 &lt;a1 f1&gt;*2'),                        <span class="cm">// 贝斯跟根音</span>
+)</div>
+  <p>渲染结果 100 个事件，钢琴roll 视图（真实数据，非示意图）见实验章节图3。</p>
+</div>
+
+<div class="card" style="border-color:var(--orange)">
+  <span class="qnum" style="color:var(--orange)">Q10</span>
+  <h2>AI（Claude）在这条链路里扮演什么角色？<span class="tag" style="background:var(--orange)">AI × 音乐</span></h2>
+  <p>注意：<b>Strudel 本身不用 AI</b>——它是个确定性的音乐引擎。AI 的位置在"写谱"那一端：</p>
+  <table>
+    <tr><th>环节</th><th>谁来干</th><th>为什么合适</th></tr>
+    <tr><td>音乐意图 → mini-notation 代码</td><td><span class="huge">LLM</span></td><td>文本进文本出；训练语料含大量 Tidal/Strudel 教程</td></tr>
+    <tr><td>代码 → 精确事件时间表</td><td>Strudel 引擎</td><td>确定性计算，毫厘不差</td></tr>
+    <tr><td>事件 → 声音</td><td>Web Audio / 我们的自制合成器</td><td>DSP 信号处理</td></tr>
+    <tr><td>听感验收 → 改代码</td><td>人（或 AI 循环自纠）</td><td>审美闭环；AI 可配合"生成→查询事件→自查节奏密度"循环</td></tr>
+  </table>
+  <p>所以"用 Claude 做音乐"的准确说法是：<span class="big">Claude 当作曲，Strudel 当乐队，浏览器当音箱</span>。</p>
+</div>
+
+<div class="card" style="border-color:var(--green)">
+  <span class="qnum" style="color:var(--green)">Q11</span>
+  <h2>这个项目给我什么能力？<span class="tag" style="background:var(--green)">能力清单</span></h2>
+  <ul class="ability">
+    <li><span class="pill" style="background:var(--pink)">能1</span><b>零安装作曲</b>：打开 strudel.cc，一行代码出声，改一个字符变奏——最适合编程入门者的"能听见反馈"的 playground。</li>
+    <li><span class="pill" style="background:var(--purple)">能2</span><b>算法作曲</b>：用欧几里得节奏、随机信号(perlin/sine)、pattern 变换批量生成人手写不出的复杂节奏。</li>
+    <li><span class="pill" style="background:var(--cyan)">能3</span><b>现场表演/冥想伴奏</b>：live coding 改 pattern 不中断节拍，可以直接做短视频 BGM、专注背景乐。</li>
+    <li><span class="pill" style="background:var(--orange)">能4</span><b>音乐逻辑 headless 验证</b>：事件时间表在 Node 里可查询可断言——可以写单元测试测"歌对不对"，甚至让 AI 自查。</li>
+    <li><span class="pill" style="background:var(--green)">能5</span><b>离线渲染音频文件</b>：像实验4那样把 pattern 渲染成 wav/mp3，脱离浏览器产出成品。</li>
+    <li><span class="pill" style="background:var(--blue)">能6</span><b>理解 Web Audio 与 DSP 入门</b>：采样、合成、包络、混音——做音乐顺便入门数字信号处理。</li>
+  </ul>
+</div>
+
+<div class="card" style="border-color:var(--blue)">
+  <span class="qnum" style="color:var(--blue)">Q12</span>
+  <h2>坑与现状（2026-10 实测）<span class="tag" style="background:var(--blue)">避坑</span></h2>
+  <table>
+    <tr><th>坑</th><th>说明与解法</th></tr>
+    <tr><td class="warn">npm 发布包失修</td><td><code class="inline">@strudel/core@1.2.x</code> 的 dist 依赖 <code class="inline">@kabelsalat/web</code> 的 <code class="inline">SalatRepl</code> 导出，而 0.3.x/0.4.x 都没有 → Node 里一 import 就 SyntaxError。<b>解法</b>：不用 npm 包，直接用仓库源码（packages/core + packages/mini，仅依赖 fraction.js）。</td></tr>
+    <tr><td class="warn">开发已迁 Codeberg</td><td>GitHub 仓库仍在但开发主力在 codeberg.org/uzu/strudel， issue/PR 去那边提。</td></tr>
+    <tr><td class="warn">Node 端警告</td><td>源码引入时打印 "cannot use window: not in browser?"——无害，pattern 查询不受影响。</td></tr>
+    <tr><td class="warn">时间用分数</td><td>事件坐标是 Fraction 对象，打印/画图前要 <code class="inline">Number(h.whole.begin)</code> 转换，别直接当 float。</td></tr>
+    <tr><td class="warn">音高≠频率</td><td>"c3" 到频率要按 A4=440Hz 换算（c3≈130.8Hz），自制渲染器别把 c3 当 3Hz。</td></tr>
+  </table>
+</div>
+
+<div class="card" style="border-color:var(--purple)">
+  <span class="qnum" style="color:var(--purple)">Q13</span>
+  <h2>上手路径怎么走？<span class="tag" style="background:var(--purple)">学习路线</span></h2>
+  <p><b>路线一（5 分钟爽）</b>：打开 <b>strudel.cc</b> → 点左上 "go to REPL" → 输入 <code class="inline">s("bd sd hh cp")</code> → Ctrl+Enter 播放 → 随手改字符串听变化。</p>
+  <p><b>路线二（系统学）</b>：官方 Workshop（strudel.cc/workshop）四部曲：First Sounds → First Notes → First Effects → Pattern Effects，每页都内嵌可演奏的 MiniREPL。</p>
+  <p><b>路线三（程序员向）</b>：克隆仓库，读 <code class="inline">packages/core/pattern.mjs</code>（约 1300 行，整个模式引擎）+ 本指南实验目录的 4 个脚本——从"用引擎"到"懂引擎"。</p>
+</div>
+
+<!-- ==================== 实验 ==================== -->
+<h2 style="background:linear-gradient(90deg,var(--cyan),var(--blue));color:#fff;border-radius:12px;padding:10px 18px;font-size:22px;margin:16px 0 10px">🧪 动手实验：从一行代码到一首 6 秒的歌（全部真实运行）</h2>
+<p>环境：Windows 11 + Node v24.21.0，无任何音频设备参与。实验材料在 <code class="inline">F:\reminder\strudel\exercise\</code>。</p>
+
+<div class="card" style="border-color:var(--orange)">
+  <span class="qnum" style="color:var(--orange)">备</span>
+  <h2>步骤 0：环境准备（一次性）</h2>
+  <div class="step"><h3>为什么/操作</h3>
+  <div class="codeblock"><span class="cm"># npm 发布包有坏依赖（见 Q12），我们直接把仓库源码 vendor 进来</span>
+git clone --depth 1 https://github.com/felixroos/strudel.git repo
+mkdir -p node_modules/@strudel
+cp -r repo/packages/core node_modules/@strudel/core   <span class="cm"># 模式引擎</span>
+cp -r repo/packages/mini node_modules/@strudel/mini  <span class="cm"># 节奏语言解析器</span>
+npm i fraction.js                                    <span class="cm"># 唯一外部依赖：分数运算</span></div>
+  <div class="expect"><b>✅ 预期结果：</b>node -e "import('@strudel/mini').then(m=>console.log('ok'))" 打印 <span class="mono">🌀 @strudel/core loaded 🌀</span>（附带一条无害的 window 警告）</div></div>
+</div>
+
+<div class="card" style="border-color:var(--pink)">
+  <span class="qnum" style="color:var(--pink)">实1</span>
+  <h2>实验 1（冒烟）：引擎真的能在 Node 里转吗？</h2>
+  <div class="step"><h3>命令与目的</h3>
+  <div class="codeblock">node smoke.mjs   <span class="cm"># 最小验证：pattern 引擎 + mini 解析器</span></div>
+  <p><b>smoke.mjs 内容：</b><code class="inline">sequence('a',['b','c']).queryArc(0,1)</code> 和 <code class="inline">mini('c a f e').queryArc(0,1)</code></p>
+  <div class="expect"><b>✅ 真实输出：</b><span class="mono">a: 0 - 1/2, b: 1/2 - 3/4, c: 3/4 - 1</span>（嵌套数组自动均分！）+ <span class="mono">"c" "a" "f" "e"</span> 四个音符事件。引擎在无声卡环境完全可运行。</div></div>
+</div>
+
+<div class="card" style="border-color:var(--purple)">
+  <span class="qnum" style="color:var(--purple)">实2</span>
+  <h2>实验 2：mini-notation 八连测——每种符号都眼见为实</h2>
+  <div class="step"><h3>命令</h3>
+  <div class="codeblock">node 01_mini_notation.mjs</div>
+  <div class="expect"><b>✅ 真实输出（节选）：</b><br>
+  <span class="mono">mini("bd*2 sd hh*4") → bd@0.00~0.17 bd@0.17~0.33 sd@0.33~0.67 hh@0.67~0.75 …hh*4</span>（* 重复压缩时长）<br>
+  <span class="mono">mini("&lt;bd sd&gt; hh") → cycle0: bd@0.00~0.50 / cycle1: sd@0.00~0.50</span>（&lt;&gt; 逐循环交替）<br>
+  <span class="mono">mini("bd(3,8)") → bd@0.00~0.13 bd@0.38~0.50 bd@0.75~0.88</span>（欧几里得 3 声均匀撒 8 格）</div></div>
+</div>
+
+<div class="card" style="border-color:var(--green)">
+  <span class="qnum" style="color:var(--green)">实3</span>
+  <h2>实验 3：函数式变换——同一个 pattern 的四种人生</h2>
+  <div class="step"><h3>命令</h3>
+  <div class="codeblock">node 02_transforms.mjs</div>
+  <div class="expect"><b>✅ 真实输出：</b>fast(2) 事件 8→16（坐标减半）；slow(2) 8→4；rev() 坐标倒序；add(3) 音符变 midi 数字 51/60/56/55；stack(鼓,镲,贝斯) 单循环 13 事件叠加。<b>验证了"pattern 是时间的函数，变换是函数的组合"。</b></div></div>
+</div>
+
+<div class="card" style="border-color:var(--cyan)">
+  <span class="qnum" style="color:var(--cyan)">实4</span>
+  <h2>实验 4（主实验）：把代码渲染成真正可听的 .wav</h2>
+  <div class="step">
+  <h3>怎么操作 → 目的 → 检测</h3>
+  <div class="codeblock">node 03_render_wav.mjs</div>
+  <p><b>目的：</b>脱离浏览器，证明 Strudel pattern 是完整的"音乐源代码"。脚本做的事：queryArc 拿到 100 个事件 → 自制合成器（底鼓=130→45Hz 滑频正弦、军鼓=噪声+180Hz、踩镲=白噪声、音符=谐波+包络）→ 写 44100Hz/16bit/单声道 WAV。</p>
+  <div class="expect"><b>✅ 真实输出：</b><span class="mono">strudel_jam.wav 生成：516.8 KB，6.0 秒（底鼓×20 军鼓×16 踩镲×32 和弦音×9 贝斯音×23）</span><br>
+  <b>✅ Python wave 模块独立验证：</b>mono/44100Hz/16bit，峰值 29163（≈0.89 满幅），首秒 96.6% 样本非静音——<b>双击播放，是一段真实可听的 6 秒 lo-fi 鼓点小段</b>。</div>
+  <div class="figbox">
+  <svg xmlns="http://www.w3.org/2000/svg" width="760" height="270" viewBox="0 0 760 270"><rect width="760" height="100%" fill="#fafaff"/><line x1="60" y1="22" x2="60" y2="260" stroke="#bbb" stroke-dasharray="4 4"/><line x1="232.5" y1="22" x2="232.5" y2="260" stroke="#bbb" stroke-dasharray="4 4"/><line x1="405" y1="22" x2="405" y2="260" stroke="#bbb" stroke-dasharray="4 4"/><line x1="577.5" y1="22" x2="577.5" y2="260" stroke="#bbb" stroke-dasharray="4 4"/><text x="8" y="58" font-size="13" fill="#333" font-family="Segoe UI">底鼓 bd</text><text x="8" y="104" font-size="13" fill="#333" font-family="Segoe UI">军鼓 sd</text><text x="8" y="150" font-size="13" fill="#333" font-family="Segoe UI">踩镲 hh</text><text x="8" y="196" font-size="13" fill="#333" font-family="Segoe UI">琶音</text><text x="8" y="242" font-size="13" fill="#333" font-family="Segoe UI">贝斯</text><rect x="60.0" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="63.0" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="232.5" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="235.5" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="405.0" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="408.0" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="577.5" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="580.5" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="103.1" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="106.1" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="275.6" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="278.6" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="448.1" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="451.1" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="620.6" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="623.6" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="146.3" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="149.3" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="318.8" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="321.8" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="491.3" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="494.3" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="663.8" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="666.8" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="189.4" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="192.4" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="361.9" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="364.9" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="534.4" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="537.4" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="706.9" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="709.9" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="210.9" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="213.9" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="383.4" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="386.4" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="555.9" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="558.9" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="728.4" y="30" width="19.6" height="32" rx="5" fill="#e91e63" opacity="0.92"/><text x="731.4" y="56" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">bd</text><rect x="81.6" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="84.6" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="254.1" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="257.1" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="426.6" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="429.6" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="599.1" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="602.1" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="124.7" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="127.7" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="297.2" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="300.2" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="469.7" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="472.7" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="642.2" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="645.2" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="167.8" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="170.8" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="340.3" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="343.3" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="512.8" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="515.8" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="685.3" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="688.3" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="210.9" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="213.9" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="383.4" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="386.4" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="555.9" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="558.9" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="728.4" y="76" width="19.6" height="32" rx="5" fill="#ff9800" opacity="0.92"/><text x="731.4" y="102" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">sd</text><rect x="60.0" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="63.0" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="81.6" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="84.6" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="103.1" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="106.1" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="124.7" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="127.7" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="146.3" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="149.3" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="167.8" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="170.8" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="189.4" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="192.4" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="210.9" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="213.9" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="232.5" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="235.5" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="254.1" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="257.1" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="275.6" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="278.6" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="297.2" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="300.2" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="318.8" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="321.8" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="340.3" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="343.3" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="361.9" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="364.9" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="383.4" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="386.4" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="405.0" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="408.0" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="426.6" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="429.6" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="448.1" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="451.1" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="469.7" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="472.7" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="491.3" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="494.3" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="512.8" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="515.8" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="534.4" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="537.4" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="555.9" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="558.9" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="577.5" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="580.5" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="599.1" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="602.1" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="620.6" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="623.6" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="642.2" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="645.2" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="663.8" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="666.8" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="685.3" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="688.3" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="706.9" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="709.9" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="728.4" y="122" width="19.6" height="32" rx="5" fill="#ffd600" opacity="0.92"/><text x="731.4" y="148" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">hh</text><rect x="60.0" y="168" width="41.1" height="32" rx="5" fill="#00bcd4" opacity="0.92"/><text x="63.0" y="194" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">c3</text><rect x="232.5" y="168" width="41.1" height="32" rx="5" fill="#00bcd4" opacity="0.92"/><text x="235.5" y="194" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">e3</text><rect x="405.0" y="168" width="41.1" height="32" rx="5" fill="#00bcd4" opacity="0.92"/><text x="408.0" y="194" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">g3</text><rect x="577.5" y="168" width="41.1" height="32" rx="5" fill="#00bcd4" opacity="0.92"/><text x="580.5" y="194" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">c3</text><rect x="103.1" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="106.1" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">a2</text><rect x="275.6" y="168" width="41.1" height="32" rx="5" fill="#00bcd4" opacity="0.92"/><text x="278.6" y="194" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">c3</text><rect x="448.1" y="168" width="41.1" height="32" rx="5" fill="#00bcd4" opacity="0.92"/><text x="451.1" y="194" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">e3</text><rect x="620.6" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="623.6" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">a2</text><rect x="146.3" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="149.3" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">f2</text><rect x="318.8" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="321.8" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">a2</text><rect x="491.3" y="168" width="41.1" height="32" rx="5" fill="#00bcd4" opacity="0.92"/><text x="494.3" y="194" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">c3</text><rect x="663.8" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="666.8" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">f2</text><rect x="189.4" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="192.4" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">g2</text><rect x="361.9" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="364.9" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">b2</text><rect x="534.4" y="168" width="41.1" height="32" rx="5" fill="#00bcd4" opacity="0.92"/><text x="537.4" y="194" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">d3</text><rect x="706.9" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="709.9" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">g2</text><rect x="60.0" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="63.0" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">c2</text><rect x="103.1" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="106.1" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">g1</text><rect x="232.5" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="235.5" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">c2</text><rect x="275.6" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="278.6" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">g1</text><rect x="405.0" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="408.0" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">c2</text><rect x="448.1" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="451.1" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">g1</text><rect x="577.5" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="580.5" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">c2</text><rect x="620.6" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="623.6" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">g1</text><rect x="146.3" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="149.3" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">a1</text><rect x="189.4" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="192.4" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">f1</text><rect x="318.8" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="321.8" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">a1</text><rect x="361.9" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="364.9" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">f1</text><rect x="491.3" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="494.3" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">a1</text><rect x="534.4" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="537.4" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">f1</text><rect x="663.8" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="666.8" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">a1</text><rect x="706.9" y="214" width="41.1" height="32" rx="5" fill="#7c4dff" opacity="0.92"/><text x="709.9" y="240" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="Segoe UI">f1</text></svg>
+  <div class="cap">图3 实验4歌曲的钢琴roll（04_pianoroll_svg.mjs 由 100 个真实事件坐标生成，非示意图）</div>
+  </div>
+  </div>
+</div>
+
+<div class="card" style="border-color:var(--blue)">
+  <span class="qnum" style="color:var(--blue)">实5</span>
+  <h2>实验 5：浏览器侧验证 + 真实出声（strudel.cc）</h2>
+  <div class="step"><h3>怎么操作</h3>
+  <p>Edge 无头浏览器访问官方文档页截图成功（exercise\strudel_repl.png），确认 strudel.cc 在线可用；<b>建议你自己打开 strudel.cc 粘贴实验4的 stack() 五行代码，戴耳机按 Ctrl+Enter</b>——同样的谱子，浏览器用真采样/合成器演奏，比我们的极简合成器动听得多。</p>
+  <div class="expect"><b>✅ 预期结果：</b>REPL 顶部波形动画滚动，听到鼓+贝斯+琶音齐奏；把 <code class="inline">&lt;c3 e3 g3&gt;</code> 改成 <code class="inline">&lt;c3 f3 a3&gt;</code>，和弦进行当场改变而节拍不中断——这就是 live coding。</div></div>
+</div>
+
+<div class="footer">
+  <b>来源与延伸：</b>官网 strudel.cc（REPL/Workshop/文档）· 上游仓库 github.com/felixroos/strudel（开发已迁 codeberg.org/uzu/strudel，AGPL-3.0）· TidalCycles 原版 tidalcycles.org · 热点推文 x.com/ozzyxs1a/status/2091917895689273843 ·
+  本指南全部实验脚本与真实输出存于 F:\reminder\strudel\exercise\ · 生成于 2026-10-02（拾遗流水线）
+</div>
+
+</div>
+</body>
+</html>
