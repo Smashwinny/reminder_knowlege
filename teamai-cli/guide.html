@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>teamai-cli 团队AI资产同步 小白指南</title>
+<style>
+:root{
+  --c1:#FF3D7F; --c2:#00B8A9; --c3:#F86A2B; --c4:#6C5CE7; --c5:#FFC312;
+  --ink:#1A1A2E; --paper:#FFFFFF; --soft:#FFF6E9;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--paper); font-size:14px; line-height:1.75;}
+@page{size:A4; margin:12mm;}
+.cover{background:linear-gradient(135deg,#FF3D7F 0%,#6C5CE7 55%,#00B8A9 100%); color:#fff; border-radius:18px; padding:46px 40px; margin-bottom:22px; break-inside:avoid;}
+.cover h1{font-size:40px; letter-spacing:2px; line-height:1.25;}
+.cover .sub{font-size:17px; margin-top:14px; opacity:.95;}
+.cover .badge{display:inline-block; background:#FFC312; color:#1A1A2E; font-weight:900; border-radius:999px; padding:4px 16px; font-size:14px; margin:14px 8px 0 0;}
+h2.q{font-size:24px; margin:26px 0 14px; padding:10px 18px; border-radius:12px; color:#fff; break-after:avoid;}
+.q1{background:var(--c1);} .q2{background:var(--c3);} .q3{background:var(--c4);} .q4{background:var(--c2);} .q5{background:var(--c1);} .q6{background:var(--c4);} .q7{background:var(--c3);} .q8{background:var(--c2);}
+.num{font-size:34px; font-weight:900; margin-right:10px; color:var(--c5);}
+.card{border-radius:14px; padding:18px 22px; margin:12px 0; break-inside:avoid; border:3px solid var(--ink); background:var(--soft); box-shadow:4px 4px 0 var(--c5);}
+.hl{background:linear-gradient(transparent 55%, #FFE066 55%); font-weight:900; padding:0 2px;}
+.big{font-size:18px; font-weight:900;}
+code,.cmd{font-family:Consolas,"Courier New",monospace;}
+.cmd{display:block; background:#1A1A2E; color:#7CF7C4; border-radius:10px; padding:12px 16px; margin:10px 0; font-size:13px; white-space:pre-wrap; break-inside:avoid;}
+.out{display:block; background:#E8FBF3; border:2px dashed var(--c2); color:#00795F; border-radius:10px; padding:10px 16px; margin:8px 0 14px; font-size:12.5px; white-space:pre-wrap; break-inside:avoid;}
+.warn{background:#FFE9E9; border-left:8px solid var(--c1); border-radius:8px; padding:12px 16px; margin:12px 0; break-inside:avoid;}
+.ok{background:#E6FAF5; border-left:8px solid var(--c2); border-radius:8px; padding:12px 16px; margin:12px 0; break-inside:avoid;}
+.step{border:3px solid var(--c4); border-radius:14px; padding:16px 20px; margin:14px 0; break-inside:avoid; background:#fff;}
+.step .tag{display:inline-block; background:var(--c4); color:#fff; font-weight:900; border-radius:8px; padding:2px 12px; margin-bottom:8px;}
+table{width:100%; border-collapse:collapse; margin:12px 0; break-inside:avoid; font-size:13px;}
+th{background:var(--c4); color:#fff; padding:8px;}
+td{border:2px solid #D8D4F0; padding:7px 10px; vertical-align:top;}
+tr:nth-child(even) td{background:#F6F4FF;}
+svg{max-width:100%; height:auto; display:block; margin:10px auto; break-inside:avoid;}
+.cap{text-align:center; font-size:12px; color:#666; margin-top:2px;}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.foot{margin-top:20px; padding:14px 20px; background:var(--ink); color:#fff; border-radius:12px; font-size:12.5px;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>teamai-cli<br>把一个人的 AI 绝活，变成全团队的资产</h1>
+  <div class="sub">腾讯开源 · Make Every Team AI Native · One Team. One Harness. Every Agent.</div>
+  <span class="badge">GitHub: Tencent/teamai-cli</span>
+  <span class="badge">MIT</span>
+  <span class="badge">v0.26.0 实测</span>
+  <span class="badge">16 种 AI 工具</span>
+  <div class="sub" style="margin-top:18px;">拾遗学习流水线 · 小白指南 + 全本地闭环动手实验（2026-10-03）</div>
+</div>
+
+<h2 class="q q1"><span class="num">Q1</span>teamai-cli 是什么？一句话说清</h2>
+<div class="card">
+  <p><span class="hl">把一个人调教好的 AI 经验（skills / rules / hooks / MCP），放进一个共享 Git 仓库，经 PR 评审合并后，自动同步到全团队每个人的各种 AI 工具里。</span></p>
+  <p style="margin-top:10px;">痛点场景：团队里最会用 AI 的那位老哥，他调教出的 Claude Code 技能包只躺在他自己电脑的 <code>~/.claude/skills/</code> 里。同事想学？口头转述、截图发群、抄笔记——第二天就失真了。teamai-cli 干的事就一件：<span class="big">让"经验"像代码一样走 Git 流水线分发</span>。</p>
+  <p style="margin-top:10px;">它的 slogan 三个短语说清定位：<b>One Team</b>（一群人）· <b>One Harness</b>（同一套 AI 挽具配置）· <b>Every Agent</b>（Claude Code、Codex、Cursor、Copilot CLI、CodeBuddy 等 16 种工具通吃）。</p>
+</div>
+
+<h2 class="q q2"><span class="num">Q2</span>没有它之前，团队怎么干？差在哪</h2>
+<div class="card">
+  <table>
+    <tr><th>做法</th><th>怎么分享经验</th><th>死穴</th></tr>
+    <tr><td><b>截图发群</b></td><td>口口相传</td><td>失真、不可执行、一周就沉底</td></tr>
+    <tr><td><b>共享文档</b></td><td>Wiki / 飞书文档</td><td>人得自己去翻，AI 看不见</td></tr>
+    <tr><td><b>各自复制粘贴</b></td><td>把 SKILL.md 拷给同事</td><td>版本分叉，改了一处其他 15 台机器不知道</td></tr>
+    <tr><td><b>teamai-cli</b></td><td><span class="hl">Git 仓库 + PR 评审 + 会话自动 pull</span></td><td>——（本工具要解决的）</td></tr>
+  </table>
+  <p>推文（AIGCLINK，2026-09-09）的点题句：teamai-cli 是<span class="hl">唯一把 code review 流程搬到 AI 资源上的工具</span>——此前 HarnessRouter、Wake、AgentsView 等解决的都是"一个人的多个 agent"，teamai 统一的是"多个人的 agent"。</p>
+</div>
+
+<h2 class="q q3"><span class="num">Q3</span>它怎么做到的？核心架构：Git 仓当 registry</h2>
+<div class="card">
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#1A1A2E"/></marker></defs>
+  <rect x="20" y="30" width="200" height="110" rx="12" fill="#FFF6E9" stroke="#F86A2B" stroke-width="3"/>
+  <text x="120" y="60" text-anchor="middle" font-size="15" font-weight="900" fill="#1A1A2E">成员本机 AI 工具</text>
+  <text x="120" y="88" text-anchor="middle" font-size="12">skills / rules / hooks</text>
+  <text x="120" y="108" text-anchor="middle" font-size="12">（.claude / .codex / …）</text>
+  <line x1="230" y1="65" x2="330" y2="65" stroke="#1A1A2E" stroke-width="3" marker-end="url(#a)"/>
+  <text x="280" y="50" text-anchor="middle" font-size="12" font-weight="900" fill="#FF3D7F">teamai push</text>
+  <text x="280" y="84" text-anchor="middle" font-size="10.5">自动建分支+MR</text>
+  <rect x="335" y="30" width="180" height="110" rx="12" fill="#F6F4FF" stroke="#6C5CE7" stroke-width="3"/>
+  <text x="425" y="60" text-anchor="middle" font-size="15" font-weight="900">Team Repo (Git)</text>
+  <text x="425" y="86" text-anchor="middle" font-size="12">skills/ rules/ hooks/ mcp/</text>
+  <text x="425" y="106" text-anchor="middle" font-size="12">teamai.yaml · learnings/</text>
+  <rect x="545" y="30" width="190" height="110" rx="12" fill="#E6FAF5" stroke="#00B8A9" stroke-width="3"/>
+  <text x="640" y="60" text-anchor="middle" font-size="15" font-weight="900">reviewer 审批合并</text>
+  <text x="640" y="88" text-anchor="middle" font-size="12">MR 评审 = 资产的质量闸门</text>
+  <text x="640" y="108" text-anchor="middle" font-size="12">（把 code review 搬到 AI 资产上）</text>
+  <path d="M 640 145 L 640 190 L 425 190 L 425 230" fill="none" stroke="#00B8A9" stroke-width="3" marker-end="url(#a)"/>
+  <text x="540" y="212" text-anchor="middle" font-size="12.5" font-weight="900" fill="#00795F">合并进 main = 全员可领取</text>
+  <path d="M 420 245 L 220 245 L 120 245 L 120 148" fill="none" stroke="#1A1A2E" stroke-width="3" marker-end="url(#a)"/>
+  <text x="270" y="238" text-anchor="middle" font-size="12.5" font-weight="900">SessionStart hook 自动 teamai pull</text>
+  <text x="270" y="272" text-anchor="middle" font-size="11" fill="#666">成员打开 AI 会话 → 资产已就位，全程无感</text>
+</svg>
+<div class="cap">图1 · 一份资产的完整旅程：push → MR 评审 → 合并 → 自动 pull → 落入各工具原生目录</div>
+<ul style="margin:10px 0 0 22px;">
+  <li><b>仓库就是普通的 Git 仓库</b>：GitHub / GitLab / GitCode / CNB / TGit / 私有自建全支持，不锁定任何厂商。</li>
+  <li><b>八类资产</b>：skills（SKILL.md 目录）、rules（团队规范 md）、docs、env（环境变量）、agents、hooks、mcp、models。</li>
+  <li><b>密钥安全</b>：mcp/env 配置里密钥只写 <code>${VAR}</code> 占位名，<span class="hl">值永远不进 Git 仓库</span>。</li>
+</ul>
+</div>
+
+<h2 class="q q4"><span class="num">Q4</span>"自动同步"最后一公里怎么走？（实测 hook 注入）</h2>
+<div class="card">
+  <p>本机实测：<code>teamai init</code> 直接往真实的 <code>~/.claude/settings.json</code> 写入了四类 hook：</p>
+<div class="out">SessionStart  → "…bash.exe" -lc "teamai hook-dispatch session-start --tool claude 2>/dev/null" || true
+Stop          → … hook-dispatch stop … || true
+PostToolUse   → … hook-dispatch post-tool-use … || true（matcher: * / Skill / TodoWrite）
+UserPromptSubmit → … hook-dispatch prompt-submit … || true</div>
+  <p><span class="hl">注意命令结尾的 <code>|| true</code>：同步工具挂掉绝不能连累 AI 会话</span>——这正是知识库里 [[ClaudeCodeHooks与fail-open]] 说的 fail-open 模式。链路闭环：开会话 → SessionStart hook 静默执行 <code>teamai pull</code> → 新 skill 落进 <code>.claude/skills/</code> → Claude Code 立刻可用。实验中我们眼看着本会话的技能清单凭空多出 <code>hello-team</code>，全程零手工操作。</p>
+</div>
+
+<h2 class="q q5"><span class="num">Q5</span>16 种工具格式各异，一人一份全发？——四维分发策略</h2>
+<div class="card">
+<svg viewBox="0 0 760 240" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="20" width="180" height="200" rx="12" fill="#1A1A2E"/>
+  <text x="110" y="52" text-anchor="middle" font-size="14" font-weight="900" fill="#FFC312">Team Repo</text>
+  <text x="110" y="82" text-anchor="middle" font-size="12" fill="#fff">skills/ （大众窗口·根目录）</text>
+  <text x="110" y="108" text-anchor="middle" font-size="12" fill="#fff">skills/frontend/（前端专窗）</text>
+  <text x="110" y="134" text-anchor="middle" font-size="12" fill="#fff">skills/checkout/（结算专窗）</text>
+  <text x="110" y="160" text-anchor="middle" font-size="12" fill="#fff">rules/pm/ · docs/billing/</text>
+  <text x="110" y="192" text-anchor="middle" font-size="11" fill="#7CF7C4">namespace = 目录级隔离</text>
+  <line x1="205" y1="120" x2="290" y2="70" stroke="#FF3D7F" stroke-width="3" marker-end="url(#a)"/>
+  <line x1="205" y1="120" x2="290" y2="120" stroke="#F86A2B" stroke-width="3" marker-end="url(#a)"/>
+  <line x1="205" y1="120" x2="290" y2="175" stroke="#00B8A9" stroke-width="3" marker-end="url(#a)"/>
+  <rect x="295" y="42" width="200" height="56" rx="10" fill="#FFE9E9" stroke="#FF3D7F" stroke-width="2.5"/>
+  <text x="395" y="65" text-anchor="middle" font-size="12.5" font-weight="900">前端工程师</text>
+  <text x="395" y="86" text-anchor="middle" font-size="11">roles: frontend → 收 frontend 专窗</text>
+  <rect x="295" y="96" width="200" height="56" rx="10" fill="#FFF6E9" stroke="#F86A2B" stroke-width="2.5"/>
+  <text x="395" y="119" text-anchor="middle" font-size="12.5" font-weight="900">项目经理</text>
+  <text x="395" y="140" text-anchor="middle" font-size="11">roles: pm → 只收 pm 专窗</text>
+  <rect x="295" y="150" width="200" height="56" rx="10" fill="#E6FAF5" stroke="#00B8A9" stroke-width="2.5"/>
+  <text x="395" y="173" text-anchor="middle" font-size="12.5" font-weight="900">结算项目组（跨角色）</text>
+  <text x="395" y="194" text-anchor="middle" font-size="11">projects: checkout → 按项目领（与角色正交）</text>
+  <rect x="540" y="42" width="200" height="164" rx="10" fill="#F6F4FF" stroke="#6C5CE7" stroke-width="2.5"/>
+  <text x="640" y="70" text-anchor="middle" font-size="13" font-weight="900">四个分发维度</text>
+  <text x="640" y="96" text-anchor="middle" font-size="11.5">Roles 角色→namespace 映射</text>
+  <text x="640" y="120" text-anchor="middle" font-size="11.5">Tags 标签订阅（skills/rules）</text>
+  <text x="640" y="144" text-anchor="middle" font-size="11.5">Sources 订阅别家 skill 仓库</text>
+  <text x="640" y="168" text-anchor="middle" font-size="11.5">Projects 项目维度（正交叠加）</text>
+  <text x="640" y="194" text-anchor="middle" font-size="10.5" fill="#666">成员拿到的是各维度的并集</text>
+</svg>
+<div class="cap">图2 · namespace 分发：像食堂餐线，大众窗口 + 角色专窗 + 项目专窗</div>
+  <p style="margin-top:8px;"><b>替换语义（最容易踩的理解坑）</b>：<span class="hl">活跃 namespace 里的同名条目会整体替换根目录条目，不做合并</span>。例：根目录 <code>rules/code-style.md</code> 是全公司规范；结算项目放 <code>rules/checkout/code-style.md</code> 覆盖之——结算组成员拿项目版，其他人拿公司版。两个活跃 namespace 撞名时 pull <b>直接报错停机</b>，宁可不更新也不静默二选一。</p>
+</div>
+
+<h2 class="q q6"><span class="num">Q6</span>团队经验从哪来？——摩擦信号（全场最巧的设计）</h2>
+<div class="card">
+<svg viewBox="0 0 760 210" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="20" width="330" height="170" rx="14" fill="#E6FAF5" stroke="#00B8A9" stroke-width="3"/>
+  <text x="185" y="52" text-anchor="middle" font-size="15" font-weight="900" fill="#00795F">顺畅 Session（摩擦=0）</text>
+  <text x="185" y="86" text-anchor="middle" font-size="12">58 次工具调用 · 一路绿灯</text>
+  <text x="185" y="112" text-anchor="middle" font-size="12">无打断 · 无纠正 · 无重试失败</text>
+  <text x="185" y="150" text-anchor="middle" font-size="14" font-weight="900" fill="#00795F">→ 什么都不提示</text>
+  <rect x="410" y="20" width="330" height="170" rx="14" fill="#FFE9E9" stroke="#FF3D7F" stroke-width="3"/>
+  <text x="575" y="52" text-anchor="middle" font-size="15" font-weight="900" fill="#C81E5B">较劲 Session（摩擦≠0）</text>
+  <text x="575" y="86" text-anchor="middle" font-size="12">你打断了 AI 两次</text>
+  <text x="575" y="112" text-anchor="middle" font-size="12">AI 重试失败工具 8 次 · 拒绝过 1 次调用</text>
+  <text x="575" y="150" text-anchor="middle" font-size="13.5" font-weight="900" fill="#C81E5B">→ Stop hook 弹提示：/teamai share</text>
+</svg>
+<div class="cap">图3 · 摩擦信号打分：只有"真正较劲过"的会话才值得沉淀</div>
+  <p style="margin-top:8px;">Stop hook 在会话结束时按四类信号打分：<b>打断 AI、纠正 AI、拒绝某次工具调用、AI 反复重试失败</b>。达标后终端会显示（真实文案）：<i>"This session may contain a problem worth documenting: you interrupted the AI twice, the AI retried failing tools 8 times."</i>，并建议跑 <code>/teamai share</code> 把教训总结成团队 skill。每会话最多提示一次，可配置关闭。</p>
+  <p style="margin-top:6px;"><span class="hl">妙处：人的干预行为本身就是知识价值的免费评分器</span>——不用任何人主动写总结，系统只需在正确时机问一句。沉淀进 <code>learnings/</code> 的知识随后可被 <code>teamai recall</code> 检索（子 agent 先做相关性预检，无关任务直接跳过）。</p>
+</div>
+
+<h2 class="q q7"><span class="num">Q7</span>三层产品地图：分发只是第一层</h2>
+<div class="card">
+  <table>
+    <tr><th>层</th><th>解决什么</th><th>代表能力</th><th>状态</th></tr>
+    <tr><td><b style="color:#FF3D7F">Team Execution</b></td><td>让每个 agent 按团队的方式工作</td><td>init / pull / push，八类资产分发</td><td>稳定</td></tr>
+    <tr><td><b style="color:#6C5CE7">Team Context</b></td><td>让每个 agent 理解团队</td><td>recall 检索、learnings、代码知识图谱（tree-sitter AST 轨 + 启发式轨双轨提取依赖边）</td><td>beta</td></tr>
+    <tr><td><b style="color:#00B8A9">Team Improvement</b></td><td>让每次执行都变成团队能力</td><td>摩擦信号沉淀、session 摘要、digest 周报、dashboard（干预次数 / token 用量）</td><td>beta</td></tr>
+  </table>
+  <p>闭环逻辑一句话：<span class="big">Execute → Understand → Learn → Self-Improve</span>。推文也提醒：dashboard 能看到成员干预次数与 token 用量——<b>引进前先想清楚这些数据的用途与边界</b>。</p>
+</div>
+
+<h2 class="q q8"><span class="num">Q8</span>动手实验：没有 GitHub 也能跑通全闭环（全命令实测）</h2>
+<div class="step"><span class="tag">思路</span>没有真实 Git 托管端，就用「本地 bare 仓 + 自签证书 HTTPS 静态服务」模拟——git 的 dumb HTTP 协议只需要静态文件 + <code>git update-server-info</code>。管理员端直推 main（等价于已合并的 MR），成员端走 HTTPS 只读拉取。</div>
+
+<div class="step"><span class="tag">步骤 1</span>管理员端：建团队仓 + 写首批资产<br>
+目的：模拟"管理员把调教好的 skill 推上团队仓库"。
+<div class="cmd">git init --bare team-repo.git &amp;&amp; git clone team-repo.git seed
+# 在 seed/ 写入 skills/hello-team/SKILL.md、skills/deploy-check/SKILL.md、rules/*.md
+git add -A &amp;&amp; git commit -m "feat: 首批团队资产" &amp;&amp; git push origin main
+cd ../team-repo.git &amp;&amp; git update-server-info   # dumb HTTP 需要</div>
+✅ 预期结果：<code>git ls-tree -r main --name-only</code> 列出 2 个 SKILL.md + 2 个 rule 文件。</div>
+
+<div class="step"><span class="tag">步骤 2</span>起本地 HTTPS 服务（模拟 Git 托管端）<br>
+目的：让成员端能用 teamai 强制要求的 <code>https://host/group/repo.git</code> URL 拉取。
+<div class="cmd">openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 2 -nodes -subj "//CN=127.0.0.1"
+python https_server.py    # 自签证书 + 静态服务，端口 8667（脚本见 exercise/）</div>
+✅ 预期结果：<code>curl -sk https://127.0.0.1:8667/team/repo.git/info/refs</code> 返回 main 的 commit hash。
+⚠️ 坑：服务根目录要取上一层目录，让 <code>/team/repo.git</code> 恰好映射到 <code>team-repo.git</code>——映射错一位 git 会报 404（看服务访问日志定位）。</div>
+
+<div class="step"><span class="tag">步骤 3</span>成员端初始化（真输出）<br>
+目的：模拟新成员"一条命令加入团队"。
+<div class="cmd">GIT_SSL_NO_VERIFY=1 TEAMAI_NONINTERACTIVE=1 \
+  teamai init https://127.0.0.1:8667/team/repo.git --provider git --agent claude --force</div>
+<div class="out">✔ Using Git identity Smashwinny
+ℹ Clone path: C:\Users\Windows\.teamai\projects\F-reminder-…\team-repo
+✔ Team repo cloned
+✔ Updated teamai hooks in C:\Users\Windows\.claude\settings.json
+✔ teamai initialized successfully!</div>
+✅ 预期结果：克隆团队仓 + 注入 SessionStart/Stop/PostToolUse/UserPromptSubmit 四类 hook（都带 <code>|| true</code> fail-open）。</div>
+
+<div class="step"><span class="tag">步骤 4</span>分发资产并验证热加载（真输出）<br>
+目的：验证"资产自动落入 AI 工具原生目录"。
+<div class="cmd">teamai pull</div>
+<div class="out">✔ [project] Synced 2 skills (2 new, 0 updated)
+    new: deploy-check, hello-team
+✔ [project] Synced 2 rule(s)</div>
+✅ 预期结果：<code>.claude/skills/</code> 出现两个新技能目录；<span class="hl">正在运行的 Claude Code 会话实时看到新技能可用——零重启、零手工</span>。</div>
+
+<div class="step"><span class="tag">步骤 5</span>增量同步验证（真输出）<br>
+目的：验证"管理员改一版，全员下次会话自动拿到新版"。
+<div class="cmd"># 管理员端把 hello-team 升到 v2 → push → 刷新 served 副本
+# 成员端再拉：
+teamai pull</div>
+<div class="out">✔ [project] Team repo: 1 file(s) changed
+✔ [project] Synced 2 skills (all updated)</div>
+✅ 预期结果：本地 SKILL.md 变 v2，技能清单同步刷新。</div>
+
+<div class="step"><span class="tag">步骤 6</span>清理还原真实环境<br>
+<div class="cmd">TEAMAI_NONINTERACTIVE=1 teamai uninstall --force</div>
+<div class="out">✔ Removed teamai hooks in C:\Users\Windows\.claude\settings.json
+✔ Removed 3 skill directories / 2 rule files / ~/.teamai\projects\…
+✔ teamai uninstalled</div>
+✅ 预期结果：settings.json 的 hook 数组清空、注入的 skills/rules 移除——<b>实验工具用完即走，不留痕</b>。</div>
+
+<div class="warn"><b>实验踩坑实录（4 个）</b>：① URL 必须是 <code>https://host/group/repo.git</code> 或 ssh 形态，本地路径 / plain HTTP 一律被拒；② dumb HTTP 只读，<code>teamai push</code> 的 MR 流需要真实托管端（本实验诚实记录未覆盖）；③ 项目 scope 会向上锚定最近的 git 仓根——成员目录不是独立 git 仓时，资产会装进外层仓库的 <code>.claude/</code>（本实验"热加载"正因此发生）；④ 服务根目录映射差一层 → git 404。</div>
+
+<h2 class="q q3"><span class="num">能力</span>这个项目给我什么？</h2>
+<div class="card">
+  <table>
+    <tr><th>能力</th><th>一条命令</th><th>我能拿来干什么</th></tr>
+    <tr><td>团队 AI 资产库</td><td><code>teamai init &lt;仓库URL&gt;</code></td><td>把 F:\reminder 这套学习方法（learn-project skill）分发给同学/同事</td></tr>
+    <tr><td>经验评审流</td><td><code>teamai push</code></td><td>新 skill 先过 MR 再全员生效，防"野技能"污染</td></tr>
+    <tr><td>无感同步</td><td>SessionStart hook 自动 pull</td><td>成员开会话即拿最新资产，零培训成本</td></tr>
+    <tr><td>精准分发</td><td><code>teamai roles / tags / source</code></td><td>前端不发量化 skill，按需领取</td></tr>
+    <tr><td>经验自动沉淀</td><td>摩擦信号 + <code>/teamai share</code></td><td>踩坑会话自动提醒"要不要写进团队知识库"</td></tr>
+    <tr><td>团队用量看板</td><td><code>teamai dashboard / digest</code></td><td>看 AI 用量、干预热点、知识库健康</td></tr>
+  </table>
+</div>
+
+<div class="foot">
+<b>一句话总结</b>：teamai-cli = 团队 AI 资产的 npm registry + code review 闸门 + 无感 OTA 更新三合一。
+Git 是 registry，MR 是闸门，hook 是最后一公里，摩擦信号是弹药库——<b>"最会用 AI 的人"从此可以复制了</b>。
+<br><br>
+知识入库：vault/概念/团队Harness的Git原生分发 · 摩擦信号经验沉淀 · 资源命名空间分发 ｜ 实验材料：teamai-cli/exercise/（RUNBOOK.md 全记录）
+</div>
+
+</body>
+</html>
