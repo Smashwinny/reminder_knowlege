@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AGENT.md 指令文件模板小白指南</title>
+<style>
+:root{
+  --ink:#1a1030; --bg:#ffffff;
+  --c1:#ff3d7f; --c2:#7c4dff; --c3:#00bfa5; --c4:#ff9100; --c5:#00b0ff; --c6:#ff5252;
+  --soft1:#ffe4ee; --soft2:#ede4ff; --soft3:#d9f7f1; --soft4:#fff1d6; --soft5:#d9f0ff; --soft6:#ffe1e1;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:14px; line-height:1.7;}
+@page{size:A4; margin:12mm;}
+.wrap{padding:0 8px;}
+.hero{background:linear-gradient(120deg,var(--c1),var(--c2) 55%,var(--c5)); color:#fff; border-radius:18px; padding:34px 30px; margin-bottom:22px;}
+.hero h1{font-size:34px; letter-spacing:1px; margin-bottom:10px;}
+.hero p{font-size:15px; opacity:.96;}
+.hero .tag{display:inline-block; background:rgba(255,255,255,.22); border-radius:20px; padding:2px 14px; font-size:12px; margin-right:8px; margin-top:12px;}
+.qcard{border-radius:16px; padding:20px 22px 18px; margin:18px 0; break-inside:avoid; border-left:10px solid;}
+.q1{background:var(--soft1); border-color:var(--c1);} .q2{background:var(--soft2); border-color:var(--c2);}
+.q3{background:var(--soft3); border-color:var(--c3);} .q4{background:var(--soft4); border-color:var(--c4);}
+.q5{background:var(--soft5); border-color:var(--c5);} .q6{background:var(--soft6); border-color:var(--c6);}
+.qnum{font-size:40px; font-weight:900; float:left; line-height:1; margin-right:14px; opacity:.85;}
+.qcard h2{font-size:19px; margin-bottom:10px; padding-top:4px;}
+.qcard p{margin:6px 0;}
+.hl{background:linear-gradient(transparent 55%, #ffe94d 55%); font-weight:900; padding:0 2px;}
+.red{color:var(--c6); font-weight:900;} .blue{color:var(--c2); font-weight:900;} .green{color:var(--c3); font-weight:900;}
+code,.cmd{font-family:Consolas,monospace; background:#2b2140; color:#ffe94d; border-radius:6px; padding:1px 7px; font-size:12.5px;}
+.cmd{display:block; padding:10px 14px; margin:8px 0; white-space:pre-wrap;}
+.svgbox{background:#fff; border-radius:12px; padding:8px; margin:10px 0; text-align:center;}
+.svgbox svg{max-width:100%; height:auto;}
+.note{background:#fff; border:2px dashed var(--c4); border-radius:12px; padding:10px 14px; margin:10px 0; font-size:13px;}
+.warnbox{background:#fff0f0; border:3px solid var(--c6); border-radius:14px; padding:14px 16px; margin:12px 0;}
+.okbox{background:#e8fbf5; border:3px solid var(--c3); border-radius:14px; padding:14px 16px; margin:12px 0;}
+.step{background:#fff; border:2px solid var(--c2); border-radius:12px; padding:12px 16px; margin:10px 0; break-inside:avoid;}
+.step b.st{color:var(--c2); font-size:15px;}
+table{border-collapse:collapse; width:100%; margin:10px 0; background:#fff; font-size:13px;}
+th{background:var(--c2); color:#fff; padding:7px 8px;}
+td{border:1.5px solid #d8cfff; padding:6px 8px; text-align:center;}
+.win{color:var(--c3); font-weight:900;} .lose{color:var(--c6); font-weight:900;}
+.caps{display:flex; flex-wrap:wrap; gap:10px; margin:12px 0;}
+.cap{flex:1 1 46%; background:var(--soft3); border-radius:12px; padding:12px 14px; border-top:6px solid var(--c3); break-inside:avoid;}
+.cap b{color:var(--c3); font-size:15px;}
+h1.sec{font-size:24px; margin:26px 0 8px; padding:8px 16px; background:linear-gradient(90deg,var(--c4),transparent); border-radius:10px; color:#5a3a00;}
+.small{font-size:12px; color:#666;}
+.foot{text-align:center; font-size:12px; color:#888; margin:24px 0 8px;}
+</style>
+</head>
+<body><div class="wrap">
+
+<div class="hero">
+<h1>🤖 AGENT.md：给 AI 员工的入职合同</h1>
+<p>—— 数字生命卡兹克 GPT-6 Astra 指令文件模板拆解 + 真机 A/B 对比实验（2026-10-03）</p>
+<span class="tag">来源：x.com/Khazix0918</span><span class="tag">166K 浏览 · 2.9K 收藏</span><span class="tag">实验：glm-4.6 真实调用 18 次</span>
+</div>
+
+<p style="font-size:15px; margin:10px 4px;">一份 <span class="hl">贴在仓库/配置里、AI 每次开工都先读一遍的"行为契约"</span>。本指南用 12 个疑问拆解它，并用真机实验证明：<span class="hl">模板里的规则不是玄学，贴上去模型行为真的 measurable 地变了</span>。</p>
+
+<h1 class="sec">📌 疑问清单（本篇目录）</h1>
+
+<div class="qcard q1"><div class="qnum">Q1</div><h2>AGENT.md 到底是个啥？谁在什么时候读它？</h2>
+<p>它就是一个纯 Markdown 文本文件，里面写着"你干活时要遵守哪些规矩"。<span class="hl">Agent 软件每次接到任务时，会自动把它塞进系统提示（system prompt）里</span>——相当于员工每天上班先看一眼贴在墙上的《员工守则》再开始干活。</p>
+<div class="svgbox"><svg viewBox="0 0 760 150" xmlns="http://www.w3.org/2000/svg">
+<rect x="10" y="40" width="150" height="70" rx="10" fill="#ff3d7f"/><text x="85" y="70" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">AGENT.md</text><text x="85" y="92" text-anchor="middle" fill="#fff" font-size="11">墙上的员工守则</text>
+<rect x="210" y="40" width="150" height="70" rx="10" fill="#7c4dff"/><text x="285" y="70" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Agent 软件</text><text x="285" y="92" text-anchor="middle" fill="#fff" font-size="11">新员工上班</text>
+<rect x="410" y="40" width="150" height="70" rx="10" fill="#00bfa5"/><text x="485" y="70" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">拼进系统提示</text><text x="485" y="92" text-anchor="middle" fill="#fff" font-size="11">先读守则再干活</text>
+<rect x="610" y="40" width="140" height="70" rx="10" fill="#ff9100"/><text x="680" y="70" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">模型输出</text><text x="680" y="92" text-anchor="middle" fill="#fff" font-size="11">行为被规则约束</text>
+<line x1="160" y1="75" x2="210" y2="75" stroke="#1a1030" stroke-width="3" marker-end="url(#a)"/>
+<line x1="360" y1="75" x2="410" y2="75" stroke="#1a1030" stroke-width="3" marker-end="url(#a)"/>
+<line x1="560" y1="75" x2="610" y2="75" stroke="#1a1030" stroke-width="3" marker-end="url(#a)"/>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#1a1030"/></marker></defs>
+</svg></div>
+<p class="small">关键认知：模型本身没有"记性"，每次会话都是新员工——所以规矩必须<span class="red">每次都重新发一遍</span>，AGENT.md 就是那个被反复发的固定文本。</p></div>
+
+<div class="qcard q2"><div class="qnum">Q2</div><h2>为什么写成文件，而不直接把规则写死在代码里？</h2>
+<p>三个理由：① <span class="hl">用户可改</span>——不用改软件源码就能定制自己的 agent；② <span class="hl">可版本管理</span>——git diff 一眼看清这条规矩哪天改的；③ <span class="hl">可移植</span>——换 agent 软件（Astra / Claude Code / Codex）文件跟着走。这和知识库里的 [[DESIGN.md 规范文档]] 是同一招：LLM 的母语是 Markdown，纯文本规则零解析成本、人机共读。</p></div>
+
+<div class="qcard q3"><div class="qnum">Q3</div><h2>模板为什么是这 6 个板块？各管什么？</h2>
+<table><tr><th>板块</th><th>管什么</th><th>一句话人话版</th></tr>
+<tr><td class="blue">沟通</td><td>输出风格</td><td>说中文、先结论、少列表、不废话</td></tr>
+<tr><td class="blue">指令优先级</td><td>听谁的</td><td>安全 &gt; 当前指令 &gt; 项目规则 &gt; 全局规则 &gt; 记忆</td></tr>
+<tr><td class="blue">执行方式</td><td>干活姿态</td><td>开工别磨叽、先干完再问、别迎合、别瞎警告</td></tr>
+<tr><td class="blue">测试与验证</td><td>验证力度</td><td>改动越大测越多，改个错别字别跑全套 CI</td></tr>
+<tr><td class="blue">工具与并行</td><td>干活手法</td><td>用 rg 搜、批量读、子代理只在真独立时才派</td></tr>
+<tr><td class="blue">规则来源</td><td>唯一事实源</td><td>规矩只放一份 AGENTS.md，别的文件只引用不复制</td></tr></table>
+<p><span class="hl">这 6 块正好覆盖一个 AI 员工的完整生命周期：怎么说话 → 听谁指挥 → 怎么干活 → 怎么自证 → 用什么工具 → 规矩本身放哪</span>。缺哪块，哪块就退回模型默认行为（往往是唠叨、过度谨慎、过度测试）。</p></div>
+
+<div class="qcard q4"><div class="qnum">Q4</div><h2>"指令优先级"为什么排第二？听谁的到底有多重要？</h2>
+<p>Agent 工作时上下文里飘着好几种指令：系统提示、你的全局偏好、项目里的 AGENTS.md、历史记忆、Skill 文档……<span class="hl">不排优先级，冲突时模型就只能"猜"，猜错一次就是一次事故</span>。模板给出的序：</p>
+<div class="svgbox"><svg viewBox="0 0 760 120" xmlns="http://www.w3.org/2000/svg">
+<rect x="10" y="30" width="130" height="60" rx="10" fill="#ff5252"/><text x="75" y="56" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">安全约束</text><text x="75" y="76" text-anchor="middle" fill="#fff" font-size="11">永远第一</text>
+<rect x="155" y="30" width="130" height="60" rx="10" fill="#ff9100"/><text x="220" y="56" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">当前指令</text><text x="220" y="76" text-anchor="middle" fill="#fff" font-size="11">用户现在说的</text>
+<rect x="300" y="30" width="130" height="60" rx="10" fill="#00bfa5"/><text x="365" y="56" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">项目规则</text><text x="365" y="76" text-anchor="middle" fill="#fff" font-size="11">项目 AGENTS.md</text>
+<rect x="445" y="30" width="130" height="60" rx="10" fill="#00b0ff"/><text x="510" y="56" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">全局规则</text><text x="510" y="76" text-anchor="middle" fill="#fff" font-size="11">个人偏好</text>
+<rect x="590" y="30" width="130" height="60" rx="10" fill="#7c4dff"/><text x="655" y="56" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">技能与记忆</text><text x="655" y="76" text-anchor="middle" fill="#fff" font-size="11">最容易被覆盖</text>
+<line x1="140" y1="60" x2="155" y2="60" stroke="#1a1030" stroke-width="3" marker-end="url(#a)"/>
+<line x1="285" y1="60" x2="300" y2="60" stroke="#1a1030" stroke-width="3" marker-end="url(#a)"/>
+<line x1="430" y1="60" x2="445" y2="60" stroke="#1a1030" stroke-width="3" marker-end="url(#a)"/>
+<line x1="575" y1="60" x2="590" y2="60" stroke="#1a1030" stroke-width="3" marker-end="url(#a)"/>
+</svg></div>
+<p>这就是操作系统的<span class="blue">中断优先级</span>思想搬进提示词工程：越靠近"当下、具体"的指令优先级越高，越"陈旧、泛化"的越靠后。与知识库 [[提示词权威边界]] 互补——那边管"一段提示词内部谁有权改哪部分"，这边管"多层指令之间谁听谁"。</p></div>
+
+<div class="qcard q5"><div class="qnum">Q5</div><h2>"先干完再问""别迎合""别瞎警告"在治什么病？</h2>
+<p>这三条全是真实使用中的高频痛点：① <span class="hl">磨叽病</span>——干两步就停下来问"可以继续吗"，人得全程陪聊；模板规定"已授权的先完整做完，再统一提问"。② <span class="hl">迎合病</span>——用户说方案 A 其实不对，模型顺着夸；模板规定"不适合就直接说，不为迎合改口"。③ <span class="hl">警告泛滥病</span>——随手写个玩具脚本，它给你上一堂 SQL 注入安全课；模板规定"不为假想风险加未经请求的警告"。<span class="hl">（这条我们实验里实测到了，见下方场景 3）</span></p></div>
+
+<div class="qcard q6"><div class="qnum">Q6</div><h2>测试还要"按改动大小分级"？全测不是更安全吗？</h2>
+<p>全测当然"安全"，但 agent 是高频干活机器：每改一行注释都跑 10 分钟 CI，<span class="hl">时间全烧在仪式上</span>。模板的分级：琐碎可逆改动（注释/文案/格式）不强制测试；测试力度与影响面成正比；收尾清理临时文件。这与知识库 [[质检Gate与自我纠错循环]] 不冲突——Gate 是"该检的地方必须检"，分级是"<span class="red">不该检的地方别烧钱</span>"，一个是质量下限，一个是成本上限。</p></div>
+
+<div class="qcard q1"><div class="qnum">Q7</div><h2>"工具与并行"板块：rg、批量读、子代理克制是在省什么？</h2>
+<p>① 搜索用 <code>rg</code>：比递归 grep 快一个量级，agent 一天搜几百次，累计省的是真实的挂钟时间。② 无依赖的读取<span class="hl">批量并行发起</span>：串行 5 次网络往返 vs 并行 1 次。③ <span class="hl">子代理只用于真正独立的工作流</span>——乱开子代理 = 每个都要重新加载上下文，又贵又慢，最后还得主代理重新核实。共享状态、连续决策的事，主代理亲自干。（呼应知识库 [[GitWorktree并行隔离]]：并行的前提是物理隔离，不隔离就别并行。）</p></div>
+
+<div class="qcard q2"><div class="qnum">Q8</div><h2>"规则来源"：为什么 CLAUDE.md 只当"兼容入口"？</h2>
+<p>不同 AI 工具读的配置文件名不一样（CLAUDE.md / AGENTS.md / .cursorrules…）。如果每个文件各写一份规矩，<span class="hl">改一条规则要改 5 处，很快就会互相矛盾</span>。模板的解法是教科书级的<span class="blue">单一事实源（SSOT）</span>：真规矩只写在一份 canonical AGENTS.md 里，其他文件只写一行"请见 AGENTS.md"。和知识库 [[源码即Prompt]] 的"发布期渲染"是同一思想的两个流派：一个多文件复制渲染，一个单源引用指向。</p></div>
+
+<div class="qcard q3"><div class="qnum">Q9</div><h2>它和知识库里已学的概念是什么关系？</h2>
+<table><tr><th>已有概念</th><th>管什么</th><th>与 AGENT.md 的分工</th></tr>
+<tr><td>[[角色提示]]</td><td>人格设定（你是谁）</td><td>AGENT.md 管行为纪律（你怎么干活），不管人设</td></tr>
+<tr><td>[[AgentSkills技能包]]</td><td>方法论包，按需加载</td><td>AGENT.md <b>常驻上下文</b>管全局基线；Skill 干活时才翻开</td></tr>
+<tr><td>[[DESIGN.md规范文档]]</td><td>项目 UI 视觉规范</td><td>同是"根目录 Markdown 契约"，一个管施工方一个管装修风格</td></tr>
+<tr><td>[[提示词权威边界]]</td><td>Skill 内部谁改哪段</td><td>AGENT.md 的指令优先级管跨层指令谁听谁</td></tr>
+<tr><td>[[提示词模板]]</td><td>带变量槽位的单条提示词</td><td>AGENT.md 无变量，是固定的行为常量</td></tr></table></div>
+
+<div class="qcard q4"><div class="qnum">Q10</div><h2>规则真的有效吗？——真机 A/B 对比实验</h2>
+<p>方法：同一个 glm-4.6 模型，A 组裸系统提示，B 组加模板的"沟通+执行方式+测试与验证"三节；3 个场景 × 各 3 次；用<span class="hl">确定性正则打分</span>（不靠人眼）。完整脚本与原始数据：<code>exercise\agentmd_ab_test.py</code>、<code>exercise\ab_result.json</code></p>
+<table>
+<tr><th>场景（测哪条规则）</th><th>指标</th><th>A 裸提示</th><th>B 带模板</th><th>结论</th></tr>
+<tr><td rowspan="2">合并 txt（沟通·列表克制）</td><td>平均列表行数</td><td class="lose">3.33</td><td class="win">0.00</td><td>列表克制见效</td></tr>
+<tr><td>结论先行率</td><td class="lose">0%</td><td>33%</td><td>弱正向</td></tr>
+<tr><td rowspan="2">改错别字（测试分级）</td><td>结论先行率</td><td class="lose">0%</td><td class="win">100%</td><td rowspan="2">"琐碎改动别搞仪式"见效</td></tr>
+<tr><td>首行风格</td><td>"取决于你的情况…"+分支</td><td class="win">"基本没有了"</td></tr>
+<tr><td rowspan="2">玩具拼 SQL（不瞎警告）</td><td>未经请求警告</td><td class="lose">首行就是"⚠️ SQL注入警告"</td><td class="win">0 次</td><td rowspan="2">效果最显著</td></tr>
+<tr><td>平均建议句数</td><td class="lose">2.33</td><td class="win">0.00</td></tr>
+</table>
+<div class="okbox"><b>✅ 实验结论：</b>模板规则<b>不是玄学</b>——"少用列表""先给结论""别加未经请求的警告""琐碎改动不搞流程"四条在真机上全部可测量地改变了模型行为。另一面：常规单轮"写个函数"任务上两组差异很小，<b>因为这些规则治的病主要发生在长会话、多步骤的 agentic 工作流里</b>（磨叽、中途反复问、过度测试、临时文件残留）——单轮问答本来就 没 有那些病。</div></div>
+
+<div class="qcard q5"><div class="qnum">Q11</div><h2>⚠️ 双刃剑：压掉警告是福是祸？</h2>
+<div class="warnbox"><b>实验里真实看到的另一面：</b>B 组连 SQL 注入警告都不发了。对你自己的玩具库这是"清爽"，对真实生产库这是"灾难"。<span class="red">安全红线应该放在系统层/平台层（模板第一条也是这么写的："遵守系统、平台和安全约束"），而不能指望"少警告"的用户指令兜底</span>。自己抄模板时，务必保留指令优先级板块，把安全约束钉在最顶层。</div></div>
+
+<div class="qcard q6"><div class="qnum">Q12</div><h2>我想自己写一份，从哪几条开始？换 agent 要改什么？</h2>
+<p><b>起步三件套</b>（性价比最高）：① 语言与结论先行（沟通 2 条）→ ② 指令优先级全节 → ③ "不为假想风险加未经请求警告"。写规则的红线：<span class="hl">每条规则必须对应一个你真实被烦到过的失败模式</span>，写"保持专业、高质量回答"这种装饰性规则等于没写（模型本来就想做到，做到了你看不出，做不到它也不当真）。<b>换 agent 要改的</b>：工具与并行板块是 harness 专属（rg / Chrome / lark-cli 换成你那家的等价物）；规则来源板块换成你那家的配置文件名。</p></div>
+
+<h1 class="sec">🛠️ 动手实验：模板效果对比（已真机跑通）</h1>
+<div class="step"><b class="st">步骤 1</b> · 准备材料：把推文里的模板全文存为 <code>exercise\AGENT_md_template.md</code>（逐字原文，别凭记忆转述——本实验第一版就转述错了，重抓原文才修正）。</div>
+<div class="step"><b class="st">步骤 2</b> · 配置 API：复用 <code>ANTHROPIC_AUTH_TOKEN</code> + <code>ANTHROPIC_BASE_URL</code> 代理接入 glm-4.6。<span class="small">坑：glm 返回 thinking block，要过滤且 max_tokens ≥ 512，否则全是思考没有正文。</span></div>
+<div class="step"><b class="st">步骤 3</b> · 跑对比：<div class="cmd">python F:\reminder\agentmd_template\exercise\agentmd_ab_test.py</div>3 场景 × 2 组 × 3 次 = 18 次真实调用，正则确定性打分。</div>
+<div class="step"><b class="st">步骤 4</b> · 看结果：<div class="cmd">type F:\reminder\agentmd_template\exercise\ab_result.json</div>✅ 预期：场景 1 列表行 A≈3.3 → B=0；场景 2 B 组结论先行 100%；场景 3 A 组首行"⚠️ SQL 注入警告"、B 组警告词 0。（实测全部命中，见 Q10 表格）</div>
+<div class="step"><b class="st">步骤 5</b> · 延伸玩：把 SCENARIOS 换成你自己被 AI 烦到过的任务（如"每次都让我写 CHANGELOG"），给模板加一条对应规则，重跑看它是否压得下去。</div>
+
+<h1 class="sec">🎁 这份模板给我什么（能力清单）</h1>
+<div class="caps">
+<div class="cap"><b>① 直接抄用</b><br>模板原文存于 <code>exercise\AGENT_md_template.md</code>，改掉 harness 专属板块即可贴进自己的 agent 配置。</div>
+<div class="cap"><b>② 判别好规则的标准</b><br>"规则 = 真实失败模式的解药"。拿这条标准可审计任何提示词/规则文件里的废话。</div>
+<div class="cap"><b>③ 一套提示词 A/B 实验法</b><br>确定性正则打分 + 多场景多 trial，成本 18 次调用，任何"这个 prompt 有没有用"之争都能实测裁决。</div>
+<div class="cap"><b>④ 指令分层思维</b><br>安全&gt;当前指令&gt;项目&gt;全局&gt;记忆——任何多源指令系统（不只 AI）都适用的仲裁序。</div>
+</div>
+
+<p class="foot">F:\reminder\agentmd_template · 拾遗任务 5bed5c97 · 2026-10-03 · 概念已入库 vault（Agent指令文件AgentMd / 指令优先级层级）</p>
+</div></body></html>

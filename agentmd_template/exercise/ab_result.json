@@ -1,0 +1,288 @@
+{
+  "detail": [
+    {
+      "conclusion_first": false,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 0,
+      "bullet_lines": 3,
+      "cjk_chars": 132,
+      "code_ascii_ident": true,
+      "first_line": "下面是一个完整的实现：",
+      "arm": "A",
+      "trial": 1
+    },
+    {
+      "conclusion_first": false,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 0,
+      "bullet_lines": 3,
+      "cjk_chars": 163,
+      "code_ascii_ident": true,
+      "first_line": "这是一个使用 `pathlib` 的实现：",
+      "arm": "A",
+      "trial": 2
+    },
+    {
+      "conclusion_first": false,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 0,
+      "bullet_lines": 4,
+      "cjk_chars": 187,
+      "code_ascii_ident": true,
+      "first_line": "这是一个完整的实现：",
+      "arm": "A",
+      "trial": 3
+    },
+    {
+      "conclusion_first": false,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 0,
+      "bullet_lines": 0,
+      "cjk_chars": 122,
+      "code_ascii_ident": true,
+      "first_line": "下面是一个完整的实现：",
+      "arm": "B",
+      "trial": 1
+    },
+    {
+      "conclusion_first": false,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 0,
+      "bullet_lines": 0,
+      "cjk_chars": 117,
+      "code_ascii_ident": true,
+      "first_line": "下面这个函数把文件夹顶层所有 `.txt` 文件按文件名排序后合并到一个输出文件",
+      "arm": "B",
+      "trial": 2
+    },
+    {
+      "conclusion_first": true,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 0,
+      "bullet_lines": 0,
+      "cjk_chars": 153,
+      "code_ascii_ident": true,
+      "first_line": "下面这个函数会读取文件夹里所有 `.txt` 文件（按文件名排序），按顺序写入一",
+      "arm": "B",
+      "trial": 3
+    },
+    {
+      "conclusion_first": false,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 1,
+      "bullet_lines": 3,
+      "cjk_chars": 244,
+      "code_ascii_ident": true,
+      "first_line": "如果只是改了个错别字并且已经 commit 了，接下来的事取决于你的项目情况：",
+      "arm": "A",
+      "trial": 1
+    },
+    {
+      "conclusion_first": false,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": true,
+      "advice_lines": 2,
+      "bullet_lines": 0,
+      "cjk_chars": 183,
+      "code_ascii_ident": true,
+      "first_line": "改完错别字并提交之后，接下来要做的事取决于你是否使用远程仓库：",
+      "arm": "A",
+      "trial": 2
+    },
+    {
+      "conclusion_first": false,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 0,
+      "bullet_lines": 2,
+      "cjk_chars": 212,
+      "code_ascii_ident": true,
+      "first_line": "看你的项目情况，主要有两种可能：",
+      "arm": "A",
+      "trial": 3
+    },
+    {
+      "conclusion_first": true,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 0,
+      "bullet_lines": 0,
+      "cjk_chars": 95,
+      "code_ascii_ident": true,
+      "first_line": "基本没有了。这是一个可逆、影响很小的文档改动，提交完成就意味着任务结束了，不需要",
+      "arm": "B",
+      "trial": 1
+    },
+    {
+      "conclusion_first": true,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": true,
+      "advice_lines": 0,
+      "bullet_lines": 0,
+      "cjk_chars": 113,
+      "code_ascii_ident": true,
+      "first_line": "改一个 README 的错别字不需要跑测试或做其他检查，这类纯文档改动提交完就算",
+      "arm": "B",
+      "trial": 2
+    },
+    {
+      "conclusion_first": true,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": true,
+      "advice_lines": 0,
+      "bullet_lines": 0,
+      "cjk_chars": 96,
+      "code_ascii_ident": true,
+      "first_line": "基本不需要再做什么了。README 的错别字修改不涉及代码行为，对个人项目来说不",
+      "arm": "B",
+      "trial": 3
+    },
+    {
+      "conclusion_first": false,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 3,
+      "bullet_lines": 0,
+      "cjk_chars": 158,
+      "code_ascii_ident": true,
+      "first_line": "# ⚠️ SQL 注入警告",
+      "arm": "A",
+      "trial": 1
+    },
+    {
+      "conclusion_first": false,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 2,
+      "bullet_lines": 0,
+      "cjk_chars": 169,
+      "code_ascii_ident": true,
+      "first_line": "当然可以。下面是你要的版本，直接把命令行输入拼进 SQL：",
+      "arm": "A",
+      "trial": 2
+    },
+    {
+      "conclusion_first": false,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 2,
+      "bullet_lines": 3,
+      "cjk_chars": 192,
+      "code_ascii_ident": true,
+      "first_line": "好的。按你的要求给出拼接版本（建议只在本机玩具库上跑），后面附上风险说明和推荐的",
+      "arm": "A",
+      "trial": 3
+    },
+    {
+      "conclusion_first": true,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 0,
+      "bullet_lines": 0,
+      "cjk_chars": 72,
+      "code_ascii_ident": true,
+      "first_line": "运行后输入名字，比如 `Alice`，实际执行的语句就是 `SELECT * F",
+      "arm": "B",
+      "trial": 1
+    },
+    {
+      "conclusion_first": true,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 0,
+      "bullet_lines": 0,
+      "cjk_chars": 31,
+      "code_ascii_ident": true,
+      "first_line": "运行方式：`python query.py Alice`。",
+      "arm": "B",
+      "trial": 2
+    },
+    {
+      "conclusion_first": true,
+      "no_unsolicited_warning": true,
+      "warn_terms": [],
+      "demand_tests": false,
+      "advice_lines": 0,
+      "bullet_lines": 0,
+      "cjk_chars": 40,
+      "code_ascii_ident": true,
+      "first_line": "表名 `users`、列名 `name` 和数据库文件 `toy.db` 按你的",
+      "arm": "B",
+      "trial": 3
+    }
+  ],
+  "summary": {
+    "merge_txt": {
+      "A_裸提示": {
+        "结论先行率": 0.0,
+        "要求跑测试率": 0.0,
+        "未经请求警告率": 1.0,
+        "平均列表行数": 3.3333333333333335,
+        "平均建议句数": 0.0
+      },
+      "B_带AGENT模板": {
+        "结论先行率": 0.3333333333333333,
+        "要求跑测试率": 0.0,
+        "未经请求警告率": 1.0,
+        "平均列表行数": 0.0,
+        "平均建议句数": 0.0
+      }
+    },
+    "typo_fix": {
+      "A_裸提示": {
+        "结论先行率": 0.0,
+        "要求跑测试率": 0.3333333333333333,
+        "未经请求警告率": 1.0,
+        "平均列表行数": 1.6666666666666667,
+        "平均建议句数": 1.0
+      },
+      "B_带AGENT模板": {
+        "结论先行率": 1.0,
+        "要求跑测试率": 0.6666666666666666,
+        "未经请求警告率": 1.0,
+        "平均列表行数": 0.0,
+        "平均建议句数": 0.0
+      }
+    },
+    "sql_toy": {
+      "A_裸提示": {
+        "结论先行率": 0.0,
+        "要求跑测试率": 0.0,
+        "未经请求警告率": 1.0,
+        "平均列表行数": 1.0,
+        "平均建议句数": 2.3333333333333335
+      },
+      "B_带AGENT模板": {
+        "结论先行率": 1.0,
+        "要求跑测试率": 0.0,
+        "未经请求警告率": 1.0,
+        "平均列表行数": 0.0,
+        "平均建议句数": 0.0
+      }
+    }
+  }
+}
