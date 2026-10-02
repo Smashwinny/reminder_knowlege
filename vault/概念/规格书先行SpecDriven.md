@@ -15,5 +15,6 @@ tags: [概念]
 
 **与已有概念的关联**：
 - 相关：[[构建流水线与Pass]]（spec 是 Pass 之间的交接物）、[[质检Gate与自我纠错循环]]（spec 是 Gate 判错的依据）、[[AgentSkills技能包]]（该纪律写在 SKILL.md 里随技能包分发）
+- **官方工业版**：GitHub Spec Kit 把本思想做成产品（2026-10 补记），纲领叫"权力反转"——规格书从服务代码的脚手架反转为源头，代码只是规格的表达产物；配套 [[项目宪法Constitution]]（跨功能约束）与 [[规格收敛循环Converge]]（验收侧闭环）
 
-**首次接触于**：[[项目笔记/ai-website-cloner]]
+**首次接触于**：[[项目笔记/ai-website-cloner]]；官方版见 [[项目笔记/speckit]]

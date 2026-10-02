@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Spec Kit 小白指南</title>
+<style>
+:root{
+  --red:#FF4757; --orange:#FFA502; --blue:#1E90FF; --purple:#A55EEA;
+  --green:#2ED573; --pink:#FF6B9D; --teal:#00CEC9; --ink:#2D3436;
+  --bg:#FFF8F0; --card:#FFFFFF;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+@page{size:A4; margin:12mm;}
+body{
+  font-family:"Microsoft YaHei","PingFang SC",sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.75; font-size:14px;
+}
+.wrap{max-width:210mm; margin:0 auto; padding:0 4mm;}
+h1.hero{
+  font-size:40px; color:#fff; background:linear-gradient(100deg,var(--red),var(--orange));
+  padding:22px 26px; border-radius:18px; margin:6mm 0 4mm; letter-spacing:1px;
+}
+.subtitle{font-size:16px; color:#fff; background:var(--purple); padding:10px 20px; border-radius:12px; margin-bottom:6mm; font-weight:bold;}
+.stats{display:flex; gap:8px; margin-bottom:8mm; flex-wrap:wrap;}
+.stat{flex:1; min-width:120px; text-align:center; padding:12px 6px; border-radius:14px; color:#fff;}
+.stat b{display:block; font-size:26px;}
+.stat.s1{background:var(--red);} .stat.s2{background:var(--blue);}
+.stat.s3{background:var(--green);} .stat.s4{background:var(--purple);}
+.qcard{
+  background:var(--card); border-radius:16px; padding:18px 22px 20px; margin:0 0 7mm;
+  border-top:8px solid var(--blue); break-inside:avoid; box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+.qcard.c1{border-top-color:var(--red);} .qcard.c2{border-top-color:var(--orange);}
+.qcard.c3{border-top-color:var(--blue);} .qcard.c4{border-top-color:var(--purple);}
+.qcard.c5{border-top-color:var(--green);} .qcard.c6{border-top-color:var(--pink);}
+.qcard.c7{border-top-color:var(--teal);}
+.qnum{
+  display:inline-block; font-size:34px; font-weight:900; color:#fff;
+  background:var(--blue); border-radius:12px; padding:2px 16px; margin-bottom:8px;
+}
+.c1 .qnum{background:var(--red);} .c2 .qnum{background:var(--orange);}
+.c3 .qnum{background:var(--blue);} .c4 .qnum{background:var(--purple);}
+.c5 .qnum{background:var(--green);} .c6 .qnum{background:var(--pink);}
+.c7 .qnum{background:var(--teal);}
+.qtitle{font-size:21px; font-weight:900; margin-bottom:12px; color:var(--ink);}
+.highlight{
+  background:linear-gradient(transparent 55%, #FFE066 55%);
+  font-weight:900; font-size:15.5px; padding:0 2px;
+}
+.keybox{
+  border-left:6px solid var(--orange); background:#FFF4E0; border-radius:0 10px 10px 0;
+  padding:10px 14px; margin:10px 0; font-weight:bold;
+}
+.warnbox{
+  border-left:6px solid var(--red); background:#FFECEC; border-radius:0 10px 10px 0;
+  padding:10px 14px; margin:10px 0;
+}
+.okbox{
+  border-left:6px solid var(--green); background:#E9FBF0; border-radius:0 10px 10px 0;
+  padding:10px 14px; margin:10px 0;
+}
+code{
+  background:#2D3436; color:#FFE066; padding:1px 7px; border-radius:5px;
+  font-family:Consolas,monospace; font-size:12.5px;
+}
+pre.codeblock{
+  background:#2D3436; color:#EAF6FF; border-radius:10px; padding:12px 16px;
+  font-family:Consolas,monospace; font-size:12px; line-height:1.6; margin:10px 0;
+  white-space:pre-wrap; break-inside:avoid;
+}
+pre.codeblock .cm{color:#7F8FA6;} pre.codeblock .ok{color:#2ED573;} pre.codeblock .wa{color:#FFA502;}
+table{width:100%; border-collapse:collapse; margin:10px 0; font-size:12.5px; break-inside:avoid;}
+th{background:var(--blue); color:#fff; padding:8px 10px; text-align:left;}
+td{border:1px solid #E3E6EA; padding:7px 10px; background:#fff;}
+tr:nth-child(even) td{background:#F5F9FF;}
+.svgbox{margin:12px 0; text-align:center; break-inside:avoid;}
+.svgbox svg{max-width:100%; height:auto;}
+.cap{font-size:11.5px; color:#888; text-align:center; margin-top:3px;}
+.step{
+  display:flex; gap:12px; background:#fff; border:2px solid var(--blue);
+  border-radius:12px; padding:12px 14px; margin-bottom:10px; break-inside:avoid;
+}
+.step .no{
+  flex:0 0 40px; height:40px; border-radius:50%; background:var(--blue); color:#fff;
+  font-size:20px; font-weight:900; display:flex; align-items:center; justify-content:center;
+}
+.step h4{font-size:14.5px; margin-bottom:4px;}
+.step .lbl{font-weight:900; color:var(--blue);}
+.step .why{color:#E17055; font-weight:bold;}
+.foot{
+  margin-top:8mm; background:var(--ink); color:#DFE6E9; border-radius:14px;
+  padding:14px 20px; font-size:12px; break-inside:avoid;
+}
+.tag{display:inline-block; background:var(--teal); color:#fff; border-radius:20px; padding:1px 12px; font-size:12px; font-weight:bold; margin:2px 4px 2px 0;}
+ul{padding-left:22px;} li{margin:3px 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1 class="hero">🌱 Spec Kit 小白指南</h1>
+<div class="subtitle">GitHub 官方规格驱动开发（Spec-Driven Development）工具包 —— 先写规格书，再让 AI 照章施工</div>
+
+<div class="stats">
+  <div class="stat s1"><b>139.8K</b>GitHub Stars</div>
+  <div class="stat s2"><b>specify</b>官方 CLI（Python）</div>
+  <div class="stat s3"><b>25+</b>兼容 AI 编码代理</div>
+  <div class="stat s4"><b>MIT</b>完全开源</div>
+</div>
+
+<!-- ==================== Q1 ==================== -->
+<div class="qcard c1">
+  <span class="qnum">Q1</span>
+  <div class="qtitle">这是什么？一句话能说清吗？</div>
+  <p><span class="highlight">Spec Kit 是 GitHub 官方开源的"规格驱动开发"工具包：强制 AI 编码代理在写代码之前，先产出一份结构化规格书，再按规格一步步施工。</span>
+  它由三部分组成：</p>
+  <ul>
+    <li><b>specify CLI</b>（Python 写的命令行工具）：一条命令 <code>specify init</code> 就给项目装好全套规格模板和代理技能；</li>
+    <li><b>一套 /speckit-* 技能（Skill）</b>：constitution、specify、plan、tasks、implement、converge 等 10 个，装进 Claude Code / Copilot / Cursor 等代理里当"流程指挥棒"；</li>
+    <li><b>一组确定性脚本</b>：PowerShell / Bash 脚本负责建分支、建目录、填模板编号这类机械活，不让 AI 碰运气。</li>
+  </ul>
+  <div class="keybox">📌 推文说的 <code>/constitution → /specify → /clarify → /plan → /tasks → /implement</code> 就是这套流程；截至本文实测（v1.1.x），命令已升级为 <code>/speckit-*</code> 技能形态，并新增了 <b>converge（收敛对账）</b> 环节。</div>
+</div>
+
+<!-- ==================== Q2 ==================== -->
+<div class="qcard c2">
+  <span class="qnum">Q2</span>
+  <div class="qtitle">"vibe coding 的最大问题"到底是什么？</div>
+  <p>推文开头说 GitHub "解决了 vibe coding 的最大问题"。这个问题就是：<b>对着 AI 随口丢模糊指令，然后祈祷它别把项目搞砸</b>。具体表现为三种翻车：</p>
+  <ul>
+    <li><b>理解偏差</b>：你说"做个相册功能"，AI 脑补的可能是 5 种不同的东西；</li>
+    <li><b>上下文漂移</b>：聊到第 20 轮，AI 早就忘了第 2 轮的约定，改 A 破 B；</li>
+    <li><b>不可验收</b>：没有白纸黑字的标准，你说没做好，它说自己做好了，扯不清。</li>
+  </ul>
+  <p>Spec Kit 的解法用一句话说：<span class="highlight">先逼 AI 把"要建什么"写成可验收的规格书，问题在动工前暴露，而不是在代码里烂掉</span>。这就是本知识库已学的 <b>规格书先行（Spec-Driven）</b> 思想的官方工业版。</p>
+</div>
+
+<!-- ==================== Q3 ==================== -->
+<div class="qcard c3">
+  <span class="qnum">Q3</span>
+  <div class="qtitle">它是怎么做到的？——"权力反转"</div>
+  <p>仓库里的 <code>spec-driven.md</code> 有一段纲领性论述，叫 <b>The Power Inversion（权力反转）</b>：几十年来<b>代码是王，规格书是脚手架</b>——写完代码就扔。AI 时代反过来了：<span class="highlight">规格书是源头（source of truth），代码只是规格书在某种语言/框架下的"表达产物"</span>。改需求 = 改规格再重新生成；修 bug = 修规格里的漏洞。</p>
+  <div class="svgbox">
+  <svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="20" width="340" height="200" rx="14" fill="#FFECEC" stroke="#FF4757" stroke-width="2"/>
+    <text x="180" y="50" text-anchor="middle" font-size="17" font-weight="bold" fill="#FF4757">传统方式（代码为王）</text>
+    <rect x="40" y="70" width="120" height="40" rx="8" fill="#fff" stroke="#FF4757"/><text x="100" y="95" text-anchor="middle" font-size="13">想法 💭</text>
+    <path d="M160 90 L 215 90" stroke="#FF4757" stroke-width="2" marker-end="url(#arrR)"/>
+    <rect x="218" y="70" width="110" height="40" rx="8" fill="#FF4757"/><text x="273" y="95" text-anchor="middle" font-size="13" fill="#fff">代码 👑</text>
+    <rect x="55" y="135" width="230" height="34" rx="8" fill="#fff" stroke="#FF4757" stroke-dasharray="5 3"/>
+    <text x="170" y="157" text-anchor="middle" font-size="12" fill="#FF4757">规格书 = 用完就扔的脚手架 🗑️</text>
+    <rect x="410" y="20" width="340" height="200" rx="14" fill="#E9FBF0" stroke="#2ED573" stroke-width="2"/>
+    <text x="580" y="50" text-anchor="middle" font-size="17" font-weight="bold" fill="#149447">Spec Kit（规格为王）</text>
+    <rect x="440" y="70" width="120" height="40" rx="8" fill="#2ED573"/><text x="500" y="95" text-anchor="middle" font-size="13" fill="#fff">规格书 👑</text>
+    <path d="M560 90 L 615 90" stroke="#2ED573" stroke-width="2" marker-end="url(#arrG)"/>
+    <rect x="618" y="70" width="110" height="40" rx="8" fill="#fff" stroke="#2ED573"/><text x="673" y="95" text-anchor="middle" font-size="13">代码 = 表达</text>
+    <rect x="455" y="135" width="230" height="34" rx="8" fill="#fff" stroke="#2ED573"/>
+    <text x="570" y="157" text-anchor="middle" font-size="12" fill="#149447">改需求 → 改规格 → 重新生成代码 ♻️</text>
+    <defs>
+      <marker id="arrR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#FF4757"/></marker>
+      <marker id="arrG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2ED573"/></marker>
+    </defs>
+  </svg>
+  <div class="cap">图1：权力反转——规格书从"脚手架"升级为"源头"</div>
+  </div>
+  <div class="keybox">📌 类比已学概念：这正是知识库里 <b>[[规格书先行SpecDriven]]</b>（ai-website-cloner 的"侦察→合同→施工"）的官方放大版——官方直接把"主观感受不可复现，客观规格才能当合同"写成了产品。</div>
+</div>
+
+<!-- ==================== Q4 ==================== -->
+<div class="qcard c4">
+  <span class="qnum">Q4</span>
+  <div class="qtitle">七个 /speckit-* 技能各干什么？</div>
+  <div class="svgbox">
+  <svg viewBox="0 0 780 210" xmlns="http://www.w3.org/2000/svg">
+    <rect x="15" y="60" width="95" height="46" rx="9" fill="#A55EEA"/><text x="62" y="82" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">constitution</text><text x="62" y="98" text-anchor="middle" font-size="10" fill="#F3E9FF">项目宪法·一次</text>
+    <path d="M110 83 L 130 83" stroke="#666" stroke-width="2" marker-end="url(#a)"/>
+    <rect x="133" y="60" width="80" height="46" rx="9" fill="#FF4757"/><text x="173" y="82" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">specify</text><text x="173" y="98" text-anchor="middle" font-size="10" fill="#FFE3E6">写规格书</text>
+    <path d="M213 83 L 233 83" stroke="#999" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#a)"/>
+    <rect x="236" y="60" width="80" height="46" rx="9" fill="#fff" stroke="#FF6B9D" stroke-dasharray="4 3"/><text x="276" y="82" text-anchor="middle" font-size="12" fill="#FF6B9D" font-weight="bold">clarify?</text><text x="276" y="98" text-anchor="middle" font-size="10" fill="#FF6B9D">可选·消除歧义</text>
+    <path d="M316 83 L 336 83" stroke="#666" stroke-width="2" marker-end="url(#a)"/>
+    <rect x="339" y="60" width="80" height="46" rx="9" fill="#1E90FF"/><text x="379" y="82" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">plan</text><text x="379" y="98" text-anchor="middle" font-size="10" fill="#DCEEFF">技术方案</text>
+    <path d="M419 83 L 439 83" stroke="#666" stroke-width="2" marker-end="url(#a)"/>
+    <rect x="442" y="60" width="80" height="46" rx="9" fill="#FFA502"/><text x="482" y="82" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">tasks</text><text x="482" y="98" text-anchor="middle" font-size="10" fill="#FFF3D9">拆工单</text>
+    <path d="M522 83 L 542 83" stroke="#666" stroke-width="2" marker-end="url(#a)"/>
+    <rect x="545" y="60" width="90" height="46" rx="9" fill="#2ED573"/><text x="590" y="82" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">implement</text><text x="590" y="98" text-anchor="middle" font-size="10" fill="#E9FBF0">按单施工</text>
+    <path d="M635 83 L 655 83" stroke="#666" stroke-width="2" marker-end="url(#a)"/>
+    <rect x="658" y="60" width="105" height="46" rx="9" fill="#00CEC9"/><text x="710" y="82" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">converge</text><text x="710" y="98" text-anchor="middle" font-size="10" fill="#E0FAF9">对账·补单</text>
+    <path d="M710 106 C 710 160 590 160 590 112" stroke="#00CEC9" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+    <text x="650" y="168" text-anchor="middle" font-size="11" fill="#00867F" font-weight="bold">循环直到报告 Converged（已收敛）</text>
+    <text x="379" y="30" text-anchor="middle" font-size="13" fill="#555">可选质检：analyze（交叉一致性）· checklist（需求检查单）</text>
+    <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#666"/></marker></defs>
+  </svg>
+  <div class="cap">图2：SDD 主流程——宪法一次，specify→plan→tasks 每个功能一轮，implement⇄converge 循环收敛</div>
+  </div>
+  <ul>
+    <li><b>constitution</b>：定项目"根本法"（质量原则、技术红线），<span class="highlight">全项目只写一次，之后每个功能的规格都得守它</span>；</li>
+    <li><b>specify</b>：把一句自然语言需求变成结构化规格书（用户故事按 P1/P2/P3 排优先级、每条带 Given/When/Then 验收场景）；</li>
+    <li><b>clarify</b>（可选）：施工前让 AI 主动提问，把含糊处问死；</li>
+    <li><b>plan</b>：定技术栈与架构决策（例：Vite + SQLite，图片留本地）；</li>
+    <li><b>tasks</b>：把规格+方案拆成有依赖顺序的任务清单（思想同已学的 [[工单任务图与前沿调度]]）；</li>
+    <li><b>implement</b>：按单施工；</li>
+    <li><b>converge</b>：<span class="highlight">拿代码和 spec/plan/tasks 逐项对账，把没建成的部分追加为新任务，循环施工直到报告 "Converged"</span>——这是 2026 新增的环节，防"AI 说做完了其实没做完"。</li>
+  </ul>
+</div>
+
+<!-- ==================== Q5 ==================== -->
+<div class="qcard c5">
+  <span class="qnum">Q5</span>
+  <div class="qtitle">specify init 到底往项目里装了什么？（实测解剖）</div>
+  <p>本指南的实验真实跑了一次 <code>specify init demo-todo --integration claude --non-interactive</code>，生成物如下：</p>
+  <pre class="codeblock">demo-todo/
+├── .specify/                        ← Spec Kit 的"项目舱"
+│   ├── memory/constitution.md       ← 项目宪法（占位模板，等 /speckit-constitution 填）
+│   ├── templates/                   ← spec / plan / tasks / checklist 四大模板
+│   ├── scripts/powershell/          ← 确定性脚本：建 feature 目录、查前置条件…
+│   ├── workflows/speckit/workflow.yml ← 带人工 review 门的工作流定义
+│   └── specs/001-photo-albums/spec.md ←（实验手填）真正的规格书放这里
+└── .claude/skills/speckit-*/        ← 装进 Claude Code 的 10 个 SKILL.md
+    speckit-constitution / -specify / -clarify / -plan / -tasks
+    speckit-implement / -converge / -analyze / -checklist / -taskstoissues</pre>
+  <div class="keybox">📌 两个设计亮点：① <b>模板里全是结构槽位</b>——spec 模板强制"用户故事可独立测试、P1 单独拿出来也是能用的 MVP"；② <b>技能（SKILL.md）+ 脚本分工</b>——AI 负责判断和写内容，建目录/编号这类机械活交脚本，思想同已学的 [[AgentSkills技能包]] 与 [[源码即Prompt]]。</div>
+</div>
+
+<!-- ==================== Q6 ==================== -->
+<div class="qcard c6">
+  <span class="qnum">Q6</span>
+  <div class="qtitle">为什么"宪法"要先写？它约束谁？</div>
+  <p><code>constitution.md</code> 是项目的"根本法"：列出核心原则（如 Library-First、Test-First 不可妥协、可观测性），<span class="highlight">之后所有 spec、plan、tasks 生成时都要引用它做合规检查，冲突时宪法赢</span>。比如宪法写了"测试先行不可谈判"，AI 就不许在 tasks 里把"补测试"排到最后。</p>
+  <p>这和知识库已学的 <b>[[提示词权威边界]]</b>（宪法管审美、军规管物流）是同一个思想在不同层级的落点：</p>
+  <table>
+    <tr><th></th><th>提示词权威边界（xxd_panels）</th><th>Spec Kit 宪法（项目级）</th></tr>
+    <tr><td><b>管什么</b></td><td>一次生成里的风格与结构产权</td><td>整个项目所有功能的质量红线</td></tr>
+    <tr><td><b>写几次</b></td><td>每份提示词都带</td><td>每项目一次，跨功能复用</td></tr>
+    <tr><td><b>冲突时</b></td><td>宪法（美学原文）逐字优先</td><td>宪法原则压过单点需求</td></tr>
+  </table>
+</div>
+
+<!-- ==================== Q7 ==================== -->
+<div class="qcard c7">
+  <span class="qnum">Q7</span>
+  <div class="qtitle">它和已学项目是什么关系？（对比定位）</div>
+  <table>
+    <tr><th>项目</th><th>做了什么</th><th>与 Spec Kit 的关系</th></tr>
+    <tr><td><b>ai-website-cloner</b></td><td>组件级"测量→spec→施工"</td><td>同思想的小型自造版；Spec Kit 是 GitHub 官方全流程版</td></tr>
+    <tr><td><b>six_skills</b>（implement-spec）</td><td>spec 拆成 DAG 工单并行施工</td><td>Spec Kit 的 tasks 环节做同件事（线性清单为主）；converge 补上其对账短板</td></tr>
+    <tr><td><b>archify</b>（Agent Skill）</td><td>SKILL.md + CLI 门禁→单文件产物</td><td>同为"技能+CLI 门禁"形态，Spec Kit 的产物是整套项目而非单 HTML</td></tr>
+    <tr><td><b>teamai-cli</b></td><td>团队 AI 资产 Git 分发</td><td>Spec Kit 生成的 .specify/ 恰是可提交、可评审、可分发的团队资产</td></tr>
+  </table>
+  <div class="keybox">📌 一句话定位：<span class="highlight">Spec Kit = 把知识库里散落的"规格先行 + 工单拆解 + 技能化 + 确定性脚本门禁"四件套，用官方身份打包成一个开箱即用产品</span>。</div>
+</div>
+
+<!-- ==================== Q8 ==================== -->
+<div class="qcard c1">
+  <span class="qnum">Q8</span>
+  <div class="qtitle">除了造新功能，它还能干什么？</div>
+  <p>v1.x 把三条流程做成了<b>独立入口</b>（不是必须三连）：</p>
+  <ul>
+    <li><b>SDD 造功能</b>（核心，随 init 自带）：<code>specify → plan → tasks → implement → converge</code>；</li>
+    <li><b>Bug 修复</b>（扩展，<code>specify extension add bug</code>）：<code>assess → fix → test</code>，诊断、修复、验证三段分离，产出报告到 <code>.specify/bugs/&lt;slug&gt;/</code>，结论分 verified / partial / failed——<span class="highlight">没验证就不算修好</span>；</li>
+    <li><b>点子评估</b>（扩展，<code>specify extension add assess</code>）：<code>intake → research → define → shape → decide</code>，不需要任何代码就能跑，最终给出 go / needs-clarification / kill 决定。</li>
+  </ul>
+  <div class="svgbox">
+  <svg viewBox="0 0 760 130" xmlns="http://www.w3.org/2000/svg">
+    <rect x="15" y="20" width="230" height="90" rx="12" fill="#2ED573"/>
+    <text x="130" y="55" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">🚀 SDD 造功能（核心）</text>
+    <text x="130" y="82" text-anchor="middle" font-size="12" fill="#E9FBF0">specify→plan→tasks→implement</text>
+    <rect x="265" y="20" width="230" height="90" rx="12" fill="#FF4757"/>
+    <text x="380" y="55" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">🐞 Bug 修复（扩展）</text>
+    <text x="380" y="82" text-anchor="middle" font-size="12" fill="#FFE3E6">assess→fix→test · verified/failed</text>
+    <rect x="515" y="20" width="230" height="90" rx="12" fill="#1E90FF"/>
+    <text x="630" y="55" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">💡 点子评估（扩展）</text>
+    <text x="630" y="82" text-anchor="middle" font-size="12" fill="#DCEEFF">intake→…→decide · go/kill</text>
+  </svg>
+  <div class="cap">图3：三条独立流程入口——扩展用 specify extension add 按需安装</div>
+  </div>
+</div>
+
+<!-- ==================== 能力清单 ==================== -->
+<div class="qcard c2">
+  <span class="qnum">🎁</span>
+  <div class="qtitle">这个项目给我什么？（能力清单 + 我能用来干什么）</div>
+  <ul>
+    <li>✅ 一条命令给任意项目装上 SDD 骨架（模板+脚本+代理技能）；</li>
+    <li>✅ 让 Claude Code / Copilot 等 25+ 代理按同一套纪律施工；</li>
+    <li>✅ 规格书、计划、任务全部落盘为 Markdown——可提交、可评审、可 diff；</li>
+    <li>✅ converge 对账循环：给"AI 宣称完工"上一个验收锁；</li>
+    <li>✅ bug / assess 扩展：修 bug 和评点子也有流程，不只造新功能。</li>
+  </ul>
+  <p style="margin-top:8px"><b>结合我的水平，最实际的 4 个用途：</b></p>
+  <ul>
+    <li>① 本仓库 400+ 子项目的练习项目，一律用 <code>specify init</code> 起步，练规格书写法；</li>
+    <li>② 借它的 spec 模板反哺知识库的 [[规格书先行SpecDriven]] 实践；</li>
+    <li>③ 给团队/个人 Claude 环境装 /speckit-* 技能，统一 AI 施工纪律（思路接 [[团队Harness的Git原生分发]]）；</li>
+    <li>④ 用 assess 扩展评估新点子，避免一上来就写代码。</li>
+  </ul>
+</div>
+
+<!-- ==================== 实验 ==================== -->
+<div class="qcard c3">
+  <span class="qnum">🧪</span>
+  <div class="qtitle">动手实验：5 步跑通 Spec Kit（全部命令实测）</div>
+
+  <div class="step"><div class="no">1</div><div>
+    <h4>安装 specify CLI</h4>
+    <pre class="codeblock">pip install F:/reminder/speckit/repo   <span class="cm"># 从本地克隆安装（也可 uv tool install specify-cli）</span>
+specify --version</pre>
+    <p><span class="lbl">目的：</span>装上官方 CLI。<span class="lbl">实现了：</span>本机 Python 3.14 直接装好。<br>
+    <span class="okbox">✅ 预期结果：<code>specify 1.1.1.dev0</code>（实测输出）</span></p>
+  </div></div>
+
+  <div class="step"><div class="no">2</div><div>
+    <h4>一键生成 SDD 项目骨架</h4>
+    <pre class="codeblock">specify init demo-todo --integration claude --non-interactive</pre>
+    <p><span class="lbl">目的：</span>体验"一条命令装好全套"。<span class="lbl">实现了：</span>生成 .specify/ 项目舱 + 10 个 .claude/skills 技能。<br>
+    <span class="okbox">✅ 预期结果：终端打出 Next Steps 面板，列出 /speckit-constitution → -specify → -plan → -tasks → -implement → -converge 六连（实测）</span><br>
+    <span class="warnbox">⚠️ 坑：老教程里的 <code>--no-git</code> 选项已不存在（实测报 No such option）；仓库最新版也不再叫 /speckit.constitute 这类旧命令名。</span></p>
+  </div></div>
+
+  <div class="step"><div class="no">3</div><div>
+    <h4>环境体检：specify check</h4>
+    <pre class="codeblock">specify check</pre>
+    <p><span class="lbl">目的：</span>看它支持哪些代理、本机装了哪个。<span class="lbl">实现了：</span>逐个探测 30+ 代理 CLI。<br>
+    <span class="okbox">✅ 预期结果：一长串 ● / ○ 探测列表 + <code>Specify CLI is ready to use!</code>（实测）</span></p>
+  </div></div>
+
+  <div class="step"><div class="no">4</div><div>
+    <h4>亲手写第一份规格书</h4>
+    <pre class="codeblock">mkdir specs/001-photo-albums
+cp .specify/templates/spec-template.md specs/001-photo-albums/spec.md
+<span class="cm"># 然后按模板填：3 条用户故事（P1/P2/P3），每条带 Given/When/Then 验收场景</span></pre>
+    <p><span class="lbl">目的：</span>体会"规格书是合同"——故事必须可独立测试。<span class="lbl">实现了：</span>照片整理器规格（按月分组 P1 / 瓷砖预览 P2 / 元数据入 SQLite P3）。<br>
+    <span class="okbox">✅ 预期结果：<code>specs/001-photo-albums/spec.md</code> 状态 Draft、三条故事各自可验收（实验已产出 59 行真实规格）</span><br>
+    <span class="warnbox">⚠️ 说明：官方脚本 create-new-feature.ps1 在本机被安全策略拦截（外部代码），此处用等价手动法达成同一产物——这正是"确定性脚本可被人工替代"的证明。</span></p>
+  </div></div>
+
+  <div class="step"><div class="no">5</div><div>
+    <h4>看扩展机制 + 启动代理真跑流程</h4>
+    <pre class="codeblock">specify extension list          <span class="cm"># 实测输出：No extensions installed</span>
+cd demo-todo &amp;&amp; claude           <span class="cm"># 在项目里启动 Claude Code，逐个调用 /speckit-* 技能</span></pre>
+    <p><span class="lbl">目的：</span>确认扩展按需安装、技能进代理后即用。<span class="lbl">实现了：</span>技能文件已就位（SKILL.md 带 frontmatter 与钩子检查逻辑）。<br>
+    <span class="okbox">✅ 预期结果：代理里输入 / 能看到 speckit 全家桶；完整 SDD 六连跑完得到 Converged 报告（本实验止步于结构验证，六连属重活留给读者）</span></p>
+  </div></div>
+</div>
+
+<div class="foot">
+  📚 <b>知识关联</b>：本指南概念已入 Obsidian 知识库——新概念 <b>[[项目宪法Constitution]]</b>、<b>[[规格收敛循环Converge]]</b>；
+  互链 <b>[[规格书先行SpecDriven]]</b>（本次补记 spec-kit 来源与"权力反转"）、[[工单任务图与前沿调度]]、[[提示词权威边界]]、[[AgentSkills技能包]]。<br>
+  📅 2026-10-03 · 学习自 x.com/txbrraa 推文 → github/spec-kit（139.8★ · MIT · v1.1.x）· 实验环境 Windows 11 + Python 3.14
+</div>
+
+</div>
+</body>
+</html>
