@@ -45,7 +45,7 @@ def load_ticks() -> tuple[object, list[QuoteTick]]:
     df["ask_price"] = df["ask"]
     df["bid_size"] = 100_000.0  # truefx 数据没有量，补一个常量
     df["ask_size"] = 100_000.0
-    df.index = pd.to_datetime(df.index, utc=True)
+    df.index = pd.to_datetime(df.index, format="mixed", utc=True)
     wrangler = QuoteTickDataWrangler(instrument=instrument)
     ticks = wrangler.process(df)
     return instrument, ticks

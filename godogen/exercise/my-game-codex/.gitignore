@@ -1,0 +1,8 @@
+.agents
+AGENTS.md
+.codex
+babylon.md
+/tripo-out
+/node_modules
+/dist
+/screenshots
