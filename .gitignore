@@ -19,3 +19,5 @@ vector_database_qdrant/qdrant.exe
 
 # DeepTutor runtime data (contains API keys, builds, KB indexes)
 deeptutor/data/
+
+tools/.shiyi_token
