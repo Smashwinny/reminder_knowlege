@@ -1,0 +1,4 @@
+{"type":"user","message":{"role":"user","content":"帮我看看这个仓库的架构"}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"我先读一下 README。"}],"usage":{"input_tokens":1200,"output_tokens":88}}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","name":"Read","input":{"file_path":"README.md"}}],"usage":{"input_tokens":2400,"output_tokens":142}}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"这个项目分三块：hooks 采集、companion 状态服务、panel 展示。"}],"usage":{"input_tokens":3600,"output_tokens":210}}}

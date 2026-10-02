@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><title>mini-crabd panel</title>
+<style>
+ body{margin:0;background:#101828;color:#e6edf7;font:16px/1.4 'Segoe UI',sans-serif}
+ #mood{font-size:64px} .card{border:2px solid #2b3b57;border-radius:12px;padding:10px 14px;margin:8px 0}
+ .needs_input{border-color:#ff9f1c;background:#3a2a10}
+ .working{border-color:#6f94cc} .done{border-color:#2ea86f} .failed{border-color:#e5484d}
+ b{color:#ffd166}
+</style><div id="mood">🦀</div><div id="cards"></div><script>
+async function tick(){
+  try{
+    const st = await (await fetch('/v1/state')).json();
+    mood.textContent = st.mood==='alert' ? '🦀⚠️ 有会话在等你' : '🦀 一切安好';
+    cards.innerHTML = st.sessions.map(s=>
+      `<div class="card ${s.state}"><b>${s.title||s.sessionId}</b> — ${s.state}` +
+      (s.question?`：${s.question}`:'') +
+      (s.burn?` · 燃烧 ${s.burn.outputTokens} tok (${s.burn.jsonlEntries} 行)`:'') + `</div>`).join('');
+  }catch(e){ mood.textContent='🦀😵 数据馈送失联（worried）'; }
+}
+setInterval(tick,1000); tick();
+</script>

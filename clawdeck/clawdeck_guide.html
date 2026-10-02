@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>Claw'deck 小白指南</title>
+<style>
+:root{
+  --bg:#fffdf5; --ink:#1c2333;
+  --red:#ff4757; --orange:#ff9f1c; --yellow:#ffd166; --green:#2ed573; --cyan:#18dcff;
+  --blue:#5352ed; --purple:#a55eea; --pink:#ff6b81; --teal:#1dd1a1;
+}
+*{box-sizing:border-box}
+body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;color:var(--ink);background:var(--bg);margin:0;font-size:14px;line-height:1.65}
+@page{size:A4;margin:12mm}
+.wrap{padding:0 6px}
+h1{font-size:34px;margin:6px 0 2px;color:var(--blue)}
+.sub{font-size:15px;color:#5a6178;margin-bottom:14px}
+.badge{display:inline-block;padding:2px 12px;border-radius:99px;color:#fff;font-weight:700;font-size:12px;margin-right:6px}
+.cover{background:linear-gradient(120deg,#ffd166 0%,#ff9f1c 45%,#ff4757 100%);border-radius:18px;padding:26px 30px;color:#fff;margin-bottom:18px}
+.cover h1{color:#fff;text-shadow:1px 2px 0 rgba(0,0,0,.18)}
+.cover .sub{color:#fff8ea}
+.cover .crab{font-size:52px;float:right;margin:-8px 6px 0 0}
+.meta{background:#fff;border:3px solid var(--blue);border-radius:14px;padding:12px 18px;margin-bottom:16px}
+.meta td{padding:3px 10px 3px 0;font-size:13px}
+.meta td:first-child{font-weight:700;color:var(--blue);white-space:nowrap}
+.q{border-radius:16px;padding:16px 20px;margin:14px 0;break-inside:avoid;border:3px solid}
+.q .no{font-size:40px;font-weight:900;float:left;line-height:1;margin:0 14px 4px 0}
+.q h2{font-size:18px;margin:2px 0 8px 0}
+.q .ans{clear:none}
+.hl{background:linear-gradient(transparent 55%,var(--yellow) 55%);font-weight:800;padding:0 2px}
+.big{font-size:16px;font-weight:800}
+code,.cmd{font-family:Consolas,'Courier New',monospace;background:#1e2536;color:#a8e6a3;border-radius:6px;padding:1px 6px;font-size:12.5px}
+.cmd{display:block;padding:9px 14px;margin:6px 0;white-space:pre-wrap;color:#eaf7ff}
+.cmd .c{color:#7fd4ff}
+.c1{border-color:var(--red);background:#fff0f1}.c1 .no{color:var(--red)}
+.c2{border-color:var(--orange);background:#fff6ea}.c2 .no{color:var(--orange)}
+.c3{border-color:var(--teal);background:#e9fbf4}.c3 .no{color:var(--teal)}
+.c4{border-color:var(--blue);background:#eef0ff}.c4 .no{color:var(--blue)}
+.c5{border-color:var(--purple);background:#f9f2fe}.c5 .no{color:var(--purple)}
+.c6{border-color:var(--cyan);background:#e9fbfe}.c6 .no{color:#0aa8c9}
+svg{max-width:100%;height:auto;display:block;margin:8px auto}
+.exp{border:3px dashed var(--green);border-radius:16px;padding:14px 18px;margin:14px 0;break-inside:avoid;background:#f4fff9}
+.exp h2{color:#0f9d58;margin:2px 0 8px}
+.step{background:#fff;border-left:6px solid var(--green);border-radius:10px;padding:10px 14px;margin:10px 0;break-inside:avoid}
+.step b.t{color:#0f9d58}
+.ok{background:#e7f9ee;border:2px solid var(--green);border-radius:10px;padding:8px 12px;margin:6px 0;font-size:13px}
+.ok::before{content:"✅ 预期结果：";font-weight:800;color:#0f9d58}
+table.cmp{border-collapse:collapse;width:100%;margin:8px 0;font-size:12.5px}
+table.cmp th{background:var(--blue);color:#fff;padding:5px 8px}
+table.cmp td{border:1px solid #c9cfe0;padding:5px 8px;background:#fff}
+.kw{color:var(--purple);font-weight:800}
+.links{background:#22284a;color:#dfe6ff;border-radius:14px;padding:12px 20px;margin:16px 0;font-size:13px;break-inside:avoid}
+.links a{color:#7fd4ff}
+img.shot{border:3px solid var(--orange);border-radius:12px;width:100%;margin:6px 0}
+.clear{clear:both}
+</style>
+</head>
+<body><div class="wrap">
+
+<div class="cover">
+  <div class="crab">🦀</div>
+  <h1>Claw'deck（SideCrab）小白指南</h1>
+  <div class="sub">给 Claude Code 装一块"实体仪表盘"——教你读懂 2026 年爆火的桌面触屏 Agent 管理面板，并用 180 行纯标准库复刻它的软件核心</div>
+</div>
+
+<table class="meta">
+<tr><td>项目</td><td>SideCrab / Claw'deck — Corsair Xeneon Edge 触屏上的 Claude Code 环境状态面板</td></tr>
+<tr><td>开源仓库</td><td>github.com/Dixie-sketch/Clawdeck（镜像 SideCrab 原仓库）· MIT 许可 · Python + C#/.NET 10</td></tr>
+<tr><td>本仓库版本</td><td>d658d41（SideCrab 0.34.1，companion crabd 0.37.1，2026-10-01 仍在活跃更新）</td></tr>
+<tr><td>一句话定位</td><td><span class="hl">螃蟹的心情就是集群状态：多个 Claude 会话谁在干活、谁卡住等你，一瞥即知，还能隔着桌子点一下回答它</span></td></tr>
+<tr><td>本指南实验</td><td>mini-crabd：纯标准库复刻 hooks → 状态机 → /v1/state → 面板 的软件主链路（无需 Xeneon Edge 硬件）</td></tr>
+</table>
+
+<!-- ================= Q1 ================= -->
+<div class="q c1"><div class="no">Q1</div><h2>这到底是什么？解决什么痛点？</h2>
+<div class="ans">你同时开着 3~5 个 Claude Code 会话干活。<b>谁跑完了、谁在等你批准、谁已经因 API 限流挂了</b>——以前要靠 Alt+Tab 把每个终端轮一遍。SideCrab 把这些信息放上一块摆在显示器下面的实体触屏（约 $250 的 Corsair Xeneon Edge，2560×720），配一只像素螃蟹：<span class="hl">螃蟹 calm = 一切安好；alert = 有会话在等你；worried = 数据馈送失联</span>。会话提问时，你从房间另一头就能看见，甚至直接在屏上点"Continue"回答它。</div></div>
+
+<!-- ================= Q2 ================= -->
+<div class="q c2"><div class="no">Q2</div><h2>整体架构长什么样？（三件套 + 一条数据流）</h2>
+<div class="ans">
+<svg viewBox="0 0 760 240">
+<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 z" fill="#5352ed"/></marker></defs>
+<rect x="8" y="70" width="150" height="90" rx="12" fill="#ffd166" stroke="#ff9f1c" stroke-width="3"/>
+<text x="83" y="100" text-anchor="middle" font-weight="800" font-size="14">Claude Code</text>
+<text x="83" y="122" text-anchor="middle" font-size="11">多个会话 + JSONL 转录</text>
+<text x="83" y="140" text-anchor="middle" font-size="11">~/.claude/</text>
+<rect x="210" y="55" width="190" height="120" rx="12" fill="#2ed573" stroke="#12b35a" stroke-width="3"/>
+<text x="305" y="88" text-anchor="middle" font-weight="800" font-size="15">crabd 伴飞服务</text>
+<text x="305" y="110" text-anchor="middle" font-size="11">Python 单文件 ≈10000 行</text>
+<text x="305" y="128" text-anchor="middle" font-size="11">只听 127.0.0.1:2722</text>
+<text x="305" y="152" text-anchor="middle" font-size="11">GET /v1/state · /panel/</text>
+<rect x="452" y="10" width="140" height="80" rx="12" fill="#5352ed" stroke="#2f2db8" stroke-width="3"/>
+<text x="522" y="42" text-anchor="middle" font-weight="800" font-size="13" fill="#fff">SideCrab.Panel</text>
+<text x="522" y="62" text-anchor="middle" font-size="10.5" fill="#fff">.NET 10 + WebView2</text>
+<text x="522" y="78" text-anchor="middle" font-size="10.5" fill="#fff">全屏钉在 Xeneon Edge</text>
+<rect x="452" y="135" width="140" height="70" rx="12" fill="#ff6b81" stroke="#d63e55" stroke-width="3"/>
+<text x="522" y="163" text-anchor="middle" font-weight="800" font-size="13" fill="#fff">toast 通知器</text>
+<text x="522" y="183" text-anchor="middle" font-size="10.5" fill="#fff">Windows 原生通知</text>
+<rect x="640" y="55" width="112" height="80" rx="12" fill="#18dcff" stroke="#0aa8c9" stroke-width="3"/>
+<text x="696" y="88" text-anchor="middle" font-weight="800" font-size="13">触屏面板</text>
+<text x="696" y="108" text-anchor="middle" font-size="10.5">点按回传指令</text>
+<line x1="158" y1="100" x2="206" y2="105" stroke="#5352ed" stroke-width="2.5" marker-end="url(#ar)"/>
+<text x="182" y="82" text-anchor="middle" font-size="10.5" fill="#5352ed">hooks POST</text>
+<line x1="400" y1="70" x2="448" y2="52" stroke="#5352ed" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="400" y1="150" x2="448" y2="170" stroke="#5352ed" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="592" y1="50" x2="636" y2="72" stroke="#5352ed" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="640" y1="115" x2="404" y2="140" stroke="#ff9f1c" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#ar)"/>
+<text x="522" y="222" text-anchor="middle" font-size="11" fill="#ff9f1c" font-weight="700">点按 Acknowledge / Continue /（可选）批准 → POST 回 crabd</text>
+</svg>
+<p><span class="kw">crabd（伴飞服务）</span>是心脏：Claude Code 的 hooks 每个事件发生时 POST 一条 JSON 给它；它把事件汇成<b>每会话状态</b>，再把全部状态装进<span class="kw">一份 JSON 馈送 /v1/state</span>。面板宿主加载 crabd 提供的 /panel/ 网页并整屏钉在触屏上。三件套全部只在本机 127.0.0.1 通信，<span class="hl">唯一的出网调用是拿你自己的令牌查一次用量限额——和 Claude Code 自己打的那个请求一模一样</span>。</p></div></div>
+
+<!-- ================= Q3 ================= -->
+<div class="q c3"><div class="no">Q3</div><h2>hooks：数据是怎么"推"进来的？command 型和 http 型有何区别？</h2>
+<div class="ans">SideCrab 在 <code>~/.claude/settings.json</code> 里注册了 <b>10 个 hook 事件</b>：SessionStart、UserPromptSubmit、Notification、Stop、StopFailure、SubagentStart/Stop、PermissionRequest、SessionEnd、PreCompact。其中 9 个是 <code>"type":"http"</code>——<span class="hl">由 Claude Code 本体直接发 HTTP POST，不落 shell、不起子进程</span>（旧版曾用 <code>curl.exe</code> 外壳命令，v0.34 起废除）；SessionStart 是例外（CLI 在该事件不跑 http hook），保留 command 型 curl 条目。<br>
+最关键的设计是 <span class="kw">fail-open（失败放行）</span>：hook 超时/拒连/非 2xx 时，Claude Code 得到空决策、照常继续。<b>crabd 挂掉的唯一后果是面板上出现一只担心的螃蟹</b>——你的会话永远不会被仪表盘拖死。PermissionRequest 是唯一长超时（60s），因为它承担"面板批准"的长轮询。实验中我们实证了这一点：crabd 未运行时上游 statusline 脚本静默降级、退出码 0。</div></div>
+
+<!-- ================= Q4 ================= -->
+<div class="q c4"><div class="no">Q4</div><h2>/v1/state：为什么是"单一 JSON 馈送"？schema 永远是 5 是什么操作？</h2>
+<div class="ans">所有消费者（面板页、通知器）都只轮询/订阅这一个端点，拿到整幅图景。<b>一份快照 = 单一事实源</b>，没有"端点 A 说完了端点 B 才更新"的时序 bug。版本策略更是亮点：文档里写明 <span class="hl">"schema" 只在破坏性变更时升号（钉在 5），新增字段靠"字段存在性探测"，未知键一律忽略</span>——这样 crabd 随时可以加字段而不会把已装出去的面板变砖；只有真正的形状破坏才需要协调升级。这和知识库 [[健康探测三态]] 的思想相通：状态必须能表达"我不知道"，未知值渲染成破折号而非 0，数据过期 30 秒就亮出"数据截至 HH:MM"横幅 + worried 螃蟹，<b>绿色永远意味着数据是新鲜的</b>。</div></div>
+
+<!-- ================= Q5 ================= -->
+<div class="q c5"><div class="no">Q5</div><h2>会话状态机：idle → working → done / failed / needs_input / gone</h2>
+<div class="ans">
+<svg viewBox="0 0 760 250">
+<defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 z" fill="#1c2333"/></marker></defs>
+<rect x="20" y="95" width="100" height="44" rx="22" fill="#c9cfe0"/><text x="70" y="122" text-anchor="middle" font-weight="800">idle</text>
+<rect x="180" y="95" width="120" height="44" rx="22" fill="#6f94cc"/><text x="240" y="122" text-anchor="middle" font-weight="800" fill="#fff">working</text>
+<rect x="365" y="20" width="150" height="44" rx="22" fill="#ff9f1c"/><text x="440" y="47" text-anchor="middle" font-weight="800" fill="#fff">needs_input</text>
+<rect x="375" y="95" width="130" height="44" rx="22" fill="#2ed573"/><text x="440" y="122" text-anchor="middle" font-weight="800">done</text>
+<rect x="380" y="170" width="120" height="44" rx="22" fill="#e5484d"/><text x="440" y="197" text-anchor="middle" font-weight="800" fill="#fff">failed</text>
+<rect x="620" y="95" width="100" height="44" rx="22" fill="#8892ab"/><text x="670" y="122" text-anchor="middle" font-weight="800" fill="#fff">gone</text>
+<line x1="120" y1="110" x2="176" y2="112" stroke="#1c2333" stroke-width="2" marker-end="url(#ar2)"/><text x="148" y="98" text-anchor="middle" font-size="10.5">UserPromptSubmit</text>
+<line x1="70" y1="95" x2="420" y2="35" stroke="#1c2333" stroke-width="0" />
+<line x1="240" y1="95" x2="425" y2="48" stroke="#1c2333" stroke-width="2" marker-end="url(#ar2)"/><text x="330" y="58" text-anchor="middle" font-size="10.5">Notification / Permission</text>
+<line x1="300" y1="112" x2="371" y2="115" stroke="#1c2333" stroke-width="2" marker-end="url(#ar2)"/><text x="336" y="108" text-anchor="middle" font-size="10.5">Stop</text>
+<line x1="300" y1="130" x2="376" y2="185" stroke="#1c2333" stroke-width="2" marker-end="url(#ar2)"/><text x="322" y="172" text-anchor="middle" font-size="10.5">StopFailure</text>
+<line x1="425" y1="52" x2="255" y2="98" stroke="#ff9f1c" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar2)"/><text x="345" y="92" text-anchor="middle" font-size="10.5" fill="#e07b00">新 prompt（清问题）</text>
+<line x1="505" y1="112" x2="616" y2="116" stroke="#1c2333" stroke-width="2" marker-end="url(#ar2)"/><text x="560" y="105" text-anchor="middle" font-size="10.5">SessionEnd / 老化退役</text>
+<text x="380" y="240" text-anchor="middle" font-size="11">done/failed 停留 10 分钟（DONE_DROP_SEC）后退役；重新写入转录 = 重试成功，可回到 working</text>
+</svg>
+排序规则：<b>needs_input 最前</b>（最该被看见），failed 第二，working 第三。v0.36 前只有 5 种状态，API 错误挂掉的会话会伪装成"还在思考"15 分钟——<span class="hl">限流挂起的会话和认真干活的会话在屏上看起来一模一样</span>，这就是加 failed 的理由。桌面项目读 open set：见到陌生状态回落到中性卡片即可，别把枚举写死。</div></div>
+
+<!-- ================= Q6 ================= -->
+<div class="q c6"><div class="no">Q6</div><h2>token 燃烧量怎么算？为什么复用 OAuth 令牌？</h2>
+<div class="ans">crabd <b>只读</b>解析 <code>~/.claude</code> 里的会话 JSONL 转录（关联 [[JSONL事件日志与折叠模型]]），把每条 assistant 消息的 <code>usage.output_tokens</code> 累加成"今日燃烧"，配可选的每日预算告警。限额表读的则是 Claude Code 本机那把 OAuth 令牌——同一把钥匙、同一次调用，不新增任何授权面。坑在于该令牌约 6 小时过期、只在终端 <code>claude</code> 会话发 API 调用时刷新：纯桌面 App 用户第二天表就会全黑。官方解法是 <code>claude setup-token</code> 换长期令牌、DPAPI 加密存放，仅在 CLI 令牌失效时启用，永不日志、永不下发。</div></div>
+
+<!-- ================= Q7 ================= -->
+<div class="q c1"><div class="no">Q7</div><h2>面板上点"批准"真的能放行权限请求？为什么默认关闭？</h2>
+<div class="ans">能——PermissionRequest hook 长轮询 60 秒，面板点"Approve"经 crabd 把决策送回会话。但出厂<span class="hl">审批功能是关的</span>，且配对了 pairing code。背后是一次真实攻防（SC-01）：crabd 的来源门对"没有 Origin 头的请求"放行（原生客户端本就没有 Origin），于是<span class="kw">本机任意进程都能 POST /v1/config 改写 continue 提示词白名单，下一次 Stop hook 就会把它作为会话的下一轮指令送进模型</span>——这本质是知识库 [[提示注入]] 的本机变体。修复：continue 词表改回只读文件（file-only），/v1/config 拒绝三个相关键。教训：凡是"能写进模型输入的通道"，就要按最高信任级别设防，哪怕它只听 127.0.0.1。</div></div>
+
+<!-- ================= Q8 ================= -->
+<div class="q c2"><div class="no">Q8</div><h2>为什么用 .NET + WebView2 宿主，而不是开一个浏览器 F11 全屏？</h2>
+<div class="ans">浏览器全屏窗口会抢焦点、有任务栏项、休眠/换屏后可能"掉"回主屏。SideCrab.Panel 是个无边框、置顶、<b>从不夺焦、无任务栏项</b>的 WebView2 窗口，按显示器 PnP 设备 id（CRXED00）钉死在 Xeneon Edge 上，休眠唤醒、拔插显示器后自动重新钉回。网页部分照常迭代（HTML/JS 由 crabd 提供），原生壳只负责"老老实实贴在那块屏上"。这是<span class="kw">混合栈</span>的典型取舍：数据面 Python（快速迭代一万行不出事）、展示壳 C#（干操作系统级的脏活）、界面本身 Web（生态最便宜）。配套工程同样值得学：升级走 <code>dist.staging</code> 试跑 → <code>dist.last-good</code> 保底 → 改名切换 → 失败自动回滚，退出码从不撒谎（关联 [[发布交换与健康门回滚]]）。</div></div>
+
+<!-- ================= Q9 ================= -->
+<div class="q c3"><div class="no">Q9</div><h2>同类方案比较：这块屏凭什么火？</h2>
+<div class="ans">
+<table class="cmp">
+<tr><th>方案</th><th>载体</th><th>强项</th><th>局限</th></tr>
+<tr><td><b>SideCrab / Claw'deck</b></td><td>Xeneon Edge 触屏（Win 专用）</td><td>跨房间可见 + 触屏应答 + 全量开源</td><td>要一块 $250 硬件、Windows only</td></tr>
+<tr><td>ClawDeck 等 Stream Deck 方案</td><td>Elgato Stream Deck 按键板</td><td>按键即操作、便宜</td><td>小屏信息量少，偏"按钮"不偏"仪表"</td></tr>
+<tr><td>statusline / 终端内方案</td><td>现有终端状态栏</td><td>零硬件</td><td>必须盯着那个终端才看得见</td></tr>
+<tr><td>ChibiDeck / Clawdmeter 等</td><td>ESP32 小圆屏/AMOLED</td><td>功耗低、造型萌、专注用量表</td><td>算力弱，复杂面板和双向交互吃力</td></tr>
+</table>
+共同思想都是<span class="hl">环境显示（ambient display）：信息不该等你去找它，它应该一直在你余光里</span>。SideCrab 赢在把"看"升级成了"顺手答"。</div></div>
+
+<!-- ================= Q10 ================= -->
+<div class="q c4"><div class="no">Q10</div><h2>和我知识库里已有概念怎么挂钩？</h2>
+<div class="ans">① <b>[[人机协同Interrupt]]</b>：SideCrab 是 Interrupt 的物理外设——"等你批准/等你输入"从终端提示变成房间级信号；② <b>[[零依赖编程]]</b>：hooks 与 statusline 脚本只用标准库、失败静默降级；③ <b>[[健康探测三态]]</b>：fresh/stale/dead 三态 honest 渲染（worried 螃蟹 + 数据截至横幅 + 未知渲染为 —）；④ <b>[[提示注入]]</b>：SC-01 是它的本机面板变体；⑤ <b>[[JSONL事件日志与折叠模型]]</b>：燃烧量的来源。新增长的轴是<span class="kw">"把 Agent 遥测做成实体硬件"</span>这个方向本身。</div></div>
+
+<!-- ================= 能力清单 ================= -->
+<div class="q c5"><div class="no">🎁</div><h2>这个项目给了我什么能力清单</h2>
+<div class="ans"><ul>
+<li><b>看懂一套完整的生产级桌面伴飞系统</b>：hooks 采集 → 本机服务 → 单一馈送 → 专用显示壳 → 通知回传，五环全开源。</li>
+<li><b>hooks 工程范式可直接搬走</b>：http 型 hook + fail-open + 2~3s 超时上限，让"仪表盘永不拖死会话"。</li>
+<li><b>schema 版本策略</b>：钉死破坏性版本号 + 字段存在性探测，桌面端与云端解耦升级。</li>
+<li><b>敢给 Agent 系统做硬件外设了</b>：照着 mini-crabd 加一块 ESP32/任意屏就能复刻属于自己的仪表盘。</li>
+<li><b>升级/回滚工程</b>：staging 试跑 → last-good 保底 → 原子换名，任何本地服务自更新都可套用。</li>
+<li><b>安全直觉</b>：localhost ≠ 信任边界；能写入模型输入的通道按最高级别设防。</li>
+</ul></div></div>
+
+<!-- ================= 实验 ================= -->
+<div class="exp">
+<h2>🧪 主实验：mini-crabd —— 180 行纯标准库复刻 SideCrab 软件主链路</h2>
+<p>不必买 Xeneon Edge。我们用 <code>exercise\mini_crabd.py</code>（标准库 http.server）复刻<b>hooks → 状态机 → /v1/state → /panel/</b> 四环，真实运行于 :2799。</p>
+
+<div class="step"><b class="t">Step 1 · 启动伴飞服务</b><br>目的：起一个只听本机回环的状态服务。操作：
+<div class="cmd">cd F:\reminder\clawdeck\exercise
+python mini_crabd.py 2799
+<span class="c"># → mini-crabd listening on http://127.0.0.1:2799  (panel: /panel/)</span></div>
+<div class="ok">服务启动行打印，进程驻留。</div></div>
+
+<div class="step"><b class="t">Step 2 · 模拟 Claude Code 打 hook 事件（会话 s1 开跑）</b><br>目的：验证 hooks 入口与 fail-open 语义（永远 204 无正文）。操作：
+<div class="cmd">curl -s -o NUL -w "%{http_code}" -X POST http://127.0.0.1:2799/v1/hook/session-start -d "{\"session_id\":\"s1\",\"cwd\":\"F:/reminder/clawdeck\"}"
+curl -s -o NUL -w "%{http_code}" -X POST http://127.0.0.1:2799/v1/hook/prompt -d "{\"session_id\":\"s1\",\"transcript_path\":\"F:/reminder/clawdeck/exercise/sample_transcript.jsonl\"}"
+curl -s http://127.0.0.1:2799/v1/state</div>
+<div class="ok">两个 204；state 里 s1 = <b>working</b>，burn = <b>{"jsonlEntries": 4, "outputTokens": 440}</b>——JSONL 转录被真实解析（88+142+210）。</div></div>
+
+<div class="step"><b class="t">Step 3 · 让会话"开口问你"（中文问题）</b><br>目的：验证 needs_input 与问题捕获。中文经 <code>--data-binary @file</code> 送 UTF-8（Git Bash 内联中文会翻车，坑见下）：
+<div class="cmd">curl -s -o NUL -w "%{http_code}" -X POST http://127.0.0.1:2799/v1/hook/notification --data-binary @notif.json
+<span class="c"># notif.json = {"session_id":"s1","message":"可以删除 temp 目录吗？"}</span></div>
+<div class="ok">204；/v1/state 中 s1 = <b>needs_input</b>，question = "可以删除 temp 目录吗？"，顶层 mood 由 calm 翻转为 <b>alert</b>。</div></div>
+
+<div class="step"><b class="t">Step 4 · 全状态机过一遍（第二会话 + 失败 + 退役）</b><br>目的：验证排序与老化规则。操作：
+<div class="cmd">curl -s -X POST http://127.0.0.1:2799/v1/hook/session-start  -d "{\"session_id\":\"s2\",\"cwd\":\"F:/reminder/vault\"}"
+curl -s -X POST http://127.0.0.1:2799/v1/hook/subagent-start  -d "{\"session_id\":\"s2\"}"
+curl -s -X POST http://127.0.0.1:2799/v1/hook/stop-failure    -d "{\"session_id\":\"s2\"}"
+curl -s -X POST http://127.0.0.1:2799/v1/hook/stop            -d "{\"session_id\":\"s1\"}"
+curl -s http://127.0.0.1:2799/v1/state
+curl -s -X POST http://127.0.0.1:2799/v1/hook/session-end     -d "{\"session_id\":\"s2\"}"</div>
+<div class="ok">s2 = <b>failed</b>（question="API error"，subagents=1，排序在 working/done 之前）；s1 = <b>done</b>；session-end 后 s2 消失（gone 即退役），totals 同步收敛。</div></div>
+
+<div class="step"><b class="t">Step 5 · 打开面板，无头浏览器自证</b><br>目的：验证 /panel/ 页面轮询 /v1/state 并画出"螃蟹心情"。操作：
+<div class="cmd">msedge --headless --disable-gpu --window-size=900,500 --screenshot="panel_screenshot.png" "http://127.0.0.1:2799/panel/"</div>
+<div class="ok">真实截图 panel_screenshot.png（见下图）：🦀⚠️ "有会话在等你" + 橙色 needs_input 卡片 + 中文问题 + "燃烧 440 tok (4 行)"。</div>
+<img class="shot" src="exercise/panel_screenshot.png" alt="mini-crabd 面板截图">
+</div>
+
+<div class="step"><b class="t">加分项 · 实证上游 fail-open</b><br>直接跑仓库自带的 <code>hooks\sidecrab_statusline.py</code>，stdin 喂假 statusline 文档，此时 crabd 并未运行：
+<div class="cmd">echo '{"session_id":"test","model":{"id":"claude-opus-5-5","display_name":"Opus"},
+       "workspace":{"current_dir":"F:/reminder/clawdeck"}}' | python ..\repo\hooks\sidecrab_statusline.py
+<span class="c"># → 🦀 sidecrab · Opus · clawdeck   退出码 0</span></div>
+<div class="ok">无崩溃、无堆栈，静默降级为最小状态行——"仪表盘失联不连累会话"由假设变成实测。</div></div>
+
+<p><b>踩坑记录</b>：① Git Bash 命令行内联中文 JSON 会以错误编码发出（curl 报 000），改用 <code>--data-binary @utf8.json</code> 稳妥；② 上游 crabd 声明 Python 3.13，本机 3.14 亦可运行实验件（mini-crabd 仅用标准库，无关版本差异）。</p>
+</div>
+
+<!-- ================= 关联 ================= -->
+<div class="links">
+<b>知识库关联</b>：本篇新立概念 <a href="../vault/概念/ClaudeCodeHooks与fail-open.md">ClaudeCodeHooks与fail-open</a> · <a href="../vault/概念/环境显示与触屏Agent面板.md">环境显示与触屏Agent面板</a> · <a href="../vault/概念/单一馈送与schema冻结.md">单一馈送与schema冻结</a><br>
+关联已有：[[人机协同Interrupt]] · [[JSONL事件日志与折叠模型]] · [[零依赖编程]] · [[健康探测三态]] · [[提示注入]] · [[发布交换与健康门回滚]]<br>
+项目笔记：[[项目笔记/clawdeck]] · 源仓库：github.com/Dixie-sketch/Clawdeck（MIT）· 本地克隆：F:\reminder\clawdeck\repo
+</div>
+
+</div></body></html>
