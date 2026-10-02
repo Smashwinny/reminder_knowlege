@@ -1,0 +1,9 @@
+{
+  "pid": 29052,
+  "host": "127.0.0.1",
+  "port": 18960,
+  "serviceHome": "F:\\reminder\\memmy\\exercise\\memory-service",
+  "serviceVersion": "2.1.3",
+  "protocolVersion": 1,
+  "startedAt": "2026-10-02T17:22:10.268Z"
+}

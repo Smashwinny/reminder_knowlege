@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "sources": {
+    "cursor": {
+      "status": "not_connected",
+      "messageCount": 111,
+      "lastScannedAt": null,
+      "latestSeenAt": null
+    },
+    "claude_code": {
+      "status": "not_connected",
+      "messageCount": 2811,
+      "lastScannedAt": null,
+      "latestSeenAt": null
+    },
+    "deepseek_harness": {
+      "status": "not_connected",
+      "messageCount": 125,
+      "lastScannedAt": "2026-10-02T17:27:14.072Z",
+      "latestSeenAt": "2026-09-30T17:18:20.363Z",
+      "contentHash": "671839d4d60ab0bb80226162702b89ff982f2274cb8d420bd6304e8f44652d9f"
+    },
+    "workbuddy": {
+      "status": "not_connected",
+      "messageCount": 0,
+      "lastScannedAt": "2026-10-02T17:27:14.074Z",
+      "latestSeenAt": null,
+      "contentHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "pi": {
+      "status": "not_connected",
+      "messageCount": 0,
+      "lastScannedAt": "2026-10-02T17:27:14.076Z",
+      "latestSeenAt": null,
+      "contentHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  }
+}

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>WeMM-Embedding 小白指南</title>
+<style>
+:root{
+  --c1:#FF4D6D; --c2:#FF8F00; --c3:#FFC300; --c4:#06D6A0;
+  --c5:#118AB2; --c6:#8338EC; --ink:#1B1B3A; --paper:#FFFDF7;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --ink:#F0F0FF; --paper:#16162E; }
+}
+:root[data-theme="dark"]{ --ink:#F0F0FF; --paper:#16162E; }
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--paper);color:var(--ink);margin:0;line-height:1.75}
+@page{size:A4;margin:14mm}
+.hero{background:linear-gradient(135deg,#FF4D6D,#FF8F00 45%,#FFC300);color:#fff;padding:44px 34px;border-radius:0 0 34px 34px}
+.hero h1{margin:0 0 8px;font-size:34px;letter-spacing:1px}
+.hero p{margin:4px 0;font-size:15px;opacity:.95}
+.badge{display:inline-block;background:#fff;color:#D6336C;font-weight:700;border-radius:99px;padding:2px 14px;font-size:13px;margin-right:8px}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+.qcard{border-radius:18px;padding:22px 24px;margin:26px 0;break-inside:avoid;box-shadow:0 3px 14px rgba(27,27,58,.10)}
+.q1{background:#FFE9EE;border-left:12px solid var(--c1)}
+.q2{background:#FFF3E0;border-left:12px solid var(--c2)}
+.q3{background:#FFFBE0;border-left:12px solid var(--c3)}
+.q4{background:#E3FAF2;border-left:12px solid var(--c4)}
+.q5{background:#E3F3FA;border-left:12px solid var(--c5)}
+.q6{background:#F1E8FD;border-left:12px solid var(--c6)}
+.qnum{display:inline-block;min-width:46px;height:46px;line-height:46px;text-align:center;border-radius:50%;color:#fff;font-size:24px;font-weight:900;margin-right:12px;vertical-align:middle}
+.n1{background:var(--c1)}.n2{background:var(--c2)}.n3{background:#DDA400}.n4{background:var(--c4)}.n5{background:var(--c5)}.n6{background:var(--c6)}
+h2{font-size:21px;margin:0 0 10px;display:inline;vertical-align:middle}
+h3{font-size:17px;margin:18px 0 6px}
+.hl{background:linear-gradient(transparent 55%,#FFE45E 55%);font-weight:800;padding:0 3px}
+.kbox{background:#fff;border-radius:12px;padding:12px 16px;margin:12px 0;border:2px dashed #9993}
+code,pre{font-family:Consolas,"Courier New",monospace}
+pre{background:#1B1B3A;color:#E8F6FF;padding:14px 16px;border-radius:12px;overflow-x:auto;font-size:13px;line-height:1.6}
+code.ib{background:#EFEFFF;color:#B0266B;padding:1px 6px;border-radius:6px;font-size:.92em}
+table{border-collapse:collapse;width:100%;background:#fff;margin:12px 0}
+th,td{border:1px solid #CCC;padding:7px 10px;font-size:14px;text-align:left}
+th{background:linear-gradient(90deg,#06D6A0,#118AB2);color:#fff}
+tr:nth-child(even){background:#F6F6FF}
+.step{border-radius:14px;padding:16px 18px;margin:14px 0;background:#fff;border:2px solid var(--c5);break-inside:avoid}
+.step h3{margin:0 0 8px;color:var(--c5)}
+.expect{background:#E3FAF2;border-radius:10px;padding:10px 14px;margin-top:8px;border-left:8px solid var(--c4);font-size:14px}
+.warn{background:#FFF3E0;border-radius:10px;padding:10px 14px;margin:12px 0;border-left:8px solid var(--c2);font-size:14px}
+.svgbox{background:#fff;border-radius:12px;padding:8px;margin:12px 0;text-align:center}
+.toc a{display:inline-block;margin:4px 8px 4px 0;background:#fff;border-radius:99px;padding:6px 16px;text-decoration:none;color:var(--ink);font-size:14px;border:2px solid var(--c5)}
+.footer{margin-top:36px;padding:22px;background:linear-gradient(90deg,#118AB2,#8338EC);color:#fff;border-radius:18px 18px 0 0;font-size:14px}
+.big{font-size:19px;font-weight:900}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>WeMM-Embedding 小白指南</h1>
+    <p><span class="badge">腾讯微信视觉组</span><span class="badge">开源模型类</span><span class="badge">Apache 2.0</span></p>
+    <p>微信把每天调用 <b>10 亿次</b>的多模态向量模型开源了。2B 小模型打赢别人 8B，9B 登顶 MMEB-v2 榜单。</p>
+    <p style="font-size:13px;opacity:.85">学习日期：2026-10-03 ｜ 来源：https://github.com/Tencent/WeMM-Embedding ｜ 本指南含真实 GPU 推理实验</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+<div class="toc" style="margin-top:20px">
+  <b>疑问目录：</b>
+  <a href="#q1">① Embedding 模型和聊天 LLM 有什么区别？</a>
+  <a href="#q2">② "多模态嵌入"把什么放进同一空间？</a>
+  <a href="#q3">③ 微信为什么要自研 embedding？</a>
+  <a href="#q4">④ &lt;embedding&gt; token 是什么魔法？</a>
+  <a href="#q5">⑤ Matryoshka 套娃嵌入是什么？</a>
+  <a href="#q6">⑥ 它是怎么训练出来的？</a>
+  <a href="#q7">⑦ 混合注意力架构是什么？</a>
+  <a href="#q8">⑧ MMEB 榜单和 80.6 分意味着什么？</a>
+  <a href="#q9">⑨ 和 CLIP 有什么关系？</a>
+  <a href="#q10">⑩ 怎么部署和选型？</a>
+  <a href="#exp">动手实验</a>
+</div>
+
+<!-- ============ Q1 ============ -->
+<div class="qcard q1" id="q1">
+<span class="qnum n1">1</span><h2>Embedding 模型和聊天 LLM 有什么区别？</h2>
+<p>聊天 LLM（比如你常用的对话模型）的工作是<b>续写</b>：给前半句，猜下一个词，一个词一个词往外蹦。Embedding 模型的工作是<b>打分坐标</b>：把整段内容"压"成一个固定长度的数字向量，用来衡量两段内容像不像。</p>
+<div class="svgbox">
+<svg width="720" height="190" viewBox="0 0 720 190" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="20" width="300" height="150" rx="14" fill="#FFE9EE" stroke="#FF4D6D" stroke-width="3"/>
+  <text x="160" y="50" text-anchor="middle" font-size="17" font-weight="bold" fill="#C9184A">聊天 LLM</text>
+  <text x="160" y="80" text-anchor="middle" font-size="13" fill="#333">输入：一句话的开头</text>
+  <text x="160" y="105" text-anchor="middle" font-size="13" fill="#333">输出：下一个词的概率</text>
+  <text x="160" y="135" text-anchor="middle" font-size="13" fill="#C9184A">用途：对话、写作、推理</text>
+  <rect x="410" y="20" width="300" height="150" rx="14" fill="#E3FAF2" stroke="#06D6A0" stroke-width="3"/>
+  <text x="560" y="50" text-anchor="middle" font-size="17" font-weight="bold" fill="#087F5B">Embedding 模型</text>
+  <text x="560" y="80" text-anchor="middle" font-size="13" fill="#333">输入：一整段内容</text>
+  <text x="560" y="105" text-anchor="middle" font-size="13" fill="#333">输出：一个 2048 维向量</text>
+  <text x="560" y="135" text-anchor="middle" font-size="13" fill="#087F5B">用途：搜索、推荐、查重、RAG</text>
+  <text x="360" y="105" text-anchor="middle" font-size="26">≠</text>
+</svg>
+</div>
+<p>知识库里我们已经学过<a >[[向量与Embedding]]</a>：向量是内容在"意义空间"里的坐标，两个向量接近 = 两段内容语义相近（度量用<a >[[余弦相似度]]</a>）。WeMM-Embedding 就是生产这种坐标的模型，只不过它生产坐标的原料<b>不只是文字</b>。</p>
+<div class="kbox"><span class="hl">一句话：LLM 负责"说"，Embedding 模型负责"找"。</span>微信的搜索、视频号推荐、朋友圈检索，底层全是"找"，这就是这个模型的本职。</div>
+</div>
+
+<!-- ============ Q2 ============ -->
+<div class="qcard q2" id="q2">
+<span class="qnum n2">2</span><h2>"多模态嵌入"到底把什么放进同一个空间？</h2>
+<p>普通文本 embedding 模型只能给<b>文字</b>发坐标。WeMM-Embedding 的野心是：<span class="hl">文字、图片、视频、视觉文档（截图/扫描件），甚至图文交错的混合内容，全部编码进同一个向量空间</span>。同空间 = 可以直接算相似度，于是"用一句话搜一张图""用一张商品图搜同款视频"才成立。</p>
+<div class="svgbox">
+<svg width="720" height="240" viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="15" width="130" height="46" rx="10" fill="#118AB2"/>
+  <text x="85" y="44" text-anchor="middle" font-size="14" fill="#fff">文字 "红裙子"</text>
+  <rect x="20" y="80" width="130" height="46" rx="10" fill="#06D6A0"/>
+  <text x="85" y="109" text-anchor="middle" font-size="14" fill="#fff">图片 红裙照片</text>
+  <rect x="20" y="145" width="130" height="46" rx="10" fill="#8338EC"/>
+  <text x="85" y="174" text-anchor="middle" font-size="14" fill="#fff">视频 走秀片段</text>
+  <rect x="20" y="205" width="130" height="30" rx="10" fill="#FF8F00"/>
+  <text x="85" y="225" text-anchor="middle" font-size="13" fill="#fff">文档 商品截图</text>
+  <line x1="150" y1="38" x2="290" y2="110" stroke="#999" stroke-width="2" stroke-dasharray="5 4"/>
+  <line x1="150" y1="103" x2="290" y2="118" stroke="#999" stroke-width="2" stroke-dasharray="5 4"/>
+  <line x1="150" y1="168" x2="290" y2="126" stroke="#999" stroke-width="2" stroke-dasharray="5 4"/>
+  <line x1="150" y1="220" x2="290" y2="134" stroke="#999" stroke-width="2" stroke-dasharray="5 4"/>
+  <rect x="290" y="80" width="160" height="80" rx="14" fill="#1B1B3A"/>
+  <text x="370" y="115" text-anchor="middle" font-size="15" font-weight="bold" fill="#FFE45E">WeMM-Embedding</text>
+  <text x="370" y="140" text-anchor="middle" font-size="12" fill="#BEE3F8">同一个向量空间</text>
+  <line x1="450" y1="110" x2="560" y2="60" stroke="#06D6A0" stroke-width="2" stroke-dasharray="5 4"/>
+  <line x1="450" y1="125" x2="560" y2="130" stroke="#06D6A0" stroke-width="2" stroke-dasharray="5 4"/>
+  <line x1="450" y1="140" x2="560" y2="190" stroke="#06D6A0" stroke-width="2" stroke-dasharray="5 4"/>
+  <circle cx="580" cy="55" r="7" fill="#118AB2"/><circle cx="600" cy="62" r="7" fill="#06D6A0"/><circle cx="592" cy="45" r="7" fill="#8338EC"/>
+  <circle cx="585" cy="128" r="7" fill="#FF8F00"/><circle cx="603" cy="122" r="7" fill="#118AB2"/>
+  <circle cx="578" cy="192" r="7" fill="#06D6A0"/><circle cx="596" cy="186" r="7" fill="#FF4D6D"/>
+  <text x="640" y="60" font-size="12" fill="#333">红裙子们</text>
+  <text x="640" y="130" font-size="12" fill="#333">衬衫们</text>
+  <text x="640" y="195" font-size="12" fill="#333">图表们</text>
+</svg>
+</div>
+<p>落回术语：模型给输入末尾塞一个特殊占位符 <code class="ib">&lt;embedding&gt;</code>，取它位置的最后一层隐状态，再做 L2 归一化，得到的单位向量就是这段内容的"坐标"。<b>暂不支持音频</b>（MMEB-v3 音频任务得分 0.0）。</p>
+</div>
+
+<!-- ============ Q3 ============ -->
+<div class="qcard q3" id="q3">
+<span class="qnum n3">3</span><h2>为什么微信要自己做 Embedding 模型？</h2>
+<p>讲个故事：你是微信搜索的工程师。用户在微信里搜"上次朋友发的那只橘猫表情包"，这查询里<b>既没有关键词也没有图片</b>——传统倒排索引（按关键词匹配）直接傻眼。你需要的是把"橘猫表情包"的语义坐标和朋友圈里千万张图的坐标比距离。每天有 <span class="hl">10 亿量级</span>次这样的调用，用别人的闭源 API 意味着数据出域 + 天价账单 + 延迟不可控。</p>
+<table>
+<tr><th>动机</th><th>说明</th></tr>
+<tr><td>成本</td><td>10 亿次/天的调用量，自托管 2B 模型是数量级的成本下降</td></tr>
+<tr><td>数据飞轮</td><td>微信的点击/停留/转发行为是天然的"相关性标注"，外人拿不到</td></tr>
+<tr><td>业务定制</td><td>视频号、公众号、朋友圈、电商，全是图文视频混合内容，通用文本模型搞不定</td></tr>
+<tr><td>可控性</td><td>模型自己训，维度、截断、部署方式全部自己说了算</td></tr>
+</table>
+<div class="kbox"><span class="hl">敢上线才是真能打</span>：这个模型不是论文刷分产物——它已经在微信真实流量里跑了，内部 26 项任务基准上 2B 版从 60.9 提到 72.0，14 项线上 A/B 实验一致正向。开源等于把经过生产验证的东西交出来。</div>
+</div>
+
+<!-- ============ Q4 ============ -->
+<div class="qcard q4" id="q4">
+<span class="qnum n4">4</span><h2>&lt;embedding&gt; token 是什么魔法？</h2>
+<p>没有魔法，是个精巧的工程技巧。模型本体是 Qwen3.5 多模态架构（平时用来"续写"的那种），但 embedding 模型不需要它续写，只需要一个"总结位"。于是在输入末尾放一个专用 token <code class="ib">&lt;embedding&gt;</code>，它的位置在最后一层 transformer 输出的隐状态，被训练成了<span class="hl">整段输入语义的压缩摘要</span>。取这一个位置、丢弃其余所有位置的输出，就是 embedding。</p>
+<div class="svgbox">
+<svg width="720" height="200" viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+  <g font-size="12" text-anchor="middle">
+    <rect x="15" y="60" width="60" height="36" rx="8" fill="#118AB2"/><text x="45" y="83" fill="#fff">&lt;|im_start|&gt;</text>
+    <rect x="85" y="60" width="50" height="36" rx="8" fill="#118AB2"/><text x="110" y="83" fill="#fff">user</text>
+    <rect x="145" y="60" width="90" height="36" rx="8" fill="#06D6A0"/><text x="190" y="83" fill="#fff">图片→token×N</text>
+    <rect x="245" y="60" width="120" height="36" rx="8" fill="#06D6A0"/><text x="305" y="83" fill="#fff">"a red dress"</text>
+    <rect x="375" y="60" width="70" height="36" rx="8" fill="#118AB2"/><text x="410" y="83" fill="#fff">&lt;|im_end|&gt;</text>
+    <rect x="455" y="45" width="100" height="66" rx="10" fill="#FF4D6D"/>
+    <text x="505" y="74" fill="#fff" font-weight="bold">&lt;embedding&gt;</text>
+    <text x="505" y="94" fill="#FFE0E6" font-size="11">只取这一位！</text>
+  </g>
+  <rect x="15" y="125" width="690" height="55" rx="12" fill="#1B1B3A"/>
+  <text x="360" y="150" text-anchor="middle" font-size="13" fill="#BEE3F8">24 层 transformer 前向传播（3 层线性注意力 + 1 层全注意力 循环 ×6）</text>
+  <text x="360" y="170" text-anchor="middle" font-size="13" fill="#FFE45E">最后一层在 &lt;embedding&gt; 位置的隐状态 → L2 归一化 → 2048 维单位向量</text>
+  <text x="15" y="35" font-size="13" fill="#555">真实聊天模板（embedding_chat_template.jinja）：&lt;|im_start|&gt;user\n&lt;|vision_start|&gt;&lt;|image_pad|&gt;&lt;|vision_end|&gt; 描述文字 &lt;|im_end|&gt; &lt;embedding&gt;</text>
+</svg>
+</div>
+<p>真实的模板文件（从 HuggingFace 权重仓库下载分析所得）在每条消息末尾拼接 <code class="ib">&lt;embedding&gt;</code>；vLLM 部署时也靠专用 chat template 保证输入格式一致。<b>输入格式错 = 坐标系歪</b>，这是所有 embedding 模型的铁律（知识库 [[向量与Embedding]] 已强调"入库查询必须同一模型"，这里再加半句：同一模型也要同一模板）。</p>
+</div>
+
+<!-- ============ Q5 ============ -->
+<div class="qcard q5" id="q5">
+<span class="qnum n5">5</span><h2>Matryoshka 套娃嵌入是什么？为什么截断前 256 维还能用？</h2>
+<p>普通 embedding 的维度是定死的（比如 512 维），存进去多少就是多少。Matryoshka（俄语"套娃"）表示学习让<b>一个向量的前 64 维、前 256 维、前 512 维……每一截都是一份完整可用的 embedding</b>，像套娃一样一层包一层。</p>
+<div class="svgbox">
+<svg width="720" height="170" viewBox="0 0 720 170" xmlns="http://www.w3.org/2000/svg">
+  <g text-anchor="middle" font-size="12">
+    <rect x="30" y="30" width="660" height="60" rx="10" fill="#E3F3FA" stroke="#118AB2" stroke-width="2"/>
+    <text x="360" y="55" font-size="14" font-weight="bold" fill="#0B5E7A">完整向量 2048 维（WeMM-Embedding-2B 最大支持）</text>
+    <text x="360" y="76" fill="#555">dim 0 ────────────────────────────────────────────── dim 2047</text>
+    <rect x="30" y="105" width="140" height="46" rx="8" fill="#8338EC"/><text x="100" y="133" fill="#fff" font-weight="bold">64 维 ≈ 3%</text>
+    <rect x="180" y="105" width="130" height="46" rx="8" fill="#118AB2"/><text x="245" y="133" fill="#fff" font-weight="bold">256 维 12.5%</text>
+    <rect x="320" y="105" width="120" height="46" rx="8" fill="#06D6A0"/><text x="380" y="133" fill="#fff" font-weight="bold">512 维 25%</text>
+    <rect x="450" y="105" width="110" height="46" rx="8" fill="#FF8F00"/><text x="505" y="133" fill="#fff" font-weight="bold">1024 维 50%</text>
+    <rect x="570" y="105" width="120" height="46" rx="8" fill="#FF4D6D"/><text x="630" y="133" fill="#fff" font-weight="bold">2048 维 100%</text>
+    <text x="100" y="165" fill="#8338EC">手机端/缓存</text>
+    <text x="245" y="165" fill="#118AB2">作者称保留 98.7% 性能</text>
+    <text x="380" y="165" fill="#087F5B">省一半存储</text>
+    <text x="505" y="165" fill="#B35C00">平衡档</text>
+    <text x="630" y="165" fill="#C9184A">满血档</text>
+  </g>
+</svg>
+</div>
+<p>实现简单到离谱：训练时让<b>每一个前缀维度</b>都参与损失（每个截断头都要能独立完成检索），推理时只要 <code class="ib">normalize(emb[:d])</code>——截断 + 重新归一化，两行代码。代价是同样维数下略低于专用维度模型的上限，换来的是<span class="hl">存储/带宽/延迟按维度比例自由换挡</span>：10 亿次调用场景下，256 维比 2048 维省 8 倍内存与传输。</p>
+<div class="warn">注意：论文称 2B 模型 256 维保留 98.7% 图像/视频性能是<b>作者自评</b>，我们的实验（见文末）会在真实小图库上验证截断后的排序稳定性。</div>
+</div>
+
+<!-- ============ Q6 ============ -->
+<div class="qcard q6" id="q6">
+<span class="qnum n6">6</span><h2>它是怎么训练出来的？</h2>
+<p>技术报告给出的配方是<b>两阶段</b>：</p>
+<table>
+<tr><th>阶段</th><th>干什么</th><th>类比</th></tr>
+<tr><td>① 大规模多模态对齐</td><td>海量图文/视频对，把不同模态的语义拉到同一个空间（对比学习：正样本对靠近、负样本对推开）</td><td>先"混个脸熟"：见过互联网上成对的图和描述</td></tr>
+<tr><td>② 精选数据精炼</td><td>curated 数据 + 细粒度相关性监督 + <b>跨尺度知识迁移</b>（大模型教小模型）</td><td>再"名师补课"：用难例和 9B 老师的输出来打磨 2B</td></tr>
+</table>
+<p><b>对比学习</b>（InfoNCE）是核心机制：一个 batch 里"查询-目标"是拉手走近的一对，batch 里其他所有样本都是推开的反例（in-batch negatives）。batch 越大，负例越多，坐标系分得越开——这也是 embedding 模型训练的显存大头。<b>跨尺度知识迁移</b>解释了为什么 2B 能打 8B：小模型蒸馏大模型的对齐信号，等于站在老师肩膀上答题。</p>
+<div class="kbox"><span class="hl">新术语备忘</span>：对比学习 = "拉正推负"的训练法；in-batch negatives = 同批次其他样本自动充当反例；蒸馏 = 小模型模仿大模型输出。</div>
+</div>
+
+<!-- ============ Q7 ============ -->
+<div class="qcard q1" id="q7">
+<span class="qnum n1">7</span><h2>混合注意力架构（3 层线性 + 1 层全注意力）是什么？</h2>
+<p>从 config.json 挖出来的真实架构：24 层里每 4 层一组——<b>3 层线性注意力 + 1 层全注意力</b>循环 6 次。这是 Qwen3.5 世代的混合设计。</p>
+<table>
+<tr><th>层类型</th><th>机制</th><th>优点</th><th>代价</th></tr>
+<tr><td>线性注意力 ×18</td><td>把"每个词问其他所有词"改写成递推形式（类 RNN），状态固定大小</td><td>长序列推理快、显存恒定</td><td>表达力弱，容易"忘记"远处细节</td></tr>
+<tr><td>全注意力 ×6</td><td>经典 softmax(QKᵀ)V，每个词真正"看到"所有词</td><td>表达力强，精确检索</td><td>随序列变长平方变慢</td></tr>
+</table>
+<p>直觉：<span class="hl">线性注意力像速读（扫大意），全注意力像精读（抠细节）</span>。视频动辄几百帧、文档动辄几千 token，纯全注意力跑不动；纯线性注意力精度掉。3:1 混搭让模型"大部分时候速读、每隔几层精读一次"。再配 GQA（8 个查询头只配 2 个键值头）进一步压显存。工程味十足——这是给 10 亿次/天调用量设计的架构，不是给论文画图设计的。</p>
+<div class="svgbox">
+<svg width="720" height="120" viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg">
+  <g text-anchor="middle" font-size="12">
+    <rect x="20" y="30" width="90" height="44" rx="8" fill="#06D6A0"/><text x="65" y="49" fill="#fff">线性</text><text x="65" y="65" fill="#fff">速读</text>
+    <rect x="115" y="30" width="90" height="44" rx="8" fill="#06D6A0"/><text x="160" y="49" fill="#fff">线性</text><text x="160" y="65" fill="#fff">速读</text>
+    <rect x="210" y="30" width="90" height="44" rx="8" fill="#06D6A0"/><text x="255" y="49" fill="#fff">线性</text><text x="255" y="65" fill="#fff">速读</text>
+    <rect x="305" y="20" width="90" height="64" rx="8" fill="#FF4D6D"/><text x="350" y="44" fill="#fff" font-weight="bold">全注意力</text><text x="350" y="62" fill="#fff">精读</text>
+    <rect x="420" y="30" width="90" height="44" rx="8" fill="#06D6A0"/><text x="465" y="49" fill="#fff">线性</text><text x="465" y="65" fill="#fff">速读</text>
+    <rect x="515" y="30" width="90" height="44" rx="8" fill="#06D6A0"/><text x="560" y="49" fill="#fff">线性</text><text x="560" y="65" fill="#fff">速读</text>
+    <rect x="610" y="30" width="90" height="44" rx="8" fill="#06D6A0"/><text x="655" y="49" fill="#fff">线性</text><text x="655" y="65" fill="#fff">速读</text>
+    <text x="360" y="105" fill="#555">……循环 6 组共 24 层 ｜ GQA 8查询头/2键值头 ｜ 词表 248078 ｜ 最大上下文 262144 token</text>
+  </g>
+</svg>
+</div>
+</div>
+
+<!-- ============ Q8 ============ -->
+<div class="qcard q2" id="q8">
+<span class="qnum n2">8</span><h2>MMEB 榜单和 80.6 分意味着什么？</h2>
+<p>MMEB（Massive Multimodal Embedding Benchmark）是检验多模态 embedding 模型的标准考场：v2 含 <b>78 个数据集</b>（图像任务看 Hit@1、视频任务看 Hit@1、视觉文档任务看 NDCG@5），v3 扩到 <b>190 个任务</b>（再加纯文本、Agent 任务、多轮跨模态检索 MCMR）。</p>
+<table>
+<tr><th>模型</th><th>规模</th><th>MMEB-v2 均分</th><th>看点</th></tr>
+<tr><td>VLM2Vec</td><td>2B</td><td>47.8</td><td>前辈基线</td></tr>
+<tr><td>Qwen3-VL-Embedding</td><td>2B</td><td>73.2</td><td>同门强基线</td></tr>
+<tr><td style="color:#C9184A;font-weight:bold">WeMM-Embedding</td><td style="color:#C9184A;font-weight:bold">2B</td><td style="color:#C9184a;font-weight:bold">77.9</td><td style="color:#C9184A;font-weight:bold">2B 打赢所有人 8B</td></tr>
+<tr><td>Qwen3-VL-Embedding</td><td>8B</td><td>77.8</td><td>被 2B 反超的那一位</td></tr>
+<tr><td style="color:#087F5B;font-weight:bold">WeMM-Embedding</td><td style="color:#087F5B;font-weight:bold">9B</td><td style="color:#087F5B;font-weight:bold">80.6</td><td style="color:#087F5B;font-weight:bold">v2 榜首（超过全部开源+闭源提交）</td></tr>
+</table>
+<div class="warn">读榜三要诀：① DME-Small/Medium 是<b>闭源提交</b>（没放权重，只能看分不能复现）；② 分数是<b>作者自评</b>，仓库评估代码是对 VLM2Vec 官方管线的最小改动，社区独立复现尚少；③ 均分高不等于每个子任务都赢——选型要按自己的任务类型看分项。</div>
+</div>
+
+<!-- ============ Q9 ============ -->
+<div class="qcard q3" id="q9">
+<span class="qnum n3">9</span><h2>它和 CLIP 有什么关系？</h2>
+<p>CLIP 是"多模态向量空间"的祖师爷（2021 年 OpenAI），双塔结构：一个图文对，各自编码、拉近。但 CLIP 时代的用法偏"分类/粗检索"，且图文两端是<b>两个独立编码器</b>。WeMM 这一代（VLM2Vec/GME/Qwen3-VL-Embedding/WeMM）是<b>单塔生成式 VLM 改造</b>：用完整的 Qwen3.5 多模态大模型，所有模态在同一个 transformer 里互相看（交错注意力），表达力强一代人。代价是重——所以这代模型全部在研究怎么蒸馏、怎么混合注意力、怎么 Matryoshka 省成本。</p>
+<table>
+<tr><th></th><th>CLIP 时代</th><th>WeMM 时代（单塔 VLM embedding）</th></tr>
+<tr><td>结构</td><td>图文双塔，各自编码</td><td>单塔，图文在同一个 transformer 里混合</td></tr>
+<tr><td>支持模态</td><td>图 + 文</td><td>文/图/视频/文档/交错混合</td></tr>
+<tr><td>典型用途</td><td>粗分类、以图搜图</td><td>精细检索、推荐、RAG、Agent 记忆</td></tr>
+<tr><td>成本</td><td>轻</td><td>重（所以堆满蒸馏/Matryoshka/混合注意力）</td></tr>
+</table>
+</div>
+
+<!-- ============ Q10 ============ -->
+<div class="qcard q4" id="q10">
+<span class="qnum n4">10</span><h2>怎么部署和选型？</h2>
+<table>
+<tr><th>版本</th><th>Matryoshka 维度</th><th>适合</th></tr>
+<tr><td>2B</td><td>64~2048</td><td>性价比之王，单张消费级显卡可跑（本实验 RTX 4070 实测）</td></tr>
+<tr><td>4B</td><td>64~2560</td><td>质量/成本平衡</td></tr>
+<tr><td>9B</td><td>64~4096</td><td>极限质量，v2 榜首</td></tr>
+</table>
+<p>部署两条路：① <b>库内调用</b>——transformers 或 sentence-transformers 直接 <code class="ib">model.embedding(...)</code>；② <b>服务化</b>——vLLM <code class="ib">--runner pooling</code> 或 SGLang <code class="ib">--is-embedding</code>，对外开 OpenAI 兼容接口，多卡多节点扩展（官方评估代码就是 torchrun 多机多卡跑的）。License 是 Apache 2.0，<span class="hl">可自由商用</span>。</p>
+</div>
+
+<!-- ============ 能力清单 ============ -->
+<div class="qcard q5">
+<span class="qnum n5">★</span><h2>这个项目给我什么（能力清单）</h2>
+<ul class="big">
+<li><b>一句搜一切</b>：文字查图片/视频/文档截图，跨模态检索开箱即用</li>
+<li><b>同款检索</b>：以图搜图、以视频搜视频（电商找同款、版权查重）</li>
+<li><b>免费商用</b>：Apache 2.0 + 权重全开，替代闭源 embedding API 省真金白银</li>
+<li><b>维度自由换挡</b>：Matryoshka 让存储/带宽按 64~4096 维自由缩放，亿级调用场景利器</li>
+<li><b>给自己的 RAG 升级</b>：知识库 [[RAG检索增强生成]] 目前只接文本 embedding，WeMM 让"搜截图/搜图表"成为可能</li>
+</ul>
+</div>
+
+<!-- ============ 实验 ============ -->
+<div class="qcard q6" id="exp">
+<span class="qnum n6">实</span><h2>动手实验：RTX 4070 真实跑 2B 模型做图文互检</h2>
+<p><b>实验环境</b>：Windows 11 + Python 3.14 + RTX 4070 12GB VRAM + 64GB RAM。模型权重 5.2GB（bf16），从 hf-mirror 镜像下载。</p>
+
+<div class="step">
+<h3>步骤 0：安装依赖</h3>
+<p>目的：装 CUDA 版 torch 和模型要求的库。</p>
+<pre>pip install torch --index-url https://download.pytorch.org/whl/cu128
+pip install transformers==5.2.0 "qwen-vl-utils[decord]==0.0.14" sentence-transformers==5.7.0 accelerate</pre>
+<p>验证：</p>
+<pre>python -c "import torch; print(torch.__version__, torch.cuda.is_available())"</pre>
+<div class="expect">✅ 预期结果：打印 2.x.x+cu128 True</div>
+</div>
+
+<div class="step">
+<h3>步骤 1：下载模型文件</h3>
+<p>目的：拿到 config/tokenizer/模板小文件 + 5.2GB 权重。官方 resolve 地址在国内可能很慢，推荐 hf-mirror。</p>
+<pre>cd exercise/model
+for f in config.json tokenizer.json tokenizer_config.json processor_config.json \
+         embedding_chat_template.jinja chat_template.jinja \
+         modeling_wemm_embedding.py generation_config.json; do
+  curl -sL -o $f "https://hf-mirror.com/tencent/WeMM-Embedding-2B/resolve/main/$f"
+done
+curl -sL -o model.safetensors "https://hf-mirror.com/tencent/WeMM-Embedding-2B/resolve/main/model.safetensors"</pre>
+<div class="expect">✅ 预期结果：model 目录下 13 个文件，model.safetensors 约 5.2GB</div>
+</div>
+
+<div class="step">
+<h3>步骤 2：跑多模态检索 + Matryoshka 截断实验</h3>
+<p>目的：5 张真实图片做图库，5 条文本查询做检索，验证"文字能搜对图"；再把向量截断到 64~2048 维，看 Top-1 是否稳定（验证 Matryoshka 作者声称的 256 维≈满血）。</p>
+<pre>python exercise/retrieval_demo.py --model exercise/model --device cuda</pre>
+<div class="expect">✅ 预期结果：每张图编码后 L2 范数 = 1.0（归一化生效）；文本查询 Top-1 与图片语义吻合；截断维度间 Top-1 基本稳定。</div>
+</div>
+
+<h3>真实运行输出</h3>
+<pre id="real-output">__EXPERIMENT_OUTPUT__</pre>
+
+<div class="warn"><b>诚实记录限制</b>：① 本实验只有 5 张图的小图库，验证"排序方向正确"，不构成对 MMEB 78 数据集成绩的复现；② 论文分数为作者自评；③ 音频模态不支持；④ 4B/9B 未实测（12GB VRAM 跑 9B bf16 需量化）。</div>
+</div>
+
+<div class="footer">
+<b>本指南小结</b>：WeMM-Embedding = 微信生产环境验证过的 Qwen3.5 单塔多模态 embedding 模型，靠 &lt;embedding&gt; token 抽向量、Matryoshka 省成本、混合注意力扛长序列、蒸馏让小模型打大模型。2B 版消费级显卡可跑，Apache 2.0 免费商用。概念已入库：[[多模态嵌入模型]]、[[Matryoshka套娃嵌入]]、[[对比学习]]、[[混合线性注意力]]。
+</div>
+
+</div>
+</body>
+</html>

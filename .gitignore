@@ -25,3 +25,8 @@ tools/.shiyi_token
 
 # zoetrope 工具二进制（可从 GitHub Releases 重新下载）
 zoetrope/bin/
+
+# 模型权重分卷与本地大模型文件（体积超 GitHub 限制，可重新下载）
+wemm-embedding/exercise/model/part_*
+memmy/exercise/*.gguf
+memmy/exercise/*.sqlite*

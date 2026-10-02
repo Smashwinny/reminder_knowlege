@@ -1,0 +1,9 @@
+{
+  "pid": 29052,
+  "endpoint": "http://127.0.0.1:18960",
+  "serviceVersion": "2.1.3",
+  "protocolVersion": 1,
+  "configPath": "F:\\reminder\\memmy\\exercise\\config.yaml",
+  "sqlitePath": "F:/reminder/memmy/exercise/memory.sqlite",
+  "startedAt": "2026-10-02T17:22:10.307Z"
+}
