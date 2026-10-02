@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>小小东生图Skills小白指南</title>
+<style>
+:root{
+  --coral:#FF5A5F; --orange:#FF9F1C; --teal:#00B8A9; --blue:#2E5BFF;
+  --purple:#9B5DE5; --pink:#F15BB5; --yellow:#FEE440; --ink:#1A1A2E;
+  --paper:#FFF9F0; --card:#FFFFFF;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--paper); color:var(--ink); line-height:1.75; }
+@page{ size:A4; margin:14mm; }
+.cover{ background:linear-gradient(135deg,#FF5A5F 0%,#FF9F1C 45%,#FEE440 100%); border-radius:24px; padding:46px 40px; color:#fff; margin-bottom:26px; box-shadow:0 10px 30px rgba(255,90,95,.35); }
+.cover h1{ font-size:34px; line-height:1.3; text-shadow:2px 2px 0 rgba(0,0,0,.18); }
+.cover .sub{ font-size:16px; margin-top:12px; background:rgba(0,0,0,.22); display:inline-block; padding:6px 16px; border-radius:999px; }
+.cover .meta{ margin-top:18px; font-size:13px; opacity:.92; }
+.card{ background:var(--card); border-radius:18px; padding:26px 28px; margin:22px 0; box-shadow:0 4px 16px rgba(26,26,46,.08); border-left:10px solid var(--coral); break-inside:avoid; page-break-inside:avoid; }
+.card.teal{border-left-color:var(--teal);} .card.blue{border-left-color:var(--blue);}
+.card.purple{border-left-color:var(--purple);} .card.orange{border-left-color:var(--orange);}
+.qnum{ display:inline-block; font-size:30px; font-weight:900; color:#fff; background:var(--coral); border-radius:14px; padding:2px 16px; margin-bottom:10px; box-shadow:3px 3px 0 var(--yellow); }
+.teal .qnum{background:var(--teal);} .blue .qnum{background:var(--blue);} .purple .qnum{background:var(--purple);} .orange .qnum{background:var(--orange);}
+h2{ font-size:22px; margin-bottom:10px; }
+h3{ font-size:17px; margin:14px 0 6px; color:var(--blue); }
+.hl{ background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:800; padding:0 3px; }
+.big{ font-size:19px; font-weight:900; color:var(--coral); }
+code{ background:#F0F4FF; color:var(--blue); padding:2px 8px; border-radius:6px; font-family:Consolas,monospace; font-size:13px; }
+pre{ background:var(--ink); color:#7CFFCB; padding:16px 18px; border-radius:12px; font-family:Consolas,monospace; font-size:12.5px; line-height:1.6; overflow-x:auto; margin:10px 0; white-space:pre-wrap; }
+pre .cm{color:#8E9AAF;}
+.okbox{ background:#E6FFF8; border:2px solid var(--teal); border-radius:12px; padding:12px 16px; margin:10px 0; font-weight:700; }
+.warnbox{ background:#FFF3E0; border:2px solid var(--orange); border-radius:12px; padding:12px 16px; margin:10px 0; }
+table{ width:100%; border-collapse:collapse; margin:12px 0; font-size:14px; }
+th{ background:var(--blue); color:#fff; padding:8px 10px; text-align:left; }
+td{ padding:7px 10px; border-bottom:2px solid #EAEAF5; }
+tr:nth-child(even) td{ background:#F6F8FF; }
+.toc{ background:linear-gradient(135deg,#2E5BFF,#9B5DE5); border-radius:18px; padding:24px 30px; color:#fff; margin:22px 0; }
+.toc ol{ margin-left:22px; columns:2; column-gap:34px; }
+.toc li{ margin:5px 0; font-size:14.5px; }
+.cap{ text-align:center; font-size:13px; color:#666; margin:6px 0 14px; }
+.step{ background:#F4FBFF; border:2px dashed var(--blue); border-radius:14px; padding:14px 18px; margin:14px 0; break-inside:avoid; page-break-inside:avoid;}
+.step .t{ font-weight:900; color:var(--blue); font-size:16px; }
+img.res{ width:100%; border-radius:14px; border:3px solid var(--yellow); }
+.tag{ display:inline-block; background:var(--purple); color:#fff; font-size:12px; padding:2px 10px; border-radius:999px; margin-left:8px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>小小东 56 个生图 Skills<br>—— 把 54 种转绘提示词装上"士兵编号"的开源军团</h1>
+  <div class="sub">小白指南 + 动手实验（全部命令实测跑通）</div>
+  <div class="meta">来源推文：x.com/xiaoxiaodong01/status/2092146590887005350 ｜ 作者 GitHub：nevertoday ｜ 学习日期：2026-10-02 ｜ 实验仓库：xxd-panel-116 / 133 / 224</div>
+</div>
+
+<div class="toc">
+<b style="font-size:18px;">疑问目录（疑问即章节）</b>
+<ol>
+<li>这条推文到底开源了什么？</li>
+<li>什么是"转绘"？和普通 AI 生图有何不同？</li>
+<li>提示词为什么要做成 Skill，而不是直接复制一段文字？</li>
+<li>"将军"和"士兵"是什么组织架构？</li>
+<li>一个士兵仓库的内部结构长什么样？</li>
+<li>"美学宪法"与"军规"的权威边界在哪？</li>
+<li>四种交付模式怎么理解？</li>
+<li>50:50 缝线为什么重要，怎么机器审计？</li>
+<li>偏好记忆机制怎么工作？</li>
+<li>图从哪来？桥接脚本与"消毒输出"设计</li>
+<li>验收门禁：成品出厂前的质检线</li>
+<li>许可与商用注意事项</li>
+<li>怎么安装和使用？</li>
+</ol>
+</div>
+
+<div class="card">
+<span class="qnum">Q1</span>
+<h2>这条推文到底开源了什么？</h2>
+<p>推主<span class="hl">小小东（GitHub: nevertoday）</span>把自己摸索出的 <span class="big">54 种"转绘"风格提示词</span>，每种打包成一个标准 <b>Agent Skill</b>，共 <span class="big">56 个开源仓库</span>（每个仓库 = 一个 Skill，编号 <code>xxd-panel-NNN</code>，类似 <code>xxd-panel-116</code>、<code>xxd-panel-224</code>），并配上一个<span class="hl">"将军"中控角色</span>统一管理——这就是推文说的事情。</p>
+<p>这些仓库不是代码库，而是<span class="hl">"给 AI 看图说话的风格配方库"</span>：每个仓库把一段精炼的中文美学提示词（"美学宪法"）+ 一套统一交付规则（"军规"）+ 3 个 Python 工具脚本，装进 SKILL.md 标准格式里。</p>
+<table>
+<tr><th>实测样例（本次克隆了 3 个代表）</th><th>风格</th><th>Star</th></tr>
+<tr><td>xxd-panel-116</td><td>浅纸粉彩涂鸦志：照片一半保留，一半转粉彩蜡笔涂鸦</td><td>40</td></tr>
+<tr><td>xxd-panel-224</td><td>瓷器碎片拼合重构：用瓷片诗意重构主体，瓷白留白</td><td>8</td></tr>
+<tr><td>xxd-panel-133</td><td>点刻版画：细密点刻 + 同色透明叠印，瑞士式留白</td><td>7</td></tr>
+</table>
+</div>
+
+<div class="card teal">
+<span class="qnum">Q2</span>
+<h2>什么是"转绘"？和普通 AI 生图有何不同？</h2>
+<p><span class="hl">转绘 = 拿一张真实照片当"底稿"，让 AI 按指定风格重新演绎它</span>（redraw / restyle）。关键在"保留与重构的对应关系"：不是天马行空地画一张新图，而是<span class="hl">先理解照片里最值得记住的主体、结构、情绪，再用风格语言重构它</span>，让人一眼看出"这就是刚才那张照片"。</p>
+<p>普通 AI 生图是"从一句话开始想象"；转绘是<span class="big">"从一张照片开始翻译"</span>——照片负责"画什么"，风格提示词负责"怎么画"。</p>
+<svg viewBox="0 0 760 150" width="100%" style="margin-top:8px;">
+  <rect x="10" y="40" width="180" height="70" rx="14" fill="#00B8A9"/>
+  <text x="100" y="72" fill="#fff" font-size="16" text-anchor="middle" font-weight="bold">真实照片</text>
+  <text x="100" y="94" fill="#E0FFFA" font-size="12" text-anchor="middle">主体/结构/色彩</text>
+  <rect x="300" y="40" width="180" height="70" rx="14" fill="#FF9F1C"/>
+  <text x="390" y="66" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">转绘提示词</text>
+  <text x="390" y="88" fill="#FFF3E0" font-size="12" text-anchor="middle">风格/材质/留白</text>
+  <rect x="580" y="40" width="170" height="70" rx="14" fill="#FF5A5F"/>
+  <text x="665" y="72" fill="#fff" font-size="16" text-anchor="middle" font-weight="bold">风格化海报</text>
+  <text x="665" y="94" fill="#FFE3E4" font-size="12" text-anchor="middle">一眼认出原照</text>
+  <path d="M195 75 L290 75" stroke="#2E5BFF" stroke-width="5" marker-end="url(#a)"/>
+  <path d="M485 75 L570 75" stroke="#2E5BFF" stroke-width="5" marker-end="url(#a)"/>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#2E5BFF"/></marker></defs>
+</svg>
+<p>实测 116 号的"美学宪法"开头即写明：上半保留原始照片，下半"先理解原照片最值得被记住的<span class="hl">核心主题、主体关系、结构走势、情绪与视觉隐喻</span>，再重构为复古纸张肌理的粉彩蜡笔涂鸦插画"。</p>
+</div>
+
+<div class="card blue">
+<span class="qnum">Q3</span>
+<h2>提示词为什么要做成 Skill，而不是直接复制一段文字？</h2>
+<p>我们知识库已学过 [[AgentSkills技能包]]：Skill 是"菜谱卡片"，一条命令安装后 AI 按需加载。这里把提示词 Skill 化的收益非常具体：</p>
+<table>
+<tr><th>散装提示词（复制粘贴）</th><th>Skill 化（本项目的做法）</th></tr>
+<tr><td>每次翻聊天记录找提示词</td><td><code>$xxd-panel-116 photo.jpg</code> 一句话调用</td></tr>
+<tr><td>参数全靠口头交代，容易漏</td><td><code>--mode --size --text --locale</code> 标准化参数</td></tr>
+<tr><td>风格会被 AI"自由发挥"改写</td><td>权威边界写死：宪法原文逐字进请求，禁止概括</td></tr>
+<tr><td>批量处理要自己写循环</td><td>目录批处理、四端壁纸是内置军规</td></tr>
+<tr><td>好不好看全靠肉眼</td><td>50:50 缝线有确定性脚本审计（见 Q8）</td></tr>
+</table>
+<p class="big">一句话：散装提示词是"一段会被遗忘和篡改的话"，Skill 化后是"一支有编制、有军规、有质检的部队"。</p>
+</div>
+
+<div class="card purple">
+<span class="qnum">Q4</span>
+<h2>"将军"和"士兵"是什么组织架构？</h2>
+<p>这是本项目最精妙的设计，仓库文档里写得明明白白：每个编号 Panel 自称 <span class="hl">Soldier（士兵）</span>，而 <code>soldier-runtime.md</code> 开头第一句就是"这是<span class="big">每个编号 Soldier 的家族运行时契约，逐字复制进每个士兵</span>"。推文的"将军"则是用户侧的中控 Agent 角色——负责派活、验收、管理整个军团。</p>
+<svg viewBox="0 0 760 260" width="100%">
+  <rect x="280" y="10" width="200" height="58" rx="14" fill="#9B5DE5"/>
+  <text x="380" y="36" fill="#fff" font-size="17" text-anchor="middle" font-weight="bold">将军（中控 Agent）</text>
+  <text x="380" y="56" fill="#EAD9FF" font-size="12" text-anchor="middle">只调度与验收，不亲自画图</text>
+  <line x1="380" y1="68" x2="380" y2="100" stroke="#9B5DE5" stroke-width="3"/>
+  <line x1="110" y1="100" x2="650" y2="100" stroke="#9B5DE5" stroke-width="3"/>
+  <g font-size="12" text-anchor="middle">
+    <rect x="30" y="110" width="150" height="56" rx="12" fill="#FF5A5F"/><text x="105" y="135" fill="#fff" font-weight="bold">士兵 116</text><text x="105" y="153" fill="#FFD9DA">粉彩涂鸦</text>
+    <rect x="200" y="110" width="150" height="56" rx="12" fill="#FF9F1C"/><text x="275" y="135" fill="#fff" font-weight="bold">士兵 224</text><text x="275" y="153" fill="#FFF3E0">瓷器碎片</text>
+    <rect x="370" y="110" width="150" height="56" rx="12" fill="#00B8A9"/><text x="445" y="135" fill="#fff" font-weight="bold">士兵 133</text><text x="445" y="153" fill="#D9FFF9">点刻版画</text>
+    <rect x="540" y="110" width="150" height="56" rx="12" fill="#2E5BFF"/><text x="615" y="135" fill="#fff" font-weight="bold">……共 56 个</text><text x="615" y="153" fill="#D9E4FF">54 种转绘风格</text>
+  </g>
+  <text x="380" y="200" font-size="13" fill="#1A1A2E" text-anchor="middle">每个士兵三件套完全一样：SKILL.md（岗位说明书）+ original-prompt（美学宪法）+ soldier-runtime（军规）</text>
+  <text x="380" y="222" font-size="13" fill="#1A1A2E" text-anchor="middle">军规逐字相同 → 士兵之间只有"宪法"不同 → 风格 56 变、行为一个样</text>
+</svg>
+<p>好处：新增第 57 种风格 = <span class="hl">写一份新宪法 + 复用全部军规</span>，将军的调度逻辑一行不用改。这与我们学过的 [[角色提示]] 一脉相承：换一份"岗位说明书"就换一个士兵，但组织纪律不变。</p>
+</div>
+
+<div class="card orange">
+<span class="qnum">Q5</span>
+<h2>一个士兵仓库的内部结构长什么样？</h2>
+<p>以 116 号实测为例（37MB，含 8 张示例图）：</p>
+<pre>xxd-panel-116/
+├── SKILL.md                  <span class="cm"># 岗位说明书：frontmatter(name/description) + 交付要求</span>
+├── agents/openai.yaml        <span class="cm"># 给 OpenAI 系 Agent 的注册卡（可隐式调用）</span>
+├── references/
+│   ├── original-prompt/zh-CN.md   <span class="cm"># ★美学宪法：运行时逐字读取，禁止概括/翻译/替换</span>
+│   ├── soldier-runtime.md         <span class="cm"># ★军规：388 行，参数/批量/审计/验收全在这</span>
+│   ├── xxd-panel-116-prompt.zh-CN.md  <span class="cm"># 交付适配说明</span>
+│   ├── runtime-preferences.md     <span class="cm"># 偏好记忆怎么用</span>
+│   └── sample-workflow.md         <span class="cm"># 示例图维护流程（非运行时依赖）</span>
+├── scripts/
+│   ├── compose_panel.py      <span class="cm"># 本地确定性排版/缝线审计（纯 Pillow）</span>
+│   ├── panel_preferences.py  <span class="cm"># 交付偏好记忆（存 JSON）</span>
+│   └── configured_imagegen.py <span class="cm"># 图像路由桥（只输出消毒结果）</span>
+└── assets/examples/          <span class="cm"># 8 张官方示例成品图</span></pre>
+<p><span class="hl">入口极小、主体待命</span>：SKILL.md 仅 21 行，只指路不讲课——这正是我们学过的 [[分层按需加载]]：小入口常驻上下文，388 行军规和宪法在要干活前才完整读入。</p>
+</div>
+
+<div class="card">
+<span class="qnum">Q6</span>
+<h2>"美学宪法"与"军规"的权威边界在哪？</h2>
+<p>军规用一整节"Authority boundary（权威边界）"把权力划死，这是防 AI"自由发挥"的关键设计：</p>
+<div class="warnbox">
+<b>宪法管什么（original-prompt/zh-CN.md，逐字进请求，禁止概括/翻译/润色/替换）：</b><br>
+主体怎么变、构图怎么摆、配色从哪来、材质纹理、留白多少、文字逻辑、禁用清单——<span class="hl">一切审美决定</span>。
+</div>
+<div class="okbox">
+<b>军规管什么（soldier-runtime.md，只准碰"交付变量"）：</b><br>
+输出模式、画布比例/像素、原图可见性、设备档位、壁纸关系、文字语言、用户的逐字文案——<span class="hl">一切物流决定</span>。
+</div>
+<p>组装顺序也写死了（军规原文）：<code>宪法全文 → 通用交付前言 → 恰好一个模式块 → 恰好一个文字块 → 用户额外要求</code>。生成前还要自检"提示词里必须恰好有一个 <code>OUTPUT MODE:</code> 行"。<span class="big">审美与物流分离、原文与运行时分离</span>——这就是为什么同一套军规能配 56 份不同的宪法。</p>
+</div>
+
+<div class="card teal">
+<span class="qnum">Q7</span>
+<h2>四种交付模式怎么理解？</h2>
+<table>
+<tr><th>模式</th><th>画面</th><th>典型用途</th></tr>
+<tr><td><code>top-bottom</code></td><td>上 50% 原照，下 50% 设计，严格对半</td><td>前后对照展示</td></tr>
+<tr><td><code>left-right</code></td><td>左 50% 原照，右 50% 设计</td><td>横版对照展示</td></tr>
+<tr><td><code>design-only</code></td><td>整张都是风格化设计，原照仅作隐形参考</td><td>直接出成品海报</td></tr>
+<tr><td><code>wallpaper-pack</code></td><td>一次出手机/iPad/电脑/手表 4 张壁纸</td><td>壁纸套装</td></tr>
+</table>
+<p>比例支持 <code>1:1 3:4 4:3 9:16 16:9 21:9</code> 等 12 种或直接给像素；文字三选一：<span class="hl">模型按宪法生成 / 用户逐字锁定 / 无文字</span>。目录当输入即为批量意图，军规要求先清点再逐个隔离生成（每张独立读宪法，绝不串味）。</p>
+</div>
+
+<div class="card blue">
+<span class="qnum">Q8</span>
+<h2>50:50 缝线为什么重要，怎么机器审计？</h2>
+<p>对照模式的核心承诺是"严格 50:50"，但生图模型常常画成 48:52 之类。军规给的答案不是"要求模型画准点"，而是<span class="hl">写一个确定性脚本当裁判</span>：<code>compose_panel.py --audit</code> 沿中轴扫描每一行的灰度跳变，找到"缝线"位置，算出它偏离中点的百分比，&lt;0.25% 判 OK，否则判 OFF 并建议"分两张生成再拼"。</p>
+<p>这正是我们学过的 [[质检Gate与自我纠错循环]] + [[确定性脚本]]：AI 负责创作，确定性脚本负责验收，不合格就回炉。</p>
+<h3>实测（本次实验真实输出）</h3>
+<pre># 正确的 50:50 合成图：
+image      1536x2048   aspect 0.750
+exact half y = 1024.0
+seam found y = 1024   (axis delta 129.1, page mean 0.4)
+offset     +0 px  =  0.00% of split axis
+verdict    OK — the split is effectively exact.
+
+# 故意做的 45:55 错位图：
+seam found y = 921   (axis delta 96.0, page mean 0.1)
+offset     -103 px  =  5.03% of split axis
+verdict    OFF — panels are 45.0% / 55.0%, not 50/50.
+           Regenerate the panels separately and compose them here.</pre>
+<img class="res" src="exercise/poster-top-bottom.png">
+<p class="cap">▲ 本次实验真实合成：上=程序生成的日落帆船"照片"，下=程序绘制的粉彩涂鸦风"设计图"（设计图为程序近似，仅作排版材料；真实使用中由生图模型按宪法生成）</p>
+</div>
+
+<div class="card purple">
+<span class="qnum">Q9</span>
+<h2>偏好记忆机制怎么工作？</h2>
+<p>每次都问"要哪种模式/比例/文字语言"很烦。<code>panel_preferences.py</code> 把<b>安全的交付偏好</b>（不含原图路径、文案、密钥）存成 JSON，下次先读它，给用户"复用 / 复用并修改 / 全新配置"三条路。实测全流程（Windows 下存 <code>%APPDATA%\xxd-panel\preferences\</code>，用环境变量重定向到实验目录避免污染真实配置）：</p>
+<pre>$ set XXD_PANEL_PREFS_DIR=exercise\prefs
+$ python scripts/panel_preferences.py load
+{"status":"missing"}                                  <span class="cm"># 第一次：没有记忆</span>
+$ python scripts/panel_preferences.py save --modes top-bottom,design-only --sizes 3:4,9:16 --text-mode prompt --locale zh-CN
+{"status":"saved","preferences":{"modes":["top-bottom","design-only"],"sizes":["3:4","9:16"],"text_mode":"prompt","locale":"zh-CN"}}
+$ python scripts/panel_preferences.py load
+{"status":"found","updated_at":"2026-10-02T14:38:03Z","preferences":{...同上...}}   <span class="cm"># 完整回读</span>
+$ python scripts/panel_preferences.py clear
+{"status":"cleared"}</pre>
+</div>
+
+<div class="card orange">
+<span class="qnum">Q10</span>
+<h2>图从哪来？桥接脚本与"消毒输出"设计</h2>
+<p>士兵自己不画也不会画——它通过 <code>configured_imagegen.py</code> 调用"宿主已配置好的生图路由"（首选 GPT Image 2，也兼容 Seedance / Nano Banana 等）。这个脚本的<span class="hl">输出纪律值得单独学习</span>：它只打印消毒后的状态（如 <code>{"ok":false,"reason":"route_not_configured"}</code>），<span class="big">绝不打印提供商名、endpoint、请求头、凭证、提示词原文</span>，禁止跟随重定向、响应限 100MB。实测本机：</p>
+<pre>$ python scripts/configured_imagegen.py probe
+{"ok":false,"phase":"route","reason":"route_not_configured"}   <span class="cm"># exit=2：本机无 Codex 路由</span></pre>
+<div class="warnbox">生图这最后一步需要用户自备图像模型路由（脚本从 ~/.codex 配置或环境变量读取）。<b>本次实验在"排版+审计+偏好"全链路上真实跑通，生图环节受限于无路由，如实记录。</b></div>
+</div>
+
+<div class="card">
+<span class="qnum">Q11</span>
+<h2>验收门禁：成品出厂前的质检线</h2>
+<p>军规末尾是一整面 <span class="hl">Acceptance gate（验收门禁）</span>，逐条核对后才许交付，摘其要害：</p>
+<ul style="margin-left:20px;">
+<li><b>新鲜性</b>：必须是当前原照的一次直出，禁止拿旧图/风格化中间产物回炉二次转绘；</li>
+<li><b>几何</b>：50:50 缝线可视正确，必要时用脚本审计；无页眉页脚第三条带；</li>
+<li><b>忠实度</b>：主体可辨认、不被无谓裁切拉伸；宪法规定的色彩/材质/留白/字体不被外层加戏；</li>
+<li><b>文字</b>：模型生成文字要"有出处"（来自画面事实或诗意非事实），用户逐字文案一个字符不改，无文字模式一个伪字都不许出现；</li>
+<li><b>元数据卫生</b>：交付前清掉 AI 生成溯源元数据（保留像素与色彩配置）。</li>
+</ul>
+<p>与我们知识库的 [[质检Gate与自我纠错循环]] 完全同构：<b>AI 生成 → 确定性/清单式检查 → 只重试失败项，绝不"加个新美学理论"去补救</b>。</p>
+</div>
+
+<div class="card teal">
+<span class="qnum">Q12</span>
+<h2>许可与商用注意事项</h2>
+<p>仓库采用 <span class="big">PolyForm Noncommercial 1.0</span>：<b>个人学习、研究、私人娱乐随便用</b>；<span class="hl">商用产品、收费交付、出售访问权不允许</span>，商用需另行取得作者书面许可。想商用某个风格，直接联系小小东谈授权，别侥幸。</p>
+</div>
+
+<div class="card blue">
+<span class="qnum">Q13</span>
+<h2>怎么安装和使用？</h2>
+<pre><span class="cm"># 安装（官方推荐，装到 Agent 的 skills 目录）</span>
+git clone https://github.com/nevertoday/xxd-panel-116.git
+npx skills add https://github.com/nevertoday/xxd-panel-116 --skill xxd-panel-116
+
+<span class="cm"># 调用示例（README 原文）</span>
+/xxd-panel-116 photo.jpg --mode top-bottom --size 3:4 --text prompt --locale zh-CN
+/xxd-panel-116 photo.jpg --mode left-right --size 16:9 --text prompt --locale en-US
+/xxd-panel-116 ./photos --mode design-only --size auto,3:4 --text prompt --locale ja-JP</pre>
+<p>安装后重启 Agent 会话，输入 <code>$xxd-panel-116</code> 即可唤起；<span class="hl">生图前需先配置好图像路由</span>（见 Q10）。本次学习中"安装到全局 skills 目录"一步因权限策略未执行，需要时可手动跑上面两条命令。</p>
+</div>
+
+<div class="card" style="border-left-color:var(--pink,#F15BB5);">
+<h2 style="color:var(--pink,#F15BB5);">这个项目给我什么能力</h2>
+<ol style="margin-left:22px; font-size:15.5px;">
+<li><b>56 种开箱即用的转绘风格</b>：粉彩涂鸦、瓷器碎片、点刻版画、刺绣章、糖霜浮雕……一键把照片变成统一美学的高级海报；</li>
+<li><b>"对照模式"讲故事</b>：50:50 原照 vs 设计对照图，适合发社交媒体展示"AI 改造前后"；</li>
+<li><b>批量+四端壁纸</b>：整个相册一次转完，顺手出手机/iPad/电脑/手表壁纸套装；</li>
+<li><b>可抄的架构范式</b>：宪法/军规分离 + 士兵/将军编制 + 确定性验收脚本——写自己的 Skill 家族（如 56 个 PPT 风格、56 个简历模板）可直接照抄这套结构；</li>
+<li><b>提示词工程教材</b>：每份宪法都是一篇"审美交付级"的提示词范文，学写提示词就该读这种"把禁止项都写满"的成品。</li>
+</ol>
+</div>
+
+<div class="card" style="border:4px solid var(--orange); border-left:10px solid var(--orange);">
+<h2>动手实验：5 步跑通士兵的确定性工具链（无需生图 API）</h2>
+<p>实验目标：不依赖任何生图模型，把 <code>xxd-panel-116</code> 的"排版 + 缝线审计 + 偏好记忆"真实跑一遍。以下命令全部实测通过（Windows 11 + Python 3.14 + Pillow 12.3）。</p>
+
+<div class="step"><div class="t">步骤 1 ｜ 克隆士兵仓库</div>
+目的：拿到工具脚本。验证：<code>xxd-panel-116\scripts\</code> 下出现 3 个 .py。
+<pre>git clone --depth 1 https://github.com/nevertoday/xxd-panel-116.git</pre>
+✅ 预期结果：目录克隆成功，含 SKILL.md / references / scripts。</div>
+
+<div class="step"><div class="t">步骤 2 ｜ 造两张测试图（3:4"照片" + 同尺寸"设计图"）</div>
+目的：没有生图模型也能练排版——自己画材料。实验材料脚本在 <code>exercise\make_test_images.py</code>。
+✅ 预期结果：生成 <code>photo.jpg</code>、<code>design.png</code>（各 1536x2048）和一张故意错位的 <code>bad-split.png</code>（45:55）。</div>
+
+<div class="step"><div class="t">步骤 3 ｜ 排版计划 + 真实合成</div>
+目的：看军规的几何约束如何落到像素。验证：输出里必须有 <code>seam at y = 1024</code>。
+<pre>python xxd-panel-116/scripts/compose_panel.py --plan --layout top-bottom --source photo.jpg --size 1536x2048
+python xxd-panel-116/scripts/compose_panel.py --source photo.jpg --design design.png --out poster-top-bottom.png --layout top-bottom --size 1536x2048</pre>
+✅ 预期结果（实测原文）：<code>wrote ...poster-top-bottom.png (1536x2048, split exactly 1024/1024)</code>。若素材比例差太多，脚本会警告裁剪比例并提示"extend the background instead of cropping this hard"。</div>
+
+<div class="step"><div class="t">步骤 4 ｜ 缝线审计：让脚本当裁判</div>
+目的：体验"确定性 Gate"。先审计好图，再审计故意错位的坏图，对比 verdict。
+<pre>python xxd-panel-116/scripts/compose_panel.py --audit poster-top-bottom.png --layout top-bottom --size 1536x2048
+python xxd-panel-116/scripts/compose_panel.py --audit bad-split.png --layout top-bottom</pre>
+✅ 预期结果：好图 <code>verdict OK — offset 0.00%</code>；坏图 <code>verdict OFF — panels are 45.0% / 55.0%</code>，并建议"Regenerate the panels separately and compose them here"。</div>
+
+<div class="step"><div class="t">步骤 5 ｜ 偏好记忆存取 + 生图路由探针</div>
+目的：体验士兵的"后勤记忆"和"消毒输出"。
+<pre>set XXD_PANEL_PREFS_DIR=%CD%\prefs
+python xxd-panel-116/scripts/panel_preferences.py save --modes top-bottom --sizes 3:4 --text-mode prompt --locale zh-CN
+python xxd-panel-116/scripts/panel_preferences.py load
+python xxd-panel-116/scripts/configured_imagegen.py probe</pre>
+✅ 预期结果：<code>save → {"status":"saved",...}</code>；<code>load → {"status":"found",...}</code>；探针在无路由机器上返回 <code>{"ok":false,"phase":"route","reason":"route_not_configured"}</code>（exit=2）——这是正常结果，不是报错。</div>
+
+<div class="okbox">全部完成标志：exercise\ 目录里有 poster-top-bottom.png（1536x2048）、poster-left-right.png（3072x2048）、prefs 目录及 5 步的真实终端输出记录。你已经跑完了这个 Skill 军团中"不画画的部分"：几何、审计、记忆、路由纪律。</div>
+</div>
+
+<div class="card purple">
+<h2>后续可深入的方向</h2>
+<ul style="margin-left:20px;">
+<li>配置一个图像路由后完整跑一次真实转绘，对照验收门禁逐条自检；</li>
+<li>仿照"宪法/军规"二分法，把自己常用的一种输出（如周报排版、PPT 配色）Skill 化，体验"加一个新士兵"的成本；</li>
+<li>读 224（瓷器碎片）与 133（点刻版画）的宪法原文，对比"材质型"与"版式型"提示词的写法差异；</li>
+<li>关注 PolyForm 许可：个人玩免费，商用先找作者授权。</li>
+</ul>
+</div>
+
+</body>
+</html>
