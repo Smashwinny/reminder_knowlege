@@ -1,0 +1,114 @@
+{
+  "score": 44,
+  "label": "Moderate AI signals",
+  "issues": [
+    {
+      "type": "tier1",
+      "text": "robust",
+      "severity": "high",
+      "suggestion": "strong, reliable, solid"
+    },
+    {
+      "type": "tier1",
+      "text": "delve",
+      "severity": "high",
+      "suggestion": "explore, dig into, look at"
+    },
+    {
+      "type": "tier1",
+      "text": "delve into",
+      "severity": "high",
+      "suggestion": "explore, dig into"
+    },
+    {
+      "type": "tier1",
+      "text": "leveraging",
+      "severity": "high",
+      "suggestion": "use"
+    },
+    {
+      "type": "transition",
+      "text": "Moreover",
+      "index": 199,
+      "severity": "medium",
+      "suggestion": null
+    },
+    {
+      "type": "chatbot",
+      "text": "I hope this helps",
+      "index": 350,
+      "severity": "critical",
+      "suggestion": null
+    },
+    {
+      "type": "hedge-stack",
+      "text": "could potentially",
+      "index": 265,
+      "severity": "high",
+      "suggestion": null
+    },
+    {
+      "type": "formulaic-opener",
+      "text": "In the rapidly evolving world of",
+      "index": 0,
+      "severity": "high",
+      "suggestion": null
+    },
+    {
+      "type": "em-dash",
+      "text": "1 em dashes in 59 words",
+      "severity": "medium",
+      "suggestion": "Replace with commas, periods, or rewrite"
+    }
+  ],
+  "stats": {
+    "wordCount": 59,
+    "tier1Count": 4,
+    "tier2Count": 0,
+    "tier2Clusters": 0,
+    "tier3Count": 0,
+    "tier3Flags": 0,
+    "patternCount": 5,
+    "contextMode": "general",
+    "contextModeFallback": null,
+    "sourceMode": "plain",
+    "maskedFrontmatter": 0,
+    "maskedHtmlComments": 0,
+    "ignoredRegions": 0,
+    "normalization": {
+      "zeroWidth": 0,
+      "homoglyph": 0,
+      "roleplay": 0
+    },
+    "quotedLines": 0,
+    "maskedQuotes": 0,
+    "unmappedHighlights": 0,
+    "denseAIVocab": false,
+    "tier1Distinct": 4
+  },
+  "document_classification": "MIXED",
+  "class_probabilities": {
+    "human": 0.32,
+    "mixed": 0.421,
+    "ai": 0.259
+  },
+  "confidence_category": "low",
+  "highlight_sentence_for_ai": [
+    {
+      "startSentence": 0,
+      "endSentence": 1,
+      "start": 0,
+      "end": 128,
+      "hitCount": 5,
+      "score": 1
+    },
+    {
+      "startSentence": 5,
+      "endSentence": 6,
+      "start": 198,
+      "end": 368,
+      "hitCount": 3,
+      "score": 0.8
+    }
+  ]
+}

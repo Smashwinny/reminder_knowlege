@@ -1,0 +1,1 @@
+The detector flagged seven patterns in our first draft. We removed the tier-1 words, cut the transition opener, and deleted the chatbot sign-off. The score dropped from 44 to 3 after one pass. Numbers come from the JSON output, not from eyeballing.

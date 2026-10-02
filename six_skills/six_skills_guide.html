@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>陈成六Skills盘点-小白指南</title>
+<style>
+  :root{
+    --pink:#FF2D78; --orange:#FF7A00; --cyan:#00A8CC; --purple:#7C3AED;
+    --green:#00B94F; --yellow:#FFD600; --blue:#2962FF; --ink:#1A1B41;
+    --bg:#FFFDF5; --card:#FFFFFF; --soft:#FFF0F5;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  @page{ size:A4; margin:12mm; }
+  body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.65; font-size:13.5px; }
+  .cover{ background:linear-gradient(135deg,#FF2D78 0%,#FF7A00 45%,#7C3AED 100%); color:#fff; border-radius:18px; padding:34px 30px; margin-bottom:22px; }
+  .cover h1{ font-size:34px; letter-spacing:1px; margin-bottom:8px; text-shadow:2px 2px 0 rgba(0,0,0,.18);}
+  .cover .sub{ font-size:16px; opacity:.95; font-weight:bold;}
+  .cover .meta{ margin-top:14px; font-size:12px; opacity:.9;}
+  .chipbar{ margin-top:16px; display:flex; flex-wrap:wrap; gap:6px;}
+  .chip{ background:rgba(255,255,255,.22); border:1.5px solid rgba(255,255,255,.65); border-radius:999px; padding:3px 12px; font-size:11.5px; font-weight:bold;}
+  .toc{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:24px;}
+  .toc a{ display:block; text-decoration:none; color:var(--ink); background:#fff; border-radius:10px; padding:8px 12px; border:2px solid var(--cyan); font-weight:bold; font-size:12.5px;}
+  .toc a b{ color:var(--pink); font-size:15px; margin-right:6px;}
+  .q{ background:var(--card); border-radius:16px; padding:20px 22px; margin-bottom:20px; border:2.5px solid var(--cyan); box-shadow:4px 4px 0 rgba(0,168,204,.18); break-inside:avoid;}
+  .q.pink{ border-color:var(--pink); box-shadow:4px 4px 0 rgba(255,45,120,.18);}
+  .q.orange{ border-color:var(--orange); box-shadow:4px 4px 0 rgba(255,122,0,.18);}
+  .q.purple{ border-color:var(--purple); box-shadow:4px 4px 0 rgba(124,58,237,.18);}
+  .q.green{ border-color:var(--green); box-shadow:4px 4px 0 rgba(0,185,79,.18);}
+  .qhead{ display:flex; align-items:flex-start; gap:14px; margin-bottom:12px;}
+  .qnum{ flex:0 0 auto; width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+         font-size:26px; font-weight:900; color:#fff; background:linear-gradient(135deg,var(--pink),var(--orange));}
+  .q.purple .qnum{ background:linear-gradient(135deg,var(--purple),var(--blue));}
+  .q.green .qnum{ background:linear-gradient(135deg,var(--green),var(--cyan));}
+  .q h2{ font-size:19px; color:var(--ink); line-height:1.35; padding-top:6px;}
+  .hl{ background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:900; padding:0 2px;}
+  .hl-pink{ background:linear-gradient(transparent 55%, #FFC1DC 55%); font-weight:900; padding:0 2px;}
+  .hl-green{ background:linear-gradient(transparent 55%, #B9F6CA 55%); font-weight:900; padding:0 2px;}
+  .term{ color:var(--blue); font-weight:bold;}
+  table{ border-collapse:collapse; width:100%; margin:10px 0; font-size:12.3px;}
+  th{ background:var(--pink); color:#fff; padding:7px 8px; text-align:left;}
+  td{ border-bottom:1.5px solid #FFD6E5; padding:6px 8px; vertical-align:top;}
+  tr:nth-child(even) td{ background:var(--soft);}
+  .tag{ display:inline-block; border-radius:6px; padding:1px 7px; font-size:11px; font-weight:bold; color:#fff;}
+  .code{ background:#1A1B41; color:#FFE082; border-radius:10px; padding:10px 14px; font-family:Consolas,monospace; font-size:12px; margin:8px 0; white-space:pre-wrap; word-break:break-all;}
+  .code .c{ color:#80CBC4;}
+  .out{ background:#E8F5E9; border:2px dashed var(--green); border-radius:10px; padding:9px 14px; font-family:Consolas,monospace; font-size:12px; margin:8px 0; color:#1B5E20; white-space:pre-wrap;}
+  .callout{ border-radius:12px; padding:12px 16px; margin:12px 0; font-size:13px;}
+  .co-warn{ background:#FFF8E1; border-left:6px solid var(--orange);}
+  .co-key{ background:#E3F2FD; border-left:6px solid var(--blue);}
+  .co-done{ background:#E8F5E9; border-left:6px solid var(--green);}
+  .step{ background:#FAFAFF; border:2px solid var(--purple); border-radius:12px; padding:12px 16px; margin:10px 0; break-inside:avoid;}
+  .step h4{ color:var(--purple); font-size:14.5px; margin-bottom:6px;}
+  .step .goal{ font-size:12px; color:#555; margin-bottom:6px;}
+  .expect{ background:#E8F5E9; border-radius:8px; border-left:5px solid var(--green); padding:7px 12px; font-size:12.3px; margin-top:8px; font-weight:bold;}
+  .svgbox{ text-align:center; margin:12px 0; break-inside:avoid;}
+  .cols{ display:flex; gap:14px; flex-wrap:wrap;}
+  .col{ flex:1 1 260px;}
+  .big{ font-size:16px; font-weight:900;}
+  .foot{ text-align:center; color:#888; font-size:11px; margin-top:18px;}
+  .stars{ color:var(--orange); font-weight:900;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>六个值得关注的 Claude Skills</h1>
+  <div class="sub">陈成推文盘点全解读 · 2 个深挖动手 + 1 个架构精读 + 3 个盘点</div>
+  <div class="meta">来源：x.com/chenchengpro/status/2095461259949052264（2026-09）&nbsp;|&nbsp;拾遗任务 d7ab71a0&nbsp;|&nbsp;2026-10-03&nbsp;|&nbsp;reminder 学习仓库</div>
+  <div class="chipbar">
+    <span class="chip">🧭 reverse-skill 39.3k★</span><span class="chip">🤝 dev-pair</span><span class="chip">📘 claude-api 官方</span>
+    <span class="chip">📊 gen-pptx</span><span class="chip">📋 implement-spec 主学</span><span class="chip">✍️ avoid-ai-writing 主学</span>
+  </div>
+</div>
+
+<div class="toc">
+  <a href="#q1"><b>Q1</b>这条推文到底盘了哪 6 个 skill？</a>
+  <a href="#q2"><b>Q2</b>skill 不就是提示词吗，凭什么值得"关注"？</a>
+  <a href="#q3"><b>Q3</b>implement-spec：一个 spec 怎么变成一屋子并行施工的 agent？</a>
+  <a href="#q4"><b>Q4</b>to-spec 模板里为什么"禁止写文件路径"？</a>
+  <a href="#q5"><b>Q5</b>avoid-ai-writing 怎么"闻"出 AI 味？</a>
+  <a href="#q6"><b>Q6</b>为什么作者反而劝你"别拿它定罪"？</a>
+  <a href="#q7"><b>Q7</b>reverse-skill：39k★ 的技能路由器怎么工作？</a>
+  <a href="#q8"><b>Q8</b>授权硬门：为什么"点名目标≠授权"？</a>
+  <a href="#q9"><b>Q9</b>dev-pair：为什么让另一个模型来挑刺？</a>
+  <a href="#q10"><b>Q10</b>盘点：gen-pptx 与官方 claude-api</a>
+  <a href="#q11"><b>Q11</b>主实验：implement-spec 微型演练场（真实跑通）</a>
+  <a href="#q12"><b>Q12</b>实验二：AI 味检测器实测 44→0（真实跑通）</a>
+  <a href="#q13"><b>Q13</b>能力清单：我能拿它们干什么？</a>
+</div>
+
+<!-- ============ Q1 ============ -->
+<div class="q pink" id="q1">
+  <div class="qhead"><div class="qnum">Q1</div><h2>这条推文到底盘了哪 6 个 skill？</h2></div>
+  <p>陈成（@chenchengpro）用一条推文列出了他最近认为<span class="hl">值得关注的 6 个 Claude skills</span>。全部核实过：6 个都是真实存在、可克隆的开源仓库：</p>
+  <table>
+    <tr><th>#</th><th>Skill</th><th>仓库</th><th>热度</th><th>一句话定位</th><th>本篇处理</th></tr>
+    <tr><td>1</td><td><b>reverse-skill</b></td><td>zhaoxuya520/reverse-skill</td><td class="stars">39.3k★</td><td>逆向/渗透安全技能<b>路由器包</b>：先路由、再授权、再干活</td><td><span class="tag" style="background:var(--purple)">架构精读</span></td></tr>
+    <tr><td>2</td><td><b>dev-pair</b></td><td>justinjohnson25600/hermes_skills/dev-pair</td><td>—</td><td>让<b>另一个 LLM</b> 当"第二双眼睛"挑刺，带硬预算</td><td><span class="tag" style="background:#78909C">盘点</span></td></tr>
+    <tr><td>3</td><td><b>claude-api</b></td><td>anthropics/skills（官方）</td><td class="stars">179k★</td><td>官方 API 参考：防模型凭<b>过时记忆</b>写错代码</td><td><span class="tag" style="background:#78909C">盘点</span></td></tr>
+    <tr><td>4</td><td><b>gen-pptx</b></td><td>JimLiu/baoyu-design</td><td class="stars">4.2k★</td><td>宝玉系：HTML 设计稿 → PPTX 成品管线</td><td><span class="tag" style="background:#78909C">盘点</span></td></tr>
+    <tr><td>5</td><td><b>implement-spec</b></td><td>mattpocock/skills（engineering）</td><td>—</td><td>spec → 工单任务图 → 并行施工 → 合并（TypeScript 圈名人的工程方法论）</td><td><span class="tag" style="background:var(--pink)">主学+实验</span></td></tr>
+    <tr><td>6</td><td><b>avoid-ai-writing</b></td><td>conorbronsdon/avoid-ai-writing</td><td class="stars">4.8k★</td><td>74 类 AI 味模式库 + 零依赖确定性检测器</td><td><span class="tag" style="background:var(--pink)">主学+实验</span></td></tr>
+  </table>
+  <div class="callout co-key">为什么这样分工？今天流水线已连学多个 skill 类项目（中医 skill、生图 skill、agent-reach……），<span class="hl">全部铺开会重复占坑</span>。所以挑<span class="hl-pink">方法论增量最大</span>的两个（implement-spec 讲"怎么组织施工"、avoid-ai-writing 讲"怎么质检文字"）深挖动手，reverse-skill 做架构精读（它的"路由器"形态最独特），其余三个盘点认识即可。</div>
+</div>
+
+<!-- ============ Q2 ============ -->
+<div class="q" id="q2">
+  <div class="qhead"><div class="qnum">Q2</div><h2>skill 不就是提示词吗，凭什么值得"关注"？</h2></div>
+  <p>对，SKILL.md 本质是一段按需加载的提示词（我们知识库已有 [[AgentSkills技能包]]）。但这 6 个展示了 skill 的<span class="hl">三种进阶形态</span>，已经远超"一段话教模型做事"：</p>
+  <table>
+    <tr><th>形态</th><th>代表</th><th>比"提示词"多出来的东西</th></tr>
+    <tr><td><b class="big" style="color:var(--pink)">编排器</b></td><td>implement-spec</td><td>指挥子代理并行干活：任务图、分支策略、合并节奏——skill 是<b>施工总指挥的作业规程</b></td></tr>
+    <tr><td><b class="big" style="color:var(--cyan)">检测器+提示词</b></td><td>avoid-ai-writing</td><td>提示词之外还带<b>可执行代码</b>：零依赖 Node 检测器、CI 门槛、引文保护校验</td></tr>
+    <tr><td><b class="big" style="color:var(--purple)">路由器+硬门</b></td><td>reverse-skill</td><td>45 个子技能 + 44 条结构化路由规则 + 授权门 + 经验回流——skill 是<b>分诊台</b>不是医生</td></tr>
+  </table>
+  <div class="callout co-warn">一个诚实的提醒：官方 claude-api skill 的价值恰恰是"反向"的——模型对 API 的记忆会过期，<span class="hl">与其信训练记忆，不如信随包分发的权威参考</span>。这也是 skill 生态存在的根本理由之一：把"会过期的知识"从模型权重里搬到仓库里，随 git 更新。</div>
+</div>
+
+<!-- ============ Q3 ============ -->
+<div class="q purple" id="q3">
+  <div class="qhead"><div class="qnum">Q3</div><h2>implement-spec：一个 spec 怎么变成一屋子并行施工的 agent？</h2></div>
+  <p>这是 Matt Pocock（Total TypeScript 作者）"Skills for Real Engineers" 系列。核心洞见：<span class="hl">工单（ticket）不是步骤清单，是带阻塞关系的任务图</span>——所以任何时刻都存在一个"没人挡路的工单"集合，术语叫 <span class="term">frontier（前沿）</span>，可以同时派给多个施工子代理。</p>
+  <div class="svgbox">
+  <svg width="640" height="270" viewBox="0 0 640 270" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7C3AED"/></marker>
+    </defs>
+    <rect x="10" y="10" width="150" height="54" rx="10" fill="#FF2D78"/>
+    <text x="85" y="32" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">spec（合同）</text>
+    <text x="85" y="50" text-anchor="middle" fill="#FFE0EC" font-size="10.5">to-spec 从对话合成</text>
+    <line x1="160" y1="37" x2="215" y2="37" stroke="#7C3AED" stroke-width="3" marker-end="url(#ar)"/>
+    <rect x="220" y="10" width="180" height="54" rx="10" fill="#7C3AED"/>
+    <text x="310" y="32" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">工单任务图</text>
+    <text x="310" y="50" text-anchor="middle" fill="#E9DCFF" font-size="10.5">T1→T2→T3 带阻塞关系</text>
+    <line x1="400" y1="37" x2="455" y2="37" stroke="#7C3AED" stroke-width="3" marker-end="url(#ar)"/>
+    <rect x="460" y="10" width="170" height="54" rx="10" fill="#00A8CC"/>
+    <text x="545" y="32" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">前沿 frontier</text>
+    <text x="545" y="50" text-anchor="middle" fill="#DFF7FF" font-size="10.5">当前可抢的工单集合</text>
+    <!-- ticket graph -->
+    <rect x="60" y="105" width="110" height="40" rx="9" fill="#00B94F"/>
+    <text x="115" y="130" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">T1 分词 ✅</text>
+    <rect x="255" y="105" width="110" height="40" rx="9" fill="#FF7A00"/>
+    <text x="310" y="130" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">T2 排行</text>
+    <rect x="450" y="105" width="110" height="40" rx="9" fill="#B0BEC5"/>
+    <text x="505" y="130" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">T3 命令行</text>
+    <line x1="170" y1="125" x2="250" y2="125" stroke="#555" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="365" y1="125" x2="445" y2="125" stroke="#555" stroke-width="2.5" marker-end="url(#ar)"/>
+    <text x="210" y="117" text-anchor="middle" font-size="10" fill="#555">阻塞</text>
+    <text x="405" y="117" text-anchor="middle" font-size="10" fill="#555">阻塞</text>
+    <rect x="60" y="175" width="500" height="70" rx="12" fill="#EDE7FF"/>
+    <text x="310" y="200" text-anchor="middle" font-size="13" font-weight="bold" fill="#4527A0">前沿随完工推进：开工时 frontier={T1}</text>
+    <text x="310" y="222" text-anchor="middle" font-size="13" font-weight="bold" fill="#4527A0">T1 完工瞬间 → frontier={T2}，T2 的施工代理立刻上场</text>
+    <text x="310" y="238" text-anchor="middle" font-size="10.5" fill="#7E57C2">每个施工代理在自己的 git worktree 分支干活 → 完工 merge 回 integration 分支 → 收尾统一 code-review</text>
+  </svg>
+  </div>
+  <ul style="margin-left:20px;">
+    <li><b>通信靠"指针"不靠转述</b>：子代理之间传递的是"去看 spec 第 X 节 / 去看某 commit"，不重复拷贝信息。</li>
+    <li><b>每个施工代理</b>先确认自己的 worktree 基于 integration 分支，用 <span class="term">tdd</span> 技能建工单，完工前先合并主干最新代码再交卷。</li>
+    <li><b>收尾</b>：全部工单闭合后统一跑 code-review，所有问题由一个施工代理一次修完。</li>
+  </ul>
+  <div class="callout co-key">和我们知识库的 [[GitWorktree并行隔离]]、[[规格书先行SpecDriven]] 完全同源——这个 skill 把两条已有概念<b>组装成了完整施工流水线</b>。</div>
+</div>
+
+<!-- ============ Q4 ============ -->
+<div class="q" id="q4">
+  <div class="qhead"><div class="qnum">Q4</div><h2>to-spec 模板里为什么"禁止写文件路径"？</h2></div>
+  <p>上游配套的 to-spec 技能规定了 spec 模板：问题陈述 / 方案 / <b>超长的用户故事清单</b> / 实现决策 / 测试决策 / 范围外。最妙的一条规矩：</p>
+  <div class="callout co-warn"><span class="hl">"不要写具体文件路径和代码片段——它们很快就会过时。"</span>&nbsp;例外：如果原型产出了比文字更精确的决策载体（状态机、schema、类型形状），可以内联，且只留"决策密集"的部分。</div>
+  <p>道理和 [[规格书先行SpecDriven]] 一脉相承：spec 要写的是<span class="hl-pink">会长期成立的"决策"</span>，不是会天天变的"位置"。另外它引入了 <span class="term">seam（接缝）</span> 概念——测试从哪里伸进去摸到代码。规矩是：<b>优先复用现有接缝、能用高层接缝就不开新的、理想接缝数是一</b>。接缝越少，测试越像"从窗外看房子"而不是"撬开每面墙检查电线"。</p>
+</div>
+
+<!-- ============ Q5 ============ -->
+<div class="q green" id="q5">
+  <div class="qhead"><div class="qnum">Q5</div><h2>avoid-ai-writing 怎么"闻"出 AI 味？</h2></div>
+  <p>这个 skill（v3.36，MIT，4.8k★）把 LLM 写作的高频套路整理成 <span class="hl">74 个模式类目</span>，并按严重度分三级：</p>
+  <table>
+    <tr><th>级别</th><th>名字</th><th>典型例子</th><th>处理建议</th></tr>
+    <tr><td><span class="tag" style="background:#D50000">P0</span></td><td>可信度杀手</td><td>"截至我最后一次更新"、聊天客套"I hope this helps!"、无出处的"专家认为"</td><td><b>立刻修</b></td></tr>
+    <tr><td><span class="tag" style="background:var(--orange)">P1</span></td><td>明显 AI 味</td><td>高频词 delve/robust/leverage；"In the rapidly evolving world of..."开场； Moreover/Furthermore 过渡；排比三连</td><td>发布前修</td></tr>
+    <tr><td><span class="tag" style="background:#9E9D24">P2</span></td><td>风格抛光</td><td>em dash 频率（>1/千词）、段落等长、The future looks bright 式结尾</td><td>有空再修</td></tr>
+  </table>
+  <p>光有目录不算本事——仓库还带一个<span class="hl-green">零依赖（只用 Node 标准库）的确定性检测器</span>，把能写成规则的子集变成可执行打分：</p>
+  <div class="svgbox">
+  <svg width="640" height="150" viewBox="0 0 640 150" xmlns="http://www.w3.org/2000/svg">
+    <rect x="15" y="45" width="120" height="60" rx="10" fill="#00A8CC"/>
+    <text x="75" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">待检文本</text>
+    <text x="75" y="90" text-anchor="middle" fill="#DFF7FF" font-size="10">txt / md</text>
+    <line x1="135" y1="75" x2="180" y2="75" stroke="#00B94F" stroke-width="3" marker-end="url(#arg)"/>
+    <defs><marker id="arg" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#00B94F"/></marker></defs>
+    <rect x="185" y="30" width="180" height="90" rx="12" fill="#1A1B41"/>
+    <text x="275" y="58" text-anchor="middle" fill="#FFE082" font-size="13" font-weight="bold">detector/patterns.js</text>
+    <text x="275" y="80" text-anchor="middle" fill="#B0BEC5" font-size="10.5">词表匹配 + 结构统计</text>
+    <text x="275" y="98" text-anchor="middle" fill="#B0BEC5" font-size="10.5">+ 语境画像(context)修正</text>
+    <line x1="365" y1="75" x2="410" y2="75" stroke="#00B94F" stroke-width="3" marker-end="url(#arg)"/>
+    <rect x="415" y="45" width="95" height="60" rx="10" fill="#FF7A00"/>
+    <text x="462" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">得分+清单</text>
+    <text x="462" y="90" text-anchor="middle" fill="#FFF3E0" font-size="10">JSON 逐条列出</text>
+    <line x1="510" y1="75" x2="552" y2="75" stroke="#00B94F" stroke-width="3" marker-end="url(#arg)"/>
+    <rect x="556" y="45" width="72" height="60" rx="10" fill="#FF2D78"/>
+    <text x="592" y="68" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">CI门槛</text>
+    <text x="592" y="86" text-anchor="middle" fill="#FFE0EC" font-size="9.5">gate/Action</text>
+  </svg>
+  </div>
+  <div class="code"><span class="c"># 一条命令体检一篇文章（零安装，Node≥18）</span>
+node repo/bin/avoid-ai-writing.js draft.txt
+<span class="c"># 还能当 pre-commit / GitHub Action 门槛：</span>
+avoid-ai-writing-gate --glob "**/*.md" --context technical   <span class="c"># 默认阈值 6 处/文件</span></div>
+  <p>阈值 6 不是拍脑袋：在 376 篇人写文档的对照语料上，阈值 0 会冤枉 <b>31.4%</b> 的人写文档，阈值 6 只冤枉 <b>1.9%</b>——<span class="hl">默认值是量出来的</span>。</p>
+</div>
+
+<!-- ============ Q6 ============ -->
+<div class="q orange" id="q6">
+  <div class="qhead"><div class="qnum">Q6</div><h2>为什么作者反而劝你"别拿它定罪"？</h2></div>
+  <p>SKILL.md 开头用很长一段"泼自己冷水"，这在 skill 里很少见，也是最值得学的部分：</p>
+  <ul style="margin-left:20px;">
+    <li>独立审计发现商用 AI 检测器对<b>非母语写作者</b>误报率超 60%（Stanford, <i>Patterns</i> 2023）；开源检测器整体错判率超 70%；对抗性改写能让所有检测方法准确率掉 ~88%。</li>
+    <li>赶稿的人、二语写作者、刻意压缩词汇的技术文体，会"天然长出"同样的 AI 形状。</li>
+  </ul>
+  <div class="callout co-warn"><span class="hl">"信号，不是证据（signals, not proof）"</span>——可以用来清理自己的文章，<b>不能单独当作学术诚信、招聘、署名归因的判据</b>。</div>
+  <p>它还有一套"改写者自律条款"：改写时<span class="hl-pink">不许编造原文没有的细节/立场/经历</span>（否则等于给文本换了另一副 AI 指纹）、引用和代码是保护区不动、检测到问题不等于获准改写（模式要经语境豁免过滤才算"发现"）。这和我们知识库的 [[证据优先质检ProofOverClaims]]、[[事实与判断分离]] 完全同一个价值观。</p>
+</div>
+
+<!-- ============ Q7 ============ -->
+<div class="q purple" id="q7">
+  <div class="qhead"><div class="qnum">Q7</div><h2>reverse-skill：39k★ 的技能路由器怎么工作？</h2></div>
+  <p>当 AI 面对一道 APK、ELF 二进制、前端 JS 加密或 CTF 题时，问题是<span class="hl">"不知道该上 jadx、Frida 还是 IDA"</span>——技能太多，选型靠抓阄。reverse-skill 的答案：先分诊，再干活。</p>
+  <div class="svgbox">
+  <svg width="640" height="290" viewBox="0 0 640 290" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#4527A0"/></marker></defs>
+    <rect x="30" y="15" width="180" height="48" rx="10" fill="#2962FF"/>
+    <text x="120" y="37" text-anchor="middle" fill="#fff" font-size="13.5" font-weight="bold">用户任务进来</text>
+    <text x="120" y="54" text-anchor="middle" fill="#D6E4FF" font-size="10">"帮我看看这个 APK"</text>
+    <line x1="210" y1="39" x2="255" y2="39" stroke="#4527A0" stroke-width="3" marker-end="url(#ar2)"/>
+    <rect x="260" y="15" width="170" height="48" rx="10" fill="#7C3AED"/>
+    <text x="345" y="37" text-anchor="middle" fill="#fff" font-size="13.5" font-weight="bold">路由器 master-route</text>
+    <text x="345" y="54" text-anchor="middle" fill="#E9DCFF" font-size="10">44 条规则·SSoT 单一配置</text>
+    <line x1="430" y1="39" x2="475" y2="39" stroke="#4527A0" stroke-width="3" marker-end="url(#ar2)"/>
+    <rect x="480" y="15" width="140" height="48" rx="10" fill="#D50000"/>
+    <text x="550" y="34" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">授权硬门</text>
+    <text x="550" y="52" text-anchor="middle" fill="#FFCDD2" font-size="10">scope.md granted?</text>
+    <line x1="550" y1="63" x2="550" y2="100" stroke="#4527A0" stroke-width="3" marker-end="url(#ar2)"/>
+    <text x="565" y="86" font-size="10" fill="#D50000" font-weight="bold">✓才放行</text>
+    <rect x="460" y="104" width="180" height="50" rx="10" fill="#00A8CC"/>
+    <text x="550" y="124" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">PRIMARY SKILL.md</text>
+    <text x="550" y="142" text-anchor="middle" fill="#DFF7FF" font-size="10">45 个模块：ida-reverse/js-reverse/…</text>
+    <line x1="460" y1="129" x2="415" y2="129" stroke="#4527A0" stroke-width="3" marker-end="url(#ar2)"/>
+    <rect x="235" y="104" width="180" height="50" rx="10" fill="#00B94F"/>
+    <text x="325" y="124" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">tool-index.md 工具索引</text>
+    <text x="325" y="142" text-anchor="middle" fill="#E8F5E9" font-size="10">已装不重装·缺的按需 bootstrap</text>
+    <line x1="235" y1="129" x2="190" y2="129" stroke="#4527A0" stroke-width="3" marker-end="url(#ar2)"/>
+    <rect x="20" y="104" width="170" height="50" rx="10" fill="#FF7A00"/>
+    <text x="105" y="124" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">本机工具/MCP/脚本</text>
+    <text x="105" y="142" text-anchor="middle" fill="#FFF3E0" font-size="10">真干活</text>
+    <path d="M105 154 L105 210 L300 210" stroke="#4527A0" stroke-width="3" fill="none" marker-end="url(#ar2)"/>
+    <rect x="305" y="185" width="335" height="50" rx="10" fill="#FF2D78"/>
+    <text x="472" y="205" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">timeline + 证据链 → 报告</text>
+    <text x="472" y="223" text-anchor="middle" fill="#FFE0EC" font-size="10">Evidence → Finding → Path</text>
+    <path d="M305 210 L150 210 L150 240" stroke="#FF2D78" stroke-width="2.5" stroke-dasharray="6 4" fill="none" marker-end="url(#ar2)"/>
+    <rect x="30" y="240" width="610" height="40" rx="10" fill="#FFF8E1" stroke="#FF7A00" stroke-width="2"/>
+    <text x="335" y="264" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#E65100">field-journal 经验库：每次踩坑复盘回流 → 同样的坑不踩第二次（越用越准）</text>
+  </svg>
+  </div>
+  <p>三个设计点值得抄走：</p>
+  <ul style="margin-left:20px;">
+    <li><b>配置是唯一事实源（SSoT）</b>：路由表只在 <span class="term">skills/config/routing.json</span> 一处，Markdown 表只是给人看的投影；175 条回归用例 + Windows/Ubuntu 双平台 CI 守着它。</li>
+    <li><b>分层按需读取</b>：平时只看 MASTER-ROUTING 快路径，PRIMARY 有歧义才查全表——技能包越大，"不预加载"越值钱（[[分层按需加载]]）。</li>
+    <li><b>工具自举</b>：tool-index.md 记录本机哪些工具可用，已装的不重复装，缺的披露影响、获批后才 bootstrap——换机器不散架。</li>
+  </ul>
+</div>
+
+<!-- ============ Q8 ============ -->
+<div class="q pink" id="q8">
+  <div class="qhead"><div class="qnum">Q8</div><h2>授权硬门：为什么"点名目标≠授权"？</h2></div>
+  <p>安全类技能包天然危险：AI 拿到渗透方法论，万一"手滑"对没授权的目标动手呢？reverse-skill 的 RULES_zh.md 写得极其清醒：</p>
+  <ul style="margin-left:20px;">
+    <li><span class="hl">"读仓库文件 ≠ 授权执行仓库脚本"</span>——只读任务（审查/摘要）必须保持只读；</li>
+    <li>任何本机副作用（写文件、下载、起服务、联网）之前，先列出准确命令清单，<b>明确同意后才动手</b>；</li>
+    <li>目标授权是独立的硬门：<span class="hl-pink">点名目标不等于 granted，--force 永远绕不过 scope 检查</span>；</li>
+    <li>想"跳过已获批步骤"或"只停在确认回复磨洋工"？仓库甚至准备了"借口反驳表"（agent-obedience-engineering.md）两头都堵。</li>
+  </ul>
+  <div class="callout co-key">这和知识库里 [[ClaudeCodeHooks与fail-open]] 恰好构成<b>一对镜像</b>：遥测观测挂了要放行（fail-open，别连累业务）；安全授权没拿到必须拦死（fail-closed）。<span class="hl">什么时候该 fail-open、什么时候该 fail-closed，是 Agent 工程的一对基本判断。</span></div>
+</div>
+
+<!-- ============ Q9 ============ -->
+<div class="q" id="q9">
+  <div class="qhead"><div class="qnum">Q9</div><h2>dev-pair：为什么让另一个模型来挑刺？</h2></div>
+  <p>dev-pair（hermes_skills 仓库）的逻辑：干活的模型自己查自己，容易"自己骗自己"；换一个<b>不同厂家的 LLM</b> 来做纯监督式 review——只挑方向、找 bug、提刁钻问题，<span class="hl">不代写、不重做一遍</span>。更有意思的是它的"防滥用三件套"：</p>
+  <table>
+    <tr><th>机制</th><th>作用</th><th>Agent 能绕过吗？</th></tr>
+    <tr><td><span class="term">daily_cap</span> 每日预算</td><td>付费调用数的硬上限，进程直接拒绝</td><td><b style="color:var(--green)">不能</b>（真正的锁）</td></tr>
+    <tr><td>append-only 台账</td><td>每次调用先记账再打钱，可审计</td><td>不能（但只记录）</td></tr>
+    <tr><td>--requested-by 署名</td><td>声明"谁要求的"</td><td>能（只是自我声明）</td></tr>
+  </table>
+  <p>skill 还规定：agent 觉得该请第二意见时，<span class="hl">只许用一句话提议然后闭嘴等用户点头</span>，不许"为了周到"自己偷偷跑。台账写不进去时整个调用<b>失败关闭（fail-closed）</b>——又是 Q8 那对镜像。</p>
+</div>
+
+<!-- ============ Q10 ============ -->
+<div class="q orange" id="q10">
+  <div class="qhead"><div class="qnum">Q10</div><h2>盘点：gen-pptx 与官方 claude-api</h2></div>
+  <div class="cols">
+    <div class="col">
+      <p><b class="big" style="color:var(--orange)">gen-pptx（JimLiu/baoyu-design）</b></p>
+      <p>宝玉（baoyu）系 skill 家族的生成管线，藏在 baoyu-design 仓库的 <span class="term">skills/baoyu-design/agents/gen-pptx</span>。思路：<b>让 LLM 写 HTML 设计稿</b>（它最擅长的格式），再用浏览器捕获管线（截图 / 可编辑元素捕获双路）转成真正的 PPTX。和我们做 PDF 的"HTML → Edge 无头打印"是同一个哲学：HTML 是 LLM 的母语，排版引擎负责最后一步。baoyu-design 整仓 4.2k★，主打"本地版 Claude Design"。</p>
+    </div>
+    <div class="col">
+      <p><b class="big" style="color:var(--blue)">claude-api（anthropics/skills 官方）</b></p>
+      <p>官方技能仓库（179k★）里的 API 参考 skill。要解决的是<span class="hl">模型记忆过期</span>问题：模型凭训练记忆写 API 调用，型号、参数、定价可能全是旧的。解法是把权威参考随 skill 分发——"会过期的知识放仓库，随 git 更新，不放进权重"。本会话里它已经作为内置技能在场，算是最"零距离"的一个。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Q11 ============ -->
+<div class="q purple" id="q11">
+  <div class="qhead"><div class="qnum">Q11</div><h2>主实验：implement-spec 微型演练场（已真实跑通）</h2></div>
+  <p>目标：用最小代码体会"spec → 工单任务图 → 分支施工 → 合并验收"全流程。实验材料在 <span class="term">F:\reminder\six_skills\exercise\implement-spec-lab\</span>（独立 git 仓库）。</p>
+
+  <div class="step"><h4>Step 1｜写 spec + 工单任务图（to-spec 产出物）</h4>
+    <div class="goal">目的：把"词频统计小工具"固化成合同和带阻塞关系的工单图</div>
+    <div class="code">cat &gt; spec.md     <span class="c"># 问题/方案/用户故事/实现决策/测试决策/范围外</span>
+cat &gt; tickets.md  <span class="c"># T1 tokenize（无阻塞）→ T2 report（依赖T1）→ T3 cli（依赖T1+T2）</span></div>
+    <div class="expect">✅ 预期：git commit 成功，tickets.md 里 T1 标注"frontier 初始成员"</div>
+  </div>
+
+  <div class="step"><h4>Step 2｜T1 施工：开分支实现 tokenize</h4>
+    <div class="goal">目的：模拟"施工子代理在 own worktree/branch 干活"</div>
+    <div class="code">git checkout -b t1-tokenize
+<span class="c"># src/tokenize.py:  re.findall(r"[a-z]+", text.lower())</span>
+python tests/test_t1.py</div>
+    <div class="expect">✅ 预期输出：<b>T1 tests: PASS</b>（"The cat, the dog!" → ["the","cat","the","dog"]）</div>
+  </div>
+
+  <div class="step"><h4>Step 3｜T1 完工 → 合并 integration 分支 → T2 上场</h4>
+    <div class="goal">目的：体会"前沿推进"——T1 一合并，T2 立刻从"被阻塞"变"可施工"</div>
+    <div class="code">git checkout main &amp;&amp; git merge t1-tokenize
+git checkout -b t2-report   <span class="c"># Counter + 按(-次数, 字母序)排序</span>
+python tests/test_t2.py     <span class="c"># PASS: [("b",2),("a",1)]，同频按字母序</span>
+git checkout main &amp;&amp; git merge t2-report</div>
+    <div class="expect">✅ 预期：T2 tests PASS，两次 merge 无冲突（接口契约在 spec 里定死了）</div>
+  </div>
+
+  <div class="step"><h4>Step 4｜T3 收尾：命令行入口 + 端到端验收</h4>
+    <div class="goal">目的：三件套合体，跑"全量测试 + 真实数据"当最终 Gate</div>
+    <div class="code">python topwords.py sample.txt -n 3
+<span class="c"># sample.txt = "The quick brown fox jumps over the lazy dog. The dog barks; the fox runs. The end."</span></div>
+    <div class="out">    5  the
+    2  dog
+    2  fox</div>
+    <div class="expect">✅ 预期：输出如上 + T1/T2 测试重跑全 PASS + git log 显示 T1/T2/T3 三个分支先后合入 main（共 6 个 commit）</div>
+  </div>
+
+  <div class="step"><h4>Step 5｜对照真实 skill 的差异（诚实记录）</h4>
+    <div class="goal">目的：知道简化版少了什么</div>
+    <p style="font-size:12.5px;">真 skill 用<b>并行子代理 + worktree</b>（我们顺序手工跑）、用<b>issue tracker 关单</b>（我们用 merge 代替）、收尾跑 <b>code-review 技能</b>（我们用全量测试代替）。骨架——任务图、前沿、integration 分支、TDD 施工——全部保留。</p>
+    <div class="expect">✅ 坑记录：Windows Python 3.14 没装 pytest → 改用 stdlib 断言脚本，反而更"零依赖"</div>
+  </div>
+</div>
+
+<!-- ============ Q12 ============ -->
+<div class="q green" id="q12">
+  <div class="qhead"><div class="qnum">Q12</div><h2>实验二：AI 味检测器实测 44 → 0（已真实跑通）</h2></div>
+  <p>材料在 <span class="term">F:\reminder\six_skills\exercise\</span>（上游 repo 已克隆，commit bdeb726）。</p>
+  <div class="step"><h4>Step 1｜故意写一段"AI 味爆炸"的英文，跑检测器</h4>
+    <div class="code">printf 'In the rapidly evolving world of software development, leveraging robust tools
+is essential. Let me delve into why this matters. ...' &gt; ai_sample.txt
+node repo/bin/avoid-ai-writing.js ai_sample.txt &gt; detector_ai_sample.json</div>
+    <div class="expect">✅ 实测：得分 <b>44</b>（Moderate AI signals），9 处命中——robust、delve、leveraging、Moreover、"I hope this helps"…… 每条还带替换建议（delve → explore, dig into）</div>
+  </div>
+  <div class="step"><h4>Step 2｜按 SKILL.md 的规则改写（删高频词、砍空开场、去掉客套尾巴）</h4>
+    <div class="code">node repo/bin/avoid-ai-writing.js ai_sample_rewrite.txt &gt; detector_ai_rewrite.json</div>
+    <div class="expect">✅ 实测：得分 <b>0</b>（Clean），0 处命中。同法测人味对照段 human_sample.txt 也是 0 分——检测器不冤枉好人。</div>
+  </div>
+  <div class="callout co-done">同一套规则还能反过来用：本仓库的中文学习指南也可以在定稿前过一遍这个检测器的<b>结构性规则</b>（排比三连、空洞开场、 significance inflation——"意义膨胀"是跨语言的）。</div>
+</div>
+
+<!-- ============ Q13 ============ -->
+<div class="q" id="q13">
+  <div class="qhead"><div class="qnum">Q13</div><h2>能力清单：我能拿它们干什么？</h2></div>
+  <table>
+    <tr><th>能力</th><th>具体用法（结合本仓库）</th></tr>
+    <tr><td>📋 任务图拆工单</td><td>下次给大型学习项目排期时，先写 spec + 带阻塞的 tickets，明确哪些可以并行（哪怕执行者是自己）</td></tr>
+    <tr><td>✍️ 给文档"验 AI 味"</td><td><span class="term">node bin/avoid-ai-writing.js 指南.html</span>——产出 PDF 前自检一遍，重点抓"意义膨胀"和空洞开场</td></tr>
+    <tr><td>🚦 CI 写作门槛</td><td>avoid-ai-writing-gate 挂 pre-commit，超过阈值 6 处就不让提交英文文档</td></tr>
+    <tr><td>🧭 路由器模式</td><td>本仓库 400+ 子项目越来越多，可以借"路由表 + SSoT 配置 + 条件读取"组织 vault 的检索</td></tr>
+    <tr><td>🔒 授权硬门</td><td>任何会动真环境的实验，先写 scope（目标/边界/禁止项），granted 才跑——照抄 reverse-skill 的 RULES 纪律</td></tr>
+    <tr><td>🤝 跨模型第二意见</td><td>重要报告可以请另一个模型做纯挑刺式 review（记住 daily_cap 思想：预算先行，先记账后花钱）</td></tr>
+  </table>
+  <div class="callout co-key"><b>一句话带走：</b>这 6 个 skill 合起来在回答同一个问题——<span class="hl">当 AI 的能力够了之后，"组织和纪律"就成了新的瓶颈</span>：施工要任务图，写作要模式库，安全要授权门，花钱要硬预算。</div>
+</div>
+
+<div class="foot">reminder 学习仓库 · 拾遗任务 d7ab71a0-b7ad-4b21-b994-0dd446efaa26 · 2026-10-03 · 实验数据均为本机真实运行结果</div>
+</body>
+</html>

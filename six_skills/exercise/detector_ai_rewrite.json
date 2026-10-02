@@ -1,0 +1,38 @@
+{
+  "score": 0,
+  "label": "Clean",
+  "issues": [],
+  "stats": {
+    "wordCount": 21,
+    "tier1Count": 0,
+    "tier2Count": 0,
+    "tier2Clusters": 0,
+    "tier3Count": 0,
+    "tier3Flags": 0,
+    "patternCount": 0,
+    "contextMode": "general",
+    "contextModeFallback": null,
+    "sourceMode": "plain",
+    "maskedFrontmatter": 0,
+    "maskedHtmlComments": 0,
+    "ignoredRegions": 0,
+    "normalization": {
+      "zeroWidth": 0,
+      "homoglyph": 0,
+      "roleplay": 0
+    },
+    "quotedLines": 0,
+    "maskedQuotes": 0,
+    "unmappedHighlights": 0,
+    "denseAIVocab": false,
+    "tier1Distinct": 0
+  },
+  "document_classification": "HUMAN_ONLY",
+  "class_probabilities": {
+    "human": 1,
+    "mixed": 0,
+    "ai": 0
+  },
+  "confidence_category": "medium",
+  "highlight_sentence_for_ai": []
+}
