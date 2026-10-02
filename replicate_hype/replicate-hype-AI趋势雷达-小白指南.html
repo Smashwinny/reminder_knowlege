@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Hype AI趋势雷达小白指南</title>
+<style>
+:root{
+  --red:#FF4757; --orange:#FFA502; --blue:#1E90FF; --purple:#8E44AD;
+  --teal:#00CEC9; --green:#2ED573; --pink:#FF6B9D; --ink:#2D3436;
+  --bg:#FFF9F0; --card:#FFFFFF;
+}
+@page{ size:A4; margin:12mm; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:12.5px; line-height:1.65; }
+.wrap{ width:100%; }
+
+/* 封面 */
+.cover{ background:linear-gradient(135deg,#FF4757 0%,#FF6B9D 45%,#8E44AD 100%); color:#fff; border-radius:18px; padding:34px 30px; margin-bottom:14px; }
+.cover h1{ font-size:34px; letter-spacing:1px; margin-bottom:8px; }
+.cover .sub{ font-size:16px; opacity:.95; }
+.cover .meta{ margin-top:14px; font-size:11.5px; background:rgba(255,255,255,.18); display:inline-block; padding:5px 14px; border-radius:20px; }
+.badge-row{ margin-top:12px; }
+.badge{ display:inline-block; background:#fff; color:var(--purple); font-weight:bold; border-radius:8px; padding:3px 12px; margin-right:8px; font-size:11.5px; }
+
+/* 速览卡 */
+.snapshot{ background:#fff; border:3px solid var(--blue); border-radius:14px; padding:16px 20px; margin-bottom:14px; }
+.snapshot h2{ color:var(--blue); font-size:18px; margin-bottom:8px; }
+.kv{ display:inline-block; background:#EAF4FF; border-left:4px solid var(--blue); padding:4px 10px; margin:3px 6px 3px 0; border-radius:4px; font-size:11.5px; }
+
+/* 疑问卡片 */
+.q{ background:var(--card); border-radius:14px; padding:18px 22px; margin-bottom:14px; break-inside:avoid; border-top:8px solid var(--c,var(--red)); box-shadow:0 2px 6px rgba(0,0,0,.08); }
+.q .qhead{ display:flex; align-items:center; margin-bottom:10px; }
+.q .qnum{ font-size:34px; font-weight:900; color:var(--c,var(--red)); margin-right:14px; line-height:1; }
+.q h3{ font-size:17px; color:var(--ink); }
+.q p{ margin-bottom:8px; }
+.key{ background:linear-gradient(transparent 55%, #FFE066 55%); font-weight:bold; padding:0 2px; }
+.big{ font-size:14.5px; font-weight:bold; }
+.code{ font-family:Consolas,monospace; background:#2D3436; color:#A6FF8F; border-radius:8px; padding:9px 13px; font-size:11px; margin:8px 0; white-space:pre-wrap; word-break:break-all; }
+.code .cm{ color:#7F8FA6; }
+.term{ color:var(--purple); font-weight:bold; }
+svg{ max-width:100%; height:auto; display:block; margin:8px auto; }
+.figcap{ text-align:center; font-size:10.5px; color:#888; margin-top:2px; }
+
+/* 对比表 */
+table{ width:100%; border-collapse:collapse; margin:8px 0; font-size:11.5px; }
+th{ background:var(--purple); color:#fff; padding:6px 8px; }
+td{ border:1.5px solid #E5DFD5; padding:5px 8px; }
+tr:nth-child(even) td{ background:#FBF7EF; }
+
+/* 能力清单 */
+.cap{ background:#fff; border:3px dashed var(--green); border-radius:14px; padding:16px 20px; margin-bottom:14px; }
+.cap h2{ color:#20A84A; font-size:18px; margin-bottom:8px; }
+.cap li{ margin:5px 0 5px 20px; }
+
+/* 实验卡 */
+.step{ background:#fff; border-left:6px solid var(--teal); border-radius:10px; padding:12px 16px; margin-bottom:10px; break-inside:avoid; }
+.step .snum{ display:inline-block; background:var(--teal); color:#fff; font-weight:bold; border-radius:6px; padding:1px 10px; margin-right:8px; }
+.step .op{ color:#0B7285; font-weight:bold; }
+.expect{ background:#E8FBF1; border:2px solid var(--green); border-radius:8px; padding:7px 12px; margin-top:6px; font-size:11.5px; }
+.expect b{ color:#20A84A; }
+
+.warn{ background:#FFF3E0; border:2px solid var(--orange); border-radius:8px; padding:8px 12px; margin:8px 0; font-size:11.5px; }
+.limit{ background:#F3E8FF; border:2px solid var(--purple); border-radius:8px; padding:8px 12px; margin:8px 0; font-size:11.5px; }
+
+.foot{ text-align:center; color:#999; font-size:10.5px; padding:10px 0 20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ============ 封面 ============ -->
+<div class="cover">
+  <h1>🛰️ Hype：AI 趋势雷达</h1>
+  <div class="sub">hype.replicate.dev 开源拆解 —— 一个只有 593 行代码的"AI 情报站"是怎么做出来的</div>
+  <div class="badge-row">
+    <span class="badge">Cloudflare Workers</span><span class="badge">D1 SQLite</span>
+    <span class="badge">Hono + Mustache</span><span class="badge">TypeScript</span><span class="badge">Apache-2.0 开源</span>
+  </div>
+  <div class="meta">仓库 github.com/replicate/hype ｜ 线上版 hype.replicate.dev ｜ 2026-10-03 学习产出 · F:\reminder\replicate_hype</div>
+</div>
+
+<!-- ============ 速览 ============ -->
+<div class="snapshot">
+  <h2>⚡ 30 秒速览：这个项目是什么</h2>
+  <p>Replicate 官方开源的 <span class="key">HN 风格 AI 趋势聚合站</span>：每小时自动抓取 4 个平台（GitHub / Replicate / HuggingFace / Reddit）的火热 AI 项目，用一套<span class="key">跨平台评分公式</span>统一排名，做成一个"Hacker News for ML"。推文说的"每天看 5 分钟，比 90% 的人更早看见风口"就是它。</p>
+  <div style="margin-top:6px">
+    <span class="kv">📦 体积：9 个源码文件，共 593 行</span>
+    <span class="kv">🌐 线上：hype.replicate.dev（254★）</span>
+    <span class="kv">⚖️ 许可：Apache-2.0（可自由自部署/魔改）</span>
+    <span class="kv">💰 部署成本：Cloudflare 免费额度即可跑</span>
+    <span class="kv">🧪 本地实验：6/6 全部 PASS</span>
+  </div>
+</div>
+
+<!-- ============ Q1 ============ -->
+<div class="q" style="--c:var(--red)">
+  <div class="qhead"><div class="qnum">Q1</div><h3>它是什么？为什么"刷推特"不如看它？</h3></div>
+  <p><span class="term">Hype</span> 是一个"趋势雷达"：推特的信息靠人转发（<b>慢、带情绪、掺广告</b>），而它直接盯<span class="key">四个一线数据源的行动数据</span>——项目被标星、被调用、被下载、被讨论，这些是<b>真金白银的行为信号</b>，不是口头安利。</p>
+  <svg viewBox="0 0 640 190" width="640">
+    <rect x="10" y="20" width="140" height="60" rx="10" fill="#FF4757"/><text x="80" y="45" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">GitHub</text><text x="80" y="63" text-anchor="middle" fill="#FFE8EA" font-size="10">新仓库 Star 暴涨</text>
+    <rect x="10" y="100" width="140" height="60" rx="10" fill="#FFA502"/><text x="80" y="125" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Replicate</text><text x="80" y="143" text-anchor="middle" fill="#FFF3DC" font-size="10">模型被高频调用</text>
+    <rect x="490" y="20" width="140" height="60" rx="10" fill="#FF6B9D"/><text x="560" y="45" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">HuggingFace</text><text x="560" y="63" text-anchor="middle" fill="#FFE8F1" font-size="10">新模型下载量起飞</text>
+    <rect x="490" y="100" width="140" height="60" rx="10" fill="#1E90FF"/><text x="560" y="125" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Reddit</text><text x="560" y="143" text-anchor="middle" fill="#DCEBFF" font-size="10">AI 社区热议话题</text>
+    <path d="M155 65 C 240 65, 250 95, 300 95" stroke="#8E44AD" stroke-width="3" fill="none"/>
+    <path d="M155 130 C 240 130, 250 100, 300 100" stroke="#8E44AD" stroke-width="3" fill="none"/>
+    <path d="M485 65 C 400 65, 390 95, 340 95" stroke="#8E44AD" stroke-width="3" fill="none"/>
+    <path d="M485 130 C 400 130, 390 100, 340 100" stroke="#8E44AD" stroke-width="3" fill="none"/>
+    <rect x="300" y="72" width="40" height="50" rx="8" fill="#8E44AD"/><text x="320" y="102" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">📡</text>
+    <rect x="230" y="150" width="180" height="34" rx="17" fill="#2ED573"/><text x="320" y="172" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">统一评分 → 一张热榜</text>
+    <line x1="320" y1="122" x2="320" y2="148" stroke="#2ED573" stroke-width="3"/>
+  </svg>
+  <div class="figcap">图1：四个"行动数据"源汇入统一评分，产出一张热榜</div>
+</div>
+
+<!-- ============ Q2 ============ -->
+<div class="q" style="--c:var(--orange)">
+  <div class="qhead"><div class="qnum">Q2</div><h3>它凭什么知道"什么火"？四个抓取器怎么工作？</h3></div>
+  <p>核心文件 <span class="term">src/fetchers.ts</span>（157 行）里有 4 个抓取函数，全部调各平台<b>公开 API</b>，没有任何爬虫黑魔法：</p>
+  <table>
+    <tr><th>抓取器</th><th>数据源 API</th><th>抓什么</th><th>热度原始值</th></tr>
+    <tr><td>fetchGitHubPosts</td><td>GitHub Search API</td><td>最近 7 天<b>新建</b>的 Python 仓库（按 star 排序，取前 500）</td><td>star 数</td></tr>
+    <tr><td>fetchReplicatePosts</td><td>Replicate API（要 token）</td><td>最近一周有更新的官方模型</td><td>run_count 调用次数</td></tr>
+    <tr><td>fetchHuggingFacePosts</td><td>HF 公开 API</td><td>最近改动的模型（likes&gt;1 且 downloads&gt;1）</td><td>likes 数</td></tr>
+    <tr><td>fetchRedditPosts</td><td>Reddit JSON API</td><td>r/MachineLearning、r/LocalLLaMA、r/StableDiffusion 周榜</td><td>upvote 分数</td></tr>
+  </table>
+  <p>为什么只抓 Python 新仓库？README 里作者吐槽：<span class="key">"现在 GitHub 上几乎每到一个新 Python 仓库都是 ML 仓库"</span>——所以 Python + 新建 就是"新 AI 项目"的最好近似。4 个抓取器用 <span class="term">Promise.all 并行执行</span>，谁快走谁的，互不拖累。</p>
+</div>
+
+<!-- ============ Q3 ============ -->
+<div class="q" style="--c:var(--blue)">
+  <div class="qhead"><div class="qnum">Q3</div><h3>Star、下载量、upvote、调用次数——单位都不一样，怎么一起排名？</h3></div>
+  <p>这是全项目<b>最精妙的一段</b>，只有 4 行——<span class="term">scorePost 评分归一化</span>：</p>
+  <div class="code">function scorePost(post: Post): number {
+  if (post.source === "reddit")    return post.stars * 0.3;      // upvote 打 3 折
+  if (post.source === "replicate") return Math.pow(post.stars, 0.6); // 调用次数开"压缩"
+  return post.stars;                                             // GitHub/HF star 原值
+}</div>
+  <p><span class="key">把四种单位不同的热度，换算到同一张"分数卷子"上再排名</span>。为什么不统一乘系数而是 <b>x^0.6 幂函数</b>？因为 run_count 动辄几万次，直接比会碾压其他平台；幂函数让大数"越大的部分增长越慢"（32000^0.6≈504，和几千 star 同一量级）。Reddit 打 3 折则是因为 upvote 门槛低、水分数值虚高。</p>
+  <svg viewBox="0 0 640 200" width="640">
+    <rect x="20" y="30" width="130" height="46" rx="8" fill="#FF4757"/><text x="85" y="50" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">GitHub 2000★</text><text x="85" y="67" text-anchor="middle" fill="#FFE8EA" font-size="11">→ 2000 分</text>
+    <rect x="20" y="86" width="130" height="46" rx="8" fill="#FF6B9D"/><text x="85" y="106" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">HF 800 赞</text><text x="85" y="123" text-anchor="middle" fill="#FFE8F1" font-size="11">→ 800 分</text>
+    <rect x="255" y="30" width="130" height="46" rx="8" fill="#1E90FF"/><text x="320" y="50" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Reddit 3000 赞</text><text x="320" y="67" text-anchor="middle" fill="#DCEBFF" font-size="11">×0.3 → 900 分</text>
+    <rect x="255" y="86" width="130" height="46" rx="8" fill="#FFA502"/><text x="320" y="106" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Replicate 32000 次</text><text x="320" y="123" text-anchor="middle" fill="#FFF3DC" font-size="11">^0.6 → 504 分</text>
+    <path d="M150 53 L 470 53" stroke="#2ED573" stroke-width="2.5" stroke-dasharray="5,4"/>
+    <path d="M385 109 L 470 109" stroke="#2ED573" stroke-width="2.5" stroke-dasharray="5,4"/>
+    <path d="M150 109 L 470 109" stroke="#2ED573" stroke-width="2.5" stroke-dasharray="5,4"/>
+    <path d="M385 53 L 470 53" stroke="#2ED573" stroke-width="2.5" stroke-dasharray="5,4"/>
+    <rect x="475" y="38" width="150" height="130" rx="10" fill="#2D3436"/>
+    <text x="550" y="60" text-anchor="middle" fill="#FFD32A" font-size="12" font-weight="bold">最终排名</text>
+    <text x="550" y="82" text-anchor="middle" fill="#A6FF8F" font-size="11">① GitHub 2000</text>
+    <text x="550" y="102" text-anchor="middle" fill="#A6FF8F" font-size="11">② Reddit 900</text>
+    <text x="550" y="122" text-anchor="middle" fill="#A6FF8F" font-size="11">③ Replicate 504</text>
+    <text x="550" y="146" text-anchor="middle" fill="#FF9F9F" font-size="10">（原始值 32000 被压平）</text>
+  </svg>
+  <div class="figcap">图2：scorePost 把四种单位压到同一量级（实测输出，见实验第 4 步）</div>
+</div>
+
+<!-- ============ Q4 ============ -->
+<div class="q" style="--c:var(--purple)">
+  <div class="qhead"><div class="qnum">Q4</div><h3>垃圾项目怎么挡在门外？</h3></div>
+  <p>热榜天然是垃圾站攻击目标（蹭流量）。hype 用两道<span class="term">确定性过滤器</span>（<b>纯规则、不花一分钱 AI 费用</b>）：</p>
+  <p>① <span class="key">黑名单关键词</span>：仓库名/描述命中 <code>nft / crypto / telegram / clicker / solana / stealer</code> 直接拒收；</p>
+  <p>② <span class="key">硬性条件</span>：username 为空拒收；HF 模型 likes≤1 或 downloads≤1 拒收；Replicate 模型 run_count≤1 拒收（没人用 = 不热）。</p>
+  <div class="warn">⚠️ 和已学的 <b>事实与判断分离</b> 同一思想：能不能上榜是<b>规则说了算的确定性判断</b>，全程没有 LLM 参与——0 成本、毫秒级、结果可复现。热度本身就是客观数字，根本不需要 AI 来"感觉"。</div>
+</div>
+
+<!-- ============ Q5 ============ -->
+<div class="q" style="--c:var(--teal)">
+  <div class="qhead"><div class="qnum">Q5</div><h3>数据存哪？D1 是什么？</h3></div>
+  <p><span class="term">Cloudflare D1</span> = Cloudflare 出的<span class="key">跑在边缘节点上的 Serverless SQLite</span>。你写的就是普通 SQL（建表迁移 migrations/0001_init.sql 就是一张 <code>repositories</code> 表），但不用装数据库、不用管备份扩容，按查询次数计费（免费额度 500 万次读/天）。</p>
+  <p>表结构极简：<b>id + source 联合主键</b>（同一项目可能同时出现在 GitHub 和 HF，靠 source 区分），外加 name/description/stars/url/created_at。写入用 <span class="term">upsert</span>（INSERT ... ON CONFLICT DO UPDATE）——<span class="key">每小时重复抓到同一项目时只更新数值，不产生重复行</span>，天然幂等。</p>
+  <div class="code"><span class="cm">-- 一张表打天下（migrations/0001_init.sql）</span>
+CREATE TABLE repositories (
+  id TEXT NOT NULL, source TEXT NOT NULL,
+  username TEXT, name TEXT, description TEXT,
+  stars INTEGER DEFAULT 0, url TEXT,
+  created_at TEXT, inserted_at TEXT DEFAULT (datetime('now')),
+  PRIMARY KEY (id, source)          <span class="cm">-- 联合主键防重复</span>
+);</div>
+</div>
+
+<!-- ============ Q6 ============ -->
+<div class="q" style="--c:var(--pink)">
+  <div class="qhead"><div class="qnum">Q6</div><h3>网页怎么渲染出来的？</h3></div>
+  <p>技术栈是 <span class="term">Hono</span>（跑在 Workers 上的超轻 Web 框架，可类比 Express）+ <span class="term">Mustache</span>（无逻辑模板引擎，模板里只有 <code>{{变量}}</code> 占位符，不允许写 if 循环之外的逻辑）。整个"渲染"就是：查 D1 → JS 里按 scorePost 重排 → 数据填进 127 行的 page.html 模板 → 吐出 HTML，带 5 分钟 CDN 缓存。</p>
+  <p>路由一共就 6 条：<code>/</code>（主页）、<code>/api/posts</code>（JSON 列表）、<code>/api/last-updated</code>、<code>/api/update</code>（触发抓取，GET/POST 各一份）、<code>/docs</code>（chanfana 自动生成的 OpenAPI 文档）。</p>
+  <svg viewBox="0 0 640 130" width="640">
+    <rect x="15" y="40" width="110" height="50" rx="9" fill="#1E90FF"/><text x="70" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">浏览器请求 /</text><text x="70" y="79" text-anchor="middle" fill="#DCEBFF" font-size="10">?filter=past_week</text>
+    <rect x="175" y="40" width="120" height="50" rx="9" fill="#8E44AD"/><text x="235" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Hono 路由</text><text x="235" y="79" text-anchor="middle" fill="#E8D5F5" font-size="10">src/index.ts</text>
+    <rect x="345" y="15" width="130" height="42" rx="9" fill="#00CEC9"/><text x="410" y="34" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">SQL: stars DESC</text><text x="410" y="49" text-anchor="middle" fill="#D6F9F8" font-size="10">粗筛 LIMIT 500（D1）</text>
+    <rect x="345" y="73" width="130" height="42" rx="9" fill="#FFA502"/><text x="410" y="92" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">JS: scorePost 重排</text><text x="410" y="107" text-anchor="middle" fill="#FFF3DC" font-size="10">黑名单过滤+归一化</text>
+    <rect x="525" y="40" width="100" height="50" rx="9" fill="#2ED573"/><text x="575" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Mustache</text><text x="575" y="79" text-anchor="middle" fill="#E4FCEC" font-size="10">填模板出 HTML</text>
+    <path d="M125 65 L173 65" stroke="#666" stroke-width="2.5"/><path d="M295 58 L343 36" stroke="#666" stroke-width="2.5"/><path d="M295 72 L343 94" stroke="#666" stroke-width="2.5"/><path d="M475 36 L523 58" stroke="#666" stroke-width="2.5"/><path d="M475 94 L523 72" stroke="#666" stroke-width="2.5"/>
+  </svg>
+  <div class="figcap">图3：一次请求的完整链路——两段式排序（SQL 粗筛 → JS 精排）</div>
+</div>
+
+<!-- ============ Q7 ============ -->
+<div class="q" style="--c:var(--red)">
+  <div class="qhead"><div class="qnum">Q7</div><h3>它部署在哪？Cloudflare Workers 是什么？</h3></div>
+  <p><span class="term">Cloudflare Workers</span> = 把你的代码<span class="key">复制到全球 300+ 个机房</span>的 Serverless 函数平台。没有服务器要管：不发请求时零计费，请求来了就近的节点执行。hype 整个后端就是一个 Worker（入口 src/index.ts 导出 <code>fetch</code> 处理函数 + 一个 <code>scheduled</code> 定时函数）。</p>
+  <p>对"怕运维"的个人项目来说，这是<b>近乎零成本的完整后端</b>：免费额度 10 万请求/天，静态站点 + API + 数据库（D1）+ 定时任务全家桶。这也是为什么它敢开源——你 fork 之后改个名字就能部署一个自己的版本。</p>
+</div>
+
+<!-- ============ Q8 ============ -->
+<div class="q" style="--c:var(--orange)">
+  <div class="qhead"><div class="qnum">Q8</div><h3>数据多久更新一次？谁在背后定时跑？</h3></div>
+  <p>答案有点反直觉：<span class="key">不是 Workers 的 cron，而是 GitHub Actions</span>。仓库里的 <code>.github/workflows/update_repos.yml</code> 配了 <code>cron: '0 * * * *'</code>（每小时整点），Action 启动一个临时容器 → npm ci → 跑 scripts/updateContent.js → 用 API token 调线上 Worker 的 <code>/api/update</code> 端点 → Worker 执行 4 个 fetcher 并 upsert 入库。</p>
+  <p>为什么绕一圈？因为抓 5000 个 HF 模型的 README 很耗时，放在 Actions 的免费算力里跑，<span class="key">Worker 只负责"接单"，脏活累活外包给 GitHub</span>——两边都在免费额度内。这是一个值得记住的模式：<b>定时任务不必和 Web 服务住在一起</b>。</p>
+</div>
+
+<!-- ============ Q9 ============ -->
+<div class="q" style="--c:var(--green)">
+  <div class="qhead"><div class="qnum">Q9</div><h3>怎么把它变成自己的？自部署要几步？</h3></div>
+  <p>README 给的官方五步（需 Cloudflare 账号 + Replicate API token，token 只影响 Replicate 源，其余三源不需要）：</p>
+  <div class="code">wrangler d1 create hype                        <span class="cm"># ① 建数据库</span>
+<span class="cm"># ② 把返回的 database_id 填进 wrangler.jsonc</span>
+wrangler d1 execute hype --remote --file=migrations/0001_init.sql  <span class="cm"># ③ 建表</span>
+wrangler secret put REPLICATE_API_TOKEN        <span class="cm"># ④ 存密钥</span>
+npm run deploy                                 <span class="cm"># ⑤ 上线全球</span></div>
+  <p>再把 GitHub Actions 的 workflow 里的目标 URL 指向你的 Worker，每小时自动更新就位。<span class="key">全程零服务器、零月费</span>。</p>
+</div>
+
+<!-- ============ Q10 ============ -->
+<div class="q" style="--c:var(--blue)">
+  <div class="qhead"><div class="qnum">Q10</div><h3>它开放了什么 API？怎么喂给自己的工具？</h3></div>
+  <div class="code">GET /api/posts?filter=past_week&amp;sources=GitHub,Reddit
+→ { "success": true, "result": [ {source, username, name, stars, url, ...}, ... ] }
+
+GET /api/last-updated  → 数据最后更新时间
+GET /docs              → 自动生成的 OpenAPI 交互文档</div>
+  <p>三个可玩的组合：<b>①</b> 把 JSON 接进自己的日报脚本/飞书机器人，每天早上自动推 5 条最热；<b>②</b> filter+sources 组合做"只看 Reddit 模型圈"的小雷达；<b>③</b> 用 schema 校验（zod）保证的字段结构直接喂 LLM 做点评——榜单是确定性事实，LLM 只负责解读。</p>
+</div>
+
+<!-- ============ Q11 ============ -->
+<div class="q" style="--c:var(--purple)">
+  <div class="qhead"><div class="qnum">Q11</div><h3>它有什么短板？（读懂局限才算真懂）</h3></div>
+  <div class="limit"><b>局限① 两段式排序会"误杀"。</b>SQL 先按原始 stars 排序取 LIMIT 500，<b>之后</b>才做 scorePost 归一化。一个 Reddit 神帖（原始 upvote 30000+）如果别的平台垃圾条目太多，可能在 SQL 粗筛阶段就被挤出 500 名，根本活不到加分环节。正确做法是把归一化下推进 SQL——但对 hobby 项目，够用就好。</div>
+  <div class="limit"><b>局限② 评分权重是拍脑袋的。</b>0.3 和 0.6 没有任何校准依据，Reddit 权重调大 Reddit 条目立刻霸榜（我们实验里实测复现了这一点）。黑名单也只有 6 个词，换个马甲词就漏。</div>
+  <div class="limit"><b>局限③ 只盯 Python 新仓库。</b>Rust/Go 的 AI 基建项目（如很多推理引擎）完全不在雷达上——这是设计取舍，不是 bug。</div>
+</div>
+
+<!-- ============ 能力清单 ============ -->
+<div class="cap">
+  <h2>🎯 学完它，你能干什么</h2>
+  <li><b>每天 5 分钟情报扫描</b>：直接用线上版 hype.replicate.dev，或自部署一份加自己的过滤词；</li>
+  <li><b>做自己的"XX 雷达"</b>：照抄架构（fetcher×N + 归一化评分 + Worker + D1 + Actions 定时），换成你关注的领域（如量化圈、安全圈）；</li>
+  <li><b>接 API 做日报机器人</b>：/api/posts 的 JSON 喂给飞书/Telegram 推送，早上一条消息看全热点；</li>
+  <li><b>学会 Serverless 全栈最小件</b>：Hono 路由 + D1 SQL + Mustache 渲染 + Actions 定时，593 行全看懂，是入门 Cloudflare 全栈的最佳教材体量；</li>
+  <li><b>跨源评分归一化思维</b>：任何"把不同口径的数字放一起排名"的场景（电商好评/销量/复购）都能套用 scorePost 模式，并记得它"先截断后归一"的误杀教训。</li>
+</div>
+
+<!-- ============ 实验 ============ -->
+<div class="q" style="--c:var(--teal)">
+  <div class="qhead"><div class="qnum">🧪</div><h3>主实验：不花一分钱、不申请任何 key，本地复现整个热榜</h3></div>
+  <p>思路：<b>不调用真实 API</b>（免 token、免网络依赖），而是直接往本地 D1 造 9 条混合源数据，把 hype 当"排名引擎"来验证它的三大机制。环境：Windows 11 + Node v24.21.0，全部命令实测通过。</p>
+
+  <div class="step"><span class="snum">步骤 1</span><span class="op">克隆并安装依赖</span>
+    <div class="code">git clone https://github.com/replicate/hype repo
+cd repo &amp;&amp; npm install
+<span class="cm"># npm 11 若报 install-scripts 警告，执行：npm install-scripts approve workerd esbuild</span>
+npx wrangler --version   <span class="cm"># 验证：输出 4.56.0</span></div>
+    <div class="expect">✅ 预期结果：<b>wrangler 4.56.0</b>，node_modules 就绪。</div>
+  </div>
+
+  <div class="step"><span class="snum">步骤 2</span><span class="op">初始化本地 D1 数据库</span>
+    <div class="code">cp .dev.vars.example .dev.vars        <span class="cm"># token 留空也能跑本地实验</span>
+npx wrangler d1 execute hype --local --file=migrations/0001_init.sql</div>
+    <p>目的：在本地模拟器里建表。--local 表示一切发生在你电脑上，不碰云端。<span class="key">--local 是 Serverless 开发的"模拟考场"</span>。</p>
+    <div class="expect">✅ 预期结果：输出 <b>"success": true</b>。</div>
+  </div>
+
+  <div class="step"><span class="snum">步骤 3</span><span class="op">造 9 条测试数据（exercise/seed.sql）</span>
+    <div class="code">npx wrangler d1 execute hype --local --file=../exercise/seed.sql</div>
+    <p>数据分组：5 条评分对比组（GitHub 2000★ / GitHub 1000★ / Reddit 3000 赞 / HF 800 赞 / Replicate 32000 次调用）+ 2 条黑名单组（99999★ 的 crypto 垃圾 + 88888★ 的 nft 垃圾）+ 2 条时间窗组（9 天前的 old-repo、2 天前的 day-old）。</p>
+    <div class="expect">✅ 预期结果：连续 3 条 <b>"success": true</b>（DELETE + 2 段 INSERT）。</div>
+  </div>
+
+  <div class="step"><span class="snum">步骤 4</span><span class="op">起本地服务器，验证三大机制</span>
+    <div class="code">npx wrangler dev --port 8787          <span class="cm"># Ready on http://127.0.0.1:8787</span>
+curl "http://127.0.0.1:8787/api/posts?filter=past_week"</div>
+    <p><b>验证① 跨源归一化</b>——实测返回顺序（名字后为原始值）：</p>
+    <div class="code">gh-a(2000) → gh-b(1000) → Reddit热帖(原始3000→900) → hf-model(800)
+→ day-old(600) → repl-hot(原始32000→^0.6≈504)</div>
+    <p>与 scorePost 公式预测<b>逐位一致</b>：Reddit 3000 赞被 3 折压到 1000★ 仓库之后；Replicate 32000 次调用被幂函数压到最后。</p>
+    <p><b>验证② 黑名单</b>——返回里搜不到 moon-crypto-bot(99999★) 和 nft-minter(88888★)，star 再高也进不了榜。</p>
+    <p><b>验证③ 时间窗 + 源过滤</b>：</p>
+    <div class="code">curl "http://127.0.0.1:8787/api/posts?filter=past_day"
+→ day-old 消失（它生于 2 天前，24h 窗口外）
+curl "http://127.0.0.1:8787/api/posts?filter=past_week&amp;sources=GitHub"
+→ 只剩 gh-a / gh-b / day-old 三条</div>
+    <div class="expect">✅ 预期结果：排序预测全中、黑名单 0 泄漏、时间窗与源过滤正确。本步实测 <b>PASS</b>。浏览器打开 http://127.0.0.1:8787 还能看到和线上版一模一样的热榜页面。</div>
+  </div>
+
+  <div class="step"><span class="snum">步骤 5</span><span class="op">改一个参数，亲眼看榜单洗牌</span>
+    <div class="code"><span class="cm"># 把 src/db.ts 里 reddit 的权重 0.3 改成 1.0（wrangler 热重载）</span>
+curl "http://127.0.0.1:8787/api/posts?filter=past_week"
+→ Reddit热帖(3000) 跳到第 1 名！原来第 1 的 gh-a 被挤到第 2
+git checkout -- src/db.ts   <span class="cm"># 看完恢复原样</span></div>
+    <p>目的：证明"排名完全由权重公式决定"。0.3 → 1.0，Reddit 原始值不再打折，3000 分立刻登顶——<span class="key">你在实验里亲手复现了"权重即编辑立场"</span>：谁定权重，谁定什么是"热门"。</p>
+    <div class="expect">✅ 预期结果：Reddit 条目从第 3 位跳升第 1 位。本步实测 <b>PASS</b>。</div>
+  </div>
+</div>
+
+<!-- ============ 坑 ============ -->
+<div class="q" style="--c:var(--red)">
+  <div class="qhead"><div class="qnum">🕳️</div><h3>实测踩到的坑（写给下一个学的人）</h3></div>
+  <p>① <span class="key">npm 11 拦截 postinstall</span>：装依赖时 workerd/esbuild 的安装脚本默认被拦，wrangler 会起不来——用 <code>npm install-scripts approve workerd esbuild</code> 批准后 rebuild；</p>
+  <p>② <span class="key">.dev.vars 里的 token 留空不影响本地实验</span>：只要不走 /api/update，本地 D1 造数就能驱动整站，最适合无 key 学习；</p>
+  <p>③ <span class="key">wrangler dev 热重载</span>：改 src/ 下文件 6 秒内自动生效，做"改参数看变化"实验不用重启；</p>
+  <p>④ 首次起站会提示 types 可能过期（<code>wrangler types</code> 可修），不影响运行。</p>
+</div>
+
+<div class="foot">F:\reminder · replicate_hype 学习产出 · 2026-10-03 · 拾遗任务 a7891ba3 · 全部实验命令实测通过</div>
+</div>
+</body>
+</html>
