@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Karpathy 第二大脑 LLM-Wiki 小白指南</title>
+<style>
+  :root{
+    --bg:#FFFDF5; --ink:#1A1B41; --card:#FFFFFF;
+    --p1:#FF4D6D; --p2:#FF9E00; --p3:#06D6A0; --p4:#118AB2; --p5:#8338EC; --p6:#FB5607;
+    --soft1:#FFE5EA; --soft2:#FFF3D6; --soft3:#D8F8EE; --soft4:#D7EEF8; --soft5:#EDE4FD; --soft6:#FFE3D6;
+    --hl:#FFF176;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  @page{ size:A4; margin:12mm; }
+  body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); font-size:13.5px; line-height:1.75; }
+  .wrap{ width:100%; padding:0 4px; }
+
+  /* ===== 封面 ===== */
+  .cover{ background:linear-gradient(135deg,#FF4D6D 0%,#FF9E00 45%,#06D6A0 100%); border-radius:22px; padding:42px 36px; color:#fff; margin-bottom:26px; }
+  .cover .tag{ display:inline-block; background:rgba(255,255,255,.25); border-radius:99px; padding:3px 16px; font-weight:700; letter-spacing:2px; font-size:13px; }
+  .cover h1{ font-size:44px; line-height:1.25; margin:16px 0 10px; text-shadow:0 2px 8px rgba(0,0,0,.18); }
+  .cover .sub{ font-size:17px; opacity:.96; font-weight:600; }
+  .cover .quote{ margin-top:22px; background:rgba(255,255,255,.18); border-left:6px solid #fff; border-radius:10px; padding:14px 18px; font-size:15px; font-style:italic; }
+  .cover .meta{ margin-top:18px; font-size:12.5px; opacity:.92; }
+
+  /* ===== 疑问目录 ===== */
+  .toc{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:28px; }
+  .toc a{ text-decoration:none; color:var(--ink); flex:1 1 30%; min-width:200px; border-radius:14px; padding:12px 14px; font-weight:700; display:flex; gap:10px; align-items:center; }
+  .toc .n{ font-size:26px; font-weight:900; }
+  .t1{background:var(--soft1);} .t2{background:var(--soft2);} .t3{background:var(--soft3);}
+  .t4{background:var(--soft4);} .t5{background:var(--soft5);} .t6{background:var(--soft6);}
+
+  /* ===== 疑问卡片 ===== */
+  section{ break-inside:avoid; border-radius:18px; padding:22px 24px 18px; margin-bottom:24px; border:3px solid transparent; }
+  section.c1{background:var(--soft1); border-color:var(--p1);}
+  section.c2{background:var(--soft2); border-color:var(--p2);}
+  section.c3{background:var(--soft3); border-color:var(--p3);}
+  section.c4{background:var(--soft4); border-color:var(--p4);}
+  section.c5{background:var(--soft5); border-color:var(--p5);}
+  section.c6{background:var(--soft6); border-color:var(--p6);}
+  .qhead{ display:flex; align-items:flex-start; gap:16px; margin-bottom:12px; }
+  .qnum{ font-size:46px; font-weight:900; line-height:1; min-width:56px; }
+  .c1 .qnum{color:var(--p1);} .c2 .qnum{color:var(--p2);} .c3 .qnum{color:var(--p3);}
+  .c4 .qnum{color:var(--p4);} .c5 .qnum{color:var(--p5);} .c6 .qnum{color:var(--p6);}
+  .qhead h2{ font-size:21px; line-height:1.4; padding-top:6px; }
+  .hl{ background:linear-gradient(transparent 55%, var(--hl) 55%); font-weight:900; padding:0 2px; }
+  .big{ font-size:16px; font-weight:900; }
+  section p{ margin:8px 0; }
+  .term{ display:inline-block; background:#fff; border:2px solid var(--ink); border-radius:8px; padding:0 8px; font-weight:700; margin:2px 0; }
+  .analogy{ background:#fff; border-radius:12px; padding:12px 16px; margin:10px 0; border-left:6px solid var(--p5); }
+  .analogy b{ color:var(--p5); }
+  .cmp{ width:100%; border-collapse:collapse; margin:10px 0; background:#fff; border-radius:12px; overflow:hidden; }
+  .cmp th{ color:#fff; padding:8px 10px; font-size:13px; }
+  .cmp td{ padding:7px 10px; border-bottom:1px solid #eee; font-size:12.5px; }
+  .cmp tr:last-child td{border-bottom:none;}
+  .th1{background:var(--p4);} .th2{background:var(--p1);} .th3{background:var(--ink);}
+  svg{ max-width:100%; height:auto; display:block; margin:12px auto; background:#fff; border-radius:12px; }
+  .code{ background:#141433; color:#EAF0FF; border-radius:10px; padding:10px 14px; font-family:Consolas,monospace; font-size:12px; margin:10px 0; white-space:pre-wrap; word-break:break-all; }
+  .code .c{color:#7EE787;} .code .k{color:#FFD866;}
+  .check{ background:#fff; border:3px dashed var(--p3); border-radius:12px; padding:10px 14px; margin:10px 0; font-weight:700; }
+  .check::before{ content:"✅ 预期结果  "; color:var(--p3); font-size:15px; }
+  .warn{ background:#fff; border-left:6px solid var(--p6); border-radius:10px; padding:10px 14px; margin:10px 0; }
+  .warn b{color:var(--p6);}
+  .kv{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0; }
+  .kv span{ background:#fff; border-radius:99px; padding:3px 12px; font-weight:700; font-size:12px; border:2px solid var(--p3); color:var(--ink); }
+  h3.sub{ font-size:15px; margin:12px 0 4px; color:var(--ink); border-left:5px solid var(--p2); padding-left:8px; }
+  .foot{ text-align:center; color:#666; font-size:11px; margin:20px 0; }
+  .steps .step{ background:#fff; border-radius:12px; padding:12px 16px; margin:10px 0; border-left:6px solid var(--p4); }
+  .steps .step h4{ font-size:14.5px; color:var(--p4); margin-bottom:4px; }
+  .out{ background:#0E2A1A; color:#9BF6B6; border-radius:8px; padding:8px 12px; font-family:Consolas,monospace; font-size:11px; margin-top:6px; white-space:pre-wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ================= 封面 ================= -->
+<div class="cover">
+  <span class="tag">拾遗学习 · 知识管理 × AI Agent</span>
+  <h1>第二大脑 LLM-Wiki<br>让 AI 替你维护知识库</h1>
+  <div class="sub">Karpathy 的玩法：Obsidian 是 IDE，LLM 是程序员，wiki 是代码库</div>
+  <div class="quote">"The wiki is a persistent, compounding artifact."<br>——wiki 是一个持久的、会复利的资产（Andrej Karpathy《llm-wiki》gist，5000+ star）</div>
+  <div class="meta">一手资料：karpathy/llm-wiki gist · 社区实现：Aquinas-Protocol/second-brain · 2026-10-02 · F:\reminder 拾遗队列</div>
+</div>
+
+<!-- ================= 疑问目录 ================= -->
+<div class="toc">
+  <a class="t1" href="#q1"><span class="n">1</span>第二大脑是什么？</a>
+  <a class="t2" href="#q2"><span class="n">2</span>和 RAG 区别在哪？</a>
+  <a class="t3" href="#q3"><span class="n">3</span>为什么人的 wiki 会烂？</a>
+  <a class="t4" href="#q4"><span class="n">4</span>三层架构怎么分权？</a>
+  <a class="t5" href="#q5"><span class="n">5</span>原子笔记与双链？</a>
+  <a class="t6" href="#q6"><span class="n">6</span>Ingest/Query/Lint 循环？</a>
+  <a class="t1" href="#q7"><span class="n">7</span>index 和 log 为何分开？</a>
+  <a class="t2" href="#q8"><span class="n">8</span>CLAUDE.md 为何是灵魂？</a>
+  <a class="t3" href="#q9"><span class="n">9</span>Obsidian 扮演什么角色？</a>
+  <a class="t4" href="#q10"><span class="n">10</span>和我已学的知识什么关系？</a>
+  <a class="t5" href="#q11"><span class="n">11</span>动手实验：迷你 wiki</a>
+  <a class="t6" href="#q12"><span class="n">12</span>坑与局限？</a>
+</div>
+
+<!-- ================= Q1 ================= -->
+<section class="c1" id="q1">
+  <div class="qhead"><span class="qnum">Q1</span><h2>"第二大脑 / LLM-Wiki" 到底是什么？一句话说清</h2></div>
+  <p><span class="big">一句话：把你的文章、转录、PDF 丢进一个 Markdown 文件夹，让 Claude Code 这样的 LLM agent 去读、提炼、建页、互链、修护——你只负责喂料和提问，<span class="hl">AI 负责一切簿记</span>。</span></p>
+  <p>它有三个别名，指的是同一件事：<span class="term">第二大脑 Second Brain</span>（个人知识管理圈叫法）、<span class="term">LLM-Wiki</span>（Karpathy 在 gist 里的正式命名）、<span class="term">活的 wiki</span>（强调它被持续维护、不会烂）。</p>
+  <p><b>为什么突然火？</b>2026 年 4 月 Karpathy 把这个想法写成一篇 gist《llm-wiki》，核心主张只有一句：与其让 AI 一次一次帮你写代码/回答问题，不如<span class="hl">用它构建一个持续增值的知识资产</span>。推文级传播号称千万浏览，社区一周内出现了多个 starter kit（本仓库克隆的 Aquinas-Protocol/second-brain 就是其中之一）。</p>
+  <div class="analogy"><b>类比：</b>传统笔记 = 你自己养的花，浇水（维护）全靠自己，出差两周就枯；第二大脑 = 雇了一个不会累、不会忘、一次能整理 15 个房间的园丁，你只管往院子里扔种子（原始素材）。</div>
+  <p><b>思想源头</b>其实很老：1945 年 Vannevar Bush 就设想过 <span class="term">Memex</span>——一台私人知识机器，文档之间靠"联想轨迹"连接。Bush 当年没解决的问题是"谁来做维护"，LLM 恰好补上了这一块。</p>
+</section>
+
+<!-- ================= Q2 ================= -->
+<section class="c2" id="q2">
+  <div class="qhead"><span class="qnum">Q2</span><h2>和 RAG 的本质区别：每次现检索 vs 增量编译</h2></div>
+  <p>我们已在 [[RAG检索增强生成]] 学过：RAG 是"开卷考试"——查询时现场检索相关段落再作答。Karpathy 指出它的结构性缺陷：<span class="hl">LLM 在每个问题上都从零重新发现知识，没有任何积累</span>。要综合五份文档才能回答的微妙问题，每次都要重新找碎片、重新拼。</p>
+  <p>LLM-Wiki 反过来：<span class="big">知识被"编译"一次、之后保持更新（kept current），而不是每次查询重新推导（re-derived）</span>。交叉引用早就建好了，矛盾早就被标出来了，综合早就反映了你读过的所有材料。</p>
+  <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg">
+    <text x="130" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#118AB2">RAG：现检索</text>
+    <text x="560" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#FF4D6D">LLM-Wiki：增量编译</text>
+    <rect x="20" y="45" width="220" height="120" rx="10" fill="#D7EEF8" stroke="#118AB2" stroke-width="2"/>
+    <text x="130" y="70" text-anchor="middle" font-size="12" font-weight="bold">raw 文档堆（静止）</text>
+    <text x="130" y="92" text-anchor="middle" font-size="11">问题1 → 检索碎片 → 答案（丢弃）</text>
+    <text x="130" y="112" text-anchor="middle" font-size="11">问题2 → 再检索碎片 → 再答案（丢弃）</text>
+    <text x="130" y="132" text-anchor="middle" font-size="11">每次都从零开始 🔁</text>
+    <text x="130" y="155" text-anchor="middle" font-size="11" fill="#118AB2" font-weight="bold">价值不积累</text>
+    <rect x="450" y="45" width="220" height="120" rx="10" fill="#FFE5EA" stroke="#FF4D6D" stroke-width="2"/>
+    <text x="560" y="70" text-anchor="middle" font-size="12" font-weight="bold">wiki（越养越肥）</text>
+    <text x="560" y="92" text-anchor="middle" font-size="11">新源 → LLM 读 → 更新 10~15 页</text>
+    <text x="560" y="112" text-anchor="middle" font-size="11">交叉引用✓ 矛盾标记✓ 综合✓</text>
+    <text x="560" y="132" text-anchor="middle" font-size="11">查询 = 读现成综合结果</text>
+    <text x="560" y="155" text-anchor="middle" font-size="11" fill="#FF4D6D" font-weight="bold">每次都复利增值 📈</text>
+    <path d="M 245 105 L 445 105" stroke="#999" stroke-dasharray="6 4" stroke-width="2" marker-end="url(#a)"/>
+    <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#999"/></marker></defs>
+    <text x="345" y="95" text-anchor="middle" font-size="11" fill="#666">范式切换</text>
+    <text x="360" y="215" text-anchor="middle" font-size="13" font-weight="bold">一个直白的对比：</text>
+    <text x="360" y="240" text-anchor="middle" font-size="12">RAG 像"每次考试都临时翻书找答案"；LLM-Wiki 像"把书读一遍整理成自己的笔记本，之后越翻越快"。</text>
+    <text x="360" y="265" text-anchor="middle" font-size="12" fill="#FF4D6D" font-weight="bold">关键差异不在检索技术，在"是否有一次性的编译投入 + 持续维护"。</text>
+  </svg>
+  <p>注意二者不是敌人：Karpathy 也说 wiki 长大到几百页之后，可以配 <span class="term">qmd</span> 这类本地混合检索（BM25+向量，正是我们学过的 [[HNSW近似最近邻索引]] + 关键词检索的组合）当外挂搜索引擎。</p>
+</section>
+
+<!-- ================= Q3 ================= -->
+<section class="c3" id="q3">
+  <div class="qhead"><span class="qnum">Q3</span><h2>为什么人维护的 wiki 总会烂掉，换成 LLM 就行？</h2></div>
+  <p>这是整个方法的经济学基础。Karpathy 的判断：<span class="hl">"维护知识库最累的不是阅读和思考，而是簿记（bookkeeping）"</span>——更新交叉引用、保持摘要最新、标记新旧数据矛盾、跨几十个页面保持一致。</p>
+  <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+    <text x="360" y="24" text-anchor="middle" font-size="14" font-weight="bold">wiki 页面数增长 vs 维护负担（示意）</text>
+    <line x1="60" y1="180" x2="680" y2="180" stroke="#333" stroke-width="2"/>
+    <line x1="60" y1="180" x2="60" y2="40" stroke="#333" stroke-width="2"/>
+    <path d="M 60 170 C 250 160, 500 120, 670 60" stroke="#FF4D6D" stroke-width="4" fill="none"/>
+    <text x="600" y="50" font-size="12" fill="#FF4D6D" font-weight="bold">人类维护成本（超线性）</text>
+    <path d="M 60 175 L 670 140" stroke="#06D6A0" stroke-width="4" fill="none"/>
+    <text x="600" y="128" font-size="12" fill="#06D6A0" font-weight="bold">LLM 维护成本（近零）</text>
+    <line x1="380" y1="170" x2="380" y2="105" stroke="#FB5607" stroke-dasharray="5 4" stroke-width="2"/>
+    <text x="380" y="200" text-anchor="middle" font-size="11" fill="#FB5607" font-weight="bold">人类在这里放弃（维护成本 > 价值增长）</text>
+  </svg>
+  <p>人类放弃 wiki 是因为<span class="hl">维护成本的增长快于价值的增长</span>。LLM 恰好补在短板上：不会厌倦、不会忘记更新引用、一次能改 15 个文件——<span class="big">维护成本趋近于零，wiki 才第一次有可能"活着"</span>。</p>
+  <div class="analogy"><b>类比（接 Q1 的花园）：</b>花园荒掉从来不是因为种子不好，是因为浇水除草的活没人干。园丁便宜到忽略不计时，花园自然就活了。</div>
+  <p>于是分工变成：<span class="term">人的职责</span> = 策展素材、引导分析、提出好问题、思考意义；<span class="term">LLM 的职责</span> = 其余的一切。</p>
+</section>
+
+<!-- ================= Q4 ================= -->
+<section class="c4" id="q4">
+  <div class="qhead"><span class="qnum">Q4</span><h2>三层架构：raw / wiki / schema 怎么分权？为什么 raw 必须只读？</h2></div>
+  <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+    <rect x="20" y="30" width="210" height="180" rx="14" fill="#FFF3D6" stroke="#FF9E00" stroke-width="3"/>
+    <text x="125" y="60" text-anchor="middle" font-size="15" font-weight="bold" fill="#B25E00">raw/ 原始素材</text>
+    <text x="125" y="84" text-anchor="middle" font-size="11">🔒 只读 · 不可改不可删</text>
+    <text x="125" y="110" text-anchor="middle" font-size="11">文章 / 转录 / PDF / 对话导出</text>
+    <text x="125" y="134" text-anchor="middle" font-size="11">（审计线 audit trail）</text>
+    <text x="125" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#B25E00">谁写？只有你</text>
+    <rect x="255" y="30" width="210" height="180" rx="14" fill="#FFE5EA" stroke="#FF4D6D" stroke-width="3"/>
+    <text x="360" y="60" text-anchor="middle" font-size="15" font-weight="bold" fill="#C81E44">wiki/ 知识层</text>
+    <text x="360" y="84" text-anchor="middle" font-size="11">✍️ LLM 全权维护</text>
+    <text x="360" y="110" text-anchor="middle" font-size="11">概念页 / 实体页 / 源摘要页</text>
+    <text x="360" y="134" text-anchor="middle" font-size="11">index.md + log.md</text>
+    <text x="360" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#C81E44">谁写？只有 LLM，你只读</text>
+    <rect x="490" y="30" width="210" height="180" rx="14" fill="#D8F8EE" stroke="#06D6A0" stroke-width="3"/>
+    <text x="595" y="60" text-anchor="middle" font-size="15" font-weight="bold" fill="#048A67">CLAUDE.md 规约</text>
+    <text x="595" y="84" text-anchor="middle" font-size="11">📜 schema：目录结构 / 页面规范</text>
+    <text x="595" y="108" text-anchor="middle" font-size="11">ingest 怎么做 / 答题怎么答</text>
+    <text x="595" y="132" text-anchor="middle" font-size="11">你和 LLM 共同进化</text>
+    <text x="595" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#048A67">谁写？你和 LLM 协商</text>
+    <path d="M 232 120 L 252 120" stroke="#333" stroke-width="3" marker-end="url(#b)"/>
+    <path d="M 467 120 L 487 120" stroke="#333" stroke-width="3" marker-end="url(#b)"/>
+    <defs><marker id="b" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#333"/></marker></defs>
+    <text x="242" y="110" text-anchor="middle" font-size="10">读</text>
+    <text x="477" y="110" text-anchor="middle" font-size="10">约束</text>
+    <text x="360" y="240" text-anchor="middle" font-size="12.5" font-weight="bold">一句话记牢：人写 raw，LLM 写 wiki，两人一起写规则。</text>
+  </svg>
+  <p><b>为什么 raw 只读？</b>它是<span class="hl">事实底座和审计线</span>：wiki 里任何一句综合结论，都能顺着 frontmatter 里的 <code>sources:</code> 追溯到 raw 里的原文。raw 一旦可改，"知识被谁、依据什么改的"就说不清了——这正是我们学过的 [[JSONL事件日志与折叠模型]] 的同款思想：<span class="hl">只追加的事实层 + 可重建的派生层</span>。区别只是 wiki 不是从日志 fold 出来的，而是 LLM 从 raw 蒸馏出来的。</p>
+  <p><b>schema 层</b>是 Karpathy 特意强调的：<span class="term">CLAUDE.md（Codex 叫 AGENTS.md）</span>是"让 LLM 成为守纪律的 wiki 维护者、而不是泛泛聊天机器人"的关键配置——没有它，每次会话 LLM 都要重新猜你的目录结构和写作规范。</p>
+</section>
+
+<!-- ================= Q5 ================= -->
+<section class="c5" id="q5">
+  <div class="qhead"><span class="qnum">Q5</span><h2>原子笔记、双链、Zettelkasten：wiki 层的"语言"</h2></div>
+  <p>LLM-Wiki 的 wiki 层不是新发明，它站在一百年笔记方法论的肩膀上：<span class="term">Zettelkasten</span>（德语"卡片盒"）——社会学家卢曼用"一卡一想法 + 卡片互相引用"写了 70 多本书。三条规则：</p>
+  <div class="kv">
+    <span>① 原子性：一页只讲一个概念</span>
+    <span>② 双链 [[页面名]]：页与页互相连接</span>
+    <span>③ 来源标注：每个论断指回 raw 原文</span>
+  </div>
+  <p><b>原子性为什么是硬要求？</b>一页只讲一个概念，这一页才能被多个主题复用、被精确链接、被单独更新。一页塞五个概念，链接就只能指向"一堆东西"，知识图谱退化成一团浆糊。</p>
+  <svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg">
+    <text x="360" y="24" text-anchor="middle" font-size="14" font-weight="bold">原子页 + 双链 = 知识图谱（Obsidian graph view 看到的就是它）</text>
+    <rect x="40" y="70" width="150" height="56" rx="10" fill="#EDE4FD" stroke="#8338EC" stroke-width="2.5"/>
+    <text x="115" y="95" text-anchor="middle" font-size="12" font-weight="bold">LLM-Wiki 模式</text>
+    <text x="115" y="113" text-anchor="middle" font-size="10">概念页</text>
+    <rect x="290" y="40" width="150" height="56" rx="10" fill="#D8F8EE" stroke="#06D6A0" stroke-width="2.5"/>
+    <text x="365" y="65" text-anchor="middle" font-size="12" font-weight="bold">三层架构</text>
+    <text x="365" y="83" text-anchor="middle" font-size="10">概念页</text>
+    <rect x="290" y="150" width="150" height="56" rx="10" fill="#FFF3D6" stroke="#FF9E00" stroke-width="2.5"/>
+    <text x="365" y="175" text-anchor="middle" font-size="12" font-weight="bold">簿记成本</text>
+    <text x="365" y="193" text-anchor="middle" font-size="10">概念页</text>
+    <rect x="540" y="95" width="150" height="56" rx="10" fill="#FFE5EA" stroke="#FF4D6D" stroke-width="2.5"/>
+    <text x="615" y="120" text-anchor="middle" font-size="12" font-weight="bold">源摘要页</text>
+    <text x="615" y="138" text-anchor="middle" font-size="10">type: source-summary</text>
+    <path d="M 192 90 C 240 80, 250 75, 287 68" stroke="#8338EC" stroke-width="2.5" fill="none"/>
+    <path d="M 192 105 C 240 130, 250 155, 287 172" stroke="#8338EC" stroke-width="2.5" fill="none"/>
+    <path d="M 442 68 C 490 80, 500 95, 537 108" stroke="#06D6A0" stroke-width="2.5" fill="none"/>
+    <path d="M 442 178 C 490 165, 500 150, 537 138" stroke="#FF9E00" stroke-width="2.5" fill="none"/>
+    <text x="360" y="245" text-anchor="middle" font-size="12">每条 <tspan font-weight="bold" fill="#8338EC">[[双链]]</tspan> 都是双向的：你链接了谁，谁的"反向链接"面板自动出现你。</text>
+    <text x="360" y="266" text-anchor="middle" font-size="12" font-weight="bold" fill="#C81E44">源摘要页（红）汇聚所有概念页的引用 → 每个论断都能溯源到 raw。</text>
+  </svg>
+  <p>页面还讲 frontmatter 纪律：YAML 头部写 <code>title / type / sources / related / created</code> 等字段——结构化元数据让检索和排序有据可依，也是 Obsidian <span class="term">Dataview</span> 插件能自动生成动态表格的前提。</p>
+</section>
+
+<!-- ================= Q6 ================= -->
+<section class="c6" id="q6">
+  <div class="qhead"><span class="qnum">Q6</span><h2>三大操作 Ingest / Query / Lint：系统怎么循环运转？</h2></div>
+  <p>Karpathy 把对 wiki 的一切操作收敛成三个动词，社区 starter kit 把它们做成了 Claude Code 的四条斜杠命令（/ingest /query /log /lint）：</p>
+  <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg">
+    <rect x="30" y="60" width="180" height="150" rx="14" fill="#FFF3D6" stroke="#FF9E00" stroke-width="3"/>
+    <text x="120" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#B25E00">📥 Ingest 摄入</text>
+    <text x="120" y="115" text-anchor="middle" font-size="11">丢新源进 raw/ → LLM 读</text>
+    <text x="120" y="136" text-anchor="middle" font-size="11">写摘要页 + 更新 10~15 张</text>
+    <text x="120" y="157" text-anchor="middle" font-size="11">概念页 + 更新 index</text>
+    <text x="120" y="178" text-anchor="middle" font-size="11">+ 追加 log</text>
+    <rect x="270" y="60" width="180" height="150" rx="14" fill="#D7EEF8" stroke="#118AB2" stroke-width="3"/>
+    <text x="360" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#0B6A8C">🔍 Query 查询</text>
+    <text x="360" y="115" text-anchor="middle" font-size="11">先读 index.md 定位页面</text>
+    <text x="360" y="136" text-anchor="middle" font-size="11">综合成带引用的答案</text>
+    <text x="360" y="157" text-anchor="middle" font-size="11">形式随意：表格/Marp 幻灯/图</text>
+    <text x="360" y="185" text-anchor="middle" font-size="11" font-weight="bold" fill="#0B6A8C">好答案回填成新页！</text>
+    <rect x="510" y="60" width="180" height="150" rx="14" fill="#FFE5EA" stroke="#FF4D6D" stroke-width="3"/>
+    <text x="600" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#C81E44">🩺 Lint 体检</text>
+    <text x="600" y="115" text-anchor="middle" font-size="11">找矛盾 / 过时论断</text>
+    <text x="600" y="136" text-anchor="middle" font-size="11">孤儿页 / 缺失概念页</text>
+    <text x="600" y="157" text-anchor="middle" font-size="11">断链 / 数据缺口</text>
+    <text x="600" y="185" text-anchor="middle" font-size="11" font-weight="bold" fill="#C81E44">社区还配每晚定时跑</text>
+    <path d="M 215 110 L 265 110" stroke="#333" stroke-width="3" marker-end="url(#c)"/>
+    <path d="M 455 110 L 505 110" stroke="#333" stroke-width="3" marker-end="url(#c)"/>
+    <path d="M 600 215 C 600 265, 120 265, 120 215" stroke="#8338EC" stroke-width="3" fill="none" marker-end="url(#c)"/>
+    <defs><marker id="c" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#333"/></marker></defs>
+    <text x="360" y="285" text-anchor="middle" font-size="12" font-weight="bold" fill="#8338EC">Lint 发现的缺口 → 变成新的 Ingest 目标 → 循环：知识库越转越厚</text>
+    <text x="360" y="40" text-anchor="middle" font-size="13" font-weight="bold">Query 的隐藏要点：答案不能消失在聊天记录里，要"归档回 wiki"——探索也复利。</text>
+  </svg>
+  <p><b>两种节奏</b>：Karpathy 本人偏好<span class="term">逐源精摄</span>（一次喂一篇，读摘要、把关重点）；也可以<span class="term">批量夜摄</span>（starter kit 用 Windows 任务计划/每晚 3 点自动 ingest + lint，睡一觉 wiki 自己长）。你完全可以先用前者建立信任，再放开后者。</p>
+</section>
+
+<!-- ================= Q7 ================= -->
+<section class="c1" id="q7">
+  <div class="qhead"><span class="qnum">Q7</span><h2>index.md 与 log.md：为什么拆成"目录"和"时间线"两个文件？</h2></div>
+  <p>这是 gist 里最实用的工程细节。两个特殊文件职责正交：</p>
+  <table class="cmp">
+    <tr><th class="th1">wiki/index.md — 内容目录（面向"是什么"）</th><th class="th2">wiki/log.md — 时间线（面向"发生了什么"）</th></tr>
+    <tr><td>每页一行：[[链接]] + 一句话摘要，按类型分组</td><td>只追加：ingest/query/lint 每操作记一条，新的在上</td></tr>
+    <tr><td>每次 ingest 后重建</td><td>永不重写历史</td></tr>
+    <tr><td>查询时 LLM <b>先读它</b>定位相关页，再钻进去——在 ~100 源几百页规模，这一个文件就能替代 embedding RAG 基础设施</td><td>每条用统一前缀 <code>## [日期] 操作 | 标题</code>，日志立刻变成 unix 工具可解析的流：grep 一下就是"最近 5 次操作"</td></tr>
+  </table>
+  <div class="code">grep "^## \[" wiki/log.md | tail -5
+<span class="c">## [2026-10-02] ingest | LLM-Wiki 模式（示例原始素材一）（3 概念页）</span>
+<span class="c">## [2026-10-02] ingest | 原子笔记与 Zettelkasten（示例原始素材二）（3 概念页）</span></div>
+  <div class="check">实验第 10 步实测：上面就是本机 mini-wiki 的真实 grep 输出——统一前缀让 log 免建数据库就能被检索。</div>
+  <p>记忆钩子：<span class="hl">index 回答"我有什么"，log 回答"我怎么变成今天这样的"</span>。前者给查询用，后者给审计和 LLM 的"最近上下文"用。</p>
+</section>
+
+<!-- ================= Q8 ================= -->
+<section class="c2" id="q8">
+  <div class="qhead"><span class="qnum">Q8</span><h2>CLAUDE.md（schema）为什么是整个系统的灵魂？</h2></div>
+  <p>三层架构里最不起眼又最关键的是 schema。Karpathy 原话：<span class="hl">"这是关键配置文件——它让 LLM 成为守纪律的 wiki 维护者，而不是一个泛泛的聊天机器人"</span>。它写明：目录结构、页面 frontmatter 规范、链接语法、原子性要求、三种操作的具体流程。</p>
+  <p>用我们已经掌握的概念看，它一点也不神秘：</p>
+  <table class="cmp">
+    <tr><th class="th3">schema（CLAUDE.md）是什么</th><th class="th3">已学过的同族概念</th></tr>
+    <tr><td>常驻上下文的"项目宪法"，每次会话自动生效</td><td>[[AgentSkills技能包]]：把方法论写成文件装给编程智能体</td></tr>
+    <tr><td>结构固定、槽位明确、可参数化（type 枚举、字段必填）</td><td>[[PromptAsCode提示词即代码]]：提示词协议化 → 可质检</td></tr>
+    <tr><td>规定"怎么做 ingest / lint"，让每次执行结果一致可查</td><td>[[质检Gate与自我纠错循环]]：lint 就是客观检查站</td></tr>
+    <tr><td>约束 LLM 只在 wiki/ 写、不碰 raw/</td><td>[[提示注入]] 防御里的最小授权思想</td></tr>
+  </table>
+  <p><span class="big">和 LLM 共同进化</span>是 schema 的使用方式：发现 LLM 老犯某类错（比如忘了标注来源），就把对应规则加进 CLAUDE.md——规则库本身也是 wiki 的一部分，随使用越来越贴合你的领域。</p>
+</section>
+
+<!-- ================= Q9 ================= -->
+<section class="c3" id="q9">
+  <div class="qhead"><span class="qnum">Q9</span><h2>Obsidian 在系统里扮演什么角色？没有它行不行？</h2></div>
+  <p>Karpathy 那句流传最广的定位：<span class="hl">"Obsidian is the IDE; the LLM is the programmer; the wiki is the codebase."</span>（Obsidian 是 IDE，LLM 是程序员，wiki 是代码库。）</p>
+  <p>注意这个定位里 Obsidian <b>不是必需品</b>——wiki 只是"一堆 Markdown 文件的 git 仓库"。Obsidian 提供的是三件免费好东西：</p>
+  <div class="kv">
+    <span>graph view：一眼看出哪些页是枢纽、哪些是孤儿</span>
+    <span>反链面板：每条双链的"谁链接了我"</span>
+    <span>Web Clipper：网页一键转 Markdown 存入 raw/</span>
+  </div>
+  <p>这和我们学过的 [[本地优先与文件监听]] 完全同构：<span class="hl">数据主权在你手里的 .md 文件，应用只是文件的一个视图</span>。Obsidian 换成 VS Code、Logseq、甚至记事本，wiki 照样活着——agent（Claude Code）读写的是文件系统，不依赖任何特定编辑器。附加好处：wiki 天然是个 git 仓库，版本历史、分支、协作全部白送。</p>
+  <div class="warn"><b>可选增强（都来自 gist 的 tips）：</b>图片本地化（附件目录固定到 raw/assets/，快捷键一键下载远端图）；<span class="term">Marp</span> 用 wiki 内容直接生成幻灯片；<span class="term">Dataview</span> 用 frontmatter 生成动态表格；wiki 长大后上 <span class="term">qmd</span> 本地混合检索（CLI + MCP server 双形态）。</div>
+</section>
+
+<!-- ================= Q10 ================= -->
+<section class="c4" id="q10">
+  <div class="qhead"><span class="qnum">Q10</span><h2>和我已学的知识什么关系？（含：F:\reminder 本仓库就是它的实例）</h2></div>
+  <p>最有意思的发现：<span class="hl">F:\reminder 这个总仓库本身，就是一个带流水线的 LLM-Wiki 实例</span>。逐层对上：</p>
+  <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg">
+    <text x="180" y="28" text-anchor="middle" font-size="14" font-weight="bold" fill="#B25E00">Karpathy 通用 LLM-Wiki</text>
+    <text x="540" y="28" text-anchor="middle" font-size="14" font-weight="bold" fill="#0B6A8C">F:\reminder 仓库（我们天天在用的）</text>
+    <rect x="30" y="45" width="300" height="40" rx="9" fill="#FFF3D6" stroke="#FF9E00" stroke-width="2.5"/>
+    <text x="180" y="70" text-anchor="middle" font-size="12.5" font-weight="bold">raw/ 只读源层</text>
+    <rect x="390" y="45" width="300" height="40" rx="9" fill="#D7EEF8" stroke="#118AB2" stroke-width="2.5"/>
+    <text x="540" y="70" text-anchor="middle" font-size="12.5" font-weight="bold">拾遗链接（推文/项目）+ 克隆的 repo\</text>
+    <rect x="30" y="110" width="300" height="40" rx="9" fill="#FFE5EA" stroke="#FF4D6D" stroke-width="2.5"/>
+    <text x="180" y="135" text-anchor="middle" font-size="12.5" font-weight="bold">wiki/ LLM 蒸馏层</text>
+    <rect x="390" y="110" width="300" height="40" rx="9" fill="#FFE5EA" stroke="#FF4D6D" stroke-width="2.5"/>
+    <text x="540" y="135" text-anchor="middle" font-size="12.5" font-weight="bold">vault\（概念\ + 项目笔记\ + 00-总览 MOC）</text>
+    <rect x="30" y="175" width="300" height="40" rx="9" fill="#D8F8EE" stroke="#06D6A0" stroke-width="2.5"/>
+    <text x="180" y="200" text-anchor="middle" font-size="12.5" font-weight="bold">schema 规约层</text>
+    <rect x="390" y="175" width="300" height="40" rx="9" fill="#D8F8EE" stroke="#06D6A0" stroke-width="2.5"/>
+    <text x="540" y="200" text-anchor="middle" font-size="12.5" font-weight="bold">learn-project SKILL.md（七步流程）</text>
+    <rect x="30" y="240" width="300" height="40" rx="9" fill="#EDE4FD" stroke="#8338EC" stroke-width="2.5"/>
+    <text x="180" y="265" text-anchor="middle" font-size="12.5" font-weight="bold">Ingest / Query / Lint 三操作</text>
+    <rect x="390" y="240" width="300" height="40" rx="9" fill="#EDE4FD" stroke="#8338EC" stroke-width="2.5"/>
+    <text x="540" y="265" text-anchor="middle" font-size="12.5" font-weight="bold">学习七步 + 入库查重 + lint 式 grep 查重</text>
+    <path d="M 332 65 L 388 65 M 332 130 L 388 130 M 332 195 L 388 195 M 332 260 L 388 260" stroke="#999" stroke-width="2" stroke-dasharray="5 4"/>
+    <text x="360" y="308" text-anchor="middle" font-size="12" font-weight="bold" fill="#8338EC">行行对应：我们的 vault 就是 wiki 层，skill 就是 schema，拾遗队列就是 raw 层</text>
+  </svg>
+  <p>逐个挂接到已学概念：<span class="term">[[三层记忆]]</span>——raw→wiki→schema 同样是"逐层压缩、可回溯"的记忆分层；<span class="term">[[AgentSkills技能包]]</span>——CLAUDE.md 和 SKILL.md 是同一物种；<span class="term">[[JSONL事件日志与折叠模型]]</span>——raw 只读 + log 只追加，同一"事实层不可变"哲学；<span class="term">[[HNSW近似最近邻索引]]/[[RAG检索增强生成]]</span>——index.md 目录式检索是它的"穷人版"，规模大了再用 qmd 补上。</p>
+</section>
+
+<!-- ================= Q11 实验 ================= -->
+<section class="c5" id="q11">
+  <div class="qhead"><span class="qnum">Q11</span><h2>动手实验：10 步搭一个会自检的迷你 LLM-Wiki（全部实测通过）</h2></div>
+  <p>实验材料在 <b>F:\reminder\karpathy_second_brain\exercise\mini-wiki\</b>：一个 8 页的小 wiki + 三个零依赖 Python 工具（把 LLM 的簿记动作写成确定性脚本，让你看清每次 ingest 到底动了哪些文件）。所有命令已在 Windows 实机跑通，输出为真实记录。</p>
+  <div class="steps">
+    <div class="step"><h4>第 1 步：建骨架 + schema</h4>
+      <div class="code">cd F:\reminder\karpathy_second_brain\exercise\mini-wiki
+mkdir wiki\sources wiki\concepts</div>
+      <p>目的：立起 raw/wiki 双层 + CLAUDE.md 规约（已随材料提供，内容 = Q4/Q5 的规则）。实现了三层架构的空壳。</p></div>
+    <div class="step"><h4>第 2 步：确认 raw/ 里有两份"剪藏"素材</h4>
+      <div class="code">dir raw
+<span class="c">2026-10-02-llm-wiki-pattern.md   2026-10-02-atomic-notes.md</span></div>
+      <p>目的：模拟你往 raw/ 丢文章。raw 层从现在起只读。</p></div>
+    <div class="step"><h4>第 3 步：ingest 前先体检（Lint 应发现空库）</h4>
+      <div class="code">python tools\wiki_lint.py</div>
+      <div class="out">页面总数: 0   双链总数: 0   断链: 0   孤儿页: 0
+发现 1 个问题:
+  ⚠️  wiki/log.md 不存在（还没执行过任何操作？）</div>
+      <p>目的：先看"未处理状态"长什么样。验证：Lint 连"什么都没干"都能查出来。</p></div>
+    <div class="step"><h4>第 4~5 步：Ingest 两份素材</h4>
+      <div class="code">python tools\mini_ingest.py raw\2026-10-02-llm-wiki-pattern.md
+python tools\mini_ingest.py raw\2026-10-02-atomic-notes.md</div>
+      <div class="out">[1/4] 源摘要页  wiki/sources/LLM-Wiki-模式-示例原始素材一.md
+[2/4] 概念页    wiki/concepts/模式是什么.md   （+2 张）
+[3/4] 索引重建  wiki/index.md（共 4 页）
+[4/4] 日志追加  wiki/log.md</div>
+      <p>目的：跑一次完整 Ingest。一次 ingest = 1 源摘要页 + 3 原子概念页 + index 重建 + log 追加——Karpathy 说"一个源触及 10~15 页"，小例子 5 页同理。</p>
+      <div class="check">wiki/sources 出现 2 页、wiki/concepts 出现 6 页、index.md 8 行条目、log.md 2 条记录。</div></div>
+    <div class="step"><h4>第 6 步：ingest 后再体检（应全绿）</h4>
+      <div class="code">python tools\wiki_lint.py</div>
+      <div class="out">页面总数: 8   双链总数: 24   断链: 0   孤儿页: 0
+✅ 全部通过：frontmatter / 断链 / 孤儿页 / index 覆盖 / log 格式 / sources 路径</div></div>
+    <div class="step"><h4>第 7 步：故意埋雷，验证 Lint 真的能抓</h4>
+      <p>新建一页 <code>断链演示页.md</code>，内容链接到 <code>[[不存在的页]]</code>，再跑 lint：</p>
+      <div class="out">断链: 1   孤儿页: 1
+发现 3 个问题:
+  ❌ concepts\断链演示页.md: 断链 [[不存在的页]]（目标页不存在）
+  ⚠️  孤儿页: 断链演示页（没有任何页面链接它）
+  ❌ index.md 未收录页面: 断链演示页</div>
+      <p>删除该页后复跑 lint → 恢复 ✅。<span class="hl">看到 lint 抓到真问题，才证明体检不是摆设</span>。</p></div>
+    <div class="step"><h4>第 8 步：Query——先读索引，再给页面排名</h4>
+      <div class="code">python tools\wiki_query.py wiki
+python tools\wiki_query.py 原子</div>
+      <div class="out">[Query] 先读索引 wiki\index.md ...
+        索引命中: - [[为什么手工-wiki-会烂掉]] — ...
+「wiki」检索结果（8 页命中）:
+    14.5  sources\LLM-Wiki-模式-示例原始素材一.md  (入链 3)
+    13.5  concepts\为什么手工-wiki-会烂掉.md  (入链 3)</div>
+      <p>目的：体验"index 优先 + 标题加权 x3 / 元数据 x2 / 正文 x1 / 入链 x0.5"的目录式检索。验证：与"wiki"最相关的页排在最前。</p></div>
+    <div class="step"><h4>第 9 步：验证 log 是 grep 可解析时间线</h4>
+      <div class="code">grep "^## \[" wiki\log.md</div>
+      <div class="out">## [2026-10-02] ingest | LLM-Wiki 模式（示例原始素材一）（3 概念页）
+## [2026-10-02] ingest | 原子笔记与 Zettelkasten（示例原始素材二）（3 概念页）</div></div>
+    <div class="step"><h4>第 10 步：用 Obsidian（或任意 Markdown 编辑器）打开 mini-wiki</h4>
+      <p>把 mini-wiki 文件夹作为 vault 打开 → 看 graph view 的连线、点开任一页看反链面板。<span class="hl">这一步就是"Obsidian 是 IDE"的体感时刻</span>。</p></div>
+  </div>
+  <p><b>升级路线</b>：把 mini-wiki 里的确定性 ingest 换成真的 Claude Code + 一份 CLAUDE.md，就是完整版第二大脑；再配 starter kit 的四条斜杠命令和夜间定时任务，就是社区生产级形态。</p>
+</section>
+
+<!-- ================= Q12 ================= -->
+<section class="c6" id="q12">
+  <div class="qhead"><span class="qnum">Q12</span><h2>坑与局限：上手前必须知道的四件事</h2></div>
+  <p><b>① 幻觉污染。</b>wiki 层由 LLM 写——它编造的内容一旦进了 wiki，就被"编译"成了看似可信的知识，还会被后续 ingest 引用放大。对策：<span class="hl">每个论断强制标 sources 回指 raw</span>（原子性三规则的第三条），lint 时抽查溯源。</p>
+  <p><b>② 隐私。</b>raw/ 里常塞对话导出、录音转录、私人笔记——虽然全流程本地（这正是选 Claude Code CLI 而非网页版的原因），但 wiki 若推到公开 git 远程就泄露了。starter kit 甚至开篇先讲隐私：敏感素材留在本地、仓库设私有。</p>
+  <p><b>③ 成本与规模。</b>一次 ingest 动辄十几页的读+写，token 消耗可观；几百页以内 index.md 目录检索够用，再大就要上 qmd 混合检索、甚至重新引入向量库（[[向量数据库]] 那套并不白学，只是"不到规模不用上"）。</p>
+  <p><b>④ 编译错误的累积。</b>RAG 的错误随查询结束消散；wiki 的错误会<span class="hl">驻留并复利</span>。所以 Lint 不是可选项而是安全机制——就像代码要跑测试，wiki 要定期体检。人的"策展"职责里，审 LLM 的摘要质量排第一位。</p>
+  <h3 class="sub">一句话总结</h3>
+  <p><span class="big">第二大脑 = raw（人写，只读）+ wiki（LLM 写，原子页+双链）+ schema（共同进化）三件套，靠 Ingest/Query/Lint 三操作转起来；它成立的经济学前提只有一个——LLM 把维护成本打到近零。</span></p>
+</section>
+
+<!-- ================= 能力清单 ================= -->
+<section class="c3">
+  <div class="qhead"><span class="qnum">🎁</span><h2>这套方法给你什么（能力清单）</h2></div>
+  <p>① <span class="hl">把"收藏夹吃灰"变成知识资产</span>：文章/视频转录/PDF 丢进 raw/，让 agent 吃进去——读过的东西第一次开始复利。</p>
+  <p>② <span class="hl">读书伴生 wiki</span>：每读一章 ingest 一次，人物页/主题页自动生长，读完书 wiki 也成型（Tolkien Gateway 那种 fan wiki 一个人就能养）。</p>
+  <p>③ <span class="hl">科研/调研渐进综合</span>：几个月深挖一个课题，论断带溯源、矛盾被标记、综述页始终反映最新阅读。</p>
+  <p>④ <span class="hl">团队知识库无人值守维护</span>：会议转录、Slack 导出夜间自动 ingest，wiki 不再依赖"那个愿意整理的人"。</p>
+  <p>⑤ <span class="hl">直接用于本仓库</span>：F:\reminder 的 vault 已经是实例——本指南的 Q10 映射表可以直接拿来优化 learn-project 流程（比如给 vault 补一个 lint 脚本）。</p>
+  <p>⑥ <span class="hl">问答成果回填</span>：以后每次问 vault 得到的好答案，按 Q6 的"归档回 wiki"原则存成新页，探索本身也复利。</p>
+</section>
+
+<div class="foot">F:\reminder 拾遗队列 · task 693d95d4 · 一手资料 gist.github.com/karpathy (llm-wiki) · 社区实现 github.com/Aquinas-Protocol/second-brain · 实验材料 exercise\mini-wiki\ · 2026-10-02</div>
+</div>
+</body>
+</html>
