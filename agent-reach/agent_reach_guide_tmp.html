@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Agent Reach 小白指南</title>
+<style>
+:root{
+  --c-orange:#FF5722; --c-orange-l:#FFE0D6; --c-cyan:#00B0FF; --c-cyan-l:#D6F1FF;
+  --c-purple:#7C4DFF; --c-purple-l:#EAE3FF; --c-green:#00C853; --c-green-l:#D9FFE8;
+  --c-pink:#E91E63; --c-pink-l:#FFD9E7; --c-yellow:#FFB300; --c-yellow-l:#FFF3D1;
+  --c-blue:#2962FF; --c-blue-l:#DCE4FF; --c-ink:#263238; --c-gray:#607D8B;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--c-ink); background:#FFFDF8; line-height:1.75;}
+@page{size:A4; margin:14mm;}
+h1{font-size:34px; line-height:1.3;}
+h2{font-size:22px;}
+code{background:#263238; color:#FFEB3B; padding:2px 8px; border-radius:6px; font-family:Consolas,monospace; font-size:0.88em;}
+pre{background:#263238; color:#ECEFF1; padding:16px 18px; border-radius:12px; font-family:Consolas,monospace; font-size:12.5px; line-height:1.7; overflow-x:auto; margin:10px 0; white-space:pre-wrap;}
+pre code{background:none; color:inherit; padding:0;}
+.card{border-radius:18px; padding:22px 26px; margin:22px 0; break-inside:avoid; box-shadow:0 3px 14px rgba(38,50,56,.10); border:2px solid;}
+.qhead{display:flex; align-items:center; gap:14px; margin-bottom:10px;}
+.qnum{font-size:40px; font-weight:900; color:#fff; border-radius:14px; padding:2px 16px; flex:none;}
+.qtitle{font-size:20px; font-weight:800;}
+.tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; border-radius:20px; padding:1px 12px; margin-left:8px; vertical-align:middle;}
+.hl{font-size:1.12em; font-weight:800; padding:2px 8px; border-radius:8px;}
+.big{font-size:1.25em; font-weight:900;}
+.svgbox{text-align:center; margin:12px 0;}
+table{border-collapse:collapse; width:100%; margin:12px 0; font-size:14px;}
+th,td{border:2px solid #fff; padding:8px 12px; text-align:left;}
+th{color:#fff; font-weight:800;}
+.exp{border-radius:14px; padding:16px 20px; margin:14px 0; break-inside:avoid;}
+.exp h3{font-size:17px; margin-bottom:6px;}
+.expect{background:var(--c-green-l); border:3px dashed var(--c-green); border-radius:12px; padding:10px 16px; margin-top:10px; font-weight:700;}
+.cover{text-align:center; padding:60px 30px 40px; background:linear-gradient(135deg,#FF5722 0%,#FF9800 45%,#FFC107 100%); border-radius:24px; color:#fff; margin-bottom:28px;}
+.cover h1{font-size:44px; text-shadow:0 3px 8px rgba(0,0,0,.25);}
+.cover p{font-size:17px; margin-top:14px; opacity:.96;}
+.badges{margin-top:22px;}
+.badges span{display:inline-block; background:rgba(255,255,255,.22); border:2px solid rgba(255,255,255,.7); border-radius:30px; padding:4px 18px; margin:4px; font-weight:700;}
+.toc{background:var(--c-blue-l); border:3px solid var(--c-blue); border-radius:18px; padding:18px 26px; margin:22px 0;}
+.toc li{margin:3px 0; font-weight:700;}
+.warn{background:var(--c-yellow-l); border-left:8px solid var(--c-yellow); border-radius:0 12px 12px 0; padding:12px 16px; margin:12px 0; font-weight:700;}
+.red{background:var(--c-pink-l); border-left:8px solid var(--c-pink); border-radius:0 12px 12px 0; padding:12px 16px; margin:12px 0; font-weight:700;}
+.section-title{font-size:26px; font-weight:900; margin:34px 0 6px; padding:8px 18px; border-radius:14px; color:#fff;}
+.footer{margin-top:36px; text-align:center; color:var(--c-gray); font-size:13px;}
+ul,ol{padding-left:26px;}
+li{margin:4px 0;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>👁️ Agent Reach 小白指南</h1>
+  <p>一句话给你的 AI Agent 装上互联网能力 —— 让 Claude / Cursor 能读推特、刷小红书、看 B站、搜 Reddit</p>
+  <div class="badges">
+    <span>⭐ GitHub 88k+ Stars</span><span>📜 MIT 开源免费</span><span>🐍 Python 3.10+</span><span>📅 2026-10-02 学习</span>
+  </div>
+</div>
+
+<div class="toc">
+  <h2>📖 疑问清单（即本指南目录）</h2>
+  <ol>
+    <li>Agent Reach 是什么？一句话能说清吗？</li>
+    <li>为什么 AI Agent 需要它？没有它之前人们怎么做？</li>
+    <li>它和我们已学的 MCP 是什么关系？</li>
+    <li>它的核心架构是什么？为什么说自己"不是抓取框架"？</li>
+    <li>doctor 体检是怎么工作的？为什么"只看命令存不存在"不够？</li>
+    <li>什么是"首选 + 备选"后端路由？</li>
+    <li>Cookie 和登录态怎么处理？安全吗？</li>
+    <li>渠道的 tier 0 / 1 / 2 分层是什么意思？</li>
+    <li>装完之后 Agent 怎么知道该调用什么工具？</li>
+    <li>一条安装命令背后到底发生了什么？</li>
+    <li>这个项目给我什么能力？</li>
+    <li>动手实验：亲手验证 5 个零配置渠道</li>
+  </ol>
+</div>
+
+<!-- Q1 -->
+<div class="card" style="border-color:var(--c-orange); background:#FFF9F6;">
+  <div class="qhead"><div class="qnum" style="background:var(--c-orange);">1</div><div class="qtitle">Agent Reach 是什么？</div></div>
+  <p><span class="big">它是一个"能力层"（capability layer），不是又一个爬虫工具。</span>官方原话：<span class="hl" style="background:var(--c-orange-l);">"给你的 AI Agent 一键装上互联网能力"</span>。你复制一句话给 Claude Code / Cursor，几分钟后你的 Agent 就能读推特、搜 Reddit、看 YouTube 字幕、刷小红书、抓 B站视频。</p>
+  <p>它做四件事：<b>选型</b>（每个平台替你选好当下最稳的接入方式）、<b>安装</b>（装好上游 CLI 工具）、<b>体检</b>（doctor 一条命令查所有渠道通不通）、<b>路由</b>（某条接入失效了换备选，用户无感）。真正的数据读取由 Agent 直接调用上游工具完成，<b>中间没有任何包装层</b>——所以它几乎没有性能损耗，也不会成为新的故障点。</p>
+  <div class="svgbox">
+  <svg width="620" height="170" viewBox="0 0 620 170">
+    <rect x="10" y="10" width="140" height="60" rx="12" fill="#7C4DFF"/>
+    <text x="80" y="36" fill="#fff" font-size="15" font-weight="bold" text-anchor="middle">AI Agent</text>
+    <text x="80" y="56" fill="#EAE3FF" font-size="11" text-anchor="middle">Claude/Cursor/OpenClaw</text>
+    <rect x="200" y="10" width="220" height="60" rx="12" fill="#FF5722"/>
+    <text x="310" y="36" fill="#fff" font-size="15" font-weight="bold" text-anchor="middle">Agent Reach 能力层</text>
+    <text x="310" y="56" fill="#FFE0D6" font-size="11" text-anchor="middle">选型 · 安装 · 体检 · 路由</text>
+    <rect x="160" y="105" width="90" height="50" rx="10" fill="#00B0FF"/>
+    <text x="205" y="135" fill="#fff" font-size="12" text-anchor="middle">twitter-cli</text>
+    <rect x="265" y="105" width="90" height="50" rx="10" fill="#00C853"/>
+    <text x="310" y="135" fill="#fff" font-size="12" text-anchor="middle">yt-dlp</text>
+    <rect x="370" y="105" width="90" height="50" rx="10" fill="#E91E63"/>
+    <text x="415" y="135" fill="#fff" font-size="12" text-anchor="middle">bili-cli</text>
+    <rect x="475" y="105" width="90" height="50" rx="10" fill="#FFB300"/>
+    <text x="520" y="135" fill="#fff" font-size="12" text-anchor="middle">gh CLI</text>
+    <rect x="70" y="105" width="80" height="50" rx="10" fill="#2962FF"/>
+    <text x="110" y="135" fill="#fff" font-size="12" text-anchor="middle">Jina Reader</text>
+    <path d="M150 40 L200 40" stroke="#FF5722" stroke-width="3" marker-end="url(#a)"/>
+    <path d="M310 70 L205 105 M310 70 L310 105 M310 70 L415 105 M310 70 L520 105 M310 70 L110 105" stroke="#90A4AE" stroke-width="2" stroke-dasharray="5 4"/>
+    <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#FF5722"/></marker></defs>
+    <text x="440" y="45" fill="#FF5722" font-size="12" font-weight="bold">装完即卸责：Agent 直连上游</text>
+  </svg>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="border-color:var(--c-cyan); background:#F4FBFF;">
+  <div class="qhead"><div class="qnum" style="background:var(--c-cyan);">2</div><div class="qtitle">为什么 AI Agent 需要它？</div></div>
+  <p>AI Agent 能帮你写代码、改文档、管项目——但你让它上网找点东西，它就抓瞎了：</p>
+  <table>
+    <tr><th style="background:var(--c-pink);">你说</th><th style="background:var(--c-pink);">结果</th></tr>
+    <tr><td>"看看这个 YouTube 教程讲了什么"</td><td style="background:var(--c-pink-l);">拿不到字幕</td></tr>
+    <tr><td>"搜一下推特上大家怎么评价这个产品"</td><td style="background:var(--c-pink-l);">Twitter API 要付费</td></tr>
+    <tr><td>"去 Reddit 看看有没有同样的 bug"</td><td style="background:var(--c-pink-l);">403 被封，服务器 IP 被拒</td></tr>
+    <tr><td>"看看小红书上这个品的口碑"</td><td style="background:var(--c-pink-l);">必须登录才能看</td></tr>
+    <tr><td>"帮我看看这个网页写了啥"</td><td style="background:var(--c-pink-l);">抓回一堆 HTML 标签没法读</td></tr>
+  </table>
+  <p><span class="hl" style="background:var(--c-cyan-l);">这些功能都不难，但每个平台都有自己的坑</span>：付费 API、IP 封锁、登录门槛、数据清洗。自己一个一个踩坑装工具调配置，光让 Agent 读个推特就得折腾半天。<b>Agent Reach 把"踩坑"这件事一次性做完，并承诺持续维护</b>——平台封了它修，有新渠道它加。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="border-color:var(--c-purple); background:#FAF8FF;">
+  <div class="qhead"><div class="qnum" style="background:var(--c-purple);">3</div><div class="qtitle">它和 MCP 是什么关系？</div></div>
+  <p>知识库里我们已经学过 <b>MCP 协议</b>（AI 连接外部工具的开放标准）和 <b>Agent Skill</b>（装给编程智能体的方法论包）。Agent Reach 和它们的关系是<span class="hl" style="background:var(--c-purple-l);">"互补，不是替代"</span>：</p>
+  <table>
+    <tr><th style="background:var(--c-purple);"></th><th style="background:var(--c-purple);">MCP</th><th style="background:var(--c-purple);">Agent Reach</th></tr>
+    <tr><td><b>形态</b></td><td>协议 + 服务器（进程/HTTP）</td><td>Python CLI + 一份 SKILL.md 说明书</td></tr>
+    <tr><td><b>Agent 怎么用它</b></td><td>框架内置工具调用</td><td>Agent 直接执行 shell 命令（curl / yt-dlp / bili）</td></tr>
+    <tr><td><b>覆盖重点</b></td><td>通用工具接口标准化</td><td>互联网平台接入的选型与运维</td></tr>
+    <tr><td><b>反爬对抗</b></td><td>取决于各 MCP server 自己</td><td>核心战场：哪家 CLI 还活着、怎么绕过风控，持续换路由</td></tr>
+  </table>
+  <p>它内部也用到 MCP：全网语义搜索走 <code>Exa via mcporter</code>（MCP 接入、免 Key），LinkedIn 渠道也是 MCP server。所以它其实是<span class="big">"MCP 生态 + 独立 CLI 工具"之上的又一层运维管家</span>。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="border-color:var(--c-green); background:#F6FFF9;">
+  <div class="qhead"><div class="qnum" style="background:var(--c-green);">4</div><div class="qtitle">核心架构：一个渠道 = 一个有序后端列表</div></div>
+  <p>仓库 <code>agent_reach/channels/</code> 下每个平台一个 Python 文件，全部继承 <code>Channel</code> 基类。设计契约非常漂亮：</p>
+  <ul>
+    <li><code>backends</code> 是<b>有序候选列表</b>：第 0 个是首选，其余是备选。<span class="hl" style="background:var(--c-green-l);">"换后端" = 调整列表顺序，不是重写代码</span>。</li>
+    <li><code>check()</code> 必须真实探测各候选并设置 <code>active_backend</code>——代码注释强调：<b>shutil.which() 不能证明健康</b>（失效的 venv shim 也能通过 which）。</li>
+    <li>用户可用配置 <code>&lt;channel&gt;_backend</code> 强制指定后端，覆盖值无效时自动忽略，永不藏掉可用后端。</li>
+  </ul>
+  <div class="svgbox">
+  <svg width="640" height="150" viewBox="0 0 640 150">
+    <text x="20" y="30" font-size="14" font-weight="bold" fill="#263238">twitter.py 的 backends 列表：</text>
+    <rect x="20" y="45" width="180" height="46" rx="10" fill="#00C853"/>
+    <text x="110" y="73" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">① twitter-cli（首选）</text>
+    <rect x="220" y="45" width="180" height="46" rx="10" fill="#00B0FF"/>
+    <text x="310" y="73" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">② OpenCLI（备选）</text>
+    <rect x="420" y="45" width="180" height="46" rx="10" fill="#FFB300"/>
+    <text x="510" y="73" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">③ bird（兜底）</text>
+    <text x="20" y="125" font-size="13" fill="#E91E63" font-weight="bold">check() 按序真实探测 → 第一个"活着的"当选 active_backend</text>
+    <text x="20" y="142" font-size="12" fill="#607D8B">①挂了就自动滑到②——用户完全无感，这就是"持续换代"的实现方式</text>
+  </svg>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="border-color:var(--c-yellow); background:#FFFDF3;">
+  <div class="qhead"><div class="qnum" style="background:var(--c-yellow);">5</div><div class="qtitle">doctor 体检：missing / broken / timeout 三态判定</div></div>
+  <p><code>agent-reach doctor</code> 是项目的招牌命令。它的核心在 <code>probe.py</code>：<code>probe_command()</code> 会<b>真的执行</b> <code>cmd --version</code> 这样的无副作用探测命令，并把结果分成三态：</p>
+  <table>
+    <tr><th style="background:var(--c-yellow);">状态</th><th style="background:var(--c-yellow);">含义</th><th style="background:var(--c-yellow);">典型场景</th></tr>
+    <tr><td style="background:var(--c-yellow-l);"><b>missing</b></td><td>PATH 里找不到命令</td><td>压根没装</td></tr>
+    <tr><td style="background:var(--c-yellow-l);"><b>broken</b></td><td>命令在但执行失败（退出码 126/127，或解释器丢失）</td><td><b>系统 Python 升级后 pipx/venv 装的 CLI 全部失效</b>—— which() 照样能找到 shim！</td></tr>
+    <tr><td style="background:var(--c-yellow-l);"><b>timeout / error</b></td><td>能执行但行为异常</td><td>工具卡死、报错</td></tr>
+  </table>
+  <div class="warn">💡 这个三态设计对我们自己的工具链也很有参考价值：<code>shutil.which()</code> 只能回答"文件在不在"，回答不了"能不能跑"。doctor 的处方（hint）机制也妙——broken 时直接告诉你"重装即可修复：uv tool install --force xxx"。</div>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="border-color:var(--c-pink); background:#FFF7FA;">
+  <div class="qhead"><div class="qnum" style="background:var(--c-pink);">6</div><div class="qtitle">"首选 + 备选"路由的真实战例</div></div>
+  <p><code>bilibili.py</code> 的文件头注释记录了一次真实战役：<span class="big" style="color:var(--c-pink);">2026-06，B站风控把 yt-dlp 全面 412 封死</span>（作者试过最新版、直连、代理、预热 Cookie 全部无效），而 bili-cli 无需登录仍能搜索/读详情。于是 yt-dlp 从 B站渠道退役（仍服务 YouTube），B站路由切换为：</p>
+  <pre>bili-cli（搜索/热门/详情，免登录）▸ OpenCLI（浏览器登录态，补字幕）▸ B站搜索 API（零依赖兜底，仅搜索）</pre>
+  <p>顺带一提：B站渠道还有个聪明的兜底——<code>_check_search_api()</code> 用 Python 标准库 urllib 直接请求 <code>api.bilibili.com</code> 搜索接口，<b>连第三方工具都不需要</b>就能确认"至少搜索可用"。本次动手实验我们直接验证了这个接口（见第 12 问）。</p>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="border-color:var(--c-orange); background:#FFF9F6;">
+  <div class="qhead"><div class="qnum" style="background:var(--c-orange);">7</div><div class="qtitle">Cookie 与登录态：安全设计</div></div>
+  <p>Twitter、小红书、Reddit、Facebook、Instagram 这些平台必须登录态。Agent Reach 的安全承诺：</p>
+  <ul>
+    <li>🔒 Cookie / Token 只存本机 <code>~/.agent-reach/config.yaml</code>，Unix 下权限 600（仅所有者可读写），<b>不上传不外传</b>；</li>
+    <li>Twitter 只接受用户用 Cookie-Editor 浏览器扩展<b>手工导出</b>，工具不替你扫码登录；</li>
+    <li>小红书走 OpenCLI 时<b>只复用你自己 Chrome 已有的会话</b>，不读取、不注入浏览器 Cookie；</li>
+    <li>配置读取支持 <code>--stdin</code>，避免敏感值出现在进程参数里被别的进程看到；</li>
+    <li><code>uninstall</code> 一条命令清掉全部凭据与 skill 文件。</li>
+  </ul>
+  <div class="red">⚠️ 官方仍建议：凡是用 Cookie 登录的平台（Twitter/小红书等），一律用<b>专用小号</b>。因为平台可能检测到非正常浏览器的 API 调用行为导致封号——这不是工具的锅，是"自动化 vs 风控"的猫鼠游戏本身。</div>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="border-color:var(--c-blue); background:#F5F8FF;">
+  <div class="qhead"><div class="qnum" style="background:var(--c-blue);">8</div><div class="qtitle">渠道分层：tier 0 / 1 / 2</div></div>
+  <p>17+ 个渠道按"解锁成本"分三层，doctor 报告也按层展示：</p>
+  <div class="svgbox">
+  <svg width="620" height="180" viewBox="0 0 620 180">
+    <polygon points="310,10 150,60 470,60" fill="#00C853"/>
+    <text x="310" y="42" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">Tier 0 装好即用</text>
+    <text x="310" y="56" fill="#D9FFE8" font-size="10" text-anchor="middle">网页 · YouTube · RSS · GitHub · V2EX · 雪球…</text>
+    <polygon points="310,65 110,115 510,115" fill="#FFB300"/>
+    <text x="310" y="97" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">Tier 1 免费 Key / 简单配置</text>
+    <text x="310" y="111" fill="#FFF3D1" font-size="10" text-anchor="middle">全网搜索(Exa 自动配) · 小宇宙播客(免费 Whisper Key) · B站(装 bili-cli)</text>
+    <polygon points="310,120 70,170 550,170" fill="#E91E63"/>
+    <text x="310" y="152" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">Tier 2 需登录态（点名才装）</text>
+    <text x="310" y="166" fill="#FFD9E7" font-size="10" text-anchor="middle">Twitter · 小红书 · Reddit · Facebook · Instagram · LinkedIn · Boss直聘</text>
+  </svg>
+  </div>
+  <p>默认安装只激活 6 个零配置渠道；要登录态的渠道必须用户<b>点名</b>才装（<code>--channels twitter,xiaohongshu,...</code>）——这是"默认安全"设计：不该在你没同意的情况下动你的浏览器会话。</p>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="border-color:var(--c-purple); background:#FAF8FF;">
+  <div class="qhead"><div class="qnum" style="background:var(--c-purple);">9</div><div class="qtitle">装完后 Agent 怎么知道调什么？—— SKILL.md</div></div>
+  <p>答案就在我们学过的 <b>Agent Skill</b> 机制里：安装时 Agent Reach 会往各 Agent 的 skills 目录写入一份 <code>SKILL.md</code>，里面写清每个平台该调什么命令、需要什么配置。<span class="hl" style="background:var(--c-purple-l);">用户不需要记任何命令</span>——Agent 读了说明书自己知道该调 <code>curl https://r.jina.ai/URL</code> 还是 <code>yt-dlp --write-subs</code>。</p>
+  <p>所以它的完整形态是：<b>Python CLI（安装/体检/配置）+ 一份 SKILL.md（教 Agent 用法）</b>。这也解释了 README 里那句"任何能跑命令行的 Agent 都能用"——不依赖任何特定框架。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="border-color:var(--c-green); background:#F6FFF9;">
+  <div class="qhead"><div class="qnum" style="background:var(--c-green);">10</div><div class="qtitle">一条安装命令背后发生了什么？</div></div>
+  <p>你只需对 Agent 说一句话："帮我安装 Agent Reach"。背后的六步：</p>
+  <ol>
+    <li><b>安装 CLI</b>：从 GitHub 装 <code>agent-reach</code> 命令（自带 yt-dlp、feedparser；⚠️ 不要从 PyPI 装同名包，那不是本项目）；</li>
+    <li><b>检查基建</b>：Node.js、gh CLI、mcporter 缺失项给出安装指引；</li>
+    <li><b>按授权安装配置</b>：仅显式传 <code>--system</code> 才装系统依赖、接入 Exa；</li>
+    <li><b>环境探测</b>：判断本地电脑还是服务器，服务器建议配代理（约 $1/月）；</li>
+    <li><b>注册 SKILL.md</b>：同样只在 <code>--system</code> 时写入 Agent skills 目录；</li>
+    <li><b>点名才装</b>：默认只激活零配置渠道，需要登录态的列菜单问你。</li>
+  </ol>
+  <pre># 默认：只读安全检查，列出缺失项，不改系统
+agent-reach install --env=auto
+
+# 先看看会做什么
+agent-reach install --env=auto --dry-run
+
+# 明确授权后才真正安装依赖 + 写配置 + 注册 skill
+agent-reach install --env=auto --system</pre>
+  <div class="warn">🛡️ "默认安全"哲学贯穿全项目：dry-run 预览、显式 --system 授权、凭据本地 600 权限、卸载一键清——这本身就是一份优秀的 CLI 安全设计教材。</div>
+</div>
+
+<!-- Q11 -->
+<div class="card" style="border-color:var(--c-orange); background:#FFF9F6;">
+  <div class="qhead"><div class="qnum" style="background:var(--c-orange);">11</div><div class="qtitle">这个项目给我什么能力？</div></div>
+  <table>
+    <tr><th style="background:var(--c-orange);">能力</th><th style="background:var(--c-orange);">举例</th></tr>
+    <tr><td><b>📖 读任意网页</b></td><td>"帮我看看这个链接" → Jina Reader 把 HTML 洗成干净 Markdown</td></tr>
+    <tr><td><b>📺 视频转文字</b></td><td>YouTube / B站视频字幕一键提取总结</td></tr>
+    <tr><td><b>🔍 全网语义搜索</b></td><td>Exa 语义搜索（MCP 接入，免 Key）</td></tr>
+    <tr><td><b>📡 RSS 订阅</b></td><td>feedparser 解析任意 RSS/Atom 源</td></tr>
+    <tr><td><b>📦 GitHub 全功能</b></td><td>gh CLI 认证后搜仓库、追 Issue、提 PR</td></tr>
+    <tr><td><b>💬 社交平台监听</b></td><td>推特/小红书/Reddit/B站搜索与阅读（需配置登录态）</td></tr>
+    <tr><td><b>🩺 一键体检</b></td><td><code>agent-reach doctor</code> 报每个渠道通不通、坏在哪、怎么修</td></tr>
+  </table>
+  <p>典型玩法：趋势研究（拉小红书+抖音+微博近 7 天热帖）、竞品监控（官网+推特日报）、舆情分析、技术调研（GitHub 搜仓库追 Issue）。</p>
+</div>
+
+<!-- Q12 experiments -->
+<div class="section-title" style="background:linear-gradient(90deg,#00C853,#00B0FF);">🧪 第 12 问 · 动手实验：亲手验证 5 个零配置渠道</div>
+<p style="margin:8px 0;">以下实验于 <b>2026-10-02 在本机（Windows 11, Python 3.14.7）全部真实执行</b>。设计思路：Agent Reach 本身是"胶水层"，每个渠道底层都指向一个具体的上游接口/工具——我们直接验证这些底层事实，等于验证了 doctor 探测的对象。实验记录全文见 <code>agent-reach/exercise/experiment-log.md</code>。</p>
+
+<div class="exp" style="background:var(--c-green-l); border:2px solid var(--c-green);">
+  <h3>✅ 实验 1：Jina Reader 读网页（web 渠道底层，零配置零 Key）</h3>
+  <pre>curl "https://r.jina.ai/https://example.com"</pre>
+  <p>原理：把任意 URL 前面拼上 <code>https://r.jina.ai/</code>，Jina 的免费服务把网页 HTML 洗成干净 Markdown 返回。Agent Reach 的 web 渠道首选就是它。</p>
+  <div class="expect">✅ 预期结果：返回 "Title: Test Document" + Markdown 正文。实测通过——返回了标题和清洗后的 Markdown 内容。</div>
+</div>
+
+<div class="exp" style="background:var(--c-pink-l); border:2px solid var(--c-pink);">
+  <h3>✅ 实验 2：B站搜索 API（bilibili 渠道兜底后端，doctor 探测的同一接口）</h3>
+  <pre>curl -A "Mozilla/5.0 (Macintosh; ...)" "https://api.bilibili.com/x/web-interface/search/all/v2?keyword=agent&page=1"</pre>
+  <p>原理：<code>bilibili.py</code> 的 <code>_check_search_api()</code> 用标准库探测的就是这个接口，<code>code:0</code> 即"至少搜索可用"。</p>
+  <div class="expect">✅ 预期结果：JSON 里 "code":0,"message":"OK"，且带搜索结果分页信息。实测通过——numResults:1000, numPages:50。</div>
+</div>
+
+<div class="exp" style="background:var(--c-cyan-l); border:2px solid var(--c-cyan);">
+  <h3>✅ 实验 3：V2EX 热帖（v2ex 渠道底层公共 API）</h3>
+  <pre>curl "https://www.v2ex.com/api/topics/hot.json"</pre>
+  <div class="expect">✅ 预期结果：JSON 数组，含 node/title/url 等字段。实测通过——返回 programmer 节点热帖数据。</div>
+</div>
+
+<div class="exp" style="background:var(--c-blue-l); border:2px solid var(--c-blue);">
+  <h3>✅ 实验 4：GitHub 官方 API 读仓库（github 渠道 gh CLI 的底层）</h3>
+  <pre>curl "https://api.github.com/repos/Panniantong/Agent-Reach"</pre>
+  <div class="expect">✅ 预期结果：仓库元数据。实测通过——<b>stargazers_count: 88005，MIT 协议</b>（推文传播速度惊人，88k stars）。</div>
+</div>
+
+<div class="exp" style="background:var(--c-yellow-l); border:2px solid var(--c-yellow);">
+  <h3>✅ 实验 5：RSS 源零依赖解析（rss 渠道概念验证）</h3>
+  <pre>python -c "import urllib.request, xml.etree.ElementTree as ET; ..."  # 抓 ruanyifeng atom.xml</pre>
+  <div class="expect">✅ 预期结果：解析出 feed 标题与文章列表。实测通过——"阮一峰的网络日志"，3 篇 entry（第 413 期科技爱好者周刊等）。</div>
+</div>
+
+<div class="warn" style="margin-top:18px;">📌 诚实声明：本机权限策略禁止执行本会话新克隆的外部仓库代码（pip install -e repo），故 <code>agent-reach install / doctor</code> 本体未在本机运行；但 5 个实验验证的全部是 agent-reach 各渠道<b>真实依赖的底层接口</b>（代码逐行核对过），你在自己机器上执行 <code>pip install https://github.com/Panniantong/agent-reach/archive/main.zip &amp;&amp; agent-reach doctor</code> 即可得到体检报告。</div>
+
+<div class="footer">F:\reminder\agent-reach · 上游仓库 Panniantong/Agent-Reach @ a19a171 (v1.5.0, MIT) · 学习日期 2026-10-02 · 来源：拾遗队列 task c49f2083（x.com 推文）</div>
+
+</body>
+</html>
