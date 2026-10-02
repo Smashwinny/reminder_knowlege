@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>NautilusTrader 小白指南</title>
+<style>
+:root{
+  --c-bg:#FFF8F0;
+  --c-ink:#1A1A2E;
+  --c-orange:#FF6B1A;
+  --c-pink:#FF2E88;
+  --c-teal:#00C2A8;
+  --c-purple:#7C4DFF;
+  --c-blue:#1E9BFF;
+  --c-yellow:#FFD400;
+  --c-red:#FF3B3B;
+  --c-green:#00C853;
+  --card-shadow:0 4px 0 rgba(26,26,46,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;font-size:14.5px}
+@page{size:A4;margin:14mm}
+.wrap{max-width:760px;margin:0 auto;padding:0 4px}
+h1{font-size:30px;line-height:1.3}
+h2{font-size:22px;margin:6px 0 14px}
+h3{font-size:16.5px;margin-bottom:8px}
+p{margin-bottom:8px}
+.hero{background:linear-gradient(135deg,#FF6B1A 0%,#FF2E88 55%,#7C4DFF 100%);color:#fff;border-radius:18px;padding:30px 28px;margin:10px 0 22px;box-shadow:var(--card-shadow)}
+.hero .sub{font-size:15px;opacity:.95;margin-top:8px}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.7);border-radius:999px;padding:3px 14px;margin:3px 6px 0 0;font-size:13px;font-weight:bold}
+.toc{background:#fff;border:3px solid var(--c-orange);border-radius:16px;padding:18px 22px;margin-bottom:22px;box-shadow:var(--card-shadow)}
+.toc ol{margin-left:22px}
+.toc li{margin:3px 0}
+.toc a{color:var(--c-purple);text-decoration:none;font-weight:bold}
+.qcard{background:#fff;border-radius:16px;padding:20px 22px;margin:0 0 20px;box-shadow:var(--card-shadow);break-inside:avoid;border-left:10px solid var(--c-orange)}
+.qcard.pink{border-left-color:var(--c-pink)}
+.qcard.teal{border-left-color:var(--c-teal)}
+.qcard.purple{border-left-color:var(--c-purple)}
+.qcard.blue{border-left-color:var(--c-blue)}
+.qnum{display:inline-block;background:var(--c-yellow);color:var(--c-ink);font-weight:900;font-size:20px;border-radius:10px;padding:1px 12px;margin-bottom:8px;transform:rotate(-1.5deg)}
+.qtitle{font-size:18px;font-weight:900;display:block;margin-bottom:8px}
+.hl{background:linear-gradient(transparent 60%,var(--c-yellow) 60%);font-weight:900;padding:0 2px}
+.hl-pink{background:linear-gradient(transparent 60%,#FFB3D1 60%);font-weight:900;padding:0 2px}
+.big{font-size:17px;font-weight:900}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13.5px}
+th,td{border:2px solid var(--c-ink);padding:6px 9px;text-align:left}
+th{background:var(--c-teal);color:#fff}
+tr:nth-child(even) td{background:#F1FBF9}
+code{background:#F0EBFF;color:var(--c-purple);border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-size:13px;font-weight:bold}
+pre{background:#241B3A;color:#E9E4FF;border-radius:12px;padding:14px 16px;overflow-x:auto;font-size:12.5px;line-height:1.6;margin:10px 0}
+pre code{background:none;color:inherit;padding:0}
+.note{background:#E8FFF9;border:2.5px dashed var(--c-teal);border-radius:12px;padding:10px 14px;margin:10px 0}
+.warn{background:#FFEDED;border:2.5px dashed var(--c-red);border-radius:12px;padding:10px 14px;margin:10px 0}
+.expect{background:#EAFFE8;border:3px solid var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0}
+.step{background:#F6F2FF;border-radius:12px;padding:12px 16px;margin:12px 0;border-left:8px solid var(--c-purple)}
+.capgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.cap{background:linear-gradient(135deg,#00C2A8,#1E9BFF);color:#fff;border-radius:14px;padding:14px;font-size:13.5px}
+.cap b{font-size:15px;display:block;margin-bottom:4px}
+.cap.pink{background:linear-gradient(135deg,#FF2E88,#FF6B1A)}
+.cap.purple{background:linear-gradient(135deg,#7C4DFF,#FF2E88)}
+.cap.yellow{background:linear-gradient(135deg,#FFB300,#FF6B1A)}
+.foot{margin:26px 0 10px;text-align:center;color:#888;font-size:12px}
+svg{display:block;margin:10px auto;max-width:100%}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>NautilusTrader 小白指南</h1>
+  <div class="sub">开源量化交易框架：Rust 引擎 + Python 策略，<b>回测与实盘同一套代码</b>，纳秒级事件驱动回测</div>
+  <div class="tags">
+    <span class="tag">GitHub 28.6K ★</span><span class="tag">Rust 核心</span><span class="tag">Python 3.12–3.14</span><span class="tag">LGPL v3</span><span class="tag">多资产多交易所</span>
+  </div>
+</div>
+
+<div class="toc">
+  <h2>疑问即目录</h2>
+  <ol>
+    <li><a href="#q1">量化交易和 NautilusTrader 是什么？</a></li>
+    <li><a href="#q2">为什么底层用 Rust、策略用 Python？</a></li>
+    <li><a href="#q3">回测是什么？"回测实盘同一套代码"为什么重要？</a></li>
+    <li><a href="#q4">事件驱动架构是怎么回事？</a></li>
+    <li><a href="#q5">tick、K线（bar）、QuoteTick 都是什么？</a></li>
+    <li><a href="#q6">"纳秒级"时间戳到底意味着什么？</a></li>
+    <li><a href="#q7">撮合引擎和模拟交易所（SIM venue）是什么？</a></li>
+    <li><a href="#q8">EMA 均线交叉策略是怎么工作的？</a></li>
+    <li><a href="#q9">NETTING 和 HEDGING 两种持仓模式有何不同？</a></li>
+    <li><a href="#q10">点差、手续费、滑点如何影响回测？</a></li>
+    <li><a href="#q11">回测赚钱 = 实盘赚钱吗？</a></li>
+    <li><a href="#q12">数据目录（catalog）和数据整形器（wrangler）是干嘛的？</a></li>
+    <li><a href="#q13">和 Backtrader、VectorBT 等前辈框架怎么比？</a></li>
+    <li><a href="#q14">想实盘接入真实交易所要做什么？</a></li>
+  </ol>
+  <div style="margin-top:10px"><a href="#cap">→ 这个项目给我什么（能力清单）</a>　<a href="#exp">→ 动手实验：跑一次真实回测</a></div>
+</div>
+
+<div class="qcard" id="q1">
+  <span class="qnum">Q1</span>
+  <span class="qtitle">量化交易和 NautilusTrader 是什么？</span>
+  <p><span class="hl">量化交易</span>：把"什么时候买、买多少、什么时候卖"写成<b>程序规则</b>，让电脑代替人盯盘下单。人决定策略思想，机器负责纪律和执行速度。</p>
+  <p><span class="hl">NautilusTrader</span>（鹦鹉螺交易者）是澳大利亚 Nautech Systems 开源的<span class="hl-pink">生产级算法交易平台</span>：它把<b>历史回测</b>和<b>实盘交易</b>装进同一个事件驱动引擎里，覆盖外汇、股票、期货、期权、加密货币、甚至博彩交易所。</p>
+  <svg width="560" height="150" viewBox="0 0 560 150">
+    <rect x="10" y="30" width="230" height="90" rx="14" fill="#FFEDED" stroke="#FF3B3B" stroke-width="3"/>
+    <text x="125" y="62" text-anchor="middle" font-size="16" font-weight="bold" fill="#FF3B3B">人肉盯盘</text>
+    <text x="125" y="86" text-anchor="middle" font-size="12">熬夜 · 情绪化 · 手速上限秒级</text>
+    <text x="125" y="104" text-anchor="middle" font-size="12">一次只能看几个品种</text>
+    <rect x="320" y="30" width="230" height="90" rx="14" fill="#E8FFF9" stroke="#00C2A8" stroke-width="3"/>
+    <text x="435" y="62" text-anchor="middle" font-size="16" font-weight="bold" fill="#00A892">NautilusTrader 程序交易</text>
+    <text x="435" y="86" text-anchor="middle" font-size="12">纪律 · 纳秒时间戳 · 微秒级响应</text>
+    <text x="435" y="104" text-anchor="middle" font-size="12">多品种多交易所同时跑</text>
+    <path d="M250 75 L310 75" stroke="#1A1A2E" stroke-width="4" marker-end="url(#a1)"/>
+    <defs><marker id="a1" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1A1A2E"/></marker></defs>
+  </svg>
+  <p class="big">一句话：<span class="hl">用 Rust 造的一台"交易发动机"，Python 当方向盘和仪表盘。</span></p>
+</div>
+
+<div class="qcard pink" id="q2">
+  <span class="qnum">Q2</span>
+  <span class="qtitle">为什么底层用 Rust、策略用 Python？</span>
+  <p>交易软件有两个互相打架的要求：<b>核心要快到极致且绝不崩溃</b>（撮合、账本、风控），<b>策略要改起来快</b>（今天试均线、明天试机器学习）。</p>
+  <p>NautilusTrader 的解法是一分为二：</p>
+  <svg width="560" height="190" viewBox="0 0 560 190">
+    <rect x="30" y="18" width="500" height="70" rx="14" fill="#FFE8D6" stroke="#FF6B1A" stroke-width="3"/>
+    <text x="280" y="46" text-anchor="middle" font-size="16" font-weight="bold" fill="#E05A00">Rust 核心层（发动机舱 · 每秒处理百万级事件）</text>
+    <text x="280" y="70" text-anchor="middle" font-size="12.5">撮合引擎 · 账户账本 · 消息总线 · 网络(Tokio) · 无 GC 暂停 · 类型/内存安全</text>
+    <rect x="30" y="108" width="500" height="70" rx="14" fill="#E8F3FF" stroke="#1E9BFF" stroke-width="3"/>
+    <text x="280" y="136" text-anchor="middle" font-size="16" font-weight="bold" fill="#0B7DD6">Python 控制层（驾驶室 · 写策略的地方）</text>
+    <text x="280" y="160" text-anchor="middle" font-size="12.5">Strategy 子类 · 指标 · 配置 · 编排 —— 通过 PyO3 绑定调用 Rust 核心</text>
+    <path d="M120 92 L120 104 M440 92 L440 104" stroke="#7C4DFF" stroke-width="4"/>
+    <text x="280" y="102" text-anchor="middle" font-size="11" fill="#7C4DFF" font-weight="bold">PyO3 / Cython 绑定（双向调用）</text>
+  </svg>
+  <p><span class="hl">类比知识库里的"本地推理引擎"（ollama）：模型权重装载、调度这些重活在底层引擎，用户只跟 CLI 打交道。</span>这里 Rust 负责"绝不能出错、绝不能卡"的部分，Python 负责"天天要改"的部分。整个系统甚至可以全部用 Rust 写，用于对延迟最敏感的场景。</p>
+</div>
+
+<div class="qcard teal" id="q3">
+  <span class="qnum">Q3</span>
+  <span class="qtitle">回测是什么？"回测实盘同一套代码"为什么重要？</span>
+  <p><span class="hl">回测（backtest）</span>= 拿历史行情数据"重放"一遍，看策略当时会怎么买卖、赚赔多少。是策略上实盘前的<b> rehearsal（彩排）</b>。</p>
+  <p>传统量化工具最大的坑：<span class="hl-pink">回测写一套代码、实盘又写一套</span>——彩排用的剧本和正式演出不是同一份，那彩排还有什么意义？两个系统行为有细微差异（撮合规则、费用、时序），策略一上实盘就变样。</p>
+  <svg width="560" height="170" viewBox="0 0 560 170">
+    <rect x="20" y="15" width="240" height="135" rx="14" fill="#fff" stroke="#FF3B3B" stroke-width="3" stroke-dasharray="8 5"/>
+    <text x="140" y="42" text-anchor="middle" font-size="15" font-weight="bold" fill="#FF3B3B">传统做法：两套代码</text>
+    <text x="140" y="68" text-anchor="middle" font-size="12">回测系统 A（简化的撮合）</text>
+    <text x="140" y="88" text-anchor="middle" font-size="12">实盘系统 B（另一套实现）</text>
+    <text x="140" y="118" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#FF3B3B">行为差异 = 隐形炸弹</text>
+    <rect x="300" y="15" width="240" height="135" rx="14" fill="#fff" stroke="#00C853" stroke-width="3"/>
+    <text x="420" y="42" text-anchor="middle" font-size="15" font-weight="bold" fill="#00A63E">NautilusTrader：一套代码</text>
+    <rect x="330" y="56" width="180" height="34" rx="8" fill="#E8FFF9" stroke="#00C2A8" stroke-width="2"/>
+    <text x="420" y="78" text-anchor="middle" font-size="12.5" font-weight="bold">你的 Strategy 类（不变）</text>
+    <text x="420" y="112" text-anchor="middle" font-size="12">回测引擎 ⟷ 实盘节点</text>
+    <text x="420" y="132" text-anchor="middle" font-size="12" font-weight="bold" fill="#00A63E">同一份策略，两种运行模式</text>
+  </svg>
+  <p class="big"><span class="hl">同一份策略代码，接上回测引擎就是回测，接上交易所网关就是实盘。</span>这就是推文里"回测与实盘共用同一套代码"的实际含义。</p>
+</div>
+
+<div class="qcard purple" id="q4">
+  <span class="qnum">Q4</span>
+  <span class="qtitle">事件驱动架构是怎么回事？</span>
+  <p>NautilusTrader 不是"一次调用算一天"的批处理框架，而是<span class="hl">事件驱动</span>：行情、订单、成交全是<b>带时间戳的事件</b>，按时间顺序在一条总线上排队处理。</p>
+  <svg width="580" height="210" viewBox="0 0 580 210">
+    <defs><marker id="a4" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1A1A2E"/></marker></defs>
+    <rect x="10" y="20" width="120" height="44" rx="10" fill="#E8F3FF" stroke="#1E9BFF" stroke-width="2.5"/>
+    <text x="70" y="47" text-anchor="middle" font-size="13" font-weight="bold">行情事件</text>
+    <rect x="10" y="80" width="120" height="44" rx="10" fill="#FFE8D6" stroke="#FF6B1A" stroke-width="2.5"/>
+    <text x="70" y="107" text-anchor="middle" font-size="13" font-weight="bold">订单事件</text>
+    <rect x="10" y="140" width="120" height="44" rx="10" fill="#F0EBFF" stroke="#7C4DFF" stroke-width="2.5"/>
+    <text x="70" y="167" text-anchor="middle" font-size="13" font-weight="bold">账户事件</text>
+    <rect x="200" y="65" width="150" height="80" rx="12" fill="#FFF3B8" stroke="#E0A800" stroke-width="3"/>
+    <text x="275" y="98" text-anchor="middle" font-size="14" font-weight="bold">消息总线</text>
+    <text x="275" y="118" text-anchor="middle" font-size="11">按时间戳严格排序</text>
+    <path d="M130 42 L195 85 M130 102 L200 105 M130 162 L195 125" stroke="#1A1A2E" stroke-width="3" fill="none" marker-end="url(#a4)"/>
+    <rect x="420" y="20" width="150" height="44" rx="10" fill="#E8FFF9" stroke="#00C2A8" stroke-width="2.5"/>
+    <text x="495" y="47" text-anchor="middle" font-size="13" font-weight="bold">你的策略 on_bar</text>
+    <rect x="420" y="80" width="150" height="44" rx="10" fill="#FFEDED" stroke="#FF3B3B" stroke-width="2.5"/>
+    <text x="495" y="107" text-anchor="middle" font-size="13" font-weight="bold">撮合引擎</text>
+    <rect x="420" y="140" width="150" height="44" rx="10" fill="#F0EBFF" stroke="#7C4DFF" stroke-width="2.5"/>
+    <text x="495" y="167" text-anchor="middle" font-size="13" font-weight="bold">账户账本</text>
+    <path d="M350 85 L415 45 M350 105 L415 102 M350 125 L415 155" stroke="#1A1A2E" stroke-width="3" fill="none" marker-end="url(#a4)"/>
+  </svg>
+  <p><span class="hl">类比知识库里的"消息队列与异步削峰"：总线就是那个水库，事件就是水流；再类比"Agent 循环"，策略收到事件→做出反应→发出新事件，循环往复。</span>事件驱动保证了<b>回测和实盘的处理顺序完全一致</b>，这是 Q3"同一套代码"能成立的地基。</p>
+</div>
+
+<div class="qcard blue" id="q5">
+  <span class="qnum">Q5</span>
+  <span class="qtitle">tick、K线（bar）、QuoteTick 都是什么？</span>
+  <p><span class="hl">tick（跳价）</span>：市场上每一次报价变动的最小记录。外汇里一条 <code>QuoteTick</code> 包含：时间戳、买一价（bid）、卖一价（ask）、买量、卖量。<span class="hl-pink">买一卖一之间的差价叫点差（spread），就是交易成本的一部分。</span></p>
+  <p><span class="hl">K线 / bar（柱状线）</span>：把一堆 tick 按时间桶压缩：这一分钟的开盘价、最高价、最低价、收盘价（OHLC）。K线是 tick 的"摘要"。</p>
+  <svg width="560" height="180" viewBox="0 0 560 180">
+    <text x="90" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#1E9BFF">原始 tick 流</text>
+    <polyline points="30,110 60,95 90,100 120,70 150,80 180,55 210,60 240,40" fill="none" stroke="#1E9BFF" stroke-width="2.5"/>
+    <g fill="#FF2E88"><circle cx="30" cy="110" r="4"/><circle cx="60" cy="95" r="4"/><circle cx="90" cy="100" r="4"/><circle cx="120" cy="70" r="4"/><circle cx="150" cy="80" r="4"/><circle cx="180" cy="55" r="4"/><circle cx="210" cy="60" r="4"/><circle cx="240" cy="40" r="4"/></g>
+    <path d="M280 90 L340 90" stroke="#1A1A2E" stroke-width="4" marker-end="url(#a5)"/>
+    <defs><marker id="a5" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1A1A2E"/></marker></defs>
+    <text x="310" y="80" text-anchor="middle" font-size="11">聚合</text>
+    <text x="450" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#00A892">1 分钟 K 线</text>
+    <line x1="390" y1="60" x2="390" y2="130" stroke="#00C2A8" stroke-width="2"/>
+    <rect x="380" y="80" width="20" height="34" fill="#FF6B1A" stroke="#1A1A2E" stroke-width="2"/>
+    <line x1="440" y1="45" x2="440" y2="120" stroke="#00C2A8" stroke-width="2"/>
+    <rect x="430" y="60" width="20" height="44" fill="#00C853" stroke="#1A1A2E" stroke-width="2"/>
+    <line x1="490" y1="70" x2="490" y2="125" stroke="#00C2A8" stroke-width="2"/>
+    <rect x="480" y="85" width="20" height="28" fill="#FF6B1A" stroke="#1A1A2E" stroke-width="2"/>
+    <text x="390" y="148" text-anchor="middle" font-size="10">跌</text>
+    <text x="450" y="148" text-anchor="middle" font-size="10">涨</text>
+    <text x="490" y="148" text-anchor="middle" font-size="10">跌</text>
+    <text x="280" y="170" text-anchor="middle" font-size="11.5" fill="#666">橙=收盘价低于开盘价（跌）　绿=收盘价高于开盘价（涨）</text>
+  </svg>
+  <p>实验里我们喂给引擎的是 tick（audusd-ticks.csv 约 10 万条），策略订阅的是 <code>1-MINUTE-MID-INTERNAL</code> K线——<span class="hl">中间的聚合是引擎自动做的</span>（INTERNAL 聚合器按 (买一+卖一)/2 合成 MID 价 K线）。</p>
+</div>
+
+<div class="qcard" id="q6">
+  <span class="qnum">Q6</span>
+  <span class="qtitle">"纳秒级"时间戳到底意味着什么？</span>
+  <p>金融领域"谁先到谁成交"——两个事件相差几微秒，处理顺序不同，结果可能就不同。NautilusTrader 内部所有事件时间戳都是<span class="hl">64 位整数纳秒</span>（不是浮点秒），保证排序精确、不丢精度。</p>
+  <p>实验实测：第一条 tick 的时间戳是</p>
+  <pre><code>first_ts_ns: 1580398089820000000
+= 2020-01-30 15:28:09.820000000 UTC（共 10 亿分之一秒精度）</code></pre>
+  <svg width="560" height="90" viewBox="0 0 560 90">
+    <line x1="40" y1="50" x2="520" y2="50" stroke="#1A1A2E" stroke-width="3"/>
+    <circle cx="90" cy="50" r="7" fill="#FF2E88"/>
+    <circle cx="130" cy="50" r="7" fill="#FF6B1A"/>
+    <circle cx="400" cy="50" r="7" fill="#1E9BFF"/>
+    <text x="90" y="30" text-anchor="middle" font-size="11">事件 A</text>
+    <text x="130" y="72" text-anchor="middle" font-size="11">事件 B（晚 3ms）</text>
+    <text x="400" y="30" text-anchor="middle" font-size="11">事件 C</text>
+    <text x="280" y="88" text-anchor="middle" font-size="12" font-weight="bold" fill="#7C4DFF">整数纳秒比较大小 = 严格排序，浮点秒做不到这一点</text>
+  </svg>
+  <p class="big"><span class="hl">纳秒时间戳是"确定性回测"的前提：同一批数据，重跑一万次，结果一模一样。</span></p>
+</div>
+
+<div class="qcard pink" id="q7">
+  <span class="qnum">Q7</span>
+  <span class="qtitle">撮合引擎和模拟交易所（SIM venue）是什么？</span>
+  <p><span class="hl">撮合引擎（matching engine）</span>：真正交易所的心脏，负责把买卖订单按规则配对成交。回测时没有真实交易所，NautilusTrader 在你机器里<b>内置了一个</b>。</p>
+  <p><span class="hl">SIM venue（模拟交易所）</span>：回测里你声明的一个"虚拟交易所"，可以配置：账户类型（现金/保证金）、持仓模式、初始资金、手续费模型、滑点模型。实验里我们建了一个：</p>
+  <pre><code>engine.add_venue(
+    venue=SIM,                          # 名字叫 SIM 的模拟交易所
+    oms_type=OmsType.NETTING,           # 净额结算：同品种多空自动抵消
+    account_type=AccountType.MARGIN,    # 保证金账户（可杠杆）
+    base_currency=USD,
+    starting_balances=[Money(1_000_000, USD)],  # 100万美元本金
+    fee_model=MakerTakerFeeModel(...),  # 吃单/挂单费率模型
+)</code></pre>
+  <p>策略下的每个市价单，都由这个内置撮合引擎"假装交易所"即时成交并记账——<span class="hl">就像学车时的模拟器，仪表全真，但不会真撞车。</span></p>
+</div>
+
+<div class="qcard teal" id="q8">
+  <span class="qnum">Q8</span>
+  <span class="qtitle">EMA 均线交叉策略是怎么工作的？</span>
+  <p><span class="hl">EMA（指数移动平均线）</span>：一种"越近的K线权重越大"的平均价，比简单均线更跟手。两条不同周期的 EMA 画在一起：</p>
+  <svg width="560" height="210" viewBox="0 0 560 210">
+    <polyline points="30,150 60,140 90,145 120,110 150,120 180,80 210,95 240,60 270,90 300,120 330,100 360,130 390,145 420,120 450,140 480,135 510,145" fill="none" stroke="#BBB" stroke-width="2"/>
+    <polyline points="120,110 150,115 180,100 210,95 240,80 270,85 300,95 330,98 360,110 390,120 420,118 450,125 480,128" fill="none" stroke="#FF6B1A" stroke-width="3.5"/>
+    <polyline points="120,122 150,118 180,108 210,103 240,95 270,96 300,100 330,104 360,113 390,122 420,122 450,127 480,131" fill="none" stroke="#1E9BFF" stroke-width="3.5"/>
+    <circle cx="150" cy="115" r="8" fill="#00C853"/>
+    <text x="150" y="95" text-anchor="middle" font-size="12" font-weight="bold" fill="#00A63E">金叉 → 买</text>
+    <circle cx="330" cy="98" r="8" fill="#FF3B3B"/>
+    <text x="330" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#FF3B3B">死叉 → 卖</text>
+    <text x="480" y="105" text-anchor="middle" font-size="12" fill="#E05A00" font-weight="bold">快线 EMA(10)</text>
+    <text x="480" y="145" text-anchor="middle" font-size="12" fill="#0B7DD6" font-weight="bold">慢线 EMA(20)</text>
+    <text x="280" y="200" text-anchor="middle" font-size="12" fill="#666">灰线 = 原始价格　快线周期短、贴价格更紧；慢线周期长、更平滑</text>
+  </svg>
+  <p><span class="hl-pink">快线（周期短）从下向上穿越慢线 = 金叉 = 买入信号；从上向下穿越 = 死叉 = 卖出信号。</span>这是量化界的"Hello World"策略：规则简单、人人能懂，但正因为简单，它本身<b>没有赚钱优势</b>——官方案例原文就叫它 "a teaching strategy and has no edge"。它的价值在于带你跑通全链路，顺便亲眼看看"交易越频繁，手续费吃掉越多利润"（见实验数据）。</p>
+</div>
+
+<div class="qcard purple" id="q9">
+  <span class="qnum">Q9</span>
+  <span class="qtitle">NETTING 和 HEDGING 两种持仓模式有何不同？</span>
+  <p>同一个品种，先买 10 万又卖 10 万，账户里剩下什么？两种答案：</p>
+  <table>
+    <tr><th></th><th>NETTING（净额结算）</th><th>HEDGING（对冲/锁仓）</th></tr>
+    <tr><td><b>持仓结果</b></td><td>两笔抵消，持仓归 0</td><td>可同时持有 +10 万多单和 -10 万空单</td></tr>
+    <tr><td><b>像什么</b></td><td>股票账户：买卖轧差</td><td>部分外汇平台：锁仓功能</td></tr>
+    <tr><td><b>适合</b></td><td>单策略单方向，账本简单</td><td>多策略共用一个账户、需要锁仓对冲</td></tr>
+  </table>
+  <p>实验用的是 <code>OmsType.NETTING</code>：<span class="hl">策略每次金叉先平掉旧仓位再开新仓，引擎自动轧差，账本干净。</span>官方 FX 教程用 HEDGING，因为外汇保证金实务里多空锁仓很常见。</p>
+</div>
+
+<div class="qcard blue" id="q10">
+  <span class="qnum">Q10</span>
+  <span class="qtitle">点差、手续费、滑点如何影响回测？</span>
+  <p>回测盈亏 = 行情差价 − <b>三道真实成本</b>：</p>
+  <svg width="560" height="140" viewBox="0 0 560 140">
+    <rect x="20" y="40" width="150" height="52" rx="10" fill="#E8FFF9" stroke="#00C2A8" stroke-width="2.5"/>
+    <text x="95" y="63" text-anchor="middle" font-size="13" font-weight="bold">毛盈亏</text>
+    <text x="95" y="82" text-anchor="middle" font-size="11">行情涨跌赚的</text>
+    <text x="180" y="72" font-size="22" font-weight="900" fill="#FF3B3B">−</text>
+    <rect x="200" y="40" width="100" height="52" rx="10" fill="#FFEDED" stroke="#FF3B3B" stroke-width="2.5"/>
+    <text x="250" y="63" text-anchor="middle" font-size="13" font-weight="bold">点差</text>
+    <text x="250" y="82" text-anchor="middle" font-size="11">买价卖价差</text>
+    <text x="310" y="72" font-size="22" font-weight="900" fill="#FF3B3B">−</text>
+    <rect x="330" y="40" width="100" height="52" rx="10" fill="#FFEDED" stroke="#FF3B3B" stroke-width="2.5"/>
+    <text x="380" y="63" text-anchor="middle" font-size="13" font-weight="bold">手续费</text>
+    <text x="380" y="82" text-anchor="middle" font-size="11">每笔固定比例</text>
+    <text x="440" y="72" font-size="22" font-weight="900" fill="#FF3B3B">−</text>
+    <rect x="460" y="40" width="90" height="52" rx="10" fill="#FFEDED" stroke="#FF3B3B" stroke-width="2.5"/>
+    <text x="505" y="63" text-anchor="middle" font-size="13" font-weight="bold">滑点</text>
+    <text x="505" y="82" text-anchor="middle" font-size="11">成交价偏移</text>
+    <text x="280" y="125" text-anchor="middle" font-size="13.5" font-weight="900" fill="#1A1A2E">= 净盈亏（策略真正的成绩单）</text>
+  </svg>
+  <p>我们的实验把三道成本都打开了：MID 价 K线意味着买卖按中间价成交（理想化），但 <code>MakerTakerFeeModel</code> 按合约自带的 0.00002 费率收手续费。<span class="hl">实测：10/20 参数一天亏 526.82 美元，其中 227.82 是手续费——成本占亏损的 43%。</span>回测不真实建模成本，等于给自己算命。</p>
+</div>
+
+<div class="qcard" id="q11">
+  <span class="qnum">Q11</span>
+  <span class="qtitle">回测赚钱 = 实盘赚钱吗？</span>
+  <p class="big"><span class="hl-pink">不等于！回测好看实盘翻车，是量化新手的第一课。</span>常见死因：</p>
+  <table>
+    <tr><th>陷阱</th><th>说明</th></tr>
+    <tr><td><b>过拟合</b></td><td>参数在历史数据上调到刚好赚钱，换个时间段就失效</td></tr>
+    <tr><td><b>前视偏差</b></td><td>代码里不小心用了"未来"的信息（如用了收盘价做开盘决策）</td></tr>
+    <tr><td><b>成本低估</b></td><td>没算滑点、手续费、点差，信号越频繁死得越惨</td></tr>
+    <tr><td><b>流动性幻觉</b></td><td>回测假设单子总能按报价成交，实盘中大单会推动价格</td></tr>
+  </table>
+  <p class="warn"><b>NautilusTrader 的诚实之处：</b>官方文档专门有一节 "Backtest and live differences"，明说回测无法完全复现实盘中的交易所行为、网络延迟、对账差异。它把回测引擎做得尽量真（真撮合、真账本、真费用），但<span class="hl">不向你承诺"回测即实盘"</span>——这正是工程素养的体现。</p>
+</div>
+
+<div class="qcard pink" id="q12">
+  <span class="qnum">Q12</span>
+  <span class="qtitle">数据目录（catalog）和数据整形器（wrangler）是干嘛的？</span>
+  <p>量化项目 80% 的时间是洗数据。NautilusTrader 提供两件工具：</p>
+  <p><span class="hl">DataCatalog（数据目录）</span>：把海量行情按 Apache Parquet 列式格式归档，配合 DataFusion 查询引擎用 SQL 快速检索（"给我 2020 年 1 月所有 AUD/USD 的 tick"），大规模回测时按需流式读取，不用全装内存。</p>
+  <p><span class="hl">DataWrangler（数据整形器）</span>：把 pandas DataFrame"翻译"成 Nautilus 强类型对象的转换器。实验里就用了一行：</p>
+  <pre><code>wrangler = QuoteTickDataWrangler(instrument=instrument)
+ticks = wrangler.process(df)   # DataFrame → list[QuoteTick]（纳秒时间戳、强类型价格数量）</code></pre>
+  <p>用知识库的话说：<span class="hl">wrangler 是"报关口"，DataFrame 是散装货，QuoteTick 是报关后的标准集装箱，引擎只认集装箱。</span></p>
+</div>
+
+<div class="qcard teal" id="q13">
+  <span class="qnum">Q13</span>
+  <span class="qtitle">和 Backtrader、VectorBT 等前辈框架怎么比？</span>
+  <table>
+    <tr><th></th><th>Backtrader</th><th>VectorBT</th><th>NautilusTrader</th></tr>
+    <tr><td><b>语言核心</b></td><td>纯 Python</td><td>纯 Python/Numba</td><td><b>Rust 核心 + Python</b></td></tr>
+    <tr><td><b>强项</b></td><td>简单易学、教学多</td><td>参数网格扫描极快</td><td><b>回测/实盘一套代码、生产级撮合</b></td></tr>
+    <tr><td><b>定位</b></td><td>个人研究玩具</td><td>研究阶段批量试验</td><td>从研究一路用到实盘生产</td></tr>
+    <tr><td><b>时间戳精度</b></td><td>秒/浮点</td><td>秒/浮点</td><td><b>纳秒整数</b></td></tr>
+    <tr><td><b>维护状态</b></td><td>2017 年后基本停更</td><td>活跃（PRO 版收费）</td><td>活跃，双周发版</td></tr>
+  </table>
+  <p>一句话：<span class="hl">Backtrader 像家用缝纫机，VectorBT 像工业裁剪机，NautilusTrader 像服装厂整条产线</span>——从打样（回测）到量产（实盘）不换设备。</p>
+</div>
+
+<div class="qcard purple" id="q14">
+  <span class="qnum">Q14</span>
+  <span class="qtitle">想实盘接入真实交易所要做什么？</span>
+  <p>NautilusTrader 用<span class="hl">模块化适配器（adapter）</span>接入交易所：每个交易所一个适配器，负责该所的行情协议（WebSocket）和下单协议（REST/FIX）与 Nautilus 内部事件模型之间的双向翻译。</p>
+  <svg width="560" height="130" viewBox="0 0 560 130">
+    <defs><marker id="a14" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1A1A2E"/></marker></defs>
+    <rect x="15" y="35" width="150" height="60" rx="12" fill="#FFE8D6" stroke="#FF6B1A" stroke-width="3"/>
+    <text x="90" y="60" text-anchor="middle" font-size="13" font-weight="bold">交易所 API</text>
+    <text x="90" y="80" text-anchor="middle" font-size="11">Binance / Bybit / IB…</text>
+    <rect x="215" y="35" width="130" height="60" rx="12" fill="#F0EBFF" stroke="#7C4DFF" stroke-width="3"/>
+    <text x="280" y="60" text-anchor="middle" font-size="13" font-weight="bold">适配器 Adapter</text>
+    <text x="280" y="80" text-anchor="middle" font-size="11">协议双向翻译</text>
+    <rect x="395" y="35" width="150" height="60" rx="12" fill="#E8FFF9" stroke="#00C2A8" stroke-width="3"/>
+    <text x="470" y="60" text-anchor="middle" font-size="13" font-weight="bold">你的策略（不变！）</text>
+    <text x="470" y="80" text-anchor="middle" font-size="11">回测时它对面是 SIM</text>
+    <path d="M168 65 L210 65 M350 65 L390 65" stroke="#1A1A2E" stroke-width="3.5" marker-end="url(#a14)"/>
+  </svg>
+  <p>官方已维护币安、Bybit、OKX、dYdX、Interactive Brokers（盈透）等适配器；任何有 REST/WebSocket/FIX API 的交易所都能照模子写。实盘时策略代码<b>一行不改</b>，只是对面从 SIM 换成了真交易所——这就是 Q3 那个承诺的兑现方式。</p>
+</div>
+
+<h2 id="cap">这个项目给我什么 —— 能力清单</h2>
+<div class="capgrid">
+  <div class="cap"><b>1. 回测引擎</b>多品种多策略同时回测，tick/K线/订单簿数据都行，内置撮合、费用、滑点、保证金、隔夜利息模块。</div>
+  <div class="cap pink"><b>2. 实盘执行</b>同一套策略接真实交易所（币安、盈透等），事件驱动引擎微秒级响应，Redis 可选持久化。</div>
+  <div class="cap purple"><b>3. 高级订单类型</b>IOC/FOK/GTD、冰山单、OCO/OTO 联动单、post-only/reduce-only 执行指令——真实交易所有的它都模拟。</div>
+  <div class="cap yellow"><b>4. 数据基础设施</b>Parquet 数据目录 + DataFusion SQL 查询 + 四种数据整形器，大数据量流式回测。</div>
+  <div class="cap"><b>5. 200+ 内置指标</b>EMA/SMA/RSI/MACD/布林带…<code>nautilus_trader.indicators</code> 直接实例化注册。</div>
+  <div class="cap pink"><b>6. AI 训练友好</b>快得可以直接在平台里训练强化学习交易 Agent（回测即环境）。</div>
+</div>
+<p style="margin-top:8px">结合你的水平，它能干的事：<b>①</b> 把任何"我觉得会赚"的交易想法 1 小时内变成可验证的回测；<b>②</b> 跑参数网格，用数据而不是感觉筛选策略；<b>③</b> 小资金接加密货币交易所实盘，体验完整量化闭环；<b>④</b> 学习生产级 Rust/Python 混合架构的范本。</p>
+
+<h2 id="exp" style="margin-top:26px">动手实验：跑一次真实 AUD/USD 回测（3 步）</h2>
+
+<div class="step">
+  <h3>第 0 步：环境（一次性）</h3>
+  <pre><code>pip install -U nautilus-trader pandas
+git clone --depth 1 https://github.com/nautechsystems/nautilus_trader repo</code></pre>
+  <p>目的：装稳定版引擎 + 拿到仓库自带的 10 万条真实 AUD/USD tick 数据。<br>验证：python -c "from nautilus_trader.backtest.engine import BacktestEngine; print('OK')"</p>
+  <div class="expect">✅ 预期结果：打印 OK（版本 1.231.0，Python 3.12–3.14）</div>
+</div>
+
+<div class="step">
+  <h3>第 1 步：跑默认参数回测（快 EMA=10 / 慢 EMA=20）</h3>
+  <pre><code>cd exercise
+python ema_cross_backtest.py</code></pre>
+  <p>目的：跑通"数据 → 引擎 → 策略 → 报表"全链路。这一步做了四件事：CSV 读成 DataFrame → wrangler 转成 QuoteTick → 引擎用 SIM 交易所撮合 EMA 交叉信号 → 生成盈亏报表。</p>
+  <div class="expect">✅ 预期结果（2026-10-02 实测）：</div>
+  <pre><code>           ticks: 99821        ← 参与回测的真实 tick 数
+     first_ts_ns: 1580398089820000000  ← 纳秒时间戳
+         signals: 85             ← 金叉死叉信号
+           fills: 170            ← 成交笔数（开+平各一次）
+    realized_pnl: -526.82        ← 已实现盈亏（美元）
+     commissions: 227.82         ← 手续费占了亏损的 43%!
+   final_balance: 999473.18      ← 100万本金 → 期末</code></pre>
+</div>
+
+<div class="step">
+  <h3>第 2 步：改参数，亲眼看见"频率越高死得越快"</h3>
+  <pre><code>python ema_cross_backtest.py 5 10    # 更快：5/10
+python ema_cross_backtest.py 20 60   # 更慢：20/60</code></pre>
+  <p>目的：同一份数据、同一套代码，只改两个整数，看策略行为的系统性变化。</p>
+  <div class="expect">✅ 预期结果（三组实测对比）：</div>
+  <table>
+    <tr><th>EMA 参数</th><th>信号数</th><th>成交笔数</th><th>已实现盈亏(USD)</th><th>手续费(USD)</th><th>期末余额(USD)</th></tr>
+    <tr><td><b>5 / 10</b>（最快）</td><td>145</td><td>290</td><td style="color:#FF3B3B;font-weight:bold">-883.62</td><td>388.62</td><td>999,116.38</td></tr>
+    <tr><td><b>10 / 20</b>（默认）</td><td>85</td><td>170</td><td style="color:#FF3B3B;font-weight:bold">-526.82</td><td>227.82</td><td>999,473.18</td></tr>
+    <tr><td><b>20 / 60</b>（最慢）</td><td>32</td><td>64</td><td style="color:#FF3B3B;font-weight:bold">-326.76</td><td>85.76</td><td>999,673.24</td></tr>
+  </table>
+  <p class="big"><span class="hl">规律：均线越快 → 信号越多 → 手续费越多 → 亏损越大。</span>这就是量化里说的"鞭打（whipsaw）"：震荡行情里快线来回穿慢线，每次都白交一次手续费。教学策略没优势是预期的——<b>你从数据中亲手验证了 Q10/Q11 的成本原理，这比读十篇文章都扎实。</b></p>
+</div>
+
+<div class="note"><b>实验源码：</b><code>F:\reminder\nautilus-trader\exercise\ema_cross_backtest.py</code>（约 170 行，含中文注释）+ <code>exercise\README.md</code>（踩坑全记录：pip 稳定版 1.231.0 的 API 与仓库 develop 分支示例差异、CSV 重复时间戳、Money 字符串列等 7 个坑）。</div>
+
+<div class="foot">NautilusTrader 小白指南 · 来源：拾遗队列推文推荐 · F:\reminder\nautilus-trader\ · 2026-10-02</div>
+</div>
+</body>
+</html>
