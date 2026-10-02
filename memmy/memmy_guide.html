@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Memmy 跨工具AI记忆系统 小白指南</title>
+<style>
+:root{
+  --pink:#FF2D78; --orange:#FF7A00; --cyan:#00B8D9; --purple:#7C3AED;
+  --green:#16C784; --blue:#2563EB; --yellow:#FFD600; --red:#FF3B30;
+  --ink:#1A1B25; --bg:#FFFDF7;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+@page{ size:A4; margin:12mm 10mm; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:13.5px; line-height:1.65;}
+.wrap{width:100%;}
+/* 封面 */
+.cover{ background:linear-gradient(135deg,#FF2D78 0%,#FF7A00 55%,#FFD600 100%); border-radius:18px; padding:44px 36px; color:#fff; margin-bottom:18px; break-inside:avoid;}
+.cover h1{ font-size:40px; line-height:1.2; text-shadow:2px 3px 0 rgba(0,0,0,.18);}
+.cover .sub{ font-size:17px; margin-top:12px; font-weight:bold; opacity:.96;}
+.cover .meta{ margin-top:16px; font-size:12.5px; background:rgba(255,255,255,.22); display:inline-block; padding:6px 14px; border-radius:20px;}
+.badge{ display:inline-block; background:#fff; color:var(--pink); font-weight:900; border-radius:8px; padding:2px 10px; margin-right:6px; font-size:12px;}
+/* 疑问卡片 */
+.q{ border:3px solid; border-radius:16px; margin:16px 0; break-inside:avoid; overflow:hidden; background:#fff;}
+.q-head{ display:flex; align-items:center; gap:14px; padding:12px 18px; color:#fff;}
+.q-num{ font-size:34px; font-weight:900; min-width:52px; text-align:center; background:rgba(255,255,255,.25); border-radius:12px;}
+.q-title{ font-size:19px; font-weight:900;}
+.q-body{ padding:14px 18px;}
+.c-pink{ border-color:var(--pink);} .c-pink .q-head{background:linear-gradient(90deg,var(--pink),#ff6aa8);}
+.c-orange{ border-color:var(--orange);} .c-orange .q-head{background:linear-gradient(90deg,var(--orange),#ffb25e);}
+.c-cyan{ border-color:var(--cyan);} .c-cyan .q-head{background:linear-gradient(90deg,var(--cyan),#4dd8ef);}
+.c-purple{ border-color:var(--purple);} .c-purple .q-head{background:linear-gradient(90deg,var(--purple),#a97df5);}
+.c-green{ border-color:var(--green);} .c-green .q-head{background:linear-gradient(90deg,var(--green),#5fe3ae);}
+.c-blue{ border-color:var(--blue);} .c-blue .q-head{background:linear-gradient(90deg,var(--blue),#6d95f0);}
+.hl{ background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:900; padding:0 2px;}
+.big{ font-size:16px; font-weight:900;}
+.term{ color:var(--blue); font-weight:900;}
+code, .code{ font-family:Consolas,monospace; background:#F3F0FF; color:#5B21B6; padding:1px 6px; border-radius:5px; font-size:12.5px; font-weight:bold;}
+.codeblock{ font-family:Consolas,monospace; background:#232336; color:#E8E8FF; border-radius:10px; padding:10px 14px; font-size:11.5px; margin:8px 0; white-space:pre-wrap; line-height:1.5;}
+.codeblock .c{color:#7EE787;}
+table{ width:100%; border-collapse:collapse; margin:8px 0; font-size:12px;}
+th{ background:var(--ink); color:#fff; padding:6px 8px; text-align:left;}
+td{ border-bottom:2px solid #F0EBFF; padding:5px 8px; vertical-align:top;}
+tr:nth-child(even) td{ background:#FBF8FF;}
+.ok{ background:#E8FFF4; border:2px solid var(--green); border-radius:10px; padding:8px 12px; margin:8px 0; font-size:12.5px;}
+.ok b{ color:#0B8A5C;}
+.warn{ background:#FFF4E5; border:2px solid var(--orange); border-radius:10px; padding:8px 12px; margin:8px 0; font-size:12.5px;}
+.warn b{ color:#C25E00;}
+.svgbox{ text-align:center; margin:10px 0; break-inside:avoid;}
+.svgbox svg{max-width:100%; height:auto;}
+.cap{ font-size:11px; color:#666; text-align:center; margin-top:2px;}
+.exp{ border:2.5px dashed var(--purple); border-radius:14px; padding:12px 16px; margin:14px 0; background:#FCFAFF; break-inside:avoid;}
+.exp h3{ color:var(--purple); font-size:16px; margin-bottom:6px;}
+.step{ background:#fff; border:2px solid #E4D9FF; border-radius:12px; padding:10px 14px; margin:8px 0; break-inside:avoid;}
+.step .snum{ display:inline-block; background:var(--purple); color:#fff; font-weight:900; border-radius:8px; padding:1px 10px; margin-right:6px;}
+.foot{ text-align:center; color:#888; font-size:11px; margin:18px 0;}
+.toc{ background:#fff; border:3px solid var(--cyan); border-radius:16px; padding:14px 20px; margin-bottom:8px; break-inside:avoid;}
+.toc h2{ color:var(--cyan); font-size:20px; margin-bottom:8px;}
+.toc ol{ margin-left:22px; font-size:13px; columns:2; column-gap:30px;}
+.toc li{ margin:3px 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- 封面 -->
+<div class="cover">
+  <h1>Memmy 🍙<br>让所有 AI 记住同一个你</h1>
+  <div class="sub">跨工具记忆清零终结者：免费开源的个人 AI 记忆中枢<br>GitHub: MemTensor/memmy-agent · MIT · ~2k★</div>
+  <div class="meta"><span class="badge">开源项目类</span><span class="badge">本地优先 SQLite</span><span class="badge">四层记忆</span><span class="badge">Windows 实测跑通</span> 2026-10-03</div>
+</div>
+
+<div class="toc">
+<h2>目录 = 你的 14 个疑问</h2>
+<ol>
+<li>Memmy 是什么？"记忆清零"是什么痛？</li>
+<li>和每个 Agent 自带的记忆文件有何本质区别？</li>
+<li>架构三件套怎么分工？</li>
+<li>四层记忆 L1/L2/L3/Skill 各存什么？</li>
+<li>记忆是怎么写进去的？为何会"摘要排队"？</li>
+<li>记忆为什么要打分？（奖励系统）</li>
+<li>检索为什么用 4 通道族而不是纯向量？</li>
+<li>候选怎么融合、排序、终筛？</li>
+<li>怎么接入 Claude Code / Cursor？</li>
+<li>L2 策略怎么结晶成 Skill？</li>
+<li>隐私和模型依赖怎么回事？</li>
+<li>和 mem0 / MemGPT 比定位差在哪？</li>
+<li>这项目给我什么能力？</li>
+<li>动手实验：5 步跑通记忆闭环（Windows 实测）</li>
+</ol>
+</div>
+
+<!-- Q1 -->
+<div class="q c-pink"><div class="q-head"><div class="q-num">Q1</div><div class="q-title">Memmy 是什么？"跨工具记忆清零"是什么痛？</div></div><div class="q-body">
+<p><span class="big">一句话：Memmy 是一个跑在你自己电脑上的"个人记忆中枢"，让 Claude Code、Codex、Cursor 等所有 AI Agent 共享同一份长期记忆</span>——口号是 <span class="hl">"All AI remember the same you"</span>。</p>
+<p><b>场景故事</b>：你周一在 Claude Code 里调通了 deeptutor，踩了 4 个坑、定下了"用 python -m 启动"的结论；周二换 Codex 继续做，它对你的历史<b>一无所知</b>——项目目标、踩过的坑、为什么改了方案，全部清零。你只能手动粘贴摘要，或者干脆从头再来。这就是"跨工具记忆清零"。</p>
+<p>Memmy 的解法分三步：<span class="term">Remember</span>（把本机各 Agent 的协作历史自动整理成结构化记忆）→ <span class="term">Relay</span>（换工具时带着项目背景、偏好、进度接着干）→ <span class="term">Act</span>（它自己也是个 Agent，能整理资料、合并方案、续跑任务）。</p>
+<div class="svgbox">
+<svg width="620" height="190" viewBox="0 0 620 190">
+<rect x="10" y="30" width="130" height="50" rx="10" fill="#FF2D78"/><text x="75" y="52" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Claude Code</text><text x="75" y="70" text-anchor="middle" fill="#fff" font-size="11">记忆 A</text>
+<rect x="10" y="110" width="130" height="50" rx="10" fill="#FF7A00"/><text x="75" y="132" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Codex</text><text x="75" y="150" text-anchor="middle" fill="#fff" font-size="11">记忆 B</text>
+<rect x="10" y="10" width="130" height="0" fill="none"/>
+<rect x="245" y="10" width="130" height="50" rx="10" fill="#7C3AED"/><text x="310" y="32" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Cursor</text><text x="310" y="50" text-anchor="middle" fill="#fff" font-size="11">记忆 C</text>
+<rect x="245" y="110" width="130" height="50" rx="10" fill="#00B8D9"/><text x="310" y="132" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">OpenClaw</text><text x="310" y="150" text-anchor="middle" fill="#fff" font-size="11">记忆 D</text>
+<path d="M140 55 C 200 55, 210 85, 260 95" stroke="#999" stroke-width="2" fill="none"/>
+<path d="M140 135 C 200 135, 210 110, 260 100" stroke="#999" stroke-width="2" fill="none"/>
+<path d="M310 60 L310 82" stroke="#999" stroke-width="2" fill="none"/>
+<path d="M375 135 C 420 135, 430 110, 375 100" stroke="#999" stroke-width="2" fill="none"/>
+<rect x="450" y="55" width="160" height="85" rx="14" fill="#16C784"/>
+<text x="530" y="88" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Memmy 记忆中枢</text>
+<text x="530" y="110" text-anchor="middle" fill="#fff" font-size="12">本地 SQLite · 四层记忆</text>
+<text x="530" y="128" text-anchor="middle" fill="#fff" font-size="12">谁都能读 谁都能写</text>
+</svg>
+<div class="cap">各自为政的记忆孤岛 → 收敛成一份共享的个人上下文层</div>
+</div>
+</div></div>
+
+<!-- Q2 -->
+<div class="q c-orange"><div class="q-head"><div class="q-num">Q2</div><div class="q-title">和每个 Agent 自带的记忆文件（CLAUDE.md、Cursor Rules）有何本质区别？</div></div><div class="q-body">
+<table>
+<tr><th>维度</th><th>各 Agent 自带记忆</th><th>Memmy</th></tr>
+<tr><td><b>归属</b></td><td>每个工具一份孤岛（CLAUDE.md / ~/.codex / state.vscdb…）</td><td><span class="hl">全工具共用一个库</span>，一份记忆到处可用</td></tr>
+<tr><td><b>写入</b></td><td>手动维护，靠人自觉</td><td>Hook 自动抓取每轮对话（turn.complete），也支持历史全量扫描导入</td></tr>
+<tr><td><b>结构</b></td><td>平铺文本，越写越长</td><td>四层结构化记忆（轨迹→策略→世界模型→技能），逐层自动进化</td></tr>
+<tr><td><b>检索</b></td><td>全文塞进上下文或干脆不检索</td><td>4 通道混合检索 + 打分排序，只注入相关的 10 条左右</td></tr>
+<tr><td><b>遗忘/纠错</b></td><td>没有机制</td><td>价值打分 + 时间衰减 + 归档（gain&lt;-0.05 的 L2 会被归档）</td></tr>
+</table>
+<p>类比：自带记忆是<b>每个人自己的笔记本</b>；Memmy 是<b>团队共享的知识库 + 专职图书管理员</b>——管理员不只收藏，还会提炼摘要、总结规矩、写成操作手册。</p>
+</div></div>
+
+<!-- Q3 -->
+<div class="q c-cyan"><div class="q-head"><div class="q-num">Q3</div><div class="q-title">架构三件套怎么分工？</div></div><div class="q-body">
+<div class="svgbox">
+<svg width="620" height="230" viewBox="0 0 620 230">
+<rect x="15" y="20" width="130" height="60" rx="10" fill="#FF2D78"/><text x="80" y="45" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">外部 Agent</text><text x="80" y="65" text-anchor="middle" fill="#fff" font-size="10">Claude Code/Codex/Cursor…</text>
+<rect x="15" y="140" width="130" height="60" rx="10" fill="#FF7A00"/><text x="80" y="165" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">桌面端 / TUI</text><text x="80" y="185" text-anchor="middle" fill="#fff" font-size="10">人机交互入口</text>
+<rect x="225" y="80" width="170" height="70" rx="12" fill="#7C3AED"/><text x="310" y="108" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Agent Runtime</text><text x="310" y="128" text-anchor="middle" fill="#fff" font-size="10">模型调用·工具·MCP·会话·技能</text>
+<rect x="225" y="170" width="170" height="50" rx="12" fill="#2563EB"/><text x="310" y="192" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Gateway :18990</text><text x="310" y="210" text-anchor="middle" fill="#fff" font-size="10">OpenAI 兼容 API</text>
+<rect x="465" y="70" width="140" height="95" rx="12" fill="#16C784"/><text x="535" y="98" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Memory 服务</text><text x="535" y="118" text-anchor="middle" fill="#fff" font-size="10">:18960 · SQLite</text>
+<text x="535" y="136" text-anchor="middle" fill="#fff" font-size="10">FTS5 + sqlite-vec</text>
+<text x="535" y="152" text-anchor="middle" fill="#fff" font-size="10">四层记忆 + 面板 /viewer</text>
+<path d="M145 50 C 190 55, 195 85, 225 95" stroke="#888" stroke-width="2.5" fill="none" marker-end="url(#ar)"/>
+<path d="M145 170 C 190 165, 195 140, 225 130" stroke="#888" stroke-width="2.5" fill="none" marker-end="url(#ar)"/>
+<path d="M395 105 C 430 100, 435 95, 465 95" stroke="#888" stroke-width="2.5" fill="none" marker-end="url(#ar)"/>
+<path d="M395 190 C 440 190, 445 165, 465 155" stroke="#888" stroke-width="2.5" fill="none" marker-end="url(#ar)"/>
+<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#888"/></marker></defs>
+</svg>
+<div class="cap">所有入口最终都读写同一个本地 Memory 服务（实验证实：不装桌面端、纯 CLI 也能全功能跑）</div>
+</div>
+<ul style="margin-left:18px">
+<li><span class="term">Memory 服务</span>（Fastify + SQLite，默认 <code>127.0.0.1:18960</code>）：唯一的记忆存取点，向量、全文、检索、进化流水线全在这。</li>
+<li><span class="term">Agent Runtime</span>：Memmy 自己当 Agent 时的"大脑"——消息循环、工具、MCP、技能。</li>
+<li><span class="term">Gateway</span>（<code>:18990</code>）：把 Runtime 包装成 OpenAI 兼容 API，别的客户端也能接。</li>
+</ul>
+</div></div>
+
+<!-- Q4 -->
+<div class="q c-purple"><div class="q-head"><div class="q-num">Q4</div><div class="q-title">四层记忆 L1/L2/L3/Skill 各存什么？</div></div><div class="q-body">
+<p>这是 Memmy 最核心的设计：<span class="hl">记忆不是一堆聊天记录，而是一个会自动"蒸馏升值"的四层体系</span>。</p>
+<table>
+<tr><th>层</th><th>存什么</th><th>怎么产生</th><th>类比</th></tr>
+<tr><td><b>L1 Trace 轨迹</b></td><td>原始对话：用户请求、Agent 回复、工具调用、错误签名</td><td>turn.complete 自动抓取 / 手动 add / 历史扫描</td><td>监控流水账</td></tr>
+<tr><td><b>L2 Policy 策略</b></td><td>从多条高价值 L1 里<b>归纳出的程序性经验</b>：触发条件、步骤、边界、避坑指南</td><td>奖励达标后由 LLM 归纳（l2Induction）</td><td>经验总结帖</td></tr>
+<tr><td><b>L3 World Model 世界模型</b></td><td>关于项目/环境/约束的<b>稳定事实知识</b>（不是步骤）</td><td>相似 L2 聚类抽象（l3Abstraction）</td><td>项目百科页</td></tr>
+<tr><td><b>Skill 技能</b></td><td>可调用的 SOP：名字、调用指南、步骤、验证条件</td><td>合格 L2 结晶（skill.minGain）</td><td>标准操作手册</td></tr>
+</table>
+<p><b>与你已学的 [[三层记忆]] 对比</b>（deeptutor：L1 轨迹→L2 界面摘要→L3 用户画像）：同样是"逐层压缩"，但 Memmy 的 L2/L3 <span class="hl">压的不是"摘要"而是"可执行经验"</span>——L2 是"遇到 X 该怎么做"，L3 是"这个项目是什么样"，终点是一个能直接复用的 Skill。另外 Memmy 有显式的<b>奖励与遗忘</b>机制，deeptutor 没有。</p>
+<div class="svgbox">
+<svg width="620" height="150" viewBox="0 0 620 150">
+<rect x="10" y="95" width="600" height="40" rx="8" fill="#00B8D9"/><text x="300" y="120" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">L1 Trace 轨迹层（流水账，量最大）</text>
+<rect x="60" y="55" width="500" height="36" rx="8" fill="#FF7A00"/><text x="310" y="78" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">L2 Policy 策略层（高价值轨迹归纳出的经验）</text>
+<rect x="110" y="15" width="200" height="36" rx="8" fill="#7C3AED"/><text x="210" y="38" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">L3 世界模型（稳定知识）</text>
+<rect x="330" y="15" width="200" height="36" rx="8" fill="#16C784"/><text x="430" y="38" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Skill（可调用 SOP）</text>
+<path d="M160 95 L240 91" stroke="#555" stroke-width="2" marker-end="url(#ar2)"/>
+<path d="M460 95 L400 91" stroke="#555" stroke-width="2" marker-end="url(#ar2)"/>
+<path d="M250 55 L220 51" stroke="#555" stroke-width="2" marker-end="url(#ar2)"/>
+<path d="M420 55 L440 51" stroke="#555" stroke-width="2" marker-end="url(#ar2)"/>
+<defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#555"/></marker></defs>
+</svg>
+<div class="cap">金字塔：下层量大值杂，上层少而精；每层都有独立检索通道和注入顺序</div>
+</div>
+</div></div>
+
+<!-- Q5 -->
+<div class="q c-green"><div class="q-head"><div class="q-num">Q5</div><div class="q-title">记忆是怎么写进去的？为何会"摘要排队"？</div></div><div class="q-body">
+<p><b>自动链路（接入 Hook 后）</b>：请求前 Hook 调 <code>turn.start</code>（分类意图、决定要不要回忆）→ Agent 干活 → 结束调 <code>turn.complete</code> 存原始轮次 + 逐条 L1（默认截断：用户/回复文本 4000 字、工具输出 2000 字、标签最多 8 个）。</p>
+<p><b>为什么手动 add 后立刻搜不到？</b>——实验实测的大坑：<span class="hl">L1 写入后进入 summary_pending 状态，摘要和向量化由后台异步流水线完成，完成后（state=ready）才可被检索</span>。摘要必须配 LLM；源码里 <code>if (!llm.isConfigured()) throw SummaryModelUnconfiguredError</code>——<b>不配 LLM，记忆永远卡在排队中</b>。历史扫描导入的更严格：走 summary_queued 管道，防止半成品被注入。</p>
+<p>摘要完成后建向量：L1 用摘要文本建 <code>vec_summary</code>，L2/L3/Skill 用 <code>vec</code>。嵌入失败进重试队列，<b>绝不阻塞 Agent 当前轮次</b>。</p>
+<div class="warn"><b>实验实录</b>：不配 summary 模型时 search 永远返回 0 候选；用本地 qwen2.5:0.5b 补上并 retry 后，45 秒内"摘要→嵌入"全部完成（local MiniLM 嵌入仅 21ms）。</div>
+</div></div>
+
+<!-- Q6 -->
+<div class="q c-blue"><div class="q-head"><div class="q-num">Q6</div><div class="q-title">记忆为什么要打分？（奖励系统）</div></div><div class="q-body">
+<p>不是所有记忆都同样值钱。Memmy 借了强化学习的思路给每条 L1 打 <span class="term">value</span>（价值）、<span class="term">alpha</span>、<span class="term">priority</span>（默认 0.5），决定谁能升级成 L2、谁该被遗忘：</p>
+<table>
+<tr><th>参数</th><th>默认</th><th>含义</th></tr>
+<tr><td><code>reward.gamma</code></td><td>0.9</td><td>位置折扣：越早的步骤权重越低（像 RL 的折扣因子）</td></tr>
+<tr><td><code>reward.lambda</code></td><td>0.5</td><td>均匀权重与位置权重的混合比例（呼应 TD(λ)）</td></tr>
+<tr><td><code>reward.delta</code></td><td>0.1</td><td>"力挽狂澜"加成：从上一步跑偏中救回来的步骤加分</td></tr>
+<tr><td><code>decayHalfLifeDays</code></td><td>30</td><td>L1 优先级的时间衰减半衰期：30 天不用，重要性减半</td></tr>
+<tr><td><code>feedbackWindowSec</code></td><td>30</td><td>回合结束后等 30 秒显式反馈，再算任务奖励回传</td></tr>
+</table>
+<p>回合（episode）按话题边界/会话关闭/<b>2 小时空闲</b>合并闭合，闭合后先做反思合成与评分，奖励沿轨迹回传。这套设计与你知识库里的 [[本能学习与置信度评分]] 同类：<span class="hl">记忆的价值不是记的时候定的，而是被结果反复修正的</span>。</p>
+</div></div>
+
+<!-- Q7 -->
+<div class="q c-pink"><div class="q-head"><div class="q-num">Q7</div><div class="q-title">检索为什么用 4 通道族，而不是纯向量？</div></div><div class="q-body">
+<p>纯向量检索的弱点：对<b>精确标识符</b>（PYTHONUTF8、报错码、路径）不敏感， embedding 还可能把相近词混在一起。Memmy 用 4 族 6 通道互补：</p>
+<table>
+<tr><th>通道</th><th>技术</th><th>擅长</th><th>默认池</th></tr>
+<tr><td><code>vec / vec_summary / vec_action</code></td><td>sqlite-vec（2000 行窗口内 TopK）</td><td>换词语义</td><td>Skill 12 / L1·L2 20 / L3 8</td></tr>
+<tr><td><code>fts</code></td><td>SQLite FTS5 全文</td><td>词面精确命中</td><td>20/层</td></tr>
+<tr><td><code>pattern</code></td><td>CJK 双字切分 + 双字符 ASCII</td><td>中文短语片段</td><td>20/层</td></tr>
+<tr><td><code>structural</code></td><td>结构化片段</td><td>错误码/路径/标识符（仅 L1）</td><td>10</td></tr>
+</table>
+<p>这与你知识库的 [[RAG检索增强生成]] 和 [[向量数据库]] 互补：<span class="hl">混合检索（hybrid search）在"语义泛化"和"字面精确"之间取兼得</span>。中文做了特殊照顾——查询会先切出两字 pattern。</p>
+<p>另外有个<span class="term">意图门</span>：任务类请求才全层召回；"你还记得以前什么"不查 L3；闲聊和元指令直接跳过检索（省时省钱）。<code>turn_start</code> 还会排除<b>当前会话</b>的 L1，防止刚说过的话又从长期记忆里绕回来。</p>
+</div></div>
+
+<!-- Q8 -->
+<div class="q c-orange"><div class="q-head"><div class="q-num">Q8</div><div class="q-title">候选怎么融合、排序、终筛？（漏斗全解）</div></div><div class="q-body">
+<div class="svgbox">
+<svg width="620" height="240" viewBox="0 0 620 240">
+<polygon points="40,15 580,15 480,60 140,60" fill="#FF2D78"/><text x="310" y="43" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">4 通道并行召回（实验实测 raw 12~25 条）</text>
+<polygon points="150,70 470,70 420,115 200,115" fill="#FF7A00"/><text x="310" y="97" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">融合打分 → ranked 5~6</text>
+<polygon points="210,125 410,125 370,165 250,165" fill="#7C3AED"/><text x="310" y="150" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">相对阈值(20%)+MMR 去冗余</text>
+<polygon points="260,175 360,175 335,215 285,215" fill="#16C784"/><text x="310" y="200" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">LLM 终筛 → ≤10 条注入</text>
+</svg>
+<div class="cap">实验真实漏斗：raw 24 → ranked 6 → 阈值砍 18 → LLM 终筛留 4</div>
+</div>
+<p><b>融合公式</b>（每个候选取最好通道分，再加层质量加成）：</p>
+<div class="codeblock">relevance = max(通道分)
+          + min(weightPriority,0.3)×value×时间衰减   <span class="c"># L1</span>
+          + skillEtaBlend×eta                        <span class="c"># Skill</span>
+          + 0.2×clamp01(gain)                        <span class="c"># L2</span>
+          + 0.4×Σ 1/(60+通道名次+1)                  <span class="c"># RRF 跨通道共识加成</span></div>
+<ul style="margin-left:18px">
+<li><span class="term">RRF</span>（Reciprocal Rank Fusion，倒数排名融合）：一条记忆被<b>多个通道同时命中</b>就加分——"语义说相关 + 字面也对上"的更可信。</li>
+<li><span class="term">MMR</span>（最大边际相关）：按 <code>0.7×相关性 − 0.3×冗余</code> 选结果，避免注入 10 条几乎一样的记忆。mmrLambda 调低更多样、调高更准。</li>
+<li><span class="term">相对阈值</span>：低于最高分 20% 的直接丢；但"多通道旁路"开着——命中≥2 通道的可以幸存。</li>
+<li><span class="term">LLM 终筛</span>：机械排序后让 LLM 再做一次相关性裁判（最多留 8 条；LLM 没配/挂了就保留机械 top6，<b>不会因此失忆</b>）。</li>
+</ul>
+<div class="warn"><b>实验实录（重要坑）</b>：用 qwen2.5:0.5b 做终筛模型，搜精确词 "PYTHONUTF8" 时目标 L1 被小模型<b>误杀</b>（kept 2 / dropped 3）。终筛模型太弱会乱杀正确记忆——实战要么配强模型，要么 <code>retrieval.llmFilterEnabled: false</code>。</div>
+<p>最终注入按 <b>L1 → L2 → L3 → Skill → 决策指导</b> 顺序渲染，普通片段 ≤640 字、Skill 只注入名字+200 字简介，且明确标注"这是历史记忆，须对照当前请求核实"——<span class="hl">记忆是证据，不是指令</span>（防提示注入的细节）。</p>
+</div></div>
+
+<!-- Q9 -->
+<div class="q c-cyan"><div class="q-head"><div class="q-num">Q9</div><div class="q-title">怎么接入 Claude Code / Cursor 这些 Agent？</div></div><div class="q-body">
+<p>两条路，且<span class="hl">"扫历史"和"实时联动"是两回事</span>：</p>
+<table>
+<tr><th>接入档位</th><th>机制</th><th>能干什么</th></tr>
+<tr><td><b>历史扫描</b></td><td>直接读各 Agent 本地历史文件（如 Claude Code 的 <code>~/.claude/projects/**/*.jsonl</code>）</td><td>把已有对话一次性导入成 L1（增量同步 + 水位去重；一条完整对话轮 = 一条 L1）</td></tr>
+<tr><td><b>Hook / 插件</b></td><td>往 Agent 里装钩子（Claude Code Hook、Cursor Hook、OpenCode 原生插件）</td><td>新对话自动 turn.start/complete、自动召回注入、任务续跑</td></tr>
+<tr><td><b>Skill</b></td><td>写入记忆指令文件，让 Agent 主动调 <code>memmy-memory</code> CLI</td><td>按需读写记忆（WorkBuddy/Pi/qwenwork 用这档）</td></tr>
+</table>
+<p>内置 9 个来源：Cursor、Claude Code、Codex、OpenCode、OpenClaw、Hermes、WorkBuddy、Pi、qwenwork；还能手动添加自定义 Agent（会先验证本机真的装了它，防止张冠李戴）。接入命令就一条：<code>memmy-memory init --agent claude,codex</code>。</p>
+<div class="ok"><b>实验实录</b>：本实验库启动后 autoScanKnownAgents 默认开启，<b>自动把本机 Claude Code 的 54 条真实历史轨迹 + 1 个 learn-project Skill 导入了 SQLite</b>——之后用换词查询"之前中文环境下 Python 报错乱码怎么解决的"，同时命中了手动写入的 GBK 坑和自动导入的 deeptutor PATH 坑。<span class="hl">这就是推文说的"把跨工具清零的记忆收成一句能问的话"</span>。</div>
+</div></div>
+
+<!-- Q10 -->
+<div class="q c-purple"><div class="q-head"><div class="q-num">Q10</div><div class="q-title">L2 策略怎么结晶成 Skill？</div></div><div class="q-body">
+<p>Skill = 从合格 L2 里"结晶"出的可调用 SOP，有名字、调用指南、步骤、验证条件。门槛参数：</p>
+<table>
+<tr><th>参数</th><th>默认</th><th>作用</th></tr>
+<tr><td><code>skill.minSupport</code></td><td>1</td><td>至少几条证据支持（防一条经验就立规矩）</td></tr>
+<tr><td><code>skill.minGain</code></td><td>0.02</td><td>该策略带来的收益增益下限（要"真的有用"）</td></tr>
+<tr><td><code>skill.minEtaForRetrieval</code></td><td>0.1</td><td>eta（预期效率）低于它就不参与召回</td></tr>
+</table>
+<p>同理 L2 归纳要 <code>minTraceValue 0.005</code> + 与已有 L2 相似度 0.65 归并 + gain≥0.02 激活；gain 掉到 -0.05 以下会被<b>归档</b>（软遗忘）。L2 聚类成 L3 要簇内相似度 ≥0.3，L3 置信度 ≥0.2 才可召回。<span class="hl">每一层晋升都是"有证据、有收益、可撤销"的</span>，还有 Dream 机制（手动/定时记忆整理，带日志和回滚）。</p>
+</div></div>
+
+<!-- Q11 -->
+<div class="q c-green"><div class="q-head"><div class="q-num">Q11</div><div class="q-title">隐私和模型依赖怎么回事？</div></div><div class="q-body">
+<ul style="margin-left:18px">
+<li><b>数据全在本地</b>：SQLite 存 <code>~/.memmy/memory-service/memory.sqlite</code>，服务只绑 127.0.0.1，提供导出/一键清除。</li>
+<li><b>模型三种玩法</b>：① 注册送 token（云端体验）；② <span class="term">BYOK</span> 自带 key（15+ 供应商，OpenAI 兼容端点也行）；③ <span class="hl">全本地：embedding 用 <code>provider: local</code>（transformers.js + all-MiniLM-L6-v2，首次自动下载模型），摘要/进化 LLM 指到本地 Ollama</span>——实验正是这么跑的，数据零出机。</li>
+<li>六个模型槽独立配置：主模型、Embedding、记忆摘要、技能进化、ASR、画图。</li>
+</ul>
+</div></div>
+
+<!-- Q12 -->
+<div class="q c-blue"><div class="q-head"><div class="q-num">Q12</div><div class="q-title">和 mem0 / MemGPT(Letta) 比定位差在哪？</div></div><div class="q-body">
+<table>
+<tr><th>方案</th><th>定位</th><th>差异点</th></tr>
+<tr><td><b>Memmy</b></td><td>个人级、跨工具、本地优先的<b>记忆基础设施</b></td><td>卖点是"接入你已有的 9 个 Agent 生态"，四层自动进化 + 奖励遗忘，带桌面端/TUI</td></tr>
+<tr><td><b>mem0</b></td><td>给<b>开发者</b>的记忆 API/中间件</td><td>嵌进你自己写的应用里用；不负责扫描你本机的其他 Agent</td></tr>
+<tr><td><b>MemGPT/Letta</b></td><td>一个<b>自带记忆 OS 的 Agent</b> 框架</td><td>记忆围绕它自己的 Agent 运行；跨工具共享不是主目标</td></tr>
+</table>
+<p>一句话：<span class="hl">mem0 是给应用装记忆，Letta 是造一个记得住事的 Agent，Memmy 是给你的"全部 AI 工具"装同一份记忆</span>。与你已学的 [[三层记忆]]（deeptutor，单应用内个性化）相比，Memmy 把同一思想推广到了"操作系统级的个人上下文层"。</p>
+</div></div>
+
+<!-- Q13 -->
+<div class="q c-orange"><div class="q-head"><div class="q-num">Q13</div><div class="q-title">这个项目给我什么能力？</div></div><div class="q-body">
+<ol style="margin-left:18px">
+<li><b>终结换工具清零</b>：Claude Code ↔ Codex ↔ Cursor 接力干活，"帮我把这个项目找回来"一句话恢复目标、判断演变、产物、下一步。</li>
+<li><b>个人偏好跟随</b>："中文 Windows 先设 PYTHONUTF8"、"PDF 彩色鲜艳"这类规矩只教一次，所有工具都记得。</li>
+<li><b>坑库自动沉淀</b>：踩过的错（错误签名进 structural 通道）以后搜报错码就能翻出旧解法。</li>
+<li><b>经验变 SOP</b>：重复做对的事自动结晶成 Skill，之后一键复用（还能被 learn-project 这类 skill 引用）。</li>
+<li><b>当本地记忆后端</b>：自己写 Agent 时，把它当现成的记忆服务用——HTTP API + CLI + OpenAI 兼容网关齐全。</li>
+<li><b>审计与调参</b>：/viewer 面板能看每次检索的完整漏斗（谁被召回、谁被 LLM 砍了），记忆可查可删可导出。</li>
+</ol>
+</div></div>
+
+<!-- Q14 实验 -->
+<div class="q c-pink"><div class="q-head"><div class="q-num">Q14</div><div class="q-title">动手实验：5 步跑通"写入→摘要→嵌入→语义找回"（Windows 实测全通过）</div></div><div class="q-body">
+<div class="exp">
+<h3>🧪 主实验：全本地记忆闭环（无 systemd、无云端 API）</h3>
+<p>环境：Windows 11 + Node v24 + 本地 Ollama（qwen2.5:0.5b 做摘要）+ Memmy local embedding。完整命令与真实输出见 <code>exercise/experiment-log.md</code>。</p>
+
+<div class="step"><b><span class="snum">Step 1</span>构建并启动本地记忆服务</b>
+<div class="codeblock">git clone https://github.com/MemTensor/memmy-agent.git && cd memmy-agent
+npm install && npm run memory:build
+node Memory/dist/src/server/index.js --config ../exercise/config.yaml --port 18960</div>
+目的：不装桌面端，纯源码跑最小记忆服务。✅ 验证：<code>GET /api/v1/health</code> 返回 <code>"ok":true</code>，memoryLayers=<code>["L1","L2","L3","Skill"]</code>，fullText=fts5、vector=native。</div>
+
+<div class="step"><b><span class="snum">Step 2</span>手动写入 L1 记忆</b>
+<div class="codeblock">node Memory/dist/src/cli/index.js add "img2threejs 项目的坑：中文 Windows 默认 GBK 编码，跑 Python 前必须先 setx PYTHONUTF8 1" --token local-token</div>
+✅ 返回 <code>stored:1, trace_47b1bd…</code>。⚠️ <b>关键发现</b>：此时 state=summary_pending，<span class="hl">不配摘要 LLM 就永远搜不到</span>（源码 L362 直接抛错）。</div>
+
+<div class="step"><b><span class="snum">Step 3</span>配置本地摘要模型并重试流水线</b>
+<div class="codeblock"><span class="c"># config.yaml: summary/evolution → openai_compatible http://127.0.0.1:11434/v1 qwen2.5:0.5b</span>
+memmy-memory reload-config
+curl -X POST .../api/v1/memory/&lt;trace_id&gt;/processing/retry</div>
+✅ 日志：<code>[capture.summarize] 成功 → [embedding] provider=local, durationMs=21 → state:"ready"</code>。qwen 生成的真实摘要：「在 Windows 上设置正确的编码，以支持 Python 测试…」</div>
+
+<div class="step"><b><span class="snum">Step 4</span>换词语义检索（零词重叠也能找回）</b>
+<div class="codeblock">memmy-memory search "之前中文环境下Python 运行报错乱码怎么解决的" --verbose</div>
+查询词与记忆零重叠（报错/乱码 vs GBK/假失败）仍命中；还一并召回自动扫描导入的本机 Claude Code 真实轨迹。漏斗日志：raw 24 → ranked 6 → 阈值砍 18 → 终筛留 4。</div>
+
+<div class="step"><b><span class="snum">Step 5</span>跨层写入 L2 策略并验证分层召回</b>
+<div class="codeblock">memmy-memory add "Windows 中文系统跑 Python 前先 setx PYTHONUTF8 1，能预防 90% 编码假失败" --layer L2
+memmy-memory search "编码假失败怎么预防" --verbose</div>
+✅ hits 排序：Skill(1.08) → <b>L2 policy(0.66)</b> → UserMemory(0.53) → L1 trace(0.26)——四层同场竞技、按质量加分排序。</div>
+</div>
+
+<div class="exp">
+<h3>🧪 附加实验：终筛模型的坑 + 三大环境坑</h3>
+<div class="warn"><b>B. 小模型终筛误杀</b>：search "PYTHONUTF8"（精确标识符），机械排序明明有目标 L1，qwen2.5:0.5b 终筛却把它砍了。解法：<code>llmFilterEnabled: false</code> 或换强模型。</div>
+<div class="warn"><b>C1. config 格式坑</b>：README/官方文档里 <code>profiles/activeProfile</code> 的示例在 v1.2.0 已是 legacy，启动直接报错——要按 <code>Memory/src/config/index.ts</code> 的扁平格式写（summary/evolution/embedding 平铺在 memmyMemory 下）。</div>
+<div class="warn"><b>C2. ollama pull 被代理打断</b>：fake-ip DNS 触发 Ollama "redirect target not allowed" 保护，CLI 挂代理无效。旁路：curl 走代理直下 GGUF + <code>ollama create</code> 本地导入。</div>
+<div class="warn"><b>C3. Windows 无 systemd</b>：官方一键脚本面向 Linux；Windows 用源码构建 + node 直启即可，功能不打折。</div>
+</div>
+</div></div>
+
+<div class="foot">Memmy 跨工具AI记忆系统 小白指南 · F:\reminder\memmy · 2026-10-03 · 实验数据均真实运行采集</div>
+</div>
+</body>
+</html>

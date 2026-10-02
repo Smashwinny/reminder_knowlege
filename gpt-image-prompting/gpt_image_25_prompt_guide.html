@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>GPT Image 2.5 官方提示指南 小白指南</title>
+<style>
+:root{
+  --pink:#FF2D78; --orange:#FF8A00; --cyan:#00B8D9; --purple:#7C4DFF;
+  --green:#00C853; --yellow:#FFF176; --blue:#2979FF; --ink:#1A1B2E;
+  --bg:#FFFDF7; --card:#FFFFFF;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:14px; line-height:1.7;}
+@page{size:A4; margin:12mm;}
+.wrap{width:100%;}
+/* 封面 */
+.cover{background:linear-gradient(135deg,#FF2D78 0%,#FF8A00 45%,#7C4DFF 100%); color:#fff; border-radius:18px; padding:44px 38px; margin-bottom:18px;}
+.cover h1{font-size:34px; line-height:1.3; text-shadow:0 2px 6px rgba(0,0,0,.25);}
+.cover .sub{font-size:16px; margin-top:12px; opacity:.95;}
+.cover .meta{margin-top:16px; font-size:12px; background:rgba(255,255,255,.18); display:inline-block; padding:6px 14px; border-radius:20px;}
+.cover .big8{float:right; font-size:110px; font-weight:900; color:var(--yellow); text-shadow:4px 4px 0 rgba(0,0,0,.25); line-height:1; margin-left:16px;}
+/* 疑问目录 */
+.toc{background:#fff; border:3px solid var(--cyan); border-radius:16px; padding:20px 24px; margin-bottom:18px;}
+.toc h2{color:var(--cyan); font-size:20px; margin-bottom:10px;}
+.toc ol{margin-left:22px; columns:2; column-gap:32px; font-size:13px;}
+.toc li{margin:3px 0; break-inside:avoid;}
+/* 疑问卡片 */
+.q{background:var(--card); border-radius:16px; padding:20px 24px; margin-bottom:16px; break-inside:avoid; border-top:8px solid var(--pink); box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.q:nth-child(4n+2){border-top-color:var(--orange);}
+.q:nth-child(4n+3){border-top-color:var(--purple);}
+.q:nth-child(4n+4){border-top-color:var(--green);}
+.qhead{display:flex; align-items:flex-start; gap:14px;}
+.qnum{font-size:44px; font-weight:900; line-height:1; min-width:56px;}
+.q:nth-child(4n+2) .qnum{color:var(--orange);} .q:nth-child(4n+3) .qnum{color:var(--purple);}
+.q:nth-child(4n+4) .qnum{color:var(--green);} .q .qnum{color:var(--pink);}
+.qtitle{font-size:19px; font-weight:900; padding-top:6px;}
+.qbody{margin-top:10px;}
+.hl{background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:900; padding:0 2px;}
+.tag{display:inline-block; background:var(--pink); color:#fff; font-size:11px; border-radius:10px; padding:1px 10px; margin-left:6px; vertical-align:2px;}
+.q:nth-child(4n+2) .tag{background:var(--orange);} .q:nth-child(4n+3) .tag{background:var(--purple);}
+.q:nth-child(4n+4) .tag{background:var(--green);}
+.term{background:#E8F7FF; border-left:4px solid var(--cyan); padding:8px 12px; margin:10px 0; border-radius:0 8px 8px 0; font-size:13px;}
+.term b{color:#00748C;}
+.svgbox{text-align:center; margin:12px 0 4px;}
+.svgbox svg{max-width:100%; height:auto;}
+figcaption,.svgnote{font-size:11px; color:#666; margin-top:2px;}
+table{border-collapse:collapse; width:100%; margin:10px 0; font-size:12.5px;}
+th{background:var(--pink); color:#fff; padding:6px 8px; text-align:left;}
+th.o{background:var(--orange);} th.p{background:var(--purple);} th.g{background:var(--green);}
+td{border:1px solid #eee; padding:5px 8px;}
+tr:nth-child(even) td{background:#FFF8F0;}
+code{background:#2B2D42; color:#AEFF6E; padding:1px 7px; border-radius:6px; font-family:Consolas,monospace; font-size:12px;}
+pre{background:#2B2D42; color:#E8F7FF; padding:12px 14px; border-radius:10px; font-size:11.5px; font-family:Consolas,monospace; overflow-x:auto; margin:8px 0; line-height:1.5;}
+pre .ok{color:#AEFF6E;} pre .bad{color:#FF7B7B;} pre .na{color:#FFD54F;}
+/* 能力清单 */
+.cap{background:linear-gradient(135deg,#00B8D9,#2979FF); color:#fff; border-radius:16px; padding:22px 26px; margin-bottom:16px; break-inside:avoid;}
+.cap h2{font-size:20px; margin-bottom:10px;}
+.cap li{margin:6px 0 6px 20px;}
+.cap b{color:var(--yellow);}
+/* 实验 */
+.exp{background:#fff; border:3px dashed var(--green); border-radius:16px; padding:20px 24px; margin-bottom:16px; break-inside:avoid;}
+.exp h2{color:var(--green); font-size:19px;}
+.step{background:#F6FFF8; border-left:5px solid var(--green); border-radius:0 10px 10px 0; padding:10px 14px; margin:10px 0; font-size:13px;}
+.step .s{font-weight:900; color:var(--green);}
+.expect{background:#FFF9C4; border:2px solid #FBC02D; border-radius:10px; padding:8px 12px; margin:8px 0; font-size:12.5px; font-weight:700;}
+.expect::before{content:"✅ 预期结果："; color:#B58900;}
+.warnbox{background:#FFEBEE; border-left:5px solid #E53935; padding:10px 14px; border-radius:0 10px 10px 0; margin:10px 0; font-size:13px;}
+.warnbox b{color:#C62828;}
+/* 结尾 */
+.foot{background:var(--ink); color:#fff; border-radius:16px; padding:20px 26px; font-size:12.5px; break-inside:avoid;}
+.foot h2{color:var(--yellow); font-size:18px; margin-bottom:8px;}
+.foot a{color:#82B1FF; word-break:break-all;}
+.kasane{background:#fff; border:3px solid var(--purple); border-radius:16px; padding:18px 24px; margin-bottom:16px; break-inside:avoid;}
+.kasane h2{color:var(--purple); font-size:19px; margin-bottom:8px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- 封面 -->
+<div class="cover">
+  <div class="big8">8</div>
+  <h1>GPT Image 2.5 官方提示指南<br>小白指南</h1>
+  <div class="sub">OpenAI 官方文档《Image Prompting》精读 —— 把"抽卡"变成"下工程单"的 8 条纪律</div>
+  <div class="meta">来源：X @yyyole 沐阳推文（拾遗队列） · 官方文档 developers.openai.com/api/docs/guides/image-prompting · 2026-10-03 产出</div>
+</div>
+
+<!-- 疑问目录 -->
+<div class="toc">
+  <h2>❓ 一个工科毕业生的 13 个疑问（即目录）</h2>
+  <ol>
+    <li>GPT Image 2.5 是什么？Flare 和 Sunburst 什么关系？</li>
+    <li>官方指南教什么？和社区"六块协议"什么关系？</li>
+    <li>为什么"先说最终用途"排第一条？</li>
+    <li>一条完整提示词的官方顺序是什么？</li>
+    <li>提示词写成段落、标签还是 JSON？</li>
+    <li>图里要出现的文字怎么才不翻车？</li>
+    <li>编辑图片时为什么要写"哪些不能动"？</li>
+    <li>为什么复杂修改一轮只改一个变量？</li>
+    <li>API 参数和提示词怎么分工？</li>
+    <li>自定义分辨率的硬约束怎么算？</li>
+    <li>从旧模型换到 2.5，官方流程是什么？</li>
+    <li>没有 API key 能练什么？</li>
+    <li>这套方法能用到即梦 / MJ / GLM 吗？</li>
+  </ol>
+</div>
+
+<!-- Q1 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q1</div><div class="qtitle">GPT Image 2.5 是什么？Flare 和 Sunburst 什么关系？<span class="tag">模型选型</span></div></div>
+  <div class="qbody">
+    <p><b>GPT Image 2.5</b> 是 OpenAI 2026 年发布的图像生成/编辑模型家族，一次出了两个版本：<span class="hl">Flare 是"小快灵"速度版，Sunburst 是"质量版"（base 模型）</span>。两者都支持生成、编辑、透明背景，都提升了精确编辑和主体保持能力。</p>
+    <div class="term"><b>术语卡</b>：<b>Flare</b>＝速度优化的小模型（质量约等于上一代 GPT Image 2）；<b>Sunburst</b>＝质量优化的基础模型（质量超过 GPT Image 2）。名字只是型号指纹，选型口诀：<b>新工作流先用 Flare 起步求快，质量不达标再上 Sunburst；迁移老工作流则按"现任模型够不够用"反着选</b>。</div>
+    <div class="svgbox">
+    <svg viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="30" width="290" height="130" rx="14" fill="#00B8D9" opacity="0.15"/>
+      <rect x="10" y="30" width="290" height="34" rx="14" fill="#00B8D9"/>
+      <text x="155" y="53" text-anchor="middle" fill="#fff" font-size="17" font-weight="bold">Flare · 速度版（小模型）</text>
+      <text x="155" y="92" text-anchor="middle" font-size="13">质量 ≈ 上一代 GPT Image 2</text>
+      <text x="155" y="116" text-anchor="middle" font-size="13">延迟低 → 新工作流的起点</text>
+      <text x="155" y="140" text-anchor="middle" font-size="12" fill="#00748C">model = gpt-image-2.5-flare</text>
+      <rect x="340" y="30" width="290" height="130" rx="14" fill="#7C4DFF" opacity="0.15"/>
+      <rect x="340" y="30" width="290" height="34" rx="14" fill="#7C4DFF"/>
+      <text x="485" y="53" text-anchor="middle" fill="#fff" font-size="17" font-weight="bold">Sunburst · 质量版（base）</text>
+      <text x="485" y="92" text-anchor="middle" font-size="13">质量 ＞ GPT Image 2</text>
+      <text x="485" y="116" text-anchor="middle" font-size="13">复杂图/文字/产品图的兜底</text>
+      <text x="485" y="140" text-anchor="middle" font-size="12" fill="#4527A0">model = gpt-image-2.5-sunburst</text>
+      <text x="320" y="20" text-anchor="middle" font-size="14" font-weight="bold" fill="#FF2D78">同一家族两条赛道：先测质量，再测速度</text>
+    </svg>
+    <div class="svgnote">官方选型法：Sunburst 过了质量关，再用相同提示词测 Flare，速度确有收益才切换</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q2</div><div class="qtitle">官方指南教什么？和社区"六块协议"什么关系？<span class="tag">方法论定位</span></div></div>
+  <div class="qbody">
+    <p>这份指南不是提示词合集，而是一份<b>系统性方法论</b>：<span class="hl">8 条提示词基本原则 + 约 20 个图文示例（生成+编辑）+ 模型选型/参数/迁移纪律</span>，配套官方 Cookbook 可运行 notebook。</p>
+    <p>它和我们知识库里的 <b>[[PromptAsCode提示词即代码]]</b>（awesome-gpt-image-2 逆向出的六块协议）是<b>同源思想的官方版与社区版</b>：官方用 8 条"原则"讲框架，社区用 6 块"代码块"讲框架，<span class="hl">都指向同一结论——好提示词是结构化工程产物，不是文采</span>。</p>
+    <div class="svgbox">
+    <svg viewBox="0 0 640 210" xmlns="http://www.w3.org/2000/svg">
+      <text x="320" y="20" text-anchor="middle" font-size="14" font-weight="bold" fill="#FF2D78">同一枚硬币的两面：结构化图像提示词</text>
+      <rect x="20" y="40" width="280" height="150" rx="12" fill="#FF8A00" opacity="0.14"/>
+      <rect x="20" y="40" width="280" height="30" rx="12" fill="#FF8A00"/>
+      <text x="160" y="61" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">官方 8 条（原则视角）</text>
+      <text x="34" y="92" font-size="11.5">①明确最终目标 ②易维护格式</text>
+      <text x="34" y="112" font-size="11.5">③可见细节 ④人物动作 ⑤准确文本</text>
+      <text x="34" y="132" font-size="11.5">⑥修改与约束分开 ⑦参考图分配角色</text>
+      <text x="34" y="152" font-size="11.5">⑧谨慎迭代</text>
+      <text x="34" y="176" font-size="11" fill="#B45309">讲"为什么"，覆盖选型/参数/迁移</text>
+      <rect x="340" y="40" width="280" height="150" rx="12" fill="#00C853" opacity="0.14"/>
+      <rect x="340" y="40" width="280" height="30" rx="12" fill="#00C853"/>
+      <text x="480" y="61" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">社区六块协议（代码视角）</text>
+      <text x="354" y="92" font-size="11.5">主体任务 / 构图布局 / 文字标签</text>
+      <text x="354" y="112" font-size="11.5">风格材质 / 整体氛围 / 比例输出</text>
+      <text x="354" y="132" font-size="11.5">+ 负向约束；[占位符] 参数化</text>
+      <text x="354" y="156" font-size="11" fill="#1B5E20">讲"怎么填"，541 案例统计背书</text>
+      <text x="320" y="205" text-anchor="middle" font-size="11" fill="#666">两者互查补位：官方原则 ⇄ 社区槽位</text>
+    </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q3</div><div class="qtitle">为什么"先说最终用途"排第一条？<span class="tag">核心思想</span></div></div>
+  <div class="qbody">
+    <p>因为<span class="hl">"用途"决定了画面所有隐含标准</span>。同一只马克杯：产品照要求影棚布光无杂物；广告图要求留出标语位置；信息图要求标注清晰。不说用途，模型只能按"平均审美"猜——这就是抽卡感的根源。</p>
+    <div class="svgbox">
+    <svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg">
+      <text x="320" y="18" text-anchor="middle" font-size="13" font-weight="bold">用途是一块"规格透镜"：先定用途，细节才有评判标准</text>
+      <rect x="240" y="34" width="160" height="44" rx="22" fill="#FF2D78"/>
+      <text x="320" y="61" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">同一主体：马克杯</text>
+      <line x1="320" y1="78" x2="120" y2="120" stroke="#999" stroke-width="2"/>
+      <line x1="320" y1="78" x2="320" y2="120" stroke="#999" stroke-width="2"/>
+      <line x1="320" y1="78" x2="520" y2="120" stroke="#999" stroke-width="2"/>
+      <rect x="30" y="120" width="180" height="62" rx="10" fill="#00B8D9" opacity="0.18"/>
+      <text x="120" y="142" text-anchor="middle" font-size="12.5" font-weight="bold">产品照</text>
+      <text x="120" y="162" text-anchor="middle" font-size="11">影棚柔光 · 纯底 · 细节锐利</text>
+      <rect x="230" y="120" width="180" height="62" rx="10" fill="#7C4DFF" opacity="0.18"/>
+      <text x="320" y="142" text-anchor="middle" font-size="12.5" font-weight="bold">广告海报</text>
+      <text x="320" y="162" text-anchor="middle" font-size="11">留标语位 · 情绪光 · 品牌色</text>
+      <rect x="430" y="120" width="180" height="62" rx="10" fill="#00C853" opacity="0.18"/>
+      <text x="520" y="142" text-anchor="middle" font-size="12.5" font-weight="bold">科普信息图</text>
+      <text x="520" y="162" text-anchor="middle" font-size="11">标注箭头 · 高对比 · 文字清晰</text>
+    </svg>
+    <div class="svgnote">官方原话：说明拍摄对象和预期用途，具体说明构图、宽高比和重要的位置限制</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q4</div><div class="qtitle">一条完整提示词的官方顺序是什么？<span class="tag">八要素流水线</span></div></div>
+  <div class="qbody">
+    <p>推文总结的顺序（用途→主体→构图→风格→光线→材质→文字→负面提示词）与官方 8 条互为表里。<span class="hl">先说清楚你最终想要什么，再描述画面细节</span>——顺序本身就是"目标先行、细节殿后、约束兜底"。</p>
+    <div class="svgbox">
+    <svg viewBox="0 0 660 170" xmlns="http://www.w3.org/2000/svg">
+      <text x="330" y="18" text-anchor="middle" font-size="13" font-weight="bold" fill="#FF2D78">一条提示词 = 一列八节车厢（顺序即依赖）</text>
+      <g font-size="11.5" text-anchor="middle">
+        <rect x="14"  y="40" width="72" height="52" rx="8" fill="#FF2D78"/><text x="50"  y="62" fill="#fff" font-weight="bold">①用途</text><text x="50" y="80" fill="#fff" font-size="10">产品照/广告</text>
+        <rect x="94"  y="40" width="72" height="52" rx="8" fill="#FF8A00"/><text x="130" y="62" fill="#fff" font-weight="bold">②主体</text><text x="130" y="80" fill="#fff" font-size="10">谁/什么</text>
+        <rect x="174" y="40" width="72" height="52" rx="8" fill="#7C4DFF"/><text x="210" y="62" fill="#fff" font-weight="bold">③构图</text><text x="210" y="80" fill="#fff" font-size="10">景别/比例</text>
+        <rect x="254" y="40" width="72" height="52" rx="8" fill="#2979FF"/><text x="290" y="62" fill="#fff" font-weight="bold">④风格</text><text x="290" y="80" fill="#fff" font-size="10">媒介/流派</text>
+        <rect x="334" y="40" width="72" height="52" rx="8" fill="#00B8D9"/><text x="370" y="62" fill="#fff" font-weight="bold">⑤光线</text><text x="370" y="80" fill="#fff" font-size="10">柔光/霓虹</text>
+        <rect x="414" y="40" width="72" height="52" rx="8" fill="#00C853"/><text x="450" y="62" fill="#fff" font-weight="bold">⑥材质</text><text x="450" y="80" fill="#fff" font-size="10">金属/胶片</text>
+        <rect x="494" y="40" width="72" height="52" rx="8" fill="#FBC02D"/><text x="530" y="62" fill="#5D4037" font-weight="bold">⑦文字</text><text x="530" y="80" fill="#5D4037" font-size="10">引号逐字</text>
+        <rect x="574" y="40" width="72" height="52" rx="8" fill="#546E7A"/><text x="610" y="62" fill="#fff" font-weight="bold">⑧负面</text><text x="610" y="80" fill="#fff" font-size="10">不要什么</text>
+      </g>
+      <line x1="20" y1="120" x2="640" y2="120" stroke="#ccc" stroke-dasharray="5 4"/>
+      <text x="330" y="142" text-anchor="middle" font-size="11.5">复杂需求 → 官方建议用带标签的章节组织：<tspan fill="#FF2D78" font-weight="bold">场景 / 主体 / 细节 / 限制条件</tspan> 四段式</text>
+      <text x="330" y="162" text-anchor="middle" font-size="11" fill="#666">人物与动作（官方第4条）按需并入"主体"节；多图参考（第7条）在开头给每张图分配角色</text>
+    </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q5</div><div class="qtitle">提示词写成段落、标签还是 JSON？<span class="tag">格式选择</span></div></div>
+  <div class="qbody">
+    <p>官方明确：<span class="hl">简短提示、描述性段落、类 JSON 结构、说明和标签都可以表达相同意图</span>——没有必须遵守的特殊语法。选格式的唯一标准是<b>便于阅读和更新</b>（可维护性），复杂的拍摄需求用带标签的章节组织。这与 [[PromptAsCode]] "槽位化利于批量改参"完全一致。</p>
+    <div class="svgbox">
+    <svg viewBox="0 0 640 150" xmlns="http://www.w3.org/2000/svg">
+      <text x="320" y="18" text-anchor="middle" font-size="13" font-weight="bold">三种格式，同一意图（官方：殊途同归，选好维护的）</text>
+      <rect x="20" y="36" width="190" height="92" rx="10" fill="#00B8D9" opacity="0.15"/>
+      <text x="115" y="58" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#00748C">描述性段落</text>
+      <text x="34" y="80" font-size="10.5">"影棚柔光下的白色陶瓷杯，</text>
+      <text x="34" y="98" font-size="10.5">居中构图，照片级质感…"</text>
+      <text x="115" y="120" text-anchor="middle" font-size="10" fill="#666">适合一次性需求</text>
+      <rect x="225" y="36" width="190" height="92" rx="10" fill="#FF8A00" opacity="0.15"/>
+      <text x="320" y="58" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#B45309">标签章节</text>
+      <text x="239" y="80" font-size="10.5">主体：…</text>
+      <text x="239" y="98" font-size="10.5">光线：… ／ 限制：…</text>
+      <text x="320" y="120" text-anchor="middle" font-size="10" fill="#666">适合复杂需求+多轮改</text>
+      <rect x="430" y="36" width="190" height="92" rx="10" fill="#7C4DFF" opacity="0.15"/>
+      <text x="525" y="58" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#4527A0">类 JSON 结构</text>
+      <text x="444" y="80" font-size="10.5">{"主体":"陶瓷杯",</text>
+      <text x="444" y="98" font-size="10.5"> "光线":"影棚柔光"}</text>
+      <text x="525" y="120" text-anchor="middle" font-size="10" fill="#666">适合 Agent/API 程序化</text>
+    </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q6</div><div class="qtitle">图里要出现的文字怎么才不翻车？<span class="tag">精确文字</span></div></div>
+  <div class="qbody">
+    <p>文字渲染是图像模型最大翻车点，官方给了三件套：<span class="hl">①引号逐字锁定内容（生僻词/品牌名逐字母拼）②写明位置和字体风格 ③额外要求"不要任何多余文字、Logo、水印"</span>。生成后检查拼写与清晰度；小字/密集文字/多字体场景，用 medium 和 high 质量各出一版对比。</p>
+    <div class="term"><b>术语卡</b>：<b>负向提示词（negative prompt）</b>＝明确写"不要出现什么"。图像模型不会自动"少画"，你不排除水印，它就可能长水印出来。</div>
+    <div class="svgbox">
+    <svg viewBox="0 0 640 130" xmlns="http://www.w3.org/2000/svg">
+      <rect x="40" y="26" width="560" height="80" rx="12" fill="#FFF9C4" stroke="#FBC02D" stroke-width="2"/>
+      <text x="320" y="52" text-anchor="middle" font-size="13" font-weight="bold" fill="#5D4037">文字三件套（缺一就容易翻车）</text>
+      <text x="320" y="76" text-anchor="middle" font-size="12">① "麦禾烘焙"（引号锁内容，逐字）　② 招牌下方、衬线体（位置+字体）</text>
+      <text x="320" y="96" text-anchor="middle" font-size="12" fill="#C62828" font-weight="bold">③ 只出现一次，不要任何多余文字/Logo/水印（负向兜底）</text>
+    </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q7</div><div class="qtitle">编辑图片时为什么要写"哪些不能动"？<span class="tag">修改与约束分开</span></div></div>
+  <div class="qbody">
+    <p>这是全指南最实用的一条（也是推文重点）。口语编辑"把椅子改一下"只交代了改什么，<span class="hl">模型并不知道什么是禁区，于是顺手把光线、背景、人脸全动了</span>。官方第 6 条：<b>说"仅更改 X"，并列出要保留的细节</b>——身份、几何形状、布局、光照、标签；再声明排除项（多余文字/徽标/水印）；精修局部还要点名饱和度、对比度、镜头角度不能变。</p>
+    <div class="svgbox">
+    <svg viewBox="0 0 640 210" xmlns="http://www.w3.org/2000/svg">
+      <text x="320" y="18" text-anchor="middle" font-size="13" font-weight="bold">一条编辑提示词 = 改动区 + 保护区 + 排除区</text>
+      <rect x="30" y="40" width="580" height="60" rx="10" fill="#00C853" opacity="0.16"/>
+      <rect x="30" y="40" width="130" height="60" rx="10" fill="#00C853"/>
+      <text x="95" y="66" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">改动区 A</text>
+      <text x="95" y="86" text-anchor="middle" fill="#fff" font-size="10.5">只把白椅→木椅</text>
+      <text x="380" y="64" text-anchor="middle" font-size="12">"只把画面中的白色椅子改成木质椅子"</text>
+      <text x="380" y="86" text-anchor="middle" font-size="11" fill="#1B5E20">动词前加"只"，圈定唯一改动</text>
+      <rect x="30" y="112" width="580" height="50" rx="10" fill="#2979FF" opacity="0.14"/>
+      <rect x="30" y="112" width="130" height="50" rx="10" fill="#2979FF"/>
+      <text x="95" y="133" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">保护区 B</text>
+      <text x="95" y="151" text-anchor="middle" fill="#fff" font-size="10.5">逐项点名不能动</text>
+      <text x="380" y="133" text-anchor="middle" font-size="12">"保持镜头角度、构图、光线、阴影、背景、其他家具完全不变"</text>
+      <text x="380" y="152" text-anchor="middle" font-size="11" fill="#1565C0">泛泛说"其他都不变"＜逐项点名</text>
+      <rect x="30" y="174" width="580" height="34" rx="10" fill="#E53935" opacity="0.12"/>
+      <rect x="30" y="174" width="130" height="34" rx="10" fill="#E53935"/>
+      <text x="95" y="196" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="bold">排除区 C</text>
+      <text x="380" y="196" text-anchor="middle" font-size="11.5">"不要添加任何文字、水印、新元素"（负向兜底）</text>
+    </svg>
+    <div class="svgnote">实验 ex3 实测：口语编辑 0 分；"其他所有元素不变"式泛泛保留 50 分；逐项点名 75~100 分</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q8</div><div class="qtitle">为什么复杂修改一轮只改一个变量？<span class="tag">迭代纪律</span></div></div>
+  <div class="qbody">
+    <p>官方第 8 条：<span class="hl">把上一张输出作为下一次编辑的输入，一次只请求一处更改</span>。因为每轮编辑都是"重新画一遍"，多变量同时改，跑偏来源无法定位；单变量迭代让每次漂移都可归因，<b>结果跑偏就重申关键约束</b>。若某区域必须像素级不动，官方建议直接把已批准的局部合成回原图，别指望提示词。</p>
+    <div class="svgbox">
+    <svg viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg">
+      <text x="320" y="18" text-anchor="middle" font-size="13" font-weight="bold">迭代 5 轮后的"保真度"：单变量 vs 多变量一把梭</text>
+      <line x1="70" y1="150" x2="600" y2="150" stroke="#999"/>
+      <line x1="70" y1="150" x2="70" y2="40" stroke="#999"/>
+      <text x="46" y="48" font-size="10" fill="#666">保真</text><text x="580" y="166" font-size="10" fill="#666">轮次</text>
+      <polyline points="70,60 190,64 310,68 430,71 550,73" fill="none" stroke="#00C853" stroke-width="4"/>
+      <text x="300" y="52" font-size="12" fill="#00C853" font-weight="bold">单变量+重申约束：缓坡（可控）</text>
+      <polyline points="70,60 190,95 310,115 430,128 550,138" fill="none" stroke="#FF2D78" stroke-width="4" stroke-dasharray="8 4"/>
+      <text x="300" y="115" font-size="12" fill="#FF2D78" font-weight="bold">多变量一把梭：加速跑偏（人物/构图渐变）</text>
+      <circle cx="70" cy="60" r="4" fill="#333"/><text x="80" y="176" font-size="10">0</text>
+      <text x="544" y="176" font-size="10">5</text>
+    </svg>
+    <div class="svgnote">示意图（趋势非实测数据）：多轮修改是官方明确警告的漂移来源</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q9</div><div class="qtitle">API 参数和提示词怎么分工？<span class="tag">参数纪律</span></div></div>
+  <div class="qbody">
+    <p>官方原则：<span class="hl">API 参数管"生产规格"，提示词管"画面内容"，两套系统分开设置</span>。参数不用写进提示词（写了也未必生效），提示词也不用描述分辨率。</p>
+    <table>
+      <tr><th class="p">参数</th><th class="p">取值</th><th class="p">说明</th></tr>
+      <tr><td><code>model</code></td><td><code>gpt-image-2.5-flare</code> / <code>gpt-image-2.5-sunburst</code></td><td>速度版 / 质量版</td></tr>
+      <tr><td><code>quality</code></td><td><code>auto</code>(默认) <code>low</code> <code>medium</code> <code>high</code> <code>xhigh</code> <code>max</code></td><td>先选好模型再调质量；高挡位不保证每条提示词都更好</td></tr>
+      <tr><td><code>size</code></td><td><code>auto</code> 或自定义分辨率</td><td>常用 1024x1024、1536x1024、1024x1536、3840x2160…</td></tr>
+      <tr><td><code>background</code></td><td><code>auto</code> / <code>opaque</code> / <code>transparent</code></td><td>要透明必须参数+提示词双声明，PNG/WebP，并检查 alpha 通道（发丝/玻璃/阴影边缘）</td></tr>
+    </table>
+    <p style="font-size:12.5px">调参顺序：选模型 → 调 quality → 才考虑重写提示词；<b>一次只调一个设置</b>，并统计"每张被采纳图片的真实成本"（含失败与重试）。</p>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q10</div><div class="qtitle">自定义分辨率的硬约束怎么算？<span class="tag">可计算参数</span></div></div>
+  <div class="qbody">
+    <p>自定义 <code>WIDTHxHEIGHT</code> 四条硬约束：<span class="hl">每边 ≤ 3840px；两边都是 16 的倍数；长短边比 ≤ 3:1；总像素在 655,360 ~ 8,294,400 之间</span>。超过 2560x1440（3,686,400 px）属于实验区。<b>这套约束是纯算术，可以翻译成代码提前校验</b>——实验 ex2 就干了这件事。</p>
+    <div class="svgbox">
+    <svg viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg">
+      <text x="320" y="18" text-anchor="middle" font-size="13" font-weight="bold">分辨率四道门（ex2 实测全部通过/拦截）</text>
+      <g font-size="12">
+        <rect x="30" y="36" width="270" height="30" rx="8" fill="#00C853" opacity="0.16"/><text x="42" y="56">✅ 3840x2160 = 8,294,400 px（恰触上限）</text>
+        <rect x="30" y="72" width="270" height="30" rx="8" fill="#00C853" opacity="0.16"/><text x="42" y="92">✅ 3840x1280 = 3:1 临界，合法</text>
+        <rect x="340" y="36" width="270" height="30" rx="8" fill="#E53935" opacity="0.14"/><text x="352" y="56">❌ 1000x1000（非 16 倍数）</text>
+        <rect x="340" y="72" width="270" height="30" rx="8" fill="#E53935" opacity="0.14"/><text x="352" y="92">❌ 4000x1000（边超限+比例 4:1）</text>
+        <rect x="30" y="108" width="270" height="30" rx="8" fill="#E53935" opacity="0.14"/><text x="42" y="128">❌ 640x640（总像素 409,600 不足）</text>
+        <rect x="340" y="108" width="270" height="30" rx="8" fill="#FBC02D" opacity="0.25"/><text x="352" y="128">⚠️ &gt;2560x1440 属实验区（2048x2048 等）</text>
+      </g>
+    </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q11</div><div class="qtitle">从旧模型换到 2.5，官方流程是什么？<span class="tag">迁移六步</span></div></div>
+  <div class="qbody">
+    <p>官方给了 6 步迁移法，核心思想是<b>"先保质量、再赚速度、按工作流灰度"</b>：</p>
+    <table>
+      <tr><th class="o">步骤</th><th class="o">做什么</th><th class="o">关键点</th></tr>
+      <tr><td>1 存基线</td><td>收集代表性生产提示词与参考图（难编辑/精确文字/人脸/产品几何/透明件）</td><td>记录当前模型、参数、结果</td></tr>
+      <tr><td>2 选首个候选</td><td>现任够用→先测 Flare；现任不达标→从 Sunburst 起步</td><td>首轮对比冻结提示词/参考图/尺寸/格式</td></tr>
+      <tr><td>3 查完整结果</td><td>指令遵循/身份与产品保持/文字准确/意外改动/透明度</td><td>整套编辑序列+单步都要测</td></tr>
+      <tr><td>4 质量过了测速度</td><td>同门槛测 Flare，质量守住且延迟改善才切换</td><td>一个工作流的提速≠另一个也提速</td></tr>
+      <tr><td>5 一次调一个参数</td><td>先比 quality 再考虑改提示词</td><td>统计每张采纳图成本，别假设快模型更便宜</td></tr>
+      <tr><td>6 按工作流灰度</td><td>小流量试点→监控同样指标→逐步放量</td><td>保留旧模型以便回滚</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q12</div><div class="qtitle">没有 API key 能练什么？<span class="tag">学习策略</span></div></div>
+  <div class="qbody">
+    <p>本指南的精华<b>大部分在文本层而非像素层</b>：8 条原则、提示词结构、编辑约束、参数约束、迁移流程，全都可以<span class="hl">用确定性代码做成"体检器"提前练熟</span>（见下方实验）。等有 API key，只差"把体检器接在真实出图前后"一步——届时 <code>images.generate</code> / <code>images.edit</code> 的输入早已被质检过。这延续了 [[awesome_gpt_image_2]] 项目"图像 API 不可用先练文本层"的思路。</p>
+    <div class="svgbox">
+    <svg viewBox="0 0 640 130" xmlns="http://www.w3.org/2000/svg">
+      <rect x="30" y="30" width="180" height="70" rx="10" fill="#00C853" opacity="0.18"/>
+      <text x="120" y="58" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1B5E20">文本层（无 key 可练）</text>
+      <text x="120" y="80" text-anchor="middle" font-size="11">结构体检 / 约束检查 / 参数校验</text>
+      <rect x="230" y="30" width="180" height="70" rx="10" fill="#FF2D78" opacity="0.16"/>
+      <text x="320" y="58" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#AD1457">像素层（需要 key）</text>
+      <text x="320" y="80" text-anchor="middle" font-size="11">真实出图 / 编辑 / alpha 检查</text>
+      <rect x="430" y="30" width="180" height="70" rx="10" fill="#7C4DFF" opacity="0.16"/>
+      <text x="520" y="58" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#4527A0">接线（未来一步）</text>
+      <text x="520" y="80" text-anchor="middle" font-size="11">生成→体检→改写→再生成 循环</text>
+      <line x1="210" y1="65" x2="230" y2="65" stroke="#666" stroke-dasharray="4 3" marker-end="url(#a)"/>
+      <line x1="410" y1="65" x2="430" y2="65" stroke="#666" stroke-dasharray="4 3"/>
+    </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="q">
+  <div class="qhead"><div class="qnum">Q13</div><div class="qtitle">这套方法能用到即梦 / MJ / GLM 吗？<span class="tag">跨模型迁移</span></div></div>
+  <div class="qbody">
+    <p>推文观点：<span class="hl">模型越强，越不需要大段专业术语堆砌，但"提示词的框架/范式"不会变</span>。用途先行、结构化、文字逐字锁、编辑写禁区、单变量迭代——这五条是方法论，不绑定任何模型 API。参数体系（quality/size 约束）是 OpenAI 专属，换家时查对应文档即可。与 [[转绘]]（照片管画什么、提示词管怎么画）互为补充。</p>
+  </div>
+</div>
+
+<!-- 能力清单 -->
+<div class="cap">
+  <h2>🎁 这份指南给我什么能力</h2>
+  <ol>
+    <li><b>把抽卡变下工程单</b>：按"用途→主体→构图→风格→光线→材质→文字→负面"八节车厢写提示词，产出可复现；</li>
+    <li><b>精确文字三件套</b>：引号逐字 + 位置字体 + 负向排除，做海报/招牌/信息图不再怕错字；</li>
+    <li><b>言出法随的编辑术</b>：改动区+保护区+排除区三段式，改椅子不动背景（A/B/C 模板可直接抄）；</li>
+    <li><b>多轮迭代不跑偏</b>：一次一个变量 + 重申约束 + 像素级需求走合成；</li>
+    <li><b>参数纪律</b>：模型/质量/尺寸/背景四参数与提示词分工，分辨率约束可代码预校验；</li>
+    <li><b>提示词质检器</b>：可把八要素规则接进任何生成流水线当 Gate（[[质检Gate与自我纠错循环]]）。</li>
+  </ol>
+</div>
+
+<!-- 实验1 -->
+<div class="exp">
+  <h2>🧪 主实验 ex1：八要素提示词体检器（真实运行）</h2>
+  <p>把官方 8 条原则翻译成确定性正则规则，每条规则只在适用场景计分（不适用记 N/A），给提示词打 0~100 分。文件：<code>exercise\ex1_eight_elements.py</code></p>
+  <div class="step"><span class="s">步骤1</span> 写规则表：8 条原则 → 8 个可机检函数（用途关键词、结构标签、光线×材质双条件、引号文字三件套、编辑"只改+保留"、多图角色、单变量迭代）</div>
+  <div class="step"><span class="s">步骤2</span> <code>python ex1_eight_elements.py</code>——目的：验证"官方风格提示词得分应显著高于抽卡式"。<b>实现了</b>：6 条样例自动体检。<span class="expect">抽卡式「画一个好看的咖啡店」40 分；编辑无约束「把椅子改一下」50 分；官方风格生成/编辑/迭代样例 100 分；缺光线材质版 60 分——得分与质量单调一致</span></div>
+  <div class="step"><span class="s">步骤3</span> <b>发现</b>：规则必须按场景计分（R6 只在 edit/iterate 场景算分），否则单句迭代提示词被"用途/材质"误伤反而低于坏例——第一版就踩了这个坑，改为 N/A 不进分母后单调。</div>
+  <pre>【坏提示词A（抽卡式·生成）】 ctx=generate  <span class="bad">得分: 40/100</span>
+【坏提示词B（编辑无约束）】 ctx=edit       <span class="bad">得分: 50/100</span>
+【官方风格·生成（烘焙店招牌）】 ctx=generate <span class="ok">得分: 100/100</span>
+【官方风格·生成（缺光线材质版）】          <span class="na">得分: 60/100</span>
+【官方风格·编辑（推文家具例）】 ctx=edit    <span class="ok">得分: 100/100</span>
+【官方风格·迭代轮】 ctx=iterate            <span class="ok">得分: 100/100</span></pre>
+</div>
+
+<!-- 实验2 -->
+<div class="exp">
+  <h2>🧪 实验 ex2：自定义分辨率参数校验器（真实运行）</h2>
+  <p>官方四条分辨率硬约束逐条翻译成 <code>validate(w,h)</code>：边≤3840、16 倍数、比例≤3:1、总像素 655,360~8,294,400。文件：<code>exercise\ex2_resolution_validator.py</code></p>
+  <div class="step"><span class="s">步骤</span> <code>python ex2_resolution_validator.py</code>——目的：验证文档示例尺寸全过、构造的非法尺寸全被拦。<span class="expect">文档 7 个示例尺寸全部 PASS；1000x1000/4000x1000/5000x5000/640x640 全部 FAIL 且给出具体违反条目；3840x1280 恰好 3:1 临界合法——参数纪律是可计算的</span></div>
+  <pre><span class="ok">[PASS]</span> 3840x2160 4K横 = 8,294,400 px（恰触上限，实验区）
+<span class="bad">[FAIL]</span> 4000x1000: 边超限; 非16倍数; 比例超限4:1
+<span class="bad">[FAIL]</span> 640x640 : 总像素越界(409,600) 须在 655,360~8,294,400
+<span class="ok">[PASS]</span> 3840x1280 比例3:1临界: 合法（实验区）</pre>
+</div>
+
+<!-- 实验3 -->
+<div class="exp">
+  <h2>🧪 实验 ex3：编辑提示词约束检查器（真实运行）</h2>
+  <p>官方第 6/8 条落地：A 修改段（只改什么）35 分 + B 保留段（逐项点名≥3 项）40 分 + C 排除段 15 分 + D 单变量声明 10 分。文件：<code>exercise\ex3_edit_constraint.py</code></p>
+  <div class="step"><span class="s">步骤</span> <code>python ex3_edit_constraint.py</code>——目的：量化"泛泛保留 vs 逐项点名"的差距。<span class="expect">口语编辑 0 分；官方翻译信息图例 50 分（保留段只写"其他所有元素"被扣分）；推文家具例 75 分（A+B 满格）——"什么不能动"比"改什么"更容易被漏写</span></div>
+  <pre>【推文原例（官方风格）】        <span class="ok">得分 75/100</span>  A✓ B✓(5项) C✗ D✗
+【坏例：只说改什么】            <span class="bad">得分  0/100</span>  全缺
+【好例：翻译信息图（官方编辑例）】 <span class="na">得分 50/100</span>  A✓ B✗(仅1项) C✓ D✗</pre>
+  <div class="warnbox"><b>诚实记录</b>：本机无 <code>OPENAI_API_KEY</code>，按预案三个实验全部为文档精读+结构化确定性实验（文本层），未运行任何真实出图调用，不编造出图结果。Cookbook notebook（26 个代码 cell）已存 <code>exercise\cookbook_image_gen_prompting_guide.ipynb</code> 备将来接线。</div>
+</div>
+
+<!-- 串联 -->
+<div class="kasane">
+  <h2>🔗 与知识库的接线</h2>
+  <p><b>[[图像提示八要素]]</b>（新）：官方 8 条原则——与 <b>[[PromptAsCode提示词即代码]]</b> 六块协议互为官方版/社区版；<b>[[修改与约束分离]]</b>（新）：编辑三段式+单变量迭代——是 [[质检Gate与自我纠错循环]] 在图像编辑上的约束前置，与 [[转绘]]（照片管画什么）互补。</p>
+</div>
+
+<!-- 页脚 -->
+<div class="foot">
+  <h2>📚 参考与延伸</h2>
+  <p>· 官方指南（推文所指）：https://developers.openai.com/api/docs/guides/image-prompting<br>
+     · 官方 Cookbook notebook：https://github.com/openai/openai-cookbook/blob/main/examples/multimodal/image-gen-models-prompting-guide.ipynb<br>
+     · 来源推文：https://x.com/yyyole/status/2097707144359354673（@yyyole 沐阳，2026-09-09）<br>
+     · 关联项目笔记：vault/项目笔记/gpt_image_prompting.md · vault/项目笔记/awesome_gpt_image_2.md<br>
+     · 实验代码：F:\reminder\gpt-image-prompting\exercise\（ex1/ex2/ex3 + 真实输出 ex1~ex3_out.txt）</p>
+</div>
+
+</div>
+</body>
+</html>
