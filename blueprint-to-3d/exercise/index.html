@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2D 图纸 → 3D 模型（Three.js 复刻练习）</title>
+<style>
+  :root {
+    --bg: #0b1d33;
+    --panel: #123156;
+    --line: #7fd4ff;
+    --dim: #ffd166;
+    --accent: #ff5d8f;
+    --text: #eaf6ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    padding: 14px 24px;
+    background: linear-gradient(90deg, #123156, #1b4a7a);
+    border-bottom: 2px solid var(--line);
+  }
+  header h1 { font-size: 20px; }
+  header p { font-size: 12px; color: #a8cbe8; margin-top: 4px; }
+  main {
+    flex: 1;
+    display: flex;
+    gap: 16px;
+    padding: 16px 24px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid #2b5a8c;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .card h2 {
+    font-size: 14px;
+    padding: 8px 14px;
+    background: #0d2745;
+    color: var(--line);
+    letter-spacing: 2px;
+  }
+  #blueprint-card { flex: 0 0 42%; }
+  #bp-svg-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; }
+  #viewport-card { flex: 1; position: relative; }
+  #gl { width: 100%; height: 100%; display: block; }
+  footer {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 24px;
+    background: #0d2745;
+    border-top: 1px solid #2b5a8c;
+  }
+  button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 22px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  button:disabled { background: #555; cursor: not-allowed; }
+  button.ghost { background: transparent; border: 1px solid var(--line); color: var(--line); }
+  select {
+    background: #0b1d33;
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 14px;
+  }
+  #hint { font-size: 12px; color: #a8cbe8; }
+  #err {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: #c0392b; color: #fff; font: 12px monospace;
+    padding: 6px 10px; display: none; z-index: 99; white-space: pre-wrap;
+  }
+  /* 图纸 SVG 样式 */
+  svg .bp-shape { stroke: var(--line); fill: none; stroke-width: 1.6; }
+  svg .bp-hidden { stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 4; opacity: .55; }
+  svg .bp-dim { stroke: var(--dim); fill: none; stroke-width: 1; }
+  svg .bp-dim-text { fill: var(--dim); font: 11px monospace; }
+  svg .bp-title { fill: #eaf6ff; font: bold 13px monospace; letter-spacing: 2px; }
+  svg .bp-note { fill: #8fb8dd; font: 10px monospace; }
+</style>
+</head>
+<body>
+<div id="err"></div>
+<header>
+  <h1>2D 工程图纸 → 3D 模型 · 自然过渡复刻</h1>
+  <p>灵感来源：Dilum Sanjaya 用 Kimi K3 制作的 2D→3D 过渡应用（坦克完全由代码生成，可替换为其他模型）。本页为 Three.js 手工复刻学习版。</p>
+</header>
+<main>
+  <section class="card" id="blueprint-card">
+    <h2>2D SCHEMATIC · 工程图纸（代码生成）</h2>
+    <div id="bp-svg-wrap"></div>
+  </section>
+  <section class="card" id="viewport-card">
+    <h2>3D VIEWPORT · 三维视图（Three.js 渲染）</h2>
+    <canvas id="gl"></canvas>
+  </section>
+</main>
+<footer>
+  <button id="btn-build">▶ 生成 3D</button>
+  <button id="btn-reset" class="ghost">↺ 重置</button>
+  <label>模型：
+    <select id="sel-model">
+      <option value="tank">坦克 tank</option>
+      <option value="robot">机器人 robot</option>
+    </select>
+  </label>
+  <span id="hint">点击"生成 3D"：图纸线条重绘 → 零件逐件"挤出"成立体。生成后可拖动旋转 / 滚轮缩放。</span>
+</footer>
+<script>
+  window.onerror = function (msg, src, line, col) {
+    var e = document.getElementById('err');
+    e.style.display = 'block';
+    e.textContent = 'JS ERROR: ' + msg + ' @ ' + (src || '') + ':' + line + ':' + col;
+  };
+</script>
+<script type="importmap">
+  { "imports": { "three": "./vendor/three.module.js" } }
+</script>
+<script type="module" src="./app.js"></script>
+</body>
+</html>
