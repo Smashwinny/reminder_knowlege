@@ -1,0 +1,111 @@
+reachy_mini.daemon.daemon - INFO - Daemon version: 1.11.0
+reachy_mini.media.webrtc_utils - INFO - No HF token; not offering TURN relay candidates. Log in to reach this robot from outside its network.
+reachy_mini.media.device_detection - WARNING - No Reachy Mini Audio Source card found.
+reachy_mini.media.media_server - WARNING - No Reachy Mini audio card found, using default audio source.
+reachy_mini.media.media_server - INFO - No hardware AEC; enabled software echo cancellation.
+uvicorn.error - INFO - Started server process [24128]
+uvicorn.error - INFO - Waiting for application startup.
+reachy_mini.daemon.app.main - INFO - Dataset updater started (interval: 24.0h)
+reachy_mini.daemon.daemon - INFO - Daemon start parameters: sim=True, mockup_sim=False, serialport=auto, scene=empty, wake_up_on_start=True, check_collision=False, kinematics_engine=AnalyticalKinematics, headless=True, hardware_config_filepath=F:\reminder\reachy-mini\venv\Lib\site-packages\reachy_mini\assets\config\hardware_config.yaml
+reachy_mini.daemon.daemon - INFO - Starting Reachy Mini daemon...
+reachy_mini.media.audio_control_utils - ERROR - No Reachy Mini Audio USB device found!
+reachy_mini.daemon.backend.abstract - INFO - Using AnalyticalKinematics kinematics engine
+reachy_mini.media.device_detection - WARNING - No Reachy Mini Audio Source card found.
+reachy_mini.media.media_server - WARNING - No Reachy Mini audio card found, using default audio source.
+reachy_mini.media.media_server - INFO - No hardware AEC; enabled software echo cancellation.
+
+(python.exe:24128): GStreamer-CRITICAL **: 00:55:02.307: gst_pad_query_caps: assertion 'GST_IS_PAD (pad)' failed
+
+(python.exe:24128): GStreamer-CRITICAL **: 00:55:02.307: gst_object_unref: assertion 'object != NULL' failed
+
+(python.exe:24128): GStreamer-CRITICAL **: 00:55:02.307: gst_caps_can_intersect: assertion 'GST_IS_CAPS (caps2)' failed
+reachy_mini.media.media_server - WARNING - Warning: gst-resource-error-quark: Could not open resource for reading and writing. (7) ../sys/wasapi2/gstwasapi2rbuf.cpp(1552): gst_wasapi2_rbuf_post_open_error (): /GstWasapi2Src:autoaudiosrc1-actual-src-wasapi:
+Failed to open device 
+reachy_mini.daemon.daemon - INFO - JSON-RPC app relay wired to the DataChannel
+reachy_mini.daemon.daemon - INFO - No HF token found, central signaling relay disabled
+reachy_mini.daemon.daemon - INFO - Waking up Reachy Mini...
+reachy_mini.media.media_server - INFO - opusenc tuned for discovery: inband-fec=True, packet-loss-percentage=20
+reachy_mini.media.device_detection - WARNING - No Reachy Mini Audio Sink card found.
+reachy_mini.media.media_server - INFO - Speaker EQ skipped: output is not the Reachy Mini Audio device
+reachy_mini.media.device_detection - WARNING - No Reachy Mini Audio Sink card found.
+reachy_mini.daemon.daemon - INFO - Daemon started successfully.
+uvicorn.error - INFO - Application startup complete.
+uvicorn.error - INFO - Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+reachy_mini.utils.discovery - INFO - mDNS service registered: reachy_mini on port 8000
+reachy_mini.media.media_server - INFO - Pipeline latency (live=True, min_latency=41333333, max_latency=2000000000)
+uvicorn.access - INFO - 127.0.0.1:9640 - "GET /api/state/full HTTP/1.1" 200
+uvicorn.error - INFO - 127.0.0.1:8341 - "WebSocket /ws/sdk" [accepted]
+uvicorn.error - INFO - connection open
+reachy_mini.daemon.daemon - INFO - Releasing media hardware for direct access...
+reachy_mini.daemon.daemon - INFO - Central signaling relay stopped
+reachy_mini.daemon.daemon - INFO - Media hardware released.
+uvicorn.access - INFO - 127.0.0.1:5365 - "POST /api/media/release HTTP/1.1" 200
+reachy_mini.daemon.backend.abstract.throttled - WARNING - IK error: WARNING: Collision detected or head pose not achievable!
+reachy_mini.daemon.backend.abstract.throttled - WARNING - IK error: WARNING: Collision detected or head pose not achievable!
+reachy_mini.daemon.backend.abstract.throttled - WARNING - IK error: WARNING: Collision detected or head pose not achievable!
+reachy_mini.daemon.daemon - INFO - Re-acquiring media hardware...
+reachy_mini.media.device_detection - WARNING - No Reachy Mini Audio Source card found.
+reachy_mini.media.media_server - WARNING - No Reachy Mini audio card found, using default audio source.
+reachy_mini.media.media_server - INFO - No hardware AEC; enabled software echo cancellation.
+
+(python.exe:24128): GStreamer-CRITICAL **: 00:55:55.453: gst_pad_query_caps: assertion 'GST_IS_PAD (pad)' failed
+
+(python.exe:24128): GStreamer-CRITICAL **: 00:55:55.453: gst_object_unref: assertion 'object != NULL' failed
+
+(python.exe:24128): GStreamer-CRITICAL **: 00:55:55.453: gst_caps_can_intersect: assertion 'GST_IS_CAPS (caps2)' failed
+reachy_mini.media.media_server - WARNING - Warning: gst-resource-error-quark: Could not open resource for reading and writing. (7) ../sys/wasapi2/gstwasapi2rbuf.cpp(1552): gst_wasapi2_rbuf_post_open_error (): /GstWasapi2Src:autoaudiosrc2-actual-src-wasapi:
+Failed to open device 
+reachy_mini.daemon.daemon - INFO - No HF token found, central signaling relay disabled
+reachy_mini.daemon.daemon - INFO - Media hardware re-acquired.
+uvicorn.access - INFO - 127.0.0.1:7438 - "POST /api/media/acquire HTTP/1.1" 200
+reachy_mini.media.media_server - INFO - opusenc tuned for discovery: inband-fec=True, packet-loss-percentage=20
+reachy_mini.media.media_server - INFO - Pipeline latency (live=True, min_latency=41333333, max_latency=2000000000)
+uvicorn.error - INFO - 127.0.0.1:2869 - "WebSocket /ws/sdk" [accepted]
+uvicorn.error - INFO - connection open
+reachy_mini.daemon.daemon - INFO - Releasing media hardware for direct access...
+reachy_mini.daemon.daemon - INFO - Central signaling relay stopped
+reachy_mini.daemon.daemon - INFO - Media hardware released.
+uvicorn.access - INFO - 127.0.0.1:7685 - "POST /api/media/release HTTP/1.1" 200
+reachy_mini.daemon.daemon - INFO - Re-acquiring media hardware...
+reachy_mini.media.device_detection - WARNING - No Reachy Mini Audio Source card found.
+reachy_mini.media.media_server - WARNING - No Reachy Mini audio card found, using default audio source.
+reachy_mini.media.media_server - INFO - No hardware AEC; enabled software echo cancellation.
+
+(python.exe:24128): GStreamer-CRITICAL **: 00:56:25.290: gst_pad_query_caps: assertion 'GST_IS_PAD (pad)' failed
+
+(python.exe:24128): GStreamer-CRITICAL **: 00:56:25.290: gst_object_unref: assertion 'object != NULL' failed
+
+(python.exe:24128): GStreamer-CRITICAL **: 00:56:25.291: gst_caps_can_intersect: assertion 'GST_IS_CAPS (caps2)' failed
+reachy_mini.media.media_server - WARNING - Warning: gst-resource-error-quark: Could not open resource for reading and writing. (7) ../sys/wasapi2/gstwasapi2rbuf.cpp(1552): gst_wasapi2_rbuf_post_open_error (): /GstWasapi2Src:autoaudiosrc3-actual-src-wasapi:
+Failed to open device 
+reachy_mini.daemon.daemon - INFO - No HF token found, central signaling relay disabled
+reachy_mini.daemon.daemon - INFO - Media hardware re-acquired.
+uvicorn.access - INFO - 127.0.0.1:5524 - "POST /api/media/acquire HTTP/1.1" 200
+reachy_mini.media.media_server - INFO - opusenc tuned for discovery: inband-fec=True, packet-loss-percentage=20
+reachy_mini.media.media_server - INFO - Pipeline latency (live=True, min_latency=41333333, max_latency=2000000000)
+uvicorn.error - INFO - 127.0.0.1:10218 - "WebSocket /ws/sdk" [accepted]
+uvicorn.error - INFO - connection open
+reachy_mini.daemon.daemon - INFO - Releasing media hardware for direct access...
+reachy_mini.daemon.daemon - INFO - Central signaling relay stopped
+reachy_mini.daemon.daemon - INFO - Media hardware released.
+uvicorn.access - INFO - 127.0.0.1:10220 - "POST /api/media/release HTTP/1.1" 200
+reachy_mini.daemon.backend.abstract.throttled - WARNING - IK error: WARNING: Collision detected or head pose not achievable!
+reachy_mini.daemon.backend.abstract.throttled - WARNING - IK error: WARNING: Collision detected or head pose not achievable!
+reachy_mini.daemon.backend.abstract.throttled - WARNING - IK error: WARNING: Collision detected or head pose not achievable!
+reachy_mini.daemon.daemon - INFO - Re-acquiring media hardware...
+reachy_mini.media.device_detection - WARNING - No Reachy Mini Audio Source card found.
+reachy_mini.media.media_server - WARNING - No Reachy Mini audio card found, using default audio source.
+reachy_mini.media.media_server - INFO - No hardware AEC; enabled software echo cancellation.
+
+(python.exe:24128): GStreamer-CRITICAL **: 00:58:08.647: gst_pad_query_caps: assertion 'GST_IS_PAD (pad)' failed
+
+(python.exe:24128): GStreamer-CRITICAL **: 00:58:08.647: gst_object_unref: assertion 'object != NULL' failed
+
+(python.exe:24128): GStreamer-CRITICAL **: 00:58:08.647: gst_caps_can_intersect: assertion 'GST_IS_CAPS (caps2)' failed
+reachy_mini.media.media_server - WARNING - Warning: gst-resource-error-quark: Could not open resource for reading and writing. (7) ../sys/wasapi2/gstwasapi2rbuf.cpp(1552): gst_wasapi2_rbuf_post_open_error (): /GstWasapi2Src:autoaudiosrc4-actual-src-wasapi:
+Failed to open device 
+reachy_mini.daemon.daemon - INFO - No HF token found, central signaling relay disabled
+reachy_mini.daemon.daemon - INFO - Media hardware re-acquired.
+uvicorn.access - INFO - 127.0.0.1:7173 - "POST /api/media/acquire HTTP/1.1" 200
+reachy_mini.media.media_server - INFO - opusenc tuned for discovery: inband-fec=True, packet-loss-percentage=20
+reachy_mini.media.media_server - INFO - Pipeline latency (live=True, min_latency=41333333, max_latency=2000000000)

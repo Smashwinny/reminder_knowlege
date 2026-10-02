@@ -11,6 +11,7 @@ __pycache__/
 .env
 # Python 虚拟环境
 .venv/
+*/venv/
 
 # qdrant 运行时数据
 vector_database_qdrant/storage/

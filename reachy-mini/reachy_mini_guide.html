@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Reachy Mini 小白指南</title>
+<style>
+:root{
+  --c-bg:#FFF7ED; --c-ink:#1F2430; --c-card:#FFFFFF;
+  --c-orange:#FF6B35; --c-blue:#00A8E8; --c-green:#06D6A0;
+  --c-purple:#9B5DE5; --c-yellow:#FFD23F; --c-red:#E63946; --c-pink:#F15BB5;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--c-bg);color:var(--c-ink);
+  font-family:"Microsoft YaHei","PingFang SC",sans-serif;font-size:14px;line-height:1.75;}
+@page{size:A4;margin:14mm;}
+.wrap{max-width:820px;margin:0 auto;padding:0 8px;}
+header.hero{background:linear-gradient(135deg,#FF6B35 0%,#E63946 55%,#9B5DE5 100%);
+  color:#fff;border-radius:18px;padding:30px 34px;margin:18px 0 22px;}
+header.hero h1{margin:0 0 6px;font-size:30px;letter-spacing:1px;}
+header.hero p{margin:4px 0;font-size:14px;opacity:.95;}
+.tag{display:inline-block;background:#fff;color:#E63946;border-radius:20px;
+  padding:2px 14px;font-weight:700;font-size:13px;margin-bottom:10px;}
+h2.sec{background:var(--c-ink);color:#fff;border-radius:12px;padding:8px 18px;
+  font-size:19px;margin:26px 0 14px;}
+h2.sec .no{color:var(--c-yellow);margin-right:8px;}
+.qcard{background:var(--c-card);border-radius:16px;padding:18px 22px;margin:14px 0;
+  box-shadow:0 3px 0 rgba(31,36,48,.12);break-inside:avoid;
+  border-left:10px solid var(--c-blue);}
+.qcard.q2{border-left-color:var(--c-orange);}
+.qcard.q3{border-left-color:var(--c-green);}
+.qcard.q4{border-left-color:var(--c-purple);}
+.qcard.q5{border-left-color:var(--c-red);}
+.qcard.q6{border-left-color:var(--c-pink);}
+.qcard h3{margin:0 0 8px;font-size:17px;}
+.qnum{display:inline-block;min-width:34px;height:34px;line-height:34px;text-align:center;
+  border-radius:50%;color:#fff;font-size:17px;font-weight:800;margin-right:8px;
+  background:var(--c-blue);}
+.q2 .qnum{background:var(--c-orange);} .q3 .qnum{background:var(--c-green);}
+.q4 .qnum{background:var(--c-purple);} .q5 .qnum{background:var(--c-red);}
+.q6 .qnum{background:var(--c-pink);}
+.hl{background:linear-gradient(transparent 55%,var(--c-yellow) 55%);font-weight:700;padding:0 2px;}
+b.key{color:var(--c-red);}
+code{background:#F1F3F7;border-radius:5px;padding:1px 6px;font-family:Consolas,monospace;
+  font-size:12.5px;color:#C7254E;}
+pre{background:#1F2430;color:#E8ECF3;border-radius:12px;padding:14px 18px;
+  font-size:12.5px;line-height:1.6;overflow-x:auto;}
+pre code{background:none;color:#E8ECF3;padding:0;}
+table{border-collapse:collapse;width:100%;margin:10px 0;background:#fff;}
+th,td{border:1.5px solid #D8DDE6;padding:7px 10px;text-align:left;font-size:13px;}
+th{background:var(--c-blue);color:#fff;}
+tr:nth-child(even) td{background:#F0FAFF;}
+table.orange th{background:var(--c-orange);}
+table.green th{background:var(--c-green);}
+.note{background:#FFF3D6;border:2px dashed var(--c-orange);border-radius:12px;
+  padding:10px 16px;margin:12px 0;}
+.okbox{background:#E7FBF3;border:2px solid var(--c-green);border-radius:12px;
+  padding:10px 16px;margin:12px 0;}
+.step{background:#fff;border-radius:14px;padding:14px 18px;margin:12px 0;
+  border-left:10px solid var(--c-yellow);break-inside:avoid;box-shadow:0 3px 0 rgba(31,36,48,.1);}
+.step h4{margin:0 0 6px;font-size:15.5px;color:#8a6d00;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fig{text-align:center;margin:10px 0;}
+.fig svg{max-width:100%;}
+.fig .cap{font-size:12px;color:#667;margin-top:2px;}
+.big{font-size:16px;}
+.footer{margin:26px 0 10px;text-align:center;color:#889;font-size:12px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <span class="tag">拾遗任务 · 抖音新闻求证</span>
+  <h1>Reachy Mini 小白指南</h1>
+  <p>Hugging Face 发布、一天卖爆 50 万美元的开源桌面机器人 —— 没有真机也能玩</p>
+  <p>pollen-robotics/reachy_mini · 软件 Apache-2.0 · 实验环境：Windows 11 + MuJoCo 仿真</p>
+</header>
+
+<div class="note"><b>这条抖音视频是什么？</b>原视频正文抓不到（抖音反爬），但文案"HuggingFace发布开源机器人，不到一天销售…"可查证：2025 年 7 月 Hugging Face（收购的法国 Pollen Robotics）开售开源桌面机器人 <b>Reachy Mini</b>，<span class="hl">开卖 24 小时预售额近 50 万美元，5 天破 100 万美元</span>，与文案吻合。它不是一个带货噱头，而是<b>软硬件全开源、有 GitHub 仓库、无硬件可仿真运行</b>的真项目 —— 本指南把它学到手。</div>
+
+<h2 class="sec"><span class="no">❶</span>它是什么？解决什么问题？</h2>
+
+<div class="qcard">
+<h3><span class="qnum">Q1</span>这个上新闻的机器人，一句话说清是什么？</h3>
+<p class="big">Reachy Mini 是一台 <span class="hl">28 厘米高、1.5 公斤重、会"做表情"的开源桌面机器人</span>，售价 Lite 版 299 美元 / Wireless 版 449 美元，以 DIY 套件出售（组装约 2~3 小时）。它由 Hugging Face 收购的法国公司 Pollen Robotics 开发，定位是<b>给 AI 开发者和爱好者的"具身 AI 开发平台"</b>：身上有摄像头、麦克风阵列和扬声器，头部能 6 自由度运动，两根天线还能当按钮按。</p>
+<table>
+<tr><th>版本</th><th>计算</th><th>连接</th><th>适合谁</th></tr>
+<tr><td><b>Lite</b>（$299）</td><td>你的电脑</td><td>USB-C（仅数据）</td><td>开发者，算力无限</td></tr>
+<tr><td><b>Wireless</b>（$449）</td><td>机载树莓派 CM4 + 电池</td><td>WiFi</td><td>随处摆，算力有限</td></tr>
+<tr><td><b>Simulation</b>（免费）</td><td>你的电脑</td><td>localhost</td><td>没买机器人也能玩（本指南路线）</td></tr>
+</table>
+</div>
+
+<div class="qcard q2">
+<h3><span class="qnum">Q2</span>"开源机器人"到底开源了什么？会不会是假开源？</h3>
+<p>市面上很多"开源"只公开一张外观图。Reachy Mini 开源了<b class="key">四层东西</b>：</p>
+<table class="orange">
+<tr><th>层</th><th>内容</th><th>许可证</th></tr>
+<tr><td>硬件结构</td><td>3D 打印图纸、舵机选型、电路连接、BOM 清单</td><td>CC BY-SA-NC（可改可印，禁商用）</td></tr>
+<tr><td>驱动/守护进程</td><td>电机控制、安全检查、传感器读写</td><td rowspan="2">Apache-2.0（随便商用）</td></tr>
+<tr><td>SDK 与应用</td><td>Python SDK、JS SDK、示例、对话 App</td></tr>
+<tr><td>仿真环境</td><td>MuJoCo 模型 + 场景，行为与真机一致</td><td>Apache-2.0</td></tr>
+</table>
+<p>也就是说：<span class="hl">你可以白嫖它的全套设计自己 3D 打印一台，也可以直接跑它的代码</span>——这正是它刷屏的原因：把"具身 AI 玩具"的价格打到一台手机钱。</p>
+</div>
+
+<h2 class="sec"><span class="no">❷</span>核心原理：表情从哪来？</h2>
+
+<div class="qcard q3">
+<h3><span class="qnum">Q3</span>头部 6 个自由度是怎么做到的？—— Stewart 并联平台</h3>
+<p>普通机械臂是"一串关节手拉手"（串联），而 Reachy Mini 的头是<span class="hl">上下两个圆盘之间用 6 根可伸缩推杆连起来</span>：每根推杆长度一变，上盘（头）就同时产生前后/左右/上下平移 + 俯仰/偏航/侧倾 6 种运动。这叫 <b>Stewart 并联平台</b>，飞行模拟器也是这个结构。</p>
+<div class="fig">
+<svg viewBox="0 0 520 240" width="520">
+  <rect width="520" height="240" fill="#F0FAFF"/>
+  <ellipse cx="260" cy="60" rx="120" ry="26" fill="#9B5DE5"/>
+  <ellipse cx="260" cy="60" rx="120" ry="26" fill="none" stroke="#5A2D9C" stroke-width="3"/>
+  <text x="260" y="64" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">上盘（头）</text>
+  <ellipse cx="260" cy="200" rx="150" ry="30" fill="#00A8E8"/>
+  <ellipse cx="260" cy="200" rx="150" ry="30" fill="none" stroke="#0077B6" stroke-width="3"/>
+  <text x="260" y="205" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">下盘（身体）</text>
+  <line x1="160" y1="76" x2="130" y2="188" stroke="#E63946" stroke-width="6"/>
+  <line x1="205" y1="82" x2="190" y2="192" stroke="#FF6B35" stroke-width="6"/>
+  <line x1="260" y1="86" x2="260" y2="196" stroke="#E63946" stroke-width="6"/>
+  <line x1="315" y1="82" x2="330" y2="192" stroke="#FF6B35" stroke-width="6"/>
+  <line x1="360" y1="76" x2="390" y2="188" stroke="#E63946" stroke-width="6"/>
+  <line x1="135" y1="120" x2="118" y2="150" stroke="#06D6A0" stroke-width="6" stroke-dasharray="8 5"/>
+  <text x="440" y="120" fill="#E63946" font-size="14" font-weight="bold">6 根推杆</text>
+  <text x="440" y="142" fill="#667" font-size="12">每根 = 1 个舵机</text>
+  <text x="440" y="164" fill="#667" font-size="12">长度变化 → 头动</text>
+</svg>
+<div class="cap">图 1：Stewart 并联平台 —— 6 根推杆"同时发力"，头才有丰富的表情动作</div>
+</div>
+<p>好处是<b>又稳又准</b>（6 杆共担重量），坏处是数学上"想要头的某个姿态，6 根杆各伸多长"要用逆运动学解——这部分 SDK 已经替你做好了（参见知识库 [[逆运动学IK与CCD迭代]]，工程上是解析解而非迭代）。</p>
+</div>
+
+<div class="qcard q4">
+<h3><span class="qnum">Q4</span>"表情"具体是怎么编程出来的？</h3>
+<p>秘密特别朴素：<span class="hl">表情 = 一串关键姿态 + 每段用多慢、用什么"性格"的插值曲线过渡</span>。例如"害羞"= 头下沉 10mm、侧倾 20°、两根天线耷拉下去，用 ease_in_out 慢慢扭过去。这和网页动画里的补间动画是同一套数学（知识库 [[补间动画与缓动函数]]），只是这次被搬到了物理机器人上：</p>
+<table class="green">
+<tr><th>插值方法</th><th>曲线性格</th><th>像什么</th></tr>
+<tr><td><code>linear</code></td><td>匀速，启动刹车都生硬</td><td>电梯</td></tr>
+<tr><td><code>minjerk</code></td><td>最小抖动，生物运动的自然曲线（公式 10t³−15t⁴+6t⁵）</td><td>人抬手</td></tr>
+<tr><td><code>ease_in_out</code></td><td>慢起步慢停车，中段加速</td><td>轿车起步</td></tr>
+<tr><td><code>cartoon</code></td><td><b>会过冲</b>：冲过头再回弹，故意"Q 弹"</td><td>橡皮筋/卡通</td></tr>
+</table>
+<p>Reachy Mini 官网那些"活灵活现"的动图，本质就是工程师精心编排的<span class="hl">情感运动序列</span>——本指南实验 3 就带你手写一段。</p>
+</div>
+
+<h2 class="sec"><span class="no">❸</span>软件架构与玩法</h2>
+
+<div class="qcard q5">
+<h3><span class="qnum">Q5</span>我的 Python 代码是怎么让机器人动的？</h3>
+<p>用的是<b>客户端-服务器</b>架构（与知识库 [[机器人守护进程架构]] 同一思想）：一个常驻后台的 <b>daemon</b> 独占硬件（真机走 USB/串口，仿真走 MuJoCo），对外在 <code>8000</code> 端口暴露 REST + WebSocket；你的 Python 代码只是通过网络发指令的"客户端"。</p>
+<div class="fig">
+<svg viewBox="0 0 520 200" width="520">
+  <rect width="520" height="200" fill="#FFF0F0"/>
+  <rect x="20" y="60" width="150" height="80" rx="12" fill="#FF6B35"/>
+  <text x="95" y="95" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">你的代码</text>
+  <text x="95" y="118" text-anchor="middle" fill="#fff" font-size="12">Python SDK</text>
+  <rect x="350" y="60" width="150" height="80" rx="12" fill="#00A8E8"/>
+  <text x="425" y="92" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">daemon</text>
+  <text x="425" y="113" text-anchor="middle" fill="#fff" font-size="12">独占硬件/仿真</text>
+  <text x="425" y="130" text-anchor="middle" fill="#fff" font-size="12">安全限位检查</text>
+  <rect x="185" y="85" width="160" height="30" rx="15" fill="#1F2430"/>
+  <text x="265" y="105" text-anchor="middle" fill="#FFD23F" font-size="13" font-weight="bold">localhost:8000</text>
+  <text x="265" y="45" text-anchor="middle" fill="#667" font-size="12">REST / WebSocket</text>
+  <path d="M170 90 L185 95" stroke="#1F2430" stroke-width="3"/>
+  <path d="M345 100 L350 100" stroke="#1F2430" stroke-width="3"/>
+  <text x="260" y="175" text-anchor="middle" fill="#667" font-size="12">仿真模式：daemon 内部跑 MuJoCo，行为与真机一致</text>
+</svg>
+<div class="cap">图 2：你的代码和机器人之间隔着一个 daemon——好处是 AI 可以跑在大服务器上，机器人只干体力活</div>
+</div>
+<p>两个运动指令要分清：<b><code>goto_target()</code></b> 是"平滑地走到那里"（阻塞式，适合 ≥0.5 秒的手势）；<b><code>set_target()</code></b> 是"现在！立刻！到这！"（非阻塞，适合 10Hz 以上的实时跟踪环，比如视觉追踪）。</p>
+</div>
+
+<div class="qcard q6">
+<h3><span class="qnum">Q6</span>不买硬件怎么玩？Web 应用又是什么黑科技？</h3>
+<p><b>路线一（本指南采用）：</b><code>reachy-mini-daemon --sim</code> 直接在电脑里启动 MuJoCo 物理仿真，行为与真机完全一致（知识库 [[Sim2Real与MuJoCo仿真]] 的同款思路），SDK 代码零改动。</p>
+<p><b>路线二：</b>写一个静态网页，通过 <b>WebRTC</b>（浏览器自带的实时音视频+数据通道）经 HF 的中央信令服务器直连机器人——<span class="hl">别人点一个链接就能"远程玩你的机器人"</span>，零安装。所有应用放在 Hugging Face Spaces 上形成"机器人应用商店"（对话、收音机、手势追踪……50+ 个），一键安装。</p>
+<p>再往上一层就是"Agentic 机器人"：官方对话 App 让 LLM 通过工具调用（知识库 [[LLM工具调用]]）驱动实体机器人——转头、记人名、搜网页。这也是它被称为"AI 时代的乐高"的原因。</p>
+</div>
+
+<div class="qcard">
+<h3><span class="qnum">Q7</span>它和 LeRobot、microduck 是什么关系？—— Hugging Face 的机器人全家桶</h3>
+<p>Hugging Face 正在布局一整条开源机器人产品线，Reachy Mini 是其中"人人都能买得起"的那档：</p>
+<table>
+<tr><th>项目</th><th>是什么</th><th>关系</th></tr>
+<tr><td>LeRobot</td><td>机器人学习训练框架（数据/模型/部署）</td><td>"大脑训练场"，仓库 huggingface/lerobot</td></tr>
+<tr><td>microduck</td><td>开源机器鸭（知识库已学）</td><td>同门小辈，同为 HF 系</td></tr>
+<tr><td><b>Reachy Mini</b></td><td>开源表情桌面机器人（本项目）</td><td>面向大众开发者的"身体"</td></tr>
+<tr><td>HopeJR</td><td>全尺寸 66 自由度人形（约 $3000）</td><td>同门大哥</td></tr>
+</table>
+</div>
+
+<h2 class="sec"><span class="no">❹</span>这个项目给我什么能力</h2>
+<div class="okbox">
+<ul class="big">
+<li><b>零硬件入门具身 AI</b>：一台电脑 + 免费仿真，就能写"会点头的 AI 宠物"原型；</li>
+<li><b>给 LLM 一具身体</b>：几行代码把 ChatGPT 级别的对话接到实体运动/摄像头/麦克风上（Agentic Toolkit 路线）；</li>
+<li><b>学机器人全套基本功</b>：并联机构、插值运动、客户端-服务器控制、Sim2Real，知识库概念一次串齐；</li>
+<li><b>做桌面情绪陪伴产品</b>：情感运动序列 + 对话 App 就是"电子宠物"的完整骨架；</li>
+<li><b>分享零成本</b>：Web 应用一个链接发给朋友，远程逗你的机器人。</li>
+</ul>
+</div>
+
+<h2 class="sec"><span class="no">❺</span>动手实验：在 MuJoCo 仿真里唤醒 Reachy Mini</h2>
+<p>以下每一步都已在 <b>Windows 11 + Python 3.12</b> 上真实执行（Python 3.14 装不上 MuJoCo，是实测踩过的坑）。</p>
+
+<div class="step">
+<h4>步骤 1 · 建虚拟环境并安装 SDK（约 3 分钟）</h4>
+<pre><code># 注意：必须用 Python 3.12/3.13（mujoco 暂无 3.14 的预编译轮子）
+python -m venv venv
+venv\Scripts\python -m pip install "reachy-mini[mujoco]" matplotlib</code></pre>
+<p>✅ 预期结果：<code>Successfully installed reachy-mini-... mujoco-...</code></p>
+</div>
+
+<div class="step">
+<h4>步骤 2 · 启动仿真守护进程（无窗口后台模式）</h4>
+<pre><code>venv\Scripts\reachy-mini-daemon --sim --headless</code></pre>
+<p>目的：在电脑里"虚拟出一台 Lite 版机器人"。--headless 不开 3D 窗口，适合远程/后台。</p>
+<p>✅ 预期结果：日志出现 daemon 已监听 <code>localhost:8000</code> 字样，进程不退出。</p>
+</div>
+
+<div class="step">
+<h4>步骤 3 · 第一组动作：连接、读状态、点头、摇天线（exp1）</h4>
+<pre><code>venv\Scripts\python exercise\exp1_hello_sim.py</code></pre>
+<p>✅ 真实输出（2026-10-03 实测）：</p>
+<pre><code>== 连接仿真守护进程 (localhost) ==
+[OK] 已连接仿真 Reachy Mini
+[状态] 头部关节数: 7, 天线关节数: 2
+[状态] 天线当前角度(rad): [-0.175, 0.175]
+[状态] 头部当前位置 xyz(mm): [-0.0, 0.0, -0.1]
+-> 抬头 20mm + 侧倾 15 度
+-> 天线摆动
+-> 回休息位
+[收尾] 头部位置 xyz(mm): [-0.1, 0.3, -0.0]
+[OK] 实验1完成</code></pre>
+<p>注意"头部关节数: 7"——6 根 Stewart 推杆 + 1 个身体旋转轴，和 Q3 的机械结构对上了。</p>
+</div>
+
+<div class="step">
+<h4>步骤 4 · 实验2：四种插值方法真实轨迹对比</h4>
+<p>做法：对每种插值发一个"抬头 20mm"指令，同时在另一个线程以 <b>100Hz</b> 采样头部真实位置，量化"到达时间、最大速度、过冲量"。</p>
+<pre><code>venv\Scripts\python exercise\exp2_interpolation_compare.py</code></pre>
+<p>✅ 真实结果（100Hz 采样自 MuJoCo 仿真）：</p>
+<table class="orange">
+<tr><th>方法</th><th>到达时间(s)</th><th>最大速度(mm/s)</th><th>过冲量(mm)</th><th>终点误差(mm)</th></tr>
+<tr><td>linear</td><td>0.96</td><td>57.4</td><td>-2.72（始终慢半拍）</td><td>2.72</td></tr>
+<tr><td>minjerk</td><td>0.97</td><td>100.3</td><td>-0.94</td><td>0.94</td></tr>
+<tr><td>ease_in_out</td><td>0.98</td><td>91.9</td><td>-1.16</td><td>1.16</td></tr>
+<tr><td><b>cartoon</b></td><td><b>0.71</b></td><td><b>228.9（4 倍速！）</b></td><td><b>+1.09（唯一过冲）</b></td><td>0.94</td></tr>
+</table>
+<p>数字里藏着两条动画铁律：<span class="hl">cartoon 是唯一直接过冲目标的（冲到 21.09mm 再回弹）</span>，而且起步前还<span class="hl">先反向下沉了 0.56mm"蓄力"</span>——这就是卡通动画里的 anticipation（预期动作）技巧，机器人版也一样灵。</p>
+<div class="fig"><img src="exp2_traces.png" style="max-width:100%;border-radius:10px;border:2px solid #D8DDE6;">
+<div class="cap">图 3：四种插值的真实轨迹（MuJoCo 仿真 100Hz 采样）——cartoon（红）先下沉蓄力、再超速冲过 20mm 目标后回弹</div></div>
+</div>
+
+<div class="step">
+<h4>步骤 5 · 实验3：手写一段"表情序列"（exp3）</h4>
+<pre><code>venv\Scripts\python exercise\exp3_emotion_sequence.py</code></pre>
+<p>✅ 真实输出：</p>
+<pre><code>== 表情序列播放 ==
+  -> 好奇抬头 (时长 0.8s, 插值 minjerk)
+  -> 害羞侧倾 (时长 0.8s, 插值 ease_in_out)
+  -> 开心转圈 (时长 0.6s, 插值 cartoon)
+  -> 回正 (时长 1.0s, 插值 minjerk)
+[OK] 实验3完成</code></pre>
+<p>这个"关键姿态 + 时长 + 插值"的三元组列表，就是官方 emotions library 的最小内核——<b>做表情机器人，本质是在编排动作 keyframe</b>。</p>
+</div>
+
+<div class="note"><b>坑位备忘（全部实测）：</b>① Python 3.14 无 mujoco 预编译轮子 → 退回 3.12；② 仿真模式下音频硬件不存在，SDK 记得带 <code>media_backend="no_media"</code>；③ daemon 必须先启动，SDK 连的是 <code>localhost:8000</code>；④ pitch/roll 软限位 ±40°，超了会被自动夹紧。</div>
+
+<div class="footer">F:\reminder\reachy-mini · 指南 PDF 由 HTML 经 Edge 无头打印生成 · 拾遗任务 290e6402-f3c8-4f14-9795-728f949ffe77</div>
+</div>
+</body>
+</html>
