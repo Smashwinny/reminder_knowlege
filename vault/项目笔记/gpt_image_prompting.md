@@ -4,6 +4,7 @@ tags: [项目笔记]
 上游: OpenAI Developers 官方文档《Image Prompting》+ openai/openai-cookbook notebook
 完成日期: 2026-10-03
 来源推文: https://x.com/yyyole/status/2097707144359354673
+中文入口: https://x.com/leo_xiaolei/status/2097722097921409274（水族店刘老板非机翻全译文，X article 2097707280032542720《OpenAI 官方 GPT-Image 2.5 提示词指南与示例》，含 24 个生成/编辑例子；拾遗任务 f31ab548）
 ---
 
 # gpt_image_prompting
