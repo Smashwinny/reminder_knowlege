@@ -40,3 +40,7 @@ teamai-cli/exercise/member2/
 teamai-cli/exercise/*.pem
 teamai-cli/exercise/https_server.log
 /.claude/rules/
+
+# cmu-agents 实验临时产物
+cmu-agents/exercise/_pytest_tmp/
+cmu-agents/exercise/_site_bundle.js
