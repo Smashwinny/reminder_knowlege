@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>i-have-adhd 小白指南</title>
+<style>
+:root{
+  --pink:#FF2D78; --orange:#FF8A00; --yellow:#FFC400; --green:#00C853;
+  --blue:#2979FF; --purple:#AA00FF; --cyan:#00B8D4; --red:#FF1744;
+  --ink:#1A1030; --paper:#FFFEF7;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--paper); font-size:13.5px; line-height:1.65;}
+@page{size:A4; margin:12mm;}
+.card{break-inside:avoid; border-radius:14px; padding:16px 20px; margin:0 0 14px 0; background:#fff; border:3px solid var(--ink); box-shadow:4px 4px 0 var(--ink);}
+.hero{background:linear-gradient(135deg,var(--pink),var(--orange) 55%,var(--yellow)); color:#fff; text-align:center; padding:34px 20px;}
+.hero h1{font-size:34px; letter-spacing:1px; text-shadow:2px 2px 0 rgba(0,0,0,.25);}
+.hero p{font-size:15px; margin-top:8px;}
+.badge{display:inline-block; background:#fff; color:var(--ink); border-radius:999px; padding:2px 14px; font-weight:bold; margin:6px 4px 0; font-size:12.5px; border:2px solid var(--ink);}
+.qnum{font-size:40px; font-weight:900; line-height:1; margin-bottom:6px;}
+h2.q{font-size:19px; margin-bottom:10px;}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.hl{background:linear-gradient(transparent 55%,var(--yellow) 55%); font-weight:bold; padding:0 2px;}
+.hl-pink{background:linear-gradient(transparent 55%,#FFB3D1 55%); font-weight:bold;}
+code{background:#14002B; color:#7CFFB2; border-radius:6px; padding:1px 7px; font-family:Consolas,monospace; font-size:12px;}
+pre{background:#14002B; color:#E8F7FF; border-radius:10px; padding:10px 14px; font-family:Consolas,monospace; font-size:11.5px; overflow-x:auto; margin:8px 0;}
+pre b{color:#FFD54F;}
+.ok{color:#0B8A3C; font-weight:bold;}
+.no{color:var(--red); font-weight:bold;}
+table{border-collapse:collapse; width:100%; margin:8px 0;}
+th{background:var(--ink); color:#fff; padding:5px 8px; font-size:12px;}
+td{border:1.5px solid var(--ink); padding:4px 8px; font-size:12px; vertical-align:top;}
+tr:nth-child(even) td{background:#FFF7E0;}
+.expect{background:#E6FFEC; border:2.5px dashed var(--green); border-radius:10px; padding:8px 12px; margin:8px 0; font-size:12.5px;}
+.warn{background:#FFF0F0; border:2.5px dashed var(--red); border-radius:10px; padding:8px 12px; margin:8px 0; font-size:12.5px;}
+.step{border-left:6px solid var(--blue); background:#F4F8FF; border-radius:0 10px 10px 0; padding:8px 12px; margin:8px 0;}
+.step b.t{color:var(--blue);}
+svg{max-width:100%; height:auto; display:block; margin:8px auto;}
+footer{text-align:center; font-size:11px; color:#666; padding:10px;}
+.big{font-size:16px;}
+</style>
+</head>
+<body>
+
+<div class="card hero">
+<h1>i-have-adhd 小白指南</h1>
+<p>52,965★ · MIT · 一个 Markdown 文件，管住 AI 编程助手的"废话嘴"</p>
+<p style="font-size:13px;">github.com/ayghri/i-have-adhd · 学习日期 2026-10-03 · 源：抖音 @梦里早点睡「本周 GitHub 榜单」</p>
+<div>
+<span class="badge">Agent Skill</span><span class="badge">10 条规则</span><span class="badge">8 种 harness</span><span class="badge">自带评测</span>
+</div>
+</div>
+
+<!-- Q1 -->
+<div class="card">
+<div class="qnum" style="color:var(--pink);">Q1</div>
+<h2 class="q">52.9k 星的项目，本体只是一个 Markdown 文件？它到底"是"什么？</h2>
+<p>是的——<span class="hl">整个项目的"引擎"就是一个 142 行的 <code>skills/i-have-adhd/SKILL.md</code></span>，没有任何运行时代码参与"让 AI 变简洁"这件事。它属于 <b>Agent Skill（技能包）</b>：一个带 YAML frontmatter 的 Markdown 文件，被 agent 框架在会话里注入给模型，从而改变模型的输出行为。周边文件（hooks、extensions、evals、8 种 harness 的打包清单）都是<span class="hl-pink">投递与质检系统</span>，负责把这份"说明书"送到各种 AI 编程工具的嘴边，并验证它真的有效。</p>
+<div class="grid2">
+<div>
+<pre>repo/
+├─ <b>skills/i-have-adhd/SKILL.md</b>  ← 引擎(142行)
+├─ hooks/always-on.mjs           ← 常开开关
+├─ extensions/*.ts               ← pi 扩展
+├─ evals/  cases.jsonl+rubric    ← 考卷+评分标准
+├─ scripts/run_evals.py          ← 考务程序
+└─ plugin.json 等×8              ← 8种harness的插头</pre>
+</div>
+<svg viewBox="0 0 340 150" xmlns="http://www.w3.org/2000/svg">
+<rect x="10" y="45" width="90" height="60" rx="10" fill="#FF2D78"/>
+<text x="55" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">SKILL.md</text>
+<text x="55" y="90" text-anchor="middle" fill="#fff" font-size="10">142 行纯文字</text>
+<rect x="130" y="20" width="80" height="28" rx="8" fill="#2979FF"/><text x="170" y="38" text-anchor="middle" fill="#fff" font-size="10">Claude Code</text>
+<rect x="130" y="55" width="80" height="28" rx="8" fill="#00C853"/><text x="170" y="73" text-anchor="middle" fill="#fff" font-size="10">Codex/OpenCode</text>
+<rect x="130" y="90" width="80" height="28" rx="8" fill="#AA00FF"/><text x="170" y="108" text-anchor="middle" fill="#fff" font-size="10">Gemini/Kimi/Qwen</text>
+<rect x="240" y="50" width="90" height="50" rx="10" fill="#FFC400"/>
+<text x="285" y="72" text-anchor="middle" font-size="11" font-weight="bold">同一个 LLM</text>
+<text x="285" y="88" text-anchor="middle" font-size="10">输出变干脆</text>
+<line x1="100" y1="75" x2="128" y2="75" stroke="#1A1030" stroke-width="3" marker-end="url(#a)"/>
+<line x1="210" y1="75" x2="238" y2="75" stroke="#1A1030" stroke-width="3" marker-end="url(#a)"/>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6Z" fill="#1A1030"/></marker></defs>
+</svg>
+</div>
+<p><b>类比知识库</b>：与 [[AgentSkills技能包]] 同族（archify 的 SKILL.md、yichen-skills 的 22 个技能都是这一格式），但 i-have-adhd 是其中最"纯粹"的——<span class="hl">技能本体零代码，纯靠措辞改变行为</span>。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card">
+<div class="qnum" style="color:var(--orange);">Q2</div>
+<h2 class="q">为什么叫 ADHD？注意力缺陷多动障碍和编程助手有什么关系？</h2>
+<p>作者把临床手册《The Adult ADHD Tool Kit》（Ramsay &amp; Rostain）里的<b>注意力管理原则</b>翻译成了"LLM 输出设计原则"。SKILL.md 开头列出 <span class="hl">5 条 ADHD 认知事实，每一条都精确映射到后面的规则</span>：</p>
+<table>
+<tr><th>ADHD 事实（人）</th><th>翻译成 LLM 规则</th><th></th></tr>
+<tr><td>工作记忆小：不在屏幕上的东西会被忘掉</td><td>规则5 每轮重述状态</td></tr>
+<tr><td>"知道了"≠"做了"：摩擦发生在知与行之间</td><td>规则1 首行给下一步行动</td></tr>
+<tr><td>启动最难：第一步必须显而易见、小、现在可做</td><td>规则3 结尾给一个 2 分钟内动作</td></tr>
+<tr><td>时间估计是均匀的："有点活"和"几小时"感觉一样</td><td>规则6 用分钟数报时间</td></tr>
+<tr><td>多巴胺稀缺：看不见的成果不算成果</td><td>规则7 让完成的事可见</td></tr>
+</table>
+<svg viewBox="0 0 340 130" xmlns="http://www.w3.org/2000/svg">
+<circle cx="60" cy="65" r="42" fill="#FF8A00"/><text x="60" y="60" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">ADHD 大脑</text><text x="60" y="76" text-anchor="middle" font-size="9" fill="#fff">5 条认知事实</text>
+<circle cx="270" cy="65" r="42" fill="#2979FF"/><text x="270" y="60" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">LLM 输出</text><text x="270" y="76" text-anchor="middle" font-size="9" fill="#fff">10 条格式规则</text>
+<line x1="105" y1="65" x2="225" y2="65" stroke="#1A1030" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#b)"/>
+<text x="165" y="52" text-anchor="middle" font-size="10">临床原则 → 提示词工程</text>
+<defs><marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6Z" fill="#1A1030"/></marker></defs>
+</svg>
+<p><span class="hl-pink">这层"事实→规则"的推导链才是项目的灵魂</span>：不是拍脑袋列 10 条规矩，而是每条规矩都能指回一个具体的认知机制，所以规则之间不打架、被质疑时有依据。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card">
+<div class="qnum" style="color:var(--yellow);">Q3</div>
+<h2 class="q">"burying the answer"（埋葬答案）到底指什么？</h2>
+<p>指 LLM 的通病：<span class="hl">把真正能执行的那一句话埋在客套、铺垫、旁支话题的正中间</span>。README 给的官方对照：</p>
+<div class="grid2">
+<div style="border:2.5px solid var(--red); border-radius:10px; padding:10px;">
+<p class="no">✗ Before（110 词）</p>
+<p style="font-size:11.5px;">"Great question! Let me think about this. Your auth flow has a few moving pieces: the middleware, the token verification… <b>One approach would be to update the package and rewrite that function.</b> …By the way, your dependency is also stale… Hope this helps!"</p>
+<p style="font-size:11px; color:#888;">→ 答案在第 5 句，前后全是装饰</p>
+</div>
+<div style="border:2.5px solid var(--green); border-radius:10px; padding:10px;">
+<p class="ok">✓ After（38 词）</p>
+<pre>Run `npm install jsonwebtoken@latest`,
+then edit `src/auth.ts:42`.
+
+1. Open `src/auth.ts`
+2. Replace `verifyToken` (lines 42–58)
+3. Run `npm test -- auth.spec.ts`
+
+Next: paste the first failing line.</pre>
+<p style="font-size:11px; color:#888;">→ 第一行就能动手</p>
+</div>
+</div>
+<p><span class="hl">判断标准：读者只读第一行和最后一行，能不能知道"下一步干什么"和"刚才发生了什么"</span>？这就是 SKILL.md 自带的发送前终检。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card">
+<div class="qnum" style="color:var(--green);">Q4</div>
+<h2 class="q">10 条规则里，核心是哪三条？</h2>
+<table>
+<tr><th>#</th><th>规则</th><th>一句话</th></tr>
+<tr><td><b>1</b></td><td>Lead with the next action</td><td>首行 = 读者能做的事，不是背景</td></tr>
+<tr style="background:#E6FFEC;"><td><b>2</b></td><td>Number multi-step tasks</td><td>多步必编号，一步一个有界动作</td></tr>
+<tr><td><b>3</b></td><td>End with one concrete next step</td><td>结尾给一个 &lt;2 分钟的具体动作</td></tr>
+<tr><td>4</td><td>Suppress tangents</td><td>支线话题打包成"Separately: …"另问</td></tr>
+<tr style="background:#E6FFEC;"><td><b>5</b></td><td>Restate state every turn</td><td>每轮开头重述"第几步/刚完成什么"</td></tr>
+<tr><td>6</td><td>Specific time estimates</td><td>"约 15 分钟"，不许"要花点功夫"</td></tr>
+<tr><td>7</td><td>Make wins visible</td><td>"登录的 magic link 现在能用了，试…"</td></tr>
+<tr><td>8</td><td>Matter-of-fact errors</td><td>错误只说 因 + 修法，禁止"Oh no"</td></tr>
+<tr><td>9</td><td>Cap lists to 5 items</td><td>列表≤5，但<span class="hl-pink">只限制呈现不限制分析</span></td></tr>
+<tr><td>10</td><td>No preamble/recap/closer</td><td>禁"Great question / Hope this helps"</td></tr>
+</table>
+<p><span class="hl">核心三条：1（行动先行）、5（状态重述）、3（收尾给钩子）</span>——分别解决"不知道从哪开始"、"不知道进行到哪"、"干完不知道接着干嘛"。官方评测（Q9）也证实：增益最集中在"状态汇报"类场景。</p>
+</div>
+
+<!-- Q5 -->
+<div class="card">
+<div class="qnum" style="color:var(--cyan);">Q5</div>
+<h2 class="q">一个 Markdown 文件凭什么能改变 LLM 的行为？</h2>
+<p>原理就是[[PromptAsCode提示词即代码]]：<span class="hl">模型对"系统提示里的行为规范"有很高的遵从性，规范写得越具体、越带正反例，遵从性越高</span>。这份 SKILL.md 用了四个提示词工程手法：</p>
+<table>
+<tr><th>手法</th><th>在哪</th><th>作用</th></tr>
+<tr><td>正反例对</td><td>每条规则都有 Bad/Good</td><td>边界清晰，模型不需要猜"多简算简"</td></tr>
+<tr><td>Persistence 条款</td><td>开头第二段</td><td>"这些规则整个会话有效，不许几轮后松懈"——对抗长对话漂移</td></tr>
+<tr><td>关闭短语</td><td>"stop adhd mode"</td><td>给约束一个明确出口，用户才有胆量开它</td></tr>
+<tr><td>disable-model-invocation: true</td><td>frontmatter</td><td>模型不得自作主张开启，只有用户敲 /i-have-adhd 才生效</td></tr>
+</table>
+<div class="warn">💡 与[[Agent指令文件AgentMd]]的区别：AGENTS.md 是"项目背景+约定"的被动上下文；SKILL.md 是"可召唤的行为模式"，有明确的开关语义（invoke / stop phrase）。</div>
+</div>
+
+<!-- Q6 -->
+<div class="card">
+<div class="qnum" style="color:var(--blue);">Q6</div>
+<h2 class="q">怎么装进我的工具？一个项目为什么带 8 种"插头"？</h2>
+<p>2026 年的 agent 框架各有一套插件格式，本项目为每个主流 harness 做了一个薄适配层，<span class="hl">但注入的都是同一份 SKILL.md</span>：</p>
+<table>
+<tr><th>Harness</th><th>插头</th><th>安装</th></tr>
+<tr><td>Claude Code</td><td>plugin.json + hooks/hooks.json</td><td><code>claude plugin install</code> / 或直接把 SKILL.md 放进技能目录</td></tr>
+<tr><td>Antigravity (agy)</td><td>同 plugin.json</td><td><code>agy plugin install https://github.com/ayghri/i-have-adhd</code></td></tr>
+<tr><td>Gemini CLI</td><td>gemini-extension.json + agents/gemini.toml</td><td>gemini 扩展安装</td></tr>
+<tr><td>OpenCode</td><td>opencode.json + 驱动测试</td><td>opencode 插件</td></tr>
+<tr><td>Kimi / Qwen / OpenAI / pi</td><td>kimi.plugin.json / qwen-extension.json / openai.yaml / extensions/*.ts</td><td>各自机制</td></tr>
+</table>
+<p>最省事的官方玩法——<b>直接把安装指令贴给 AI 自己</b>：</p>
+<pre>Install the i-have-adhd skill/plugin from
+https://github.com/ayghri/i-have-adhd,
+refer to the repo's AGENTS.md for instructions.</pre>
+<p>然后会话里敲 <code>/i-have-adhd</code> 开启，<code>stop adhd mode</code> 关闭。</p>
+</div>
+
+<!-- Q7 -->
+<div class="card">
+<div class="qnum" style="color:var(--purple);">Q7</div>
+<h2 class="q">"always-on" 常开模式是怎么实现的？</h2>
+<p>靠 <b>SessionStart hook + 旗标文件</b>，一共 40 行 Node：</p>
+<div class="step"><b class="t">① 用户摸旗标</b>：<code>touch ~/.claude/.i-have-adhd-always</code> —— 存在=开启</div>
+<div class="step"><b class="t">② 会话启动</b>：hooks.json 注册的 SessionStart hook 触发 <code>always-on.mjs</code></div>
+<div class="step"><b class="t">③ 剥头注入</b>：脚本读 SKILL.md，用一条正则<span class="hl">剥掉 YAML frontmatter</span>，把正文接在 "ADHD MODE ACTIVE…" 横幅后写到 stdout —— 这段文字就进入了模型的上下文</div>
+<div class="step"><b class="t">④ 永不阻塞</b>：整个脚本套在 try/catch 里，任何异常都 <code>exit(0)</code> —— hook 坏了也不能挡着用户开会话</div>
+<svg viewBox="0 0 340 120" xmlns="http://www.w3.org/2000/svg">
+<rect x="8" y="15" width="70" height="30" rx="8" fill="#AA00FF"/><text x="43" y="34" text-anchor="middle" fill="#fff" font-size="10">会话启动</text>
+<rect x="98" y="15" width="86" height="30" rx="8" fill="#2979FF"/><text x="141" y="34" text-anchor="middle" fill="#fff" font-size="10">hook: 查旗标</text>
+<rect x="204" y="15" width="60" height="30" rx="8" fill="#FF8A00"/><text x="234" y="34" text-anchor="middle" fill="#fff" font-size="10">剥头注入</text>
+<rect x="284" y="15" width="50" height="30" rx="8" fill="#00C853"/><text x="309" y="34" text-anchor="middle" fill="#fff" font-size="10">exit 0</text>
+<line x1="78" y1="30" x2="96" y2="30" stroke="#1A1030" stroke-width="3" marker-end="url(#c)"/>
+<line x1="184" y1="30" x2="202" y2="30" stroke="#1A1030" stroke-width="3" marker-end="url(#c)"/>
+<line x1="264" y1="30" x2="282" y2="30" stroke="#1A1030" stroke-width="3" marker-end="url(#c)"/>
+<rect x="98" y="75" width="236" height="28" rx="8" fill="#FF1744"/><text x="216" y="93" text-anchor="middle" fill="#fff" font-size="10">旗标不存在/任何异常 → 立即 exit(0) 不阻塞</text>
+<line x1="141" y1="45" x2="141" y2="73" stroke="#FF1744" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#c)"/>
+<defs><marker id="c" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6Z" fill="#1A1030"/></marker></defs>
+</svg>
+<p><b>安全细节两枚</b>：路径用 <code>import.meta.url</code> 从脚本自身位置推（不信环境变量）；[[AgentSkills技能包]]注入的是剥离 frontmatter 后的纯正文。</p>
+</div>
+
+<!-- Q8 -->
+<div class="card">
+<div class="qnum" style="color:var(--red);">Q8</div>
+<h2 class="q">"stop adhd mode" 凭什么能关掉它？两种实现怎么对账？</h2>
+<p>关闭其实分两层：<span class="hl">语义层靠提示词（"读到这两个短语就恢复默认风格"），状态层靠实现（pi 扩展里维护 enabled 布尔，注入/撤走规则消息）</span>。本项目最值得学的工程习惯是<span class="hl-pink">两处实现的对账</span>——SKILL.md 的关闭短语和 <code>extensions/i-have-adhd.ts</code> 的 <code>STOP_PHRASES</code> 集合必须逐字一致，我们的 exp1 实验就是用脚本对账的（28/28 PASS）。如果只改一处，用户说 "normal mode" 时就会出现"提示词说关了、扩展还在注入"的分裂。</p>
+<pre>SKILL.md:  "stop adhd mode" / "normal mode"   ← 语义合同
+TS 扩展:   STOP_PHRASES = new Set([...])      ← 状态机实现
+实验结论:  两者集合 ==  {stop adhd mode, normal mode}  ✓</pre>
+</div>
+
+<!-- Q9 -->
+<div class="card">
+<div class="qnum" style="color:var(--pink);">Q9</div>
+<h2 class="q">一个提示词项目怎么证明自己"真的有用"？</h2>
+<p>这是本项目超出"调提示词"的部分：<span class="hl">自带一套可复现的评测体系</span>（与[[Agent Eval评测框架八步法]]完全同构）——</p>
+<table>
+<tr><th>部件</th><th>内容</th></tr>
+<tr><td>cases.jsonl</td><td>14 个用例（12 类别，风险 low4/med6/high4），每例带 prompt + 逐条 criteria</td></tr>
+<tr><td>rubric.md</td><td>5 维加权：Correctness 35% / Autonomy 25% / Actionability 20% / Safety 10% / Concision 10%；危险项一票 blocker</td></tr>
+<tr><td>盲评</td><td>judge 只见 A/B 标签，不见条件名（judge:begin/end 注释块逐字发给评审模型）</td></tr>
+<tr><td>隔离</td><td>runner 加 <code>--setting-sources ""</code> —— 防用户自己的插件/记忆泄进 baseline 把对照测脏</td></tr>
+<tr><td>放量门槛</td><td>发布条件：无 blocker + 正确性安全差距≤0.1 + 加权分高于 baseline</td></tr>
+</table>
+<p>官方实测（2026-08-02，opus-4-8，14 例×3 试×2 条件=84 行，$3.59）：<span class="hl">增益集中在状态汇报类（multi-step-progress、error-report），有明确输出合同的用例（code-answer）增量为零——逃生舱按设计生效</span>。</p>
+<svg viewBox="0 0 340 140" xmlns="http://www.w3.org/2000/svg">
+<text x="12" y="14" font-size="10" font-weight="bold">每用例得分差（candidate − baseline）</text>
+<rect x="90" y="24" width="180" height="12" fill="#00C853"/><text x="276" y="34" font-size="9">multi-step-progress +2.55</text>
+<rect x="90" y="42" width="120" height="12" fill="#69F0AE"/><text x="216" y="52" font-size="9">error-report +1.51</text>
+<rect x="90" y="60" width="40" height="12" fill="#CCFF90"/><text x="136" y="70" font-size="9">destructive +0.52</text>
+<rect x="90" y="78" width="1" height="12" fill="#999"/><text x="100" y="88" font-size="9">code-answer 0.00（合同锁死）</text>
+<rect x="70" y="96" width="30" height="12" fill="#FF8A80"/><text x="106" y="106" font-size="9">partial-success −0.63 ⚠</text>
+<rect x="70" y="114" width="16" height="12" fill="#FF8A80"/><text x="92" y="124" font-size="9">agent-owned-edit −0.33(用例自身坏)</text>
+<line x1="90" y1="20" x2="90" y2="132" stroke="#1A1030" stroke-width="2"/>
+</svg>
+</div>
+
+<!-- Q10 -->
+<div class="card">
+<div class="qnum" style="color:var(--orange);">Q10</div>
+<h2 class="q">评测发现的最有价值的一条：规则 8 竟然会"压"出幻觉？</h2>
+<p>RESULTS.md 里 <code>partial-success</code> 用例 <span class="hl">−0.63 回归</span>，评审批语："断言 missing auth header 是确定性原因并给出具体修法，<b>而证据并不支持</b>"。作者给出机制假设：<span class="hl-pink">规则 8 要求错误必须按"因→修法"格式汇报，这个格式压力会让模型在证据不足时硬编一个原因来填格式</span>。</p>
+<div class="warn">⚠ 这是一条可推广的教训：<b>任何强制的输出格式（模板、字段、章节）都是一种"填空压力"，证据不够时模型会编造内容来填满它</b>。与[[Agent Eval评测框架八步法]]的"Rules 层抓编造来源"是同一现象的两侧：格式压力制造幻觉，评测层负责抓。作者的处理方式也教科书级——3 trials 不够下结论，标为"方向一致+有机制假设的唯一待验证项"，而不是悄悄删掉。</div>
+<p>另一个诚实发现：<code>agent-owned-edit</code> 用例<span class="hl">任何条件下都不可能通过</span>——runner 传了 <code>--tools ""</code>（无工具），而判分标准要求"直接动手改仓库"。用例设计与测试环境自相矛盾，作者照实写进 Findings。</p>
+</div>
+
+<!-- Q11 -->
+<div class="card">
+<div class="qnum" style="color:var(--purple);">Q11</div>
+<h2 class="q">规则什么时候该被打破？——为什么一份行为规范需要 6 条"反自我"条款</h2>
+<p>"When to break the rules" 是 SKILL.md 里最见功力的部分，<span class="hl">每条都是"约束打架时，内容赢过形状"</span>：</p>
+<table>
+<tr><th>触发</th><th>让步方式</th></tr>
+<tr><td>用户要求 explain / walk me through</td><td>展开讲透，但保留"无开场白无客套"</td></tr>
+<tr><td>危险操作（rm -rf / force push / drop table）</td><td>安全赢过简洁：先确认，给只读预览</td></tr>
+<tr><td>调试螺旋（连续三轮 still broken）</td><td>停止改代码，点名可疑假设，问一个诊断问题</td></tr>
+<tr><td>请求真有歧义</td><td>问一个简短澄清题 &gt; 猜错重写</td></tr>
+<tr><td>规则和任务打架（"给我列选项"）</td><td>选项本身就是答案：2–4 个带取舍，推荐置顶</td></tr>
+<tr><td>规则和 harness 打架</td><td>系统提示词 &gt; 本技能：该报工具调用就报</td></tr>
+</table>
+<p><span class="hl">没有逃生舱的规则集会在边缘场景碎裂</span>：用户问"我的选项有哪些"时如果硬套"给一条路径"，答案直接残废。这和[[Agent指令文件AgentMd]]里的优先级设计、[[质检Gate]]的"硬失败一票否决"是同构思想——<b>先声明谁让位，再谈规则</b>。</p>
+</div>
+
+<!-- Q12 -->
+<div class="card">
+<div class="qnum" style="color:var(--green);">Q12</div>
+<h2 class="q">我能拿它干什么？</h2>
+<table>
+<tr><th>用途</th><th>怎么做</th></tr>
+<tr><td>① 治自己 AI 助手的废话</td><td>装上，会话里 /i-have-adhd；嫌烦 stop adhd mode</td></tr>
+<tr><td>② 常开党</td><td>摸旗标 <code>~/.claude/.i-have-adhd-always</code>，每次会话自动注入</td></tr>
+<tr><td>③ 抄它的评测架子</td><td>你自己调的任何 output-style 提示词，都用 cases+rubric+盲评验证，不许"感觉变好了"</td></tr>
+<tr><td>④ fork 调自己的规则</td><td>改 SKILL.md → <code>claude plugin marketplace add 你名/i-have-adhd</code></td></tr>
+<tr><td>⑤ 学"格式压力制造幻觉"</td><td>给你自己的输出模板加逃生舱条款</td></tr>
+<tr><td>⑥ 学多 harness 发布</td><td>8 个插头适配同一份核心，适合任何想广撒网的 skill 作者</td></tr>
+</table>
+<p><b>能力清单</b>：把行为规范写成可安装资产 / Persistence 对抗会话漂移 / 关闭短语给约束出口 / hook 剥头注入 / 旗标文件开关 / 盲评+隔离的 A/B 评测 / blocker 一票否决 / 格式压力幻觉的机制认识。</p>
+</div>
+
+<!-- 实验 -->
+<div class="card" style="border-color:var(--blue);">
+<h2 class="q" style="color:var(--blue);">🧪 动手实验（全部真实运行，零 API 费用）</h2>
+<div class="step"><b class="t">exp1 SKILL.md 结构契约体检</b>（<code>exercise/exp1_skill_anatomy.py</code>）：把 142 行 Markdown 当配置文件逐项机检——frontmatter 四字段、关闭短语与扩展 STOP_PHRASES 逐字对账、10 条规则标题逐一比对、6 条逃生舱、规则 9"不得删分析"红线。<b>结果 28/28 PASS。</b></div>
+<div class="expect">✅ 预期：✅ i-have-adhd SKILL.md 结构契约体检: 28/28 PASS（关闭短语集合 == 扩展实现）</div>
+<div class="step"><b class="t">exp2 去埋葬体检器</b>（<code>exp2_debury_linter.py</code>）：把 Pre-send check 五删检查翻译成 Python 正则，对 README 官方 Before/After + 自造正反例盲测。<b>结果 4/4：</b>Before 抓下 3 违规（开场白/结尾客套/by the way），After 放行，自造坏例抓下 4 违规（+对冲词+习语 circle back）。</div>
+<div class="expect">✅ 预期：[OK] README 官方 Before（应被抓）: 抓下 → [OK] After: 放行 → 总体: PASS</div>
+<div class="step"><b class="t">exp3 always-on hook 等价复刻</b>（<code>exp3_alwayson_replica.py</code>）：Python 逐字移植 always-on.mjs 的剥头正则，4 组边界夹具（CRLF/无 frontmatter/正文含 --- 不误删/只有 frontmatter）+ 无旗标路径。<b>结果 10/10 PASS。</b><span style="color:#B71C1C;">（上游 .mjs 因本机安全策略未直接执行，以源码逐行对照为准，如实记录）</span></div>
+<div class="step"><b class="t">exp4 上游 eval 聚合器验证</b>：validate/plan 直跑 PASS（14 例×3 试×2 条件=84 行计划）；用自造 synthetic_responses.jsonl 跑 measure，delta 手工核算一致（输出 token −75.4%、成本 −40%、字符 −88.6%）；负 token 数据被 ValueError 拒收。</div>
+<div class="step"><b class="t">exp5 考卷普查</b>：cases.jsonl 14 用例 / 12 类别 / 风险 4低6中4高 / criteria 共 29 条；RESULTS.md 讨论的 4 个焦点用例全部在册。</div>
+<div class="warn">⚠ 未跑项：上游 pytest 全套被本机 [Code from External] 安全策略拦截，未绕行；RESULTS.md 复现需花 $3.59 真实调用，未花。</div>
+</div>
+
+<footer>learn: i-have-adhd · F:\reminder\i-have-adhd · 2026-10-03 · 拾遗任务 0bd05f0f · 上游 HEAD 839872f (PR#211)</footer>
+</body>
+</html>

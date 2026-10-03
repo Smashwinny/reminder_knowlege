@@ -1,0 +1,4 @@
+{"case_id":"direct-answer","runner":"offline","condition":"baseline","trial":1,"response":"x","cost_usd":0.02,"usage":{"input_tokens":-5,"output_tokens":10},"model":"toy"}
+{"case_id":"direct-answer","runner":"offline","condition":"candidate","trial":1,"response":"y","cost_usd":0.01,"usage":{"input_tokens":120,"output_tokens":2},"model":"toy"}
+{"case_id":"error-report","runner":"offline","condition":"baseline","trial":1,"response":"x","cost_usd":0.03,"usage":{"input_tokens":200,"output_tokens":80},"model":"toy"}
+{"case_id":"error-report","runner":"offline","condition":"candidate","trial":1,"response":"y","cost_usd":0.02,"usage":{"input_tokens":240,"output_tokens":30},"model":"toy"}
