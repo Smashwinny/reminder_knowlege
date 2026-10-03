@@ -1,0 +1,24 @@
+{
+  "sampled": true,
+  "seconds": 894.6,
+  "total": 927,
+  "correct": 715,
+  "per_task": {
+    "maze": {
+      "correct": 153,
+      "total": 211
+    },
+    "snake": {
+      "correct": 103,
+      "total": 116
+    },
+    "basic": {
+      "correct": 236,
+      "total": 300
+    },
+    "predict_position": {
+      "correct": 223,
+      "total": 300
+    }
+  }
+}

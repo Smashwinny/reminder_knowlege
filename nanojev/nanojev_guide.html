@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>NanoJev 小白指南：0.6B 开源 Jev 决策模型本机跑</title>
+<style>
+:root{
+  --orange:#FF6B35; --teal:#00C9A7; --purple:#7B61FF; --yellow:#FFD23F;
+  --blue:#1B98E0; --pink:#FF5DA2; --red:#FF3D5A; --ink:#2B2140;
+  --card:#FFFFFF; --bg:#FFF9F0;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;padding:0 0 40px}
+.hero{background:linear-gradient(135deg,#FF3D5A 0%,#7B61FF 55%,#1B98E0 100%);color:#fff;padding:56px 40px 48px;text-align:center}
+.hero h1{font-size:34px;letter-spacing:1px;text-shadow:0 3px 12px rgba(0,0,0,.25)}
+.hero .sub{font-size:16px;opacity:.95;margin-top:14px}
+.hero .tags{margin-top:20px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:4px 16px;margin:4px;font-size:13px}
+.wrap{max-width:880px;margin:0 auto;padding:0 24px}
+h2.section{margin:44px 0 18px;font-size:24px;padding:10px 18px;border-radius:12px;color:#fff;background:linear-gradient(90deg,var(--orange),var(--pink));display:inline-block}
+h2.section.t2{background:linear-gradient(90deg,var(--blue),var(--purple))}
+h2.section.t3{background:linear-gradient(90deg,var(--teal),var(--blue))}
+h2.section.t4{background:linear-gradient(90deg,var(--pink),var(--red))}
+.q{background:var(--card);border-radius:16px;padding:22px 26px;margin:20px 0;box-shadow:0 4px 18px rgba(123,97,255,.10);break-inside:avoid;border-left:10px solid var(--purple)}
+.q:nth-of-type(4n+1){border-left-color:var(--orange)}
+.q:nth-of-type(4n+2){border-left-color:var(--teal)}
+.q:nth-of-type(4n+3){border-left-color:var(--pink)}
+.q h3{font-size:19px;margin-bottom:10px}
+.q h3 .num{display:inline-block;min-width:38px;height:38px;line-height:38px;text-align:center;border-radius:10px;background:linear-gradient(135deg,var(--yellow),var(--orange));color:#fff;font-size:20px;margin-right:10px;vertical-align:middle;box-shadow:0 3px 8px rgba(255,107,53,.35)}
+.q p{margin:8px 0}
+.q ul,.q ol{margin:8px 0 8px 24px}
+.q li{margin:4px 0}
+.hl{background:linear-gradient(transparent 55%,var(--yellow) 55%);font-weight:700;padding:0 3px}
+.key{background:var(--ink);color:#7CFFCB;border-radius:8px;padding:2px 10px;font-family:Consolas,monospace;font-size:14px}
+.big{font-size:21px;font-weight:800;color:var(--red)}
+.svgbox{background:#F6F3FF;border-radius:12px;padding:10px;margin:12px 0;text-align:center}
+table.cmp{width:100%;border-collapse:collapse;margin:12px 0;font-size:14.5px}
+table.cmp th{background:var(--purple);color:#fff;padding:8px 10px}
+table.cmp td{border:1px solid #E4DCFF;padding:8px 10px;background:#fff}
+table.cmp tr:nth-child(even) td{background:#FAF7FF}
+.step{background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid var(--blue);border-radius:16px;padding:20px 24px;margin:18px 0;break-inside:avoid}
+.step h3{color:var(--blue);font-size:18px;margin-bottom:8px}
+.step h3 .snum{display:inline-block;background:var(--blue);color:#fff;border-radius:50%;width:32px;height:32px;line-height:32px;text-align:center;margin-right:8px}
+pre{background:#241B3A;color:#E8E2FF;border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13.5px;line-height:1.6;margin:10px 0;white-space:pre-wrap;word-break:break-all}
+pre .cmt{color:#9C8FD9}
+.expect{background:#E9FFF7;border:2px dashed var(--teal);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:14.5px}
+.warn{background:#FFF0F3;border:2px dashed var(--red);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:14.5px}
+.cap{background:linear-gradient(135deg,#FFF6E5,#FFE9F3);border-radius:16px;padding:20px 26px;margin:16px 0;break-inside:avoid}
+.cap h3{color:var(--orange);margin-bottom:6px;font-size:17px}
+.footer{margin-top:40px;text-align:center;color:#8B82A8;font-size:13px}
+@media print{body{background:#fff}@page{margin:14mm}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>NanoJev 小白指南<br>把闭源 Jev 决策模型变成你本机 0.6B 的开源模型</h1>
+  <div class="sub">源头：율무커피（yulmu_coffee）韩语推文 · 项目：TianyuCodings/NanoJev（MIT）· 基座：Qwen3-0.6B · 本机实测：RTX 4070 12G 真跑通</div>
+  <div class="tags">
+    <span class="tag">System One 开源复刻</span><span class="tag">零输出 token 解码</span><span class="tag">动态候选 Choice</span>
+    <span class="tag">迷宫 / 贪吃蛇 / ViZDoom</span><span class="tag">2GB 内存可跑</span><span class="tag">jev-router 本地哨兵</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ 背景 ============ -->
+<h2 class="section">〇、背景：上次那个"只能看不能摸"的 Jev</h2>
+<div class="q">
+<p>上一个项目 <span class="key">jev-router</span> 里我们认识了 TypeSafe 的 <b>Jev</b>——不发文字、只对 state+question 返回概率分布的"系统一"决策模型（知识库概念 [[SystemOne决策模型Jev]]）。当时留下一个遗憾：<span class="big">Jev 闭源、托管、白名单审核，本机摸不到权重</span>，实验只能给 SDK 打桩 mock。</p>
+<p>这条韩语推文（율무커피："고작 0.6B짜리 판단 모델 NanoJev…2GB RAM만 있어도 돌"）指向的正是一款<span class="hl">把 Jev 思想开源复刻、2GB 内存就能跑的 0.6B 判断模型</span>。推文抓不到正文没关系——项目本身 GitHub / HuggingFace 双开源，查证属实：</p>
+<table class="cmp">
+<tr><th></th><th>Jev（TypeSafe）</th><th>NanoJev（本项目）</th></tr>
+<tr><td>权重</td><td>闭源托管 API</td><td class="hl">HuggingFace 公开下载（MIT）</td></tr>
+<tr><td>价格</td><td>$0.042/百万输入 token</td><td>电费</td></tr>
+<tr><td>候选数</td><td>2~255（Choice）</td><td>2~255（Choice），契约对齐</td></tr>
+<tr><td>题型</td><td>Choice / Score / Noul</td><td>Choice / Score / Boolean（Noul 的本地拼写）</td></tr>
+<tr><td>规模</td><td>未公开</td><td>0.6B（Qwen3-0.6B 基座）</td></tr>
+<tr><td>本机可跑</td><td>否</td><td class="hl">是（RTX 4070 实测，显存 2.2 GiB）</td></tr>
+</table>
+<div class="svgbox">
+<svg width="720" height="200" viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#7B61FF"/></marker></defs>
+  <rect x="20" y="30" width="280" height="130" rx="16" fill="#FFE9F0" stroke="#FF3D5A" stroke-width="2.5"/>
+  <text x="160" y="60" text-anchor="middle" font-size="17" font-weight="bold" fill="#FF3D5A">TypeSafe Jev（闭源）</text>
+  <text x="160" y="88" text-anchor="middle" font-size="13" fill="#2B2140">白名单审核 · 云端 API</text>
+  <text x="160" y="112" text-anchor="middle" font-size="13" fill="#2B2140">不能下载 · 不能微调</text>
+  <text x="160" y="136" text-anchor="middle" font-size="13" fill="#2B2140">实验只能 mock 打桩</text>
+  <rect x="420" y="30" width="280" height="130" rx="16" fill="#E9FFF7" stroke="#00C9A7" stroke-width="2.5"/>
+  <text x="560" y="60" text-anchor="middle" font-size="17" font-weight="bold" fill="#00A88C">NanoJev（开源复刻）</text>
+  <text x="560" y="88" text-anchor="middle" font-size="13" fill="#2B2140">MIT · HF 公开权重 2.4GB</text>
+  <text x="560" y="112" text-anchor="middle" font-size="13" fill="#2B2140">本机 GPU/CPU 推理</text>
+  <text x="560" y="136" text-anchor="middle" font-size="13" fill="#2B2140">训练管线全开源</text>
+  <line x1="305" y1="95" x2="415" y2="95" stroke="#7B61FF" stroke-width="3" marker-end="url(#ar)"/>
+  <text x="360" y="80" text-anchor="middle" font-size="13" fill="#7B61FF" font-weight="bold">复刻</text>
+</svg>
+</div>
+</div>
+
+<!-- ============ 疑问清单 ============ -->
+<h2 class="section t2">一、疑问清单（12 问）</h2>
+
+<div class="q"><h3><span class="num">1</span>NanoJev 到底是什么？一句话说得清吗？</h3>
+<p>一句话：<span class="hl">一个 0.6B 参数的开源"决策模型"——states 和 questions 进，完整的候选概率分布出，全程零输出 token 解码</span>。它是社区对 TypeSafe Jev（System One 模型）的开源复刻：同样的输入契约（state + question + candidates），同样的"只判断、不生成"定位，但权重、训练数据、训练管线全部开源。</p>
+<p>项目 2026-09 中旬发布，推文发布当周进入 GitHub 热榜；统一检查点 <span class="key">unified-games-v1</span> 覆盖 4 个游戏决策任务。注意一个细节：推文韩语叫它"판단 모델"（判断模型），它不是给生成文本打分的 "LLM judge"，而是<span class="hl">替代理性判断的"决策层"</span>——和 jev-router 里哨兵选档是同一类活。</p>
+</div>
+
+<div class="q"><h3><span class="num">2</span>"零输出 token 解码"是什么意思？和生成式 LLM 的本质区别？</h3>
+<p>生成式 LLM 做选择的方式很笨：把问题变成"请回答 A 或 B"，然后一个 token 一个 token 地采样生成，再从文字里抠出答案——<span class="big">生成 1 个答案要解码几十到几百步，每步都要过一遍全网络</span>。NanoJev 的路子：把每个候选编码成一条"候选路径"（state + 问题 + 候选描述 + 读出后缀），<span class="hl">所有路径一次性并行过骨干网络，从每条路径末尾的 hidden state 直接读出一个标量分数，softmax 成概率分布</span>。没有采样、没有循环、没有"再说点什么"的冲动——这就是"系统一"（快思考）的工程含义。</p>
+<div class="svgbox">
+<svg width="720" height="240" viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#1B98E0"/></marker></defs>
+  <text x="160" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#FF3D5A">生成式 LLM：串行解码</text>
+  <rect x="30" y="44" width="260" height="40" rx="8" fill="#FFE9F0" stroke="#FF3D5A"/>
+  <text x="160" y="69" text-anchor="middle" font-size="13" fill="#2B2140">"该走哪个方向？" → 生成文字…</text>
+  <rect x="30" y="98" width="260" height="110" rx="8" fill="#FFF0F3"/>
+  <text x="160" y="122" text-anchor="middle" font-size="13" fill="#2B2140">循环 decode：</text>
+  <rect x="55" y="134" width="40" height="26" rx="5" fill="#FF3D5A"/><rect x="103" y="134" width="40" height="26" rx="5" fill="#FF5DA2"/>
+  <rect x="151" y="134" width="40" height="26" rx="5" fill="#FF6B35"/><rect x="199" y="134" width="40" height="26" rx="5" fill="#FFD23F"/>
+  <text x="160" y="200" text-anchor="middle" font-size="13" fill="#FF3D5A" font-weight="bold">几十~几百步 × 全网络，还可能"说废话"</text>
+  <text x="560" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#00A88C">NanoJev：一次并行前向</text>
+  <rect x="430" y="44" width="260" height="40" rx="8" fill="#E9FFF7" stroke="#00C9A7"/>
+  <text x="560" y="69" text-anchor="middle" font-size="13" fill="#2B2140">state + question + N 条候选路径</text>
+  <rect x="430" y="98" width="260" height="48" rx="8" fill="#00C9A7"/>
+  <text x="560" y="127" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">Qwen3-0.6B 骨干 · 1 次前向</text>
+  <rect x="430" y="156" width="80" height="30" rx="5" fill="#7B61FF"/><rect x="520" y="156" width="80" height="30" rx="5" fill="#1B98E0"/>
+  <rect x="610" y="156" width="80" height="30" rx="5" fill="#FF5DA2"/>
+  <text x="560" y="210" text-anchor="middle" font-size="13" fill="#00A88C" font-weight="bold">N 个标量分数 → softmax → 分布</text>
+</svg>
+</div>
+</div>
+
+<div class="q"><h3><span class="num">3</span>它的输入输出契约长什么样？（三种题型）</h3>
+<p>契约和 TypeSafe 官方文档逐项对齐（仓库 <span class="key">docs/TYPESAFE_CONTRACT.md</span> 就是一份兼容性审计）：每个请求只有一个 <span class="key">states</span> 数组；每个 state 带 <span class="key">id</span>（不进模型输入）、<span class="key">state</span>（场景描述，字符串/JSON）和 <span class="key">questions</span>（问题字典）。每道题三选一：</p>
+<table class="cmp">
+<tr><th>题型</th><th>候选形式</th><th>输出</th><th>用途类比</th></tr>
+<tr><td><b>Choice</b></td><td>2~255 个"键: 描述"</td><td>每个候选的概率 + 赢家</td><td>模型路由选档（jev-router 的活）</td></tr>
+<tr><td><b>Boolean</b></td><td>一个命题（可加 true/false 标准）</td><td>p_true（sigmoid）</td><td>"这是不是注入攻击"</td></tr>
+<tr><td><b>Score</b></td><td>2~10 级有序量表描述</td><td>每级概率 + 加权期望分</td><td>复杂度/质量打分</td></tr>
+</table>
+<p class="big">关键设计：id 和 qid 不出现在模型输入里——问题身份全靠 instructions 文本自包含。</p>
+</div>
+
+<div class="q"><h3><span class="num">4</span>模型内部：Qwen3-0.6B 骨干上挂了个什么"决策头"？</h3>
+<p>结构极简（<span class="key">scripts/train_toy_decisions.py</span> 的 DecisionModel，不到 60 行）：骨干是完整的 Qwen3-0.6B（28 层、d_model=1024），但<b>去掉了 LM head</b>——根本不需要词表投影，因为不生成词。取而代之的是：</p>
+<ul>
+<li><b>共享标量头</b>：<span class="key">LayerNorm → Linear(hidden→1)</span>，把每条候选路径末尾 token 的 hidden state 压成一个标量分数 z；</li>
+<li><b>set-attention 集合头</b>（仅 Choice）：把 K 个候选的 hidden state 连同 <span class="key">log(K)</span>（候选数！）一起投影，过一层 MultiheadAttention 做候选间互相打量，输出修正量 Δz 加到标量头上。</li>
+</ul>
+<p><span class="hl">log(K) 这个输入是神来之笔：它显式告诉注意力"现在集合里有几个候选"，让模型对集合大小有感知</span>——这正是"动态候选 2~255"能用一个共享头实现的机关。Boolean 题型没有真/假两条路径，只有一条语义路径，z 直接当 sigmoid 的 logit。</p>
+<div class="svgbox">
+<svg width="720" height="260" viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+  <rect x="40" y="20" width="180" height="36" rx="8" fill="#FFF6E5" stroke="#FFD23F" stroke-width="2"/>
+  <text x="130" y="43" text-anchor="middle" font-size="12.5" fill="#2B2140">路径: State+问题+候选A+Decision:</text>
+  <rect x="250" y="20" width="180" height="36" rx="8" fill="#FFF6E5" stroke="#FFD23F" stroke-width="2"/>
+  <text x="340" y="43" text-anchor="middle" font-size="12.5" fill="#2B2140">路径: State+问题+候选B+Decision:</text>
+  <rect x="460" y="20" width="180" height="36" rx="8" fill="#FFF6E5" stroke="#FFD23F" stroke-width="2"/>
+  <text x="550" y="43" text-anchor="middle" font-size="12.5" fill="#2B2140">路径: State+问题+候选C+Decision:</text>
+  <rect x="150" y="76" width="420" height="44" rx="10" fill="#7B61FF"/>
+  <text x="360" y="103" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">Qwen3-0.6B 骨干（无 LM head）· 一次并行前向</text>
+  <rect x="60" y="146" width="140" height="34" rx="8" fill="#E9FFF7" stroke="#00C9A7" stroke-width="2"/>
+  <text x="130" y="168" text-anchor="middle" font-size="12.5" fill="#2B2140">末尾token hidden h_A</text>
+  <rect x="290" y="146" width="140" height="34" rx="8" fill="#E9FFF7" stroke="#00C9A7" stroke-width="2"/>
+  <text x="360" y="168" text-anchor="middle" font-size="12.5" fill="#2B2140">末尾token hidden h_B</text>
+  <rect x="520" y="146" width="140" height="34" rx="8" fill="#E9FFF7" stroke="#00C9A7" stroke-width="2"/>
+  <text x="590" y="168" text-anchor="middle" font-size="12.5" fill="#2B2140">末尾token hidden h_C</text>
+  <rect x="60" y="200" width="600" height="44" rx="10" fill="#00C9A7"/>
+  <text x="360" y="227" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#fff">LayerNorm→Linear→1 (z) ＋ set-attention(含 log K) Δz → softmax(z+Δz) = 概率分布</text>
+</svg>
+</div>
+</div>
+
+<div class="q"><h3><span class="num">5</span>"候选路径"具体怎么拼出来的？为什么分词要先锁定？</h3>
+<p>每条路径是分四段分别分词再拼接的：<span class="key">State:\n{state}</span> → <span class="key">Question type: …\nQuestion:\n{instructions}</span> → <span class="key">Candidate:\n{候选描述}</span> → <span class="key">Decision:</span> + EOS。<span class="big">不能整段一起分词</span>：BPE 在段边界会发生合并（"State:"的最后一个 token 和 state 首词粘在一起），导致"共享前缀"其实不共享。分段编码 + 显式拼接 token id，才保证同 state 同问题的 N 条候选路径只有候选段不同——这是训练和推理共用同一张计算图的前提。</p>
+</div>
+
+<div class="q"><h3><span class="num">6</span>它是怎么训练的？数据从哪来？</h3>
+<p>统一检查点 <span class="key">unified-games-v1</span> 用混合任务 SFT 训练：<b>18,760 个决策问题/变体</b>，四个游戏按权重 1/3（迷宫）、1/3（贪吃蛇）、1/6（ViZDoom Basic）、1/6（ViZDoom Predict Position）混合，完整问题交叉熵损失，backbone 学习率 1e-5、决策头 1e-4，step-400 检查点。数据的妙处在于<b>目标来源混合</b>：</p>
+<ul>
+<li>迷宫/贪吃蛇：目标是 <span class="hl">Jev API 策略分布</span>（真调用 TypeSafe 云端裁判打的分布）——等于"蒸馏 Jev 的判断"；</li>
+<li>两个射击任务：目标是 <span class="hl">专家 RL 策略的硬标签</span>（一个 287 万参数、训练了 4 亿环境步的 ViZDoom  specialist 策略，896 局 17,498 个记录的决策）。</li>
+</ul>
+<p>也就是说，这个 0.6B 模型一半是 Jev 的学生、一半是 RL 专家的学生。训练在单张 A100 上完成，整条管线（数据构建→SFT→评测→回放验证）代码全在仓库里。</p>
+<div class="svgbox">
+<svg width="720" height="180" viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#FF6B35"/></marker></defs>
+  <rect x="20" y="30" width="180" height="60" rx="10" fill="#FFE9F0" stroke="#FF3D5A" stroke-width="2"/>
+  <text x="110" y="56" text-anchor="middle" font-size="13" font-weight="bold" fill="#FF3D5A">Jev API 分布</text>
+  <text x="110" y="76" text-anchor="middle" font-size="11.5" fill="#2B2140">迷宫+贪吃蛇目标</text>
+  <rect x="20" y="100" width="180" height="60" rx="10" fill="#FFF6E5" stroke="#FFD23F" stroke-width="2"/>
+  <text x="110" y="126" text-anchor="middle" font-size="13" font-weight="bold" fill="#C98A00">RL 专家硬标签</text>
+  <text x="110" y="146" text-anchor="middle" font-size="11.5" fill="#2B2140">ViZDoom×2 目标</text>
+  <rect x="280" y="55" width="160" height="70" rx="10" fill="#7B61FF"/>
+  <text x="360" y="84" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#fff">混合 SFT</text>
+  <text x="360" y="104" text-anchor="middle" font-size="11.5" fill="#E4DCFF">18,760 题 · CE</text>
+  <line x1="200" y1="60" x2="278" y2="80" stroke="#FF6B35" stroke-width="2.5" marker-end="url(#a3)"/>
+  <line x1="200" y1="130" x2="278" y2="105" stroke="#FF6B35" stroke-width="2.5" marker-end="url(#a3)"/>
+  <rect x="520" y="55" width="180" height="70" rx="10" fill="#00C9A7"/>
+  <text x="610" y="84" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#fff">unified-games-v1</text>
+  <text x="610" y="104" text-anchor="middle" font-size="11.5" fill="#E9FFF7">0.6B · 四游戏一步棋</text>
+  <line x1="440" y1="90" x2="518" y2="90" stroke="#FF6B35" stroke-width="2.5" marker-end="url(#a3)"/>
+</svg>
+</div>
+</div>
+
+<div class="q"><h3><span class="num">7</span>官方宣称的成绩如何？能信吗？</h3>
+<p>README 报告的是<span class="hl">整局游戏成功率</span>（同观察接口、同候选动作、种子化 ε-greedy 控制器，每局轨迹过独立模拟器回放验证）：</p>
+<table class="cmp">
+<tr><th>模型</th><th>迷宫 50×50</th><th>贪吃蛇</th><th>ViZDoom Basic</th><th>Predict Position</th></tr>
+<tr><td><b>NanoJev</b></td><td class="hl">4/10</td><td><b>8/8</b></td><td class="hl"><b>128/128</b></td><td><b>27/128</b></td></tr>
+<tr><td>Jev（官方）</td><td>7/10</td><td>8/8</td><td>56/128</td><td>11/128</td></tr>
+<tr><td>未调 Qwen3-0.6B</td><td>2/10</td><td>0/8</td><td>56/128</td><td>11/128</td></tr>
+</table>
+<p>Basic 上 128/128 全胜 Jev（56/128）很抢眼；但要注意<span class="big">这些是作者自报数字，独立复现有限</span>。所以本指南的实验 3 干脆把官方测试集（2,496 题）下载下来本机全量跑一遍——题目级一致率见动手部分，自己验证。</p>
+</div>
+
+<div class="q"><h3><span class="num">8</span>排列不变、集合敏感：set-attention 的真实行为</h3>
+<p>本机实测（ex1/ex2）揭示了一个教科书级区分：<span class="hl">对候选的"顺序"近似不变，但对候选的"集合"敏感</span>。同一道题打乱候选顺序 5 次，5 次选出同一动作（顺序不变性，set-attention 的设计目标）；但同一个状态，候选从 2 个加到 12 个，赢家会变（2 候选时选 north、4~8 候选选 south、12 候选时"scan"反超）——<span class="big">集合本身就是输入，加候选真实地改变了决策</span>。同理，往候选里塞"瞬移/挖地"这类坏选项，模型分不走全部概率：实测坏候选分走约 35% 概率。<b>结论：候选集设计是用户的责任，0.6B 模型不会替你过滤垃圾选项。</b></p>
+<div class="svgbox">
+<svg width="720" height="170" viewBox="0 0 720 170" xmlns="http://www.w3.org/2000/svg">
+  <text x="150" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#00A88C">顺序打乱 → 赢家不变 ✓</text>
+  <g font-size="12" fill="#2B2140">
+  <rect x="30" y="44" width="240" height="30" rx="6" fill="#E9FFF7" stroke="#00C9A7"/><text x="150" y="64" text-anchor="middle">[east, north, south, west] → south</text>
+  <rect x="30" y="84" width="240" height="30" rx="6" fill="#E9FFF7" stroke="#00C9A7"/><text x="150" y="104" text-anchor="middle">[west, south, east, north] → south</text>
+  <rect x="30" y="124" width="240" height="30" rx="6" fill="#E9FFF7" stroke="#00C9A7"/><text x="150" y="144" text-anchor="middle">[north, west, south, east] → south</text>
+  </g>
+  <text x="545" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#FF3D5A">集合扩张 → 赢家会变 ✗</text>
+  <g font-size="12" fill="#2B2140">
+  <rect x="420" y="44" width="250" height="30" rx="6" fill="#FFF0F3" stroke="#FF3D5A"/><text x="545" y="64" text-anchor="middle">2 候选 → north（0.90）</text>
+  <rect x="420" y="84" width="250" height="30" rx="6" fill="#FFF0F3" stroke="#FF3D5A"/><text x="545" y="104" text-anchor="middle">4~8 候选 → south（0.37→0.17）</text>
+  <rect x="420" y="124" width="250" height="30" rx="6" fill="#FFF0F3" stroke="#FF3D5A"/><text x="545" y="144" text-anchor="middle">12 候选 → scan 反超（0.16）</text>
+  </g>
+</svg>
+</div>
+</div>
+
+<div class="q"><h3><span class="num">9</span>"2GB RAM 就能跑"是真的吗？</h3>
+<p>推文说 2GB 内存能跑——指 CPU 推理场景（0.6B fp32 权重约 2.4GB，int8 量化后可压进 2GB）。本机 RTX 4070 实测：<span class="hl">加载后 GPU 显存占用 2.23 GiB，3 题 9 路径一次前向约 1.2 秒（含 warmup），稳态单题批量推理约百毫秒级</span>。注意官方推理入口（predict_toy_decisions）显式要求 CUDA 设备、不做 CPU 回退——想纯 CPU 跑要自己改 device（它把"无 CUDA 就报错"写死在代码里，是一处可以练手的改造点）。</p>
+</div>
+
+<div class="q"><h3><span class="num">10</span>它能用在游戏以外吗？局限是什么？</h3>
+<p>架构上没有任何游戏专属的东西——state 就是任意文本/JSON，question 就是任意判断题。把它当"通用判断层"用（选模型、审内容、打分档）在契约上完全可行，但有两个实测/设计上的硬约束：</p>
+<ul>
+<li><span class="big">OOD 不免疫</span>：训练分布只有四个游戏的决策题，塞给它没见过的候选类型（如"瞬移"），概率分配会明显跑偏（ex2 实测 35% 质量流向坏候选）；</li>
+<li><span class="big">只会判断、不会生成</span>：它不能总结、不能写代码、不能解释理由，只能回答你编好的选择题/判断题/量表题——编题质量就是它的能力上限。</li>
+</ul>
+<p>官方路线图的下一步（RLCD 后训练、共享前缀推理、结构化输入）就是奔着通用化去的。</p>
+</div>
+
+<div class="q"><h3><span class="num">11</span>和 jev-router 怎么合体？（本地哨兵路线图）</h3>
+<p>jev-router 的架构是"回环代理 + 哨兵模型 + Jev 逐轮选档"，当时 Jev 只能 mock。现在有了本机 0.6B 裁判，把 <span class="key">exercise/mock-jev-server.mjs</span> 换成 <span class="key">serve_decisions.py</span> 起的本地服务（<span class="key">POST /api/evaluate</span>），"琐碎→Haiku / 普通→Sonnet / 硬活→Opus"这道题就是一道天然的 Choice 题。<span class="hl">整条路由链路可以完全离线、零 API 费用、隐私不出机</span>——代价是要为路由场景自己造训练数据（蒸馏 Jev 或人工标注），这正是 NanoJev 管线开源的价值。</p>
+</div>
+
+<div class="q"><h3><span class="num">12</span>这个项目的可信度如何？值得学吗？</h3>
+<p>加分项：MIT 协议；权重/数据/训练配置（含全部 sha256 清单）公开可验；测试集有独立模拟器回放验证；契约对齐有逐项审计文档；本机实测权重可载、推理可用、测试集表现可复现。减分项：<span class="big">README 核心数字（Basic 128/128 超 Jev）为作者自报，Jev 侧对照跑分也是作者跑的</span>；"超 Jev"的表述要打折看——迷宫 4/10 vs Jev 7/10 它还落后。结论：<span class="hl">作为"决策模型怎么造"的完整教学样本价值很高，作为生产裁判直接上岗还早</span>。</p>
+</div>
+
+<!-- ============ 能力清单 ============ -->
+<h2 class="section t3">二、这个项目给我什么</h2>
+<div class="cap"><h3>能力清单</h3>
+<ul>
+<li><b>本机决策裁判</b>：0.6B 权重本机推理，Choice/Boolean/Score 三题型，毫秒~百毫秒级，隐私不出机；</li>
+<li><b>动态候选决策</b>：2~255 个候选一次给全概率分布，候选集可随请求任意变换；</li>
+<li><b>完整训练管线</b>：数据构建（含 Jev API 蒸馏 + RL 专家标签）→ 混合 SFT → 回放验证，全部开源可改；</li>
+<li><b>持久推理服务</b>：<span class="key">serve_decisions.py</span> 单进程 HTTP 服务，权重加载一次，附带浏览器回放 demo 页面；</li>
+<li><b>Jev 契约兼容层</b>：想从 TypeSafe 迁移到本地，输入格式基本无缝。</li>
+</ul>
+</div>
+<div class="cap"><h3>结合你的水平，能拿它干什么</h3>
+<ol>
+<li><b>给 jev-router 换真裁判</b>：mock 服务器下线，本地 NanoJev 上岗，体验"零 API 费的模型路由"（需自造路由训练数据）；</li>
+<li><b>造自己的判断数据集</b>：照抄 <span class="key">build_toy_decisions.py</span> 的格式，把你场景的判断题（代码审查要不要打回、工单要不要升级）做成 SFT 数据，微调出自己的裁判；</li>
+<li><b>学"非生成式读出头"范式</b>：DecisionModel 60 行代码是"拿生成式骨干当编码器用"的最小范例，可平移到任何"打分类"任务；</li>
+<li><b>做延迟/成本基准</b>：和 jev-router 的 mock 计时对比，量化"判断层"相对"生成层"的延迟优势；</li>
+<li><b>游戏 AI 入门</b>：四个环境（纯 Python 的迷宫/贪吃蛇 + ViZDoom）是 RL/IL 的现成沙盒，检查点可以直接对着玩。</li>
+</ol>
+</div>
+
+<!-- ============ 动手实验 ============ -->
+<h2 class="section t4">三、动手实验（本机 RTX 4070 实测，3 个实验 6 步）</h2>
+<p>前置：<span class="key">Python 3.14</span> + <span class="key">torch 2.11+cu128</span> + <span class="key">transformers</span> + <span class="key">huggingface_hub</span>，已设 <span class="key">PYTHONUTF8=1</span>。全部实验材料在 <span class="key">nanojev/exercise/</span>。</p>
+
+<div class="step"><h3><span class="snum">1</span>克隆仓库 + 下载 0.6B 权重</h3>
+<pre>git clone https://github.com/TianyuCodings/NanoJev.git F:\reminder\nanojev\repo
+python -c "from huggingface_hub import snapshot_download; snapshot_download(
+  repo_id='C-Tianyu/NanoJev', revision='unified-games-v1',
+  local_dir='checkpoints/NanoJev-unified',
+  allow_patterns=['best.safetensors','config.json','tokenizer/*','backbone_config/*'])"</pre>
+<p>目的：拿到代码 + 2.4GB 权重（fp32 存储）。验证：<span class="key">checkpoints/NanoJev-unified/best.safetensors</span> 存在。</p>
+<div class="expect">✅ 预期结果：下载完成，best.safetensors 约 2.38 GB；config.json 显示 model=Qwen/Qwen3-0.6B、set_head=attention。</div>
+</div>
+
+<div class="step"><h3><span class="snum">2</span>绕过 torch 版本坑，加载模型</h3>
+<p>仓库推理入口在 <span class="key">disable_native_triton=True</span> 时会 import <span class="key">torch._native.triton_utils</span>——那是 torch 2.14 才有的模块，本机 torch 2.11 直接 ModuleNotFoundError。<span class="hl">修法不是升级 torch，而是打桩</span>（2.11 里根本没有 triton 覆盖可注销，deregister 本来就是空操作）：</p>
+<pre># exercise/nj_loader.py 核心三行
+tu = types.ModuleType("torch._native.triton_utils")
+tu.deregister_op_overrides = lambda: None
+sys.modules.setdefault("torch._native.triton_utils", tu)</pre>
+<div class="expect">✅ 预期结果：load_engine() 约 42 秒完成，打印 total params: 0.596B，显存占用 2.23 GiB。</div>
+</div>
+
+<div class="step"><h3><span class="snum">3</span>实验 1：一道状态三种题型 + 排列不变性</h3>
+<pre>cd F:\reminder\nanojev\exercise
+python ex1_decision_hello.py</pre>
+<p>目的：用官方测试集第一条真实迷宫状态，一次前向同时问 Choice（往哪走）/Boolean（能否在剩余步数内到终点）/Score（往南走多冒险），再打乱候选顺序 5 次看赢家变不变。</p>
+<div class="expect">✅ 预期结果：三题概率均归一（断言通过）；execution.autoregressive_decode_steps=0；Choice 选 south（0.368），p_true=0.944，风险期望分 1.98；5/5 次乱序同一赢家。实测输出全文见 exercise/ex1_decision_hello.py 运行记录。</div>
+</div>
+
+<div class="step"><h3><span class="snum">4</span>实验 2：动态候选扫描 + 迷惑候选压力测试</h3>
+<pre>python ex2_dynamic_candidates.py</pre>
+<p>目的：同一状态同一问题，候选从 2 个逐级加到 12 个（混入"等待/扫描/挖地/瞬移"等自建候选），观察赢家稳定性和延迟。</p>
+<div class="expect">✅ 预期结果（实测如此，和直觉相反）：候选数 2 时赢家 north（0.90），4~8 时 south，12 时"scan"反超——集合敏感被证实；混入 dig/teleport/pray 三个坏候选后它们分走约 35% 概率——OOD 候选不免疫被证实。</div>
+</div>
+
+<div class="step"><h3><span class="snum">5</span>实验 3：官方测试集 927 题本机复现</h3>
+<pre>python -u ex3_test_accuracy.py</pre>
+<p>目的：下载 <span class="key">unified/hard/test.jsonl</span>（射击 2169 + 迷宫 211 + 贪吃蛇 116），分层抽样 927 题（迷宫/蛇全量 + 两个射击任务各 300）全量推理，按"射击→专家动作 / 迷宫蛇→Jev 分布 argmax"算题目级 top-1 一致率。</p>
+<div class="warn">注意：fp32/no-TF32 下全量 2496 题本机要 40 分钟以上；且少数长序列行（50×50 迷宫、Predict Position）单批就要 4 分钟，吃掉约 86% 时间——抽样是务实选择，脚本已内置进度打印。</div>
+<div class="expect">✅ 实测结果（927 题分层抽样：迷宫 211 + 贪吃蛇 116 + Basic 300 + Predict Position 300，RTX 4070 用时 894.6 秒，全程 decode_steps=0）：迷宫 <b>72.5%</b>（153/211）、贪吃蛇 <b>88.8%</b>（103/116）、Basic <b>78.7%</b>（236/300）、Predict Position <b>74.3%</b>（223/300）、总计 <b>77.1%</b>（715/927）。题目级一致率 77% 意味着它当"每步动作的裁判"够用但当"唯一决策者"会积累错误——和 README 整局成功率口径互补，不矛盾。</div>
+</div>
+
+<div class="step"><h3><span class="snum">6</span>（可选）起持久推理服务，像调 API 一样调它</h3>
+<pre>cd F:\reminder\nanojev\repo\scripts
+python serve_decisions.py --checkpoint-dir ..\checkpoints\NanoJev-unified ^
+    --web-root ..\web --port 8765 --disable-native-triton
+curl -X POST http://127.0.0.1:8765/api/evaluate -H "Content-Type: application/json" -d @payload.json</pre>
+<div class="warn">注意：serve_decisions.py 没有做 triton 打桩，torch&lt;2.14 会在启动时同样炸 ModuleNotFoundError——先 <span class="key">set PYTHONPATH=exercise</span> 并在 sitecustomize 里打桩，或直接把 nj_loader 的桩代码贴进脚本头部。</div>
+<div class="expect">✅ 预期结果：服务打印 {"ready": true, "provider_calls": 0}；POST 返回带完整概率分布的 JSON；GET /api/health 确认权重只加载一次。</div>
+</div>
+
+<!-- ============ 结论 ============ -->
+<h2 class="section">四、坑与结论</h2>
+<div class="q">
+<ul>
+<li><b>坑 1（已解）</b>：torch 2.11 缺 <span class="key">torch._native.triton_utils</span> → sys.modules 打桩，语义安全；</li>
+<li><b>坑 2</b>：官方推理入口硬要求 CUDA（<span class="key">device.type != "cuda" 直接 ValueError</span>）——"2GB RAM 跑"要自己改代码；</li>
+<li><b>坑 3</b>：fp32 加载 0.6B 到显存，batch 大时显存吃紧（2496 题全量推理峰值 11.8 GiB，贴着 12G 卡的线）；</li>
+<li><b>坑 4</b>：README 的 "128/128 超 Jev" 是作者自报口径，勿直接引用当事实；</li>
+<li><b>结论</b>：<span class="hl">NanoJev 是"决策模型"从 PPT 走向本机的第一块砖</span>——结构 60 行看得完，权重 2.4GB 下得了，测试集 2496 题复现得了，和 jev-router 的合体路线清晰。它今天就能当你的本地判断层教具，明天微调你自己的裁判。</li>
+</ul>
+</div>
+
+<div class="footer">NanoJev 小白指南 · 源头推文 @yulmu_coffee · 项目 github.com/TianyuCodings/NanoJev（MIT）· 本机 RTX 4070 全部实验真实运行 · 2026-10-03</div>
+</div>
+</body>
+</html>
