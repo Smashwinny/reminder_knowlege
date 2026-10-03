@@ -1,0 +1,29 @@
+[01/24]    7671ms dept=Y urg=2(Y) churn=Y
+[02/24]    6335ms dept=Y urg=1(Y) churn=Y
+[03/24]    4209ms dept=Y urg=1(N,want 0) churn=Y
+[04/24]    4581ms dept=Y urg=2(Y) churn=Y
+[05/24]    4478ms dept=Y urg=0(Y) churn=Y
+[06/24]    9301ms dept=Y urg=2(Y) churn=Y
+[07/24]    8044ms dept=Y urg=2(N,want 1) churn=Y
+[08/24]    6077ms dept=Y urg=0(Y) churn=Y
+[09/24]    8486ms dept=Y urg=1(Y) churn=Y
+[10/24]    6157ms dept=Y urg=0(Y) churn=Y
+[11/24]    6377ms dept=Y urg=2(Y) churn=Y
+[12/24]    6659ms dept=Y urg=1(Y) churn=Y
+[13/24]    7032ms dept=Y urg=2(Y) churn=Y
+[14/24]    6515ms dept=Y urg=2(N,want 1) churn=Y
+[15/24]    5572ms dept=Y urg=0(Y) churn=Y
+[16/24]    6345ms dept=Y urg=2(Y) churn=Y
+[17/24]   11672ms dept=N(billing) urg=0(Y) churn=Y
+[18/24]    9892ms dept=Y urg=2(Y) churn=Y
+[19/24]    8825ms dept=Y urg=2(N,want 1) churn=Y
+[20/24]    7274ms dept=Y urg=0(Y) churn=Y
+[21/24]    7319ms dept=Y urg=1(Y) churn=Y
+[22/24]    6726ms dept=Y urg=0(Y) churn=Y
+[23/24]    5257ms dept=Y urg=2(Y) churn=Y
+[24/24]    7784ms dept=Y urg=1(Y) churn=Y
+
+==== 云端大模型（claude CLI / kimi-for-coding）====
+dept 95.83%  urgency 83.33%  churn 100.00%  三题全对 79.17%
+延迟 median=6693ms  p95=9301ms  min=4209ms max=11672ms
+已写 llm_results.json

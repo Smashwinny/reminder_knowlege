@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Three.js 像素风 3D 世界复刻-小白指南</title>
+<style>
+  @page { size: A4; margin: 12mm; }
+  :root{
+    --c1:#e6194b; --c2:#f5820b; --c3:#ffe600; --c4:#3cb043; --c5:#2e86de; --c6:#9b27b0;
+    --ink:#1a1a2e; --bg:#fffdf5;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:var(--ink);background:var(--bg);margin:0;font-size:13px;line-height:1.65;}
+  .cover{background:linear-gradient(135deg,#2e86de 0%,#9b27b0 55%,#e6194b 100%);color:#fff;border-radius:14px;padding:34px 30px;margin-bottom:18px;}
+  .cover h1{font-size:30px;margin:0 0 10px;letter-spacing:1px;}
+  .cover .sub{font-size:15px;opacity:.95;}
+  .cover .meta{margin-top:16px;font-size:12px;background:#ffffff22;border-radius:8px;padding:10px 14px;display:inline-block;}
+  h2.q{font-size:17px;margin:0 0 8px;}
+  .card{border-radius:12px;padding:16px 18px;margin:0 0 14px;break-inside:avoid;border:3px solid;}
+  .qnum{font-size:30px;font-weight:900;float:left;margin-right:12px;line-height:1;}
+  .card p{margin:6px 0;}
+  .c-red{border-color:var(--c1);background:#fff2f4;} .c-red .qnum{color:var(--c1);}
+  .c-org{border-color:var(--c2);background:#fff7ec;} .c-org .qnum{color:var(--c2);}
+  .c-grn{border-color:var(--c4);background:#f0fbf0;} .c-grn .qnum{color:var(--c4);}
+  .c-blu{border-color:var(--c5);background:#eef5ff;} .c-blu .qnum{color:var(--c5);}
+  .c-pur{border-color:var(--c6);background:#faf0fc;} .c-pur .qnum{color:var(--c6);}
+  .c-yel{border-color:#d4b106;background:#fffcdd;} .c-yel .qnum{color:#b39a00;}
+  .hl{background:linear-gradient(transparent 45%,var(--c3) 45%);font-weight:900;padding:0 2px;}
+  .big{font-size:15px;font-weight:900;}
+  code,.cmd{font-family:Consolas,monospace;background:#1a1a2e;color:#ffd866;border-radius:5px;padding:1px 6px;font-size:12px;}
+  .cmd{display:block;padding:8px 12px;margin:8px 0;white-space:pre-wrap;color:#a6f0c6;}
+  .term{background:#fff;border:2px dashed var(--c5);border-radius:8px;padding:6px 10px;margin:8px 0;font-size:12px;}
+  .term b{color:var(--c5);}
+  .expect{background:#e8f9e8;border-left:6px solid var(--c4);border-radius:6px;padding:8px 12px;margin:8px 0;font-size:12.5px;}
+  .warn{background:#fdecea;border-left:6px solid var(--c1);border-radius:6px;padding:8px 12px;margin:8px 0;font-size:12.5px;}
+  svg{display:block;margin:8px auto;max-width:100%;}
+  img.shot{display:block;margin:8px auto;max-width:88%;border:3px solid var(--c5);border-radius:8px;}
+  .caption{text-align:center;font-size:11px;color:#555;margin:2px 0 8px;}
+  table{border-collapse:collapse;width:100%;margin:8px 0;font-size:12px;}
+  th,td{border:2px solid var(--ink);padding:5px 8px;text-align:left;}
+  th{background:var(--c3);}
+  tr:nth-child(even) td{background:#fffbe8;}
+  .toc{background:#fff;border:3px solid var(--c2);border-radius:12px;padding:14px 20px;margin-bottom:14px;break-inside:avoid;}
+  .toc h2{margin:0 0 8px;color:var(--c2);font-size:16px;}
+  .toc ol{margin:0;padding-left:22px;columns:2;column-gap:30px;font-size:12.5px;}
+  .toc li{margin:2px 0;}
+  .footer{background:var(--ink);color:#fff;border-radius:10px;padding:12px 18px;font-size:11.5px;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Three.js 像素风 3D 世界复刻：小白指南</h1>
+  <div class="sub">—— 一个网站为什么能"长得像游戏"？Erwin 五点复刻思路 × 全流程动手复现</div>
+  <div class="meta">
+    源头：X 用户 @ErwinWu000 复刻思路帖（引用自己"这网站太牛逼了，17MB 全部体量、0 加载"的爆火像素风网站体验帖）<br>
+    产出：复现 demo《像素村》（零美术资产·Three.js 真渲染）· 2 套自动化验证 37 项断言全过 · 4 张实拍渲染图
+  </div>
+</div>
+
+<div class="toc">
+  <h2>目录 = 你的 12 个疑问</h2>
+  <ol>
+    <li>一个"网站"怎么会长得像游戏？</li>
+    <li>为什么选 Three.js 而不是 Unity？</li>
+    <li>"世界"在代码里是什么样子？</li>
+    <li>斜 45° 俯视视角是怎么摆出来的？</li>
+    <li>人物行走 = 什么代码？</li>
+    <li>像素风是怎么"调"出来的？</li>
+    <li>"日式 RPG 风 shader"是什么？</li>
+    <li>对话系统怎么做？</li>
+    <li>场景切换怎么做？</li>
+    <li>"17MB、0 加载"是怎么做到的？</li>
+    <li>多人在线的位置同步怎么做？</li>
+    <li>怎么证明这一切真的能跑？（实验总结）</li>
+  </ol>
+</div>
+
+<!-- Q1 -->
+<div class="card c-red"><span class="qnum">Q1</span>
+<h2 class="q">一个"网站"怎么会长得像游戏？</h2>
+<p>你平时开的网页是<span class="hl">文档</span>：标题、段落、图片，浏览器负责排版。而那种"像游戏的网站"里，屏幕上每一帧都是<span class="big">现场画出来的</span>——人物、房子、光影，每秒画 60 次，还能响应键盘实时变化。这就不叫"排版"了，叫<span class="hl">渲染循环</span>。</p>
+<p>判断一个网站是不是"游戏级"，看三件事：<b>①有没有主循环</b>（requestAnimationFrame 每帧重画）；<b>②有没有摄像机</b>（视角可以移动）；<b>③有没有玩法状态</b>（位置、对话、场景这些存在内存里、随时变的数据）。三者都有，它本质上就是一个跑在浏览器里的游戏，只是网址看起来像普通网站。</p>
+<div class="term"><b>术语卡</b>：<b>Gameplay（玩法逻辑）</b>="玩家操作→世界状态变化→画面反馈"这一整圈规则。推文原话"人物行走、对话、场景切换等等就是 Gameplay 操作逻辑"。</div>
+</div>
+
+<!-- Q2 -->
+<div class="card c-org"><span class="qnum">Q2</span>
+<h2 class="q">为什么选 Three.js 而不是 Unity / Unreal？</h2>
+<p>推文第 1 点："用 Three.js 或者 WebGL 来作为整个世界的三维引擎"。原因三条：</p>
+<table>
+<tr><th></th><th>Three.js / WebGL</th><th>Unity / Unreal</th></tr>
+<tr><td>打开方式</td><td><b>网址一点就进</b>，0 安装</td><td>要下载安装包（几百 MB 起）</td></tr>
+<tr><td>产物体积</td><td>代码即资产，可以压到十几 MB</td><td>引擎运行时本身就不小</td></tr>
+<tr><td>和网页的融合</td><td>就是网页的一部分（canvas 标签）</td><td>导出 WebAssembly，加载慢</td></tr>
+</table>
+<p><span class="hl">"网站 0 加载"的体验只有浏览器原生技术给得起</span>——这也是那个爆火网站的杀手锏。Three.js 是 WebGL 的"说人话封装"：WebGL 是浏览器暴露的底层画 3D 的接口（要手写着色器、缓冲区），Three.js 把它包成"场景、相机、灯光、盒子"这些好懂的对象。</p>
+<div class="term"><b>术语卡</b>：<b>WebGL</b>=浏览器提供的 GPU 绘图接口；<b>Three.js</b>=基于它的开源 JS 三维库，是目前网页 3D 的事实标准。</div>
+</div>
+
+<!-- Q3 -->
+<div class="card c-blu"><span class="qnum">Q3</span>
+<h2 class="q">"世界"在代码里是什么样子？</h2>
+<p>Three.js 里，整个世界就是一棵<span class="hl">场景图（Scene Graph）树</span>：根是 Scene，下面挂地板、墙、树、人物……每个节点有自己的位置/旋转/缩放，<b>父节点动，孩子跟着动</b>。我们在复现 demo 里就是这么组织的：</p>
+<svg viewBox="0 0 640 210" width="620">
+  <rect x="230" y="8" width="180" height="34" rx="8" fill="#2e86de"/>
+  <text x="320" y="30" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">Scene 世界根节点</text>
+  <rect x="30" y="80" width="160" height="34" rx="8" fill="#3cb043"/>
+  <text x="110" y="102" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">village 村庄子树</text>
+  <rect x="250" y="80" width="140" height="34" rx="8" fill="#9b27b0"/>
+  <text x="320" y="102" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">hero 玩家精灵</text>
+  <rect x="440" y="80" width="160" height="34" rx="8" fill="#e6194b"/>
+  <text x="520" y="102" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">house 屋内子树</text>
+  <line x1="300" y1="42" x2="115" y2="80" stroke="#888" stroke-width="2"/>
+  <line x1="320" y1="42" x2="320" y2="80" stroke="#888" stroke-width="2"/>
+  <line x1="340" y1="42" x2="515" y2="80" stroke="#888" stroke-width="2"/>
+  <rect x="10" y="150" width="200" height="44" rx="8" fill="#fff" stroke="#3cb043" stroke-width="2"/>
+  <text x="110" y="168" text-anchor="middle" font-size="12">地板/墙/树/NPC/宝箱</text>
+  <text x="110" y="185" text-anchor="middle" font-size="11" fill="#666">（屋外可见的一切）</text>
+  <rect x="430" y="150" width="180" height="44" rx="8" fill="#fff" stroke="#e6194b" stroke-width="2"/>
+  <text x="520" y="168" text-anchor="middle" font-size="12">木地板/墙/宝箱/门</text>
+  <text x="520" y="185" text-anchor="middle" font-size="11" fill="#666">（进屋才挂上来）</text>
+  <line x1="110" y1="114" x2="110" y2="150" stroke="#888" stroke-width="2"/>
+  <line x1="520" y1="114" x2="520" y2="150" stroke="#888" stroke-width="2"/>
+</svg>
+<p>这里埋了一个复现时才想得通的<span class="hl">关键设计：<b>"切换场景"就是"把这棵子树从 Scene 上摘下来、把另一棵挂上去"</b></span>——玩法状态（逻辑.js）和渲染资产（场景图）分开管，切换时只动挂载点，两边的代码都不用改。这正好是 vault 里已学过的 [[Three.js与场景图]] 的实战应用。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card c-grn"><span class="qnum">Q4</span>
+<h2 class="q">斜 45° 俯视视角是怎么摆出来的？</h2>
+<p>日式 RPG 那种"斜上往下看、左右有纵深"的画面，机位秘诀就一句话：<span class="hl">正交相机（OrthographicCamera）从斜上方看下去</span>。复现 demo 里的真实代码只有三行：</p>
+<div class="cmd">const CAM_DIR = new THREE.Vector3(1, 1.35, 1).normalize(); // 斜上方方向
+camera.position.copy(target).addScaledVector(CAM_DIR, 30); // 相机放在玩家斜上 30 个单位
+camera.lookAt(target);                                     // 镜头对准玩家</div>
+<p>两个选择各有含义：<b>①为什么正交不用透视？</b>透视相机"近大远小"，正交相机"多远都一样大"——像素游戏要的就是那种平面剪纸感；<b>②为什么是 1 : 1.35 : 1？</b>这个比例决定俯视角度，调小更平视、调大更俯视，纯手感参数。</p>
+<div class="warn"><b>复现时踩的坑（valuable！）</b>：第一版把方向向量 y 分量写成了 <code>-1.3</code>，相机钻到了地面<b>下面</b>——画面上地板凭空消失（背面剔除），只剩几个黑块，天空蓝铺满全屏。靠"把背景临时改红再截图取色"才定位到：原来那片"地面"是透过缺失的地板看到的天空。教训：<span class="hl">3D 画面诡异时，先怀疑相机在哪一侧</span>。</div>
+</div>
+
+<!-- Q5 -->
+<div class="card c-org"><span class="qnum">Q5</span>
+<h2 class="q">人物行走 = 什么代码？</h2>
+<p>每帧执行的一条链：<span class="hl">读输入 → 算速度 → 乘时间得位移 → 碰撞检查 → 更新位置</span>。看起来平凡，有两个非显然的细节：</p>
+<p><b>细节一：位移要乘 dt（这一帧的时长），不能每帧固定走一步。</b>否则 120Hz 屏幕上人物跑得是 60Hz 屏幕的两倍——复现 demo 用固定时间步 1/60 秒推进模拟，画面帧率再乱，世界速度恒定。</p>
+<p><b>细节二：撞墙要"贴墙滑行"，不能"原地卡死"。</b>做法是<span class="hl">轴分离</span>：先只动 X 方向、撞了就钳到贴墙位置，再单独动 Z 方向。斜着撞墙时，被挡的那根轴停住，另一根轴照走——人就顺着墙滑过去了。这是我们复现 demo 碰撞模块（logic.js）的核心，26 行：</p>
+<div class="cmd">function clampAxis(isX, d) {          // 只处理一根轴的移动
+  // 扫过路径上的格子，遇到 '#' 墙就算出"贴墙"的极限坐标，取最紧的一个钳住
+  lim = dir > 0 ? Math.min(lim, wall - r) : Math.max(lim, wall + r);
+  ...
+}
+clampAxis(true,  vx * dt);   // 先 X 后 Z，两根轴互不干扰
+clampAxis(false, vz * dt);</div>
+<div class="expect">✅ 验证（logic_test.mjs 实测）：<b>从 (1.5,2.5) 向右撞中央墙块 → 精确停在 x=1.700（离墙正好一个半径）；再按住"下"→ 沿墙滑到 y=1.300 贴住南墙。</b>23 项断言全过。</div>
+</div>
+
+<!-- Q6 -->
+<div class="card c-yel"><span class="qnum">Q6</span>
+<h2 class="q">像素风是怎么"调"出来的？</h2>
+<p>像素感不是贴图自带的，是三件事叠加的<span class="hl">系统效果</span>：</p>
+<table>
+<tr><th>手段</th><th>原理</th><th>demo 里的实现</th></tr>
+<tr><td>① 低分辨率渲染</td><td>先画到一张 480×270 的小画布（渲染目标 RT）上，细节天然就少</td><td>WebGLRenderTarget(480,270)</td></tr>
+<tr><td>② 最近邻放大</td><td>放大时不做平滑插值，一个像素直接变成一大块，硬边出现</td><td>magFilter = NearestFilter</td></tr>
+<tr><td>③ CSS 再放大</td><td>页面上的 &lt;canvas&gt; 用 image-rendering: pixelated 拉伸到全屏</td><td>一行 CSS</td></tr>
+</table>
+<p>缺一件就"露馅"：只做①不做②，放大时 GPU 自动双线性插值，像素边缘发糊；只做②不做①，细节太多不像老游戏。<span class="hl">"低分辨率 + 不插值放大"这对组合才是像素风的化学本质</span>。</p>
+<img class="shot" src="img/shot_t25.png">
+<div class="caption">实拍：复现 demo《像素村》全貌——480×270 渲染 + 最近邻放大（相机俯视 3/4、cel 描边、程序化资产）</div>
+</div>
+
+<!-- Q7 -->
+<div class="card c-pur"><span class="qnum">Q7</span>
+<h2 class="q">推文说的"日式 RPG 风 shader"是什么？</h2>
+<p>推文第 4 点原话："要自己写一个日式 RPG 风格的 shader"。拆开是两个经典技法：</p>
+<p><b>① Cel shading（赛璐璐/卡通着色）</b>：真实光照是连续渐变的，卡通着色把明暗<span class="hl">量化成 2~3 档</span>——亮部一档色、暗部一档色，中间没有过渡。Three.js 内置 MeshToonMaterial，喂给它一张 3 像素宽的"梯度图"（比如 90/170/255 三档灰）就是现成的日式分档光。</p>
+<p><b>② 描边（Outline）</b>：每个物体套一个"反转壳"——<span class="hl">同一个模型放大 5%、把材质改成只画背面、纯黑</span>。正面被原模型挡住看不见，露出来的"背面边缘"就是一圈描边。三行代码，效果拔群。</p>
+<svg viewBox="0 0 640 150" width="600">
+  <rect x="20" y="30" width="180" height="80" rx="8" fill="#e74c3c"/>
+  <text x="110" y="65" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">普通光照</text>
+  <text x="110" y="88" text-anchor="middle" fill="#fff" font-size="11">亮→暗连续渐变（写实）</text>
+  <text x="230" y="75" text-anchor="middle" font-size="22" fill="#555">→</text>
+  <rect x="260" y="30" width="180" height="80" rx="8" fill="#c0392b"/>
+  <rect x="260" y="30" width="60" height="80" fill="#e74c3c"/>
+  <text x="350" y="65" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Cel 量化 3 档</text>
+  <text x="350" y="88" text-anchor="middle" fill="#fff" font-size="11">动画赛璐璐的分档明暗</text>
+  <text x="470" y="75" text-anchor="middle" font-size="22" fill="#555">→</text>
+  <rect x="500" y="26" width="112" height="88" rx="4" fill="#101018"/>
+  <rect x="506" y="32" width="100" height="76" rx="2" fill="#e67e22"/>
+  <text x="556" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">+ 反转壳描边</text>
+  <text x="556" y="92" text-anchor="middle" fill="#fff" font-size="11">黑色背面露出边缘</text>
+</svg>
+<div class="term"><b>术语卡</b>：<b>Shader（着色器）</b>=在 GPU 上对每个像素/顶点跑的小程序，决定"这个东西最后是什么颜色"。</div>
+</div>
+
+<!-- Q8 -->
+<div class="card c-red"><span class="qnum">Q8</span>
+<h2 class="q">对话系统怎么做？为什么是个"状态机"？</h2>
+<p>RPG 对话框的行为：按键打开 → 文字一个个蹦出来（打字机）→ 按键跳过打字 → 按键翻下一句 → 最后一句后关闭。<span class="hl">任何时刻它只可能处于三种状态之一：closed / typing / waiting</span>，按键只在特定状态下有效——这就是有限状态机（FSM）。</p>
+<svg viewBox="0 0 640 160" width="600">
+  <rect x="30" y="55" width="110" height="46" rx="10" fill="#7f8c8d"/>
+  <text x="85" y="83" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">closed</text>
+  <rect x="255" y="55" width="110" height="46" rx="10" fill="#f5820b"/>
+  <text x="310" y="83" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">typing</text>
+  <rect x="490" y="55" width="120" height="46" rx="10" fill="#3cb043"/>
+  <text x="550" y="83" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">waiting</text>
+  <line x1="140" y1="70" x2="255" y2="70" stroke="#333" stroke-width="2" marker-end="url(#a)"/>
+  <text x="197" y="62" text-anchor="middle" font-size="12">open()（靠近 NPC 才有效）</text>
+  <line x1="365" y1="70" x2="490" y2="70" stroke="#333" stroke-width="2" marker-end="url(#a)"/>
+  <text x="427" y="62" text-anchor="middle" font-size="12">字打完了 / advance 跳过</text>
+  <path d="M 550 101 C 550 140, 310 145, 310 101" fill="none" stroke="#333" stroke-width="2" marker-end="url(#a)"/>
+  <text x="430" y="138" text-anchor="middle" font-size="12">advance：还有下一句 → 回 typing；没了 → 回 closed</text>
+  <path d="M 85 55 C 85 15, 310 15, 310 55" fill="none" stroke="#e6194b" stroke-width="2" marker-end="url(#a)"/>
+  <text x="197" y="24" text-anchor="middle" font-size="12" fill="#e6194b">advance()（关闭时按键无效）</text>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#333"/></marker></defs>
+</svg>
+<p>写成状态机的好处：<span class="hl">所有非法操作天然不存在</span>（closed 时按 advance 直接返回 false），不会出现"打字到一半翻页翻出数组越界"这种 bug。我们 logic.js 里的 DialogueFSM 一共 40 行，Node 侧 8 项断言全覆盖（含"打字 0.1 秒 @20 字/秒 = 恰好 2 个字"这种边界）。</p>
+<img class="shot" src="img/shot_t46.png">
+<div class="caption">实拍：t=4.6s 冻结帧——打字机正打到"……只有 480x270"，HUD 显示 dlg=typing（状态机在打字态）</div>
+</div>
+
+<!-- Q9 -->
+<div class="card c-blu"><span class="qnum">Q9</span>
+<h2 class="q">场景切换怎么做？</h2>
+<p>走进门 → 屏幕压黑再亮起 → 人已在另一个世界里。拆成三步：</p>
+<p><b>①触发</b>：每帧查玩家脚下的地图格子，是门（'D'）就发起；<b>②过场</b>：一个 0.6 秒的 fade 计时器，画面在最黑的那一刻才真正换；<b>③执行</b>：<span class="hl">把村子子树从 Scene 摘下、把屋子子树挂上，再把玩家传送到新场景门旁</span>。地图就是字符串数组（'#'=墙、'D'=门、'N'=NPC），查格子就是查二维数组，零成本。</p>
+<div class="warn"><b>复现时踩的坑</b>：把玩家传送在"门口那一格"→ 站在门上 → 下一帧又触发切换 → 村子和屋子无限横跳。<b>修法：出门后传送到离门 1.6 格的位置</b>（一个身位 + 半径余量），离开触发格。所有"踩板机关"类玩法都有这个"触发后必须离开触发区"的问题。</div>
+<img class="shot" src="img/shot_house.png">
+<div class="caption">实拍：t=13s 冻结帧——玩家已穿过黄门进入屋内（scene=house），木地板/宝箱/门都在，村子子树已摘除</div>
+</div>
+
+<!-- Q10 -->
+<div class="card c-grn"><span class="qnum">Q10</span>
+<h2 class="q">"17MB、0 加载"是怎么做到的？</h2>
+<p>推文里最让人惊叹的是原网站"全部体量 17MB、打开基本 0 加载"。拆开看，网页游戏要瘦身上游下游各三招：</p>
+<table>
+<tr><th>资产侧（占体积 90%）</th><th>工程侧</th></tr>
+<tr><td>低分辨率贴图（16×16 就够，×最近邻放大）</td><td>压缩纹理格式（GPU 直接解）</td></tr>
+<tr><td>低多边形建模（一个箱子 12 个三角 形）</td><td> Draco/meshopt 几何压缩</td></tr>
+<tr><td><b>能程序生成就不用文件</b>（贴图/模型代码现算）</td><td>按需加载：进屋才下载屋子的东西</td></tr>
+</table>
+<p>我们的复现 demo 走了极致路线：<span class="hl">零外部美术资产</span>——小人是 12×12 的字符画在 canvas 上现画、地面贴图是代码撒的随机斑点（带固定种子保证每次一样）、模型全是 Box/Cylinder 基本体。整个 demo 除 three.js 库外，<b>资产体积 = 0 字节</b>。"像三十年前 geek 抠内存做游戏"的当代版本，就是<b>用代码换字节</b>。</p>
+<div class="term"><b>术语卡</b>：<b>程序化生成（Procedural Generation）</b>=内容不由美术文件提供、而由算法现场计算生成。与 vault 已学 [[程序化建模]] 同源。</div>
+</div>
+
+<!-- Q11 -->
+<div class="card c-pur"><span class="qnum">Q11</span>
+<h2 class="q">多人在线的位置同步怎么做？（推文说"idk"的那条）</h2>
+<p>推文第 5 点很诚实："多人在线 idk，或许就是简单的人物位置同步吧"。它确实可以很简单，核心只有一句话：<span class="hl">网络有延迟，所以别渲染"现在"，渲染"100 毫秒前"</span>。</p>
+<svg viewBox="0 0 640 170" width="620">
+  <line x1="40" y1="120" x2="600" y2="120" stroke="#888" stroke-width="2"/>
+  <text x="320" y="145" text-anchor="middle" font-size="12" fill="#666">本地时间轴</text>
+  <circle cx="120" cy="120" r="6" fill="#e6194b"/><text x="120" y="105" text-anchor="middle" font-size="11">收到包A(1.0s, x=0)</text>
+  <circle cx="260" cy="120" r="6" fill="#e6194b"/><text x="260" y="105" text-anchor="middle" font-size="11">收到包B(1.2s, x=2)</text>
+  <circle cx="240" cy="60" r="9" fill="#9b27b0"/>
+  <text x="240" y="35" text-anchor="middle" font-size="13" font-weight="bold" fill="#9b27b0">渲染时刻 now=1.3s</text>
+  <text x="240" y="85" text-anchor="middle" font-size="12">问"0.1s 前远端在哪？"→ A、B 之间线性插值 → x=0.5</text>
+  <line x1="240" y1="120" x2="240" y2="70" stroke="#9b27b0" stroke-width="2" stroke-dasharray="4"/>
+</svg>
+<p>三步：①远端玩家每隔一小会发来"(时间, x, y)"；②本地维护一个样本队列；③渲染远端角色时，取 <b>now − 延迟</b> 那一刻的位置，在队列里找相邻两包做线性插值。这就是 NetSync 类的全部——我们的实现 25 行。<b>为什么故意往回看 0.1s？</b>因为最新位置的信息还在路上，回看能保证插值永远发生在"两个已收到的样本之间"，不会预测错。</p>
+<div class="expect">✅ 验证（双重）：logic_test 里 NetSync 单测 4 项全过（插值点/断流停最新包/早于首包夹住）；真渲染验证里 t=2.5s 时远端真值应在 (6.0,8.0)，页面按 100ms 延迟插值后 HUD 实测 <b>ghost=5.84,8.00</b>——正是 2.4s 时刻的位置，逐字吻合理论值。</div>
+</div>
+
+<!-- Q12 -->
+<div class="card c-yel"><span class="qnum">Q12</span>
+<h2 class="q">怎么证明这一切真的能跑？（实验总结）</h2>
+<p>三套验证全部真跑，零编造：</p>
+<table>
+<tr><th>实验</th><th>内容</th><th>结果</th></tr>
+<tr><td>① Node 逻辑测试<br><code>node logic_test.mjs</code></td><td>碰撞贴墙滑行/对话状态机/场景切换器/延迟插值 四模块</td><td><b>23 pass / 0 fail</b>（首跑 8 fail，修出 1 真bug + 1 设计缺陷）</td></tr>
+<tr><td>② 无头 Edge 真渲染取证<br><code>node verify.mjs</code></td><td>确定性时间机器快进到 5 个关键帧，抓页面 HUD 状态 + GPU 截图比对</td><td><b>14 pass / 0 fail</b>（行走位移/打字机中态/进屋/ghost 插值逐字命中理论值）</td></tr>
+<tr><td>③ 像素化 A/B 对照</td><td>?pixel=1（RT+最近邻）vs ?pixel=0（直渲），PIL 逐像素分析</td><td>两图均差 <b>45.42/255</b>，像素化版块状度更高（0.9475 &gt; 0.9442）</td></tr>
+</table>
+<img class="shot" src="img/shot_nopixel.png">
+<div class="caption">A/B 对照：关闭像素化后处理直接渲染（960×540，边缘更细）——与 Q6 的开启版并排看，块状差异肉眼可辨</div>
+<p>调试期踩坑收益最高的三个：<b>①</b>把场景对象误当 grid 传给碰撞函数——静止帧早退返回把 bug 藏了 60 帧，一动就炸；<b>②</b>相机方向 y 写负钻到地下——画面症状（"地板消失"）和病因（相机在地板下面）完全对不上号，靠改背景颜色截图取色才破案；<b>③</b>场景忘了加灯，Toon 材质全黑。<span class="hl">3D 排错三板斧：改一个颜色、截一张图、取一个像素——比盯代码猜快十倍</span>。</p>
+</div>
+
+<div class="footer">
+  <b>能力清单</b>：会用 Three.js 搭"可玩的世界"（场景图子树化/正交 3-4 机位/Toon+描边/RT 像素化）· 会写贴墙滑行碰撞、对话状态机、场景切换器、延迟插值同步四个 Gameplay 逻辑件 · 会用"确定性时间机器 + 无头浏览器截图 + HUD 断言"给<b>会动的</b>网页程序做自动化验收 · 会程序化生成全部美术资产。<br>
+  <b>复现入口</b>：<code>cd F:\reminder\pixel3dworld\exercise &amp;&amp; node server.mjs</code> → 浏览器开 <code>http://127.0.0.1:4175/exercise/index.html</code>（WASD 走 / E 对话 / 走上黄门切换场景）。<br>
+  源头推文 @ErwinWu000（2026-09-18）；本指南为独立复现学习产物，与原作者无关。
+</div>
+
+</body>
+</html>

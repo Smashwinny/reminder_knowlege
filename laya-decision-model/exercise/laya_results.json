@@ -1,0 +1,562 @@
+{
+ "acc": {
+  "dept": 0.75,
+  "urg": 0.5416666666666666,
+  "churn": 0.9166666666666666,
+  "all3": 0.375
+ },
+ "rows": [
+  {
+   "id": 1,
+   "lang": "en",
+   "state": "Hi, we were billed twice for March. Plea",
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    1,
+    1
+   ],
+   "conf_d": 0.9405,
+   "ms": 10316,
+   "route": "english"
+  },
+  {
+   "id": 2,
+   "lang": "en",
+   "state": "The app crashes every time I open the se",
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    false,
+    1,
+    0
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.7916,
+   "ms": 819,
+   "route": "english"
+  },
+  {
+   "id": 3,
+   "lang": "en",
+   "state": "I can't find the invoice PDF for June an",
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    0,
+    0
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.8789,
+   "ms": 757,
+   "route": "english"
+  },
+  {
+   "id": 4,
+   "lang": "en",
+   "state": "Our whole production instance is down an",
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.8242,
+   "ms": 735,
+   "route": "english"
+  },
+  {
+   "id": 5,
+   "lang": "en",
+   "state": "How do I upgrade to the enterprise plan?",
+   "dept": [
+    true,
+    "other",
+    "other"
+   ],
+   "urg": [
+    true,
+    0,
+    0
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.0294,
+   "ms": 727,
+   "route": "english"
+  },
+  {
+   "id": 6,
+   "lang": "en",
+   "state": "The refund amount is still wrong after t",
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    1,
+    1
+   ],
+   "conf_d": 0.0236,
+   "ms": 796,
+   "route": "english"
+  },
+  {
+   "id": 7,
+   "lang": "en",
+   "state": "The password reset email never arrives, ",
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    true,
+    1,
+    1
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.0858,
+   "ms": 720,
+   "route": "english"
+  },
+  {
+   "id": 8,
+   "lang": "en",
+   "state": "Just wondering, do you support SSO login",
+   "dept": [
+    true,
+    "other",
+    "other"
+   ],
+   "urg": [
+    false,
+    0,
+    1
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.1002,
+   "ms": 631,
+   "route": "english"
+  },
+  {
+   "id": 9,
+   "lang": "en",
+   "state": "My annual renewal was charged twice, ple",
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    1,
+    1
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.7854,
+   "ms": 782,
+   "route": "english"
+  },
+  {
+   "id": 10,
+   "lang": "en",
+   "state": "Feature request whenever you have time: ",
+   "dept": [
+    false,
+    "other",
+    "technical"
+   ],
+   "urg": [
+    false,
+    0,
+    1
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.0934,
+   "ms": 806,
+   "route": "english"
+  },
+  {
+   "id": 11,
+   "lang": "en",
+   "state": "The checkout page returns a 500 error an",
+   "dept": [
+    false,
+    "technical",
+    "billing"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.1884,
+   "ms": 783,
+   "route": "english"
+  },
+  {
+   "id": 12,
+   "lang": "en",
+   "state": "I signed up in EUR but was charged in US",
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    1,
+    1
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.7132,
+   "ms": 767,
+   "route": "english"
+  },
+  {
+   "id": 13,
+   "lang": "zh",
+   "state": "我三月被扣了两次款，今天不退款我就退订。",
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    false,
+    1,
+    0
+   ],
+   "conf_d": 0.7217,
+   "ms": 7386,
+   "route": "multilingual"
+  },
+  {
+   "id": 14,
+   "lang": "zh",
+   "state": "设置页面一打开就闪退，根本进不去。",
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    false,
+    1,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.9896,
+   "ms": 335,
+   "route": "multilingual"
+  },
+  {
+   "id": 15,
+   "lang": "zh",
+   "state": "我想要六月的发票，麻烦补发一份，谢谢。",
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    false,
+    0,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.931,
+   "ms": 328,
+   "route": "multilingual"
+  },
+  {
+   "id": 16,
+   "lang": "zh",
+   "state": "系统全挂了，所有人都登录不了，业务停摆。",
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.986,
+   "ms": 280,
+   "route": "multilingual"
+  },
+  {
+   "id": 17,
+   "lang": "zh",
+   "state": "请问你们支持微信支付吗？",
+   "dept": [
+    false,
+    "other",
+    "billing"
+   ],
+   "urg": [
+    false,
+    0,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.9974,
+   "ms": 221,
+   "route": "multilingual"
+  },
+  {
+   "id": 18,
+   "lang": "zh",
+   "state": "这个问题报错两周没人管，我们打算换供应商了。",
+   "dept": [
+    false,
+    "technical",
+    "billing"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    false,
+    1,
+    0
+   ],
+   "conf_d": 0.2986,
+   "ms": 226,
+   "route": "multilingual"
+  },
+  {
+   "id": 19,
+   "lang": "zh",
+   "state": "忘记密码了，重置邮件一直收不到。",
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    false,
+    1,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.0993,
+   "ms": 248,
+   "route": "multilingual"
+  },
+  {
+   "id": 20,
+   "lang": "zh",
+   "state": "随口问问：学生用户有折扣吗？",
+   "dept": [
+    false,
+    "other",
+    "billing"
+   ],
+   "urg": [
+    false,
+    0,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.949,
+   "ms": 239,
+   "route": "multilingual"
+  },
+  {
+   "id": 21,
+   "lang": "zh",
+   "state": "年费续订好像被重复扣费了，希望核实一下。",
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    false,
+    1,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.8853,
+   "ms": 226,
+   "route": "multilingual"
+  },
+  {
+   "id": 22,
+   "lang": "zh",
+   "state": "不着急，希望以后能加个深色模式。",
+   "dept": [
+    true,
+    "other",
+    "other"
+   ],
+   "urg": [
+    false,
+    0,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.4042,
+   "ms": 227,
+   "route": "multilingual"
+  },
+  {
+   "id": 23,
+   "lang": "zh",
+   "state": "支付页面报错 500，客户都付不了款。",
+   "dept": [
+    false,
+    "technical",
+    "billing"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.9998,
+   "ms": 228,
+   "route": "multilingual"
+  },
+  {
+   "id": 24,
+   "lang": "zh",
+   "state": "账单币种错了，我是欧元签约却被扣了美元。",
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    false,
+    1,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "conf_d": 0.9962,
+   "ms": 219,
+   "route": "multilingual"
+  }
+ ]
+}

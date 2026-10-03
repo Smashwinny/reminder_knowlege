@@ -1,0 +1,514 @@
+{
+ "acc": {
+  "dept": 0.9583333333333334,
+  "urg": 0.8333333333333334,
+  "churn": 1.0,
+  "all3": 0.7916666666666666
+ },
+ "rows": [
+  {
+   "id": 1,
+   "lang": "en",
+   "ms": 7671,
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    1,
+    1
+   ],
+   "raw": "yes"
+  },
+  {
+   "id": 2,
+   "lang": "en",
+   "ms": 6335,
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    true,
+    1,
+    1
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 3,
+   "lang": "en",
+   "ms": 4209,
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    false,
+    0,
+    1
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 4,
+   "lang": "en",
+   "ms": 4581,
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 5,
+   "lang": "en",
+   "ms": 4478,
+   "dept": [
+    true,
+    "other",
+    "other"
+   ],
+   "urg": [
+    true,
+    0,
+    0
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 6,
+   "lang": "en",
+   "ms": 9301,
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    1,
+    1
+   ],
+   "raw": "yes"
+  },
+  {
+   "id": 7,
+   "lang": "en",
+   "ms": 8044,
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    false,
+    1,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 8,
+   "lang": "en",
+   "ms": 6077,
+   "dept": [
+    true,
+    "other",
+    "other"
+   ],
+   "urg": [
+    true,
+    0,
+    0
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 9,
+   "lang": "en",
+   "ms": 8486,
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    1,
+    1
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 10,
+   "lang": "en",
+   "ms": 6157,
+   "dept": [
+    true,
+    "other",
+    "other"
+   ],
+   "urg": [
+    true,
+    0,
+    0
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 11,
+   "lang": "en",
+   "ms": 6377,
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 12,
+   "lang": "en",
+   "ms": 6659,
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    1,
+    1
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 13,
+   "lang": "zh",
+   "ms": 7032,
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    1,
+    1
+   ],
+   "raw": "yes"
+  },
+  {
+   "id": 14,
+   "lang": "zh",
+   "ms": 6515,
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    false,
+    1,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 15,
+   "lang": "zh",
+   "ms": 5572,
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    0,
+    0
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 16,
+   "lang": "zh",
+   "ms": 6345,
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 17,
+   "lang": "zh",
+   "ms": 11672,
+   "dept": [
+    false,
+    "other",
+    "billing"
+   ],
+   "urg": [
+    true,
+    0,
+    0
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 18,
+   "lang": "zh",
+   "ms": 9892,
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    1,
+    1
+   ],
+   "raw": "yes"
+  },
+  {
+   "id": 19,
+   "lang": "zh",
+   "ms": 8825,
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    false,
+    1,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 20,
+   "lang": "zh",
+   "ms": 7274,
+   "dept": [
+    true,
+    "other",
+    "other"
+   ],
+   "urg": [
+    true,
+    0,
+    0
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 21,
+   "lang": "zh",
+   "ms": 7319,
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    1,
+    1
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 22,
+   "lang": "zh",
+   "ms": 6726,
+   "dept": [
+    true,
+    "other",
+    "other"
+   ],
+   "urg": [
+    true,
+    0,
+    0
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 23,
+   "lang": "zh",
+   "ms": 5257,
+   "dept": [
+    true,
+    "technical",
+    "technical"
+   ],
+   "urg": [
+    true,
+    2,
+    2
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  },
+  {
+   "id": 24,
+   "lang": "zh",
+   "ms": 7784,
+   "dept": [
+    true,
+    "billing",
+    "billing"
+   ],
+   "urg": [
+    true,
+    1,
+    1
+   ],
+   "churn": [
+    true,
+    0,
+    0
+   ],
+   "raw": "no"
+  }
+ ]
+}

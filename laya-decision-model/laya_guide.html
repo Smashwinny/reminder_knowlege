@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Laya 决策模型小白指南</title>
+<style>
+:root{
+  --hot:#FF3D7F; --orange:#FF9F1C; --yellow:#FFD60A; --green:#06D6A0; --blue:#118AB2;
+  --purple:#7B2FF7; --ink:#1B1B2F; --paper:#FFFDF5; --card:#FFFFFF;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--paper); font-size:13.5px; line-height:1.75;}
+@page{size:A4; margin:12mm;}
+.qcard{background:var(--card); border-radius:16px; padding:18px 22px; margin:14px 0; break-inside:avoid; border-top:8px solid var(--hot); box-shadow:0 3px 10px rgba(27,27,47,.08);}
+.qnum{font-size:44px; font-weight:900; color:var(--hot); line-height:1; float:left; margin-right:14px;}
+.qtitle{font-size:20px; font-weight:900; padding-top:6px; margin-bottom:10px;}
+.hl{background:linear-gradient(transparent 55%, var(--yellow) 55%); font-weight:900; padding:0 2px;}
+.hot-word{color:var(--hot); font-weight:900;}
+.blue-word{color:var(--blue); font-weight:900;}
+.green-word{color:#0B9E77; font-weight:900;}
+.kbox{background:#FFF3E0; border-left:6px solid var(--orange); border-radius:8px; padding:10px 14px; margin:10px 0;}
+.warn{background:#FFE5EC; border-left:6px solid var(--hot); border-radius:8px; padding:10px 14px; margin:10px 0;}
+.good{background:#E2FBF1; border-left:6px solid var(--green); border-radius:8px; padding:10px 14px; margin:10px 0;}
+pre{background:#1B1B2F; color:#7CFC9B; border-radius:10px; padding:12px 14px; font-family:Consolas,monospace; font-size:12px; overflow-x:auto; margin:8px 0; line-height:1.55;}
+code{font-family:Consolas,monospace; background:#EFEAFF; color:var(--purple); border-radius:4px; padding:1px 5px; font-size:12.5px;}
+table{border-collapse:collapse; width:100%; margin:10px 0; font-size:12.5px;}
+th{background:var(--blue); color:#fff; padding:6px 8px; text-align:left;}
+td{border-bottom:2px solid #EEE; padding:5px 8px;}
+tr:nth-child(even) td{background:#F4FAFF;}
+.win{color:#0B9E77; font-weight:900;} .lose{color:var(--hot); font-weight:900;}
+.cover{background:linear-gradient(135deg,#FF3D7F 0%,#FF9F1C 45%,#FFD60A 100%); border-radius:18px; color:#fff; padding:34px 30px; margin-bottom:16px; break-inside:avoid;}
+.cover h1{font-size:34px; font-weight:900; letter-spacing:1px; text-shadow:0 2px 0 rgba(0,0,0,.15);}
+.cover .sub{font-size:16px; margin-top:10px; font-weight:700;}
+.cover .meta{margin-top:14px; font-size:12.5px; opacity:.95;}
+.badge{display:inline-block; background:#fff; color:var(--hot); font-weight:900; border-radius:999px; padding:3px 14px; margin:4px 6px 0 0; font-size:13px;}
+.toc{background:#EDE7FF; border-radius:14px; padding:14px 20px; margin:12px 0; break-inside:avoid; border-left:8px solid var(--purple);}
+.toc b{color:var(--purple); font-size:16px;}
+.toc li{margin:2px 0;}
+.step{background:#fff; border:3px solid var(--green); border-radius:14px; padding:14px 18px; margin:12px 0; break-inside:avoid;}
+.step h3{color:#0B9E77; font-size:16px; font-weight:900; margin-bottom:6px;}
+.check{background:#E2FBF1; border-radius:8px; padding:8px 12px; margin-top:8px; font-weight:700;}
+.svgbox{text-align:center; margin:10px 0; break-inside:avoid;}
+small.src{color:#777; font-size:11px;}
+.clear{clear:both;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Laya：本地开源的"系统一"决策模型</h1>
+  <div class="sub">—— 不写一个字的 AI，怎么在 33 毫秒内替你做判断？（附 Jev vs Laya 本地复现对比实验）</div>
+  <div>
+    <span class="badge">Apache-2.0 开源</span><span class="badge">421M 参数</span><span class="badge">单次前向</span><span class="badge">100+ 语言</span><span class="badge">pip install laya</span>
+  </div>
+  <div class="meta">拾遗任务 1a45286b · 源帖：小墨同学 X 帖《Jev 和开源本地大模型到底哪个更强？我直接在本地部署了 Laya 模型做系统性测试》 · 学习产出 2026-10-03 · 全部实验在本机（Windows 11 + RTX 4070，CPU 推理路线）真实跑通</div>
+</div>
+
+<div class="toc">
+  <b>目录：小白工程师的 12 个疑问</b>
+  <ol>
+    <li>Laya 是什么？和 Jev 什么关系？</li>
+    <li>不生成文字，怎么"做决策"？——非自回归单次前向</li>
+    <li>421M 参数里装的是什么骨架？</li>
+    <li>Choice / Score / Noul 三原语在代码里长什么样？</li>
+    <li>RLCD 训练：为什么"诚实报概率"对模型最划算？</li>
+    <li>概率校准是什么？为什么会"自信地错"？</li>
+    <li>Router：英文模型离了英语为什么崩得比乱猜还惨？</li>
+    <li>置信度门控：不确定时模型会"举手说不会"吗？</li>
+    <li>推主说 Jev 准确率完胜，仓库却说 Laya 更高——评测口径之谜</li>
+    <li>动手实测：24 题双语分诊基准，Laya vs 云端大模型（本机复现）</li>
+    <li>部署与生态：pip / ONNX / MLX / laya.cpp / MCP 一览</li>
+    <li>什么时候用 Laya，什么时候用 LLM？</li>
+  </ol>
+</div>
+
+<!-- Q1 -->
+<div class="qcard" style="border-top-color:#FF3D7F">
+  <div class="qnum">1</div>
+  <div class="qtitle">Laya 是什么？和 Jev 什么关系？</div>
+  <div class="clear"></div>
+  <p>一句话：<span class="hl">Laya 是 Jev 的开源平替</span>——一个不生成任何文字、只对输入做"判断"的本地决策模型。你给它一段工单/消息 + 几个问题，它一次前向直接吐出带校准概率的结构化决策。</p>
+  <p>故事线很有戏剧性：作者 Nandakishor M 早在 2025 年就发表过非自回归决策模型的论文（arXiv:2503.23303、2510.01237）；2026 年 9 月 TypeSafe AI 发布闭源决策模型 <span class="hot-word">Jev</span>（我们已学过：[[SystemOne决策模型Jev]]，Choice/Score/Noul 三原语，$21/百万次决策），作者认为"这是我先做的方向"——于是把自己的系统<span class="hot-word">完整开源</span>出来，取名 Laya：2026-09-18 上架 GitHub，一个月拿下 <span class="hl">30,000+ 星</span>。</p>
+  <div class="kbox"><b>关系一句话</b>：Jev = 闭源托管 API（不能本地跑、数据要出域）；Laya = 同一套三原语接口的<b>开源自托管实现</b>（Apache-2.0，权重在 HuggingFace，pip install 就能本地跑）。小墨同学的帖子干的事就是：把两者放在一起实测。</div>
+  <div class="svgbox"><svg width="640" height="120" viewBox="0 0 640 120"><line x1="30" y1="60" x2="610" y2="60" stroke="#1B1B2F" stroke-width="3"/><circle cx="90" cy="60" r="7" fill="#118AB2"/><text x="90" y="40" text-anchor="middle" font-size="12" font-weight="bold">2025.03</text><text x="90" y="88" text-anchor="middle" font-size="10">作者发表非自回归</text><text x="90" y="101" text-anchor="middle" font-size="10">决策模型论文</text><circle cx="330" cy="60" r="7" fill="#FF3D7F"/><text x="330" y="40" text-anchor="middle" font-size="12" font-weight="bold">2026.09.15</text><text x="330" y="88" text-anchor="middle" font-size="10">TypeSafe 发布闭源 Jev</text><circle cx="480" cy="60" r="9" fill="#FF9F1C"/><text x="480" y="36" text-anchor="middle" font-size="12" font-weight="bold">2026.09.18</text><text x="480" y="88" text-anchor="middle" font-size="10">Laya 开源</text><text x="480" y="101" text-anchor="middle" font-size="10" fill="#FF3D7F" font-weight="bold">30k+★ 一个月</text><circle cx="590" cy="60" r="7" fill="#06D6A0"/><text x="590" y="40" text-anchor="middle" font-size="12" font-weight="bold">2026.09.19</text><text x="590" y="88" text-anchor="middle" font-size="10">小墨发帖实测对比</text></svg></div>
+  <small class="src">来源：repo README / 作者 dev.to 文章（注：评论区有人指出该文章发布当天注册账号，宣传性内容需打折听，结论以仓库实测为准——这正是我们做复现实验的原因）</small>
+</div>
+
+<!-- Q2 -->
+<div class="qcard" style="border-top-color:#FF9F1C">
+  <div class="qnum">2</div>
+  <div class="qtitle">不生成文字，怎么"做决策"？——非自回归单次前向</div>
+  <div class="clear"></div>
+  <p>大模型回答"该派给账务组吗"要一个 token 一个 token 地往外蹦（自回归生成），每个字都在付解码的钱，还可能蹦出半个 JSON。Laya 完全反着来：<span class="hl">输入整句喂进去，一次前向传播（forward pass），所有答案的概率分布同时出来</span>——没有解码循环，所以延迟固定、结构天然合法、更不会"幻觉"出一个不存在的选项。</p>
+  <div class="svgbox"><svg width="660" height="190" viewBox="0 0 660 190"><rect x="10" y="20" width="300" height="150" rx="12" fill="#EDE7FF" stroke="#7B2FF7" stroke-width="2"/><text x="160" y="45" text-anchor="middle" font-size="14" font-weight="900" fill="#7B2FF7">自回归 LLM（生成式）</text><text x="160" y="70" text-anchor="middle" font-size="11">"该派给" → "账" → "务" → "组"</text><text x="160" y="92" text-anchor="middle" font-size="11">逐 token 解码，越写越贵</text><text x="160" y="114" text-anchor="middle" font-size="11">延迟随输出长度变</text><text x="160" y="136" text-anchor="middle" font-size="11">JSON 可能蹦坏，需要修复</text><text x="160" y="158" text-anchor="middle" font-size="11" fill="#FF3D7F" font-weight="bold">典型一次：3~15 秒</text><rect x="350" y="20" width="300" height="150" rx="12" fill="#E2FBF1" stroke="#06D6A0" stroke-width="2"/><text x="500" y="45" text-anchor="middle" font-size="14" font-weight="900" fill="#0B9E77">Laya（非自回归）</text><text x="500" y="70" text-anchor="middle" font-size="11">整句输入 → 编码器一次前向</text><text x="500" y="92" text-anchor="middle" font-size="11">所有问题的概率分布同时输出</text><text x="500" y="114" text-anchor="middle" font-size="11">延迟固定（一次矩阵乘法的量级）</text><text x="500" y="136" text-anchor="middle" font-size="11">结构天生合法（就是 schema 上的分布）</text><text x="500" y="158" text-anchor="middle" font-size="11" fill="#0B9E77" font-weight="bold">GPU 33ms / 本机 CPU ~250ms</text><line x1="330" y1="95" x2="335" y2="95" stroke="#FF3D7F" stroke-width="0"/><text x="330" y="100" text-anchor="middle" font-size="22" font-weight="900" fill="#FF3D7F">VS</text></svg></div>
+  <div class="good"><b>类比落回术语</b>：就像<b>阅卷 vs 写作文</b>——LLM 在写作文（要一个字一个字写出来）；Laya 在做选择题（卷子看一眼，把答题卡涂了）。选择题当然快，而且答案不可能"跑题"。代价是它<b>只能答题，不能写作文</b>——你不能让 Laya 帮你写退款邮件。</div>
+</div>
+
+<!-- Q3 -->
+<div class="qcard" style="border-top-color:#FFD60A">
+  <div class="qnum">3</div>
+  <div class="qtitle">421M 参数里装的是什么骨架？</div>
+  <div class="clear"></div>
+  <p>Laya 不是一个模型，是<b>一组检查点（checkpoint）+ 一个路由器</b>。每个 checkpoint 都是"双向编码器 + 决策头"：</p>
+  <table>
+    <tr><th>checkpoint</th><th>骨架</th><th>参数量</th><th>上下文</th><th>管什么</th></tr>
+    <tr><td><code>laya</code>（english）</td><td>ModernBERT-large</td><td>421M（395M 编码器 + ~25M 决策头）</td><td>512 tokens</td><td>英文最准</td></tr>
+    <tr><td><code>laya-multilingual</code></td><td>mmBERT-base</td><td>322M</td><td>1024 tokens</td><td>100+ 语言</td></tr>
+    <tr><td><code>laya-typed-decisions</code></td><td>ModernBERT-large 微调</td><td>421M</td><td>1024 tokens</td><td>四类工作流微调版，官方基准 0.362→<span class="win">0.766</span></td></tr>
+  </table>
+  <div class="kbox"><b>ModernBERT / mmBERT 是什么</b>：BERT 家族的现代改进版——<b>双向注意力编码器</b>（看整句而不是从左往右看），专为"理解 + 分类"设计，不做生成。mmBERT 在此基础上用多语言语料训练，所以 322M 就能覆盖 100+ 语言。<span class="hl">小模型的"判断力"主要来自训练目标，不是参数堆量</span>。</div>
+  <div class="svgbox"><svg width="660" height="150" viewBox="0 0 660 150"><text x="80" y="25" text-anchor="middle" font-size="11" font-weight="bold">工单文本</text><rect x="40" y="32" width="80" height="26" rx="6" fill="#FFF3E0" stroke="#FF9F1C"/><text x="80" y="50" text-anchor="middle" font-size="10">token 化</text><line x1="80" y1="58" x2="80" y2="72" stroke="#1B1B2F"/><rect x="20" y="72" width="120" height="40" rx="8" fill="#EDE7FF" stroke="#7B2FF7" stroke-width="2"/><text x="80" y="90" text-anchor="middle" font-size="10" font-weight="bold">编码器 395M</text><text x="80" y="104" text-anchor="middle" font-size="9">双向注意力整句理解</text><line x1="80" y1="112" x2="80" y2="122" stroke="#1B1B2F"/><rect x="30" y="122" width="100" height="22" rx="6" fill="#FFE5EC" stroke="#FF3D7F"/><text x="80" y="137" text-anchor="middle" font-size="9" font-weight="bold" fill="#FF3D7F">决策头 ~25M</text><line x1="130" y1="95" x2="200" y2="95" stroke="#1B1B2F" stroke-width="2"/><polygon points="200,95 192,91 192,99" fill="#1B1B2F"/><rect x="205" y="30" width="200" height="34" rx="8" fill="#E2FBF1" stroke="#06D6A0"/><text x="305" y="45" text-anchor="middle" font-size="10" font-weight="bold">choice 分布</text><text x="305" y="58" text-anchor="middle" font-size="9">billing .99 / tech .008 / other .006</text><rect x="205" y="72" width="200" height="34" rx="8" fill="#FFF9DB" stroke="#FFD60A"/><text x="305" y="87" text-anchor="middle" font-size="10" font-weight="bold">score 分布</text><text x="305" y="100" text-anchor="middle" font-size="9">0:.04 / 1:.15 / 2:.81 → 期望 1.77</text><rect x="205" y="114" width="200" height="34" rx="8" fill="#E3F2FF" stroke="#118AB2"/><text x="305" y="129" text-anchor="middle" font-size="10" font-weight="bold">noul 概率</text><text x="305" y="142" text-anchor="middle" font-size="9">会退订吗 → P=0.879</text><rect x="440" y="60" width="200" height="56" rx="10" fill="#1B1B2F"/><text x="540" y="82" text-anchor="middle" font-size="10" fill="#7CFC9B" font-weight="bold">一次前向，三个分布同时出</text><text x="540" y="100" text-anchor="middle" font-size="10" fill="#fff">+ 每个答案自带置信度</text></svg></div>
+</div>
+
+<!-- Q4 -->
+<div class="qcard" style="border-top-color:#06D6A0">
+  <div class="qnum">4</div>
+  <div class="qtitle">Choice / Score / Noul 三原语在代码里长什么样？</div>
+  <div class="clear"></div>
+  <p>跟 Jev 的三原语一一对应（接口设计故意兼容）。在 Laya 里它们就是<b>schema 描述</b>：你声明问题类型和选项，前向一次全部作答：</p>
+<pre>questions = {
+  "department": {"type": "choice",   # 从预设选项挑一个
+     "criteria": {"billing": "发票/付款/退款", "technical": "故障/报错", "other": "其他"}},
+  "urgency":    {"type": "score",    # 0~2 连续量表
+     "criteria": ["不紧急", "尽快", "业务停摆"]},
+  "churn_risk": {"type": "noul",     # 校准的真假概率（no/ul = 是非判断）
+     "instructions": "用户是否威胁退订？"},
+}
+r = router.predict(工单文本, questions)   # 一次调用三题全答</pre>
+  <p>实测返回（本机 lab01 真实输出，billing 工单）：</p>
+<pre>department → choice=billing   概率 {billing: 0.9865, technical: 0.008, other: 0.0055}  conf 0.93
+urgency    → score =1.77      概率 {0: .039, 1: .15, 2: .811}（"blocking" 2 档最可能）
+churn_risk → noul = 0.879     （87.9% 概率这人有退订风险）</pre>
+  <div class="good"><b>注意 score 的妙处</b>：它不是分类挑档，而是输出<b>整个量表的分布再取期望</b>（1.77 = 介于"尽快"和"停摆"之间偏严重）——比硬分类保留更多信息，可以做"严重度排序"。</div>
+</div>
+
+<!-- Q5 -->
+<div class="qcard" style="border-top-color:#118AB2">
+  <div class="qnum">5</div>
+  <div class="qtitle">RLCD 训练：为什么"诚实报概率"对模型最划算？</div>
+  <div class="clear"></div>
+  <p>Laya 的准确率不是标注+交叉熵喂出来的，而是<b>强化学习</b>：RLCD（Reinforcement Learning for Calibrated Decisions，面向校准决策的强化学习）。核心机关在奖励函数——用的是<span class="hl">"严格合规评分规则"（strictly proper scoring rules）</span>：对数评分、球面评分、排序概率评分的组合。</p>
+  <div class="kbox"><b>严格合规评分规则 = 撒谎不划算的打分表</b>：数学上可证明，只有当你报出的概率等于你真实的信念时，期望得分才最大。报高了对不上会罚，报低了也罚。<span class="hl">所以模型被"逼着"学会诚实</span>——这就是它置信度可信的来源（而普通分类训练没有这个性质，容易训练出"永远 99% 自信"的模型）。</div>
+  <p>工程实现：REINFORCE + GRPO 式组基线（8 个噪声采样一组内互相比），多轮任务加 TD(λ=1)。另有一个 <b>Act/Escalate 头</b>：置信度低于约 62.5% 时学会"升级给人"，不是硬答。</p>
+  <div class="svgbox"><svg width="640" height="130" viewBox="0 0 640 130"><rect x="20" y="20" width="180" height="90" rx="10" fill="#E3F2FF" stroke="#118AB2" stroke-width="2"/><text x="110" y="45" text-anchor="middle" font-size="12" font-weight="900" fill="#118AB2">模型报 P(答案)</text><text x="110" y="70" text-anchor="middle" font-size="10">例：说"90% 是 billing"</text><text x="110" y="90" text-anchor="middle" font-size="10">但 10 次里只对 5 次</text><line x1="200" y1="65" x2="260" y2="65" stroke="#1B1B2F" stroke-width="2"/><polygon points="260,65 252,61 252,69" fill="#1B1B2F"/><rect x="262" y="20" width="160" height="90" rx="10" fill="#FFE5EC" stroke="#FF3D7F" stroke-width="2"/><text x="342" y="45" text-anchor="middle" font-size="12" font-weight="900" fill="#FF3D7F">严格合规评分</text><text x="342" y="70" text-anchor="middle" font-size="10">对数/球面/排序</text><text x="342" y="90" text-anchor="middle" font-size="10" font-weight="bold">谎报 → 期望得分必降</text><line x1="422" y1="65" x2="480" y2="65" stroke="#1B1B2F" stroke-width="2"/><polygon points="480,65 472,61 472,69" fill="#1B1B2F"/><rect x="482" y="20" width="140" height="90" rx="10" fill="#E2FBF1" stroke="#06D6A0" stroke-width="2"/><text x="552" y="45" text-anchor="middle" font-size="12" font-weight="900" fill="#0B9E77">RL 更新</text><text x="552" y="70" text-anchor="middle" font-size="10">REINFORCE+组基线</text><text x="552" y="90" text-anchor="middle" font-size="10" font-weight="bold">唯一最优解=诚实</text></svg></div>
+</div>
+
+<!-- Q6 -->
+<div class="qcard" style="border-top-color:#7B2FF7">
+  <div class="qnum">6</div>
+  <div class="qtitle">概率校准是什么？为什么会"自信地错"？</div>
+  <div class="clear"></div>
+  <p><b>校准（calibration）</b>：模型说"90% 把握"的事里，真实发生率就该接近 90%。衡量指标 <b>ECE</b>（期望校准误差，越低越好）：把预测按置信度分桶，比一比"平均自信"和"实际对率"的差距。</p>
+  <p>修校准的标准手术是<span class="hl">温度缩放（temperature scaling）</span>：对输出的 logits 除以一个温度 T 再 softmax——T&gt;1 让分布变平（不那么自信），T&lt;1 变尖。Laya 每个 checkpoint 按选项数分桶存了一套 T。</p>
+  <div class="warn"><b>我们撞上的真实案例</b>：本机首次调用就打印 RuntimeWarning——<code>choice:11+ 桶的温度 0.1006 超出 [0.5, 5] 合法区间，被夹到 0.5，该桶置信度视为未校准</code>。仓库 BENCHMARKS.md 用一整节交代这事的修复史（issue #42、#208）：温度夹紧让 51 语言宏平均 ECE 从 0.733 降到 0.571，而<b>准确率一个字没变</b>（温度缩放不改变 argmax）——这就是"校准"和"准确"是两回事的活教材。</div>
+  <div class="svgbox"><svg width="640" height="170" viewBox="0 0 640 170"><line x1="60" y1="140" x2="600" y2="140" stroke="#1B1B2F" stroke-width="2"/><line x1="60" y1="140" x2="60" y2="20" stroke="#1B1B2F" stroke-width="2"/><text x="330" y="160" text-anchor="middle" font-size="11">模型自报置信度 →</text><text x="25" y="80" font-size="11" transform="rotate(-90 25 80)" text-anchor="middle">实际正确率 ↑</text><line x1="60" y1="140" x2="600" y2="20" stroke="#0B9E77" stroke-width="2" stroke-dasharray="6 4"/><text x="500" y="30" font-size="11" fill="#0B9E77" font-weight="bold">理想（自信=对率）</text><path d="M 60 140 Q 150 40 260 60 Q 370 80 480 40 L 600 45" fill="none" stroke="#FF3D7F" stroke-width="3"/><text x="150" y="50" font-size="10" fill="#FF3D7F">自信地错：说 99% 却只有 40% 对</text><text x="430" y="100" font-size="10" fill="#118AB2" font-weight="bold">（英文 checkpoint 在印地语上：ECE 0.855）</text></svg></div>
+</div>
+
+<!-- Q7 -->
+<div class="qcard" style="border-top-color:#FF3D7F">
+  <div class="qnum">7</div>
+  <div class="qtitle">Router：英文模型离了英语为什么崩得比乱猜还惨？</div>
+  <div class="clear"></div>
+  <p>三个 checkpoint 各有所长，<code>Router</code> 自动挑：<b>脚本检测（拉丁/西里尔/汉字/天城文…）是第一信号</b>，再看语言。为什么这么较真？看仓库自己晒的伤疤：</p>
+  <div class="warn"><b>英文 checkpoint 的非英语崩溃</b>：20 选项意图分类上，印地语准确率 <span class="hl">0.100，比随机乱猜（0.050）高得有限，但置信度照样拉满（ECE 0.855）</span>。文档原话："it does not gently degrade off English, it collapses"（不是平缓变差，是塌方）。所以路由错了不是"差一点"，是"自信地全错"。</div>
+  <table>
+    <tr><th>场景</th><th>english (421M)</th><th>multilingual (322M)</th></tr>
+    <tr><td>MASSIVE 意图 · 英语</td><td class="win">0.783</td><td>0.657</td></tr>
+    <tr><td>MASSIVE 意图 · 非英语</td><td class="lose">0.306</td><td class="win">0.451</td></tr>
+    <tr><td>XNLI · 非英语</td><td class="lose">0.521</td><td class="win">0.731（+21 分）</td></tr>
+  </table>
+  <p>本机实测（lab01）：中文工单 <code>我三月被扣了两次款…</code> 自动路由到 multilingual，答案 billing、概率 0.9955 —— 路由机制真实工作。这也顺手纠正了推文一个口径：<span class="hl">"Laya 只支持英文"不准确——是英文 checkpoint 只撑英文，路由会换模型</span>（推主 9-19 测试时可能只用了 english checkpoint 或早期版本）。</p>
+  <div class="svgbox"><svg width="620" height="140" viewBox="0 0 620 140"><rect x="240" y="10" width="140" height="30" rx="8" fill="#1B1B2F"/><text x="310" y="30" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">输入文本进 Router</text><line x1="310" y1="40" x2="170" y2="70" stroke="#1B1B2F" stroke-width="2"/><line x1="310" y1="40" x2="450" y2="70" stroke="#1B1B2F" stroke-width="2"/><rect x="90" y="70" width="160" height="30" rx="8" fill="#EDE7FF" stroke="#7B2FF7"/><text x="170" y="90" text-anchor="middle" font-size="10" font-weight="bold">① 脚本检测（西文/汉字/天城文…）</text><rect x="370" y="70" width="160" height="30" rx="8" fill="#EDE7FF" stroke="#7B2FF7"/><text x="450" y="90" text-anchor="middle" font-size="10" font-weight="bold">② 语言识别 + 基准择优</text><line x1="170" y1="100" x2="240" y2="118" stroke="#1B1B2F" stroke-width="2"/><line x1="450" y1="100" x2="380" y2="118" stroke="#1B1B2F" stroke-width="2"/><rect x="150" y="110" width="120" height="24" rx="6" fill="#E2FBF1" stroke="#06D6A0"/><text x="210" y="126" text-anchor="middle" font-size="10" font-weight="bold">纯英文 → english</text><rect x="350" y="110" width="140" height="24" rx="6" fill="#FFF3E0" stroke="#FF9F1C"/><text x="420" y="126" text-anchor="middle" font-size="10" font-weight="bold">其他 → multilingual</text></svg></div>
+</div>
+
+<!-- Q8 -->
+<div class="qcard" style="border-top-color:#FF9F1C">
+  <div class="qnum">8</div>
+  <div class="qtitle">置信度门控：不确定时模型会"举手说不会"吗？</div>
+  <div class="clear"></div>
+  <p>会，而且是设计出来的：结果里每个答案都带 <code>action.act_probability</code>（该不该自动执行）和 <code>confidence</code>。你可以设 <code>min_confidence</code> 门槛——低于门槛的不是硬答，而是<b>弃权（abstain）升级给人</b>，且官方实现是 fail-closed（没把握宁可不做）。</p>
+  <p>官方口径：校准后 top-50% 最有把握的预测准确率 92.2%（全量是 65~84%）——<span class="hl">"挑有把握的答"能把准确率买回来，代价是覆盖率</span>。这就是决策模型接进生产线的安全阀。</p>
+  <div class="warn"><b>实测泼冷水</b>：我们 24 题基准里，按 conf≥0.8 过滤后只剩 11 题可答，子集准确率 72.7%——<b>并没有比全量 75% 更高</b>。教训：置信度门控的前提是校准真的好；某个 checkpoint 校准差时，门控只是随机少答几题。<span class="hl">上生产前必须拿自己的数据重新校准（repo 自带 fit_abstention_thresholds / 温度拟合工具）</span>。</div>
+</div>
+
+<!-- Q9 -->
+<div class="qcard" style="border-top-color:#FFD60A">
+  <div class="qnum">9</div>
+  <div class="qtitle">推主说 Jev 准确率完胜，仓库却说 Laya 更高——评测口径之谜</div>
+  <div class="clear"></div>
+  <p>三方数字摆一起，看起来打架，其实各说各话：</p>
+  <table>
+    <tr><th>来源</th><th>测的是什么</th><th>结果</th></tr>
+    <tr><td>小墨同学（X 帖）</td><td><b>自建 100 个真实事件场景</b>，Laya（仅英文）vs Jev</td><td>Jev 判定率 <span class="win">100%</span> vs Laya <span class="lose">~57%</span>（双方都全通过）；速度 Laya 完胜</td></tr>
+    <tr><td>Laya 仓库 BENCHMARKS</td><td>公开基准 typed-decisions 2000 决策</td><td>微调 Laya <span class="win">0.766</span> vs Jev 公开值 0.727（<b>Jev 数字是第三方发表值，未实测</b>）</td></tr>
+    <tr><td>作者 dev.to 文</td><td>自报：23,024 题域内 83.8% / 2,400 题零样本 65.1%</td><td>注意：发布当天注册的账号，自宣性质</td></tr>
+    <tr><td>本次复现（我们）</td><td>自建 24 题双语工单分诊，零样本</td><td>Laya 本地 dept 75% / churn 92%（见 Q10）</td></tr>
+  </table>
+  <div class="kbox"><b>评测素养三条</b>：① <span class="hl">自建测试集的"100%"只在同一张考卷上成立</span>——推主的 57% 和仓库的 0.766 不是同一张卷子，不可直接比；② 零样本 vs 微调差一倍（0.362→0.766），问清"哪个 checkpoint"再谈准确率；③ 商家对比数字（快 193 倍/便宜 444 倍/Jev 更准）一律当"厂商自宣"，找独立复现——这正是我们 Q10 亲手干的事。</div>
+</div>
+
+<!-- Q10 -->
+<div class="qcard" style="border-top-color:#06D6A0">
+  <div class="qnum">10</div>
+  <div class="qtitle">动手实测：24 题双语分诊基准，Laya vs 云端大模型（本机复现）</div>
+  <div class="clear"></div>
+  <p>复现推主的评测范式（本地部署 + 同一张考卷比准确率和速度），但全部在自己机器上、数据自己造、每一步可复制。考卷：<b>24 道客服工单（12 英 + 12 中），每题三问</b>——部门 choice / 紧急度 score / 退订风险 noul，人工标标准答案。</p>
+  <table>
+    <tr><th>维度</th><th>Laya 本地（CPU）</th><th>云端大模型（claude CLI / kimi）</th></tr>
+    <tr><td>dept 准确率</td><td>75.0%</td><td>95.8%</td></tr>
+    <tr><td>urgency 分档</td><td>54.2%</td><td>83.3%</td></tr>
+    <tr><td>churn 真假</td><td><span class="win">91.7%</span></td><td><span class='win'>100%</span></td></tr>
+    <tr><td>三问全对</td><td>37.5%</td><td>79.2%</td></tr>
+    <tr><td>单题延迟（中位）</td><td class="win">676ms</td><td>6,693ms</td></tr>
+  </table>
+  <p>三个<b>比分数更值钱</b>的发现：</p>
+  <p><b>① 决策模型也吃提示词工程</b>：12 道中文题的紧急度全线饱和在"2 级"（连"不着急"都判成停摆级）——因为 criteria 用英文写的、输入是中文，措辞错配。把 criteria 换成中文后：urgency 4/12 → <span class="win">7/12</span>，dept 8/12 → <span class="win">10/12</span>，且不再饱和。回填到全量 24 题：urgency 54.2% → <span class="hl">66.7%（9/12 英文 + 7/12 中文换中文措辞）</span>。<b>schema 里的 criteria 就是决策模型的 prompt，语言要跟着输入走。</b></p>
+  <p><b>② 置信度门控不白给</b>：conf≥0.8 只剩 11 题，子集准确率反而 72.7%（低于全量 75%）——checkpoint 校准不达标时门控无效（呼应 Q8）。</p>
+  <p><b>③ 快是真快，但首选台要挑</b>：首调用 10.3 秒（下载+加载 checkpoint），暖态 CPU 中位 676ms；官方 GPU 33ms。速度对比云端大模型约 约 10 倍。</p>
+  <div class="svgbox"><svg width="640" height="150" viewBox="0 0 640 150"><text x="320" y="18" text-anchor="middle" font-size="13" font-weight="900">单题延迟对比（对数尺，越小越快）</text><text x="15" y="48" font-size="11" font-weight="bold">Laya CPU</text><rect x="100" y="36" width="90" height="18" rx="9" fill="#06D6A0"/><text x="200" y="50" font-size="11" font-weight="bold" fill="#0B9E77">676ms</text><text x="15" y="78" font-size="11" font-weight="bold">Laya 官方 GPU</text><rect x="100" y="66" width="4" height="18" rx="2" fill="#118AB2"/><text x="112" y="80" font-size="11" font-weight="bold" fill="#118AB2">33ms</text><text x="15" y="108" font-size="11" font-weight="bold">云端 LLM</text><rect x="100" y="96" width="158" height="18" rx="9" fill="#FF3D7F"/><text x="110" y="110" font-size="11" font-weight="bold" fill="#FF3D7F">6,693ms</text><text x="15" y="136" font-size="10" fill="#777">首调用 10.3s = checkpoint 下载+加载（一次性成本，Router(preload=True) 可预热）</text></svg></div>
+  <small class="src">完整逐步操作见下方"动手实验"节；数据：exercise/laya_results.json、llm_results.json、zh_criteria 对照输出</small>
+</div>
+
+<!-- Q11 -->
+<div class="qcard" style="border-top-color:#118AB2">
+  <div class="qnum">11</div>
+  <div class="qtitle">部署与生态：pip / ONNX / MLX / laya.cpp / MCP 一览</div>
+  <div class="clear"></div>
+  <table>
+    <tr><th>路线</th><th>装法</th><th>适合</th></tr>
+    <tr><td>官方 Python</td><td><code>pip install laya</code></td><td>本教程路线，CPU/GPU/MPS 全吃</td></tr>
+    <tr><td>laya-ts（ONNX）</td><td><code>npm install laya-ts</code> / receptron/laya</td><td>Node.js / 浏览器 / Windows 无 Python 场景</td></tr>
+    <tr><td>laya-mlx（6.7k★）</td><td>Apple MLX 原生</td><td>Mac M 系列，7~14ms（推主测试的路线）</td></tr>
+    <tr><td>laya.cpp / GGUF</td><td>mys/laya-GGUF 等</td><td>C++/CUDA/Vulkan，llama.cpp 系工具链</td></tr>
+    <tr><td>laya-server / Docker</td><td>官方 compose</td><td>团队自托管 HTTP 服务（兼容 TypeSafe API 形状）</td></tr>
+    <tr><td>MCP / 框架集成</td><td><code>laya[mcp]</code> <code>laya[langchain]</code> 等</td><td>给 Agent 当裁判工具</td></tr>
+  </table>
+  <div class="good"><b>和 jev-router 接上</b>：我们学过的 jev-router（[[逐轮模型路由与哨兵代理]]）靠 TypeSafe 云端做逐轮选档；换成 Laya 后整条路由<b>可以完全本地</b>——隐私不出机器，延迟还低两个数量级。生态里已有 oh-my-laya 等项目干这事。</div>
+</div>
+
+<!-- Q12 -->
+<div class="qcard" style="border-top-color:#7B2FF7">
+  <div class="qnum">12</div>
+  <div class="qtitle">什么时候用 Laya，什么时候用 LLM？</div>
+  <div class="clear"></div>
+  <table>
+    <tr><th>用 Laya（决策模型）</th><th>用 LLM（生成式）</th></tr>
+    <tr><td>高频、低价值密度、延迟敏感的判断：路由/分诊/审核/护栏</td><td>需要生成内容：写邮件、写代码、总结</td></tr>
+    <tr><td>选项封闭、可枚举（choice/score/是非）</td><td>答案开放、没法枚举</td></tr>
+    <tr><td>数据不能出机器（Laya 全本地）</td><td>能接受出域或已自托管</td></tr>
+    <tr><td>要概率和置信度参与业务规则（门控/弃权）</td><td>只要最终文本</td></tr>
+  </table>
+  <p>本机 24 题复现给出的答案介于推主和仓库之间：<span class="hl">"Jev 完胜准确率"在零样本英文上部分成立，但中文要换 checkpoint + 本地化 criteria；速度本地完胜无争议</span>。最稳的姿态：Laya 当毫秒级第一道闸，没把握的升级给 LLM 或人——和 jev-router 的 fail-open 分层是同一个哲学。</p>
+</div>
+
+<!-- 实验节 -->
+<div class="qcard" style="border-top-color:#1B1B2F">
+  <div class="qnum" style="color:#1B1B2F">✦</div>
+  <div class="qtitle">动手实验：本地部署 + 对比评测（全部命令实测于 Windows 11 + RTX 4070，CPU 路线）</div>
+  <div class="clear"></div>
+
+  <div class="step"><h3>第 1 步：装环境（隔离 venv，不污染全局 Python）</h3>
+    <p><b>怎么操作</b>：</p>
+<pre>python -m venv F:\reminder\laya-decision-model\.venv
+F:\reminder\laya-decision-model\.venv\Scripts\python.exe -m pip install laya</pre>
+    <p><b>目的</b>：装上 laya 0.3.24（Apache-2.0，自带 torch/transformers 依赖）。<b>实现了什么</b>：项目专属 venv + 依赖隔离。<br>
+    <b>✅ 预期结果</b>：<code>Successfully installed laya-0.3.24 ...</code>；<code>.venv\Scripts\python.exe -c "import laya"</code> 无报错。</p>
+  </div>
+
+  <div class="step"><h3>第 2 步：冒烟测试——三原语各来一发（lab01_quickstart.py）</h3>
+    <p><b>怎么操作</b>：</p>
+<pre>cd F:\reminder\laya-decision-model
+set PYTHONUTF8=1 &amp;&amp; set HF_HOME=.hfcache
+.venv\Scripts\python.exe exercise\lab01_quickstart.py</pre>
+    <p><b>目的</b>：验证安装 + 亲眼看到 choice/score/noul 的返回形状、中文自动路由。<b>实现了什么</b>：英文 billing 工单三问全中（0.99/1.77/0.88），中文工单路由 multilingual 也中（0.9955），技术故障工单换成 technical（0.92）。<br>
+    <b>✅ 预期结果</b>：打印 <code>routing=english</code> 与 <code>routing=multilingual</code>，choice 概率最高项与人工直觉一致；首次调用含 5~50 秒下载属正常。</p>
+  </div>
+
+  <div class="step"><h3>第 3 步：自建 24 题双语考卷跑 Laya（lab02_laya_benchmark.py）</h3>
+    <p><b>怎么操作</b>：</p>
+<pre>.venv\Scripts\python.exe exercise\lab02_laya_benchmark.py</pre>
+    <p><b>目的</b>：复现"本地部署+系统性测试"——同一张考卷量准确率和延迟。<b>实现了什么</b>：dept 75% / urgency 54% / churn 92%，暖态中位 ~250-700ms，输出 laya_results.json。<br>
+    <b>✅ 预期结果</b>：末尾打印四行准确率 + 延迟统计；中文题会看到 urgency 大量判 2 的"异常"，这是下一步的伏笔。</p>
+  </div>
+
+  <div class="step"><h3>第 4 步：中文 criteria 对照实验（lab02b_zh_criteria.py）——本指南最大彩蛋</h3>
+    <p><b>怎么操作</b>：把 12 道中文题的 criteria/instructions 全部换成中文再跑（脚本内已写好 ZH_QUESTIONS）：</p>
+<pre>.venv\Scripts\python.exe exercise\lab02b_zh_criteria.py</pre>
+    <p><b>目的</b>：验证"urgency 饱和在 2"是措辞错配而非模型坏。<b>实现了什么</b>：urgency 4/12→7/12、dept 8/12→10/12，分数分布不再饱和。<br>
+    <b>✅ 预期结果</b>：<code>dept 10/12 urgency 7/12 churn 10/12</code>。改一个措辞涨 3 题这就是"决策模型的提示词工程"。</p>
+  </div>
+
+  <div class="step"><h3>第 5 步：云端大模型同卷对比（lab03_llm_benchmark.py）</h3>
+    <p><b>怎么操作</b>：</p>
+<pre>.venv\Scripts\python.exe exercise\lab03_llm_benchmark.py</pre>
+    <p><b>目的</b>：同一张 24 题考卷喂给 claude CLI（本机配置 kimi-for-coding 供应商），量出"云端 vs 本地"两条腿。<b>实现了什么</b>：95.8% / 83.3% / <span class='win'>100%</span>，单题中位 6,693ms。<br>
+    <b>✅ 预期结果</b>：准确率各维度不低于 Laya（大模型判断力强），但单题耗时是 Laya 的几十倍；输出 llm_results.json。</p>
+  </div>
+
+  <div class="step"><h3>第 6 步（选修）：给 Laya 当裁判接进 jev-router</h3>
+    <p><b>思路</b>：jev-router 的 SDK 有 TYPESAFE_BASE_URL 接缝（[[接缝与桩实现StubSeam]]），laya-server / 1Panel-dev/laya-server 提供 TypeSafe 兼容 API——把接缝指向本地 laya-server，整条"逐轮模型路由"就完全本地化了。本项目未展开（需另起一篇），列为下一步。</p>
+  </div>
+</div>
+
+<!-- 能力清单 -->
+<div class="qcard" style="border-top-color:#FF9F1C">
+  <div class="qnum" style="color:#FF9F1C">✦</div>
+  <div class="qtitle">这个项目给我什么（能力清单）</div>
+  <div class="clear"></div>
+  <ol>
+    <li><b>会装会跑</b>：pip 一行装上，CPU 就能跑 421M 决策模型，暖态 ~250ms/题，GPU 可到 33ms。</li>
+    <li><b>会出考卷</b>：自建带标准答案的分诊测试集 + 三维度准确率/延迟统计的评测脚本，可复用到任何"本地 vs 云端"对比。</li>
+    <li><b>会调措辞</b>：criteria 是决策模型的 prompt——语言错配会造成"全打 2"式的静默劣化，换语言措辞立竿见影。</li>
+    <li><b>会读评测</b>：零样本/微调/自建考卷/公开基准四个口径不再打架，厂商自宣会打折。</li>
+    <li><b>会挑部署路线</b>：Python/ONNX/MLX/laya.cpp/HTTP server，按平台和延迟预算选。</li>
+    <li><b>会接生产</b>：置信度门控、弃权阈值拟合、温度校准工具链（fit_abstention_thresholds 等）。</li>
+  </ol>
+</div>
+
+<div style="text-align:center; color:#777; font-size:11px; margin-top:10px;">
+产出：F:\reminder\laya-decision-model\ · 拾遗任务 1a45286b（https://x.com/xiaomovps/status/2101111530313933182）· 知识入库：vault/概念/非自回归决策模型 等 · 2026-10-03
+</div>
+
+</body>
+</html>
