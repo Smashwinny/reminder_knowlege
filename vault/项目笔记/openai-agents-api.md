@@ -35,3 +35,11 @@ tags: [项目笔记]
 - `openai-agents-api/openai_agents_api_guide.html`（PDF 源）
 - `openai-agents-api/exercise/ex1~ex5`（脚本 + harness_forensics.json + session_bodies.json）
 - 拾遗任务 edc8f196（MaxForAI 推文 → 官方公告/文档/开源仓库三级查证，判学习类）
+
+## 补遗：sitin 科普文拆解（拾遗任务 6628a24f，2026-10-03）
+同一主题的第二条拾遗链接：sitin 的 X 文章《Agents API来了，Codex背后的这套能力终于开放了》（文章 ID 2100394871265820672，2026-09-18）。判学习类，走增补路线（不重复建项目/概念，只做查重合并）。增量与产出：
+- 新增概念 [[产物留痕与状态外置]]——文章金句"不要让 AI 靠记忆硬撑"，与 Checkpoint（怎么续跑）/JSONL 事件日志（怎么留痕）互补
+- 文章独有增量（官方文档不讲的认知框架）：Agent≈Model+Harness 五问、长任务轮次论（不是一直想，是工具结果喂回来再决策）、工具按任务开放（最小授权）、子agent"独立并行/共享串行"判据、验收标准写进任务（构建通过≠完成）、Codex=成品餐厅 vs Agents API=开放后厨（不是把 App 嵌进产品）
+- ex6_mini_harness.py：200 行纯标准库 mini-harness，六步实测文章六大主张全过（模型零状态字段/产物链落盘/session 重启续接+追加要求/并行只读+串行写/Gate 拒收谎报/验收进配置 A/B 4:4 PASS）；坑：环境无 flask → ModuleNotFoundError 顶掉 RuntimeError 伏笔，改本地 miniflask 桩模块
+- 事实核对：文章主张 vs 官方文档全部吻合，无虚构；文末 HiAPI.ai 广告为作者自家推广
+- `openai-agents-api/AgentsAPI科普拆解篇-小白指南.pdf`（10 问彩色 7 SVG + ex6 六步实录）
