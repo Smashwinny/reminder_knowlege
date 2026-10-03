@@ -1,0 +1,36 @@
+workspace 成员总数: 94  (crates: 94, apps: 0)
+
+crate 领域分布:
+  core(platform 内核): 19 个
+  observability(可观测性): 11 个
+  ops(错误追踪/邮件/安全/团队): 10 个
+  network(代理/DNS/TLS/边缘): 10 个
+  ai(网关/沙箱/MCP): 9 个
+  deploy(Git 构建部署): 9 个
+  import(平台迁移导入): 9 个
+  resources(托管数据库/存储): 8 个
+  analytics(网站分析/会话回放/漏斗): 6 个
+  other: 3 个
+
+含 main.rs 的二进制目标: 4 个 -> ['temps-cli', 'temps-preview-gateway', 'temps-pty-agent', 'temps-vm-agent']
+（发布产物只有一个 temps 二进制：temps-cli 是"单一入口"委托 lib.rs run()）
+
+temps 二进制的子命令（enum Commands 变体 + 注释）: 18 个
+  temps serve: Start the HTTP API server
+  temps proxy: Start only the proxy server
+  temps migrate: Apply pending database migrations (recommended before upgrad
+  temps resetadminpassword: Reset admin user password
+  temps backup: Backup management commands
+  temps backfill: One-shot data migration utilities (TimescaleDB → ClickHouse,
+  temps services: Manage platform services (KV, Blob)
+  temps domain: Domain and certificate management
+  temps build: Build a Docker image locally
+  temps deploy: Deploy pre-built images or static files to environments
+  temps doctor: Diagnose the temps installation and check system health
+  temps join: Join this machine to a Temps cluster as a worker node
+  temps agent: Run the worker node agent server
+  temps node: Manage cluster worker nodes (list, show, drain, remove)
+  temps network: Inspect the multi-host overlay (status, peers, diag)
+  temps edge: Start an edge CDN proxy node (caches static assets, proxies 
+  temps sandbox: Manage standalone sandboxes via the Vercel-compatible `/v1/s
+  temps firecracker: Provision and manage the Firecracker microVM sandbox backend

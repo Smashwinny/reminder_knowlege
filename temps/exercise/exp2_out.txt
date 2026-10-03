@@ -1,0 +1,9 @@
+命令组（commands/ 子目录）: 77 个
+  ai, alarms, analytics, apikeys, audit, auth, backups, blob, cloud, cluster, containers, context, custom-domains, data, deploy, dev, dns, dns-providers, domains, dsn, email-domains, email-providers, emails, env-sync, environments, errors, exec, facets, flags, funnels, global-logs, imports, incidents, init, instances, ip-access, kv, link, load-balancer, mcp, mcp-servers, metrics, migrate, monitors, nodes, notification-preferences, notifications, open, otel, otel-forward, platform, plugin, presets, projects, providers, proxy-logs, revenue, rollback, sandbox, scans, secrets, server, services, session-replay, settings, setup, skills, status, teams, templates, tokens, traces, traefik-discovery, up, users, webhooks, workflow
+
+命令实现文件总数（不含测试）: 143
+最大的 10 个命令组: analytics(12), deploy(12), projects(8), plugin(6), cloud(5), metrics(5), migrate(5), auth(4), imports(4), mcp(3)
+
+OpenAPI 路径总数: 853（其中 Sentry 兼容错误追踪风格 /0/...: 5 条）
+
+官方 drop-in skills（放进 .claude/skills/ 即用）: 13 个 -> add-custom-domain, add-error-tracking, add-node-sdk, add-react-analytics, add-session-recording, deploy-to-temps, estimate-temps-savings, temps, temps-best-practices, temps-cli, temps-mcp-setup, temps-platform-setup, temps-plugin

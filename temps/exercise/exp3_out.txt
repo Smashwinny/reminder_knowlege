@@ -1,0 +1,25 @@
+deploy.sh 总行数: 4418
+
+TUI 向导步骤函数: 9 个
+  step_header
+  step_docker
+  step_timescaledb
+  step_domain_ssl
+  step_temps_setup
+  step_service
+  step_clickhouse_optin
+  step_verify
+  step_test_deploy
+
+安装清单证据:
+  Postgres 容器镜像: 3 处匹配 ['pg18', 'pg18', 'pg18']
+  Temps 二进制下载模板: 1 处匹配 ['$version']
+  docker run 调用: 2 处匹配 ['docker run -d', 'docker run -d']
+  systemd 服务单元: 2 处匹配 ['[Unit]', '[Unit]']
+  特权端口能力授予: 4 处匹配 ['CAP_NET_BIND_SERVICE', 'CAP_NET_BIND_SERVICE', 'CAP_NET_BIND_SERVICE']
+
+二进制下载 URL 模板: https://github.com/gotempsh/temps/releases/download/$version/temps-$target.tar.gz
+TimescaleDB 镜像: timescale/timescaledb-ha:pg18
+
+结论: 安装器只装两样东西——① GitHub Releases 的单一 temps 二进制（systemd 托管）
+      ② 一个 TimescaleDB(Postgres) 容器；其余(Docker/SSL/TLS)是运行前提。

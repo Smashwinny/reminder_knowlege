@@ -48,3 +48,7 @@ cmu-agents/exercise/_site_bundle.js
 # 模型权重/下载文件（任何体积都不入库）
 agent-architectures/exercise/models/
 *.gguf
+
+# 大文件防推送阻塞（实验产物，不进 git）
+minimind/exercise/out/
+*.pth
