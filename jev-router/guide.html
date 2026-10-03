@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>jev-router 小白指南：给 Claude Code / Codex 装一个 AI 裁判</title>
+<style>
+:root{
+  --orange:#FF6B35; --teal:#00C9A7; --purple:#7B61FF; --yellow:#FFD23F;
+  --blue:#1B98E0; --pink:#FF5DA2; --red:#FF3D5A; --ink:#2B2140;
+  --card:#FFFFFF; --bg:#FFF9F0;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;padding:0 0 40px}
+.hero{background:linear-gradient(135deg,var(--purple) 0%,var(--blue) 55%,var(--teal) 100%);color:#fff;padding:56px 40px 48px;text-align:center}
+.hero h1{font-size:34px;letter-spacing:1px;text-shadow:0 3px 12px rgba(0,0,0,.25)}
+.hero .sub{font-size:16px;opacity:.95;margin-top:14px}
+.hero .tags{margin-top:20px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:4px 16px;margin:4px;font-size:13px}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+h2.section{margin:44px 0 18px;font-size:24px;padding:10px 18px;border-radius:12px;color:#fff;background:linear-gradient(90deg,var(--orange),var(--pink));display:inline-block}
+h2.section.t2{background:linear-gradient(90deg,var(--blue),var(--purple))}
+h2.section.t3{background:linear-gradient(90deg,var(--teal),var(--blue))}
+h2.section.t4{background:linear-gradient(90deg,var(--pink),var(--orange))}
+.q{background:var(--card);border-radius:16px;padding:22px 26px;margin:20px 0;box-shadow:0 4px 18px rgba(123,97,255,.10);break-inside:avoid;border-left:10px solid var(--purple)}
+.q:nth-of-type(4n+1){border-left-color:var(--orange)}
+.q:nth-of-type(4n+2){border-left-color:var(--teal)}
+.q:nth-of-type(4n+3){border-left-color:var(--pink)}
+.q h3{font-size:19px;margin-bottom:10px}
+.q h3 .num{display:inline-block;min-width:38px;height:38px;line-height:38px;text-align:center;border-radius:10px;background:linear-gradient(135deg,var(--yellow),var(--orange));color:#fff;font-size:20px;margin-right:10px;vertical-align:middle;box-shadow:0 3px 8px rgba(255,107,53,.35)}
+.q p{margin:8px 0}
+.q ul,.q ol{margin:8px 0 8px 24px}
+.q li{margin:4px 0}
+.hl{background:linear-gradient(transparent 55%,var(--yellow) 55%);font-weight:700;padding:0 3px}
+.key{background:var(--ink);color:#7CFFCB;border-radius:8px;padding:2px 10px;font-family:Consolas,monospace;font-size:14px}
+.big{font-size:21px;font-weight:800;color:var(--red)}
+.svgbox{background:#F6F3FF;border-radius:12px;padding:10px;margin:12px 0;text-align:center}
+table.cmp{width:100%;border-collapse:collapse;margin:12px 0;font-size:14.5px}
+table.cmp th{background:var(--purple);color:#fff;padding:8px 10px}
+table.cmp td{border:1px solid #E4DCFF;padding:8px 10px;background:#fff}
+table.cmp tr:nth-child(even) td{background:#FAF7FF}
+.step{background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid var(--blue);border-radius:16px;padding:20px 24px;margin:18px 0;break-inside:avoid}
+.step h3{color:var(--blue);font-size:18px;margin-bottom:8px}
+.step h3 .snum{display:inline-block;background:var(--blue);color:#fff;border-radius:50%;width:32px;height:32px;line-height:32px;text-align:center;margin-right:8px}
+pre{background:#241B3A;color:#E8E2FF;border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13.5px;line-height:1.6;margin:10px 0}
+pre .cmt{color:#9C8FD9}
+.expect{background:#E9FFF7;border:2px dashed var(--teal);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:14.5px}
+.warn{background:#FFF0F3;border:2px dashed var(--red);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:14.5px}
+.cap{background:linear-gradient(135deg,#FFF6E5,#FFE9F3);border-radius:16px;padding:20px 26px;margin:16px 0;break-inside:avoid}
+.cap h3{color:var(--orange);margin-bottom:6px;font-size:17px}
+.footer{margin-top:40px;text-align:center;color:#8B82A8;font-size:13px}
+@media print{body{background:#fff}@page{margin:14mm}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>jev-router 小白指南<br>给 Claude Code / Codex 装一个「AI 裁判」</h1>
+  <div class="sub">源头：知识猫AI实验室推文 · 项目：gargpratyush/jev-router（525★，MIT）· 决策模型：TypeSafe Jev</div>
+  <div class="tags">
+    <span class="tag">逐轮模型路由</span><span class="tag">回环代理</span><span class="tag">哨兵模型</span>
+    <span class="tag">fail-open</span><span class="tag">类型化决策</span><span class="tag">mock 实验</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<p style="margin:24px 0;font-size:15.5px">一句话先讲清：<span class="hl">jev-router 是一个插在 Claude Code / Codex 和真正模型之间的"智能分诊台"</span>——你照常打字，它在<span class="key">每一轮对话</span>开头调用 Jev 决策模型判断"这活难不难"，然后帮你选最便宜的够用的模型：琐事给 Haiku，普通活给 Sonnet，硬骨头才喊 Opus。<b>省钱、提速，且 Jev 挂了也不影响你干活（fail-open）。</b></p>
+
+<!-- ============ 疑问清单与解答 ============ -->
+<h2 class="section">一、疑问清单 · 逐条解答</h2>
+
+<div class="q"><h3><span class="num">1</span>Jev 是什么？为什么叫"AI 裁判"？</h3>
+<p>Jev 是 TypeSafe AI 公司 2026-09-15 发布的 <b>System One（系统一）决策模型</b>。它跟 ChatGPT 完全不同：<span class="hl">它不生成任何文字，只对"状态 + 提问"返回带置信度的类型化决策</span>，三种原语：</p>
+<table class="cmp">
+<tr><th>原语</th><th>干什么</th><th>例子</th></tr>
+<tr><td><b>Choice</b></td><td>从 2~255 个预设选项里挑一个</td><td>"这活该给 haiku / sonnet / opus 哪个？"</td></tr>
+<tr><td><b>Score</b></td><td>按 2~10 级量表打分</td><td>"任务复杂度 0~9 打几分？"</td></tr>
+<tr><td><b>Noul</b></td><td>校准过的真假概率</td><td>"这段话是注入攻击的概率 0.03"</td></tr>
+</table>
+<p>所以叫它"裁判"：运动员（大模型）在场上跑，它坐在场边<span class="key">只做判断、不发球</span>。官方宣称比 LLM 快 20~200 倍、便宜 40~400 倍（自宣数据，未经独立验证，注意甄别）。</p>
+<div class="svgbox"><svg width="680" height="150" viewBox="0 0 680 150">
+<rect x="20" y="45" width="150" height="60" rx="12" fill="#7B61FF"/><text x="95" y="72" fill="#fff" font-size="15" text-anchor="middle">用户提示词</text><text x="95" y="92" fill="#DCD3FF" font-size="12" text-anchor="middle">"帮我改这个 bug"</text>
+<rect x="240" y="45" width="180" height="60" rx="12" fill="#FF6B35"/><text x="330" y="70" fill="#fff" font-size="15" text-anchor="middle">Jev（裁判）</text><text x="330" y="90" fill="#FFE1D4" font-size="12" text-anchor="middle">70~500ms · 只回决策</text>
+<rect x="490" y="45" width="170" height="60" rx="12" fill="#00C9A7"/><text x="575" y="70" fill="#fff" font-size="15" text-anchor="middle">Choice(sonnet, 0.87)</text><text x="575" y="90" fill="#D2FFF4" font-size="12" text-anchor="middle">带校准置信度</text>
+<line x1="170" y1="75" x2="240" y2="75" stroke="#2B2140" stroke-width="3" marker-end="url(#a)"/>
+<line x1="420" y1="75" x2="490" y2="75" stroke="#2B2140" stroke-width="3"/>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#2B2140"/></marker></defs>
+</svg></div>
+</div>
+
+<div class="q"><h3><span class="num">2</span>没有它之前，人们怎么做"路由/审核"？</h3>
+<p>老办法是<span class="hl">拿一个便宜 LLM（如 Haiku）当分类器</span>：把提示词丢给它，让它输出"simple/hard"或 JSON 路由决定。问题有两个：</p>
+<ul>
+<li><b>慢</b>：LLM 再小也要完整"想一遍再写一遍"，延迟 1.2~2.5 秒；Jev 官方标称 70~500ms。</li>
+<li><b>贵</b>：LLM 按输入+输出双向计费，路由本身成了"为了省钱先花一笔钱"。</li>
+</ul>
+<p>Jev 的设计哲学是<b>"决策与生成是两种劳动，应该由两种模型干"</b>——就像医院分诊台不需要主任医师坐诊。注意 Jev <span class="key">闭源托管、无公开权重</span>（不能本地跑），这是它和开源模型的本质区别。</p>
+</div>
+
+<div class="q"><h3><span class="num">3</span>这笔账到底怎么算？</h3>
+<p>官方定价：<span class="big">输入 $0.042 / 百万 token，输出免费</span>（OpenRouter 上 typesafe/jev-1.13 同价）。一次路由决策约 500 token → 100 万次决策 ≈ <b>$21</b>；同量级用 Claude Haiku 做分类约 $550（官方口径，未独立验证）。</p>
+<div class="svgbox"><svg width="680" height="170" viewBox="0 0 680 170">
+<text x="80" y="30" font-size="14" fill="#2B2140">100 万次路由决策成本对比（官方数据）</text>
+<rect x="80" y="120" width="60" height="20" y="120" fill="#FF3D5A" transform="translate(0,-20)"/>
+<rect x="80" y="50" width="440" height="34" rx="6" fill="#FF3D5A" opacity="0.85"/>
+<text x="530" y="73" font-size="15" fill="#FF3D5A" font-weight="bold">Haiku ≈ $550</text>
+<rect x="80" y="100" width="20" height="34" rx="6" fill="#00C9A7"/>
+<text x="115" y="123" font-size="15" fill="#00A887" font-weight="bold">Jev ≈ $21（便宜 ~26 倍）</text>
+<line x1="80" y1="145" x2="620" y2="145" stroke="#2B2140" stroke-width="2"/>
+</svg></div>
+<p>推文里那句"比 5.6 luna 还便宜精准"指的就是这种决策经济学；但<span class="hl">它是"省路由钱"，不是"省生成钱"</span>——回答还是大模型写的。</p>
+</div>
+
+<div class="q"><h3><span class="num">4</span>jev-router 是什么？整体架构长什么样？</h3>
+<p>jev-router（MIT 协议，Node 20.12+）把上面的决策模型接到 Claude Code / OpenAI Codex 上。核心架构是<span class="hl">回环代理（loopback proxy）</span>：</p>
+<ol>
+<li>它在本机起一个小代理服务器，把 <span class="key">ANTHROPIC_BASE_URL</span> 指向自己，再启动<b>真正的</b> Claude Code CLI；</li>
+<li>你的每个请求先到代理；代理把"当前模型是不是哨兵 <span class="key">jev-router</span>"当开关：是 → 问 Jev 该用哪档模型，把请求里的模型名<b>改写</b>成目标模型再转发给 Anthropic；不是 → 原样直通；</li>
+<li>你的登录、工具、权限、会话全部照旧——代理只碰模型名，不碰授权头。</li>
+</ol>
+<div class="svgbox"><svg width="700" height="220" viewBox="0 0 700 220">
+<rect x="10" y="80" width="110" height="56" rx="12" fill="#1B98E0"/><text x="65" y="105" fill="#fff" font-size="14" text-anchor="middle">你</text><text x="65" y="122" fill="#D8EEFF" font-size="11" text-anchor="middle">照常打字</text>
+<rect x="180" y="80" width="170" height="56" rx="12" fill="#7B61FF"/><text x="265" y="102" fill="#fff" font-size="14" text-anchor="middle">Claude Code CLI</text><text x="265" y="120" fill="#DCD3FF" font-size="11" text-anchor="middle">以为自己在直连</text>
+<rect x="410" y="20" width="200" height="60" rx="12" fill="#FF6B35"/><text x="510" y="43" fill="#fff" font-size="14" text-anchor="middle">jev-claude 回环代理</text><text x="510" y="61" fill="#FFE1D4" font-size="11" text-anchor="middle">改写模型名 · 不碰授权头</text>
+<rect x="410" y="140" width="200" height="56" rx="12" fill="#00C9A7"/><text x="510" y="163" fill="#fff" font-size="14" text-anchor="middle">Jev 决策 API</text><text x="510" y="181" fill="#D2FFF4" font-size="11" text-anchor="middle">每轮 1 次 · 选档</text>
+<rect x="180" y="170" width="170" height="40" rx="12" fill="#241B3A"/><text x="265" y="195" fill="#7CFFCB" font-size="13" text-anchor="middle">api.anthropic.com</text>
+<line x1="120" y1="108" x2="180" y2="108" stroke="#2B2140" stroke-width="3"/>
+<line x1="350" y1="95" x2="410" y2="60" stroke="#2B2140" stroke-width="3"/>
+<line x1="480" y1="80" x2="510" y2="140" stroke="#FF6B35" stroke-width="2.5" stroke-dasharray="6 4"/>
+<line x1="410" y1="50" x2="620" y2="50" stroke="#2B2140" stroke-width="0"/>
+<line x1="510" y1="50" x2="510" y2="20" stroke="none"/>
+<line x1="350" y1="185" x2="410" y2="175" stroke="#2B2140" stroke-width="0"/>
+<line x1="265" y1="136" x2="265" y2="170" stroke="#2B2140" stroke-width="3"/>
+<text x="330" y="160" font-size="11" fill="#8B82A8">转发（模型已改写）</text>
+</svg></div>
+</div>
+
+<div class="q"><h3><span class="num">5</span>"哨兵模型"是什么骚操作？</h3>
+<p>这是全项目最巧的一行代码。Claude Code 允许设置自定义 <span class="key">ANTHROPIC_BASE_URL</span>，而且<span class="hl">走自定义地址时它不会校验模型名是否合法</span>。jev-router 利用这一点，往模型列表里塞了一个假模型 <span class="key">jev-router</span>：</p>
+<ul>
+<li>请求里的模型是 <b>jev-router</b> → "用户把档位调到了自动" → 问 Jev 后改写模型名；</li>
+<li>请求里是真模型（haiku/sonnet/你手选的任何模型）→ <b>原样直通</b>，人类选择永远优先；</li>
+<li>你在 <span class="key">/model</span> 里把模型从 Jev Router 换成 Opus，就切回手动模式——status line 会显示 <span class="key">⏸ manual</span>。</li>
+</ul>
+<p>实测日志（本指南实验跑出来的）：用户默认模型不是哨兵时，代理逐条打印 <span class="key">[jev] passthrough, user selected kimi-for-coding</span>——一个字的请求体都没改。</p>
+</div>
+
+<div class="q"><h3><span class="num">6</span>路由策略具体怎么定？（policy.mjs 一页看完）</h3>
+<p>Jev 只给"建议"，真正拍板的是本地策略层（<span class="key">src/policy.mjs</span>，纯函数可单测）。规则从高到低：</p>
+<table class="cmp">
+<tr><th>规则</th><th>效果</th></tr>
+<tr><td>提示词里点名 <span class="key">use opus / use haiku</span></td><td>人类点名直接赢（正则检测，实测触发 explicit-override）</td></tr>
+<tr><td>Jev 置信度 &lt; 0.3</td><td><b>绝不降级</b>；升级封顶 balanced 档（实测：置信 0.10 被钳到 sonnet，理由 low-confidence-capped）</td></tr>
+<tr><td>上下文 &gt; 2 万 token</td><td>拒绝降级（换模型会作废 prompt cache，重发全对话反而更贵）</td></tr>
+<tr><td>Jev 超时 / 挂了 / 答非所问</td><td>保持当前模型（fail-open，见第 7 问）</td></tr>
+<tr><td>其余情况</td><td>听 Jev 的，按档改写</td></tr>
+</table>
+<p>档位表：Claude 侧 <b>Haiku（快）→ Sonnet（均衡）→ Opus（强）→ Fable（长，需 JEV_ALLOW_FABLE=1）</b>；Codex 侧 <b>luna → terra → sol → astra</b>，可用环境变量改。</p>
+</div>
+
+<div class="q"><h3><span class="num">7</span>为什么反复强调 fail-open？怎么做到的？</h3>
+<p>路由是"锦上添花"，<span class="hl">绝不能让"裁判罢工"把"比赛"停了</span>。jev-router 的每处失败路径都收敛到"保持现状"：</p>
+<ul>
+<li>Jev 调用有 1.5s 单次超时 + 3s 总预算，超了 → 用当前档；</li>
+<li>没有 API key → 构造 client 会抛异常，代码把异常吃掉返回 null（路由关闭，CLI 照跑）；</li>
+<li>Jev 返回了不认识的档位 → 视为不可用；</li>
+<li>全新会话还没有"当前档" → 落到最安全的默认 <span class="key">opus</span>（宁可多花钱，不可派弱模型干硬活）。</li>
+</ul>
+<div class="warn">本指南实测：把 mock Jev 服务器关掉再跑 <span class="key">--model jev-router</span>，代理日志打出 <span class="key">[jev] rewrite jev-router -&gt; claude-opus-5</span>——Jev 连不上，自动退到 opus 默认档，会话照常进行。这正是知识库 [[ClaudeCodeHooks与fail-open]] 的"观测/裁判挂了绝不连累主流程"同款思想。</div>
+</div>
+
+<div class="q"><h3><span class="num">8</span>Jev 这么便宜，能不能本地跑？怎么接入？</h3>
+<p><b>不能。</b>Jev 是闭源托管 API，无公开权重。接入通道（按本指南核验）：</p>
+<ul>
+<li><b>TypeSafe 官方</b>：<span class="key">POST https://api.typesafe.ai/v1/systemone</span>，需 console.typesafe.ai 申请 key（推文说白名单审核慢）；</li>
+<li><b>OpenRouter</b>：<span class="key">typesafe/jev-1.13</span>，走 alpha 决策端点（注意：不在 /models 列表里，会自动枚举模型的工具看不到它）；</li>
+<li><b>Vercel AI Gateway / Cloudflare Workers AI / Netlify</b>：官方 SDK 已上架各云网关。</li>
+</ul>
+<p>官方 Python/JS SDK 开源（jev-router 用的就是 <span class="key">@typesafe-ai/sdk</span>），支持 <span class="key">TYPESAFE_BASE_URL</span> 环境变量改指向——<span class="hl">这个"接缝"就是我们无 key 也能动手实验的入口（第 11 问）</span>。</p>
+</div>
+
+<div class="q"><h3><span class="num">9</span>它和我知识库里的"能力地板选型"是什么关系？</h3>
+<p>同一思想的两种形态。[[能力地板选型]] 说"按任务的真实能力地板选最便宜模型"；jev-router 把这件事<b>自动化、逐轮化</b>了：不再需要人事先判断任务难度，Jev 每轮现判，策略层再兜底。差异在于：<span class="hl">能力地板选型是"人事先想清楚"，jev-router 是"裁判临场吹哨"</span>——多花了每轮一次 Jev 调用（约 $0.00002），换来免人工分诊。</p>
+</div>
+
+<div class="q"><h3><span class="num">10</span>除了模型路由，Jev 还能干什么？（推文 28 玩法精选）</h3>
+<p>那条推文列了 28 种社区玩法，按"和 jev-router 的亲疏"挑 6 个值得知道的：</p>
+<ul>
+<li><b>jev-mcp</b>（多个实现，480★）：把 Jev 的分类/打分做成 MCP 工具，任何 Agent 框架随叫随用；</li>
+<li><b>jev-codex-router</b>（274★）：jev-router 的 Codex 专版思路，jev-router 本体也已内置 <span class="key">jev-codex</span>；</li>
+<li><b>jev-review</b>（231★）：本地 MCP 插件，持续给代码质量打分——PR 审查场景；</li>
+<li><b>上下文即时压缩 / 记忆路由</b>：用 Jev 决定"哪些记忆该进上下文"，把"记什么"也变成决策问题；</li>
+<li><b>护栏/审核</b>：工具调用前过一遍 Noul 概率，"这步像不像注入攻击"；</li>
+<li><b>机筛简历（官方案例）</b>：docs.typesafe.ai 的 composite-scoring 模式，打分原语的教科书用法。</li>
+</ul>
+</div>
+
+<div class="q"><h3><span class="num">11</span>没有 Jev API key，我拿什么动手？（实验设计灵魂）</h3>
+<p>靠知识库里的[[接缝与桩实现StubSeam]]思想：<span class="hl">SDK 留了 TYPESAFE_BASE_URL 接缝，我们就在本机起一个"假 Jev 服务器"（100 行 Node）</span>，实现 <span class="key">POST /v1/systemone</span>，按提示词关键词返回写死的 Choice/Score 决策。对 jev-router 来说，它和真 Jev 完全同构（真实 HTTP 请求、真实超时重试、真实 JSON 协议）——<b>路由代码路径 100% 是真代码在跑</b>，只是"大脑"换成了我们手里有源码的假人。想免费玩真 Jev，OpenRouter 充 $1 也够烧 5 万次决策。</p>
+</div>
+
+<div class="q"><h3><span class="num">12</span>有什么坑和局限？</h3>
+<ul>
+<li><b>提示词要发给 TypeSafe</b>：路由决策要把你的 prompt 文本发到 Jev 云端，隐私敏感场景要想清楚（README 明确写了这一点）；</li>
+<li><b>官方性能数据未独立验证</b>："快 193 倍、便宜 444 倍"是厂商口径，本指南只实测了"决策调用本身毫秒级"（mock 回环 3~61ms，真实网络见官方标称 70~500ms）；</li>
+<li><b>Claude Code/Codex 请求格式不是公开契约</b>：上游改版可能要跟版本（README 自己承认，测试套件就是干这个的）；</li>
+<li><b>只路由"新一轮用户输入"</b>：工具循环续跑沿用开局的档，标题摘要等辅助调用直通不干扰；</li>
+<li><b>本机端到端的限制</b>：本指南实验机的 claude CLI 配的是第三方 kimi-for-coding 供应商，授权头转发到 api.anthropic.com 必然 401——这是<b>本机配置</b>问题，不是 jev-router 的缺陷；官方 Anthropic 订阅账号可直接完整跑通。</li>
+</ul>
+</div>
+
+<!-- ============ 能力清单 ============ -->
+<h2 class="section t2">二、这个项目给我什么能力</h2>
+<div class="cap"><h3>① 一句话装上的"省钱外挂"</h3><p><span class="key">npm install -g jev-router</span> + 一行 JEV_API_KEY，之后 <span class="key">jev-claude</span> 代替 <span class="key">claude</span>——琐事自动降级 Haiku，重活才上 Opus，官方称大部分会话 60~80% 轮次可用便宜档。</p></div>
+<div class="cap"><h3>② 看懂"决策模型"这个新物种</h3><p>Choice/Score/Noul 三种类型化原语 + 校准置信度，是"LLM 裁判"的降本路线；以后看到 guardrails/审核/路由类需求，先想"要不要用决策模型而不是小 LLM"。</p></div>
+<div class="cap"><h3>③ 一套可复用的代理改造范式</h3><p>"回环代理 + 哨兵模型 + 本地策略兜底"三步法可平移到任何 CLI 工具（Codex 侧已内置）；想给自己常用的 AI 工具加"自动挡"，照抄架构即可。</p></div>
+<div class="cap"><h3>④ 无 key 也能全流程演练</h3><p>本指南的 mock Jev 服务器（exercise/mock-jev-server.mjs）是通用教具：改一改就能演示任何"云端决策 API"的接入逻辑，不用花一分钱。</p></div>
+<div class="cap"><h3>⑤ 现成的免费 policy 教科书</h3><p>policy.mjs 100 多行纯函数：置信度钳制、cache 感知降级、人类 override 优先——做 Agent 路由/分诊时值得整段借鉴。</p></div>
+<div class="cap"><h3>⑥ 对接 MCP 生态的跳板</h3><p>jev-mcp / jev-review 等社区项目把 Jev 接进 MCP，学会路由后可继续给 Claude Code 加"自动质检员""简历筛选器"等裁判工具。</p></div>
+
+<!-- ============ 动手实验 ============ -->
+<h2 class="section t3">三、成就感实验：假裁判也能真路由（全程免费）</h2>
+<p style="margin:6px 0 14px">实验目标：<b>在本机跑通 jev-router 的完整决策链路</b>——官方测试套件 → 假 Jev 服务器 → 真实路由代码五场景裁决 → 端到端启动 Claude Code 观察哨兵与 fail-open。</p>
+
+<div class="step"><h3><span class="snum">1</span>准备环境与克隆（1 分钟）</h3>
+<p><b>目的</b>：拿到真代码。要求 Node ≥ 20.12（本机实测 v24.21.0）。</p>
+<pre>git clone https://github.com/gargpratyush/jev-router repo
+cd repo
+npm install</pre>
+<div class="expect">✅ 预期结果：npm install 退出码 0，提示 <span class="key">found 0 vulnerabilities</span>，生成 node_modules\。</div>
+</div>
+
+<div class="step"><h3><span class="snum">2</span>跑官方测试套件，先信代码是活的</h3>
+<pre>npm test</pre>
+<p><b>目的</b>：65 个用例覆盖策略、代理改写、Codex 认证转发、设置恢复——全部离线可跑，不需要任何 key。</p>
+<div class="expect">✅ 预期结果（本机真实输出）：<span class="key">tests 65 · pass 64 · fail 0 · skipped 1</span>（skip 的是需要真 key 的 live-routing）。看到 <span class="key">routing to haiku strips fields haiku cannot accept</span> 等用例逐行打勾。</div>
+</div>
+
+<div class="step"><h3><span class="snum">3</span>启动"假 Jev 裁判"（本指南原创教具）</h3>
+<pre>cd ../exercise
+node mock-jev-server.mjs 8377</pre>
+<p><b>目的</b>：在 127.0.0.1:8377 实现 Jev 的 <span class="key">POST /v1/systemone</span> 协议，按提示词关键词返回决策（琐碎→haiku 0.95 / 普通→sonnet 0.80 / 困难→opus 0.92 / uncertain→opus 但置信仅 0.10），并把每个请求记入 <span class="key">mock-jev-requests.jsonl</span>。</p>
+<div class="expect">✅ 预期结果：打印 <span class="key">mock Jev API listening on http://127.0.0.1:8377/v1/systemone</span>，终端挂起等待。</div>
+</div>
+
+<div class="step"><h3><span class="snum">4</span>五场景裁决：看真代码怎么吹哨</h3>
+<p>另开终端：</p>
+<pre>JEV_API_KEY=mock-key TYPESAFE_BASE_URL=http://127.0.0.1:8377 node demo-routing.mjs</pre>
+<p><b>目的</b>：demo-routing.mjs 直接 import repo 里真实的 <span class="key">askJev()</span>（走 SDK 发真实 HTTP）和 <span class="key">decide()</span>，验证策略层五种结局。</p>
+<div class="expect">✅ 预期结果（本机真实输出逐字摘录）：<br>
+<span class="key">"what is 2+2?" → haiku (0.95) → ** haiku ** | jev | 61ms</span><br>
+<span class="key">"write a unit test..." → sonnet (0.8) → ** sonnet ** | jev/no-change</span><br>
+<span class="key">"refactor everything..." → opus (0.92) → ** opus ** | jev</span><br>
+<span class="key">"uncertain legacy bug..." → opus (0.1) → ** sonnet ** | low-confidence-capped/no-change</span> ← 低置信被钳制，升级封顶<br>
+<span class="key">"use opus to audit..." → (人类点名) → ** opus ** | explicit-override</span> ← 人类意志优先</div>
+</div>
+
+<div class="step"><h3><span class="snum">5</span>端到端：让真 Claude Code 走进代理</h3>
+<pre>cd ../repo
+JEV_API_KEY=mock-key TYPESAFE_BASE_URL=http://127.0.0.1:8377 node bin/jev-claude.mjs -p "what is 2+2?"</pre>
+<p><b>目的</b>：观察哨兵机制——本机 claude 默认模型不是 <span class="key">jev-router</span>，应全部直通。</p>
+<div class="expect">✅ 预期结果（本机真实日志）：代理打印一串 <span class="key">[jev] passthrough, user selected &lt;你的默认模型&gt;</span>，请求体零改写。本机因 claude 配的是第三方 kimi 供应商，转发官方端点会 401——这是本机配置限制；官方订阅账号此处会正常返回答案。</div>
+</div>
+
+<div class="step"><h3><span class="snum">6</span>终极彩蛋：关掉裁判，看 fail-open</h3>
+<p>把第 3 步的 mock 服务器 Ctrl+C 杀掉（模拟 Jev 宕机），然后：</p>
+<pre>JEV_API_KEY=mock-key TYPESAFE_BASE_URL=http://127.0.0.1:8377 node bin/jev-claude.mjs -p --model jev-router "what is 2+2?"</pre>
+<p><b>目的</b>：<span class="key">--model jev-router</span> 强制哨兵档位，但 Jev 连不上——观察代理如何自救。</p>
+<div class="expect">✅ 预期结果（本机真实日志）：<span class="key">[jev] rewrite jev-router -&gt; claude-opus-5</span>——回退到最安全的默认档，会话不因裁判缺席而停摆。这就是 fail-open：坏的是裁判，不是比赛。</div>
+</div>
+
+<!-- ============ 总结 ============ -->
+<h2 class="section t4">四、三分钟总结</h2>
+<div class="q" style="border-left-color:var(--yellow)">
+<ul>
+<li><b>Jev</b> = 只回类型化决策（Choice/Score/Noul）的"AI 裁判"，闭源托管，输入 $0.042/百万 token、输出免费；</li>
+<li><b>jev-router</b> = 插在 Claude Code/Codex 前的回环代理，用<b>哨兵模型名</b>当自动挡开关，每轮问 Jev 选档改写模型名；</li>
+<li><b>策略层</b> = 本地纯函数兜底：低置信不降级、人类点名优先、cache 感知、<span class="hl">一切失败收敛到"保持现状/退安全档"（fail-open）</span>；</li>
+<li><b>实验</b> = 官方 64 测试通过 + 假 Jev 服务器驱动真路由代码五场景全对 + 端到端见证哨兵直通与 fail-open——全程零 API 花费；</li>
+<li><b>下一步</b> = OpenRouter 充 $1 把假裁判换真裁判；或顺着 jev-mcp 给 Agent 加更多裁判工具。</li>
+</ul>
+</div>
+
+<div class="footer">F:\reminder\jev-router\ · 源头 https://x.com/GeekCatX/status/2100956459580395585 · 上游 github.com/gargpratyush/jev-router (MIT) · 2026-10-03</div>
+</div>
+</body>
+</html>

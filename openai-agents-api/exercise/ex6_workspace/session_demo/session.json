@@ -1,0 +1,7 @@
+{
+ "turn": 1,
+ "extra_instructions": [
+  "先只保证接口行为，页面模板问题只记方案不要改"
+ ],
+ "model_script_remaining": 2
+}

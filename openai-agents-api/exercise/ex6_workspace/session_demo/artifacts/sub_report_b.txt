@@ -1,0 +1,4 @@
+[调用点盘点组] 调查 F:\reminder\openai-agents-api\exercise\ex6_workspace\project\app.py:
+import miniflask, requests
+def page():
+    return miniflask.render_template('x.html')

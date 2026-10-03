@@ -1,0 +1,13 @@
+[package]
+name = "decoder_lab"
+version = "0.1.0"
+edition = "2021"
+description = "wx-cli-again 上游 decoder 源码的合成交互实验（拾遗 task 1c5dba8b）"
+
+[dependencies]
+anyhow = "1"
+aes = "0.8"
+
+[[bin]]
+name = "decoder_lab"
+path = "src/main.rs"

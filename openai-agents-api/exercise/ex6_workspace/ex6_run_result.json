@@ -1,0 +1,24 @@
+{
+ "claims_verified": true,
+ "step5_gate": {
+  "build_pass": "PASS",
+  "runtime_check": "FAIL(RuntimeError: render_template was removed in miniflask 2.0)",
+  "diff_reviewed": "PASS",
+  "leftovers_listed": "FAIL"
+ },
+ "step6_gate": {
+  "build_pass": "PASS",
+  "runtime_check": "PASS",
+  "diff_reviewed": "PASS",
+  "leftovers_listed": "PASS"
+ },
+ "runlog": [
+  "[步骤1] P1 验证：FakeModel 类里没有任何项目状态字段（grep 无 self.file/requirements）——模型只出决策 JSON，Harness 持有 session/tools/artifacts。拆法可代码化 ✔",
+  "[步骤2] P2 产物链：turn1 产物落盘（turn1_deps.txt 内容=['miniflask==2.0', 'requests==2.31']）——turn2 若继续，只需读 artifacts/ 不需要'回忆'。events.jsonl 共 11 条事件 ✔",
+  "[步骤3] P3 Session：进程'重启'后从 session.json 恢复（turn=1，追加要求=['先只保证接口行为，页面模板问题只记方案不要改']）——任务不绑单次请求，与官方文档 steer/continue 口径一致 ✔",
+  "[步骤4] P4 子agent：两个只读调查并行完成（完成序 b→a，各写各的报告文件，2 份互不覆盖）；共享文件 shared_plan.md 由主 agent 串行写入 3 条——'独立并行、共享串行'判据成立 ✔",
+  "[步骤5] P5 验收Gate：模型已 report_done（构建 PASS），但 Gate 实测 → {\"build_pass\": \"PASS\", \"runtime_check\": \"FAIL(RuntimeError: render_template was removed in miniflask 2.0)\", \"diff_reviewed\": \"PASS\", \"leftovers_listed\": \"FAIL\"} → 拒收：构建通过≠任务完成，模型谎报被确定性代码抓住",
+  "[步骤6] P6 A/B对照：验收写进任务后重跑 → {\"build_pass\": \"PASS\", \"runtime_check\": \"PASS\", \"diff_reviewed\": \"PASS\", \"leftovers_listed\": \"PASS\"} → 全部PASS，报告完成（对比步骤5的拒收，证明验收标准进配置比事后堆提示词有用）",
+  "[总结] 6 步主张验证：P1✔ P2✔ P3✔ P4✔ P5(✔拒收成立) P6(✔通过成立) → A/B 实验设计 成立"
+ ]
+}

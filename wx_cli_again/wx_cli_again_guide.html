@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>wx-cli-again 小白指南</title>
+<style>
+:root{
+  --bg:#fff8f0;
+  --ink:#23203a;
+  --c1:#ff4d6d;      /* 主红 */
+  --c2:#ff8f3d;      /* 橙 */
+  --c3:#ffd23d;      /* 黄 */
+  --c4:#2ec4b6;      /* 青 */
+  --c5:#4361ee;      /* 蓝 */
+  --c6:#8338ec;      /* 紫 */
+  --card:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;padding:24px}
+@page{size:A4;margin:14mm}
+.cover{background:linear-gradient(135deg,#ff4d6d 0%,#8338ec 55%,#4361ee 100%);color:#fff;border-radius:24px;padding:44px 40px;margin-bottom:26px}
+.cover h1{font-size:34px;letter-spacing:2px;margin-bottom:10px}
+.cover .sub{font-size:16px;opacity:.95}
+.badge{display:inline-block;background:#fff;color:#8338ec;border-radius:999px;padding:3px 14px;font-size:13px;font-weight:bold;margin:4px 6px 0 0}
+h2.sec{font-size:24px;margin:34px 0 16px;padding:10px 18px;border-radius:14px;color:#fff;background:linear-gradient(90deg,var(--c5),var(--c6))}
+.card{background:var(--card);border-radius:18px;padding:22px 24px;margin:18px 0;box-shadow:0 6px 18px rgba(35,32,58,.10);break-inside:avoid;border-left:10px solid var(--c1)}
+.card.q2{border-left-color:var(--c2)}.card.q3{border-left-color:var(--c3)}
+.card.q4{border-left-color:var(--c4)}.card.q5{border-left-color:var(--c5)}.card.q6{border-left-color:var(--c6)}
+.qnum{display:inline-block;font-size:30px;font-weight:900;color:var(--c1);margin-right:10px}
+.card h3{font-size:19px;display:inline}
+.card p{margin:10px 0}
+.hl{background:linear-gradient(transparent 55%,var(--c3) 55%);font-weight:700;padding:0 2px}
+.big{font-size:17px;font-weight:800;color:#c1121f}
+code,kbd{background:#23203a;color:#ffd23d;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;font-size:13.5px}
+pre{background:#23203a;color:#e8e6f0;border-radius:12px;padding:14px 16px;overflow-x:auto;font-size:12.5px;line-height:1.6;margin:10px 0}
+pre code{background:none;color:inherit;padding:0}
+.tip{background:#e7fbF7;border:2px dashed var(--c4);border-radius:12px;padding:12px 16px;margin:12px 0}
+.warn{background:#ffe8ec;border:2px dashed var(--c1);border-radius:12px;padding:12px 16px;margin:12px 0}
+.okbox{background:#e9f9ef;border:2px solid #2fbf71;border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th{background:var(--c5);color:#fff;padding:9px 10px;text-align:left}
+td{border:1px solid #d8d4ea;padding:8px 10px;vertical-align:top}
+tr:nth-child(even){background:#f4f2fc}
+.svgbox{background:#fbfaff;border-radius:12px;padding:10px;margin:12px 0;text-align:center}
+.step{border-radius:16px;padding:18px 20px;margin:14px 0;color:#fff;break-inside:avoid}
+.step h3{font-size:17px;margin-bottom:8px}
+.s1{background:linear-gradient(135deg,#ff4d6d,#ff758f)}
+.s2{background:linear-gradient(135deg,#ff8f3d,#ffb26b)}
+.s3{background:linear-gradient(135deg,#2ec4b6,#5eead4);color:#123}
+.s4{background:linear-gradient(135deg,#4361ee,#7b8cff)}
+.s5{background:linear-gradient(135deg,#8338ec,#b56cf0)}
+.step code{background:rgba(255,255,255,.22);color:#fff}
+.s3 code{color:#0b3}
+.footer{margin-top:30px;text-align:center;color:#8a86a3;font-size:12.5px}
+ul,ol{margin:8px 0 8px 24px}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>wx-cli-again 小白指南</h1>
+  <div class="sub">微信本地数据命令行工具（Rust）——从 DMCA 下架到重生的开源故事<br>拾遗学习 · task 1c5dba8b · 2026-10-03</div>
+  <div>
+    <span class="badge">Rust</span><span class="badge">SQLCipher</span><span class="badge">daemon 缓存</span><span class="badge">.dat 三档解码</span><span class="badge">AI Skill</span>
+  </div>
+</div>
+
+<h2 class="sec">目录（疑问即卡片）</h2>
+<div class="card"><span class="qnum">Q1</span><h3>这条推文背后发生了什么？wx-cli 的 DMCA 下架与重生</h3></div>
+<div class="card q2"><span class="qnum">Q2</span><h3>wx-cli-again 是什么？解决什么问题？</h3></div>
+<div class="card q3"><span class="qnum">Q3</span><h3>为什么查询能毫秒级？——daemon + mtime 缓存架构</h3></div>
+<div class="card q4"><span class="qnum">Q4</span><h3>SQLCipher「在线打开」和「全量解密」差在哪？</h3></div>
+<div class="card q5"><span class="qnum">Q5</span><h3>微信的 message_N.db 分片是什么结构？</h3></div>
+<div class="card q6"><span class="qnum">Q6</span><h3>聊天图片 .dat 为什么有三档解码？</h3></div>
+<div class="card"><span class="qnum">Q7</span><h3>legacy XOR 连 magic 都没有，怎么知道密钥？</h3></div>
+<div class="card q2"><span class="qnum">Q8</span><h3>输出里包的 meta wrapper 是给谁看的？</h3></div>
+<div class="card q3"><span class="qnum">Q9</span><h3>「不需要关 SIP」是真的吗？</h3></div>
+<div class="card q4"><span class="qnum">Q10</span><h3>五方位对比：它和已学的微信赛道项目差在哪？</h3></div>
+<div class="card q5"><span class="qnum">Q11</span><h3>隐私与法律红线在哪里？</h3></div>
+<div class="card q6"><span class="qnum">Q12</span><h3>现在能装吗？发布渠道现状</h3></div>
+
+<!-- ===================== Q1 ===================== -->
+<h2 class="sec">逐条解答</h2>
+
+<div class="card">
+<span class="qnum">Q1</span><h3>这条推文背后发生了什么？</h3>
+<p>推文作者 kabikabi（GitHub: jackwener）说"<span class="hl">太多人找我要 wx-cli 了，再度 public 一下</span>"——背景是：原版 <code>jackwener/wx-cli</code> 在 <b>2026-07-15 被 GitHub 以 DMCA 理由封锁</b>（投诉方指向微信，gh API 实测返回 451 <code>Repository access blocked (reason: dmca)</code>）。作者随后把代码以 <code>wx-cli-again</code> 名义重新公开（Apache-2.0，771 stars），并声明灵感来自 ylytdeng/wechat-decrypt。</p>
+<div class="svgbox">
+<svg width="640" height="120" viewBox="0 0 640 120">
+  <rect x="10" y="30" width="150" height="56" rx="10" fill="#4361ee"/>
+  <text x="85" y="55" fill="#fff" font-size="14" text-anchor="middle">jackwener/wx-cli</text>
+  <text x="85" y="74" fill="#cfe0ff" font-size="11" text-anchor="middle">走红后被求公开</text>
+  <path d="M170 58 L250 58" stroke="#ff4d6d" stroke-width="3" marker-end="url(#a1)"/>
+  <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#ff4d6d"/></marker></defs>
+  <rect x="258" y="30" width="170" height="56" rx="10" fill="#ff4d6d"/>
+  <text x="343" y="55" fill="#fff" font-size="14" text-anchor="middle">2026-07 DMCA 下架</text>
+  <text x="343" y="74" fill="#ffd9e0" font-size="11" text-anchor="middle">GitHub 451 封锁</text>
+  <path d="M436 58 L500 58" stroke="#2ec4b6" stroke-width="3" marker-end="url(#a2)"/>
+  <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#2ec4b6"/></marker></defs>
+  <rect x="508" y="30" width="122" height="56" rx="10" fill="#2ec4b6"/>
+  <text x="569" y="55" fill="#fff" font-size="14" text-anchor="middle">wx-cli-again</text>
+  <text x="569" y="74" fill="#d8fffa" font-size="11" text-anchor="middle">重生公开</text>
+</svg>
+</div>
+<div class="warn"><b>诚实记录</b>：本指南学习对象是<b>公开的</b> <code>jackwener/wx-cli-again</code>；原仓库的完整历史已不可访问，两者差异只能从 README 自述（"fresh start from wx-cli"）推断。</div>
+</div>
+
+<!-- ===================== Q2 ===================== -->
+<div class="card q2">
+<span class="qnum">Q2</span><h3>wx-cli-again 是什么？解决什么问题？</h3>
+<p>一句话：<span class="hl">一个 Rust 写的单一二进制命令行工具，查询/解密/导出你自己电脑上的微信 4.x 本地数据</span>——会话、聊天记录、全文搜索、联系人、群成员、朋友圈、公众号文章、收藏、统计、附件图片导出，全部输出 YAML/JSON，还专门给 AI Agent 设计了一套 <code>SKILL.md</code>（npx skills add 一键装进 Claude Code / Cursor / Codex）。</p>
+<p>没有它之前：想翻自己的微信聊天记录只能靠微信自带搜索，弱、慢、无法批量导出。它把"个人数据自己拿回来"做成了类 Unix 的命令行体验：<code>wx history "张三"</code>、<code>wx search "关键词"</code>、<code>wx export "AI群" --format markdown</code>。</p>
+<div class="tip"><b>类比已学项目</b>：它和 [[wechat-ai-memory]]（导出 PDF/JSON 喂给 Agent）、[[wechat-intelligence-hub]]（情报信号引擎）是<b>同一层</b>的工具——但 wx-cli 更"基建"：不预设记忆/情报用途，只做<b>通用数据访问层</b> + 毫秒级查询服务。</div>
+</div>
+
+<!-- ===================== Q3 ===================== -->
+<div class="card q3">
+<span class="qnum">Q3</span><h3>为什么查询能毫秒级？——daemon 缓存架构</h3>
+<p>核心设计：<span class="hl">CLI 本身不干活，只是客户端</span>。首次查询时自动拉起后台 <code>wx-daemon</code> 进程，daemon 解密数据库后把明文库 + mtime 索引持久化到 <code>~/.wx-cli/cache/</code>。之后每次查询通过 Unix socket（Windows 是 named pipe）发请求，<b>mtime 没变就直接复用缓存</b>，毫秒级返回。</p>
+<div class="svgbox">
+<svg width="660" height="210" viewBox="0 0 660 210">
+  <rect x="20" y="70" width="130" height="60" rx="12" fill="#ff8f3d"/>
+  <text x="85" y="97" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">wx (CLI)</text>
+  <text x="85" y="116" fill="#ffe8d6" font-size="11" text-anchor="middle">只发请求不解密</text>
+  <path d="M155 100 L270 100" stroke="#8338ec" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#a3)"/>
+  <defs><marker id="a3" markerWidth="9" markerHeight="9" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#8338ec"/></marker></defs>
+  <text x="212" y="88" fill="#8338ec" font-size="11" text-anchor="middle">Unix socket / named pipe</text>
+  <rect x="278" y="40" width="200" height="130" rx="14" fill="#8338ec"/>
+  <text x="378" y="66" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">wx-daemon（常驻）</text>
+  <rect x="296" y="80" width="164" height="34" rx="8" fill="#b56cf0"/>
+  <text x="378" y="101" fill="#fff" font-size="11.5" text-anchor="middle">DBCache：mtime 不变 → 复用</text>
+  <rect x="296" y="122" width="164" height="34" rx="8" fill="#b56cf0"/>
+  <text x="378" y="143" fill="#fff" font-size="11.5" text-anchor="middle">联系人缓存 / 分片密钥表</text>
+  <rect x="510" y="55" width="130" height="44" rx="10" fill="#4361ee"/>
+  <text x="575" y="74" fill="#fff" font-size="11.5" text-anchor="middle">~/.wx-cli/cache/</text>
+  <text x="575" y="89" fill="#cfe0ff" font-size="10" text-anchor="middle">明文库 + _mtimes.json</text>
+  <path d="M480 105 L510 82" stroke="#4361ee" stroke-width="2.5" marker-end="url(#a4)"/>
+  <defs><marker id="a4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#4361ee"/></marker></defs>
+  <rect x="510" y="135" width="130" height="44" rx="10" fill="#ff4d6d"/>
+  <text x="575" y="154" fill="#fff" font-size="11.5" text-anchor="middle">微信加密库</text>
+  <text x="575" y="169" fill="#ffd9e0" font-size="10" text-anchor="middle">message_N.db (SQLCipher)</text>
+  <path d="M480 110 L510 155" stroke="#ff4d6d" stroke-width="2.5" marker-end="url(#a5)"/>
+  <defs><marker id="a5" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#ff4d6d"/></marker></defs>
+</svg>
+</div>
+<p class="big">对比：wechat-ai-memory 每次导出都要重新解密一遍；wx-cli 把"解密"摊销到 daemon 的生命周期里——查 100 次只解密 1 次。</p>
+</div>
+
+<!-- ===================== Q4 ===================== -->
+<div class="card q4">
+<span class="qnum">Q4</span><h3>SQLCipher「在线打开」和「全量解密」差在哪？</h3>
+<p>微信 4.x 的每个 .db 都是 <b>SQLCipher 4 整库加密</b>（AES-256-CBC + HMAC-SHA512）。传统做法（如 [[进程取钥与副本解密]] 描述的 Frida 路线）：拿到 32 字节密钥 → 把整个库解密复制一份 → 在副本上查询。wx-cli 的做法更激进：<span class="hl">用 rusqlite 的 bundled SQLCipher 直接对加密库"在线打开"</span>——PRAGMA key 以 raw-key 语法 <code>x'&lt;64hex&gt;'</code> 喂进去（跳过 PBKDF2），SQLite 每读一页就地解密，<b>不落任何明文副本</b>；只有在线打不开时才降级为解密到 cache。</p>
+<div class="tip">源码依据：<code>src/crypto/sqlcipher.rs</code> 的 <code>open_encrypted_readonly()</code>——只读标志 + <code>PRAGMA query_only = ON</code>，先尝试 key-only，失败再回退 key+salt 拼接。</div>
+<p>类比：全量解密像"把整本外文原著翻译后另存一个文件"；在线打开像"带着词典读原版"——页级（page）随读随译。</p>
+</div>
+
+<!-- ===================== Q5 ===================== -->
+<div class="card q5">
+<span class="qnum">Q5</span><h3>message_N.db 分片是什么结构？</h3>
+<p>微信把聊天记录按时间和体量切成多个分片库：<code>message/message_1.db</code>、<code>message_2.db</code>…还有独立的 <code>biz_message_*.db</code>（公众号文章）和 <code>message_resource.db</code>（附件索引）。<b>每个分片有独立的 32 字节密钥</b>——旧消息所在的分片可能长期不被微信加载，密钥也就迟迟不出现在内存里，这就是"冷分片缺钥"问题。wx-cli 的对策是 <code>meta.unknown_shards</code>：查询结果里明确告诉你哪些分片没密钥、结果可能不全（<code>possibly_stale</code> 状态），而不是悄悄返回残缺的"假完整"。</p>
+<div class="svgbox">
+<svg width="660" height="140" viewBox="0 0 660 140">
+  <g font-size="11.5" text-anchor="middle">
+  <rect x="20" y="30" width="130" height="52" rx="9" fill="#4361ee"/><text x="85" y="52" fill="#fff">message_1.db</text><text x="85" y="70" fill="#cfe0ff">热分片·有钥✅</text>
+  <rect x="170" y="30" width="130" height="52" rx="9" fill="#4361ee"/><text x="235" y="52" fill="#fff">message_2.db</text><text x="235" y="70" fill="#cfe0ff">热分片·有钥✅</text>
+  <rect x="320" y="30" width="130" height="52" rx="9" fill="#9aa3c0"/><text x="385" y="52" fill="#fff">message_3.db</text><text x="385" y="70" fill="#e8ebf7">冷分片·缺钥⚠</text>
+  <rect x="470" y="30" width="80" height="52" rx="9" fill="#ff8f3d"/><text x="510" y="52" fill="#fff">biz_msg</text><text x="510" y="70" fill="#ffe8d6">公众号</text>
+  <rect x="564" y="30" width="76" height="52" rx="9" fill="#2ec4b6"/><text x="602" y="52" fill="#fff">resource</text><text x="602" y="70" fill="#d8fffa">附件索引</text>
+  </g>
+  <text x="330" y="115" font-size="12" fill="#c1121f" text-anchor="middle" font-weight="bold">meta.unknown_shards = ["message_3.db"] → 结果标记 possibly_stale，不装完整</text>
+</svg>
+</div>
+</div>
+
+<!-- ===================== Q6 ===================== -->
+<div class="card q6">
+<span class="qnum">Q6</span><h3>聊天图片 .dat 为什么有三档解码？</h3>
+<p>微信存的聊天图片不是 jpg/png 原文件，而是 <code>msg/attach/.../*.dat</code> 加密文件，而且<b>历史上换过三次加密方案</b>，工具必须兼容全部：</p>
+<table>
+<tr><th>档位</th><th>文件头 magic</th><th>算法</th><th>密钥来源</th></tr>
+<tr><td><b>legacy XOR</b></td><td>无（靠内容反推）</td><td>全文件单字节 XOR</td><td>用已知图片 magic 反推</td></tr>
+<tr><td><b>V1 固定 AES</b></td><td><code>07 08 V1 08 07</code></td><td>AES-128-ECB (PKCS7)</td><td><span class="hl">硬编码常量</span> <code>cfcd208495d565ef</code>（= md5("0") 前 16 位）</td></tr>
+<tr><td><b>V2 AES + XOR</b></td><td><code>07 08 V2 08 07</code></td><td>三段拼接：AES-ECB + 明文 raw + 单字节 XOR</td><td>平台派生 image AES key（macOS 从 kvcomm cache / 暴力枚举 uin；Windows 扫 WeChat.exe 内存）</td></tr>
+</table>
+<div class="svgbox">
+<svg width="660" height="130" viewBox="0 0 660 130">
+  <rect x="10" y="42" width="120" height="46" rx="10" fill="#8338ec"/>
+  <text x="70" y="62" fill="#fff" font-size="12.5" text-anchor="middle">读 .dat 头 6 字节</text>
+  <text x="70" y="78" fill="#e6d4ff" font-size="10.5" text-anchor="middle">dispatch() 分发</text>
+  <path d="M132 52 L210 30" stroke="#2ec4b6" stroke-width="2.5"/>
+  <path d="M132 65 L210 65" stroke="#4361ee" stroke-width="2.5"/>
+  <path d="M132 78 L210 100" stroke="#ff8f3d" stroke-width="2.5"/>
+  <rect x="214" y="12" width="200" height="34" rx="9" fill="#2ec4b6"/>
+  <text x="314" y="34" fill="#fff" font-size="12" text-anchor="middle">V2 magic → v2 解码器（需 image key）</text>
+  <rect x="214" y="49" width="200" height="34" rx="9" fill="#4361ee"/>
+  <text x="314" y="71" fill="#fff" font-size="12" text-anchor="middle">V1 magic → v2 解码器 + 固定 key</text>
+  <rect x="214" y="86" width="200" height="34" rx="9" fill="#ff8f3d"/>
+  <text x="314" y="108" fill="#fff" font-size="12" text-anchor="middle">都不是 → legacy XOR（magic 反推 key）</text>
+  <rect x="440" y="49" width="200" height="34" rx="9" fill="#23203a"/>
+  <text x="540" y="71" fill="#ffd23d" font-size="12" text-anchor="middle">探测格式 jpg/png/gif/webp/hevc…</text>
+</svg>
+</div>
+</div>
+
+<!-- ===================== Q7 ===================== -->
+<div class="card">
+<span class="qnum">Q7</span><h3>legacy XOR 没有 magic，怎么知道密钥？</h3>
+<p>妙招：<span class="hl">用"正确答案"反推</span>。图片格式都有固定文件头（PNG 以 <code>89 50 4E 47</code> 开头、JPG 以 <code>FF D8 FF</code> 开头…），假设明文第一个字节是 magic[0]，那么 <code>XOR key = 密文[0] ⊕ magic[0]</code>；拿这个 key 去验 magic 剩余字节，全部命中才算数。按 magic 长度降序尝试（PNG 4 字节优先于 JPG 3 字节），避免短 magic 的假阳性；BMP 只有 2 字节 magic，还要额外校验文件头里的 <code>bf_size</code>/<code>bf_offset</code> 合理性。</p>
+<div class="tip">本批次实验 1 实测验证：合成 PNG 用任意 key <code>0x5A</code> XOR 成伪 .dat，上游真实源码 dispatch() 自动反推出 key 并无损还原 87 字节原图（见动手实验）。</div>
+</div>
+
+<!-- ===================== Q8 ===================== -->
+<div class="card q2">
+<span class="qnum">Q8</span><h3>meta wrapper 是给谁看的？</h3>
+<p><code>history</code>/<code>search</code>/<code>sessions</code> 等命令的 stdout 不是裸数组，而是 <code>{data, meta}</code> 包装：<code>meta.status</code>（ok / possibly_stale…）、<code>meta.unknown_shards</code>、<code>chat_latest_timestamp</code> vs <code>session_last_timestamp</code>（对账：session.db 里微信自己记的最新时间若领先于查到的，说明漏消息了）。<span class="hl">这是写给 AI Agent 看的"数据新鲜度声明"</span>——agent 消费输出时自己判断能不能信、缺了哪块，不用人类盯 stderr。配套还有 SKILL.md / AGENTS.md，让这个 CLI 可以被 Claude Code 当技能安装。</p>
+</div>
+
+<!-- ===================== Q9 ===================== -->
+<div class="card q3">
+<span class="qnum">Q9</span><h3>「不需要关 SIP」是真的吗？</h3>
+<p>按 README 与 <code>src/scanner/macos.rs</code> 注释：取钥两阶段（① <code>task_for_pid</code> 进程内存扫描搜 <code>x'key+salt'</code> 模式；② LLDB hook <code>CCCryptorCreate</code> 补冷分片密钥）都<b>不依赖关闭 SIP</b>——SIP 保护的是系统组件，不是"能不能读微信内存"的开关。需要的是本机 GUI Terminal + sudo（Hardened Runtime 官方包）+ 在"隐私与安全性 → 开发者工具"里授权终端。</p>
+<div class="warn"><b>诚实记录</b>：本机是 <b>Windows 11</b>，没有 macOS/SIP/LLDB 环境，<span class="hl">该声明无法在本机复验</span>，只转述源码注释与 README。Windows 版取钥是扫 WeChat.exe 内存匹配 V2 key 候选，同样未在本机复验（无微信 4.x 测试环境）。</div>
+</div>
+
+<!-- ===================== Q10 ===================== -->
+<div class="card q4">
+<span class="qnum">Q10</span><h3>五方位对比：微信赛道项目</h3>
+<table>
+<tr><th></th><th><b>wx-cli-again</b></th><th>yichen-skills<br>wechat-local-vault</th><th>wechat-ai-memory</th><th>wechat-intelligence-hub</th><th>Memmy</th></tr>
+<tr><td><b>定位</b></td><td>通用数据访问层 CLI + AI Skill</td><td>Skill 合集工作流</td><td>记忆流水线进料口（导出三件套）</td><td>情报库（信号引擎）</td><td>记忆仓库</td></tr>
+<tr><td><b>语言/形态</b></td><td><span class="hl">Rust 单二进制</span> + daemon</td><td>Python 脚本集 + Frida</td><td>Python/PySide6 GUI</td><td>（见对应笔记）</td><td>（见对应笔记）</td></tr>
+<tr><td><b>取数路线</b></td><td>task_for_pid 内存扫描 + LLDB hook（不关 SIP）</td><td>Frida 取钥（[[进程取钥与副本解密]]）</td><td>Frida 取钥</td><td>授权 salt-key（[[CleanRoom只读读取器]]）</td><td>—</td></tr>
+<tr><td><b>独门</b></td><td>daemon mtime 缓存毫秒级 + 在线打开 SQLCipher 不落明文 + .dat 三档解码 + meta 新鲜度声明</td><td>工程化护栏最全（授权硬门/快照契约）</td><td>适配器隔离 + JSON 备用入口</td><td>边界最干净（不碰进程）</td><td>记忆组织分层</td></tr>
+<tr><td><b>平台</b></td><td><span class="hl">macOS / Linux / Windows 三平台</span></td><td>Mac 主场 + Windows 快照实验性</td><td>Windows</td><td>—</td><td>—</td></tr>
+<tr><td><b>护栏风格</b></td><td>只读 + query_only + 免责声明（口头契约）</td><td>写进代码契约（WAL 拒收/UUIDv4 manifest）</td><td>确定性护栏</td><td>授权材料制</td><td>—</td></tr>
+</table>
+<p class="big">一句话：wx-cli-again 是赛道里"工程性能最强、平台最广"的选手；护栏精细度不如 yichen-skills，边界干净度不如 intelligence-hub，但它把查询体验做成了基础设施级。</p>
+</div>
+
+<!-- ===================== Q11 ===================== -->
+<div class="card q5">
+<span class="qnum">Q11</span><h3>隐私与法律红线在哪？</h3>
+<ul>
+<li>README 免责声明：仅限解密<b>自己的</b>微信数据，用于学习研究；原仓库被 DMCA 下架就是越过红线的代价写照。</li>
+<li>技术层护栏：数据库只读打开 + <code>PRAGMA query_only = ON</code>；密钥存本机 <code>~/.wx-cli/all_keys.json</code>，不联网。</li>
+<li>本批次学习全程<b>零真实微信数据</b>：实验只用 Pillow 合成的 87 字节 PNG 走编解码往返（对比 wechat-ai-memory / yichen-skills 两批次的同一红线做法）。</li>
+</ul>
+</div>
+
+<!-- ===================== Q12 ===================== -->
+<div class="card q6">
+<span class="qnum">Q12</span><h3>现在能装吗？</h3>
+<p>现实有点绕：README 宣称的"源码与发布仓库"<code>botiverse/wx-cli</code> 当前是 <b>private</b>，匿名 curl/旧 npm 包 <code>@jackwener/wx-cli@0.3.0</code> 拿不到新二进制。<span class="hl">可行路径只有一条：源码自编译</span>——而本批次已在 Windows 11 实测走通（见下节实验，含 MinGW 坑）。Windows 上微信 4.x 取钥支持是"扫 WeChat.exe 内存匹配 V2 候选"，比 macOS 路线年轻，稳定性预期低一些。</p>
+</div>
+
+<!-- ===================== 能力清单 ===================== -->
+<h2 class="sec">这个项目给我什么能力</h2>
+<div class="card q4">
+<ul>
+<li><b>秒查自己的聊天历史</b>：<code>wx history "张三" -n 2000</code>、按时间段过滤、全文 <code>wx search</code>——一旦配好密钥，比微信自带搜索强一个量级。</li>
+<li><b>给 Agent 接上微信数据源</b>：meta wrapper + SKILL.md 是专门为 LLM 消费设计的，装上技能后可以让 Claude Code 直接查你的聊天上下文。</li>
+<li><b>导出归档</b>：markdown / JSON 导出任意会话，时间范围可控，适合做项目复盘材料。</li>
+<li><b>朋友圈/公众号/收藏检索</b>：三个常被忽视的本地数据源（sns-feed、sns-search、biz-articles、favorites）。</li>
+<li><b>.dat 图片抢救</b>：三档解码器兼容微信历代图片加密，能把自己的聊天图片批量还原成 jpg/png。</li>
+<li><b>学习样本</b>：即使不用微信，它的"daemon 缓存 + 在线解密 + AI 友好输出"架构也是本地数据 CLI 的范本（本批次 decoder 实验可直接搬运其源码）。</li>
+</ul>
+</div>
+
+<!-- ===================== 实验 ===================== -->
+<h2 class="sec">动手实验：编译 wx-cli + 用上游真实解码器源码做合成数据往返（全程零真实微信数据）</h2>
+
+<div class="step s1">
+<h3>步骤 1 · 装 Rust 工具链（约 3 分钟）</h3>
+<p>操作：<code>curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal</code>　目的：拿到 cargo/rustc　验证：<code>cargo --version</code> 有版本输出</p>
+<p>✅ 预期结果：<code>cargo 1.xx.x</code></p>
+</div>
+
+<div class="step s2">
+<h3>步骤 2 · 克隆并编译 wx-cli-again（Windows 首个坑在此）</h3>
+<p>操作：<code>git clone https://github.com/jackwener/wx-cli-again &amp;&amp; cd wx-cli-again &amp;&amp; cargo build --release</code>　目的：得到单一二进制 <code>wx.exe</code></p>
+<div class="warn"><b>本机实测坑</b>：rustup 默认装的是 GNU 工具链，链接时调用 <code>D:\MinGW\bin\dlltool.exe</code> 报 <code>Invalid bfd target</code>，<code>getrandom</code>/<code>windows-sys</code> 编译失败。<b>解法</b>：本机已有 VS BuildTools 18，改用 MSVC 工具链——<code>rustup toolchain install stable-x86_64-pc-windows-msvc</code>，然后在 <code>vcvars64.bat</code> 环境里 <code>rustup default stable-x86_64-pc-windows-msvc &amp;&amp; cargo build --release</code> 即通过。</div>
+<p>✅ 预期结果：<code>target\release\wx.exe</code> 生成（约 6MB 单文件）</p>
+</div>
+
+<div class="step s3">
+<h3>步骤 3 · 跑真实二进制（无微信环境 = 诚实输出）</h3>
+<p>操作：<code>wx --version</code>、<code>wx --help</code>、<code>wx doctor</code>　目的：验证二进制可用、看健康检查在"零密钥"环境下的真实表现</p>
+<pre><code>{{WX_VERSION_OUTPUT}}</code></pre>
+<pre><code>{{WX_DOCTOR_OUTPUT}}</code></pre>
+<p>✅ 预期结果：version 打印 0.6.3；doctor 如实报告找不到密钥/数据库（本机无微信 4.x，这正是该命令的设计用途——它不是报错，是体检）。</p>
+</div>
+
+<div class="step s4">
+<h3>步骤 4 · decoder_lab：上游真实源码 + 合成图片往返解码（核心实验）</h3>
+<p>操作：进入 <code>exercise\decoder_lab\</code>（自建的独立小 crate，<code>src\decoder\</code> 三文件为<b>上游源码原样拷贝</b>），<code>cargo run --release</code></p>
+<p>目的：在隐私红线内验证 wx-cli 图片解码管线的正确性——自己造一张 PNG，自己按微信的格式"加密"，再用上游代码解回来：</p>
+<ul style="color:#fff">
+<li><b>实验 1</b>：合成 87 字节 PNG → 单字节 XOR（key=0x5A）造伪 legacy .dat → 上游 <code>dispatch()</code> 自动反推 key、无损还原 ✅</li>
+<li><b>实验 2</b>：按上游 v2.rs 注释的真实容器格式（6B magic + 4B aes_size + 4B xor_size + 1B padding + AES-128-ECB 密文）手工封 V1 文件，用固定 key <code>cfcd208495d565ef</code> 加密 → 上游解出 decoder=v1_aes、format=png、逐字节一致 ✅</li>
+<li><b>实验 3（负向护栏）</b>：全零垃圾 → 拒收"无法识别图片 magic"；空文件 → 拒收"空 .dat 文件"；V2 magic 但缺 image key → 拒收 ✅</li>
+</ul>
+<pre><code>{{DECODER_LAB_OUTPUT}}</code></pre>
+<p>✅ 预期结果：三行"一致 ✅" + 三行"正确拒绝 ✅"，收尾"全部实验通过"。</p>
+</div>
+
+<div class="step s5">
+<h3>步骤 5 · 读 daemon 缓存目录（概念验证）</h3>
+<p>操作：<code>wx daemon status</code>（或查看 <code>~/.wx-cli/</code> 目录结构）　目的：理解"配置 / 密钥 / socket / 缓存"四件套布局</p>
+<pre><code>~/.wx-cli/
+├── config.json       # 配置
+├── all_keys.json     # 数据库密钥（本机为空——从未连过真实微信）
+├── daemon.sock / daemon.pid / .log
+└── cache/            # 解密库 + _mtimes.json（mtime 索引）</code></pre>
+<p>✅ 预期结果：首次查询自动拉起 daemon 并生成上述目录；本机因无微信数据，doctor 止步于密钥检查，属预期行为。</p>
+</div>
+
+<div class="card">
+<h3>实验结论与边界</h3>
+<ul>
+<li><b>已实证</b>：源码可编译（MSVC 路线）、二进制可运行、上游图片解码器对合成数据的往返与负向护栏全部正确、daemon 架构从源码读通。</li>
+<li><b>未复验（诚实记录）</b>：macOS SIP/LLDB 取钥、Windows 扫 WeChat.exe 取钥、真实 SQLCipher 库在线打开——三者都需要真实微信环境，本机不具备，只做了源码级研读。</li>
+<li><b>隐私红线</b>：全程零真实微信数据，与 wechat-ai-memory、yichen-skills 两批次实验同规。</li>
+</ul>
+</div>
+
+<div class="footer">wx-cli-again 小白指南 · 拾遗学习流水线 · F:\reminder\wx_cli_again\ · 2026-10-03</div>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+{"time":"2026-10-03T06:51:32.338Z","prompt":"what is 2+2?","questions":["task_complexity","reasoning_required","tool_complexity","model"]}
+{"time":"2026-10-03T06:51:32.355Z","prompt":"write a unit test for the parse function","questions":["task_complexity","reasoning_required","tool_complexity","model"]}
+{"time":"2026-10-03T06:51:32.359Z","prompt":"refactor everything: redesign the architecture for concurrency","questions":["task_complexity","reasoning_required","tool_complexity","model"]}
+{"time":"2026-10-03T06:51:32.362Z","prompt":"uncertain legacy bug, maybe fix it","questions":["task_complexity","reasoning_required","tool_complexity","model"]}
+{"time":"2026-10-03T06:51:32.365Z","prompt":"use opus to audit the auth module","questions":["task_complexity","reasoning_required","tool_complexity","model"]}

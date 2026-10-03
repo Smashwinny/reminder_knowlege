@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>OpenAI Agents API 科普拆解篇</title>
+<style>
+:root{
+  --hot:#FF3D7F; --orange:#FF8A00; --yellow:#FFC400; --green:#00C853; --blue:#2979FF;
+  --purple:#8E24AA; --cyan:#00B8D4; --ink:#1A1035; --bg:#FFFDF5; --card:#FFFFFF;
+  --soft-pink:#FFE3EE; --soft-blue:#E3F0FF; --soft-yellow:#FFF6D6; --soft-green:#E0F7E8;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+@page{ size:A4; margin:12mm; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.65; font-size:13.5px;}
+.cover{ background:linear-gradient(135deg,#FF3D7F 0%,#FF8A00 55%,#FFC400 100%); color:#fff; border-radius:18px; padding:34px 30px; margin-bottom:18px; }
+.cover h1{ font-size:34px; letter-spacing:1px; text-shadow:0 2px 8px rgba(0,0,0,.25);}
+.cover .sub{ font-size:15px; margin-top:10px; opacity:.96;}
+.cover .meta{ margin-top:14px; font-size:12px; background:rgba(255,255,255,.22); display:inline-block; padding:5px 14px; border-radius:99px;}
+.toc{ background:var(--card); border:3px dashed var(--orange); border-radius:14px; padding:16px 22px; margin-bottom:18px;}
+.toc h2{ color:var(--hot); font-size:19px; margin-bottom:8px;}
+.toc ol{ columns:2; column-gap:34px; padding-left:22px; font-size:13px;}
+.toc li{ margin:3px 0;}
+.qcard{ background:var(--card); border-radius:16px; padding:20px 24px 18px; margin-bottom:16px; break-inside:avoid; box-shadow:0 3px 12px rgba(26,16,53,.08); border-top:8px solid var(--blue);}
+.qcard.pink{border-top-color:var(--hot);} .qcard.orange{border-top-color:var(--orange);}
+.qcard.green{border-top-color:var(--green);} .qcard.purple{border-top-color:var(--purple);}
+.qcard.cyan{border-top-color:var(--cyan);} .qcard.yellow{border-top-color:var(--yellow);}
+.qhead{ display:flex; align-items:flex-start; gap:14px; margin-bottom:10px;}
+.qnum{ flex:0 0 auto; font-size:38px; font-weight:900; color:#fff; background:var(--blue); width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg);}
+.pink .qnum{background:var(--hot);} .orange .qnum{background:var(--orange);}
+.green .qnum{background:var(--green);} .purple .qnum{background:var(--purple);}
+.cyan .qnum{background:var(--cyan);} .yellow .qnum{background:var(--yellow); color:var(--ink);}
+.qtitle{ font-size:19px; font-weight:900; padding-top:6px;}
+.hl{ background:linear-gradient(transparent 55%, #FFE066 55%); font-weight:900; padding:0 2px;}
+.hl-pink{ background:linear-gradient(transparent 55%, #FFB3D1 55%); font-weight:900; padding:0 2px;}
+.big{ font-size:16px; font-weight:900;}
+.quote{ border-left:6px solid var(--hot); background:var(--soft-pink); padding:10px 16px; border-radius:0 10px 10px 0; margin:10px 0; font-weight:900; font-size:15px;}
+.code{ background:#241a3f; color:#7CFFCB; font-family:Consolas,monospace; font-size:12px; padding:10px 14px; border-radius:10px; margin:8px 0; white-space:pre-wrap; break-inside:avoid;}
+.tag{ display:inline-block; font-size:11px; font-weight:900; color:#fff; border-radius:99px; padding:2px 10px; margin-right:6px;}
+svg{ max-width:100%; height:auto; display:block; margin:8px auto;}
+.figcap{ text-align:center; font-size:11.5px; color:#6b5e8a; margin-bottom:4px;}
+table{ width:100%; border-collapse:collapse; margin:8px 0; font-size:12.5px; break-inside:avoid;}
+th{ background:var(--blue); color:#fff; padding:7px 9px; text-align:left;}
+td{ border:1.5px solid #E3DBF5; padding:6px 9px; background:#fff;}
+tr:nth-child(even) td{ background:#F7F4FF;}
+.ok{ color:var(--green); font-weight:900;} .no{ color:#E53935; font-weight:900;}
+.step{ background:var(--soft-yellow); border:2px solid var(--yellow); border-radius:12px; padding:12px 16px; margin:10px 0; break-inside:avoid;}
+.step b.st{ color:#B8860B; font-size:14.5px;}
+.expect{ background:var(--soft-green); border:2px solid var(--green); border-radius:10px; padding:8px 12px; margin-top:8px; font-size:12.5px;}
+.expect b{ color:var(--green);}
+.mem{ background:linear-gradient(135deg,#1A1035,#4527A0); color:#fff; border-radius:16px; padding:22px 26px; break-inside:avoid;}
+.mem h2{ color:#FFD54F; font-size:20px; margin-bottom:10px;}
+.mem li{ margin:5px 0 5px 20px;}
+.mem .k{ color:#FF8A80; font-weight:900;}
+.foot{ text-align:center; font-size:11px; color:#8a7fae; margin-top:14px;}
+.two{ display:flex; gap:12px; flex-wrap:wrap;} .two>div{ flex:1 1 300px;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>OpenAI Agents API 科普拆解篇</h1>
+  <div class="sub">—— sitin《Agents API来了，Codex背后的这套能力终于开放了》一文精读 + 主张实测验证（增补篇）</div>
+  <div class="meta">拾遗任务 6628a24f · 2026-10-03 · 姊妹篇《OpenAIAgentsAPI-小白指南》（官方文档视角 12 问）已先行入库，本篇只补科普文独有增量</div>
+</div>
+
+<div class="toc">
+  <h2>❓ 工科毕业生的 10 个新疑问（疑问即目录）</h2>
+  <ol>
+    <li>"Agent ≈ Model + Harness"这个拆法靠谱吗？</li>
+    <li>harness 要回答的五问，官方四概念怎么接？</li>
+    <li>"长任务不是让 AI 一直想"是什么意思？</li>
+    <li>"别靠记忆硬撑"——产物链是什么？</li>
+    <li>Session 为什么能让任务不绑单次请求？</li>
+    <li>"工具不是越多越好"怎么落地？</li>
+    <li>子 agent 什么时候并行、什么时候必须串行？</li>
+    <li>"验收标准写进任务"为什么比堆提示词有用？</li>
+    <li>Codex 和 Agents API 到底什么关系？</li>
+    <li>这篇科普文和官方文档，先读哪个？</li>
+  </ol>
+</div>
+
+<!-- Q1 -->
+<div class="qcard blue">
+  <div class="qhead"><div class="qnum">Q1</div><div class="qtitle">"Agent ≈ Model + Harness"，这个拆法靠谱吗？</div></div>
+  <p><span class="hl">靠谱，而且它就是本仓库已学七职责的入门版。</span>Model（大模型）负责思考、推理、决策，但它<span class="hl-pink">不知道文件在哪、不会自己开终端</span>；Harness（运行框架）负责组织上下文、工具调用、状态和子 agent，跑那个<span class="hl">"模型判断 → 调工具 → 读结果 → 继续判断"</span>的循环。</p>
+  <div class="two">
+    <div><svg viewBox="0 0 340 150" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="30" width="120" height="90" rx="14" fill="#8E24AA"/>
+      <text x="68" y="62" fill="#fff" font-size="15" font-weight="bold" text-anchor="middle">Model</text>
+      <text x="68" y="84" fill="#E1BEE7" font-size="11" text-anchor="middle">大脑：只会思考</text>
+      <text x="68" y="100" fill="#E1BEE7" font-size="10" text-anchor="middle">不碰文件/终端</text>
+      <text x="160" y="80" font-size="24" fill="#FF8A00" text-anchor="middle">＋</text>
+      <rect x="185" y="30" width="120" height="90" rx="14" fill="#2979FF"/>
+      <text x="245" y="58" fill="#fff" font-size="15" font-weight="bold" text-anchor="middle">Harness</text>
+      <text x="245" y="78" fill="#BBDEFB" font-size="10" text-anchor="middle">调度层：管状态/工具/</text>
+      <text x="245" y="93" fill="#BBDEFB" font-size="10" text-anchor="middle">环境/子agent/留痕</text>
+      <text x="245" y="110" fill="#fff" font-size="10" text-anchor="middle" font-weight="bold">跑"判断→工具→结果"循环</text>
+    </svg><div class="figcap">图1　Agent = 会思考的大脑 × 会办事的挽具</div></div>
+    <div>
+      <p>文章这套两分法，对应已学的 <b>[[AgentHarness智能体挽具]]</b> 七职责（契约→地图→最小权限工具→验证证据→上下文工程→失败廉价→停止条件）——科普版把七职责压成了"一句话版"，适合先记这句再展开。</p>
+      <p class="quote">实验 ex6 步骤1 实证：FakeModel 类里<span class="hl">一个项目状态字段都没有</span>——模型只输出决策 JSON，状态全在 Harness 里。"分工"是可以写进代码的架构事实，不是比喻。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="qcard purple">
+  <div class="qhead"><div class="qnum">Q2</div><div class="qtitle">harness 要回答的五问，官方四概念怎么接？</div></div>
+  <p>文章列了 harness 必须回答的五个问题：谁来保存任务状态？谁把文件、终端和浏览器交给它？工具调用失败以后从哪里继续？任务太大怎么拆子 agent？怎么留下过程让人检查？官方 Agents API 用四个概念一一接住：</p>
+  <table>
+    <tr><th>文章五问</th><th>官方概念</th><th>一句话接法</th></tr>
+    <tr><td>谁保存任务状态</td><td><b>Session</b>（sess_ id 持久对象）</td><td>任务在册，跨轮次不丢</td></tr>
+    <tr><td>谁交文件/终端/浏览器</td><td><b>Environment</b>（沙箱三态）</td><td>工位可选：托管沙箱/你自己的机器</td></tr>
+    <tr><td>失败从哪继续</td><td><b>Events &amp; Items</b> + 托管压缩恢复</td><td>事件流水都在，retrieve 即续传</td></tr>
+    <tr><td>怎么拆子 agent</td><td>subagent（创建/打断/关闭也是 item）</td><td>harness 自己招临时工</td></tr>
+    <tr><td>怎么留过程</td><td>items / traces / artifacts</td><td>全过程可回放可复查</td></tr>
+  </table>
+  <p class="figcap">（四概念详见姊妹篇 Q3；本表证明科普文五问与官方架构<span class="ok">完全咬合，无虚构</span>）</p>
+</div>
+
+<!-- Q3 -->
+<div class="qcard orange">
+  <div class="qhead"><div class="qnum">Q3</div><div class="qtitle">"长任务不是让 AI 一直想"，是什么意思？</div></div>
+  <p>很多人把"长任务"理解成<span class="no">让模型一次性思考几个小时</span>。文章给的正确图景更像做项目：<span class="hl">理解目标 → 拆步骤 → 做一半发现错就回去改 → 缺料再补 → 最后检查</span>。模型<span class="hl">不是在后台凭空思考，而是每次工具调用返回后，基于当前文件、终端输出和任务状态决定下一步</span>。</p>
+  <svg viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="20" width="280" height="150" rx="12" fill="#FFEBEE" stroke="#E53935" stroke-width="2"/>
+    <text x="150" y="45" fill="#E53935" font-size="14" font-weight="bold" text-anchor="middle">❌ 误解：一直想</text>
+    <circle cx="80" cy="105" r="26" fill="#E53935"/><text x="80" y="110" fill="#fff" font-size="10" text-anchor="middle">思考</text>
+    <path d="M110 95 q30 -25 60 0 q30 25 60 0" stroke="#E53935" fill="none" stroke-width="2" stroke-dasharray="4"/>
+    <text x="150" y="150" fill="#C62828" font-size="11" text-anchor="middle">凭空内卷，没有新信息进来</text>
+    <text x="470" y="45" fill="#00897B" font-size="14" font-weight="bold" text-anchor="middle">✔ 实况：轮次推进</text>
+    <rect x="330" y="65" width="80" height="34" rx="8" fill="#00897B"/><text x="370" y="86" fill="#fff" font-size="11" text-anchor="middle">模型判断</text>
+    <rect x="450" y="65" width="80" height="34" rx="8" fill="#2979FF"/><text x="490" y="86" fill="#fff" font-size="11" text-anchor="middle">调用工具</text>
+    <rect x="540" y="120" width="80" height="34" rx="8" fill="#FF8A00"/><text x="580" y="141" fill="#fff" font-size="11" text-anchor="middle">读结果</text>
+    <path d="M410 82 L450 82" stroke="#455A64" stroke-width="2" marker-end="url(#a)"/>
+    <path d="M530 99 L555 120" stroke="#455A64" stroke-width="2" marker-end="url(#a)"/>
+    <path d="M540 137 Q450 175 380 105" stroke="#455A64" stroke-width="2" fill="none" marker-end="url(#a)"/>
+    <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#455A64"/></marker></defs>
+    <text x="470" y="170" fill="#00695C" font-size="10" text-anchor="middle">真实结果喂回来，才决定下一步</text>
+  </svg>
+  <div class="figcap">图2　"长任务"的正确打开方式：轮次循环，不是延长单次思考</div>
+  <p>以文章的老项目依赖升级为例，一条完整的轮次链是：<b>读仓库结构 → 盘点依赖 → 分批改配置 → 跑构建读报错 → 按错修复 → 查运行时行为 → 整理 diff 和遗留清单</b>——上一轮的产物（锁文件、报错日志）就是下一轮的输入。</p>
+</div>
+
+<!-- Q4 -->
+<div class="qcard pink">
+  <div class="qhead"><div class="qnum">Q4</div><div class="qtitle">"别靠记忆硬撑"——产物链是什么？</div></div>
+  <div class="quote">"不要让 AI 靠记忆硬撑，要让工作过程留下可以继续使用的东西。" ——全文金句</div>
+  <p>这条链路里每一步都会产生新东西：改过的配置、锁文件、修复的源码、测试日志、检查记录——<span class="hl">都成为后续行动可以读取的依据</span>。最后交付的也不是一句"升级完成"，而是<span class="hl-pink">一组能让人复查的变更和结果</span>。我们把这个模式命名为 <b>产物留痕与状态外置</b>：任务状态放在环境（文件/日志/产物）里，不放在模型上下文里。</p>
+  <svg viewBox="0 0 640 170" xmlns="http://www.w3.org/2000/svg">
+    <rect x="14" y="30" width="120" height="60" rx="10" fill="#E53935"/>
+    <text x="74" y="55" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">靠记忆硬撑</text>
+    <text x="74" y="74" fill="#FFCDD2" font-size="10" text-anchor="middle">上下文一压缩就忘</text>
+    <text x="170" y="65" font-size="18" fill="#E53935">→ ❌</text>
+    <rect x="300" y="16" width="90" height="34" rx="8" fill="#00C853"/><text x="345" y="38" fill="#fff" font-size="11" text-anchor="middle">turn1 产物</text>
+    <rect x="430" y="16" width="90" height="34" rx="8" fill="#00C853"/><text x="475" y="38" fill="#fff" font-size="11" text-anchor="middle">turn2 产物</text>
+    <rect x="300" y="64" width="90" height="34" rx="8" fill="#00C853"/><text x="345" y="86" fill="#fff" font-size="11" text-anchor="middle">测试日志</text>
+    <rect x="430" y="64" width="90" height="34" rx="8" fill="#00C853"/><text x="475" y="86" fill="#fff" font-size="11" text-anchor="middle">diff 审单</text>
+    <rect x="300" y="112" width="90" height="34" rx="8" fill="#00C853"/><text x="345" y="134" fill="#fff" font-size="11" text-anchor="middle">遗留清单</text>
+    <path d="M390 33 L430 33 M520 44 Q540 55 520 64 M430 81 L390 81 M345 98 L345 112 M390 129 Q480 129 475 98"
+      stroke="#2E7D32" stroke-width="2.5" fill="none" marker-end="url(#g)"/>
+    <defs><marker id="g" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#2E7D32"/></marker></defs>
+    <text x="470" y="160" fill="#2E7D32" font-size="11" text-anchor="middle" font-weight="bold">✔ 状态外置：每件产物都是下一轮可读的依据</text>
+  </svg>
+  <div class="figcap">图3　"记忆硬撑" vs "产物链"（ex6 步骤2：turn1_deps.txt / events.jsonl 11 条事件落盘，turn2 只读文件不靠回忆）</div>
+  <p>亲缘概念：[[Checkpoint存档与持久执行]]（框架替你快照对话）管"续跑"，<b>产物链</b>管"续跑时喂什么料"；[[JSONL事件日志与折叠模型]] 是它的日志实现。三者互链不重复。</p>
+</div>
+
+<!-- Q5 -->
+<div class="qcard blue">
+  <div class="qhead"><div class="qnum">Q5</div><div class="qtitle">Session 为什么能让任务不绑单次请求？</div></div>
+  <p>一次性请求 = 一问一答就散伙；Session = <span class="hl">一项任务自己的工作台</span>——消息、状态、工具调用、结果都围绕这个 session 积累。于是可以<span class="hl-pink">中途插话改要求</span>（"先完成接口部分，页面暂时只给方案"），agent 收到后在<span class="hl">同一项任务上继续</span>。官方文档管这叫 <b>continue / steer</b>，与文章口径一致。</p>
+  <svg viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg">
+    <rect x="240" y="25" width="160" height="105" rx="14" fill="#2979FF"/>
+    <text x="320" y="55" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">Session 工作台</text>
+    <text x="320" y="76" fill="#BBDEFB" font-size="10" text-anchor="middle">sess_xxx：消息/状态/工具调用</text>
+    <text x="320" y="92" fill="#BBDEFB" font-size="10" text-anchor="middle">跨请求持续积累</text>
+    <rect x="20" y="34" width="120" height="30" rx="8" fill="#FF8A00"/><text x="80" y="53" fill="#fff" font-size="11" text-anchor="middle">请求1：派任务</text>
+    <rect x="20" y="76" width="120" height="30" rx="8" fill="#FFC400"/><text x="80" y="95" fill="#5D4037" font-size="11" text-anchor="middle">请求2：中途改要求</text>
+    <rect x="20" y="118" width="120" height="30" rx="8" fill="#00C853"/><text x="80" y="137" fill="#fff" font-size="11" text-anchor="middle">请求3：收结果</text>
+    <path d="M140 49 L240 60 M140 91 L240 85 M140 133 L240 112" stroke="#546E7A" stroke-width="2.5" marker-end="url(#s)"/>
+    <defs><marker id="s" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#546E7A"/></marker></defs>
+    <text x="530" y="70" fill="#37474F" font-size="11">三次独立 HTTP 请求，</text>
+    <text x="530" y="88" fill="#37474F" font-size="11">同一项任务不散场</text>
+  </svg>
+  <div class="figcap">图4　任务不绑单次请求（ex6 步骤3：进程"重启"后从 session.json 恢复 turn=1 并注入追加要求）</div>
+  <p>与已学对照：[[Checkpoint存档与持久执行]] 是"存档+读档"，Session 是"在册员工不下班"——前者救崩溃，后者管协作。</p>
+</div>
+
+<!-- Q6 -->
+<div class="qcard green">
+  <div class="qhead"><div class="qnum">Q6</div><div class="qtitle">"工具不是越多越好"，怎么落地？</div></div>
+  <p><span class="hl">按任务开放能力</span>：只需要读取数据，就不应该顺手开放删除和发布；任务只是整理文章，就没必要给生产部署权限。涉及<span class="hl-pink">发布、发送、删除和付费操作，再单独由人确认</span>。"Agent 的能力边界越清楚，长任务越容易放心地交出去。"</p>
+  <svg viewBox="0 0 640 130" xmlns="http://www.w3.org/2000/svg">
+    <rect x="20" y="20" width="270" height="90" rx="12" fill="#FFEBEE" stroke="#E53935" stroke-width="2"/>
+    <text x="155" y="45" fill="#E53935" font-size="13" font-weight="bold" text-anchor="middle">❌ 一串钥匙全给</text>
+    <text x="155" y="70" fill="#C62828" font-size="11" text-anchor="middle">读+写+删+发+付费 一口气授权</text>
+    <text x="155" y="92" fill="#C62828" font-size="11" text-anchor="middle">一次误操作 = 事故</text>
+    <rect x="350" y="20" width="270" height="90" rx="12" fill="#E0F7E8" stroke="#00C853" stroke-width="2"/>
+    <text x="485" y="45" fill="#008E3C" font-size="13" font-weight="bold" text-anchor="middle">✔ 按任务发钥匙</text>
+    <text x="485" y="70" fill="#2E7D32" font-size="11" text-anchor="middle">搜索任务→只给搜索；改文件→限指定目录</text>
+    <text x="485" y="92" fill="#2E7D32" font-size="11" text-anchor="middle">删除/发布/付费→单独人工确认</text>
+  </svg>
+  <div class="figcap">图5　最小授权（这是 [[AgentHarness智能体挽具]] 七职责里"最小权限工具"的科普版；[[提示注入]] 防线同款）</div>
+</div>
+
+<!-- Q7 -->
+<div class="qcard cyan">
+  <div class="qhead"><div class="qnum">Q7</div><div class="qtitle">子 agent 什么时候并行、什么时候必须串行？</div></div>
+  <p>文章给出一条好用的判据：<span class="hl">彼此独立的部分才拆子 agent 并行</span>（查迁移文档 / 盘点调用点 / 查测试覆盖——输出可分别汇总）；<span class="hl-pink">共享文件的修改必须串行</span>，由主 agent 统一安排顺序并验收，否则"互相覆盖的修改或无法判断的冲突"。</p>
+  <svg viewBox="0 0 640 170" xmlns="http://www.w3.org/2000/svg">
+    <rect x="250" y="12" width="140" height="34" rx="9" fill="#00B8D4"/><text x="320" y="33" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">主 Agent</text>
+    <path d="M280 46 L150 78 M320 46 L320 78 M360 46 L490 78" stroke="#00838F" stroke-width="2.5" marker-end="url(#c)"/>
+    <rect x="70" y="80" width="160" height="30" rx="8" fill="#E0F7FA"/><text x="150" y="99" fill="#006064" font-size="11" text-anchor="middle">子A：查文档（只读）</text>
+    <rect x="240" y="80" width="160" height="30" rx="8" fill="#E0F7FA"/><text x="320" y="99" fill="#006064" font-size="11" text-anchor="middle">子B：盘点调用点（只读）</text>
+    <rect x="410" y="80" width="160" height="30" rx="8" fill="#E0F7FA"/><text x="490" y="99" fill="#006064" font-size="11" text-anchor="middle">子C：查测试覆盖（只读）</text>
+    <path d="M150 110 Q220 135 285 140 M490 110 Q420 135 355 140" stroke="#00838F" stroke-width="2" marker-end="url(#c)"/>
+    <rect x="240" y="140" width="160" height="26" rx="8" fill="#B2EBF2"/><text x="320" y="157" fill="#006064" font-size="10.5" text-anchor="middle">汇总 → 共享文件由主 agent 串行写</text>
+    <defs><marker id="c" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#00838F"/></marker></defs>
+  </svg>
+  <div class="figcap">图6　独立并行、共享串行（ex6 步骤4：两个只读调查并行完成序 b→a、2 份报告互不覆盖；shared_plan.md 串行追加 3 条）</div>
+  <p>亲缘概念：[[GitWorktree并行隔离]]（真要并行改文件就各开楼层）、[[私有子图输出隔离]]（各跑私有历史只回传报告键）、[[多Agent协作乱序竞态]]（完成序≠依赖序，ex6 实测 b 先于 a 完成就是活例）。</p>
+</div>
+
+<!-- Q8 -->
+<div class="qcard yellow">
+  <div class="qhead"><div class="qnum">Q8</div><div class="qtitle">"验收标准写进任务"，为什么比堆提示词有用？</div></div>
+  <p>Agent 说"已经完成"时任务并没有结束。构建通过<span class="no">只说明编译链路走通</span>，还要：跑测试和关键路径、查运行时日志、审核 diff 和锁文件、列出遗留项。文章的狠话：<span class="hl">"这一段往往比堆很多提示词更有用——它把任务的终点，从'AI 写完了'推进到'结果经过检查并且可以被人接手'。"</span></p>
+  <p>这句话被 ex6 的 A/B 对照实验直接砸实：</p>
+  <div class="code">步骤5（没写验收标准进配置）：模型自报 report_done
+  Gate 实测 → build PASS / runtime FAIL(RuntimeError: render_template
+  was removed in miniflask 2.0) / leftovers FAIL → <b>拒收</b>
+步骤6（验收标准写进任务配置后返工）：4/4 全 PASS → 才允许报完成</div>
+  <div class="expect"><b>✅ 预期结果（已实现）</b>：确定性 Gate 抓住了"构建通过但运行时已炸"的经典谎报——构建永远发现不了"render_template 在 2.0 被移除"这种运行时地雷。亲缘概念：[[证据优先质检ProofOverClaims]]（编译过不算数）、[[评分契约与护栏]]、[[规格收敛循环Converge]]（对账到 Converged 才算完）。</div>
+</div>
+
+<!-- Q9 -->
+<div class="qcard orange">
+  <div class="qhead"><div class="qnum">Q9</div><div class="qtitle">Codex 和 Agents API 到底什么关系？</div></div>
+  <p>文章的口径：<b>Codex 是已经做好的 Agent 工作环境</b>（打开项目、交任务、看过程和结果）；<b>Agents API 把支撑 Codex 的同一套 harness 和基础设施开放给开发者</b>——你要自己决定放哪个产品、给哪些工具、怎么展示状态、哪些操作等人确认。关键澄清：<span class="hl-pink">"不意味着把 Codex App 嵌入自己的产品"</span>。选择很简单：只想让 AI 干本地活→直接用 Codex；想把这能力卖给你的用户→才研究 Agents API。</p>
+  <svg viewBox="0 0 640 150" xmlns="http://www.w3.org/2000/svg">
+    <rect x="30" y="25" width="250" height="100" rx="14" fill="#FF8A00"/>
+    <text x="155" y="55" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">Codex＝成品餐厅</text>
+    <text x="155" y="78" fill="#FFF3E0" font-size="11" text-anchor="middle">店面/后厨/服务员全配好</text>
+    <text x="155" y="98" fill="#FFF3E0" font-size="11" text-anchor="middle">进门点单就吃，最省事</text>
+    <text x="320" y="80" font-size="20" fill="#546E7A" text-anchor="middle">⇄</text>
+    <rect x="360" y="25" width="250" height="100" rx="14" fill="#2979FF"/>
+    <text x="485" y="52" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">Agents API＝开放后厨</text>
+    <text x="485" y="75" fill="#BBDEFB" font-size="11" text-anchor="middle">同一套后厨流水线租给你</text>
+    <text x="485" y="93" fill="#BBDEFB" font-size="11" text-anchor="middle">菜谱（工具）/摆盘（UI）/收银（确认流）自己定</text>
+    <text x="485" y="113" fill="#FFAB91" font-size="10" text-anchor="middle">不是把整间餐厅搬进你的店</text>
+  </svg>
+  <div class="figcap">图7　三层运行时选型的科普版（要代驾→Agents API / 要方向盘→SDK / 只要发动机→Responses，详见姊妹篇 Q4）</div>
+</div>
+
+<!-- Q10 -->
+<div class="qcard purple">
+  <div class="qhead"><div class="qnum">Q10</div><div class="qtitle">这篇科普文和官方文档，先读哪个？</div></div>
+  <table>
+    <tr><th></th><th>sitin 科普文</th><th>官方文档 developers.openai.com</th></tr>
+    <tr><td><b>强项</b></td><td>认知框架（Model+Harness 五问、轮次论、产物链、验收论），10 分钟建立正确直觉</td><td>端点/参数/计费/安全边界，唯一权威；支持 URL 加 .md 抓纯文本</td></tr>
+    <tr><td><b>盲区</b></td><td>无一个可运行示例；计费/安全/三层选型全没讲</td><td>不告诉你"为什么"——新手容易迷路在参数里</td></tr>
+    <tr><td><b>建议</b></td><td colspan="2">先读科普文建框架（本篇）→ 再按姊妹篇 12 问对官方文档逐项落地 → 动手只跑零 key 实验（ex1~ex6）</td></tr>
+  </table>
+  <p><b>事实核对表</b>（文章主张 vs 存档官方文档 agents-api-overview.md）：managed harness ✔ / session 持久可 steer ✔ / subagent 支持 ✔ / 托管沙箱跑代码改文件 ✔ / 压缩恢复 ✔ ——<span class="ok">全部吻合，无虚构内容</span>。唯一保留：文末 HiAPI.ai 生图广告为作者自家产品推广，与技术内容无关。</p>
+</div>
+
+<!-- 实验 -->
+<div class="qcard green">
+  <div class="qhead"><div class="qnum">🧪</div><div class="qtitle">主实验：200 行纯标准库 mini-harness，六步实测文章六大主张（ex6_mini_harness.py，零 key 零费用）</div></div>
+  <div class="step"><b class="st">步骤1｜把"Agent=Model+Harness"写成代码</b>：FakeModel 类零状态字段，Harness 持有 session/tools/artifacts。<div class="expect"><b>✅</b> 分工是架构事实，可编译验证</div></div>
+  <div class="step"><b class="st">步骤2｜产物链</b>：模拟依赖升级，每轮产物落盘 artifacts/ + events.jsonl（11 条事件）。<div class="expect"><b>✅</b> turn1_deps.txt = ['miniflask==2.0','requests==2.31']，下一轮只读文件</div></div>
+  <div class="step"><b class="st">步骤3｜Session 中断续接</b>：保存 session.json → 进程"重启" → 恢复 turn=1 并注入追加要求"先只保证接口行为"。<div class="expect"><b>✅</b> 任务不绑单次请求（对照官方 steer/continue）</div></div>
+  <div class="step"><b class="st">步骤4｜子agent 并行/串行</b>：两个只读调查线程并行（模拟耗时 0.30s/0.10s）。<div class="expect"><b>✅</b> 完成序 b→a（完成序≠启动序）、2 份报告互不覆盖；shared_plan.md 由主 agent 串行写 3 条</div></div>
+  <div class="step"><b class="st">步骤5｜验收 Gate 拒收谎报</b>：模型自报完成（build PASS），Gate 真跑运行时检查。<div class="expect"><b>✅</b> runtime FAIL(RuntimeError: render_template was removed in miniflask 2.0) + leftovers FAIL → 拒收</div></div>
+  <div class="step"><b class="st">步骤6｜验收标准写进任务（A/B 对照）</b>：按验收清单返工后重跑。<div class="expect"><b>✅</b> 4/4 PASS 才报完成；EXIT=0，六大主张全部验证成立。过程踩坑实录：首版用真 flask 因环境未装而 ModuleNotFoundError 顶掉伏笔 → 改本地 miniflask 桩模块（零依赖纪律）</div></div>
+</div>
+
+<!-- 记忆卡 -->
+<div class="mem">
+  <h2>📌 一页记忆卡（科普拆解篇）</h2>
+  <ul>
+    <li><span class="k">Agent = Model + Harness</span>：大脑只决策，挽具管循环/状态/工具/环境——可代码化验证</li>
+    <li><span class="k">长任务 = 轮次推进</span>：不是一直想，是"工具结果喂回来再决定下一步"</li>
+    <li><span class="k">产物留痕与状态外置</span>（新概念入库）：别靠记忆硬撑，每轮产物是下一轮可读的依据</li>
+    <li><span class="k">Session = 工作台</span>：任务不绑单次请求，中途可插话（steer），崩溃可恢复</li>
+    <li><span class="k">工具按任务开放</span>：最小授权 + 危险操作单独人工确认</li>
+    <li><span class="k">子agent 判据</span>：独立部分并行（只读调查），共享文件修改串行（主 agent 统一写）</li>
+    <li><span class="k">验收写进任务</span>：构建通过≠完成；确定性 Gate 抓谎报，终点是"可被人接手"</li>
+    <li><span class="k">Codex=成品餐厅 / Agents API=开放后厨</span>：同一套 harness，不是把 App 嵌进产品</li>
+  </ul>
+</div>
+
+<div class="foot">拾遗任务 6628a24f · sitin X 文章（2100394871265820672）精读增补篇 · 实验脚本 openai-agents-api/exercise/ex6_mini_harness.py · 姊妹篇《OpenAIAgentsAPI-小白指南》（edc8f196） · 知识库：vault/概念/托管Harness与会话即资源 等</div>
+
+</body>
+</html>

@@ -1,0 +1,3 @@
+[迁移文档组] 调查 F:\reminder\openai-agents-api\exercise\ex6_workspace\project\requirements.txt:
+miniflask==2.0
+requests==2.31
