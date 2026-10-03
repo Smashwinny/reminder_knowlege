@@ -1,0 +1,317 @@
+§12 Three.js：让模型在网页里跑起来 
+ Three.js — From GLB Files to a Playable Page 
+ 六个可交互demo跑下来，我在加载Tripo资产这件事上踩过的坑、一个和直觉完全相反的性能结论，以及P2.0那条路上完全不同的另一套工序。 
+## 先说三件决定成败的事 
+ 把Tripo导出的GLB塞进Three.js，理论上是三行代码的事。实际上我做完巴黎城、星月夜、四冲程发动机、旋转游乐场、游乐园、小王子星球这六个demo之后，发现真正决定它成不成的只有三件事。 
+ 一，环境贴图。 没有它，Tripo出的PBR材质在白底上会渲成一团死黑，而你会以为是模型坏了。 
+ 二，贴图尺寸。 卡顿的第一反应是三角形太多，但我量完之后发现渲染链只用掉了预算的八分之一，真正吃掉5 GiB显存的是贴图。 
+ 三，带骨骼的模型怎么复制。 用错一个函数，一整排行人会像仪仗队一样同手同脚。 
+ 剩下的都是细节。这一节按这三件事展开，顺带把自校验那几个最贵的教训也放进来。 
+ [IMG:images/p12-paris-drive.jpg] 《巴黎来信》，Three.js加23件Tripo资产的可驾驶demo。建筑、载具、行人、地标是Tripo生成，街廓和河道是程序化。2026-09-10细节扩展版。 
+## 最小可跑的那个壳 
+ 开头那句「三行代码」在这一小节里兑现，同时也会看清它的水分： 真正属于「加载模型」的只有 new GLTFLoader().load() 那一句，其余三十几行是把浏览器里那套渲染环境立起来的固定开销 ——渲染器、场景、相机、灯、环境贴图、一个能拖着转的controls。这一整页只写一次，后面六个demo都是在它上面长出来的。 
+ 先把环境立住。我所有demo的Three.js都是固定在项目vendor目录里的，不走CDN，因为发布包要能在断网环境下跑通、也要能塞进B站Toy这种子路径托管。 
+ vendor目录里我只精选了五个文件： 
+ vendor/ ├── three.module.js └── addons/ 　　├── loaders/GLTFLoader.js 　　├── controls/OrbitControls.js 　　├── utils/BufferGeometryUtils.js 　　└── utils/SkeletonUtils.js 
+ 这五个文件不用去页面上一个个找。 npm 拉一次锁死版本的three，再从包里挑出来就行——我比对过，这么拿到的五个文件和我六个demo里实际跑的那五个 逐字节相同 ： 
+ npm i three@0.160.0
+mkdir -p vendor/addons/loaders vendor/addons/controls vendor/addons/utils
+cp node_modules/three/build/three.module.js vendor/
+cp node_modules/three/examples/jsm/loaders/GLTFLoader.js vendor/addons/loaders/
+cp node_modules/three/examples/jsm/controls/OrbitControls.js vendor/addons/controls/
+cp node_modules/three/examples/jsm/utils/BufferGeometryUtils.js vendor/addons/utils/
+cp node_modules/three/examples/jsm/utils/SkeletonUtils.js vendor/addons/utils/ 
+ 版本号要钉死，不能写 npm i three 。 addons里的文件会跟着主库一起演进，五个文件必须来自同一个版本，混版的报错长得和缺文件一模一样。本节所有代码都在r160（也就是 three@0.160.0 ）上跑过。 
+ BufferGeometryUtils.js 不是可选的，哪怕你的代码一次都没import它。 r160的 GLTFLoader.js 自己会 import 它，缺这一个文件，页面的表现是 控制台一条404、画布压根没被创建、屏幕全白 ——看起来像模型加载失败，其实卡在模块解析。我在2026-09-13重跑下面这个壳的时候又撞了一次，所以写在这儿。
+ 然后是壳本身。下面这一整页可以直接复制、另存成 index.html ，和上面那个vendor目录、一个 model.glb 放在同一层： 
+ <!doctype html><meta charset="utf-8">
+<style>html,body{margin:0;height:100%;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">{"imports":{
+ "three": "./vendor/three.module.js",
+ "three/addons/": "./vendor/addons/"
+}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xf2f0ea);
+scene.environment = studioEnv(renderer); // 没有它，金属件在白底上是死黑（函数写在本页末尾）
+const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.01, 100);
+camera.position.set(2.2, 1.6, 2.8);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 0.7, 0);
+const sun = new THREE.DirectionalLight(0xffffff, 2.5); sun.position.set(3, 5, 2);
+scene.add(sun, new THREE.AmbientLight(0xffffff, 0.5));
+new GLTFLoader().load('./model.glb', g => {
+ const root = g.scene, b = new THREE.Box3().setFromObject(root);
+ const c = b.getCenter(new THREE.Vector3());
+ const s = 1.6 / Math.max(...b.getSize(new THREE.Vector3()).toArray()); // 原始只有1.0单位
+ root.scale.setScalar(s);
+ root.position.set(-c.x*s, -b.min.y*s, -c.z*s);
+ scene.add(root);
+});
+addEventListener('resize', () => {
+ camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+ renderer.setSize(innerWidth, innerHeight);
+});
+renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+// 环境贴图：canvas 画一张渐变当 equirect，不需要外部 HDR 文件。为什么这么写见下一小节
+function studioEnv(rd){
+ const c=document.createElement('canvas'); c.width=128; c.height=128;
+ const g=c.getContext('2d'), grd=g.createLinearGradient(0,0,0,128);
+ grd.addColorStop(0, '#ffffff');
+ grd.addColorStop(.34, '#e8e4da');
+ grd.addColorStop(.52, '#928d82');
+ grd.addColorStop(.75, '#5c574e');
+ grd.addColorStop(1, '#403c35');
+ g.fillStyle=grd; g.fillRect(0,0,128,128);
+ g.fillStyle='rgba(255,255,255,.9)';
+ g.beginPath(); g.ellipse(40,24,26,13,0,0,Math.PI*2); g.fill();
+ const t=new THREE.CanvasTexture(c);
+ t.mapping=THREE.EquirectangularReflectionMapping;
+ const pm=new THREE.PMREMGenerator(rd);
+ const env=pm.fromEquirectangular(t).texture;
+ pm.dispose(); t.dispose(); return env;
+}
+</script> 
+ 在这个目录里起服务、浏览器开 http://localhost:8765 ，能看见模型、能拖着转，再往下读那三个坑： 
+ python3 -m http.server 8765 
+ [IMG:images/p12-minimal-shell.png] 上面那一页原样跑出来的样子，喂的是游乐园那座旋转木马的GLB。2026-09-13用无头Chrome（960×640）实拍：顶棚、马匹、底座的金属描边都在，说明 studioEnv() 接上了。这就是「屏幕上有东西了」那一级台阶，后面三个坑都是在这一页上打的补丁。 
+ WebGL页面必须走http，不能双击开。 file:// 协议下GLB加载会被CORS挡住，上面那条 http.server 就是为这个。纯程序化、零外部资源的HTML不受这条限制，双击能开。我六个demo同时开着的时候，端口是8765到8794排下去的。
+## 坑一：白底加PBR金属加没有环境贴图，等于死黑 
+ 这是我付出时间最多的一个坑，而且它有伪装。 
+ 四冲程发动机那个demo，v1是深色赛博底，看着一切正常。v2改成纸感白底之后，整台机器直接变成一团黑影。金属度高的时候漫反射被抑制，只靠直接光什么都看不见；深色背景下这个问题被背景吃掉了，一换白底就全暴露。 
+ [IMG:images/p12-engine-v1-dark.jpg] 发动机demo v1，深色赛博底。金属件在深色背景下看着一切正常，问题被背景吃掉了。右边那栏零件表顺便标了每一件的来源：活塞和连杆是Tripo，曲轴、缸筒、气门、火花塞是代码，判据见§15。2026-09-10。 
+ [IMG:images/p12-engine-v2-white.jpg] v2改成纸感白底。这一版是补上canvas合成的环境贴图之后的样子，金属件有了明暗对比；不补的话整台机器是一团黑影。2026-09-10夜。 
+ 解法不需要外部HDR文件，就是上面那一页末尾的 studioEnv() ：用canvas画一张渐变当equirect环境贴图，走 PMREMGenerator 转成可用的环境光照，再挂到 scene.environment 上。 
+ 那十几行里有两个细节是试出来的，不写出来你照抄也调不对。 
+ 环境贴图不能全亮。 我第一版渐变是从白到浅灰，结果金属反射回来全是亮色，整个画面发白、没有重量感。必须给它一个暗部，相当于摄影棚里的黑旗，金属才有明暗对比。上面那段渐变从 #ffffff 压到 #403c35 就是为了这个。 
+ 白底场景别用ACESFilmic色调映射，它会把白底压成灰。 
+ 星月夜那个demo走的是另一条更简单的路：加载完直接把材质的金属度归零。 
+ // 星月夜：村庄模型本来是一团黑，两行就回来了
+mat.metalness = 0;
+mat.roughness = 0.92; 
+ 两条路的取舍很清楚： 要金属质感就老老实实做环境贴图，不要金属质感就把metalness摁掉。 最怕的是既不做环境贴图又保留高金属度，那就是一团黑。 
+## 坑二：尺寸和原点，两件事都不能想当然 
+ Tripo导出的GLB被归一化到 最长边约等于1.0单位 （不是高度：解析包围盒能看到长椅是1.0×0.549×0.413、出租车是0.522×0.570×1.0，撑满1.0的那条边各不相同）。我在§14用实测数字展开这件事，这里只说Three.js侧怎么处理：实例化之后先量包围盒，再按目标尺寸算缩放，最后把底面压到地面。 
+ const b = new THREE.Box3().setFromObject(root);
+const size = b.getSize(new THREE.Vector3());
+const center = b.getCenter(new THREE.Vector3());
+const scaled = new THREE.Group();
+scaled.scale.setScalar(height / size.y);
+root.position.sub(new THREE.Vector3(center.x, b.min.y, center.z));
+scaled.add(root); 
+ 这段对静态模型是对的。 对带骨骼的模型是错的。 
+ Box3.setFromObject 量SkinnedMesh量不准。（我一开始以为是「它拿的是绑定姿势的几何包围盒」，后来才弄清楚：three.js从r155起已经会按当前姿势算了，真正咬人的是那个包围盒缓存不会自己更新——姿势变了，你量到的还是上一帧的。修法一样，理由不一样，这里更正一下。）叠上Armature节点变换之后算出来的尺寸离谱。做方案D那个「同一模型两种绑定」的实时对照页时，右边那个模型被放大到画面里只剩两只鞋。 
+ 解法是绕开Three.js，直接读GLB里 POSITION accessor的 min 和 max 拿真实尺寸，按已知值硬算。GLB的头部结构很简单，不需要任何库： 
+ import struct, json
+d = open(f,'rb').read()
+jl = struct.unpack('<I', d[12:16])[0]
+j = json.loads(d[20:20+jl])
+# 遍历 meshes[].primitives[].attributes.POSITION → accessors[i].min / .max 
+ 顺带一条很容易误判的：同一批资产的原点可能不一致。 实测Blender导出的那版模型脚在 y=0 ，Tripo导出的那版中心在 y=0 ，而两者几何高度都是1.0。不知道这件事，你会以为是缩放算错了，然后一路去查缩放。
+## 坑三：带骨骼的模型不能用普通clone 
+ 巴黎城里有18个行人，其中6个用的是同一个绑骨模型（另外12个是静态的，为什么不是18个全走，见§18）。第一版我用 clone() 复制，结果这几个人同手同脚，像在走正步。 
+ 原因是普通clone会让所有实例共享同一副骨骼。必须用 SkeletonUtils.clone() ，然后每个实例配一个自己的 AnimationMixer 。 
+ import {clone as skeletonClone} from 'three/addons/utils/SkeletonUtils.js';
+const root = skeletonClone(walkScene);
+const mixer = new THREE.AnimationMixer(root);
+mixer.clipAction(walkClip).play();
+// 相位错开，否则一整排人还是整齐划一
+mixer.setTime((x*0.37 + z*0.11) % walkClip.duration); 
+ [IMG:images/p12-walker-compare.jpg] 同一个行人，T1和相隔0.7秒的T2。姿态和位置都变了，说明骨骼动画真的在跑，不是模型在平移。这是巴黎demo的自检截图，2026-09-10。 
+ SkeletonUtils.js 不在精简版vendor目录里。 我的vendor原本只放了GLTFLoader、OrbitControls、BufferGeometryUtils三个，import它会让整个页面启动失败，而且报错信息指向的是模块解析、不是缺文件。补法就是本节开头那串 cp 的最后一行，版本必须和另外四个一致（我用的是r160）。
+ 还有两条是接Tripo绑骨动画特有的。 
+ 把位移轨切掉，只留旋转轨。 retarget出来的剪辑里 Hip.position 的Y位移范围是1.338，而人本身才1米高。行走是代码推的，动画再叠一层位移，循环回到起点时整个人会弹回去。我在画面里看到的「走着走着又会回退一大步」，根因就是这个。步态本来就是纯旋转，位移归游戏代码管。 
+ 在Tripo那边对应的是导出时勾上「原地播放动画」（见§06），勾了它动画就只管迈腿。 
+ 模型朝向是试出来的，不是推出来的。 Tripo预设人形的自然朝向不是 +Z ，实测差90度。小王子那个demo里这个常量写死成 PRINCE_YAW = -Math.PI/2 ，而这个数是在浏览器控制台里现场转 rotation.y 、看正对还是背对镜头试出来的。 
+ 但「差90度」这句话只对绑骨预设人形成立，别把它当成通则。 静态资产还有另外两套完全不同的惯例，符号甚至是相反的，我在后面「朝向」那一节按类别拆开写。把三类混成一句话记，迟早会把一栋楼装反。 
+## 性能：瓶颈是贴图，不是三角形 
+ 这是这一节我最想让你记住的一条，因为它和直觉完全相反。 
+ 小王子星球那个demo做完，页面卡得没法看，我丢给agent的原话是「性能需要优化500%」。我的第一反应和所有人一样：减面、关泛光、砍阴影。 
+ 但我先量了一次。量出来的结论把我的第一反应全推翻了。 
+ 指标 实测值（M4 Pro / 3024×1722画布） 
+ 整条后期链GPU耗时 0.37 ms （场景+阴影+泛光+调色，520万像素） 
+ 主线程JS 1.5 ms/帧 
+ 三角面/绘制调用 147k–285k / 25–56 
+ 60 fps的预算 16.7 ms 
+ 渲染链只用掉了预算的约八分之一。 卡顿不可能来自三角形数量、后期链或者JS，砍这些等于白砍。 
+ 真凶在显存。把场景里所有材质的贴图列出来： 
+ 唯一贴图数: 31
+尺寸分布: 8192×8192 × 10 4096×4096 × 20 2048×1024 × 1
+估算显存: 5.0 GB（含 mipmap） 
+ 这批v3.1资产导出的是8192²的PBR贴图。 （贴图这件事必须按模式说：v3.1这条路出base color、normal、ORM三张，P2.0那条路只出一张base color，两者的处理方式不一样，后面有一整节讲P2.0。）每个道具在画面里才一两米高、屏幕上几百像素，却挂着一张8192²的底图。 一张8192²按RGBA32展开是268 MB，加上整条mipmap链（×4/3）约358 MB ；17个资产的贴图加起来是5.0 GiB，GPU一直在做纹理换入换出，表现出来就是「卡」。（ 别拿17乘358 ——那17件挂的不全是8K：唯一贴图31张，其中8192²的10张、4096²的20张、2048×1024的1张，10×358＋20×89.5＋11＝5381 MB＝5.01 GiB，逐张清单在§22。） 
+ 先把这个数的口径钉住，因为它在书里被引了好几次。 上面那段是脚本原样的输出，它按1024进位算完、却把单位打成了「GB」—— 那一行的正确写法是5.0 GiB 。同一批贴图按每像素4字节展开、再乘整条mipmap链，用本书算显存的十进制口径（1 MB＝100万字节）严格算下来是 5.38 GB ：两边差约7%，是同一笔账的两种进位，不是两批贴图。 显存这笔账，本书的规矩是量出来的读数写GiB、自己算出来的写GB ，看单位就知道这个数是量的还是算的。下面那张优化前后对照表里的两个数出自同一次测量、同一个进位（5.0 GiB和0.22 GiB，折成十进制是5.38 GB和0.24 GB），所以 倍数不受口径影响 ，23×在哪一边都成立。
+ 处理办法是只降贴图，不碰几何： 
+ gltf-transform resize 产出/x.glb 网页/assets/tripo/x.glb --width 1024 --height 1024 
+ （ gltf-transform 是装成全局或本地依赖之后的简写。没装的话，在前面补上 npx @gltf-transform/cli ，效果一样，只是每次多等几秒启动；说明见§04。这条命令要先有Node，见§11。） 
+ 用 resize 而不是 optimize 。 optimize 默认会顺手跑 simplify 减面，而几何根本不是瓶颈，没有理由动它。主角是特写对象给2048²，其余1024²。
+ 改前 改后 倍数 
+ 贴图显存 5.0 GiB 0.22 GiB 23× 
+ GLB载荷 89.87 MiB 12.30 MiB 7.31× 
+ 资产就位 3.90 s 0.70 s 5.6× 
+ JS每帧（中位/p90/最大） 1.5 / 2.9 / 4.4 ms 0.7 / 0.8 / 1.2 ms 2.1× 
+ 三角面 147,879 147,879 未动 
+ GLB载荷那一行我重量过，和当时的记录对不上一个数，照例摆在这儿。 当天记录里这一行写的是「97.6 MB → 12.3 MB，7.3倍」。倍数是对的：我把部署出去的那17件重新量了一遍，优化后合计 12.30 MiB ，对应的源文件合计 89.87 MiB ，89.87÷12.30＝ 7.31倍 ，和当时记的7.3倍吻合，所以12.3那个数是1024进位的读数。 对不上的是97.6 ——这个数我没能复现出来，产出目录里那19个GLB加起来是94.76 MiB（99.36 MB），都不等于它，很可能它统计的范围里含了没部署的文件。表里现在填的是我能复现的那一组。
+ 画质在这个观看距离上肉眼无损。王座特写的木纹、红绒、金冠，主角特写的脸、外套扣子、围巾，1024²都撑得住。 
+ [IMG:images/p12-prince-props.jpg] 小王子星球的道具接入自检，八格一次看完七颗星球加一格C观。贴图全部降到1024²之后截的，王座、镜子、酒瓶桌、书桌这些特写对象的材质细节都还在。2026-09-11。 
+ 顺带省掉的四样，都是量完之后才敢动的。 
+ antialias 关掉。接了 EffectComposer 之后画面是先渲进render target的，画布那层的MSAA对场景几何完全不起作用，开着只是白付一次多重采样缓冲加resolve。 
+ 阴影从 PCFSoftShadowMap 降到 PCFShadowMap ，并且不再每帧重渲阴影贴图。 
+ 泛光跑在半分辨率上。纯填充操作，肉眼分不出，模糊开销少四分之三。 
+ 自适应分辨率兜底，但中间要留死区。 帧时间掉到48 fps以下降档，回到91 fps以上才升回去。两边挨太近的话，一台稳定跑50 fps的机器会来回抖，而每次改档都要重建WebGL缓冲区，那比稳定50 fps更难受。 
+ [IMG:images/p12-prince-planet.jpg] 小王子星球A观「原作星球」，B612直径28米。贴图优化之后锁定60 fps。星球几何是代码算的（球面数学自己算更准），表面那张等距圆柱贴图是Codex出的。2026-09-10。 
+## 另一条路：P2.0资产的接入工序链 
+ 上面这些坑，全是v3.1那条路上踩出来的。九月我把巴黎那座城里沿街的资产整批换成P2.0重出的件，才发现 这是另一条路，坑几乎不重合 。同样是「把GLB塞进Three.js」，工序链要重走一遍。 
+ 五道工序，少一道就装不上去。 
+ 1 
+## 转格式 P2.0带贴图的产物只给FBX，浏览器不认，先转GLB。这一道的做法和怎么证明它没弄坏东西，在§13。 
+ 2 
+## 降8K贴图 不降就是在纸上就能算出来的显存灾难，数字在下面。 
+ 3 
+## 定yaw P2.0的自然朝向和v3.1的旧件差90度，而且每一件都得自己定。 
+ 4 
+## 烘变换 把旋转和缩放乘进顶点，不要写成节点矩阵。理由在你自己的加载代码里。 
+ 5 
+## 量A/B帧时间 换完拿旧件的读数对一遍，确认没把性能换坏。 
+ 耗时口径先说清楚。 这一节里所有带秒数的都是本机跑脚本的墙钟。书里凡是写Tripo侧生成、拆件、绑骨的秒数，一律是 算子耗时口径，不含上传与排队 ，端到端会比它长一截。两边不能直接相加。
+## 第一件事：P2.0只出一张base color 
+ 这条我放在最前面，因为它决定了你到底在找什么文件。 
+ 模式 出几张贴图 材质参数 
+ v3.1（高精度模型） base color、normal、ORM三张 metallic=1 / roughness=1 ，真正的粗糙度和金属度由ORM那张图逐像素给 
+ P2.0（智能网格） 只有base color一张 转出来是 metallic=0 / roughness=0.9 ，全模型一个值 
+ ORM是把环境光遮蔽、粗糙度、金属度三个量打包进一张图RGB三个通道的常见做法，是引擎判断「这块表面是金属还是布」的依据。P2.0没有它，也没有法线图，于是 同一盏灯下，P2.0的新件会比v3.1的旧件哑 ：没有法线图，表面那层细凹凸不参与打光；没有ORM，整件东西从头到脚只有一个粗糙度。 
+ 说清楚一点：P2.0这个模式本身就只出这一张图，转换过程什么都没丢。 我用两份独立记录核过：一份是taxi那次FBX转GLB的逐项核验，一份是38件批量降贴图的逐件日志，两边都只数到一张。 
+ 所以别拿着「Tripo出PBR三件套」这句话去P2.0的产物里找法线图，那个文件不存在。 怎么避开：走这一节前面那两条路之一，要么老老实实做环境贴图把高光和暗部撑起来，要么干脆把 metalness 摁到0、 roughness 给足，让它以哑光材质的身份好看。哑光是个正经外观，发黑才是坏的。真要凹凸感，就去Blender那一侧自己烘一张法线图（见§13）。
+ [IMG:images/p12-p20-basecolor-atlas.png] P2.0那辆出租车的贴图，降到1024²之后存出来肉眼检查的那一张。这就是全部：车身、轮胎、车灯、顶灯的颜色都摊在这一张图集上，没有配套的法线图，也没有ORM。原始尺寸8192²、6.81 MiB，降完308 KiB。2026-09-11。 
+## 第二件事：8192²乘26件等于9.3 GB 
+ P2.0那张base color出厂就是8192²。前面小王子那节已经量过一次8K贴图的代价，巴黎这边我又算了一遍，因为件数不一样（这座城里装机的是26件，重出的那批一共38件），而且这笔账在纸上就能算完，不用等浏览器崩给你看。 
+ 这个26不是§16里那个25，两个数各有各的口径，别放在一起减。 26数的是巴黎demo的 assets/ 目录里实际躺着的 GLB文件个数 ——显存是按文件算的，一个文件一份贴图，所以下面这笔账的乘数只能是它，不能是人眼看得见的件数。（这笔账本身是个假设：如果这26个槽位全换成P2.0的8192²原始件，要多少显存。）25数的是玩家在城里 能看见的Tripo网格 。差的那一个是 pedestrian-01 ：静态版和绑骨行走版是两个文件、同一个网格，显存要算两份，人眼只看得见一个人。§16那张「23、25、29数的不是同一批东西」的对账表把这一族数全列齐了，要对账去那儿。
+ 贴图配置 每件显存 26件合计 
+ P2.0原始8192² 358 MB 9.3 GB 
+ 降到1024² 5.59 MB 145 MB 
+ v3.1旧件512²三张 4.19 MB 109 MB 
+ 算法是按每像素4字节（也就是RGBA32）解码再加整条mipmap链，系数约1.33倍，和前面小王子那节写的358 MB是同一笔账。 这笔账我按1 MB等于100万字节算 ，你要是拿显卡工具对，它按1024进位、读数会比这里小约7%（同一个数在那边是341 MiB、8.67 GiB），不是算错了。降到1024²之后比旧件贵33%，换来的是单张贴图分辨率翻倍，落在预算内。 
+ 1024这一档是我照配方定的，没和512、2048做过A/B。画质上够用，但我不能说它是最优解。 
+## 38件批量降贴图：不走Blender，直接改glTF的JSON和BIN 
+ 这批资产已经是GLB了，所以这一道我刻意绕开了Blender， 直接改GLB里的glTF JSON和BIN数据块 ：只动images那几段字节和可选的顶点数据，其余原样搬过去。绕开Blender的理由、源与产物的逐项对照、以及38件全过的八项核验清单， 完整在§17「批量那一档」 ，那里还多两条： doubleSided 全是true的Blender成因，以及多张贴图必须按原图名一一对应。 
+## 朝向：三类资产三套惯例，千万别并排读 
+ 「Tripo出来的东西朝哪边」这个问题没有单一答案。我手上这三类资产各有各的惯例，混成一句话记一定会出事，所以拆开写。 
+ 资产类别 自然朝向 接进代码时 
+ Tripo预设人形（绑骨那条路） 和 +Z 差90度 小王子demo里写死 PRINCE_YAW = -Math.PI/2 
+ v3.1静态资产·行人 +Z 换成P2.0件时 yaw = -90 
+ v3.1静态资产·建筑 -Z （宽立面在±Z，窄面在±X） 换成P2.0件时 yaw = +90 
+ P2.0家族 +X ，38件里36件如此 两个例外见下 
+ 先看行人和建筑那两行： 符号是相反的 ，而两者的包围盒长得一模一样，光看数字分不出来。我第一次就是拿「旧件朝+Z」这一句去套建筑，把楼装反了90度，素墙对着马路。 
+ P2.0家族的两个例外也都是渲图读出来的。 vehicle-04-citroen-ds 正面朝 -X ： +X 那一视图是尾灯和后窗， -X 才是DS那张四头灯的脸。 building-10-bouquiniste-wall 正面朝 -Z ： -Z 视图里书箱是敞开的、看得见书， +Z 是合上的箱盖。 
+ 四视图分不出正面和背面，必须渲六视图。 常规四视图是 -Z / +X / +Y / 斜45度 ，缺的正是 +Z 和 -X 这两个机位，而正背面的差别恰好只在这两个机位上看得见。判据只有一句： 在哪个视图里看见正面，正面就朝那个方向 。这一条不受相机roll影响，也不需要读任何数字。
+ 再强调一遍这件事为什么不能靠算： 包围盒推不出朝向。 绕Y转90度只是把X和Z互换，转180度连互换都没有。 --yaw 90 和 --yaw -90 出来的包围盒完全相同，一个车头朝前，一个倒着开。新旧各渲一组六视图并排看，这是唯一靠得住的办法，26件就得看26遍，没有自动化的捷径。 
+ [IMG:images/p12-p20-sixview-pedestrian.png] 六视图并排：上排是被替换的v3.1旧件 pedestrian-02-woman-dress ，下排是P2.0新件 person-03-office-woman-baguette 。列的顺序是 -Z / +X / +Z / -X / 顶视 / 斜45度 。旧件的正脸出现在第三列（ +Z ），新件的正脸出现在第二列（ +X ），差90度，所以 yaw = -90 。2026-09-12本地Blender渲染。 
+ [IMG:images/p12-p20-sixview-building.png] 同一套机位下的建筑。上排旧件 building-02-tall-attic 宽立面落在 ±Z （第一、三列），窄面在 ±X ；下排新件 building-02-haussmann-balcony 的正立面在第二列（ +X ），第四列（ -X ）是那面没有窗、只有横向砖纹的背墙。建筑这一类要 yaw = +90 ，和行人反号，而这件事只有并排看六视图才看得出来。 
+## 烘进顶点，不要写节点矩阵 
+ yaw定好了，接下来是把这个旋转写到哪儿去。GLB里有两个位置可以放：写成场景根节点的变换矩阵，或者直接乘进每一个顶点。 这里必须选后者，而理由不在Tripo那边，在你自己的加载代码里。 
+ 巴黎demo的 loadCityTree() 是这么写的：用 Box3.setFromObject 量世界包围盒（这一步会把节点矩阵算进去），然后把归一化施加在原始geometry上（这一步无视节点矩阵）。量的时候算了，用的时候没算，两步不在同一个坐标系里。给这样的加载器一个带旋转的节点矩阵，模型会静默错位，不报任何错。 
+ 烘进顶点对两条路都安全，所以我每一件都带着 --bake 跑。 「量的时候算了、用的时候没算」这类不对称，是接第三方资产时最容易中的一类埋伏 ，症状永远长成同一个样子：位置不对，但控制台干干净净。 
+## A/B帧时间：量出来的是「量不出回归」，不是「变快了」 
+ 换完六件之后要回答一个问题：新件有没有把性能换坏。问题看着简单，第一次我量错了。 
+ 「六件」也要说清口径 ：它是2026-09-12那一轮真正落地的六个旧槽位——那一轮清单上排了九个，三个当场否掉（映射表把一栋六层公寓写成了地铁口、新咖啡露台多一根两米高的取暖伞会把桌椅按比例压到半米、行道树在另一条线上换），理由在§16。这一轮之后另一条线又换掉两个行人槽位，加起来才是§16说的「8个槽位」。 下面这张A/B表量的是那六件，不是八件。 
+ 不能看帧间隔。 浏览器的帧间隔被vsync锁在8.3或者16.6毫秒上，两组资产量出来的中位数会一模一样，差别全被锁没了。要量的是每一帧GPU真正忙了多久，这需要一个WebGL2扩展挂在 requestAnimationFrame 上： 
+ const ext = gl.getExtension('EXT_disjoint_timer_query_webgl2');
+const q = gl.createQuery();
+gl.beginQuery(ext.TIME_ELAPSED_EXT, q); // 这一帧开画之前
+// … renderer.render(scene, camera) …
+gl.endQuery(ext.TIME_ELAPSED_EXT); // 画完
+// 隔几帧再来收结果，单位是纳秒；GPU_DISJOINT 为真说明这次计时不可信，丢掉
+if (gl.getQueryParameter(q, gl.QUERY_RESULT_AVAILABLE)
+ && !gl.getParameter(ext.GPU_DISJOINT_EXT))
+ ns = gl.getQueryParameter(q, gl.QUERY_RESULT); 
+ 协议也要钉死，否则你量的是自己的驾驶技术：刷新页面、跑一段自由漫游、回到出生点静止采样。巴黎demo的出生点坐标是确定性的，两次完全可复现。 
+ 旧6件（v3.1） 新6件（P2.0） 
+ GPU中位 4.24 ms 3.87 ms 
+ GPU p95 11.72 ms 5.40 ms 
+ 三角面 3,247,182 3,224,973 
+ draw call 212 212 
+ 控制台报错 0 0 
+ 采样 151帧 302帧 
+ 这张表的结论是「量不出回归」，不是「变快了」。 0.37毫秒的差落在跑间噪声里，我没有第二次独立跑来支撑「变快」这个说法，所以不说。draw call一个没变，三角面降了0.7%，和逐件的算术对得上，这两条才是真结论。 把噪声读成改进，是性能测量里最常见的一种自欺 ，尤其在你正好希望它变快的时候。 
+ 测性能必须串行，不能和任何别的渲染任务同时跑。 有一轮我在另一条线上用headless Playwright录B-roll，两边抢同一块GPU，量出来是中位8.57毫秒、p95 61.8毫秒、最小值3.19毫秒，方差大得离谱。那个最小值和机器干净时量到的3.29毫秒吻合，所以我判断是机器被占用而不是性能回归。 但这是推断，不是测量 。这种数据唯一正确的处理是丢掉重测，而不是挑一个看着顺眼的统计量写进结论。
+## 一个格式坑：normalized的int16会让你算出32783倍的缩放 
+ 这个坑值得单独写，因为它完全不像格式问题，倒像「我的数学写错了」。 
+ 巴黎demo现有的26件资产都带 KHR_mesh_quantization 扩展，顶点位置不是float32，而是 normalized: true 的int16。这个标志的意思是：这里存的整数不是坐标本身，读的时候要除以这个类型的满量程（int16是32767）才是真实值。它是压缩类扩展的标配，因为整数比浮点省一半空间。 
+ 我自己那个无依赖的GLB解析器一开始不认这个标志，把原始整数直接当世界坐标读。于是 pedestrian-02 被读成 32767单位高 ，而它实际是1.0。接着「按旧件高度对齐新件」那个功能拿这个数去做除法，算出来的缩放系数是32783。 
+ # 按分量类型归一化回 [-1,1] / [0,1]
+if accessor.get('normalized'):
+ SCALE = {5120:127.0, 5121:255.0, 5122:32767.0, 5123:65535.0}
+ pos = pos / SCALE[accessor['componentType']]
+ if accessor['componentType'] in (5120, 5122): # 有符号的还要夹一下下界
+ pos = np.maximum(pos, -1.0) 
+ 两条可以带走的。 自己写glTF解析器，就一定要处理 normalized 。 而从FBX那条路转出来的GLB不产生normalized accessor，所以同一个解析器读新件一直是对的、只在读旧件时出错。 一个只在一半输入上出错的bug，比全错的bug难找得多 ，因为你会先怀疑那一半输入。 
+## 后期链里最深的一个坑：ShaderPass会clone uniforms 
+ 这一个我排查了很久，因为症状极具误导性。 
+ const Grade = { uniforms:{ uRes:{value:new THREE.Vector2(1,1)}, … } };
+const gradePass = new ShaderPass(Grade); // ← 这里 clone 了一份
+Grade.uniforms.uRes.value.set(w, h); // ← 写的是原来那份，着色器读的是 clone 
+ 两个对象，写错了不报错，着色器只会一直用初始值。 
+ 于是 uRes 停在 (1,1) ，湿边效果「取邻居」取的是屏幕另一头的深度，整片地面被判成巨大跳变、压成灰的；而天空因为处处深度都是1.0反而看着完全正常。顺着「天空没事、地面全黑」这条线去查，会一路怀疑深度纹理格式、线性化公式、掠射面梯度，全都对，因为根本不是那些。 
+ 排查路径记下来，下次照做： 
+ 1 
+## 做差 把开关前后的两张图做 difference 合成，立刻看出「暗在哪儿」（天空纯黑、地面全亮）。 
+ 2 
+## 把中间量画出来 给着色器加一个 uDbg ，直接输出深度或边缘强度。 
+ 3 
+## 三通道一起输出 vec4(原始深度, 线性化深度, 边缘强度, 1) ，一次对齐三者。 
+ 4 
+## 最后才回头查uniform传没传进去 而这一步本该在前两步之前。 
+ 同一轮里我还清掉了两个自测脚本自己的bug。 测量方法本身也要被怀疑。 
+## 自校验：这一节的教训最贵 
+ 截图自校验之前，先确认页面的加载遮罩已经淡出。 做发动机v2那轮，我有四轮都在给一张蒙了白色遮罩的图调材质。每轮都判断「还是发白」，于是继续调环境贴图、调曝光、调金属度，而真正的原因是 #load 那层不透明白色盖在整个画面上没消失。 
+ 判据：截图里如果整体发白或发灰、且各元素均匀受影响，先查有没有覆盖层，别动材质。 自检副本里直接把遮罩设成 display:none 最省事。
+ 另外三条工程上的： 
+ macOS没有 timeout 命令。 timeout 50 chrome ... 会静默变成command not found，整条命令什么都没干。我因此以为headless渲染失败了好几轮。 
+ headless Chrome写完截图文件后不退出。命令会超时报错，但文件已经写出来了。报FAIL不等于没文件，收尾要按文件是否存在重新盘点，别信退出码。另外多个headless实例堆积会互相干扰，先 pkill -f "headless=new" 再跑。 
+ 后台标签页的 requestAnimationFrame 会停。本地自校验要加 setInterval(frame, 340) 兜底。 
+ [IMG:images/p12-starry-open.jpg] 《星月夜》可展开立体油画，展开态。五层里柏树和村庄是Tripo生成的3D件，其余三层是带alpha的平面层。镜头必须侧过来，正视角下五层分开你看不出来。2026-09-10。 
+## 发布：两个沙盒的坑 
+ 做完了要给人看。静态托管最省事，把目录整个传上去就行，Vercel、Cloudflare Pages、GitHub Pages都能直接扔。 
+ 但有两类环境会咬人。 
+ 第一类是禁用 fetch() 的沙盒。 我最早那版巴黎demo发在Artifact里，模型渲染成纯黑，没有任何报错。查了很久才明白：那个环境会完全禁用 fetch() （连 data: URI都不放行），而Three.js的GLTFLoader加载贴图时优先走 ImageBitmapLoader 、内部用的正是 fetch() ，于是静默失效。 
+ // 逼 Three.js 退回到走 <img> 标签的经典加载路径
+window.createImageBitmap = undefined; 
+ 这条对任何类似的沙盒环境都成立，不只对那一家。 
+ 第二类是子路径托管。 B站Toy这类平台把页面跑在 /toy/<slug>/ 下面，绝对路径的资源引用会404、根绝对跳转会跳错。包传得上去、审核也可能过，但打开是坏的。我的发布包因此全部用相对路径。 
+ Toy的发布动作本身是两段式的：先不加确认参数跑一次，拿到预览链接自己在浏览器里检查，确认没问题再提交审核。 预览就是那道闸门 ，别一步到位。 
+ [IMG:images/p12-city-map.jpg] 巴黎demo按Tab打开的全城地图。1375个程序化街廓加24座桥加约6975米河道，Tripo资产只有沿街那一圈建筑、车辆和地标。地图包围盒约6050×5340米，不是可通行面积。 
+ [IMG:images/p12-city-eiffel.jpg] 铁塔是Tripo生成的（1.9万三角面，天生就低，不需要重拓扑），底下的街道和河堤是程序化城市层。这张是2026-09-14复核时重拍的，下一张来自发布前的QA自检集。 
+ [IMG:images/p12-city-bridge.jpg] 桥面高度是按实际桥面网格取样缓存的，不是套街面 y=0 。这条是接旧城市层时必须做的适配之一，不做的话车会从桥上掉下去。 
+ [IMG:images/p12-city-water.jpg] 水面反射由城市层生成。低画质档会把反射直接关掉（ refl.dead = low ），这是我唯一按画质档做取舍的地方。 
+## 混搭：Tripo和程序化不是二选一 
+ 最后一条，也是我认为对做游戏最有用的一条。 
+ 巴黎城里近景行道树用的是Tripo生成的GLB（两款巴黎七叶树，绿叶和秋黄交替，近景实例配额110；早期是36株、用的还是另一棵梧桐，换树种和提配额的原因都在§18），中景、远景和公园的两万株保留程序化球冠。原因很实在： 近景要细节，远景只需要「那儿有个绿色的东西」，而AI模型的面数成本撑不住两万株。 
+ 这笔账我在巴黎城里同机位同画质量过，开着沿街14栋Tripo建筑对全程序化，代价是多17个draw call、多15%三角面，帧率一帧没掉。完整的两组读数在§13。 
+ 接Tripo树的时候还有个细节值得记：城市层给的 c.h 是「冠高」，而GLB树的宽高比接近1比1（整树包围盒），程序化树是宽8比高11的瘦高个。按高度等比放大到2倍时冠幅会变成14米，而行道树间距才8米，整排会糊成一片。最后 heightScale 取1.2，冠幅落在8.4米。 
+ [IMG:images/p12-park-three.jpg] 星光游乐园的Three.js版本，后来这条线的最终形态转到了Unity（见§14）。两版共用的是一部分巴黎道具和木马，设施是两套：这一版的摩天轮、飞椅、茶杯都是代码搭的，Unity那一版才换成Tripo生成。 
+## 接Tripo资产的检查表 
+ 检查项 不做会怎样 
+ 设了 scene.environment 白底上金属件渲成死黑 
+ 环境贴图有暗部 画面发白、没有重量感 
+ 白底场景没开ACESFilmic 白底被压成灰 
+ 按包围盒归一化并把底面压到地面 每件资产都只有1米高 
+ SkinnedMesh不用 Box3 量尺寸 模型被缩到只剩一双鞋 
+ 用 SkeletonUtils.clone() 所有实例同手同脚 
+ 每个实例一个 AnimationMixer 并错开相位 整排人像仪仗队 
+ 切掉动画的位移轨 循环回起点时人会弹回去 
+ 贴图降到1024²（特写2048²） 显存5 GiB，卡顿且查不出原因 
+ P2.0的件只当它有base color 一路去找一个不存在的法线图 
+ 接P2.0前先算显存（8192²×26=9.3 GB） 纸上就能算出来的崩溃，非要跑一次才知道 
+ 朝向按资产类别分别定，靠六视图读 车横着开、楼拿素墙对着马路 
+ 旋转烘进顶点，不写节点矩阵 模型静默错位，控制台干干净净 
+ 自写解析器认 normalized 标志 包围盒读成32767倍，缩放算出32783 
+ 量帧时间用GPU timer query，而且串行跑 量到的是vsync，或者是隔壁进程 
+ 自检截图前确认加载遮罩已淡出 对着一张蒙了白纸的图调材质 
+ 页面走http不走 file:// GLB被CORS挡住 
+ 资源全用相对路径 子路径托管上白屏或404

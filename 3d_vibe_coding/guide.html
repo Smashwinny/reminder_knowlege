@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>3D Vibe Coding 橙皮书指南</title>
+<style>
+:root{
+  --orange:#FF6B35; --deep:#E8491D; --cyan:#00B4D8; --yellow:#FFD23F;
+  --purple:#7B2FBF; --green:#06D6A0; --pink:#EF476F; --blue:#3A86FF;
+  --ink:#231933; --paper:#FFF9F0;
+}
+@page{ size:A4; margin:12mm; }
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:var(--ink);background:var(--paper);margin:0;font-size:13px;line-height:1.75}
+.cover{background:linear-gradient(135deg,#FF6B35 0%,#FF8C42 45%,#FFD23F 100%);border-radius:18px;padding:34px 30px;color:#fff;margin-bottom:18px}
+.cover h1{font-size:34px;margin:0 0 6px;text-shadow:2px 2px 0 rgba(160,40,0,.35)}
+.cover .sub{font-size:16px;font-weight:bold;margin-bottom:14px}
+.badges span{display:inline-block;background:rgba(255,255,255,.92);color:#C43D0A;font-weight:bold;border-radius:20px;padding:3px 12px;margin:3px 4px 0 0;font-size:12px}
+.fact{background:#fff;border:3px solid var(--orange);border-radius:12px;padding:10px 16px;margin:12px 0}
+h2.q{background:linear-gradient(90deg,var(--orange),var(--yellow));color:#fff;padding:10px 16px;border-radius:12px;font-size:19px;margin:26px 0 10px;display:flex;align-items:center;gap:12px}
+h2.q .num{background:#fff;color:var(--deep);border-radius:10px;min-width:52px;text-align:center;font-size:24px;font-weight:900;padding:2px 6px;box-shadow:2px 2px 0 rgba(120,30,0,.3)}
+.key{background:var(--yellow);border-left:6px solid var(--deep);padding:8px 12px;border-radius:6px;font-weight:900;font-size:14.5px;margin:10px 0}
+.tip{background:#E3F6FF;border-left:6px solid var(--cyan);padding:7px 12px;border-radius:6px;margin:8px 0}
+.warn{background:#FFE3EC;border-left:6px solid var(--pink);padding:7px 12px;border-radius:6px;margin:8px 0}
+.link{background:#F1E8FF;border-left:6px solid var(--purple);padding:7px 12px;border-radius:6px;margin:8px 0;font-size:12.5px}
+.card{background:#fff;border:2px solid #FFD9C4;border-radius:12px;padding:12px 16px;margin:10px 0;break-inside:avoid}
+.grid2{display:flex;gap:10px;flex-wrap:wrap}
+.grid2>div{flex:1;min-width:300px}
+table{border-collapse:collapse;width:100%;margin:8px 0;font-size:12px;background:#fff}
+th{background:var(--orange);color:#fff;padding:5px 8px;text-align:left}
+td{border-bottom:1px solid #FFD9C4;padding:4px 8px;vertical-align:top}
+tr:nth-child(even) td{background:#FFF3EA}
+code{background:#2D2A4A;color:#7CFFCB;padding:1px 6px;border-radius:5px;font-family:Consolas,monospace;font-size:11.5px}
+pre{background:#2D2A4A;color:#E8F7FF;border-radius:10px;padding:10px 14px;overflow-x:auto;font-size:11px;line-height:1.55}
+pre code{background:none;padding:0;color:inherit}
+.svgbox{background:#fff;border:2px dashed var(--cyan);border-radius:12px;padding:8px;margin:10px 0;text-align:center;break-inside:avoid}
+.svgbox .cap{font-size:11.5px;color:#555;margin-top:4px}
+.shots{display:flex;gap:8px;break-inside:avoid}
+.shots figure{flex:1;margin:0;text-align:center}
+.shots img{width:100%;border:3px solid var(--ink);border-radius:8px}
+.shots figcaption{font-size:11.5px;font-weight:bold;padding:3px}
+.ok{background:#DFFFEF;border:2px solid var(--green);border-radius:10px;padding:8px 12px;font-weight:bold;margin:8px 0}
+.toc td:first-child{font-weight:bold;color:var(--deep);white-space:nowrap}
+.dig{background:var(--yellow);font-weight:900;border-radius:6px;padding:0 6px}
+.exp{border:3px solid var(--purple);border-radius:14px;padding:12px 16px;margin:12px 0;background:#FBF7FF;break-inside:avoid}
+.exp h3{margin:0 0 8px;color:var(--purple);font-size:16px}
+.step{background:#fff;border-radius:10px;padding:8px 12px;margin:8px 0;border-left:5px solid var(--green)}
+.step b.op{color:var(--deep)}
+.small{font-size:11.5px;color:#666}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>《3D Vibe Coding》橙皮书</h1>
+  <div class="sub">386 页开源手册盘点 + 三章深挖：一个人用 Codex × Tripo 造出一座能开车逛的巴黎</div>
+  <div class="badges">
+    <span>386 页 / 25.6 万字 / 260 图</span><span>6 个可玩 demo</span><span>56 件资产逐件对账</span>
+    <span>CC BY-NC-SA 4.0</span><span>花叔 @alchaincyf</span><span>v260914c</span><span>269★</span>
+  </div>
+</div>
+
+<div class="fact">
+<b>这本书是什么：</b>花叔做"能开车逛的巴黎"时的全程实测记录——不会写 3D 代码的人，用 AI 生成 3D 资产（Tripo 图生 3D），再把它们真正接进能跑的项目（Three.js / Blender / Unity）。
+<b>最大特色不是"教会你"，而是"每一条结论都有能核查的数"</b>：价格是坐在表单前逐个开关试出来的，面数是解析 GLB 索引数组数出来的，翻车的地方（927 万 vs 927K、65 积分废件）原文留着没删。
+<div class="link">📚 仓库：<code>github.com/alchaincyf/3d-vibe-coding-handbook</code>（book/ 全书 HTML+339 图，demos/ 三个 demo 源码，scripts/ 11 个工具脚本，manifest/ 56 件资产清单）。资源包 11 个共 229MB 按 §00 索引下载，不出整包。</div>
+</div>
+
+<h2 class="q"><span class="num">盘点</span>全书目录：§00–§22 + 附录 A–D</h2>
+<div class="card">
+<table class="toc">
+<tr><th>章节</th><th>一句话内容</th></tr>
+<tr><td>§00</td><td>这本书怎么用 + 11 个资源包索引（按需下载，各带 SHA256）</td></tr>
+<tr><td>§01 <span class="dig">深挖</span></td><td>十分钟跑通第一次图生 3D：两种模式、价格结构、面数框的口径陷阱</td></tr>
+<tr><td>§02</td><td>参考图怎么准备——"图生 3D 的成败，八成不在开关，在你喂进去的那张图"</td></tr>
+<tr><td>§03</td><td>生成之后：导出弹层、API 直链绕开"另存为"弹窗、签名链接约两天过期</td></tr>
+<tr><td>§04 <span class="dig">深挖</span></td><td>减面与重拓扑：E10 对照实验、1.75 换算系数、减面下限、"卡顿先量贴图"</td></tr>
+<tr><td>§05</td><td>智能拆分与贴图生成（拆件不吃四边面、不吃已绑骨模型）</td></tr>
+<tr><td>§06</td><td>绑骨与动画：自动绑骨 20 积分、三模式对照</td></tr>
+<tr><td>§07</td><td>怎么把积分花在刀刃上：每个动作的基础价与加项逐笔对账</td></tr>
+<tr><td>§08</td><td>为什么先出设计图再建模（设计图 = 可复现的中间产物）</td></tr>
+<tr><td>§09</td><td>提示词技巧示例（含图）</td></tr>
+<tr><td>§10</td><td>批量出图与命名</td></tr>
+<tr><td>§11 <span class="dig">深挖</span></td><td>把 Tripo 接进你的工具：CLI / Codex 插件 / MCP / API / DCC Bridge 五条路</td></tr>
+<tr><td>§12 <span class="dig">深挖</span></td><td>Three.js：环境贴图 / 贴图显存 / 骨骼复制三坑 + 性能测量方法论</td></tr>
+<tr><td>§13</td><td>Blender：什么时候该进（绑骨权重），什么时候别进（减面等价）</td></tr>
+<tr><td>§14</td><td>Unity：把资产搭成会动的园区</td></tr>
+<tr><td>§15</td><td>谁负责哪一层：近景 AI 模型 / 远景代码渲染的分工判据</td></tr>
+<tr><td>§16</td><td>从选题到资产清单（"23、25、29 数的不是同一批东西"的对账表）</td></tr>
+<tr><td>§17 <span class="dig">深挖</span></td><td>生成与清洗流水线：逐件生成 → 导出 GLB → 批量减面 → 归一化尺寸</td></tr>
+<tr><td>§18</td><td>组装：把 23 件模型变成一个能开的城（实例配额、A/B 帧时间）</td></tr>
+<tr><td>§19</td><td>验收与发布</td></tr>
+<tr><td>§20</td><td>机构类案例：一台能拆能装的四冲程发动机（曲柄滑块按真实运动学算）</td></tr>
+<tr><td>§21</td><td>艺术类案例：星月夜拆五层，两层换 Tripo 真 3D</td></tr>
+<tr><td>§22</td><td>世界类案例：小王子星球（28 米直径走得完）</td></tr>
+<tr><td>附录A</td><td>56 件资产逐件规格（三角面/顶点/贴图/积分，可当验收单，以文件读数为准）</td></tr>
+<tr><td>附录B</td><td>踩坑索引：按症状查的五张表——"已经动手了卡在某个症状上"先翻这里</td></tr>
+<tr><td>附录C</td><td>配置与积分参考</td></tr>
+<tr><td>附录D</td><td>术语人话版 + 面数换算的完整分布</td></tr>
+</table>
+<div class="tip"><b>读法建议（本书自己的路由表）：</b>没跑过图生3D → §01；模型生出来了不知道下一步 → §03；卡在具体症状 → 附录B；本指南深挖 §01/§04/§12 三章（与已学的 TripoSR、glTF 管线、Three.js 衔接最紧），§11/§17 简挖。</div>
+</div>
+
+<h2 class="q"><span class="num">Q1</span>图生 3D 是什么？和我学过的 TripoSR 什么关系？</h2>
+<div class="card">
+<p><b>一句话：</b>上传一张设计图，几十秒后得到一个能拖着转、能下载的 3D 模型（GLB）。背后的学术底座就是 vault 里已学的 [[LRM大型重建模型]] 前馈范式——TripoSR 是 Tripo（VAST）的开源研究版（2 秒本地出灰模），Tripo Studio 是同一家的<b>商业产品管线</b>：灰模只是起点，后面还挂着贴图生成、智能拆分、重拓扑、自动绑骨一整条服务链。</p>
+<div class="link">🔗 互链：[[LRM大型重建模型]]（一次前向出 3D 的原理）、[[Triplane三平面表示]]（内部表示）、[[glTF与GLB资产管线]]（产物格式）、项目笔记 [[项目笔记/triposr]]（开源版实测）。</div>
+<div class="svgbox">
+<svg width="660" height="150" viewBox="0 0 660 150">
+<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#E8491D"/></marker></defs>
+<rect x="8" y="45" width="105" height="52" rx="9" fill="#FFD23F"/><text x="60" y="67" text-anchor="middle" font-size="12" font-weight="bold">设计图</text><text x="60" y="84" text-anchor="middle" font-size="10">1024² 白底四分之三视角</text>
+<rect x="150" y="45" width="115" height="52" rx="9" fill="#FF6B35"/><text x="207" y="67" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">Tripo 图生3D</text><text x="207" y="84" text-anchor="middle" font-size="10" fill="#fff">17~65 秒（算子口径）</text>
+<rect x="302" y="45" width="100" height="52" rx="9" fill="#00B4D8"/><text x="352" y="67" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">导出 GLB</text><text x="352" y="84" text-anchor="middle" font-size="10" fill="#fff">贴图选 1k</text>
+<rect x="438" y="45" width="95" height="52" rx="9" fill="#06D6A0"/><text x="485" y="67" text-anchor="middle" font-size="12" font-weight="bold">批量清洗</text><text x="485" y="84" text-anchor="middle" font-size="10">减面+降贴图</text>
+<rect x="568" y="45" width="85" height="52" rx="9" fill="#7B2FBF"/><text x="610" y="67" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">接进引擎</text><text x="610" y="84" text-anchor="middle" font-size="10" fill="#fff">Three.js/Unity</text>
+<line x1="113" y1="71" x2="148" y2="71" stroke="#E8491D" stroke-width="3" marker-end="url(#ar)"/>
+<line x1="265" y1="71" x2="300" y2="71" stroke="#E8491D" stroke-width="3" marker-end="url(#ar)"/>
+<line x1="402" y1="71" x2="436" y2="71" stroke="#E8491D" stroke-width="3" marker-end="url(#ar)"/>
+<line x1="533" y1="71" x2="566" y2="71" stroke="#E8491D" stroke-width="3" marker-end="url(#ar)"/>
+<text x="330" y="128" text-anchor="middle" font-size="11" fill="#666">§17 四步流水线；真正吃时间的是第一步排队——所以"并行提交、串行清洗"</text>
+</svg>
+<div class="cap">图1：从一句话到能跑的场景——本书的整条流水线（类比 [[混合模型分工流水线]]：设计流出 AI，机制流出代码）</div>
+</div>
+<div class="key">这条流水线的分工哲学（§15）：近景要细节的交给 AI 模型，远景只要"那儿有个东西"的交给代码——巴黎城里 2 万株行道树是程序化的（9 个绘制调用/8.4 万三角面），只有近景 110 株用 Tripo 的 GLB。</div>
+</div>
+
+<h2 class="q"><span class="num">Q2</span>"Generate 50"这个数字是怎么算出来的？</h2>
+<div class="card">
+<p>花叔干了件笨事：坐在表单前把"几何与贴图"弹层里的开关一个一个动，看按钮上的数怎么跳（全程只看不按，0 积分）。跳出来的结构特别规整：</p>
+<table>
+<tr><th>状态</th><th>按钮</th><th>拆解</th></tr>
+<tr><td>只关掉 Texture（灰模）</td><td>⚡15</td><td><b>几何底价 = 15</b></td></tr>
+<tr><td>贴图 2K</td><td>⚡30</td><td>+15</td></tr>
+<tr><td>贴图 4K</td><td>⚡40</td><td>+25</td></tr>
+<tr><td>贴图 8K（默认！）</td><td>⚡50</td><td>+35 ← 默认价的一半在买 8K 贴图</td></tr>
+<tr><td>8K 再开 Ultra Mesh</td><td>⚡65</td><td>Ultra 另算 +15（不在默认 50 里）</td></tr>
+<tr><td>智能网格 P2.0</td><td>⚡65 + 30</td><td>网格 65（原价 100 划线），贴图另付 30</td></tr>
+</table>
+<div class="key">默认 50 分里 35 分买的是 8K 贴图——而做网页/游戏导出时本来就要降到 1k。生成选 2K、导出选 1k，两头都省：一件 30 vs 一件 65，×40 件差 1400 积分，接近半个月订阅额度（专业版 ¥140/月 3000 积分，免费档 200 积分约 13 个模型）。</div>
+<div class="warn"><b>三个账单陷阱：</b>① Ultra 那 15 分<b>不在</b>默认 50 里，算进去预算凭空多四分之一；② "自动保存您的设置"是跨会话的——为特写件开的档会一直跟着后面每一件；③ 首页快捷框和工作台默认值不同（55 vs 50），规矩只有一条：<b>以按下去之前按钮上当场显示的数为准</b>。</div>
+</div>
+
+<h2 class="q"><span class="num">Q3</span>面数框骗局：同一个 8000 为什么不是同一个 8000？</h2>
+<div class="card">
+<p>两种模式的"面数"框<b>数的不是同一种面</b>：高精度模型（v3.1）出三角面，那个数就是三角面；智能网格（P2.0）出四边面，那个数数的是四边面。引擎最终只认三角面——四边面进引擎要拆成两个。E10 实验（同一张出租车图、都填 8000、只换模式，输入图 SHA-256 三方对齐）：</p>
+<table>
+<tr><th></th><th>A 高精度 v3.1（15 分）</th><th>B 智能网格 P2.0（65 分）</th></tr>
+<tr><td>原生面</td><td>7,379 三角面</td><td>8,596 四边面（占 79.51%）</td></tr>
+<tr><td>三角化后</td><td>7,379</td><td><b>15,431</b></td></tr>
+<tr><td>顶点</td><td>3,646</td><td>8,580</td></tr>
+</table>
+<div class="key">同一个 8000，智能网格拿到的几何预算是高精度的 <b>2.09 倍</b>——B 的保险杠栅条、大灯圈、门把手、雨刷全都在，A 同位置是几块糊过去的面。跨模式比面数先换算，不然结论会反。</div>
+<div class="svgbox">
+<svg width="660" height="168" viewBox="0 0 660 168">
+<rect x="30" y="20" width="270" height="34" fill="#3A86FF" rx="6"/><text x="165" y="42" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">填 8000（高精度）= 7,379 三角</text>
+<rect x="30" y="62" width="540" height="34" fill="#EF476F" rx="6"/><text x="300" y="84" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">填 8000（智能网格）= 8,596 四边 → 三角化 15,431（×1.795）</text>
+<text x="300" y="126" text-anchor="middle" font-size="13" font-weight="bold" fill="#E8491D">换算公式：三角化后 ÷ 原生面 = 1 + 四边形占比</text>
+<text x="300" y="147" text-anchor="middle" font-size="11.5" fill="#444">实测 1.795（79.51%）与 1.745（74.5%）都对上小数点后三位；全书 38 件落在 1.37~1.87，中位 1.75 —— 按 2 估会系统性高估约 10%</text>
+</svg>
+<div class="cap">图2：同一个数字在两种模式里买到的东西（E10，输入 SHA-256 逐字节锁定）</div>
+</div>
+<div class="warn"><b>面数框另外两个咬人处：</b>它是目标不是硬上限（38 件里 35 件超出设定，中位超 13%）；"自动保存"管不了它——<b>每件都要重设</b>。凯旋门那件：浏览器自动化往框里打字 15000，界面明明白白写着 15000，接口读回 face_limit=5000（默认值），65 积分打水漂。根因是响应式框架托管的输入框：直接改 DOM 的 value，框架内部状态收不到通知。正确写法是调原型 setter 再补事件，硬验证是设完按一下 → 方向键：变 15002 说明真进去了，跳回 5002 就是白设。</div>
+</div>
+
+<h2 class="q"><span class="num">Q4</span>减面还是重拓扑？能减到多少由什么决定？</h2>
+<div class="card">
+<p><b>减面（decimation）</b>在原来的面上合并删减，拓扑变乱；<b>重拓扑（retopology）</b>是同一形状重新铺一张规整的网（10 积分，要进 Blender 改/绑骨才需要）。先说反直觉的事实：巴黎 29 件资产面数 16,711~46,196、中位 18,509，<b>没有一个超 10 万——整个项目一次重拓扑都没用上</b>。所以第一个动作不是打开重拓扑页，是先数面数。</p>
+<div class="key">减面的下限由几何有多光滑决定：减面算法找相邻顶点判断"合并了看不看得出来"。连续曲面（人体）砍到 3.3% 还认得出是个人；建筑全是直角窗洞只能到 37~44%；铁塔的格构结构和树的分离薄片几乎砍不动（72.5%~95.3%）。<b>光滑度 = 有多少个可以被牺牲的顶点。</b>所以别拿一套统一参数跑全库：人物/载具/道具 0.25、建筑 0.45、树和铁塔 0.75。</div>
+<table>
+<tr><th>情况</th><th>动作</th><th>成本</th></tr>
+<tr><td>面数已在 1.5~3 万，做静态道具</td><td>什么都不用做</td><td>0</td></tr>
+<tr><td>几十万面（镂空建筑）/ 要绑骨</td><td>重拓扑（四边面）</td><td>10 分</td></tr>
+<tr><td>一批资产整体瘦身进网页</td><td>gltf-transform 按类型分配比例</td><td>0 分，5.2 秒/个</td></tr>
+<tr><td>加载慢、显存爆、风扇狂转</td><td><b>先量贴图</b>，多半是 resize 不是 simplify</td><td>0 分</td></tr>
+<tr><td>形状本身就不对</td><td>改参考图重新生成</td><td>30~50 分</td></tr>
+</table>
+<div class="ok">✅ 实验复现（见本指南实验一）：光滑球面 720 三角砍到 35（4.9%）触底；格构塔 1152 → 336（29.2%）触底，ratio 0.1/0.05/0.02 输出完全相同——"再减就崩"的硬下限现象亲手复现。</div>
+</div>
+
+<h2 class="q"><span class="num">Q5</span>卡顿的第一反应为什么应该是查贴图而不是减面？</h2>
+<div class="card">
+<p>小王子 demo 卡得没法看，本能反应是"减面、关泛光、砍阴影"。先量了一次：<b>整条渲染链 GPU 只吃 0.37ms，预算（16.7ms@60fps）的八分之一都没用完——三角形是闲的。</b>真凶在显存：</p>
+<div class="svgbox">
+<svg width="660" height="175" viewBox="0 0 660 175">
+<text x="330" y="18" text-anchor="middle" font-size="12" font-weight="bold">一张 8192² 贴图的显存账</text>
+<rect x="60" y="34" width="540" height="30" fill="#FF6B35" rx="5"/><text x="330" y="54" text-anchor="middle" font-size="11.5" fill="#fff" font-weight="bold">RGBA32 展开 = 268 MB　＋　mipmap 链 ×4/3 ≈ 358 MB / 张</text>
+<rect x="60" y="78" width="500" height="34" fill="#EF476F" rx="5"/><text x="310" y="100" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">17 件资产 31 张贴图（10×8K + 20×4K）= 5.0 GiB —— 卡到没法看</text>
+<text x="572" y="100" font-size="20" font-weight="bold" fill="#EF476F">→</text>
+<rect x="60" y="126" width="42" height="30" fill="#06D6A0" rx="5"/><text x="115" y="146" font-size="13" font-weight="bold" fill="#0a7a5c">降到 1024²：0.22 GiB（23×），三角面 147,879 一个没动，肉眼看不出差别</text>
+</svg>
+<div class="cap">图3：显存才是瓶颈——只跑 <code>gltf-transform resize --width 1024</code>，几何一个面不动</div>
+</div>
+<table>
+<tr><th>指标</th><th>改前</th><th>改后</th><th>倍数</th></tr>
+<tr><td>贴图显存</td><td>5.0 GiB</td><td>0.22 GiB</td><td><b>23×</b></td></tr>
+<tr><td>GLB 载荷</td><td>89.87 MiB</td><td>12.30 MiB</td><td>7.31×</td></tr>
+<tr><td>资产就位</td><td>3.90 s</td><td>0.70 s</td><td>5.6×</td></tr>
+<tr><td>JS 每帧（中位）</td><td>1.5 ms</td><td>0.7 ms</td><td>2.1×</td></tr>
+<tr><td>三角面</td><td colspan="3">147,879 —— 未动</td></tr>
+</table>
+<div class="warn">为什么显存这么爆：每个道具在画面里才几百像素，却挂着一张 8192² 底图，GPU 一直在做纹理换入换出，表现出来就是"卡"。用 <code>resize</code> 别用 <code>optimize</code>——optimize 默认顺手跑 simplify，而几何根本不是瓶颈。顺序：<b>先量 GPU 耗时和绘制调用 → 量不出问题先砍贴图 → 再合并绘制调用 → 最后才轮到砍面。</b></div>
+<div class="link">按绘制调用分档比按三角面分档有用：巴黎 244 万三角 / 77 个绘制调用，渲染一帧 5.0ms，离预算还有三倍余量；"全场景 30 万面"那条流行经验值被实测推翻——照它做会把塞得下的东西砍掉。</div>
+</div>
+
+<h2 class="q"><span class="num">Q6</span>PBR 金属在白底上为什么死黑？（已亲手复现）</h2>
+<div class="card">
+<p>发动机 demo v1 深色底一切正常，v2 改纸感白底后整台机器变成一团黑影。原理：金属度高时漫反射被抑制，只靠直接光什么也看不见；深色背景把问题吃掉了，白底一换全暴露。<b>模型没坏——缺的是环境贴图（scene.environment）。</b>两条路：要金属质感就做环境贴图；不要就把 metalness 摁到 0（roughness 给足，让它以哑光身份好看）。最怕的是既不做环境贴图又保留高金属度。</p>
+<div class="shots">
+<figure><img src="exercise/shots_ab_off_sphere.png" alt="env off"><figcaption style="background:#FFE3EC">❌ env=OFF：metalness=1 的球在白底上死黑，只剩直射光高光点（中心区平均亮度 72.9/255）</figcaption></figure>
+<figure><img src="exercise/shots_ab_on_sphere.png" alt="env on"><figcaption style="background:#DFFFEF">✅ env=ON：书里的 studioEnv() canvas 渐变环境贴图接上后，正常的镀铬球（亮度 206.7，2.8×）</figcaption></figure>
+</div>
+<div class="key">studioEnv() 两个试出来的细节：① 渐变不能全亮——必须从 #ffffff 压到 #403c35 给暗部（摄影棚的黑旗），金属才有明暗对比；② 白底场景别用 ACESFilmic 色调映射（会把白底压成灰）。不需要任何外部 HDR 文件，canvas 画渐变 → PMREMGenerator 转环境光照。</div>
+<div class="warn"><b>连带坑：</b>vendor 精选 5 个文件里 BufferGeometryUtils 不是可选的（r160 的 GLTFLoader 自己会 import，缺了的表现是"页面全白"而非报缺文件）；P2.0 资产只出一张 base color（没有法线图和 ORM），<b>别拿着"Tripo 出 PBR 三件套"去 P2.0 产物里找不存在的文件</b>。</div>
+</div>
+
+<h2 class="q"><span class="num">Q7</span>怎么把 Tripo 接进 Agent 工作流？五条路一个钱包</h2>
+<div class="card">
+<p>五条接入路其实是两类：<b>让 AI 替你调生成</b>（CLI / Codex 插件 / MCP——门槛是 Node 20+ 和一次浏览器登录）和<b>把模型搬进你的软件</b>（API / DCC Bridge）。三条 Agent 路都实测到"发起生成"才被拦下，拦的理由非常有教育意义：</p>
+<div class="key">Studio 订阅和 API 钱包是<b>两套账，官方明说不互通</b>。专业版订阅生成按钮照常能点，API Wallet 是 0/0 Credit——CLI、Codex 插件、MCP 三条路共享同一个 API 钱包，一分钱不通兑。要为 Agent 化使用单独充值。</div>
+<table>
+<tr><th>路径</th><th>门槛</th><th>实测要点</th></tr>
+<tr><td>Tripo CLI（npm -g tripo-cli）</td><td>低</td><td>doctor 未登录查 6 项/登录后 8 项；设备码登录 210 秒（页面会丢 query，验证码必须手打）；<code>tripo view x.glb</code> 白送一个零积分本地 3D 预览器</td></tr>
+<tr><td>Codex 插件</td><td>最低</td><td><code>codex plugin add tripo-3d@openai-curated-remote</code> 14 秒，不用 GUI；它不是 MCP server，是<b>两个 Agent Skill</b>，底层调同一个 CLI</td></tr>
+<tr><td>MCP（CLI 自带 tripo mcp）</td><td>中</td><td>stdio server，5 工具（make/task_get/task_wait/balance/history）；配进 Claude Code：<code>claude mcp add --scope local tripo -- tripo mcp --quiet --no-open</code></td></tr>
+<tr><td>API（V3）</td><td>高</td><td>异步 task 轮询；官方 Game-Ready Character 管线 = image-to-model → <b>rig-check</b> → rig → retarget（约 105 秒/85 分）；V2 API 2026-11-01 下线</td></tr>
+<tr><td>DCC Bridge</td><td>低（要 Pro）</td><td>浏览器生成一键推进 Blender/Unity 等 10 个软件，纯传输通道不涉 AI</td></tr>
+</table>
+<div class="tip"><b>退出码表值得贴在脚本里</b>（把"白花钱"和"没花钱"分开）：3 认证错误 / <b>4 积分不足（没开始生成，不扣，实测印证）</b> / 5 内容拒绝 / 6 任务失败（自动退款）/ 9 限流退避重试。另：<code>quad=true</code> 强制 FBX 输出——四边面拓扑存不进 GLB。</div>
+<div class="warn">Agent 不该替你做的五件事：浏览器授权页点 Authorize（设备码流程的安全根基）、充值/领 14 天试用钱包、保证浏览器登录态、额度耗尽的决策、sudo npm 密码。</div>
+</div>
+
+<h2 class="q"><span class="num">Q8</span>P2.0 资产接入的五道工序与朝向陷阱</h2>
+<div class="card">
+<p>九月把沿街资产整批换成智能网格 P2.0 重出的件后发现：<b>这是另一条路，坑几乎不重合</b>。五道工序少一道就装不上去：</p>
+<table>
+<tr><th>工序</th><th>为什么</th></tr>
+<tr><td>① FBX → GLB</td><td>P2.0 带贴图只给 FBX（四边面存不进 GLB），浏览器不认；用 Blender headless 转（Creator 字段就是 Blender，同实现往返最稳）</td></tr>
+<tr><td>② 降 8K 贴图</td><td>8192²×26 件 = 9.3 GB，纸上就能算出来的显存灾难</td></tr>
+<tr><td>③ 定 yaw</td><td>朝向不能靠算（见下），每件渲六视图人工看</td></tr>
+<tr><td>④ 烘变换</td><td>旋转缩放乘进顶点，不写节点矩阵——"量的时候算了矩阵、用的时候没算"的不对称会让模型静默错位</td></tr>
+<tr><td>⑤ 量 A/B 帧时间</td><td>确认没把性能换坏（GPU timer query，见 Q11）</td></tr>
+</table>
+<div class="key">朝向三类资产三套惯例，混成一句话记一定会出事：绑骨人形与 +Z 差 90°（yaw=-90）；v3.1 静态行人朝 +Z（换 P2.0 时 -90）；v3.1 建筑朝 <b>-Z</b>（换 P2.0 时 +90，和行人<b>反号</b>而包围盒长得一模一样）；P2.0 家族 38 件里 36 件朝 +X，还有 2 个例外靠渲图读出来。包围盒推不出朝向（转 90° 只把 X/Z 互换，--yaw 90 和 --yaw -90 的包围盒完全相同），四视图分不出正反——<b>必须渲六视图，在哪个视图里看见正面，正面就朝那个方向</b>。</div>
+<div class="warn">另一个"不像格式问题"的坑：KHR_mesh_quantization 的顶点是 normalized int16，自写解析器不认这个标志就把原始整数当坐标——1 米高的人读成 32767 单位，缩放系数算出 32783。一个只在一半输入上出错的 bug，比全错的难找得多。</div>
+</div>
+
+<h2 class="q"><span class="num">Q9</span>为什么整排行人会"同手同脚"？</h2>
+<div class="card">
+<p>巴黎城 18 个行人里 6 个共用同一个绑骨模型。第一版用普通 <code>clone()</code> 复制——所有实例<b>共享同一副骨骼</b>，于是一排队走正步。修法三件套：</p>
+<pre><code>import {clone as skeletonClone} from 'three/addons/utils/SkeletonUtils.js';
+const root = skeletonClone(walkScene);              // ① 骨骼独立复制
+const mixer = new THREE.AnimationMixer(root);       // ② 每实例一个 Mixer
+mixer.clipAction(walkClip).play();
+mixer.setTime((x*0.37 + z*0.11) % walkClip.duration); // ③ 相位按坐标错开，否则还是仪仗队</code></pre>
+<div class="warn">另外两条绑骨特有坑：① <b>切掉动画的位移轨</b>——retarget 出的剪辑里 Hip.position Y 位移范围 1.338，而人才 1 米高；行走该是纯旋转，位移归游戏代码管，否则"走着走着弹回一大步"（Tripo 侧对应导出时勾"原地播放动画"）。② 带骨骼的模型不能用 Box3.setFromObject 量尺寸（包围盒缓存不随姿势更新，还叠 Armature 变换）——绕开 Three.js 直接读 GLB 的 POSITION accessor min/max，repo 里的 <code>scripts/measure_glb.py</code> 就是这个工具（还处理了蒙皮矩阵）。</div>
+</div>
+
+<h2 class="q"><span class="num">Q10</span>近景 AI + 远景程序化：这笔账怎么算？</h2>
+<div class="card">
+<p>巴黎城行道树：程序化实例画 2 万株只吃 9 个绘制调用 / 8.4 万三角面。想全换成 Tripo 的 GLB 树（15k 三角/株）？近景配额 150 株 × 15k = <b>225 万三角 = 整层预算的 26 倍</b>。最终折中：近景 110 株 GLB（真实树冠+叶片贴图），中远景全程序化。</p>
+<div class="svgbox">
+<svg width="660" height="120" viewBox="0 0 660 120">
+<rect x="40" y="18" width="80" height="70" fill="#06D6A0" rx="6"/><text x="80" y="50" text-anchor="middle" font-size="11" font-weight="bold">程序化树</text><text x="80" y="68" text-anchor="middle" font-size="10">2 万株</text><text x="80" y="82" text-anchor="middle" font-size="10">9 draw call / 8.4万△</text>
+<text x="180" y="58" font-size="22" font-weight="bold" fill="#EF476F">vs</text>
+<rect x="230" y="18" width="110" height="70" fill="#FF6B35" rx="6"/><text x="285" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">Tripo GLB 树</text><text x="285" y="68" text-anchor="middle" font-size="10" fill="#fff">150 株×15k△</text><text x="285" y="82" text-anchor="middle" font-size="10" fill="#fff">=225万△=预算26倍</text>
+<text x="400" y="58" font-size="26" font-weight="bold">→</text>
+<rect x="450" y="18" width="180" height="70" fill="#7B2FBF" rx="6"/><text x="540" y="44" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">混搭：近景110株GLB</text><text x="540" y="66" text-anchor="middle" font-size="11" fill="#fff">远景程序化球冠</text><text x="540" y="84" text-anchor="middle" font-size="10" fill="#fff">混搭全程帧率一帧没掉</text>
+</svg>
+<div class="cap">图4：AI 资产的面数成本撑不住数量——判据是"近景要细节，远景只需要那儿有个绿色的东西"（§15 分层）</div>
+</div>
+<div class="warn">接 GLB 树时还踩了<b>缩放基准</b>坑：城市层的 c.h 是"冠高"，GLB 树宽高比接近 1:1，按整树高度放大 2 倍时冠幅 14 米、而行道树间距才 8 米——整排糊成一堵绿墙。归一化前先问：<b>这个资产靠哪个维度和邻居对齐？</b>树按冠幅（heightScale 取 1.2）、建筑按临街面宽、人物按身高。还有一个一行代码的体检：顶点高度 p90 明显低于总高 70%，说明包围盒是被一根细杆/一顶伞撑起来的（取暖伞案例：桌椅从 1.1 米被压到 0.5 米），不能拿总高做归一基准。</div>
+</div>
+
+<h2 class="q"><span class="num">Q11</span>量性能：帧间隔会骗人，GPU timer 不会</h2>
+<div class="card">
+<p>换完 6 件资产要回答"有没有把性能换坏"，第一次就量错了：帧间隔被 vsync 锁在 8.3/16.6ms，两组资产中位数一模一样，差别全被锁没了。要量的是每帧 GPU 真正忙了多久——挂 WebGL2 扩展 <code>EXT_disjoint_timer_query_webgl2</code> 在 requestAnimationFrame 前后 beginQuery/endQuery，隔几帧收结果（GPU_DISJOINT 为真则丢弃）。三条协议纪律：</p>
+<div class="key">① <b>串行测量</b>——另一轮和 headless 录屏抢同一块 GPU，量出中位 8.57ms/p95 61.8ms 的离谱方差，最小值和干净机器吻合判断是干扰，但这是推断不是测量，正确处理是丢掉重测；② 固定采样协议（刷新→自由漫游→回出生点静止采样）；③ A/B 表的结论是"<b>量不出回归</b>"而不是"变快了"——0.37ms 的差落在跑间噪声里，没有第二次独立跑就不说变快。把噪声读成改进，是性能测量里最常见的自欺，尤其在你正好希望它变快的时候。</div>
+<div class="link">🔗 这套"先量后动、噪声不当改进"与 vault 里 [[证据优先质检ProofOverClaims]]、[[事实与判断分离]] 是同一个家族：测量本身也要被怀疑（自测脚本的两个 bug 是同一轮清出来的）。</div>
+</div>
+
+<h2 class="q"><span class="num">Q12</span>这本书最值钱的可能不是 3D，是验证文化</h2>
+<div class="card">
+<p>全书处处是方法论级的自觉，随便列五条（都可平移到任何工程领域）：</p>
+<table>
+<tr><th>做法</th><th>原话/事实</th></tr>
+<tr><td>SHA-256 锁输入</td><td>"我记得传的是同一张图"和"两个文件 SHA-256 逐位相同"，证据等级差一整个数量级——对照实验的全部价值押在这个等级上</td></tr>
+<tr><td>三条独立通道互证</td><td>四边形占比只有解原生文件才看得到 → 自写 FBX 解析器 + Blender mesh.polygons + 平台读数，三条对到一个不差</td></tr>
+<tr><td>口径学</td><td>算子耗时 vs 端到端（16s vs 31s，差近一倍，混用会把工期估少一半）；量出来的写 GiB、算出来的写 GB，看单位就知道这个数是量的还是算的</td></tr>
+<tr><td>自己的文档也是待核实来源</td><td>README 里"927 万面"躺了两天，同节下一行写的是"927K"——差十倍；为此全项目重测，发现 29 件资产根本没有超 10 万面的，"必须重拓扑"整句话是错的</td></tr>
+<tr><td>宁可缺数不凑数</td><td>14 天免费钱包不领（"不能为了在书里凑一个数把它烧掉"）；B 件生成耗时取不回来就空着那格</td></tr>
+</table>
+<div class="link">🔗 与 vault [[证据优先质检ProofOverClaims]]（PaperRoute 补强"证据可定位到帧"）同源且更进一步：证据要有<b>口径标签</b>和<b>独立通道数</b>。亦呼应 [[质检Gate与自我纠错循环]]、[[开源验货三查]]（本书还顺手示范了验货：接口返回内部名 Nexus-v2.0-20260801 与文档别名 tripo-p2 的对账）。</div>
+</div>
+
+<h2 class="q"><span class="num">收获</span>这本书给我什么：能力清单</h2>
+<div class="card">
+<table>
+<tr><th>能力</th><th>怎么用</th></tr>
+<tr><td>① 图生 3D 全流程认知</td><td>设计图 → Tripo → GLB → 清洗 → 引擎；要做 3D 场景时直接照 §17 四步流水线走</td></tr>
+<tr><td>② 积分经济学</td><td>生成选 2K 导出 1k、按用途分档面数（建筑 15000/人车 8000/街具 6000）、Agent 批量前先验 ArrowRight</td></tr>
+<tr><td>③ 11 个零依赖工具脚本</td><td>repo 的 scripts/ 直接可用：measure_glb.py（无引擎量 GLB 真包围盒）、E1/E2 减面流水线、glb_downscale、fbx2glb</td></tr>
+<tr><td>④ Three.js 接资产检查表</td><td>§12 末尾 17 行检查表（环境贴图/相对路径/http/SkeletonUtils/normalized…），接任何第三方 GLB 前过一遍</td></tr>
+<tr><td>⑤ 性能测量协议</td><td>GPU timer query + 串行 + 固定采样 + "量不出回归"的诚实结论</td></tr>
+<tr><td>⑥ 验证文化模板</td><td>SHA-256 锁输入 / 多通道互证 / 口径标注 / 空格不抄数——写实验报告的标杆</td></tr>
+</table>
+<div class="tip">对 AI Agent 用户的特别提示：本书目标读者就是"让 Codex/Claude Code 批量跑表单"的人——响应式输入框陷阱、浏览器自动化停在系统"另存为"弹窗（解法：API 直链绕开导出按钮）、失败任务不扣分（退出码 6 自动退款），都是 Agent 批量生产 3D 资产会撞的真实墙。</div>
+</div>
+
+<h2 class="q"><span class="num">实验</span>两个离线实验（exercise\ 全真跑通）</h2>
+<div class="exp">
+<h3>实验一：零依赖手写 GLB + 减面极限复现（验 §04 E1）</h3>
+<div class="step"><b class="op">步骤1</b> <b>怎么操作：</b><code>python make_glb.py .</code>（零依赖，照 paperroute 手写 GLB 先例）造两个网格：光滑 UV 球（连续曲面）和格构塔（细钢梁结构），都挂 metalness=1 铬材质。<b>目的：</b>拿到完全可控的测试资产。<b>实现了：</b>sphere_smooth.glb（720 三角）+ tower_lattice.glb（1152 三角），与笔算一致（球 2×24×16−48=720；塔 8 层×144=1152）。<b>验证：</b></div>
+<pre><code>sphere_smooth.glb  bytes=14560  tris=720   verts=425  (indices.count/3=720)
+tower_lattice.glb  bytes=23940  tris=1152  verts=768  (indices.count/3=1152)</code></pre>
+<div class="step"><b class="op">步骤2</b> <b>怎么操作：</b>双通道对账——自写 count_faces（§04 口径 indices.count/3）+ 书 repo 的 <code>measure_glb.py</code>。<b>验证：</b>两通道顶点数一致（425/768），包围盒与构造值吻合（球 2×2×2、塔 1.0×1.0×3.0）。<b>意外收获：</b>塔按 Z-up 建，measure_glb.py 按 glTF Y-up 惯例把 Y 向 1.0008 当"高度"读出——亲手撞上书里"资产轴向/朝向不能想当然"的坑。</div>
+<div class="step"><b class="op">步骤3</b> <b>怎么操作：</b><code>npm i @gltf-transform/cli</code>（4.5.1 装成本地依赖，印证书里"别每次 npx"的建议），对两个网格各跑 simplify，ratio 0.5→0.02。<b>验证（真实输出）：</b></div>
+<pre><code>== sphere_smooth ==  ratio=0.5→359  0.2→144  0.1→71  0.05→35  0.02→42（触底反弹=到底了）
+== tower_lattice ==  ratio=0.5→576  0.2→336  0.1→336  0.05→336  0.02→336（三档输出完全相同）</code></pre>
+<div class="ok">✅ 预期结果兑现：光滑球面砍到 4.9% 还是个球；格构塔 29.2% 触底、ratio 再小也不动——"减面下限由几何光滑度决定，格构结构几乎砍不动"亲手复现。</div>
+<div class="step"><b class="op">步骤4</b> <b>怎么操作：</b><code>npx gltf-transform optimize sphere_smooth.glb decim/sphere_opt.glb --compress quantize</code>。<b>验证：</b>14,560 → 8,472 字节（−42%），量化压缩不需要运行时解码器（书里选 quantize 不选 draco/meshopt 的理由：沙盒里 WASM 解码器可能加载失败）。</div>
+</div>
+
+<div class="exp">
+<h3>实验二：PBR 白底死黑 A/B 复现与修复（验 §12 坑一）</h3>
+<div class="step"><b class="op">步骤1</b> <b>怎么操作：</b><code>npm i three@0.160.0</code>，从包里精选 5 个文件拷进 vendor/（书里 vendor 法，版本钉死防混版报错）。<b>验证：</b>5 文件就位，含"不是可选的" BufferGeometryUtils.js。</div>
+<div class="step"><b class="op">步骤2</b> <b>怎么操作：</b>写 shell.js（书 §12 最小壳本地化）：白底场景 + 实验一的铬球，<code>?env=0/1</code> 开关切换是否挂 studioEnv() canvas 渐变环境贴图；<code>python -m http.server 8901</code> 起服务（书里红线：WebGL 页面必须走 http，file:// 会被 CORS 挡）。<b>目的：</b>A/B 隔离唯一变量=环境贴图。</div>
+<div class="step"><b class="op">步骤3</b> <b>怎么操作：</b>headless Edge（<code>--use-angle=swiftshader</code> 软渲染）对 4 个组合截图。<b>验证：</b>本指南 Q6 的两张实拍图即截图原文——env=0 死黑、env=1 正常镀铬球。</div>
+<div class="step"><b class="op">步骤4</b> <b>怎么操作：</b>用零依赖 Python（zlib+struct 解 PNG 反滤波）量化球中心区平均亮度。<b>验证（真实输出）：</b></div>
+<pre><code>球体中心区 (250,150)-(390,350):
+  env OFF: 72.9     env ON : 206.7     → 2.8×</code></pre>
+<div class="ok">✅ "白底 + 高金属度 + 无环境贴图 = 死黑；补 canvas 渐变环境贴图（带暗部）即修复"完整复现。附带发现：铬材质格构塔在白底上近乎隐形（细梁反射白底）——死黑坑的镜像现象。</div>
+</div>
+
+<h2 class="q"><span class="num">入库</span>知识互链与查重结果</h2>
+<div class="card">
+<table>
+<tr><th>动作</th><th>条目</th><th>理由</th></tr>
+<tr><td>新建</td><td>[[图生3D资产管线]]</td><td>商业图生3D的产品化全流程（两代模式/积分经济/五道接入工序/近景AI远景程序化分层）；与开源研究版 [[LRM大型重建模型]] 互补不重复</td></tr>
+<tr><td>新建</td><td>[[面数口径与减面下限]]</td><td>面数框数的对象随模式变、1+四边形占比系数、光滑度决定下限、绘制调用优先于三角面</td></tr>
+<tr><td>新建</td><td>[[先量后优化性能法]]</td><td>GPU timer query/vsync 陷阱/串行测量/"量不出回归"——先测量后动手的性能纪律</td></tr>
+<tr><td>补强</td><td>[[Three.js与场景图]]</td><td>追加：环境贴图与 PBR 死黑、SkeletonUtils.clone 骨骼复制、vendor 钉版本法</td></tr>
+<tr><td>补强</td><td>[[证据优先质检ProofOverClaims]]</td><td>追加：口径学（算子vs端到端、GiB vs GB）、SHA-256 锁输入、多通道互证、"自己的文档也是待核实来源"</td></tr>
+</table>
+<div class="link">互链网：[[glTF与GLB资产管线]]（产物格式与 normalized 坑）、[[程序化建模]]（远景层）、[[混合模型分工流水线]]（设计图→提示词→GLB 的工序链）、[[机制流与资产流隔离]]（近景资产流/机制代码流）、[[Triplane三平面表示]]、[[点图与前馈重建]]、[[内容型开源与双许可]]（本书 CC BY-NC-SA 4.0 + Three.js MIT + OSM ODbL 三层许可划分）、[[MCP协议]]（tripo mcp 路线）、[[第二大脑LLMWiki]]（vault 本身）。</div>
+</div>
+
+<div class="fact" style="border-color:var(--purple)">
+<b>一句话总结：</b>这是一本"把踩过的每个坑都变成可核查数字"的开源手册——3D 部分教你从一张设计图到一座能开车逛的城；方法论部分教你什么叫"面数是数出来的，不是想出来的"。它的验证纪律（哈希锁输入、多通道互证、口径标注、空格不抄数）比任何一个 3D 技巧都更值得搬走。
+<div class="small">指南生成：2026-10-03 · 拾遗任务 79c4087a · 实验 material：F:\reminder\3d_vibe_coding\exercise\ · 上游 repo：alchaincyf/3d-vibe-coding-handbook @ 272a90e（CC BY-NC-SA 4.0）</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+§11 把Tripo接进你的工具：五条路的入口与门槛 
+ Five Integration Paths — Entry Points and Blockers 
+ 五条把Tripo接进自己工作流的路。其中两条我真的从零装到登录完，连日志带截图；MCP那条补跑了协议握手和工具表，还把它配进Claude Code验到连上；剩下两条给你官方口径和入口在哪。 标题写的是「入口与门槛」不是「跑通」：五条路里没有一条走到「一件资产落盘」那一步，缺的是什么、为什么缺，节末单独有一段交代。 
+ 先把这一节的口径分清楚，一共三类。 Tripo CLI和Codex插件这两条，2026-09-11下午我在自己机器上从零走了一遍，装了、登录了、体检了、跑到发起生成那一步，下面的终端输出和耗时全是实测。MCP是第三类里的半条：CLI自带的 tripo mcp 我在2026-09-13补跑了协议握手、工具表和两次读类调用，也把它配进Claude Code、用 claude mcp list 验到 Connected ，那一段是实测；GitHub上那个独立仓库没装没跑。 API和DCC Bridge这两条我没有接过 ，写的是官方文档原文加上我在界面上看到的入口。哪一句属于哪一类，我一路标清楚，别混着读。
+## 五条路其实是两类 
+ 第一次看Tripo开发者文档，左边导航里躺着CLI、Codex插件、ComfyUI节点、Quick Start、一大串API端点，还有博客里的DCC Bridge和一个GitHub上的MCP仓库。看起来是六七个并列的选项，很容易挑花眼。 
+ 其实只有两类。 
+ 第一类是「让AI替你调用生成能力」 ：Codex插件、CLI、MCP。你在编程Agent里用人话说「给我做个宝箱放到assets目录」，它自己去调、自己下载、自己放进你的项目。这一类的门槛是Node和一次浏览器登录，不需要你懂API。 
+ 第二类是「把模型送进你的软件」 ：DCC Bridge、以及API的下载环节。模型是你自己在网页上生成的，这两条只负责把文件搬到该去的地方。 
+ 动手之前先确认机器上有Node。 CLI和Codex插件这两条路都靠它，官方要求是 Node.js 20或更新 。终端里敲 node -v ，打得出 v20.x 以上就行；提示 command not found 就先去 nodejs.org 下当前LTS装一遍，macOS也可以 brew install node ，装完重开一个终端窗口再验。 本书里凡是 npm 或 npx 开头的命令，都以这一步为前提 ，§04、§12、§13、§14的降贴图命令也算在内。
+ [IMG:images/dev-01-platform-home.png] developers.tripo3d.com首页，2026-09-11。裸域会302跳到中文版。首屏那段代码就是全部API的样子：POST一个端点、带Bearer token。页面中部「一条指令，让Agent接入Tripo」那块，是整个vibe coding路线的入口。 
+ 路径 我接过没有 门槛 什么时候选它 
+ Tripo CLI 接了 低 用Claude Code或Cursor；或者要批量跑 
+ Codex插件 接了 最低 你用Codex，只想说人话 
+ API 没接 高 要接进自己的网站或产品 
+ MCP 跑了握手、工具表、Claude Code配置 中 你的Agent只认MCP协议 
+ DCC Bridge 没接 低，但要订阅 在网页上生成，要一键推进Blender或Unity 
+ 按你是谁，先看这一节帮不帮得上你。 
+ 你想让Claude Code、Cursor或者Codex替你调生成 ——这一节的主干就是写给你的：装、登录、体检、配MCP、发起生成，每一步长什么样、卡在哪、退出码怎么读，全在下面。到「发起生成」为止都是我机器上真跑出来的。
+ 你想把Tripo接进自己的网站或产品 ——那你要的是API那条，而 这一节给你的只有官方口径和入口在哪，没有一行是我机器上跑出来的 。下面「API」那一小节会把你自己得补的三件事点名，与其在这儿等，不如直接去 developers.tripo3d.com 的Quick Start照着写，那是唯一的一手来源。
+ 你只想在网页上生成、然后一键送进Blender或Unity ——跳到本节最后的DCC Bridge，它和AI Agent没关系，是一条传输通道。
+## 先说结果：两条都被挡住了，而且卡点不是同一个 
+ 我得把最重要的一条先讲了，因为它会改变你的预算方式。 
+ CLI那条卡在Tripo的API钱包是0积分。Codex那条卡在我的Codex订阅额度耗尽。 两条路都走到了「发起生成」才被拦下，全程Tripo API积分变化是 0 → 0，一分没花，也没买 。 
+ 为什么钱包是0？因为API和Studio订阅是两套账，官方明说不互通。 我在开发者平台FAQ里把那条展开了，原文是：「 不能。Tripo API与Tripo Studio的计费体系相互独立，需要分别购买。 」实测完全对得上：同一个账号，Studio里是专业版订阅、生成按钮照常能点； platform.tripo3d.com/billing 上API Wallet是 0 / 0 Credit ，CLI里 tripo balance 也是0。 你在Studio充的钱，一分都用不到CLI和插件上。 
+ [IMG:images/p11-cli-07-faq-billing.jpg] developers.tripo3d.com首页FAQ展开后的原文，2026-09-11实测。这一条在我第一次采集时是折叠的、答案没取到，这次点开了。 
+ [IMG:images/p11-cli-08-api-wallet.jpg] 同一个账号在 platform.tripo3d.com/billing 上的API Wallet：0 / 0 Credit。旁边那个「Get Your free wallet(14 days)」按钮是新账号的一次性权益， 我没有点它 ：它带14天倒计时，该留给真正要连着跑测试的那一周。 
+ 顺手把另外四条折叠的FAQ也取全了，这五条合起来才是完整的计费图景： 
+ 问题 官方答案原文 
+ 购买的积分有效期多久？ 积分永久有效，不会过期。 
+ 输入数据和生成的模型会被用于模型训练吗？ 不会。我们不会将任何客户数据（包括输入内容与生成模型）用于模型训练。 
+ API与Studio的生成效果一致吗？ 一致。两者由相同的底层模型与算法驱动，生成质量完全相同。 
+ 任务失败会扣积分吗？ 不会。失败任务不收费；若因系统问题被临时扣除，将自动退还。 
+ 订阅了Studio，能直接使用API服务吗？ 不能。 两者计费体系相互独立，需要分别购买。 
+ 还有一条写代码前必须知道：Tripo API V2要下线了。 上面那张钱包截图顶部那条黄色横幅就是它：V2自 2026年10月1日 停止功能更新与技术支持， 2026年11月1日 正式下线，所有V2端点停止接受请求，官方建议尽快迁到V3。本书所有示例走的都是V3。
+## 路径一实录：Tripo CLI 
+ 环境：macOS 26.6.0 / Apple Silicon / Node v26.0.0 / npm 11.12.1。全过程14:04到14:51。 
+ 1 
+## 安装：一条命令，但第一次要等五分钟 
+ npm install -g tripo-cli
+# added 11 packages in 5m 
+ 冷装实测4分49秒，同一台机器第二次跑238毫秒。慢的是国内网络拉registry，不是包大。 
+ 这五分钟里终端一个字都不打。 npm检测到stdout是管道就把进度条关了，看起来像卡死。 它没卡，等着就行。 官方文档提到macOS可能撞EACCES要加 sudo ，我本机Node装在homebrew前缀下、普通用户可写，没需要。
+ 装完验证版本： tripo 在 /opt/homebrew/bin/tripo ，版本0.4.0。 
+ 截终端做公开物料，一律把标题栏裁掉。 macOS的标题栏会把前台进程的环境变量写进去。这一轮的第一张截图就把一个第三方API key拍了进去，只能删图重截。设自定义标题也没用，那只是追加、盖不住。
+ 2 
+## 体检：文档说三项，实际是六项 
+ tripo doctor 
+ [IMG:images/p11-cli-02-doctor.jpg] 登录前的 tripo doctor ，2026-09-11实测。 官方文档写的是「依次检查登录状态、网络访问和积分余额」三项，实际打出来六项 ：node版本、api key、api可达性、llm、终端、语言。登录之后会变成八项（多出config权限和余额）。 
+ 这时候 api key 那行是红叉， api reachability 是感叹号「skipped (no key)」，都正常，因为还没登录。 
+ 3 
+## 登录：设备码加浏览器授权，耗时210秒 
+ tripo login 
+ 终端5秒内打出一个四位加四位的终端码、一个授权网址、以及三步人话说明（打开网址、填终端码、点Authorize），然后阻塞等你。 --region ov 是国际区、 cn 是中国大陆区，不带的话浏览器流程会让你选。从发起到打出「网页授权完成」一共210秒，其中绝大部分是人在浏览器里操作的时间。 
+ 这里有一个文档没写、但你一定会撞上的坑：CLI打印的网址带着 ?code=XXXX-XXXX ，但页面会把这个query丢掉，验证码输入框仍然是空的。 所以官方文档第2步「在页面填入终端码」不是可选项，是必须手打。这大概率是刻意的，设备码流程的安全性就建立在「人眼比对终端和网页上这两个码」上。
+ [IMG:images/p11-cli-03-auth-browser.jpg] 浏览器授权页（验证码与账号邮箱已打码）。 另一处和文档对不上：官方文档和插件自带的说明都写「账号已有多个API key时会让你挑一个」，实测页面上没有这一步 ，只有登录身份、一行安全提示、验证码输入框、Authorize和Deny两个按钮。 
+ 授权成功后终端自己往下走，打出的是： 
+ ✓ 网页授权完成
+✓ Key 验证通过(region=ov),当前余额 0 积分
+! 余额为 0:新账号可在控制台领取免费额度,或运行 tripo topup 充值 
+ key是明文存在 ~/.tripo/config.json 里的 （权限0600）。做演示、录屏、截图时别 cat 它，也别让 tripo whoami 的输出进画面，它会打半截key。
+ [IMG:images/p11-cli-06-balance.jpg] 登录后的 tripo doctor （八项）、 tripo whoami 、 tripo balance ，key已打码。注意第三行 config permissions 0600 (expect 0600) ，CLI自己会查配置文件权限。余额那一行是 0 credits (0 frozen) 。 
+ 4 
+## 生成：被余额预检拦下，退出码4 
+ tripo make prop-02-bench.png --model tripo-p2 -p quad=true --no-open 
+ [IMG:images/p11-cli-04-make.jpg] 喂的是一张巴黎长椅的参考图。18秒后被拦下： 积分不足 → 运行 tripo topup 充值 ， EXIT=4 。 这正好实测印证了退出码表里那条「4 =积分不足，模型还没开始生成，不计费」 ，余额前后都是0，对得上。 
+ 这条命令顺手打出了一个文档里没有的事实： quad=true forces FBX output (quad topology cannot be stored in GLB) 。 四边面拓扑存不进GLB，会被强制转成FBX。 这同时解释了§03里那个现象：智能网格任务详情接口里的 model_url 是一个 .fbx 而不是 .glb 。想要四边面就别指望拿到GLB。
+ 还有一条关于模型版本的更正。文档页只提 tripo-p1 和 tripo-v3.1 ，说「面数预算两万以内走p1、其余默认v3.1」。但 tripo docs --topic commands/make 里还有一个 tripo-p2 ，而且它从不被自动选中，必须手动写 --model tripo-p2 。三个别名映射到的线上版本号是 v3.1-20260211 / P1-20260311 / P2-20260801 。 
+ 这串版本号和你从接口里读回来的不是同一套写法，别对着找。 §04那张模式对照表里，智能网格那一列的 model_version 读回来是 Nexus-v2.0-20260801 ——日期段和CLI这边的 P2-20260801 完全一样，指的是同一代模型（也就是本书一路叫的「P2.0」），只是开发者文档用 tripo-p2 这个别名、接口返回内部名。 接口返回值里找不到「P2」两个字，不代表你拿错了模型。 同理，§05里那个跑完纹理就变成 v3.5-20260815 的现象，是纹理算子有自己的版本号，和网格算子的版本号本来就不是一个东西。
+ 5 
+## 本地预览：不花积分，而且能看任意GLB 
+ tripo view car-01-taxi.glb 
+ [IMG:images/p11-cli-05-view.jpg] tripo view 起了一个本地服务，浏览器里用model-viewer渲染，约6秒出画面。 它接受任意本地 .glb 路径，不需要账号里有任务、也不需要积分 ，等于Tripo CLI白送了一个零配置的本地3D预览器。 
+ 这条是我这次最意外的收获。 不管模型从哪来， tripo view xxx.glb 就能看，比自己起http server再写个页面省事得多。坑是：预览页跑在后台标签页时WebGL不渲染、截出来是纯黑（和§12那条 rAF 被暂停是同一类问题），要截图就把标签页切到前台。
+## 路径二实录：Codex插件 
+ 1 
+## 装插件：不用开GUI，一条命令14秒 
+ 官方文档写的是在Codex里打开Plugins → Plugins Directory → 搜Tripo 3D → Install。 实测这一步根本不需要GUI。 
+ codex plugin add tripo-3d@openai-curated-remote 
+ 14秒装完，版本tripo-3d 0.2.1，作者VAST，MIT协议。装完即启用， codex plugin list 显示 installed, enabled ， ~/.codex/config.toml 里不落条目。 
+ [IMG:images/p11-codex-01-plugin.jpg] 命令行装插件，2026-09-11实测。这是这次实录里我认为最有价值的一条更正：官方文档只给了GUI路径。 
+ 把插件包拆开看，它不是MCP server，是两个Agent Skill。 目录里是 skills/tripo-3d/SKILL.md （通用生成）和 skills/tripo-game-asset/SKILL.md （游戏资产管线配方），两份文件里全是shell命令，调的就是路径一那个 tripo CLI，认证读的就是路径一写下的 ~/.tripo/config.json 。SKILL.md原话： Auth resolves from TRIPO_API_KEY (a tsk_... key) or a previous tripo login. 
+ 所以路径二和路径一共用同一个API钱包。 这条推论被我自己的失败印证了：路径一余额是0，路径二就算模型额度充足也一样生不出东西。 你要为这两条路准备的是同一笔钱。 
+ 2 
+## 发消息：被Codex订阅额度挡住 
+ codex exec -s workspace-write -c sandbox_workspace_write.network_access=true \
+ "给我生成一个巴黎长椅的 3D 模型，保存到 ./assets" 
+ [IMG:images/p11-codex-03-exec-blocked.jpg] 两次都在模型第一次回复之前就被拒： You've hit your usage limit 。换小模型重试同样被拒。 ./assets 是空目录，一个文件都没落盘。Tripo积分0、Codex积分0，两边都没扣。 
+ 失败里有一个正面信号值得读出来。 第二次重试时Codex打了一句 Skill descriptions were shortened to fit the skills context budget —— 这证明插件的skill确实被装进了这次会话的上下文 ，挡住的是OpenAI的订阅额度，不是插件没生效。
+ 一个和Tripo无关、但会让你查半天的本机坑：一个坏掉的marketplace会让整个插件列表打不开。 我本机 ~/.codex/config.toml 里有一条指向已被清理的临时目录的marketplace，它会让 codex plugin list 整条命令报错退出，而不是跳过那一个源。 codex plugin add 不受影响，它只解析目标marketplace。
+## 文档和实际对不上的地方 
+ 把这两轮撞到的整理成一张表。左边是文档怎么写，右边是我机器上实际怎样。最后一条属于后面MCP那一小节，一并放这儿。 
+ 文档怎么写 实际怎样 
+ 授权链接带 ?code= ，暗示页面会自动填 页面把query丢了，验证码 必须手打 
+ tripo doctor 检查三项 未登录六项、登录后八项 
+ 「账号有多个key会让你挑一个」 授权页没有这一步 
+ Codex插件必须在GUI里装 codex plugin add 一条命令，14秒 
+ 「装完你会看到两个能力」 它是两个Agent Skill，不是MCP server；和CLI共用一个钱包 
+ 只提 tripo-p1 / tripo-v3.1 还有 tripo-p2 ，且从不自动选中 
+ 「新账号可在控制台领取免费额度」 控制台上是「14天试用钱包」，和「积分永久有效」不是一回事 
+ 没提 quad 与输出格式的关系 quad=true 强制转FBX 
+ tripo mcp --help 写「tools: make/task/balance/history」四个 tools/list 实际返回 五个 ， task 拆成 task_get 和 task_wait 
+## 命令表：日常只用四条 
+ [IMG:images/p11-cli-commands.jpg] CLI文档里的Command reference，采集时这块是折叠的，手动展开后取的原文。官方自己说日常只需要四条： tripo 、 tripo make 、 tripo view 、 tripo doctor 。右上角账号区已遮挡。 
+ tripo make 能吃图、吃多视图、也能吃已有模型： 
+ tripo make concept.png --for print
+tripo make front.png back.png
+tripo make hero.glb --then texture,rig
+tripo make @last --then convert:fbx 
+ --for 后面跟七个内置预设： game-mobile 、 game-pc 、 film 、 print 、 ar-web 、 anim 、 toy 。 @last 是「最近一个任务」，任何接受任务ID的地方都能用。 什么都不想记就直接敲 tripo ，它会开一个交互菜单。 
+ 退出码表值得贴在脚本里，因为它把「白花钱」和「没花钱」分得很清楚： 
+ 退出码 含义 要不要心疼积分 
+ 3 认证错误 文档未说明 
+ 4 积分不足 没开始生成，没扣（本次实测印证） 
+ 5 内容策略拒绝 文档未说明 
+ 6 任务失败 自动退款 
+ 9 触发限流 退避后重试 
+ Windows用户有三件事要先做（这几条我没有Windows机器可验，是文档原文）：npm装的是一个 tripo.ps1 脚本、PowerShell默认会拦住它，跑一次 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned ； @last 和带逗号的参数要加引号；配置和历史在 %USERPROFILE%\.tripo 。 
+## 剩下三条路：API、MCP、DCC Bridge 
+## API 
+ API Key在 platform.tripo3d.com 的API Keys页创建，只显示一次。基址 https://openapi.tripo3d.com/v3 ，认证走 Authorization: Bearer <token> 。所有生成接口都是异步的：POST拿 task_id ，然后 GET /v3/tasks/{task_id} 轮到 status: "success" ，从 output.model_url 下GLB。官方给的节奏是每2秒轮一次、不要超过每秒1次请求，典型生成10到120秒。 
+ [IMG:images/p11-api-quickstart.jpg] developers.tripo3d.com/en/docs/quick-start，2026-09-11采集。右上角账号区已遮挡。 
+ 文档里那条Game-Ready Character管线最值得看，它把我在§06里手点的绑骨流程写成了四个接口调用： 
+ image-to-model 
+ → 
+ rig-check 
+ → 
+ rig 
+ → 
+ retarget 
+ 官方标的预估是约105秒、约85积分，并提醒两条：调rig之前一定先调rig-check，它会返回推荐的骨架类型、避免失败； retarget 只吃已绑骨模型的task_id。这和我在§06里踩的坑对得上，网页版默认骨架预设是「适用于动物」、人物必须手动换，走API的话 rig-check 把这件事自动化了。 
+ 上面这一小段全是官方文档口径，一行都不是我跑出来的，所以我得把你自己要补的三件事点名，免得你读完以为手上有了什么。 
+ 一、一次真实的task返回长什么样。 我没有一份自己跑出来的 GET /v3/tasks/{task_id} 响应JSON，所以 status 的中间状态怎么流转、 output 里除了 model_url 还挂着什么、失败时 code 和文案怎么配，我给不了你实例。
+ 二、轮询要写成什么样才不会被限流。 官方节奏是每2秒一次、每秒不超过1次请求，但退避怎么做、超时判多久、断线重连拿不拿得回同一个task，这些是写产品必须定的，我没有踩过的经验可以给你。
+ 三、签名直链的有效期。 model_url 是带签名的临时地址，能活多久、过期之后怎么重取，决定了你的服务端要不要转存——§03量过Studio那侧的签名链接是约两天过期，但那是另一条通路上的读数，不能直接当API这条的答案。
+ 这三件事我不打算靠转述文档来凑满， 因为写产品的人真正会被坑的就是这三处，而转述给不了你任何在这三处上有用的东西 。要接产品就直接去Quick Start照着跑一遍，比读我复述的官方文档省时间。
+## MCP：两条路，而且新旧分裂 
+ 第一条是官方CLI内置的 tripo mcp 子命令，命令表里写着 Run the CLI as an MCP server 。你装了CLI就已经有了它。 
+ 第一条我补测了。 2026-09-13我用一个自写的stdio客户端跟它走了一遍MCP协议： initialize 、 tools/list 、两次读类 tools/call 。这一轮同样是零消耗，没有发起任何生成。 
+ 握手返回的是 protocolVersion 2024-11-05 、 serverInfo 为 tripo-cli 0.4.0 ， capabilities 里 只有 tools ，没有resources也没有prompts。 tools/list 列出五个工具： 
+ 工具 干什么 必填参数 
+ tripo_make 从文字、图片路径或URL、已有task id生成资产；阻塞到跑完，下载产物并返回本地文件路径 input 
+ tripo_task_get 按id查任务状态与详情 task_id 
+ tripo_task_wait 阻塞等任务跑完，可选下载产物 task_id 
+ tripo_balance 查账户积分余额 无 
+ tripo_history 列这台机器上CLI建过的任务 无 
+ tripo_make 的入参和命令行那条 tripo make 是一一对应的： scenario 就是那七个预设， then 就是处理链（原文举例 "texture,rig,convert:fbx" ）， model 三选一、 tripo-p2 的括注写着 P-series preview with quad ， output_dir 是产物目录。 换句话说MCP这一层没有新增能力，它是同一套CLI换了个协议门面。 
+ 两次读类调用把前面那条钱包推论又往外扩了一格。 前面说路径一和路径二共用一个API钱包，是从插件包里的SKILL.md推出来的；这次 tripo_balance 直接返回 balance 0 / frozen 0 ，和两天前 tripo balance 的读数一模一样， MCP这条也在同一个钱包上，三条路一笔钱 。 tripo_history 返回空数组，也对得上——这台机器上从来没有一个任务真正建成过。
+ 配进Claude Code的写法是下面这段，2026-09-13实测。 它是stdio server，不占端口、不用你自己起进程，把命令交给客户端就行。项目根放一个 .mcp.json ： 
+ {
+ "mcpServers": {
+ "tripo": {
+ "command": "tripo",
+ "args": ["mcp", "--quiet", "--no-open"]
+ }
+ }
+} 
+ 不想写文件的话，在项目目录里敲一条命令让它替你写： 
+ claude mcp add --scope local tripo -- tripo mcp --quiet --no-open 
+ 然后用 claude mcp list 验一下，我这台机器上打出来的是 tripo: tripo mcp --quiet --no-open - ✔ Connected 。那两个参数是有理由的： --quiet 把进度日志从stderr上摁掉，免得和协议输出混在一起； --no-open 不让它自己弹浏览器——MCP是给Agent用的，不该在你没看着的时候开窗口。 
+ 认证不写在这段配置里。 server读的是 tripo login 写下的 ~/.tripo/config.json ，或者环境变量 TRIPO_API_KEY （前面引过的那句SKILL.md原文说的就是这两个来源）。 所以先在终端 tripo login 一次，别把key抄进 .mcp.json ——那个文件通常是要进git的。还有一条：项目级的 .mcp.json 第一次会停在 Pending approval ，得在 claude 里批准一次才生效，这是客户端的安全设计，不是你配错了。
+ 到这儿为止都是实测的。 再往下——在会话里说一句「给我做个宝箱放到assets目录」——我没跑通 ，因为那句话最终会走到 tripo_make ，而钱包是0。请求本身没有格式要求，SKILL.md给的示范就是这个句式：说清楚要什么、放哪儿，参数它自己填。 
+ 第二条是GitHub上的 VAST-AI-Research/tripo-mcp 仓库。采集当天我数了一下：200 star、27 fork、总共8次提交，最后一次提交停在2025年4月14日，到现在快十七个月没动过，7个issue开着，README自标alpha。 
+ [IMG:images/dev-05-blender-mcp-github.png] github.com/VAST-AI-Research/tripo-mcp，2026-09-11采集。最新release是v0.1.2（2025-04-12）。官方还有一篇博客教Cursor配 uvx tripo-mcp 走的也是这个仓库，而那篇文章里「switch the Agent to claude-3.7-sonnet」这句话把它的年代钉死了，只能当历史路径读。 
+要给Agent装Tripo的MCP，我会选CLI自带的 tripo mcp ：它跟着CLI一起更新，不存在仓库停更的问题，工具表和调用通路我这次真跑过，配进Claude Code也确认过它认得。 还没测到的只剩 tripo_make 本身 ——调它就要真扣积分，卡点和CLI那条是同一个。
+## DCC Bridge：唯一不涉及AI Agent的那条 
+ 这条很容易和MCP混淆，其实完全是两回事。 DCC Bridge是一条传输通道：你在浏览器里的Tripo Studio生成好模型，点一下，模型直接出现在Blender里 ，不用下载、不用导入。它不替你调生成，也不听人话。 
+ [IMG:images/studio-19-dcc-bridge-panel.png] Studio顶栏点DCC Bridge弹出的面板，2026-09-11实测截图。十个目标软件各自带版本号：Blender(v1.0.3)、3ds Max(v1.0.1)、Unity(v1.0.1)、Unreal(v1.0.4)、Maya(v1.0.1)、Cocos、Godot、ZBrush、MetaTailor、Roblox（后五个都是v1.0.0）。 定价页的文案只列了八个，面板里比文案多出MetaTailor和Roblox两个。 
+ 官方博客写的Blender版要求：Windows或Mac；Blender 4.1.0或更新；浏览器只支持Chrome 116+、Edge 116+、Opera 102+，其他浏览器不支持。装法是在Studio里下ZIP包，Blender里 编辑 → 偏好设置 → 插件 → 从磁盘安装 选那个ZIP（不要解压），启用后按 N 调出面板，回网页点DCC Bridge激活，然后在导出小窗里点Export。 
+ 导出弹层那张图在§03。这里只看底下两个按钮：左边 Send To 就是DCC Bridge的出口，右边Export是普通下载。 
+ 两条官方FAQ提前记住能省时间：不能同时推给多个Blender实例，连接只认第一个启动的那个，开多个会报「Port already in use」；插件更新后如果显示「All connections closed」连不上，重启Blender并重新激活，看到日志里出现「Server running on port XXXX」才算真连上。 
+ DCC Bridge要Pro及以上套餐，免费账号没有。 这和§03讲的导出墙是同一堵墙：免费账号拿不到文件，自然也不可能一键推进Blender。
+## 哪些步骤必须你自己做 
+ 这一轮跑下来，有五件事Agent不该替你做，或者做不了。 
+ 1 
+## 浏览器授权页上点Authorize 设备码流程的全部安全性就在「人眼比对终端码和网页码」这一下上。这一步被代做，等于把这道闸拆了。 
+ 2 
+## 充值，以及领不领那个14天免费钱包 一个花钱，一个是一次性且带倒计时的权益。 
+ 3 
+## 保证浏览器里已经登录developers.tripo3d.com 没登录态的话授权页会先拦一道登录或注册，那一步可能带验证码或第三方登录。 
+ 4 
+## 额度耗尽之后怎么办 等重置还是买credits，同样是花钱决策。 
+ 5 
+## sudo npm install -g 要的机器密码 本机不需要，但Node装在系统目录的机器会撞上。 
+## 最小项目长什么样 
+ 走CLI的话，最小项目就是一个空文件夹加一条命令： 
+ my-game/ ├── tripo-out/ │ └── <每次任务一个目录>/ │ ├── model.glb │ ├── preview.png │ └── task.json └── index.html 
+ task.json 记录这个任务是怎么创建的。官方给Agent的建议里有一条我很认同： 如果 preview.png 存在，在决定继续管线还是重跑之前先看一眼它。 这是让Agent自己做质检，比跑完一整条链再发现形不对便宜得多。 
+## 这一节还缺什么 
+ 缺的是最后一步： 钱包里有积分之后，把 tripo make 真的跑通一次 。具体缺的是三个数—— 任务从提交到成功的算子耗时、扣掉的API积分、以及 tripo-out 里那一个目录的真实产物 。现在这一节能告诉你的是「到发起生成为止的每一步长什么样、会卡在哪」，还不能告诉你「一件资产从命令行出来要多久、多少钱」。CLI、Codex插件、MCP三条路卡在同一个地方，就是那个0积分的API钱包。 
+ 换个角度：缺的这三个数你自己能补，而且这一节已经把补它需要的东西全给了。 命令是完整的那一条（ tripo make prop-02-bench.png --model tripo-p2 -p quad=true --no-open ），产物目录长什么样在上一小节，判「有没有白花钱」的退出码表在前面， tripo balance 是跑之前跑之后各敲一次、差值就是这一件的真实价钱。 钱包一充上，从这一节最后一步到那三个数之间，只隔一条命令。 
+ 这一轮往前挪了一格：MCP那条补了协议实测和工具表，也把 tripo mcp 配进Claude Code验到 Connected ，配法在前面那一小节。 所以缺口从「装到哪一步会卡」窄成了一件具体的事——那一件落盘的资产。 API那条的缺口更大，具体缺哪三样，在前面API那一小节已经点过名了。 
+ 那个「Get Your free wallet(14 days)」按钮一直在旁边，我没点，理由在前面那张钱包截图底下：它是一次性权益、带14天倒计时，该留给真正要连着跑测试的那一周，而不是为了在书里凑一个数把它烧掉。 这一节宁可缺一个数，也不想给你一个「我领了、跑了一件、然后钱包过期」的样本。

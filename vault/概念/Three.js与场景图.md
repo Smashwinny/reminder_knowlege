@@ -16,5 +16,9 @@ tags: [概念]
 **与已有概念的关联**：
 - 相关：[[程序化建模]]（Three.js 是程序化建模最常用的执行环境）
 - 相关：[[构建流水线与Pass]]（img2threejs 的产物就是一段在浏览器里构建场景图的 TypeScript 代码）
+- 接第三方 GLB 资产三坑（2026-10-03 来自 [[项目笔记/3d_vibe_coding]] 花叔书 §12，亲手复现坑一）：
+  ① **PBR 死黑**——metalness 高的材质没有 `scene.environment` 时在白底上渲成一团黑（漫反射被抑制只剩直射光），修法 = canvas 画渐变当 equirect → PMREMGenerator 转环境光照（渐变必须有暗部 #403c35 当"黑旗"，金属才有明暗对比）；不要金属质感就把 metalness 摁 0
+  ② **带骨骼的模型不能用普通 clone()**——所有实例共享同一副骨骼会"同手同脚"；用 `SkeletonUtils.clone()` + 每实例一个 AnimationMixer + 相位按坐标错开 `(x*0.37+z*0.11)%duration`，并切掉动画位移轨（位移归游戏代码）
+  ③ **vendor 精选钉版本**——`npm i three@0.160.0` 后只拷 5 个文件（three.module/GLTFLoader/OrbitControls/BufferGeometryUtils/SkeletonUtils），5 个必须同一版本；BufferGeometryUtils 不是可选的（GLTFLoader 自己 import，缺了的表现是页面全白而非报错）；WebGL 页面必须走 http，file:// 被 CORS 挡
 
 **首次接触于**：[[项目笔记/img2threejs]]
