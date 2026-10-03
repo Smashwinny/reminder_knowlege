@@ -285,8 +285,15 @@ ul,ol{margin:8px 0 8px 24px}
 <div class="step s3">
 <h3>步骤 3 · 跑真实二进制（无微信环境 = 诚实输出）</h3>
 <p>操作：<code>wx --version</code>、<code>wx --help</code>、<code>wx doctor</code>　目的：验证二进制可用、看健康检查在"零密钥"环境下的真实表现</p>
-<pre><code>{{WX_VERSION_OUTPUT}}</code></pre>
-<pre><code>{{WX_DOCTOR_OUTPUT}}</code></pre>
+<pre><code>F:\reminder\wx_cli_again\repo\target\release&gt; wx.exe --version
+wx 0.6.3</code></pre>
+<pre><code>F:\reminder\wx_cli_again\repo\target\release&gt; wx.exe doctor
+✗  WeChat 进程                    未运行
+✗  config.json                  未找到，请先 wx init
+✗  daemon socket                未运行（首次查询会自动启动）
+
+存在未通过项。补密钥：sudo wx key extract --hook-seconds 90
+（本机 GUI Terminal + 等待时打开相关聊天；SIP 无需关闭）</code></pre>
 <p>✅ 预期结果：version 打印 0.6.3；doctor 如实报告找不到密钥/数据库（本机无微信 4.x，这正是该命令的设计用途——它不是报错，是体检）。</p>
 </div>
 
