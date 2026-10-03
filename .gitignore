@@ -57,3 +57,7 @@ minimind/exercise/dataset/
 # llamafactory-ft：训练产物（adapter 可用 YAML 重新训练生成，35MB 二进制不入库）
 llamafactory-ft/exercise/saves/
 llamafactory-ft/exercise/logs_ablate_identity.txt
+
+# Rust 构建产物
+*/target/
+target/

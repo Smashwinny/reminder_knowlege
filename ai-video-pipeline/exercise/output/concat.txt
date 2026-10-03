@@ -1,0 +1,5 @@
+file 'F:/reminder/ai-video-pipeline/exercise/output/seg_0.mp3'
+file 'F:/reminder/ai-video-pipeline/exercise/output/seg_1.mp3'
+file 'F:/reminder/ai-video-pipeline/exercise/output/seg_2.mp3'
+file 'F:/reminder/ai-video-pipeline/exercise/output/seg_3.mp3'
+file 'F:/reminder/ai-video-pipeline/exercise/output/seg_4.mp3'

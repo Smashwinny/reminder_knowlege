@@ -1,0 +1,5 @@
+@echo off
+rem codex-work.cmd ? ?????? Codex ???Windows ???????
+set "CODEX_HOME=%USERPROFILE%\.codex-work"
+if not exist "%CODEX_HOME%" mkdir "%CODEX_HOME%"
+codex %*

@@ -1,0 +1,40 @@
+{
+  "article_check": "PASS",
+  "curve": [
+    {
+      "videos": 5,
+      "per_video_usd": 20.0
+    },
+    {
+      "videos": 10,
+      "per_video_usd": 10.0
+    },
+    {
+      "videos": 20,
+      "per_video_usd": 5.0
+    },
+    {
+      "videos": 30,
+      "per_video_usd": 3.33
+    },
+    {
+      "videos": 40,
+      "per_video_usd": 2.5
+    },
+    {
+      "videos": 50,
+      "per_video_usd": 2.0
+    },
+    {
+      "videos": 60,
+      "per_video_usd": 1.67
+    }
+  ],
+  "local": {
+    "旁白时长_秒": 30.38,
+    "口播字数": 137,
+    "TTS": "edge-tts 7.2.7（免费，0 API key）成本 ¥0",
+    "渲染": "Remotion 4.0.532 本机渲染 2.7MB mp4，个人/3人以下小团队免费",
+    "LLM": "口播稿本实验为人写（离线复刻不带 LLM）；生产版走 Claude 订阅，计入库"
+  }
+}

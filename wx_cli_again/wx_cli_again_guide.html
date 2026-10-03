@@ -299,7 +299,20 @@ ul,ol{margin:8px 0 8px 24px}
 <li><b>实验 2</b>：按上游 v2.rs 注释的真实容器格式（6B magic + 4B aes_size + 4B xor_size + 1B padding + AES-128-ECB 密文）手工封 V1 文件，用固定 key <code>cfcd208495d565ef</code> 加密 → 上游解出 decoder=v1_aes、format=png、逐字节一致 ✅</li>
 <li><b>实验 3（负向护栏）</b>：全零垃圾 → 拒收"无法识别图片 magic"；空文件 → 拒收"空 .dat 文件"；V2 magic 但缺 image key → 拒收 ✅</li>
 </ul>
-<pre><code>{{DECODER_LAB_OUTPUT}}</code></pre>
+<pre><code>=== 实验 1：legacy_xor 往返（合成 PNG → XOR 伪 .dat → 上游 dispatch 解码）===
+  [legacy_xor] decoder=legacy_xor format=png 解码 87 字节
+  [legacy_xor] 逐字节比对原图：一致 ✅
+
+=== 实验 2：v1_aes 往返（真实 V1 容器格式 + 固定 key cfcd208495d565ef）===
+  [v1_aes] decoder=v1_aes format=png 解码 87 字节
+  [v1_aes] 逐字节比对原图：一致 ✅
+
+=== 实验 3：负向测试（必须全部被拒）===
+  [全零垃圾] 正确拒绝：legacy XOR: 无法识别图片 magic（key 探测失败） ✅
+  [空文件] 正确拒绝：空 .dat 文件 ✅
+  [V2 超长声明] 正确拒绝：V2 .dat: 需要 image AES key（codex 的 image_key 模块尚未填充） ✅
+
+全部实验通过：上游 decoder 源码 + 合成数据，双向解码与负向护栏均符合预期。</code></pre>
 <p>✅ 预期结果：三行"一致 ✅" + 三行"正确拒绝 ✅"，收尾"全部实验通过"。</p>
 </div>
 

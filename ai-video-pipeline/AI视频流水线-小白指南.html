@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AI热点长视频流水线-小白指南</title>
+<style>
+  :root{
+    --pink:#ff2d78; --blue:#1d6fd1; --amber:#ffb703; --teal:#2a9d8f;
+    --purple:#7b2cbf; --red:#e63946; --ink:#12263a; --cream:#fff8ef;
+    --card-shadow:0 6px 18px rgba(18,38,58,.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  @page{ size:A4; margin:12mm; }
+  body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--cream); font-size:13.5px; line-height:1.7; }
+  .cover{ background:linear-gradient(135deg,#1d3557 0%,#457b9d 60%,#2a9d8f 100%); color:#fff; border-radius:18px; padding:42px 36px; margin-bottom:20px; }
+  .cover h1{ font-size:34px; font-weight:900; letter-spacing:1px; }
+  .cover .sub{ font-size:16px; color:#ffd166; font-weight:700; margin-top:10px;}
+  .cover .meta{ font-size:12px; color:#e2e8f0; margin-top:16px;}
+  .badges{ margin-top:14px; }
+  .badge{ display:inline-block; background:#ffb703; color:#12263a; font-weight:900; border-radius:999px; padding:4px 14px; margin:4px 6px 0 0; font-size:12.5px;}
+  h2.q{ font-size:20px; font-weight:900; margin:26px 0 12px; padding:10px 16px; border-radius:12px; color:#fff; }
+  .qn{ display:inline-block; font-size:26px; font-weight:900; margin-right:10px; transform:rotate(-4deg);}
+  .card{ background:#fff; border-radius:14px; box-shadow:var(--card-shadow); padding:18px 20px; margin-bottom:14px; break-inside:avoid; }
+  .hl{ background:linear-gradient(transparent 55%, #ffd166 55%); font-weight:900; padding:0 2px;}
+  .big{ font-size:16px; font-weight:900; }
+  code,.cmd{ font-family:Consolas,monospace; background:#12263a; color:#a7f3d0; border-radius:8px; padding:2px 8px; font-size:12px; }
+  .cmdblock{ background:#12263a; color:#e2e8f0; border-radius:10px; padding:12px 16px; font-family:Consolas,monospace; font-size:12px; margin:10px 0; white-space:pre-wrap; break-inside:avoid;}
+  .cmdblock .c{ color:#7dd3fc; }
+  table{ width:100%; border-collapse:collapse; margin:10px 0; background:#fff; break-inside:avoid;}
+  th{ background:var(--blue); color:#fff; padding:8px 10px; font-size:13px;}
+  td{ border:1px solid #dbe4ee; padding:7px 10px; font-size:12.5px; vertical-align:top;}
+  tr:nth-child(even) td{ background:#f2f7fd; }
+  .tip{ border-left:6px solid var(--amber); background:#fff6df; border-radius:0 10px 10px 0; padding:10px 14px; margin:10px 0; break-inside:avoid;}
+  .ok{ border-left:6px solid var(--teal); background:#e9f9f4; border-radius:0 10px 10px 0; padding:10px 14px; margin:10px 0; break-inside:avoid;}
+  .warn{ border-left:6px solid var(--red); background:#fdeeee; border-radius:0 10px 10px 0; padding:10px 14px; margin:10px 0; break-inside:avoid;}
+  .svgbox{ text-align:center; margin:12px 0; break-inside:avoid;}
+  .step{ display:flex; gap:12px; margin-bottom:12px; break-inside:avoid;}
+  .stepnum{ flex:0 0 40px; height:40px; border-radius:50%; background:var(--pink); color:#fff; font-weight:900; font-size:20px; display:flex; align-items:center; justify-content:center;}
+  .shot{ width:100%; border-radius:10px; border:3px solid var(--blue); }
+  .credit{ font-size:11px; color:#64748b; }
+  .footer{ margin-top:24px; padding:14px; background:#12263a; color:#cbd5e1; border-radius:12px; font-size:11.5px;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>用 AI 做热点深度长视频：一条人人可复刻的生产流水线</h1>
+  <div class="sub">Simon聊AI 实操复盘拆解 · 全局 Skill 指令工程 + 分步交付 + Remotion 程序化渲染 + TTS 配音</div>
+  <div class="badges">
+    <span class="badge">7 天 258 万播放</span><span class="badge">3 天涨粉 9149</span>
+    <span class="badge">单条 108 万播放</span><span class="badge">20 分钟~1 小时出片</span>
+    <span class="badge">本仓库 4 个实验真跑通</span>
+  </div>
+  <div class="meta">来源：X @HanZhang415188《用 AI 做热点长视频：单条 108 万播放，3 天涨粉近万的实操复盘》（2026-09-18，677 赞 / 1408 书签）<br>
+  拾遗任务 f4c63060 · 2026-10-03 · 产出：本指南 + exercise\ 4 个真实实验（含 33.4 秒成片 demo.mp4）</div>
+</div>
+
+<!-- ============ Q1 ============ -->
+<h2 class="q" style="background:var(--pink);"><span class="qn">Q1</span>这套工作流是什么？一个人没出镜没团队，凭什么 20 分钟出一条 10 分钟长视频？</h2>
+<div class="card">
+  <p><span class="big">一句话：把"查资料 → 写脚本 → 配音 → 画面渲染"整条电视台流水线，压缩成一个 AI 智能体工作流，人只做<span class="hl">选题把关者和事实审核员</span>。</span></p>
+  <p style="margin-top:8px;">作者（十年 NLP 算法工程师）的账号不出镜、不棚拍、无团队：资料挖掘、脚本文案、音画合成全由 AI 跑完，快则 20 分钟、慢则 1 小时出一期 10 分钟以上的深度长视频。他的原话是——<span class="hl">"我做的事情其实很明确：做选题的把关者，在关键节点拍板，确认无误后分发。"</span></p>
+  <div class="tip"><b>这不是"一键躺赚"。</b>作者特意泼冷水：换个账号、换批选题，数据可能完全不一样。这篇复盘真正值钱的是<b>怎么把一个热点挖出信息厚度</b>，以及<b>哪些环节必须真人死守</b>。</p>
+  </div>
+  <div class="svgbox">
+  <svg width="680" height="240" viewBox="0 0 680 240">
+    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#12263a"/></marker></defs>
+    <rect x="10" y="80" width="100" height="52" rx="10" fill="#1d6fd1"/>
+    <text x="60" y="102" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">抓热点</text><text x="60" y="120" text-anchor="middle" fill="#dbeafe" font-size="10">AI 交候选表</text>
+    <rect x="150" y="80" width="100" height="52" rx="10" fill="#7b2cbf"/>
+    <text x="200" y="102" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">审选题</text><text x="200" y="120" text-anchor="middle" fill="#ede9fe" font-size="10">人卡材料厚度</text>
+    <rect x="290" y="80" width="100" height="52" rx="10" fill="#2a9d8f"/>
+    <text x="340" y="102" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">跑生产</text><text x="340" y="120" text-anchor="middle" fill="#ccfbf1" font-size="10">Skill 全自动</text>
+    <rect x="430" y="80" width="100" height="52" rx="10" fill="#e63946"/>
+    <text x="480" y="102" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">细核对</text><text x="480" y="120" text-anchor="middle" fill="#fee2e2" font-size="10">人逐帧对信源</text>
+    <rect x="570" y="80" width="100" height="52" rx="10" fill="#ffb703"/>
+    <text x="620" y="102" text-anchor="middle" fill="#12263a" font-size="13" font-weight="bold">8 平台分发</text><text x="620" y="120" text-anchor="middle" fill="#7c5800" font-size="10">单次成片同步发</text>
+    <line x1="110" y1="106" x2="148" y2="106" stroke="#12263a" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="250" y1="106" x2="288" y2="106" stroke="#12263a" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="390" y1="106" x2="428" y2="106" stroke="#12263a" stroke-width="2.5" marker-end="url(#ar)"/>
+    <line x1="530" y1="106" x2="568" y2="106" stroke="#12263a" stroke-width="2.5" marker-end="url(#ar)"/>
+    <rect x="150" y="170" width="380" height="40" rx="8" fill="#12263a"/>
+    <text x="340" y="195" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="bold">人守两头：进门卡选题 · 出门卡事实（中间放给 AI）</text>
+    <text x="340" y="40" text-anchor="middle" fill="#12263a" font-size="15" font-weight="900">四步流水线：人的判断力放在最贵的地方</text>
+  </svg>
+  </div>
+</div>
+
+<!-- ============ Q2 ============ -->
+<h2 class="q" style="background:var(--blue);"><span class="qn">Q2</span>短视频时代，凭什么有人看完 10 分钟？——"热点 × 深度"的底层逻辑</h2>
+<div class="card">
+  <p>作者最看好的方向始终是<span class="hl">深度内容 + 实时热点</span>，两者分工明确：</p>
+  <table>
+    <tr><th></th><th>热点（15 秒短视频的活）</th><th>深度（10 分钟长视频的活）</th></tr>
+    <tr><td><b>给观众什么</b></td><td>一个自带情绪和讨论度的"初始疑问"：发生了什么</td><td>知其然背后的所以然：我中招了吗？官方回应有没有漏洞？</td></tr>
+    <tr><td><b>物业费例子</b></td><td>"XX 小区业主与物业爆发冲突"（制造情绪）</td><td>"物业费明细里含哪几项隐性支出？业主查验台账的法律依据是什么？"（提供解药）</td></tr>
+    <tr><td><b>观众行为</b></td><td>看 10 秒划走</td><td>留下来看完，因为心存疑虑</td></tr>
+  </table>
+  <p><span class="big">AI 在这里的真正价值：把"查原始卷宗、核对数据、做画面"从几天压缩到几十分钟，</span>让个人创作者能在<span class="hl">热度正盛的窗口期</span>把有"硬核增量"的长视频递到观众面前。</p>
+  <div class="warn"><b>反面对照：</b>不是凑到 10 分钟就自动有流量。3 分钟的材料硬注水成 10 分钟，只剩车轱辘话和说教，完播率会很难看。做长视频的唯一正当理由：<span class="hl">有些事实和因果链条，不花 10 分钟拆不透</span>。</div>
+</div>
+
+<!-- ============ Q3 ============ -->
+<h2 class="q" style="background:var(--purple);"><span class="qn">Q3</span>旧工作流为什么失败？——画面与文案"各说各话"症</h2>
+<div class="card">
+  <p>作者做长视频最大的历史硬伤在<b>素材匹配</b>：过去靠 Pexels 等版权库找空镜素材铺满底轨。画面质感很好，但<span class="hl">与旁白核心信息严重脱节</span>——嘴上在拆解法规条文，眼睛看到的却是路人喝咖啡、空旷街道。观众只能纯靠耳朵听，完播率上不去。</p>
+  <div class="svgbox">
+  <svg width="680" height="210" viewBox="0 0 680 210">
+    <text x="340" y="28" text-anchor="middle" font-size="15" font-weight="900" fill="#12263a">声画两条轨道：旧流程是错位的，新模型让画面"长在内容上"</text>
+    <text x="60" y="70" font-size="12" font-weight="bold" fill="#1d6fd1">旁白轨（耳）</text>
+    <rect x="60" y="80" width="240" height="34" rx="6" fill="#1d6fd1"/><text x="180" y="101" text-anchor="middle" fill="#fff" font-size="11">"条分缕析讲解某条法规…"</text>
+    <rect x="320" y="80" width="160" height="34" rx="6" fill="#3b82f6"/><text x="400" y="101" text-anchor="middle" fill="#fff" font-size="11">"该企业实际是…"</text>
+    <text x="60" y="150" font-size="12" font-weight="bold" fill="#e63946">画面轨（眼）</text>
+    <rect x="60" y="160" width="240" height="34" rx="6" fill="#fca5a5"/><text x="180" y="181" text-anchor="middle" fill="#7f1d1d" font-size="11">路人喝咖啡 ☕（无关空镜）</text>
+    <rect x="320" y="160" width="160" height="34" rx="6" fill="#fca5a5"/><text x="400" y="181" text-anchor="middle" fill="#7f1d1d" font-size="11">空旷街道 🏙（无关空镜）</text>
+    <line x1="180" y1="114" x2="180" y2="160" stroke="#e63946" stroke-width="2" stroke-dasharray="5,4"/>
+    <text x="192" y="145" font-size="11" fill="#e63946" font-weight="bold">信息无关 → 眼睛闲了 → 完播率崩</text>
+    <rect x="520" y="80" width="140" height="114" rx="10" fill="#2a9d8f"/>
+    <text x="590" y="110" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">新解法</text>
+    <text x="590" y="132" text-anchor="middle" fill="#ccfbf1" font-size="10.5">模型自己检索画面</text>
+    <text x="590" y="150" text-anchor="middle" fill="#ccfbf1" font-size="10.5">贴着旁白内容抓具象</text>
+    <text x="590" y="168" text-anchor="middle" fill="#ccfbf1" font-size="10.5">素材+出处同屏呈现</text>
+  </svg>
+  </div>
+</div>
+
+<!-- ============ Q4 ============ -->
+<h2 class="q" style="background:var(--teal);"><span class="qn">Q4</span>"无约束实验"是什么？为什么旧 Skill 反而成了新模型的天花板？</h2>
+<div class="card">
+  <p>转机：新模型（文中 GPT-6-Astra）出来后，作者冒出一个念头——<span class="hl">如果不套以前那些条条框框的 Skill，让它从零自由发挥，它会怎么做？</span>结果画面贴合度大幅超出预期，很多过去需要高强度人工干预才能卡准的具象素材，模型自己抓取得非常自然。</p>
+  <p>他的反思一针见血：<span class="big">旧 Skill 固化的操作范式，往往就是新模型发挥潜力的天花板。模型本有能力交付 90 分的结果，却被我用旧规矩按在了 60 分。</span></p>
+  <div class="svgbox">
+  <svg width="680" height="200" viewBox="0 0 680 200">
+    <rect x="40" y="50" width="270" height="120" rx="12" fill="#fdeeee" stroke="#e63946" stroke-width="2"/>
+    <text x="175" y="80" text-anchor="middle" font-size="13" font-weight="900" fill="#e63946">旧规则盒子（Pexels 底轨范式）</text>
+    <rect x="80" y="100" width="60" height="50" rx="6" fill="#e63946" opacity=".85"/>
+    <text x="110" y="130" text-anchor="middle" fill="#fff" font-size="11">60 分</text>
+    <rect x="150" y="85" width="60" height="65" rx="6" fill="#f59e0b" opacity=".9"/>
+    <text x="180" y="130" text-anchor="middle" fill="#fff" font-size="11">模型能耐 90</text>
+    <text x="175" y="165" text-anchor="middle" font-size="10.5" fill="#7f1d1d">能力被旧指令压着干活</text>
+    <rect x="370" y="50" width="270" height="120" rx="12" fill="#e9f9f4" stroke="#2a9d8f" stroke-width="2"/>
+    <text x="505" y="80" text-anchor="middle" font-size="13" font-weight="900" fill="#2a9d8f">无约束实验（只给交付标准）</text>
+    <rect x="440" y="70" width="60" height="80" rx="6" fill="#2a9d8f"/>
+    <text x="470" y="115" text-anchor="middle" fill="#fff" font-size="11">90 分</text>
+    <text x="505" y="165" text-anchor="middle" font-size="10.5" fill="#134e4a">剥掉步骤预设，能力自己找路</text>
+    <line x1="318" y1="110" x2="362" y2="110" stroke="#12263a" stroke-width="3" marker-end="url(#ar)"/>
+    <text x="340" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#12263a">格式化</text>
+  </svg>
+  </div>
+  <p>由此沉淀出的<span class="hl">工作流升级三原则</span>：</p>
+  <table>
+    <tr><th>原则</th><th>怎么做</th></tr>
+    <tr><td><b>定期做"无约束实验"</b></td><td>挑一个熟悉的经典题目，只给成片交付标准（画面相关度、出处严谨度），剥离原有步骤预设，看新模型用什么路径解题</td></tr>
+    <tr><td><b>留结果，不留死板路径</b></td><td>"事实要有出处、声画必须同步"是死指标；中间用什么爬虫、调什么接口、抓什么画面——保持开放</td></tr>
+    <tr><td><b>警惕经验主义</b></td><td>不要只在原流程上打补丁（只会越来越臃肿）；给 AI 重新洗牌的机会，往往有降维打击般的惊喜</td></tr>
+  </table>
+  <div class="tip">这和本知识库 [[提示词爬山法PromptHillClimbing]]（prompt 当优化对象）、[[混合模型分工流水线]]（换环节换生产者）是同族思想：<b>流程要为模型进化让路，而不是模型为旧流程陪葬</b>。</div>
+</div>
+
+<!-- ============ Q5 ============ -->
+<h2 class="q" style="background:var(--red);"><span class="qn">Q5</span>指令工程核心：全局 Skill 怎么写？——"质量标准死卡，执行手段放开"</h2>
+<div class="card">
+  <p>作者平时启动制作只给一句话 Prompt："帮我做一个关于 XXX 的深度解读视频。"敢这么省事，是因为<span class="hl">所有红线和规范都内嵌在底层全局 Skill 里</span>。他把 Skill 比作<span class="big">给 AI 员工签的《长期岗位职责书》</span>：</p>
+  <table>
+    <tr><th>两类东西</th><th>例子</th><th>处理方式</th></tr>
+    <tr><td><b>质量标准（死卡）</b></td><td>结论必须有官方出处；字幕适配移动端可读性；声画必须同步</td><td>写死在 Skill，每次验收必查</td></tr>
+    <tr><td><b>执行手段（放开）</b></td><td>怎么检索网页、怎么剪切片段、用什么工具抓画面</td><td>留给模型自由发挥，换代不 Rewrite</td></tr>
+  </table>
+  <div class="tip"><b>新手最关键的忠告——分步交付，别一键成片：</b><br>
+  第一步：只要《选题卡》与《信源列表》 → 第二步：核准后生成逐字口播稿 → 第三步：脚本顺畅后调用配音与合成渲染。<span class="hl">链条全部打通后，再串联成自动化流水线。</span>另外"20 分钟出片"是磨合稳定后的节奏，第一次配环境、测 Prompt、调模板要预留充裕试错时间。</div>
+  <p class="credit">知识库对照：这与 [[AgentSkills技能包]]（SKILL.md 方法论包）、[[项目宪法Constitution]]（根本法一次写全功能守）、[[Agent指令文件AgentMd]]（员工守则实测改行为）、[[代码管边界提示词管判断]] 完全同构——"挽回不了的归代码死卡，能挽回的归提示词判断"。</p>
+</div>
+
+<!-- ============ Q6 ============ -->
+<h2 class="q" style="background:#0ea5e9;"><span class="qn">Q6</span>四步流水线每步长什么样？（含可直接抄的原文 Prompt）</h2>
+<div class="card">
+  <div class="step"><div class="stepnum">1</div><div>
+    <p class="big">抓热点：让 AI 交"带参数的研判表"，不是标题党榜单</p>
+    <p>作者的原版检索提示词（可直接复用）：</p>
+    <div class="cmdblock">"查找最近一周与日常消费有关的热点，给我 5 个适合做深度解读的候选。
+<span class="c">每个题目附原始来源和日期</span>，说明现在为什么值得做。先概括现有讨论，再提出一个可以继续调查的问题。
+写出这个问题与谁有关，以及<span class="c">还缺哪份关键材料</span>。
+<span class="c">无法核实的热度不要编数字</span>，只有转述的消息单独标明。"</div>
+    <p>判定标准：AI 连可验证数据源都给不出、只会空谈"全网都在热议"——<span class="hl">直接 pass</span>。</p>
+  </div></div>
+  <div class="step"><div class="stepnum">2</div><div>
+    <p class="big">审选题：人工研判现有材料能否撑起立论（最耗脑环节）</p>
+    <p>反例："某网红雪糕为什么卖这么贵"——手里只有终端售价，克重成本、代工模式、冷链扣点全核实不清就做"暴利拆解"，非常业余且高危。要么收缩切角（改做"不同克重与乳脂含量的规格差价分析"），要么补一手财报和行业研报。</p>
+    <p><span class="hl">生死及格线：看完大纲，能不能用一句大白话向普通人讲明白"看完这个视频你能彻底懂什么"。</span>答案只有"你会觉得这事很离谱"的纯情绪题，坚决不做。</p>
+  </div></div>
+  <div class="step"><div class="stepnum">3</div><div>
+    <p class="big">跑生产：圈定问题与边界，释放 AI 算力</p>
+    <div class="cmdblock">"围绕这次物业纠纷做一条深度解读，重点解释收费项目与实际服务怎么核对。
+<span class="c">先检查现有材料能否支持这个角度</span>，再按制作 Skill 执行。
+个案材料只用于说明这个小区的情况；需要扩展到其他地方时，补相应依据。
+<span class="c">缺少关键材料的判断先列出来，不要为了达到目标时长补写结论。"</span></div>
+    <p>框死边界后，AI 自己调浏览器查原始文档、跑语音合成、卡视觉轴渲染。<span class="hl">每步产物必须扎实承接上一阶段：信源有假→文案全盘皆输；文案讲不通→画面再炫也是工业垃圾。</span></p>
+  </div></div>
+  <div class="step"><div class="stepnum">4</div><div>
+    <p class="big">细核对：像新闻事实核查员一样排查（10~15 分钟机械化清单）</p>
+    <table>
+      <tr><th>检查项</th><th>标准</th></tr>
+      <tr><td>核心自洽</td><td>成片有没有真正回答开头的设问？</td></tr>
+      <tr><td>声画对齐</td><td>说"这家代工厂"时，画面必须是该企业实景或企查查信息，绝不能张冠李戴</td></tr>
+      <tr><td>字符校对</td><td>字幕里的金额、单位、法规条款号逐个对</td></tr>
+    </table>
+    <div class="warn"><b>修改指令切忌抽象。</b>不要说"节奏改轻快点""显得更高级些"；必须精确定位：<span class="hl">"03:15 处的配图与旁白主体不符，保留现有配音，把画面替换为该品牌招股书第 42 页截图。"</span></div>
+  </div></div>
+</div>
+
+<!-- ============ Q7 ============ -->
+<h2 class="q" style="background:var(--amber); color:#12263a;"><span class="qn">Q7</span>选题五项内审法：开工前的 5 道安全阀 + "情绪脱水测试"（本仓库实测复刻）</h2>
+<div class="card">
+  <div class="svgbox">
+  <svg width="680" height="170" viewBox="0 0 680 170">
+    <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#12263a"/></marker></defs>
+    <text x="340" y="26" text-anchor="middle" font-size="15" font-weight="900" fill="#12263a">五阀串联，任一阀不过 = 整题毙掉（一票否决）</text>
+    <g font-size="12" font-weight="bold" text-anchor="middle">
+      <rect x="15" y="55" width="112" height="58" rx="10" fill="#e63946"/><text x="71" y="80" fill="#fff">1 热点时效</text><text x="71" y="100" fill="#fee2e2" font-size="10">72h 内有新进展</text>
+      <rect x="152" y="55" width="112" height="58" rx="10" fill="#f59e0b"/><text x="208" y="80" fill="#fff">2 痛点圈层</text><text x="208" y="100" fill="#fef3c7" font-size="10">个案提炼成普适</text>
+      <rect x="289" y="55" width="112" height="58" rx="10" fill="#2a9d8f"/><text x="345" y="80" fill="#fff">3 增量核查</text><text x="345" y="100" fill="#ccfbf1" font-size="10">一手硬料判决书级</text>
+      <rect x="426" y="55" width="112" height="58" rx="10" fill="#1d6fd1"/><text x="482" y="80" fill="#fff">4 脱水测试</text><text x="482" y="100" fill="#dbeafe" font-size="10">删情绪词骨架还在</text>
+      <rect x="563" y="55" width="112" height="58" rx="10" fill="#7b2cbf"/><text x="619" y="80" fill="#fff">5 叙事匹配</text><text x="619" y="100" fill="#ede9fe" font-size="10">禁连续两期同型</text>
+    </g>
+    <line x1="127" y1="84" x2="150" y2="84" stroke="#12263a" stroke-width="2.5" marker-end="url(#ar2)"/>
+    <line x1="264" y1="84" x2="287" y2="84" stroke="#12263a" stroke-width="2.5" marker-end="url(#ar2)"/>
+    <line x1="401" y1="84" x2="424" y2="84" stroke="#12263a" stroke-width="2.5" marker-end="url(#ar2)"/>
+    <line x1="538" y1="84" x2="561" y2="84" stroke="#12263a" stroke-width="2.5" marker-end="url(#ar2)"/>
+    <text x="340" y="145" text-anchor="middle" font-size="11.5" fill="#64748b">旧闻翻炒必须说明"为什么今天被再次审视" · 一手材料=判决书/质检报告/招股书原件 · 证据链断裂就承认"公开资料无法断定"</text>
+  </svg>
+  </div>
+  <p><span class="big">情绪脱水测试（第 4 阀）的玩法：</span>把脚本初稿里"令人发指""套路深""惊天内幕"全删掉，看剩下的事实逻辑站不站得住。<span class="hl">推动进度条前进的必须是事实密度，不是骂街的语调。</span></p>
+  <p>本仓库用零依赖 Python 确定性复刻了这个五阀评分器（<code>exercise\ex1_xuanti.py</code>），真实运行结果：</p>
+  <table>
+    <tr><th>测试题</th><th>阀1 时效</th><th>阀2 普适</th><th>阀3 增量</th><th>阀4 脱水</th><th>阀5 叙事</th><th>裁决</th></tr>
+    <tr><td>"买房后这 4 笔物业暗扣，你每年多交了多少冤枉钱"</td><td>PASS（36h）</td><td>PASS（泛化钩子）</td><td>PASS（2 条一手信源）</td><td>PASS（保留 100%、4 处事实引用）</td><td>PASS（换了叙事型）</td><td><b style="color:#2a9d8f;">PASS 放行</b></td></tr>
+    <tr><td>"A 市阳光花园小区物业跑路，业主愤怒：简直丧良心"</td><td>FAIL（3348h 旧闻）</td><td>FAIL（个案地名）</td><td>FAIL（1 条无链接）</td><td>FAIL（只剩 53%、0 处事实）</td><td>FAIL（同型连打）</td><td><b style="color:#e63946;">一票否决</b></td></tr>
+  </table>
+  <p class="credit">对照知识库：[[AI味模式库与信号非证据]]（情绪词=AI味信号）、[[事实与判断分离]]（确定性代码做裁决）、[[HardFailure一票否决与发布门禁]]（同款门禁思想）。</p>
+</div>
+
+<!-- ============ Q8 ============ -->
+<h2 class="q" style="background:#e63946;"><span class="qn">Q8</span>合规风控：收到品牌投诉和律师函，凭什么能全身而退？</h2>
+<div class="card">
+  <p>做深度舆论拆解，品牌公关投诉几乎不可避免（作者的荣耀锁屏广告、学生牛奶两期高播放视频都被投诉过）。他能赢下申诉，靠的是<span class="hl">严格的前置合规三步</span>：</p>
+  <div class="svgbox">
+  <svg width="680" height="150" viewBox="0 0 680 150">
+    <defs><marker id="ar3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#12263a"/></marker></defs>
+    <g font-size="12" font-weight="bold" text-anchor="middle">
+      <rect x="20" y="40" width="190" height="66" rx="10" fill="#1d6fd1"/><text x="115" y="66" fill="#fff">写稿前</text><text x="115" y="88" fill="#dbeafe" font-size="10.5">建立《核心事实卡》信源清单</text>
+      <rect x="245" y="40" width="190" height="66" rx="10" fill="#7b2cbf"/><text x="340" y="66" fill="#fff">撰写时</text><text x="340" y="88" fill="#ede9fe" font-size="10.5">剥离"质疑"与"定论"</text>
+      <rect x="470" y="40" width="190" height="66" rx="10" fill="#e63946"/><text x="565" y="66" fill="#fff">渲染前</text><text x="565" y="88" fill="#fee2e2" font-size="10.5">二次检索当事人最新发声</text>
+    </g>
+    <line x1="210" y1="73" x2="243" y2="73" stroke="#12263a" stroke-width="2.5" marker-end="url(#ar3)"/>
+    <line x1="435" y1="73" x2="468" y2="73" stroke="#12263a" stroke-width="2.5" marker-end="url(#ar3)"/>
+    <text x="340" y="132" text-anchor="middle" font-size="11.5" fill="#64748b">《核心事实卡》= 每个核心判断单独记录：哪篇官方报道 / 发布日期 / 原文链接 / 对应成片第几分几秒</text>
+  </svg>
+  </div>
+  <table>
+    <tr><th>纪律</th><th>要点</th></tr>
+    <tr><td><b>撰写即归档</b></td><td>别等收到投诉才翻浏览器记录！成片出来后把"这句话 ↔ 视频第几分几秒"对应表建好，申诉时完整证据链打包甩过去</td></tr>
+    <tr><td><b>表述强度对齐信源</b></td><td>信源写"有消费者质疑"，旁白就必须是"涉嫌/引发质疑"，<span class="hl">绝不能偷换成"官方已认定欺诈"</span>；"据多方报道称"开头的无出处谣言依然是谣言，找不到白纸黑字依据直接删</td></tr>
+    <tr><td><b>发布前 5 分钟生死复查</b></td><td>血亏教训：15:50 发布的视频基于上午旧事实，当事品牌下午两点已开发布会澄清。所以点名具体品牌的片子，<span class="hl">发布前最后 5 分钟全网搜一遍最新回应</span>；事实重大逆转宁可延后推倒重来</td></tr>
+  </table>
+  <p class="credit">知识库对照：[[证据优先质检ProofOverClaims]]、[[事实与判断分离]]、[[证据状态机]]（预告≠完成，质疑≠坐实正是状态混装的反面教材）。</p>
+</div>
+
+<!-- ============ Q9 ============ -->
+<h2 class="q" style="background:var(--blue);"><span class="qn">Q9</span>Remotion 是什么？"用 React 写视频"和剪映/PR、和已学的 Pixelle/SVML 什么关系？</h2>
+<div class="card">
+  <p>文章成本账单里的剪辑合成框架就是 <span class="big">Remotion</span>（开源，GitHub remotion-dev/remotion，本仓库已克隆 <code>repo\</code> @ b74a8b8）：它把<span class="hl">视频当成 React 组件来渲染</span>——每一帧都是你的组件在给定帧时间点画出来的页面，参数（props）进、mp4 出。个人/3 人以下小团队免费，商用须遵守官方 License。</p>
+  <table>
+    <tr><th>路线</th><th>代表</th><th>一句话</th><th>谁掌控</th></tr>
+    <tr><td>手工剪辑</td><td>剪映 / PR</td><td>人拖时间轴</td><td>人，慢但直觉</td></tr>
+    <tr><td>分镜表驱动</td><td>[[分镜表驱动生成]]（Pixelle-Video）</td><td>Storyboard JSON 当传送带，各工序填空</td><td>流水线</td></tr>
+    <tr><td>声明式源语言</td><td>[[声明式视频源语言]]（hypit SVML）</td><td>视频当源码写，台词锚词不锚秒</td><td>编译器</td></tr>
+    <tr><td><b>组件化逐帧渲染</b></td><td><b>Remotion</b>（本文）</td><td>每帧=React 组件一次绘制，props 驱动</td><td>代码 + 任意数据源</td></tr>
+  </table>
+  <p>本仓库真渲染了一条 33.4 秒 demo（<code>exercise\remotion_app\out\demo.mp4</code>）：合成时长由 <code>calculateMetadata</code> 从<b>真实 TTS 音频时长</b>算出（1002 帧 = (30.38s+3s 片头)×30fps），逐句"证据卡"的出入点全部来自分句配音实测时长。下面是渲染成片真实抽帧：</p>
+  <div class="svgbox">
+    <img class="shot" src="exercise/output/frame_ev_22.png" alt="Remotion 渲染的证据卡帧">
+    <div class="credit">成片 22s 处真实抽帧：第 4 张证据卡（旁白 19s ∈ 第 3 句 18.64~23.85s），出处条 + 底部进度条都是组件逻辑，不是剪辑软件里拖出来的。</div>
+  </div>
+</div>
+
+<!-- ============ Q10 ============ -->
+<h2 class="q" style="background:var(--teal);"><span class="qn">Q10</span>TTS 配音怎么接？声画同步凭什么不错拍？</h2>
+<div class="card">
+  <p>文章用火山引擎语音合成（几十元/月，按字数计费）。本仓库离线复刻用 <span class="big">edge-tts</span>（免费零 key）。关键工程动作只有一个：<span class="hl">逐句配音、逐句实测时长，让画面时间轴从音频时长推导出来</span>——这正是知识库 [[词锚定语义时间]] 的思想：锚内容，不锚秒数。</p>
+  <div class="cmdblock"><span class="c"># ex2_tts.py 核心做法（5 句全部真实执行）</span>
+每句单独 edge_tts.Communicate(句, "zh-CN-YunxiNeural").save(seg_i.mp3)
+ffmpeg -i 逐段实测时长 → 累加成 timeline.json
+  → 句0: 0.00~6.12s   "物业费到底花在了哪里？…"
+  → 句1: 6.12~12.38s  "第一部分是人员费用…"
+  → 句2: 12.38~18.64s "第二部分公共能耗…"
+  → 句3: 18.64~23.85s "核查的办法只有一种…"
+  → 句4: 23.85~30.38s "依据是民法典第九百四十三条…"
+断言：分段时长和 30.38s == 整条实测 30.38s ✓</div>
+  <p>Remotion 侧每句话包一个 <code>&lt;Sequence from={start×30fps}&gt;</code>，配音整轨挂在片头 3 秒之后——<span class="big">画面切换点和旁白换句点天然对齐，永远不存在"慢慢漂移"问题。</span>改稿只需重跑 ex2 + ex3，时间轴自动重算。</p>
+  <p class="credit">对照 [[级联语音管线]]：那是"对话机器人实时听说"的管线（管 ttfa 延迟），本篇是"离线成片"管线（管时长对齐）——同是 TTS，评价指标完全不同。</p>
+</div>
+
+<!-- ============ Q11 ============ -->
+<h2 class="q" style="background:var(--purple);"><span class="qn">Q11</span>Token 账单：做 AI 视频到底花多少钱？</h2>
+<div class="card">
+  <p>作者的真实软硬件账单：Claude 订阅 $20/$100 每月（主力生产工具是 Claude Code）+ 火山引擎 TTS 几十元/月 + Remotion 个人免费。核心结论只有一句：<span class="big">AI 生产力的边际成本，完全取决于你的执行力与出片密度。</span></p>
+  <div class="svgbox">
+  <svg width="680" height="240" viewBox="0 0 680 240">
+    <text x="340" y="24" text-anchor="middle" font-size="15" font-weight="900" fill="#12263a">单条成本 = 订阅费 ÷ 月产量（$100/月档，本仓库 ex4 复算）</text>
+    <line x1="70" y1="200" x2="640" y2="200" stroke="#12263a" stroke-width="2"/>
+    <line x1="70" y1="40" x2="70" y2="200" stroke="#12263a" stroke-width="2"/>
+    <!-- bars: 20,10,5,3.33,2.5,2,1.67 scale: y=200-v*8 -->
+    <g font-size="11" font-weight="bold">
+      <rect x="90"  y="40"  width="52" height="160" fill="#e63946"/><text x="116" y="34" text-anchor="middle" fill="#e63946">$20.00</text><text x="116" y="216" text-anchor="middle" fill="#12263a">5条</text>
+      <rect x="165" y="120" width="52" height="80"  fill="#f59e0b"/><text x="191" y="114" text-anchor="middle" fill="#b45309">$10.00</text><text x="191" y="216" text-anchor="middle" fill="#12263a">10条</text>
+      <rect x="240" y="160" width="52" height="40"  fill="#2a9d8f"/><text x="266" y="154" text-anchor="middle" fill="#134e4a">$5.00</text><text x="266" y="216" text-anchor="middle" fill="#12263a">20条</text>
+      <rect x="315" y="173" width="52" height="27"  fill="#1d6fd1"/><text x="341" y="167" text-anchor="middle" fill="#1d4ed8">$3.33</text><text x="341" y="216" text-anchor="middle" fill="#12263a">30条</text>
+      <rect x="390" y="180" width="52" height="20"  fill="#7b2cbf"/><text x="416" y="174" text-anchor="middle" fill="#6d28d9">$2.50</text><text x="416" y="216" text-anchor="middle" fill="#12263a">40条</text>
+      <rect x="465" y="184" width="52" height="16"  fill="#0ea5e9"/><text x="491" y="178" text-anchor="middle" fill="#0369a1">$2.00</text><text x="491" y="216" text-anchor="middle" fill="#12263a">50条</text>
+      <rect x="540" y="187" width="52" height="13"  fill="#10b981"/><text x="566" y="181" text-anchor="middle" fill="#047857">$1.67</text><text x="566" y="216" text-anchor="middle" fill="#12263a">60条</text>
+    </g>
+    <text x="355" y="236" text-anchor="middle" font-size="11.5" fill="#64748b">文章的两个锚点全部复算吻合：60 条/月 → $1.67（≈¥12），10 条/月 → $10（≈¥72）——差 6 倍的不是工具，是产量</text>
+  </svg>
+  </div>
+  <div class="ok"><b>本仓库离线复刻版的成本更极端：</b>edge-tts ¥0 + Remotion 个人免费 + 33.4 秒成片本机渲染——不花一分钱 API 费。生产版真正的钱都在 LLM 订阅里，而那笔钱买的是<span class="hl">信源核查和脚本的判断质量</span>，不是渲染算力。</div>
+</div>
+
+<!-- ============ Q12 ============ -->
+<h2 class="q" style="background:var(--pink);"><span class="qn">Q12</span>我想上手：最小可复刻流水线长什么样？（本仓库 4 实验全景）</h2>
+<div class="card">
+  <table>
+    <tr><th>实验</th><th>复刻文章哪一环</th><th>真实结果</th></tr>
+    <tr><td><code>ex1_xuanti.py</code></td><td>五项内审法 + 情绪脱水测试</td><td>好题 5/5 PASS，纯情绪题 5/5 一票否决（脱水保留 53%、0 处事实引用实锤）</td></tr>
+    <tr><td><code>ex2_tts.py</code></td><td>"调用配音"工序</td><td>5 句 edge-tts 配音 30.38s，逐段实测时长生成 timeline.json</td></tr>
+    <tr><td><code>ex3</code> remotion_app\</td><td>"合成渲染"工序</td><td>Remotion 4.0.532 真渲染 1002 帧 / 33.4s / 2.9MB mp4，声画同步抽帧验证</td></tr>
+    <tr><td><code>ex4_cost.py</code></td><td>Token 账单</td><td>$1.67/$10 复算吻合；本地复刻版 ¥0 API 费</td></tr>
+  </table>
+  <div class="cmdblock"><span class="c"># 复现全部实验（Windows，Node 24 + Python 3.14）</span>
+cd F:\reminder\ai-video-pipeline\exercise
+python ex1_xuanti.py                     <span class="c"># 五阀评分 → output\ex1_audit_report.json</span>
+python ex2_tts.py                        <span class="c"># 配音+时间轴 → output\timeline.json + narration.mp3</span>
+cd remotion_app
+npm install                              <span class="c"># remotion@4.0.532（已装可跳过）</span>
+npx remotion render src/index.ts DeepDive out/demo.mp4 --props=../output/props.json
+python ../ex4_cost.py                    <span class="c"># 成本账单 → output\ex4_cost_report.json</span></div>
+  <p><span class="big">文章给新人的三条起步建议（完全适配本仓库玩家）：</span></p>
+  <table>
+    <tr><td><b>① 不要从宏大叙事开始</b></td><td>第一期选你本来就很熟的小领域——只有你足够懂，才能一眼看出 AI 在哪瞎编、逻辑在哪断层，才下得出精准修改指令</td></tr>
+    <tr><td><b>② 完整死磕出一期 demo</b></td><td>抓题→大纲→卡片→音画→审片，闭环完整走通一次（本实验就是这条闭环的离线微缩版）</td></tr>
+    <tr><td><b>③ 沉淀自己的规范</b></td><td>把踩过的坑提炼成 1~2 条硬核验收标准，写回底层 Skill——这正是本仓库 [[AgentSkills技能包]] + [[质检Gate与自我纠错循环]] 的日常</td></tr>
+  </table>
+  <div class="warn"><b>待续彩蛋：</b>作者预告下篇会<span class="hl">开源整套制作 Skill 源码</span>并附真实视频的生产工程文件（"调查材料怎么注入口播稿、配音字幕零误差同步、合成参数调优"）。等开源后值得回炉做补充篇，对拍本文的五阀评分器与分步交付设计。</div>
+</div>
+
+<!-- 能力清单 -->
+<h2 class="q" style="background:#12263a;"><span class="qn">+</span>这套东西给我什么能力清单</h2>
+<div class="card">
+  <table>
+    <tr><th>能力</th><th>你能拿来干什么</th></tr>
+    <tr><td>五阀评分器（ex1 可直接改）</td><td>任何内容选题（公众号/视频号/B 站）开工前的自动质检；把 EMO_WORDS 与事实计数规则换成你的赛道口径即可</td></tr>
+    <tr><td>分句 TTS 时间轴（ex2）</td><td>任何"配音驱动画面"的产物：课程视频、产品讲解、播客切片；换 voice 参数即换主播</td></tr>
+    <tr><td>Remotion 数据驱动渲染（ex3）</td><td>批量产视频模板：改 props.json 换文案配色，一条命令出新片；数据大屏、财报解读卡同理</td></tr>
+    <tr><td>成本-产量模型（ex4）</td><td>评估任何订阅制 AI 工具的真实单件成本，倒推"该不该上 Max 档"</td></tr>
+    <tr><td>《核心事实卡》纪律</td><td>任何公开内容创作的合规护甲：观点↔信源↔时间戳三挂钩</td></tr>
+  </table>
+</div>
+
+<div class="footer">
+  拾遗任务 f4c63060 · 来源 X @HanZhang415188（Simon聊AI）2026-09-18 长文《用 AI 做热点长视频：单条 108 万播放，3 天涨粉近万的实操复盘》· api.fxtwitter.com 镜像解析全文 184 blocks · 2026-10-03 生成<br>
+  实验：ex1 五阀评分（好 5/5 PASS / 坏 5/5 否决）· ex2 edge-tts 5 句 30.38s 时间轴 · ex3 Remotion 1002 帧真渲染 2.9MB · ex4 成本复算吻合 · 全部真实运行无编造 · 知识入库：React逐帧视频渲染 / 质量标准死卡与执行手段放开 / 无约束实验与经验格式化 / 情绪脱水测试
+</div>
+
+</body>
+</html>
