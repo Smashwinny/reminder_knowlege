@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>果蝇大脑开无人机</title>
+<style>
+:root{
+  --c1:#7C3AED; --c1l:#EDE9FE;
+  --c2:#0891B2; --c2l:#CFFAFE;
+  --c3:#EA580C; --c3l:#FFEDD5;
+  --c4:#DB2777; --c4l:#FCE7F3;
+  --c5:#16A34A; --c5l:#DCFCE7;
+  --c6:#CA8A04; --c6l:#FEF9C3;
+  --ink:#1E1B4B; --paper:#FFFFFF; --soft:#F8FAFC;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+@page{size:A4; margin:12mm 11mm;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--paper); font-size:10.5pt; line-height:1.62;}
+.cover{background:linear-gradient(135deg,var(--c1) 0%,var(--c4) 55%,var(--c3) 100%); color:#fff; border-radius:14px; padding:34px 30px; margin-bottom:16px;}
+.cover h1{font-size:30pt; letter-spacing:1px; margin-bottom:8px;}
+.cover .sub{font-size:12pt; opacity:.95; margin-bottom:14px;}
+.cover .chips span{display:inline-block; background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.5); border-radius:999px; padding:2px 12px; margin:3px 4px 0 0; font-size:9pt;}
+.cover .big{margin-top:14px; font-size:13pt; font-weight:bold; background:rgba(255,255,255,.16); border-left:6px solid #FDE047; padding:8px 12px; border-radius:0 8px 8px 0;}
+.card{border-radius:12px; padding:16px 18px; margin:0 0 14px; break-inside:avoid; border:2px solid;}
+.card.q1{border-color:var(--c1); background:#FDFCFF;}
+.card.q2{border-color:var(--c2); background:#FCFFFF;}
+.card.q3{border-color:var(--c3); background:#FFFEFC;}
+.card.q4{border-color:var(--c4); background:#FEFCFF;}
+.card.q5{border-color:var(--c5); background:#FCFFFD;}
+.card.q6{border-color:var(--c6); background:#FFFEFA;}
+.qhead{display:flex; align-items:flex-start; gap:12px; margin-bottom:8px;}
+.qnum{flex:0 0 auto; font-size:26pt; font-weight:900; line-height:1;}
+.q1 .qnum{color:var(--c1);} .q2 .qnum{color:var(--c2);} .q3 .qnum{color:var(--c3);}
+.q4 .qnum{color:var(--c4);} .q5 .qnum{color:var(--c5);} .q6 .qnum{color:var(--c6);}
+.qtitle{font-size:13.5pt; font-weight:800; padding-top:4px;}
+.qbody p{margin:5px 0;}
+.hl{font-weight:800; padding:0 3px; border-radius:3px;}
+.q1 .hl{background:var(--c1l); color:var(--c1);} .q2 .hl{background:var(--c2l); color:var(--c2);}
+.q3 .hl{background:var(--c3l); color:var(--c3);} .q4 .hl{background:var(--c4l); color:var(--c4);}
+.q5 .hl{background:var(--c5l); color:var(--c5);} .q6 .hl{background:var(--c6l); color:var(--c6);}
+.term{font-weight:700; border-bottom:2px dotted currentColor;}
+code,.cmd{font-family:Consolas,"Courier New",monospace; font-size:9pt; background:#0F172A; color:#7DD3FC; border-radius:5px; padding:1px 6px;}
+.cmdblock{background:#0F172A; color:#E2E8F0; border-radius:8px; padding:9px 12px; margin:7px 0; font-family:Consolas,monospace; font-size:8.8pt; line-height:1.5; white-space:pre-wrap; word-break:break-all;}
+.cmdblock .cm{color:#94A3B8;} .cmdblock .ok{color:#4ADE80;}
+svg{display:block; margin:8px auto;}
+.tbl{width:100%; border-collapse:collapse; margin:7px 0; font-size:9.5pt;}
+.tbl th{color:#fff; padding:5px 8px; text-align:left;}
+.tbl td{padding:4px 8px; border-bottom:1px solid #E2E8F0;}
+.tbl tr:nth-child(even) td{background:var(--soft);}
+.t1 th{background:var(--c1);} .t2 th{background:var(--c2);} .t3 th{background:var(--c3);} .t4 th{background:var(--c4);}
+.callout{border-radius:9px; padding:9px 13px; margin:8px 0; font-size:9.8pt; border-left:6px solid;}
+.co-warn{background:#FEF2F2; border-color:#DC2626;}
+.co-good{background:#F0FDF4; border-color:#16A34A;}
+.co-note{background:#EFF6FF; border-color:#2563EB;}
+.co-fact{background:#FEFCE8; border-color:#CA8A04;}
+.exp{border-radius:12px; border:3px solid var(--c5); background:#F7FEF9; padding:15px 18px; margin:0 0 14px; break-inside:avoid;}
+.exp h3{color:var(--c5); font-size:13pt; margin-bottom:6px;}
+.step{background:#fff; border:1.5px solid #BBF7D0; border-radius:9px; padding:9px 13px; margin:7px 0;}
+.step b.st{color:var(--c5);}
+.expect{background:#ECFDF5; border:2px dashed var(--c5); border-radius:8px; padding:7px 12px; margin:6px 0; font-size:9.6pt;}
+.expect b{color:var(--c5);}
+.sect{background:linear-gradient(90deg,var(--c1),var(--c4)); color:#fff; border-radius:10px; padding:10px 18px; font-size:15pt; font-weight:900; margin:18px 0 12px; break-inside:avoid;}
+.foot{margin-top:16px; padding-top:10px; border-top:3px solid var(--c1); font-size:8.8pt; color:#64748B;}
+.abl{display:flex; gap:8px; flex-wrap:wrap; margin:6px 0;}
+.abl div{border-radius:8px; padding:5px 10px; font-size:9pt; font-weight:700;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>果蝇大脑开无人机 🪰🚁</h1>
+  <div class="sub">FlyWire 全脑连接组 × LIF 脉冲仿真 × 零训练控制 —— 硬核开源实验完全拆解</div>
+  <div class="chips">
+    <span>FlyWire v783 连接组</span><span>138,639 个神经元</span><span>Shiu et al. 2024 Nature</span>
+    <span>零训练 · 零飞行代码</span><span>ClutchMedia775/fly-brain-drone</span><span>3 个本地实验真跑通</span>
+  </div>
+  <div class="big">一句话：把果蝇大脑里 14 万个神经元之间的"接线图"原样搬进电脑，接上一个仿真四旋翼——<span style="color:#FDE047;">不训练任何参数，大脑自己就学会了躲障碍。</span></div>
+</div>
+
+<div class="sect">疑问清单（12 问，从"这是真的吗"到"我自己能不能跑"）</div>
+
+<!-- Q1 -->
+<div class="card q1">
+  <div class="qhead"><div class="qnum">01</div><div class="qtitle">"果蝇大脑开无人机"是真的吗？到底是什么开了无人机？</div></div>
+  <div class="qbody">
+    <p>先说结论：<span class="hl">是真的，但开的是"仿真里的无人机"，不是天上飞的真机</span>。抖音这条视频（作者"阿博粒"）讲的硬核实验，源头是 2026 年 9 月海外开发者圈刷屏的一组工作：开发者在 X（推特）上展示"果蝇的连接组控制 FPV 无人机仿真——保持低空飞行，并主动躲开它看到的一切障碍"；随后开源社区出现了完整复刻仓库 <code>ClutchMedia775/fly-brain-drone</code>，README 第一句就是：<b>"果蝇大脑的完整接线图（FlyWire v783，138,639 个神经元、5400 万突触）作为脉冲 LIF 网络运行，接上一台仿真四旋翼。不训练任何参数。"</b></p>
+    <p>三个关键词把这事钉死：<span class="term">零训练</span>（没有任何参数被梯度更新过）、<span class="term">零飞行代码</span>（没有"见到障碍就左转"这种 if-else）、<span class="term">真实布线</span>（神经网络的每一个连接都来自真实果蝇大脑的重建数据）。"会躲障碍"不是写出来的，也不是练出来的，而是<b>从布线里涌现的</b>。</p>
+    <div class="callout co-note">🏠 类比你熟悉的东西：这就像把别人家已经布好线的整栋配电盘原样搬到自己家，通上电灯泡就亮——你没写任何"开灯逻辑"，灯亮是因为<b>线本来就是那么接的</b>。</div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="card q2">
+  <div class="qhead"><div class="qnum">02</div><div class="qtitle">"连接组"是什么？FlyWire 又是什么？14 万个神经元怎么数清楚的？</div></div>
+  <div class="qbody">
+    <p><span class="term">连接组（Connectome）</span>= 一个大脑里<b>所有神经元之间的全部连接关系</b>，相当于大脑的"完整电路图"。拿到它要把果蝇大脑切成上万张纳米级切片、用电镜成像、再用算法+人力把每个神经元的每一段轮廓描出来。</p>
+    <p><span class="term">FlyWire</span> 是普林斯顿大学牵头的国际合作项目，2024 年发布成年黑腹果蝇（雌性）全脑连接组公开版 <span class="hl">v783：138,639 个神经元</span>，配套的细胞类型标注由 Schlegel et al. 2024 完成。这条数据链是整个"果蝇开无人机"的地基——<b>没有 FlyWire，一切免谈</b>。后来又有雄性全连接组 <span class="term">MaleCNS v1.0</span>，无人机仓库用它做了第二套大脑的复刻验证。</p>
+    <p>我的实验一直接打开了这个数据文件：<b>Completeness_783.csv 里不多不少正好 138,639 行</b>，连接表 Connectivity_783.parquet 有 15,091,983 条聚合连接记录（"54M 突触"是切片级原始计数，15M 是按"神经元对+神经递质"聚合后的条目口径——<span class="hl">同一个大脑，两种数法</span>）。</p>
+    <div class="callout co-fact">📄 数据许可：FlyWire 连接组 CC BY 4.0，模型代码开源（philshiu/Drosophila_brain_model，360★）。这正是"一篇 Nature 论文 + 开源代码"能长出一整个玩家生态的原因。</div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="card q3">
+  <div class="qhead"><div class="qnum">03</div><div class="qtitle">有了电路图，怎么让大脑"跑"起来？LIF 神经元是什么？</div></div>
+  <div class="qbody">
+    <p>连接组是静态的图，要"活"起来需要给每个神经元一个动力学模型。这个项目用的是最经典的 <span class="term">LIF（Leaky Integrate-and-Fire，泄漏积分发放）神经元</span>。想象一个<b>会漏水的杯子</b>：</p>
+    <svg width="640" height="170" viewBox="0 0 640 170">
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#334155"/></marker></defs>
+      <rect x="20" y="30" width="90" height="100" rx="10" fill="#FFEDD5" stroke="#EA580C" stroke-width="3"/>
+      <text x="65" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#EA580C">进水 g</text>
+      <text x="65" y="108" text-anchor="middle" font-size="9" fill="#9A3412">上游尖峰</text>
+      <path d="M120,80 L185,80" stroke="#334155" stroke-width="3" marker-end="url(#ar)"/>
+      <rect x="195" y="15" width="120" height="130" rx="12" fill="#CFFAFE" stroke="#0891B2" stroke-width="3"/>
+      <path d="M225,25 L225,135 M255,25 L255,135 M285,25 L285,135" stroke="#67E8F9" stroke-width="4" stroke-dasharray="6 5"/>
+      <text x="255" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#0E7490">膜电位 v</text>
+      <text x="255" y="90" text-anchor="middle" font-size="9" fill="#0E7490">往静息值漏</text>
+      <text x="255" y="106" text-anchor="middle" font-size="9" fill="#0E7490">(t_mbr=20ms)</text>
+      <path d="M325,80 L385,80" stroke="#334155" stroke-width="3" marker-end="url(#ar)"/>
+      <path d="M395,95 q20,-60 40,0" stroke="#DB2777" stroke-width="3" fill="none"/>
+      <line x1="390" y1="55" x2="440" y2="55" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="6 4"/>
+      <text x="415" y="46" text-anchor="middle" font-size="10" font-weight="bold" fill="#DC2626">阈值 -45mV</text>
+      <path d="M445,80 L505,80" stroke="#334155" stroke-width="3" marker-end="url(#ar)"/>
+      <path d="M515,45 l14,0 l0,-14 l8,0 M515,45 l10,0 M515,45 l0,-10" stroke="#16A34A" stroke-width="4" fill="none"/>
+      <text x="560" y="40" font-size="12" font-weight="bold" fill="#16A34A">发放!</text>
+      <text x="560" y="60" font-size="9" fill="#15803D">重置回 -52mV</text>
+      <text x="560" y="76" font-size="9" fill="#15803D">不应期 2.2ms</text>
+      <text x="560" y="92" font-size="9" fill="#15803D">再向下游传</text>
+      <text x="320" y="163" text-anchor="middle" font-size="10" fill="#475569">突触延迟 1.8ms ｜ 参数出处：Kakaria 2017 / Jürgensen 2021 / Lazar 2021 / Paul 2015</text>
+    </svg>
+    <p>每个神经元记两个数：<span class="term">膜电位 v</span>（水位）和 <span class="term">突触电流 g</span>（刚倒进来的水）。水往上加、同时往"静息电位 −52mV"漏；碰到阈值 −45mV 就<b>发放一个尖峰</b>，然后清零重来，还有 2.2ms 不应期。整颗大脑 13 万个这样的杯子，按 FlyWire 的接线互相倒水——这就是全脑仿真。</p>
+    <div class="callout co-warn">⚠️ 我实验二踩的第一个坑就出在这：模型里有<b>两个</b>时间常数——<code>t_mbr=20ms</code> 管"水位怎么漏"，<code>tau=5ms</code> 管"刚倒进来的水怎么消失"。混用其中任何一个，整颗大脑直接静默。读参数要读<b>每一行用在哪个变量上</b>。</div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="card q4">
+  <div class="qhead"><div class="qnum">04</div><div class="qtitle">为什么完全不用训练？神经网络的"权重"从哪来？</div></div>
+  <div class="qbody">
+    <p>深度学习里权重靠梯度下降练出来；这里权重<b>直接照抄上帝的接线图</b>：</p>
+    <svg width="640" height="128" viewBox="0 0 640 128">
+      <rect x="15" y="18" width="180" height="92" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2.5"/>
+      <text x="105" y="45" text-anchor="middle" font-size="12" font-weight="bold" fill="#5B21B6">FlyWire 连接表</text>
+      <text x="105" y="66" text-anchor="middle" font-size="9.5" fill="#6D28D9">Connectivity = 突触条数</text>
+      <text x="105" y="84" text-anchor="middle" font-size="9.5" fill="#6D28D9">Excitatory = ±1 递质极性</text>
+      <path d="M200,64 L268,64" stroke="#334155" stroke-width="3" marker-end="url(#ar)"/>
+      <text x="234" y="54" text-anchor="middle" font-size="9" fill="#475569">查表</text>
+      <rect x="275" y="18" width="170" height="92" rx="10" fill="#FCE7F3" stroke="#DB2777" stroke-width="2.5"/>
+      <text x="360" y="45" text-anchor="middle" font-size="12" font-weight="bold" fill="#9D174D">突触权重 w</text>
+      <text x="360" y="66" text-anchor="middle" font-size="9.5" fill="#BE185D">w = 突触条数 × 0.275mV</text>
+      <text x="360" y="84" text-anchor="middle" font-size="9.5" fill="#BE185D">兴奋 + / 抑制 −</text>
+      <path d="M450,64 L518,64" stroke="#334155" stroke-width="3" marker-end="url(#ar)"/>
+      <text x="484" y="54" text-anchor="middle" font-size="9" fill="#475569">装配</text>
+      <rect x="525" y="18" width="100" height="92" rx="10" fill="#DCFCE7" stroke="#16A34A" stroke-width="2.5"/>
+      <text x="575" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#166534">13.9万神经元</text>
+      <text x="575" y="72" text-anchor="middle" font-size="9.5" fill="#15803D">1500万条边</text>
+      <text x="575" y="90" text-anchor="middle" font-size="9.5" fill="#15803D">的活大脑</text>
+    </svg>
+    <p>连接强（突触多）权重就大；<span class="term">神经递质极性</span>决定符号——兴奋性（如乙酰胆碱）记 +1，抑制性（如 GABA）记 −1。这三个信息<b>全部来自对真实组织的测量，不含任何学习</b>。</p>
+    <p>这也是为什么唯一有说服力的对照实验是<span class="hl">打乱布线（shuffle）</span>：每条突触保留自己的强度和符号，只把"接到哪"随机换掉。如果行为真来自布线，打乱后行为应当消失。实验三里官方 n=20 数据完全验证了这一点。</p>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="card q5">
+  <div class="qhead"><div class="qnum">05</div><div class="qtitle">"刺激几个神经元 → 果蝇想吃糖"是怎么发生的？</div></div>
+  <div class="qbody">
+    <p>Shiu et al. 2024（Nature）论文的招牌例子：人工激活 21 个<span class="term">糖感知神经元</span>（模拟"尝到糖"），全脑仿真跑 1 秒，看<span class="term">MN9 运动神经元</span>（管伸喙进食动作）的反应——论文用它证明这个粗糙的 LIF 模型能复现真实的感知运动通路。</p>
+    <p>我在实验二里用 numpy 手写了同一套 LIF 动力学，把 127,400 个神经元（论文用的 v630 版连接组）整个跑起来：</p>
+    <svg width="640" height="150" viewBox="0 0 640 150">
+      <circle cx="90" cy="75" r="38" fill="#FEF9C3" stroke="#CA8A04" stroke-width="3"/>
+      <text x="90" y="70" text-anchor="middle" font-size="11" font-weight="bold" fill="#854D0E">21 个糖感知</text>
+      <text x="90" y="88" text-anchor="middle" font-size="9" fill="#854D0E">Poisson 150Hz 驱动</text>
+      <path d="M132,60 C210,30 300,35 380,62" stroke="#CA8A04" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+      <text x="255" y="34" text-anchor="middle" font-size="9.5" fill="#854D0E">286 个 1-hop 中转（实测直接突触 = 0）</text>
+      <path d="M380,75 L430,75" stroke="#334155" stroke-width="3" marker-end="url(#ar)"/>
+      <circle cx="495" cy="75" r="38" fill="#DCFCE7" stroke="#16A34A" stroke-width="3"/>
+      <text x="495" y="70" text-anchor="middle" font-size="11" font-weight="bold" fill="#166534">MN9</text>
+      <text x="495" y="88" text-anchor="middle" font-size="9" fill="#166534">进食运动神经元</text>
+      <rect x="545" y="40" width="82" height="72" rx="8" fill="#0F172A"/>
+      <text x="586" y="66" text-anchor="middle" font-size="15" font-weight="bold" fill="#4ADE80">102 Hz</text>
+      <text x="586" y="84" text-anchor="middle" font-size="8.5" fill="#94A3B8">真实布线实测</text>
+      <text x="586" y="100" text-anchor="middle" font-size="8.5" fill="#F87171">打乱布线 0 Hz</text>
+    </svg>
+    <p>结果：基线（不刺激）0 Hz → 刺激 + 真实布线 <span class="hl">MN9 每秒发放 102 次</span> → 刺激 + 打乱布线 <span class="hl">0 次</span>。<b>信号能从"尝到糖"流到"伸出喙"，靠的就是那 59 条特定的两跳连接。</b></p>
+    <div class="callout co-note">🔍 一个反直觉发现：糖感知神经元到 MN9 的<b>直接突触是 0 条</b>（实验一实测），全靠 286 个中转神经元接力；而且把布线打乱后"两跳内可达 MN9"的概率依然是 20/20——因为这张网太密了，谁都能绕到谁。<span class="hl">布线的特异性不在"能不能到达"，而在"连接有多强"</span>。这正是 shuffle 对照必须保留强度的原因。</div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="card q6">
+  <div class="qhead"><div class="qnum">06</div><div class="qtitle">无人机"看到的画面"怎么变成大脑的输入？looming 检测是什么？</div></div>
+  <div class="qbody">
+    <p>仿真里无人机摄像头看到的障碍物，被解析成两组视觉神经元的激活频率（<span class="term">解析视网膜</span>，不开真摄像头也能算）：</p>
+    <p>① <span class="term">looming 检测</span>：<b>东西在视野里越来越大 = 要撞上了</b>。果蝇大脑里真有专管这事的回路——LPLC2 神经元只对"放大的运动"起反应，直接连到<span class="term">巨纤维（Giant Fiber, DNp01）</span>逃逸通路。仿真喂给它逼近物体，它就亮。</p>
+    <p>② <span class="term">旋转光流</span>：整个视野往一个方向流 = 自己被风吹歪了。果蝇用 T4/T5 等运动检测神经元做<span class="term">光模反应（optomotor）</span>自动回正——仿真喂给它旋转光流，无人机就稳住偏航。</p>
+    <svg width="640" height="120" viewBox="0 0 640 120">
+      <circle cx="80" cy="60" r="30" fill="none" stroke="#64748B" stroke-width="2" stroke-dasharray="5 4"/>
+      <circle cx="80" cy="60" r="16" fill="#EA580C" opacity=".85"/>
+      <path d="M140,60 L200,60" stroke="#334155" stroke-width="3" marker-end="url(#ar)"/>
+      <text x="170" y="48" text-anchor="middle" font-size="9" fill="#475569">越来越大</text>
+      <rect x="210" y="28" width="130" height="64" rx="9" fill="#FFEDD5" stroke="#EA580C" stroke-width="2.5"/>
+      <text x="275" y="55" text-anchor="middle" font-size="11" font-weight="bold" fill="#9A3412">LPLC2 视觉神经元</text>
+      <text x="275" y="74" text-anchor="middle" font-size="9" fill="#9A3412">只认"放大"的运动</text>
+      <path d="M345,60 L400,60" stroke="#334155" stroke-width="3" marker-end="url(#ar)"/>
+      <rect x="408" y="28" width="120" height="64" rx="9" fill="#FCE7F3" stroke="#DB2777" stroke-width="2.5"/>
+      <text x="468" y="55" text-anchor="middle" font-size="11" font-weight="bold" fill="#9D174D">巨纤维 DNp01</text>
+      <text x="468" y="74" text-anchor="middle" font-size="9" fill="#9D174D">逃逸通路</text>
+      <path d="M533,60 L575,60" stroke="#334155" stroke-width="3" marker-end="url(#ar)"/>
+      <rect x="580" y="30" width="48" height="60" rx="8" fill="#DCFCE7" stroke="#16A34A" stroke-width="2.5"/>
+      <text x="604" y="58" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#166534">躲!</text>
+      <text x="604" y="74" text-anchor="middle" font-size="8.5" fill="#166534">爬升</text>
+    </svg>
+    <p>实测：威胁从 az+30° 来时，有脑试次在 <span class="hl">0.12 秒</span>内下行神经元开始响应，转向指令峰值 1.00、逃逸爬升 0.88；<b>无脑对照全部为 0</b>（实验三实查逐帧日志）。</p>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="card q1">
+  <div class="qhead"><div class="qnum">07</div><div class="qtitle">大脑的"决定"怎么变成无人机动作？整条链路长什么样？</div></div>
+  <div class="qbody">
+    <svg width="680" height="200" viewBox="0 0 680 200">
+      <rect x="10" y="30" width="105" height="120" rx="10" fill="#FEF9C3" stroke="#CA8A04" stroke-width="2.5"/>
+      <text x="62" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#854D0E">解析视网膜</text>
+      <text x="62" y="82" text-anchor="middle" font-size="9" fill="#854D0E">looming 逼近率</text>
+      <text x="62" y="98" text-anchor="middle" font-size="9" fill="#854D0E">旋转光流</text>
+      <text x="62" y="118" text-anchor="middle" font-size="9" fill="#854D0E">→ Poisson 频率</text>
+      <path d="M120,90 L165,90" stroke="#334155" stroke-width="3" marker-end="url(#ar)"/>
+      <rect x="172" y="18" width="150" height="145" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="3"/>
+      <text x="247" y="46" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#5B21B6">FlyWire 全脑 LIF</text>
+      <text x="247" y="66" text-anchor="middle" font-size="9.5" fill="#6D28D9">138,639 神经元</text>
+      <text x="247" y="82" text-anchor="middle" font-size="9.5" fill="#6D28D9">1500 万条突触</text>
+      <text x="247" y="98" text-anchor="middle" font-size="9.5" fill="#6D28D9">Brian2 每 20ms 一拍</text>
+      <text x="247" y="118" text-anchor="middle" font-size="9.5" fill="#6D28D9">零训练 · 零参数</text>
+      <text x="247" y="140" text-anchor="middle" font-size="8.5" fill="#7C3AED">3.5s 飞行≈20s 墙钟(桌面机)</text>
+      <path d="M327,90 L372,90" stroke="#334155" stroke-width="3" marker-end="url(#ar)"/>
+      <rect x="379" y="30" width="118" height="120" rx="10" fill="#FCE7F3" stroke="#DB2777" stroke-width="2.5"/>
+      <text x="438" y="58" text-anchor="middle" font-size="11" font-weight="bold" fill="#9D174D">下行神经元</text>
+      <text x="438" y="76" text-anchor="middle" font-size="9" fill="#BE185D">DNp01 巨纤维→逃逸</text>
+      <text x="438" y="92" text-anchor="middle" font-size="9" fill="#BE185D">DNa01/02 DNb01→转向</text>
+      <text x="438" y="108" text-anchor="middle" font-size="9" fill="#BE185D">DNg02 翅幅 DNp03/11</text>
+      <text x="438" y="124" text-anchor="middle" font-size="9" fill="#BE185D">数两拍间尖峰个数</text>
+      <path d="M502,90 L540,90" stroke="#334155" stroke-width="3" marker-end="url(#ar)"/>
+      <rect x="546" y="30" width="118" height="120" rx="10" fill="#CFFAFE" stroke="#0891B2" stroke-width="2.5"/>
+      <text x="605" y="58" text-anchor="middle" font-size="11" font-weight="bold" fill="#0E7490">Bridge 桥接</text>
+      <text x="605" y="76" text-anchor="middle" font-size="9" fill="#0E7490">DN 发放率→转向/爬升</text>
+      <text x="605" y="92" text-anchor="middle" font-size="9" fill="#0E7490">符号照抄果蝇生理学</text>
+      <text x="605" y="112" text-anchor="middle" font-size="8.5" fill="#0891B2">唯一"工程化"的环节</text>
+      <text x="605" y="130" text-anchor="middle" font-size="8.5" fill="#DC2626">(诚实标注!)</text>
+      <path d="M330,168 L330,190 M0,0" stroke="none"/>
+      <rect x="120" y="172" width="544" height="24" rx="7" fill="#DCFCE7" stroke="#16A34A" stroke-width="2"/>
+      <text x="392" y="188" text-anchor="middle" font-size="10" font-weight="bold" fill="#166534">→ 自驾仪(姿态/高度内环，代行果蝇"脊髓"职能) → 6 自由度四旋翼 → 躲开障碍</text>
+    </svg>
+    <p>要注意这条链上<b>唯一不是来自果蝇的环节</b>：DN 发放率到舵量的换算（Bridge）是工程化线性读出——但它的<b>符号约定</b>全部照抄果蝇电生理记录（同侧 DNa02 激活→同侧转向等），并且作者做了<span class="hl">读出消融实验</span>证明结论不依赖读出细节（见第 8 问）。这种"哪段是仿真生物、哪段是工程"的诚实标注，正是硬核实验和流量玄学的分界线。</p>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="card q2">
+  <div class="qhead"><div class="qnum">08</div><div class="qtitle">怎么证明是"大脑在开"，而不是碰巧？</div></div>
+  <div class="qbody">
+    <p>仓库作者设计了<b>四组对照 × 每组 20 次飞行</b>，我逐一从原始飞行日志里复核过（实验三）：</p>
+    <table class="tbl t2">
+      <tr><th>条件</th><th>含义</th><th>平均最近距离</th><th>95% CI</th><th>逃避成功率</th></tr>
+      <tr><td><b>real</b></td><td>真实 FlyWire 布线</td><td><b>1.89 m</b></td><td>[1.85, 1.94]</td><td><b>100%</b></td></tr>
+      <tr><td>shuffle1</td><td>保强度换目标(种子1)</td><td>0.59 m</td><td>[0.33, 0.81]</td><td>50%</td></tr>
+      <tr><td>shuffle2 / shuffle3</td><td>同上(种子2/3)</td><td>0.00 m</td><td>[0, 0]</td><td>0%</td></tr>
+      <tr><td>rand1~3</td><td>随机网络+随机读出</td><td>0.18~0.86 m</td><td>均不达标</td><td>50%/0%/50%</td></tr>
+      <tr><td>nobrain</td><td>大脑断开</td><td>0.00 m（撞毁）</td><td>[0, 0]</td><td>0%</td></tr>
+    </table>
+    <p><span class="hl">真布线显著甩开一切随机对照，置信区间完全不重叠</span>。再叠加单变量消融：摘掉任何一个下行神经元（哪怕摘掉巨纤维 DNp01）避障照样成立（1.81~2.06m）——说明行为<b>不是某一根"神线"撑起来的</b>，而是分布式的；只有把全部转向读出摘掉，min_dist 才掉到 0.85m、转向指令归零。结论的鲁棒性做得很扎实。</p>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="card q3">
+  <div class="qhead"><div class="qnum">09</div><div class="qtitle">我自己能跑吗？需要什么环境？</div></div>
+  <div class="qbody">
+    <p>官方路线：conda + Brian2（带 Cython 加速）+ 16GB 内存，把 <code>sim/</code> 拷进模型仓库跑；i7-12700F 上 3.5 秒的全脑飞行约 20 秒墙钟。想完整复刻无人机飞行需要这条路线（Linux/WSL2）。</p>
+    <p>我这次没装 conda，于是走了<span class="hl">零依赖路线</span>：pandas/numpy 读真实连接组 + 手写 LIF 复刻动力学 + 直接取证仓库自带的飞行日志——三个实验照样把核心结论全部验证了一遍（见实验手册）。<b>结论没打折，还顺手踩出了三个官方文档没写的坑</b>。</p>
+    <div class="callout co-good">✅ 已实测环境：Python 3.14 + pandas 3.0.6 / numpy 2.5.3 / pyarrow 25.0.1，PYTHONUTF8=1；128k 神经元全脑 1 秒仿真约 23 秒（纯 CPU 单进程 numpy）。Brian2 完整版留给 WSL2 环境。</div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="card q4">
+  <div class="qhead"><div class="qnum">10</div><div class="qtitle">所以……"果蝇大脑被上传了"？91% 是什么意思？</div></div>
+  <div class="qbody">
+    <p>自媒体标题党说"果蝇大脑被完整上传，行为准确率 91%"。<span class="hl">91% 的真实含义是：模型预测的神经响应与真实果蝇测量吻合的比例</span>，不是"行为复刻率"，更不是"上传成功"。</p>
+    <p>冷静派（如 LessWrong《No, we haven't uploaded a fly yet》）的批评有四条，条条成立：① LIF 是粗糙简化——真实神经元有树突计算、离子通道动力学、神经调质；② 只有静态连接，缺神经调节状态；③ 无人机行为里的读出层是工程化的，行为好不等于大脑"懂"了飞行；④ 连接组是"死果蝇的解剖"，没有可塑性。</p>
+    <p>更准确的定位是：<span class="hl">这是"连接组驱动的感知运动仿真"——从接线图预测功能的里程碑，但离数字生命还差几个数量级</span>。看懂这个边界，比看懂"会开无人机"本身更有价值。</p>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="card q5">
+  <div class="qhead"><div class="qnum">11</div><div class="qtitle">这个开源生态还有哪些能玩的？</div></div>
+  <div class="qbody">
+    <table class="tbl t4">
+      <tr><th>项目</th><th>亮点</th><th>适合</th></tr>
+      <tr><td>philshiu/Drosophila_brain_model (360★)</td><td>Shiu 2024 官方模型，v630/v783 连接组自带</td><td>想跑论文原始实验</td></tr>
+      <tr><td>ClutchMedia775/fly-brain-drone</td><td>本次主角：连接组开四旋翼 + 完整对照组数据</td><td>理解全链路 + 取证复现</td></tr>
+      <tr><td>erojasoficial-byte/fly-brain (65★)</td><td>全脑仿真 + NeuroMechFly/MuJoCo 生物力学身体：走、理毛、逃逸</td><td>想看"具身"行为</td></tr>
+      <tr><td>vaibhavkedarisetti/fruit-fly-lab (25★)</td><td>浏览器交互式养果蝇</td><td>零门槛体验</td></tr>
+      <tr><td>mikewolak/flysim / Kisame76/drosophila-brain-mlx</td><td>Apple Silicon Metal GPU / MLX 加速版</td><td>Mac 用户</td></tr>
+      <tr><td>MaleCNS v1.0</td><td>雄果蝇全连接组，无人机仓库用它二次复刻</td><td>跨数据集验证</td></tr>
+    </table>
+    <p>开发者圈的延伸玩法还包括：果蝇视觉环路上 FPV 遥控（c10ned 系列）、把全脑模型接大语言模型当"聊天对象"、连接组规模 SNN 能耗基准等——<span class="hl">一篇连接组论文正在长成一个开源游戏引擎级的生态</span>。</p>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="card q6">
+  <div class="qhead"><div class="qnum">12</div><div class="qtitle">这件事对我这个工科生，真正值得带走的是什么？</div></div>
+  <div class="qbody">
+    <p>① <span class="hl">"先查证再转发"的完整示范</span>：从一条抖音短视频出发，一路钉到 Nature 论文、360★ 官方代码、15M 行连接组数据、逐帧飞行日志——热点视频的每一句夸张说法都能被原始数据检验。</p>
+    <p>② <span class="hl">对照实验设计模板</span>：real / shuffle / rand / nobrain 四组对照 + n=20 + 置信区间 + 消融，这套"怎么证明是你的机制在起作用"的方法论，可以直接搬到任何 AI 系统评测（与 [[质检Gate与自我纠错循环]]、[[证据优先质检ProofOverClaims]] 同一血统）。</p>
+    <p>③ <span class="hl">涌现的直觉</span>：不需要训练、不需要规则，"接线对 + 动力学对"就能出功能——对理解大模型为什么"会"做事是很好的对照物。</p>
+    <p>④ <span class="hl">量级感</span>：14 万神经元在笔记本上毫秒级拍点可跑；人脑 860 亿神经元，直接差 8 个数量级——为什么"上传大脑"还早，心里有数了。</p>
+  </div>
+</div>
+
+<div class="sect">动手实验手册（三个实验，全部真机运行验证过）</div>
+
+<div class="exp">
+  <h3>实验一：解剖 138,639 个神经元的连接组</h3>
+  <div class="step"><b class="st">步骤 1</b> ｜ <b>操作</b>：<div class="cmdblock">git clone https://github.com/philshiu/Drosophila_brain_model repo   <span class="cm"># 371MB, 自带 v630/v783 连接组</span>
+git clone https://github.com/ClutchMedia775/fly-brain-drone drone_repo <span class="cm"># 17MB, 仿真代码+飞行日志</span></div>
+  <b>目的</b>：拿到原始连接组数据和无人机仿真代码。<b>实现</b>：两个仓库克隆成功（模型仓库 HEAD 91bdd1e，无人机仓库 d017a6c）。</div>
+  <div class="step"><b class="st">步骤 2</b> ｜ <b>操作</b>：<code>python -X utf8 ex1_connectome_dissect.py</code> ／ <b>目的</b>：亲手数清"大脑里有什么"。</div>
+  <div class="expect">✅ <b>预期结果（实测）</b>：v783 神经元总数 = <b>138,639</b>（与 README 逐字一致）；连接条目 15,091,983；突触权重合计 10,496,512；中位出度 124 / 中位入度 14；<b>糖感知→MN9 直接突触 = 0 条</b>，经 286 个中转 2 跳可达；打乱布线 20/20 仍 2 跳可达 → <b>布线特异性在强度不在可达性</b>。</div>
+</div>
+
+<div class="exp">
+  <h3>实验二：numpy 手写 127,400 神经元全脑 LIF 仿真</h3>
+  <div class="step"><b class="st">步骤 1</b> ｜ <b>操作</b>：<code>python -X utf8 ex2_mini_brain_lif.py</code> ／ <b>目的</b>：不装 Brian2，把论文动力学原样复刻，验证"刺激糖感知→MN9 兴奋"且依赖真实布线。</div>
+  <div class="step"><b class="st">步骤 2</b> ｜ <b>对照</b>：同一代码跑三组——基线(不刺激) / 真实布线 / 打乱布线(保强度保符号换目标, seed=1)。</div>
+  <div class="expect">✅ <b>预期结果（实测，每次约 23s）</b>：基线 MN9 <b>0 Hz</b> → 真实布线 + 糖刺激 → MN9 <b>102 Hz</b>（全脑总发放 16,067）→ 打乱布线 → MN9 <b>0 Hz</b>。<b>行为差异完全由布线携带</b>——这就是"零训练也会躲障碍"的最小复刻。</div>
+  <div class="callout co-warn">⚠️ 三个真实坑：① <code>t_mbr=20ms</code> 管膜积分、<code>tau=5ms</code> 管 g 衰减，两者混用整脑静默；② 论文 Poisson 驱动是<b>直接加在膜电位 v 上</b>（每事件 +68.75mV 必过阈），打在 g 上则驱动力不足；③ <b>CSR 出边索引必须按突触前神经元排序</b>——我曾按 postsynaptic 排序却按 presynaptive 建索引，传播全断（MN9 恒 0Hz），修正后立刻 102Hz。</div>
+</div>
+
+<div class="exp">
+  <h3>实验三：无人机飞行日志取证</h3>
+  <div class="step"><b class="st">步骤 1</b> ｜ <b>操作</b>：<code>python -X utf8 ex3_flight_log_forensics.py</code> ／ <b>目的</b>：不动仿真器，直接用仓库自带的真实输出逐帧验证宣传结论。</div>
+  <div class="step"><b class="st">步骤 2</b> ｜ <b>看什么</b>：phase3 开环（有脑 vs 无脑）、phase4（真布线 vs 打乱）、phase56_summary.json（n=20 官方统计）、消融表。</div>
+  <div class="expect">✅ <b>预期结果（实测）</b>：有脑避障 min(dist)=1.98m / 1.80m，无脑 <b>0.00m 撞毁</b>且 turn/gf 全程为 0；首次神经响应 t=0.12s；真布线平均 1.80m vs 打乱平均 0.30m；官方 n=20：real 逃避率 100% vs shuffle1 50% / shuffle2·3 0% / rand 0~50%；消融显示单摘任一下行神经元避障仍在（冗余），全摘转向读出才失效（0.85m）。</div>
+</div>
+
+<div class="sect">这个项目给你什么</div>
+<div class="card q5">
+  <div class="qbody">
+    <p><b>能力清单</b>：① 读懂并复现 Shiu 2024 全脑 LIF 模型（参数、动力学、驱动方式）；② 用 pandas 操作百万行级连接组数据（查神经元、查通路、算度分布）；③ 一套完整的"机制归因"对照实验模板；④ 一条从短视频到 Nature 论文的开源溯源路线。</p>
+    <p><b>你能用它做什么</b>：跑一次"刺激→行为"的全脑仿真（本指南实验二，23 秒）；把 looming/光流输入换成你自己的场景造新实验；在 MaleCNS 雄蝇连接组上复跑做跨数据集验证；或者只是把它当成"涌现"最直观的教学案例讲给别人听。</p>
+  </div>
+</div>
+
+<div class="foot">
+  数据与代码来源：Dorkenwald et al. 2024 (FlyWire v783, CC BY 4.0)；Shiu et al. 2024, Nature 634:210–219 及 philshiu/Drosophila_brain_model (代码开源)；ClutchMedia775/fly-brain-drone (实验三数据)；Schlegel et al. 2024 (细胞类型标注)。本指南全部实验于 2026-10-03 在 Windows 11 + Python 3.14 实机运行，输出逐项记录于 exercise/ 与工作日志。
+</div>
+
+</body>
+</html>
