@@ -55,3 +55,29 @@ for (const budget of [1e9, 8_000, 4_000, 2_500, 1_500, 1_100, 900, 700, 500, 300
     console.log(`${String(Math.round(budget)).padStart(10)} | THREW (保险丝)            | ${e.message}`);
   }
 }
+
+// 场景 B：全 call-only 消息（text 全空）→ 触发最后两档 left out / merged
+console.log('\n场景 B（call-only 消息串）:');
+const msgsB = [{ role: 'user', text: 'grep the repo for TODOs', toolUses: [] }];
+for (let i = 0; i < 30; i++) {
+  msgsB.push({
+    role: 'assistant',
+    text: '',
+    toolUses: [{ tool_use_id: `b${i}`, tool: 'Grep', input: { pattern: 'TODO', path: `src/pkg${i}` } }],
+  });
+  msgsB.push({
+    role: 'user',
+    text: '',
+    toolUses: [],
+    toolResults: [{ tool_use_id: `b${i}`, text: 'src/pkg' + i + '/a.ts: TODO fix me' + 'q'.repeat(120) }],
+  });
+}
+const callsB = collectToolCalls(msgsB, 2);
+for (const budget of [6000, 4500, 3000, 2000, 1200]) {
+  try {
+    const f = fitState(msgsB, callsB, { maxStateTokens: budget, preserveRecentMessages: 2 });
+    console.log(`${String(budget).padStart(6)} | ${f.stage.padEnd(26)} | ${f.tokens}`);
+  } catch (e) {
+    console.log(`${String(budget).padStart(6)} | THREW (保险丝)            | ${e.message}`);
+  }
+}

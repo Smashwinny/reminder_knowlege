@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>fast-jev-compaction 小白指南</title>
+<style>
+:root{
+  --pink:#E91E63; --purple:#7C4DFF; --cyan:#00BCD4; --orange:#FF6D00;
+  --green:#00C853; --yellow:#FFD600; --ink:#241448; --bg:#FFF8F2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:var(--ink);background:var(--bg);font-size:13.5px;line-height:1.75}
+@page{size:A4;margin:12mm}
+.cover{background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 55%,var(--orange) 100%);color:#fff;border-radius:18px;padding:42px 38px;margin-bottom:26px}
+.cover h1{font-size:34px;letter-spacing:1px;margin-bottom:10px}
+.cover .sub{font-size:16px;opacity:.95}
+.cover .tags{margin-top:18px}
+.cover .tag{display:inline-block;background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.65);border-radius:999px;padding:3px 14px;margin:4px 6px 0 0;font-size:12.5px}
+h2.q{font-size:20px;margin:26px 0 12px;padding:10px 16px;border-radius:12px;color:#fff;display:flex;align-items:center;gap:14px;break-inside:avoid}
+.q .num{font-size:30px;font-weight:900;background:#fff;border-radius:12px;line-height:1;padding:7px 12px}
+.card{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:14px;box-shadow:0 3px 10px rgba(60,20,110,.10);break-inside:avoid}
+.hl{background:linear-gradient(transparent 45%,var(--yellow) 45%);font-weight:800;padding:0 2px}
+.big{font-size:16px;font-weight:800;color:var(--pink)}
+code{background:#2A1B4D;color:#7CFFB2;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-size:12px}
+pre{background:#241448;color:#EDE7FF;border-radius:12px;padding:14px 16px;overflow-x:auto;font-family:Consolas,monospace;font-size:11.5px;line-height:1.6;margin:10px 0;white-space:pre-wrap}
+pre b{color:#FFD600}
+.okbox{border:2.5px solid var(--green);background:#E9FFF2;border-radius:12px;padding:10px 14px;margin:10px 0;break-inside:avoid}
+.okbox b{color:var(--green)}
+.warnbox{border:2.5px solid var(--orange);background:#FFF3E6;border-radius:12px;padding:10px 14px;margin:10px 0;break-inside:avoid}
+.warnbox b{color:var(--orange)}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:12.5px}
+th{background:var(--purple);color:#fff;padding:7px 9px;text-align:left}
+td{border-bottom:1.5px solid #EFE6FA;padding:6px 9px;vertical-align:top}
+tr:nth-child(even) td{background:#FAF5FF}
+.svgwrap{background:#fff;border-radius:14px;padding:12px;margin:10px 0;text-align:center;box-shadow:0 3px 10px rgba(60,20,110,.10);break-inside:avoid}
+.cap{font-size:11.5px;color:#7A6B99;margin-top:4px}
+.exp{border:2.5px solid var(--cyan);border-radius:14px;background:#F0FDFF;padding:16px 18px;margin:14px 0;break-inside:avoid}
+.exp h3{color:#00839B;font-size:15.5px;margin-bottom:8px}
+.step{margin:8px 0;padding-left:12px;border-left:4px solid var(--cyan)}
+.step .what{font-weight:800;color:#00839B}
+.foot{margin-top:24px;padding:14px 18px;border-radius:12px;background:var(--ink);color:#CBB8FF;font-size:11.5px}
+.pill{display:inline-block;border-radius:999px;padding:2px 12px;font-size:11.5px;font-weight:800;margin-right:6px}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>fast-jev-compaction 小白指南</h1>
+  <div class="sub">把 Claude Code 的"压缩摘要"换成"决策式删除"——Jev 打分，只删不要的，留下的全部逐字<br>
+  开源仓库：github.com/tamaratran/fast-jev-compaction（MIT，7339★，TypeScript，v0.2.0）</div>
+  <div class="tags">
+    <span class="tag">🧠 决策式上下文压缩</span><span class="tag">🔧 Claude Code function-hook 插件</span>
+    <span class="tag">📦 npm 库 + 插件双形态</span><span class="tag">🚫 零 API 复刻实验 3 组全跑通</span>
+    <span class="tag">🔗 Jev 生态第二课（继 jev-router）</span>
+  </div>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,var(--purple),var(--pink))"><span class="num">Q1</span>这是什么？一句话说清</h2>
+<div class="card">
+<p><span class="big">它是 Claude Code 的一个"记忆手术刀"插件：长会话快满时，不再让大模型写一份压缩摘要，而是让 Jev 决策模型对每一次工具调用逐个打分——<span class="hl">还有用的留下（一字不动），没用的删掉（连根拔），中间态截断</span>。</span></p>
+<p style="margin-top:8px">仓库双形态：<b>npm 库</b>（<code>npm install fast-jev-compaction</code>，任何 Agent 都能用）+ <b>Claude Code 插件</b>（function hooks 挂进 <code>session.compact</code>，把内置摘要整个替换掉）。作者是 tamaratran，2026-09-17 建仓，两天多 7339★。</p>
+<div class="okbox"><b>一句话本质：</b>上下文管理的思路从"改写历史"（summarize）换成了"只做减法"（delete）。减法不会错杀事实，因为留下的每个字都是原句。</div>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,var(--pink),var(--orange))"><span class="num">Q2</span>为什么不用摘要？摘要错在哪</h2>
+<div class="card">
+<p>传统 compaction 让 LLM 把旧对话"总结成几段"。总结是有损压缩：<span class="hl">一个文件路径、一条精确报错、一句约束、一条命令，都可能在你还需要它的时候消失</span>。我在实验 2 里亲手复现了这个事故：</p>
+<table>
+<tr><th></th><th>传统摘要</th><th>fast-jev-compaction</th></tr>
+<tr><td>用户约束 <code>Never edit src/generated</code></td><td style="color:var(--pink);font-weight:800">❌ 丢了（下一轮模型就可能去改生成目录）</td><td style="color:var(--green);font-weight:800">✅ 一字不动</td></tr>
+<tr><td>约束 <code>CI token 在 .env.ci，别打印</code></td><td style="color:var(--pink);font-weight:800">❌ 丢了（泄密风险）</td><td style="color:var(--green);font-weight:800">✅ 一字不动</td></tr>
+<tr><td>工具结果原文（报错栈、行号）</td><td>被改写成"测试失败过"</td><td>有用则逐字保留，没用才删</td></tr>
+</table>
+<div class="svgwrap">
+<svg width="660" height="190" viewBox="0 0 660 190">
+  <rect x="10" y="10" width="300" height="170" rx="14" fill="#FFECEF" stroke="#E91E63" stroke-width="2.5"/>
+  <text x="160" y="38" text-anchor="middle" font-size="15" font-weight="800" fill="#E91E63">有损摘要（改写历史）</text>
+  <text x="160" y="66" text-anchor="middle" font-size="12" fill="#5A2740">"用户要求修测试……改了个文件，"</text>
+  <text x="160" y="86" text-anchor="middle" font-size="12" fill="#5A2740">"跑了测试，搜索了资料，修复了 TTL。"</text>
+  <text x="160" y="120" text-anchor="middle" font-size="12.5" fill="#C2185B" font-weight="800">路径没了 ✗ 约束没了 ✗</text>
+  <text x="160" y="142" text-anchor="middle" font-size="12.5" fill="#C2185B" font-weight="800">报错行号没了 ✗</text>
+  <text x="160" y="166" text-anchor="middle" font-size="11" fill="#8A4A62">错的内容还冒充"对的记忆"</text>
+  <rect x="350" y="10" width="300" height="170" rx="14" fill="#E9FFF2" stroke="#00C853" stroke-width="2.5"/>
+  <text x="500" y="38" text-anchor="middle" font-size="15" font-weight="800" fill="#00A344">决策式删除（只做减法）</text>
+  <text x="500" y="66" text-anchor="middle" font-size="12" fill="#1E4D33">约束原文 ✓ 原句逐字 ✓ 报错栈逐字 ✓</text>
+  <text x="500" y="90" text-anchor="middle" font-size="12" fill="#1E4D33">（Jev 判定"还需要"的那些）</text>
+  <text x="500" y="120" text-anchor="middle" font-size="12.5" fill="#00833B" font-weight="800">没用的整条删掉 ✓</text>
+  <text x="500" y="142" text-anchor="middle" font-size="12.5" fill="#00833B" font-weight="800">留下的不可能错 ✓</text>
+  <text x="500" y="166" text-anchor="middle" font-size="11" fill="#3E7A57">删错了也兜得住：工具随时能重跑</text>
+</svg>
+<div class="cap">图 1：改写历史 vs 只做减法。减法的每一步都可审计（decisions 里有打分记录）。</div>
+</div>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,var(--orange),var(--yellow))"><span class="num">Q3</span>"无损"到底无损在哪？它能动什么、不能动什么</h2>
+<div class="card">
+<p><span class="hl">用户和助手的文本消息永远逐字、永远保持原顺序，一个字都不会被改写或缩短</span>。唯一被操作的对象是<b>工具调用和工具结果</b>这对儿（按 <code>tool_use_id</code> 配对）。三种处置：</p>
+<table>
+<tr><th>处置</th><th>触发条件</th><th>结果</th></tr>
+<tr><td><b style="color:var(--green)">keep 全留</b></td><td>keepResult ≥ 0.5</td><td>调用+结果原文都留</td></tr>
+<tr><td><b style="color:var(--orange)">drop_result 截留</b></td><td>keepResult&lt;0.5 但 keepCall ≥ 0.5</td><td>结果截成前 300 字符 + 一行注记 <code>[truncated N chars; re-run the tool if needed]</code>，调用本身留着</td></tr>
+<tr><td><b style="color:var(--pink)">drop_call 整删</b></td><td>两个都 &lt; 0.5</td><td>调用连同结果从历史里消失（消息内容全空就连消息一起删）</td></tr>
+</table>
+<p>为什么删错也兜得住？因为<span class="hl">被删的东西本质都是"可以重跑再拿回来的东西"——文件能重读、测试能重跑、搜索能重搜</span>。这是整个设计的底气（README 原话：<i>the assistant can always re-run a tool or re-read a file</i>）。</p>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,var(--yellow),var(--green))"><span class="num">Q4</span>Jev 被问了什么？"双问题"设计巧在哪</h2>
+<div class="card">
+<p>每个候选调用，Jev 收到<b>两个独立的 <code>noul</code> 问题</b>（noul 是 Jev 的题型：返回 0~1 的置信概率，不是生成文本）：</p>
+<pre>
+<b>问题一 keepCall</b>：知道"这次调用发生过、参数是什么"，对接下来还有价值吗？
+   → 例子：Edit 过 src/generated —— 文件内容没用，但"动过生成目录"必须记住
+
+<b>问题二 keepResult</b>：这个调用的完整输出，还需要逐字留着吗？重跑一遍能不能代替？
+   → 例子：测试失败的报错栈 —— 重跑 npm test 拿不到当时的行号细节吗？能，但没必要
+</pre>
+<div class="svgwrap">
+<svg width="660" height="205" viewBox="0 0 660 205">
+  <rect x="14" y="14" width="286" height="176" rx="14" fill="#F3EFFF" stroke="#7C4DFF" stroke-width="2.5"/>
+  <text x="157" y="44" text-anchor="middle" font-size="14.5" font-weight="800" fill="#7C4DFF">keepCall 高 + keepResult 低</text>
+  <text x="157" y="76" text-anchor="middle" font-size="12.5" fill="#3A2A5E">"做过这件事"重要</text>
+  <text x="157" y="100" text-anchor="middle" font-size="12.5" fill="#3A2A5E">"当时打印了什么"不重要</text>
+  <text x="157" y="134" text-anchor="middle" font-size="12" fill="#7C4DFF" font-weight="800">例：改过 src/generated ✏️</text>
+  <text x="157" y="162" text-anchor="middle" font-size="13" fill="#FF6D00" font-weight="800">→ 截留：留调用，结果截 300 字符</text>
+  <rect x="360" y="14" width="286" height="176" rx="14" fill="#F3EFFF" stroke="#7C4DFF" stroke-width="2.5"/>
+  <text x="503" y="44" text-anchor="middle" font-size="14.5" font-weight="800" fill="#7C4DFF">keepCall 低 + keepResult 低</text>
+  <text x="503" y="76" text-anchor="middle" font-size="12.5" fill="#3A2A5E">做过什么都不重要</text>
+  <text x="503" y="100" text-anchor="middle" font-size="12.5" fill="#3A2A5E">搜索了没用的资料、翻了没看的文件</text>
+  <text x="503" y="134" text-anchor="middle" font-size="12" fill="#7C4DFF" font-weight="800">例：一次空手的 WebSearch 🔍</text>
+  <text x="503" y="162" text-anchor="middle" font-size="13" fill="#E91E63" font-weight="800">→ 整删：连调用带结果一起消失</text>
+</svg>
+<div class="cap">图 2：两个问题正交，组合出三种处置。实验 2 的 t4（Edit 生成文件）正是"做过≠内容有用"的活例子。</div>
+</div>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,var(--green),var(--cyan))"><span class="num">Q5</span>Jev 怎么"看"对话？state 的构造与 token 估算</h2>
+<div class="card">
+<p>发给 Jev 的 <b>state</b> = <b>完整对话史（从老到新）</b>，只是每个工具结果被换成一行短注记（<code>ok, 4213 chars (omitted)</code>），工具输入保留、文本保留、<span class="hl">什么都不总结</span>。再带上 <code>goal</code>（默认最近 3 条用户提问拼成任务描述）。</p>
+<p>状态要塞进 <code>maxStateTokens</code>（默认 25k，Jev 请求上限 32k）。怎么知道多少 token？<span class="hl">不用分词器，纯字符启发式：英文单词每 6 个字母算 1 token，数字半个，其他符号 0.9 个</span>。我实测（实验 3）：</p>
+<table>
+<tr><th>文本类型</th><th>估算 vs chars/4 粗算法</th><th>说明</th></tr>
+<tr><td>中文</td><td><b style="color:var(--pink)">chars/4 少算 263%</b></td><td>每个汉字算 0.9 token——中文对话用 chars/4 会严重超限</td></tr>
+<tr><td>JSON 重度 state</td><td><b style="color:var(--pink)">少算 51%</b></td><td>引号/花括号每个 0.9 token，README 声称最多差 40%，实测方向一致</td></tr>
+<tr><td>英文散文</td><td>估高约 14%</td><td>刻意<b>宁高勿低</b>：高估只是提前降级分批，低估会真撞 32k 上限</td></tr>
+</table>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,var(--cyan),#2979FF)"><span class="num">Q6</span>塞不下怎么办？8 档阶梯降级 + 保险丝</h2>
+<div class="card">
+<p>state 超预算时不一刀切，而是<span class="hl">像下楼梯一样逐档降级，每档只在上一档不够用时才启用，能塞下就立刻停手</span>（源的顺序是硬编码的——先动工具输入，再动文本，再压缩调用行）：</p>
+<div class="svgwrap">
+<svg width="672" height="240" viewBox="0 0 672 240">
+  <g font-size="11.5" font-weight="700">
+    <rect x="6"   y="8"   width="150" height="24" rx="7" fill="#00C853"/><text x="81"  y="24" text-anchor="middle" fill="#fff">① full 全量</text>
+    <rect x="76"  y="38"  width="150" height="24" rx="7" fill="#69F0AE"/><text x="151" y="54" text-anchor="middle" fill="#1B5E20">② inputs≤200</text>
+    <rect x="146" y="68"  width="150" height="24" rx="7" fill="#B9F6CA"/><text x="221" y="84" text-anchor="middle" fill="#1B5E20">③ inputs≤60</text>
+    <rect x="216" y="98"  width="150" height="24" rx="7" fill="#FFD600"/><text x="291" y="114" text-anchor="middle" fill="#5D4700">④ texts abridged 掐头去尾</text>
+    <rect x="286" y="128" width="150" height="24" rx="7" fill="#FFAB40"/><text x="361" y="144" text-anchor="middle" fill="#5D2E00">⑤ old messages collapsed</text>
+    <rect x="356" y="158" width="150" height="24" rx="7" fill="#FF6D00"/><text x="431" y="174" text-anchor="middle" fill="#fff">⑥ old calls 一行式</text>
+    <rect x="426" y="188" width="150" height="24" rx="7" fill="#E91E63"/><text x="501" y="204" text-anchor="middle" fill="#fff">⑦⑧ left out / merged</text>
+    <text x="600" y="204" font-size="13" fill="#B0003A">⚡还塞不下→throw！</text>
+  </g>
+  <text x="10" y="232" font-size="10.5" fill="#7A6B99">老消息优先降级，钉扎区（首条+最新 N 条）最后动、能不动就不动。每降一档立刻查：塞下了就停。</text>
+</svg>
+<div class="cap">图 3：阶梯降级顺序（exp1 实测 7 档 + 保险丝触发）。</div>
+</div>
+<pre><b>实验1实测（38 消息/17 调用合成会话）</b>
+预算 8000 tok → full          (state 4367 tok)
+预算 4000 tok → texts abridged(3989)   ← 输入截断还不够，开始掐文本
+预算 2500 tok → collapsed     (2407)   ← 旧消息整体变一行注记
+预算 1500 tok → old calls     (1495)   ← 旧调用缩成一行
+预算 ≤1100 tok→ <b>throw: history too large for Jev</b> ← 保险丝，宁可拒压不可瞎压
+场景B(call-only 串) 1200 tok → merged (851) ← 相邻调用串合并复用信封</pre>
+<div class="okbox"><b>保险丝哲学：</b>所有档位都试过还塞不下，就抛异常把决定权交还调用方（插件层回退到内置摘要）——<span class="hl">宁可"这次没压成"，不可"压出一份错误记忆"</span>。</div>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,#2979FF,var(--purple))"><span class="num">Q7</span>几百个调用一次问得完吗？批处理设计</h2>
+<div class="card">
+<p>问题带着完整 state 发，state 本身可能已 25k token，所以<span class="hl">问题必须分批：每批问题 + 整份 state ≤ maxRequestTokens（默认 30k）</span>。关键设计：<b>每一批都重发同一份完整 state</b>——Jev 每次都看着全对话做判断，不会因为分批而"失忆"；各批并发执行，答案按问题名合并。</p>
+<p>代价也写进了 Limitations：state 接近上限时，一批只装得下几个问题，<span class="hl">一次压缩可能要发很多个请求</span>（每个问题对约 80~100 token，30k-25k=5k 预算 ≈ 每批 50 个问题对）。</p>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,var(--purple),#D500F9)"><span class="num">Q8</span>谁受特殊保护？钉扎与 goal</h2>
+<div class="card">
+<table>
+<tr><th>保护对象</th><th>规则</th></tr>
+<tr><td><b>第一条消息</b></td><td>永远钉住——任务起点、原始指令都在这</td></tr>
+<tr><td><b>最新 preserveRecentMessages 条（默认 6）</b></td><td>永远钉住——刚发生的事 Jev 还没资格判"没用了"</td></tr>
+<tr><td><b>无结果的调用</b></td><td>根本不进候选（还没有可删的东西）</td></tr>
+<tr><td><b>用户/助手文本</b></td><td>只能被"看"，不能被删改（降级只发生在发给 Jev 的 state 里，不动真历史）</td></tr>
+</table>
+<p>实验 2 实证：t4（Edit 生成文件）落在最后 4 条钉扎区，Jev 就没被问过——<code>reason=pinned</code> 直接保留。同时验证了<span class="hl">重建后不存在"孤儿结果"（result 没有配对的 call）</span>——那是 API 会直接报错的非法形态。</p>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,#D500F9,var(--pink))"><span class="num">Q9</span>怎么挂进 Claude Code？function hooks 三分钟接入</h2>
+<div class="card">
+<pre>
+<b>① 前置开关（function hooks 是 2.1.274+ 早期特性）</b>
+~/.claude/settings.json:
+{ "env": { "CLAUDE_CODE_ENABLE_FUNCTION_HOOKS": "1",
+           "TYPESAFE_API_KEY": "&lt;你的 key&gt;" } }
+
+<b>② 装插件</b>
+claude plugin marketplace add tamaratran/fast-jev-compaction
+claude plugin install fast-jev-compaction@fast-jev-compaction
+
+<b>③ 重启或 /reload-plugins</b> → 之后 /compact 和自动压缩都走 Jev
+   toast: fast-jev-compaction: kept N/M messages, no summary (…)
+   回退时: fallback to built-in summary (…)
+</pre>
+<div class="svgwrap">
+<svg width="672" height="200" viewBox="0 0 672 200">
+  <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#7C4DFF"/></marker></defs>
+  <rect x="8" y="60" width="130" height="70" rx="12" fill="#E8F7FF" stroke="#00BCD4" stroke-width="2.5"/>
+  <text x="73" y="90" text-anchor="middle" font-size="12.5" font-weight="800" fill="#00758C">turn.complete</text>
+  <text x="73" y="112" text-anchor="middle" font-size="10.5" fill="#3A6B78">上下文 ≥60% ?</text>
+  <rect x="180" y="60" width="130" height="70" rx="12" fill="#F3EFFF" stroke="#7C4DFF" stroke-width="2.5"/>
+  <text x="245" y="90" text-anchor="middle" font-size="12.5" font-weight="800" fill="#7C4DFF">session.compact</text>
+  <text x="245" y="112" text-anchor="middle" font-size="10.5" fill="#5A4A82">hook 拦截内置压缩</text>
+  <rect x="352" y="60" width="140" height="70" rx="12" fill="#FFF3E6" stroke="#FF6D00" stroke-width="2.5"/>
+  <text x="422" y="84" text-anchor="middle" font-size="12.5" font-weight="800" fill="#C25000">Jev 打分</text>
+  <text x="422" y="104" text-anchor="middle" font-size="10.5" fill="#7A4318">全量 state + 批量 noul</text>
+  <text x="422" y="120" text-anchor="middle" font-size="10.5" fill="#7A4318">压缩率 ≥25% ?</text>
+  <rect x="534" y="60" width="130" height="70" rx="12" fill="#E9FFF2" stroke="#00C853" stroke-width="2.5"/>
+  <text x="599" y="90" text-anchor="middle" font-size="12.5" font-weight="800" fill="#00A344">替换历史</text>
+  <text x="599" y="112" text-anchor="middle" font-size="10.5" fill="#2E6B45">kept N/M, no summary</text>
+  <g stroke="#7C4DFF" stroke-width="2.2" marker-end="url(#ar)" fill="none">
+    <path d="M138,95 L176,95"/><path d="M310,95 L348,95"/><path d="M492,95 L530,95"/>
+  </g>
+  <path d="M422,134 C422,172 245,172 245,134" stroke="#E91E63" stroke-width="2" fill="none" stroke-dasharray="5,4"/>
+  <text x="333" y="180" text-anchor="middle" font-size="10.5" fill="#E91E63" font-weight="700">压缩率不够 / Jev 出错 → next(event) 交还内置摘要（fail-open）</text>
+</svg>
+<div class="cap">图 4：hook 双挂点。turn.complete 管自动触发，session.compact 管执行；任何失败都回退内置摘要，会话永不卡死。</div>
+</div>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,var(--pink),#FF1744)"><span class="num">Q10</span>什么时候宁可不动？"宁可不压"的三道闸</h2>
+<div class="card">
+<table>
+<tr><th>闸门</th><th>条件</th><th>动作</th></tr>
+<tr><td><b>降压缩率闸</b></td><td>压完减少量 &lt; minReductionRatio（默认 25%）</td><td>放弃成果，回退内置摘要（短会话压无可压）</td></tr>
+<tr><td><b>异常闸</b></td><td>Jev 失败 / 答案畸形 / 没配 key / 塞不下 throw</td><td>catch 后回退内置摘要，toast 说明原因</td></tr>
+<tr><td><b>严格校验闸</b></td><td>答案缺字段、noul 不是有限数字</td><td>直接 throw（<code>noulAnswer</code> 严格校验）</td></tr>
+</table>
+<div class="warnbox"><b>我踩的坑恰好证明第三道闸的价值：</b>复刻实验首跑时 askBatch 忘了从答案对象取 <code>.noul</code> 数值，t1（明明该保留的调用）被误判成整删——<span class="hl">畸形答案混进决策流，比压缩失败更危险</span>。上游用严格校验 + throw + 回退把这类脏数据挡在历史之外。</div>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,#FF1744,var(--orange))"><span class="num">Q11</span>它和 jev-router 什么关系？Jev 生态位全景</h2>
+<div class="card">
+<p>两个项目是 Jev（TypeSafe 的决策模型）生态里互补的两件套：</p>
+<table>
+<tr><th></th><th>jev-router（上期）</th><th>fast-jev-compaction（本期）</th></tr>
+<tr><td>解决的问题</td><td><b>省钱</b>：每轮该用哪个档的模型</td><td><b>抗遗忘</b>：长会话上下文满了怎么压</td></tr>
+<tr><td>挂载点</td><td>回环代理劫持 ANTHROPIC_BASE_URL</td><td>function hooks 挂 session.compact</td></tr>
+<tr><td>Jev 的角色</td><td>裁判：每轮选 Haiku/Sonnet/Opus</td><td>考官：对每个工具调用打 keep/drop 分</td></tr>
+<tr><td>失败策略</td><td>fail-open 退安全档</td><td>fail-open 回退内置摘要</td></tr>
+<tr><td>共同点</td><td colspan="2">同一个 SystemOne 端点（<code>/v1/systemone</code>）；同样的"Jev 判断 + 兜底永不阻塞"哲学</td></tr>
+</table>
+<div class="okbox"><b>生态观察：</b>README 里 <code>jev-latest</code> 模型、$0.042/M 定价都与上期一致。这个插件 2 天 7339★ 说明"决策模型当上下文管家"是 Jev 落地最猛的用法——<span class="hl">不生成内容、只做判断，恰恰是决策模型的比较优势</span>。</div>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,var(--orange),var(--pink))"><span class="num">Q12</span>我该用它吗？局限与冷启动建议</h2>
+<div class="card">
+<table>
+<tr><th>局限（README 自述 + 我的判断）</th><th>影响</th></tr>
+<tr><td>只有工具调用/结果是候选</td><td>超长文本消息（贴了大日志的 user 消息）压不掉</td></tr>
+<tr><td>token 是估算不是分词器</td><td>边界情况可能多分一批请求（浪费钱但不炸）</td></tr>
+<tr><td>置信度≠安全证明</td><td>Jev 0.9 的 keep 也可能错删——兜底是"工具能重跑"</td></tr>
+<tr><td>state 每批重发</td><td>接近 25k 上限的会话，一次压缩成本不低</td></tr>
+<tr><td><b>隐私</b></td><td>整个对话史（含代码）要发给 TypeSafe 云端——与 jev-router 同一掂量</td></tr>
+</table>
+<p><b>冷启动路径：</b>① 无 key 也能玩：<code>npm install</code> 后用 <code>compact(messages, asker)</code> 注入自己的 mock asker（我实验 2 就是这么跑的，零 API）；② 有 key：插件安装即用，观察 toast 里的 <code>kept N/M</code> 和决策日志；③ 当库用：拿 <code>collectToolCalls / fitState / decideCall / applyDecisions</code> 这些导出积木自己搭管线。</p>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,#00B8D4,var(--green))"><span class="num">🧪</span>这个项目给我什么（能力清单）</h2>
+<div class="card">
+<ol style="padding-left:20px">
+<li><b>给 Claude Code 装"无损记忆手术刀"</b>——长任务不再越跑越失忆，约束、报错、路径永不蒸发；</li>
+<li><b>一套可移植的"决策式压缩"范式</b>——任何 Agent（自己的 bot、其他 CLI）都能拿 <code>compactMessages</code> 库直接用；</li>
+<li><b>Jev 双问题设计模式</b>——"这件事发生过重要吗 / 它的产出还需要原文吗"可以平移到日志治理、缓存淘汰、聊天记录归档；</li>
+<li><b>阶梯降级 + 保险丝工程模板</b>——"能塞就停、塞不下就 throw、throw 就回退"的三段式安全设计；</li>
+<li><b>零 API 教具</b>——<code>JevAsker</code> 接缝 + mock asker，不花一分钱跑通全流程（我的复刻实验就是证明）；</li>
+<li><b>看懂 function hooks 新机制</b>——Claude Code 2.1.274+ 的早期特性，session.compact / turn.complete 两个挂点。</li>
+</ol>
+</div>
+
+<h2 class="q" style="background:linear-gradient(90deg,var(--green),#AEEA00)"><span class="num">🔬</span>动手实验（3 组全部真实运行，纯 Node 零依赖零 API）</h2>
+<div class="card">
+<p style="margin-bottom:6px"><span class="pill" style="background:#FFE0E9;color:#C2185B">环境说明</span>上游 <code>npm install</code> 被本机安全策略拦截，无法直接运行其测试套件；改为在 <code>exercise/replica.mjs</code> 里<b>按上游源码逐函数忠实复刻</b>（MIT 允许），驱动脚本全用 Node v24.21.0 裸跑。结论标注"复刻实证"。</p>
+
+<div class="exp">
+<h3>实验 1：亲手拧 fitState 的"阶梯降级旋钮"（exp1_fit_state_ladder.mjs）</h3>
+<div class="step"><span class="what">步骤 1</span> 构造 38 条消息/17 次工具调用的合成会话（16 轮旧读写 + 3 条新消息）。</div>
+<div class="step"><span class="what">步骤 2</span> 预算从 8000 一路收到 300，观察每档触发点。</div>
+<div class="step"><span class="what">目的</span> 看清"能塞就停"的阶梯到底怎么走。<span class="what">✅ 预期/实测</span>：8000→<code>full(4367)</code>；4000→<code>texts abridged</code>；2500→<code>old messages collapsed</code>；1500→<code>old calls compacted</code>；≤1100→<b>保险丝 throw</b>；场景 B（call-only 串）1200→<code>old calls merged(851)</code>。8 档实证 7 档 + 保险丝。</div>
+</div>
+
+<div class="exp">
+<h3>实验 2：mock Jev 驱动完整压缩主流程（exp2_mock_jev_compact.mjs）</h3>
+<div class="step"><span class="what">步骤 1</span> 编排 4 次调用：Read 测试文件 / npm test / 空手 WebSearch / Edit 生成文件，mock asker 按语义剧本打分。</div>
+<div class="step"><span class="what">步骤 2</span> <code>node exp2_mock_jev_compact.mjs</code> 跑完整 <code>compact()</code>，检查 5 条不变量。</div>
+<div class="step"><span class="what">✅ 预期/实测</span>：t1→<b>kept 逐字保留</b>（含 <code>at auth.test.ts:42</code> 行号细节）；t2→<b>drop_result</b> 截 300 字符 + re-run 注记；t3→<b>drop_call 整删</b>；t4→<b>pinned</b>；孤儿结果 0；用户文本一字未动；压缩率 51.9%。对照传统摘要：<span class="hl">"Never edit src/generated"和".env.ci token"两条约束全丢</span>。</div>
+</div>
+
+<div class="exp">
+<h3>实验 3：token 估算器为什么不用 chars/4（exp3_estimator.mjs）</h3>
+<div class="step"><span class="what">步骤</span> 对中文/英文/JSON/代码行分别比较 <code>estimateTokens</code> 与 chars/4 粗算法。</div>
+<div class="step"><span class="what">✅ 预期/实测</span>：中文 chars/4 少算 <b>263%</b>（每汉字 0.9 tok）；JSON 重度 state 少算 <b>51%</b>（README 称最多 40%，方向一致）；英文散文反估高 14%——<b>宁高勿低</b>，高估只浪费一点预算，低估真撞 32k 上限。</div>
+</div>
+</div>
+
+<div class="foot">
+源头：https://x.com/KKaWSB/status/2101043826714661033（KK.aWSB Jev 推荐帖）→ 开源插件溯源：github.com/tamaratran/fast-jev-compaction（MIT, 7339★, v0.2.0, e3f262a）<br>
+姊妹篇：jev-router 小白指南（Jev 生态第一课：路由省钱）；知识库概念：决策式上下文压缩 / 双问题置信评估 / 阶梯降级与保险丝 / 无分词器token估算<br>
+产出日期 2026-10-03 · 全部实验真实运行于 Windows 11 + Node v24.21.0 · 复刻品声明见 exercise/replica.mjs 头注
+</div>
+
+</body>
+</html>
