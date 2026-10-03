@@ -341,10 +341,14 @@ PYTHONUTF8=1 ..\repo\.venv\Scripts\python arch_compare.py</pre>
 </div>
 
 <div class="step"><span class="sno">第 4 步 · 补充实验：换短推理链的乘法题再投票</span>
-<p><b>操作</b>：<code>PYTHONUTF8=1 ..\repo\.venv\Scripts\python arch_voting_mul.py</code>（5 道两位数/三位数乘法，n_samples=5，温度 0.8）</p>
-<p><b>真实结果摘要</b>：</p>
-<!-- MUL_RESULTS -->
-<div class="okbox">✅ 预期结果：results.txt 末尾出现"汇总"行，能看到 tally 分布与两种方式的正确数对比。</div>
+<p><b>操作</b>：<code>PYTHONUTF8=1 ..\repo\.venv\Scripts\python arch_voting_mul.py</code>（两轮：第一轮 5 道两位数乘法、num_predict=300；第二轮换 5 道<b>更难</b>的乘法、num_predict=900）</p>
+<p><b>真实结果摘要</b>（完整输出在 <code>exercise\results.txt</code> 与 <code>exercise\mul_console2.log</code>）：</p>
+<div class="card c-c"><h4>简单乘法（17×23 等）：直答 5/5，表决却因"截断"翻车</h4>
+<p>单次直答全对；但 5 票表决只提取出 1 票有效答案。根因：num_predict 封顶 300 把推理过程截断，JSON 解析失败——<b>答案提取依赖结构化输出，截断=报废</b>。</p></div>
+<div class="card c-d"><h4>边界乘法（87×69 等）：直答 0/5，表决 0/5——但错法不同</h4>
+<p>5 道题在 3B 模型的能力边界上：单次直答 0/5，错得"像模像样"（5853/7104/3664…都是接近的错数）；高温采样时 ollama 的结构化输出回退彻底失控——采样里混进正则碎片、PHP 代码、HTML 标签，<b>乱码还能赢得多数票</b>。这正是库自己能力矩阵里标注的 <code>ollama structured_output: False</code> 的代价。</p></div>
+<div class="warnbox"><b>实验总教训（比成功更值钱）</b>：①架构救不了模型能力地板——Self-Consistency 的前提是"错误随机、正确收敛"，3B 模型在难题上错误是<b>系统性</b>的，投票无效；②provider 能力矩阵是硬约束——结构化输出不可靠时，依赖它的架构（采样搜索族、部分 RAG 族）会静默劣化；③README 的 78% 是 Llama-3.3-<b>70B</b> 的成绩，本地小模型复现应定位在"学机制"而非"追分数"。</div>
+<div class="okbox">✅ 预期结果：results.txt / mul_console2.log 末尾出现"汇总"行；能观察到 tally 分布与两种方式的正确数对比——即使是翻车，也是真实的、可复现的翻车。</div>
 </div>
 
 <div class="step"><span class="sno">第 5 步 · 生成架构图（白得的文档素材）</span>

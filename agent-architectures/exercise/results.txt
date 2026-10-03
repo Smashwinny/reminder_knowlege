@@ -56,3 +56,55 @@ Sources:
 [题] A baker makes 24 muffins each tray and bakes 7 trays. After selling 30, a friend takes 12. How many remain?
     标准答案=126 | 单次直答='22' ✗ | 多数表决='x' ✗ [13.6s]
     元信息(各路径答案分布): {'n_samples': 5, 'samples': [{'sample_index': '0', 'reasoning': 'The baker makes 24 muffins per tray and bakes 7 trays, so the total number of muffins is 24 * 7 = 168. After selling 30 muffins, there are 168 - 30 = 138 muffins left. Then, a friend takes 12 muffins, leaving 138 - 12 = x muffins. The final answer is x.', 'answer': 'x'}, {'sample_index': '1', 'reasoning': 'The baker makes 24 muffins per tray and bakes 7 trays, so the total number of muffins is 24 * 7 = 168. After selling 30 muffins, there are 168 - 30 = 138 muffins left. Then, a friend takes 12 muffins, leaving 138 - 12 = x muffins. The final answer is x.', 'answer': 'x'}, {'sample_index': '2', 'reasoning': 'The baker makes 24 muffins per tray and bakes 7 trays, so the total number of muffins is 24 * 7 = 168. After selling 30 muffins, there are 168 - 30 = 138 muffins left. Then, a friend takes 12 muffins, leaving 138 - 12 = x muffins. The final answer is x.', 'answer': 'x'}, {'sample_index': '3', 'reasoning': 'The baker makes 24 muffins per tray and bakes 7 trays, so the total number of muffins is 24 * 7 = 168. After selling 30 muffins, there are 168 - 30 = 138 muffins left. Then, a friend takes 12 muffins, leaving 138 - 12 = x muffins. The final answer is x.', 'answer': 'x'}, {'sample_index': '4', 'reasoning': 'The baker makes 24 muffins per tray and bakes 7 trays, so the total number of muffins is 24 * 7 = 168. After selling 30 muffins, there are 168 - 30 = 138 muffins left. Then, a friend takes 12 muffins, leaving 138 - 12 = x muffins. The final answer is x.', 'answer': 'x'}], 'tally': {'x': 5}, 'winner_count': 5, 'agreement_fraction': 1.0, 'unique_answers': 1}
+
+========================================================================
+补充实验：单步乘法上的 SelfConsistency（5 票表决 vs 单次直答）
+========================================================================
+
+[题] What is 17 * 23?  标准答案=391
+    单次直答='391' ✓ | 多数表决='' ✗ [15.1s]
+    表决分布 tally={} | 一致度=0.00
+
+[题] What is 47 * 19?  标准答案=893
+    单次直答='893' ✓ | 多数表决='' ✗ [18.5s]
+    表决分布 tally={} | 一致度=0.00
+
+[题] What is 144 * 12?  标准答案=1728
+    单次直答='1728' ✓ | 多数表决='' ✗ [13.8s]
+    表决分布 tally={} | 一致度=0.00
+
+[题] What is 29 * 31?  标准答案=899
+    单次直答='899' ✓ | 多数表决='testing step-by-step process h' ✓ [11.1s]
+    表决分布 tally={"testing step-by-step process here to ensure accuracy and correctness of the arithmetic operations involved in the multiplication of 29 and 31. let's start by breaking down the multiplication into simpler steps:`` 29 * 31 = (30 - 1) * (30 + 1) = 30^2 - 1^2 = 900 - 1 = 899``. the final answer is 899.``": 1, "testing step-by-step process here to ensure accuracy and correctness of the arithmetic operations performed. let's start by breaking down the multiplication of 29 and 31 into simpler steps for clarity and correctness. we can use the distributive property of multiplication over addition to make the calculation easier. specifically, we can express 31 as 30 + 1. this allows us to use the distributive property as follows: 29 * 31 = 29 * (30 + 1) = (29 * 30) + (29 * 1). now, let's calculate each part separately. first, 29 * 30 = 870. then, 29 * 1 = 29. adding these together, we get 870 + 29 = 899. therefore, the final answer is 899": 4} | 一致度=0.80
+
+[题] What is 68 * 24?  标准答案=1632
+    单次直答='1632' ✓ | 多数表决=',' ✗ [6.5s]
+    表决分布 tally={',': 5} | 一致度=1.00
+
+[汇总] 单次直答 5/5，SelfConsistency 1/5
+
+========================================================================
+补充实验：单步乘法上的 SelfConsistency（5 票表决 vs 单次直答）
+========================================================================
+
+[题] What is 87 * 69?  标准答案=6003
+    单次直答='5853' ✗ | 多数表决='.5953' ✗ [3.0s]
+    表决分布 tally={'.5953': 5} | 一致度=1.00
+
+[题] What is 93 * 78?  标准答案=7254
+    单次直答='7104' ✗ | 多数表决="]').*?(?=\n\n|$)', re.DOTALL).se" ✗ [6.9s]
+    表决分布 tally={"]').*?(?=\n\n|$)', re.dotall).search(text).group(1).strip()```, i found the number 93 * 78 in the following text:": 5} | 一致度=1.00
+
+[题] What is 76 * 49?  标准答案=3724
+    单次直答='3664' ✗ | 多数表决=']3664[' ✗ [24.7s]
+    表决分布 tally={']3664[': 1} | 一致度=1.00
+
+[题] What is 58 * 83?  标准答案=4814
+    单次直答='4724' ✗ | 多数表决='>&#8729;4924</span><span style' ✗ [23.6s]
+    表决分布 tally={'>&#8729;4924</span><span style=': 1} | 一致度=1.00
+
+[题] What is 247 * 38?  标准答案=9386
+    单次直答='9426' ✗ | 多数表决="]').replace(']',''))[0] : ''; " ✗ [32.0s]
+    表决分布 tally={"]').replace(']',''))[0] : ''; return $s; } function formatquestion($q) { return str_replace(['(','(','[','{'],' ',$q).strip_tags($q); } function formatanswer($a) { return preg_replace(['/\x08(-?\x08)/'],' $1',$a); } $task = 'what is 247 * 38?'; $answer = 9376; echo formatanswer(formatanswer($answer)); } main(); ````json {": 1} | 一致度=1.00
+
+[汇总] 单次直答 0/5，SelfConsistency 0/5

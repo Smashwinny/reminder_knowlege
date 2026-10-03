@@ -28,11 +28,11 @@ def log(msg: str = "") -> None:
 
 # (题目, 正确答案) —— 两位数乘法，3B 模型单次正确率约 50-70%
 MUL_TASKS = [
-    ("What is 17 * 23?", "391"),
-    ("What is 47 * 19?", "893"),
-    ("What is 144 * 12?", "1728"),
-    ("What is 29 * 31?", "899"),
-    ("What is 68 * 24?", "1632"),
+    ("What is 87 * 69?", "6003"),
+    ("What is 93 * 78?", "7254"),
+    ("What is 76 * 49?", "3724"),
+    ("What is 58 * 83?", "4814"),
+    ("What is 247 * 38?", "9386"),
 ]
 
 
@@ -41,8 +41,9 @@ def main() -> None:
     log("=" * 72)
     log("补充实验：单步乘法上的 SelfConsistency（5 票表决 vs 单次直答）")
     log("=" * 72)
-    llm = get_llm()
-    arch = SelfConsistency(n_samples=5, sample_temperature=0.8)
+    # num_predict 封顶：防止小模型在难题上无限生成（本库 get_llm 透传给 ChatOllama）
+    llm = get_llm(num_predict=900)
+    arch = SelfConsistency(n_samples=5, sample_temperature=0.8, llm=get_llm(num_predict=900))
     correct_arch = correct_naive = 0
     for task, answer in MUL_TASKS:
         t0 = time.time()

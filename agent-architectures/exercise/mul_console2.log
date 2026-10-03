@@ -1,0 +1,27 @@
+
+========================================================================
+补充实验：单步乘法上的 SelfConsistency（5 票表决 vs 单次直答）
+========================================================================
+
+[题] What is 87 * 69?  标准答案=6003
+    单次直答='5853' ✗ | 多数表决='.5953' ✗ [3.0s]
+    表决分布 tally={'.5953': 5} | 一致度=1.00
+
+[题] What is 93 * 78?  标准答案=7254
+    单次直答='7104' ✗ | 多数表决="]').*?(?=\n\n|$)', re.DOTALL).se" ✗ [6.9s]
+    表决分布 tally={"]').*?(?=\n\n|$)', re.dotall).search(text).group(1).strip()```, i found the number 93 * 78 in the following text:": 5} | 一致度=1.00
+
+[题] What is 76 * 49?  标准答案=3724
+    单次直答='3664' ✗ | 多数表决=']3664[' ✗ [24.7s]
+    表决分布 tally={']3664[': 1} | 一致度=1.00
+
+[题] What is 58 * 83?  标准答案=4814
+    单次直答='4724' ✗ | 多数表决='>&#8729;4924</span><span style' ✗ [23.6s]
+    表决分布 tally={'>&#8729;4924</span><span style=': 1} | 一致度=1.00
+
+[题] What is 247 * 38?  标准答案=9386
+    单次直答='9426' ✗ | 多数表决="]').replace(']',''))[0] : ''; " ✗ [32.0s]
+    表决分布 tally={"]').replace(']',''))[0] : ''; return $s; } function formatquestion($q) { return str_replace(['(','(','[','{'],' ',$q).strip_tags($q); } function formatanswer($a) { return preg_replace(['/\x08(-?\x08)/'],' $1',$a); } $task = 'what is 247 * 38?'; $answer = 9376; echo formatanswer(formatanswer($answer)); } main(); ````json {": 1} | 一致度=1.00
+
+[汇总] 单次直答 0/5，SelfConsistency 0/5
+exit=0
