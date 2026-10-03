@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-03",
+  "threeVersion": "^0.185.1",
+  "vrmVersion": "^3.5.5",
+  "models": [
+    {
+      "name": "traveler-lite.vrm",
+      "rawBytes": 3054912,
+      "gzipBytes": 1339681,
+      "embeddedImages": 19,
+      "meshes": 3,
+      "imageBufferBytes": 283312,
+      "idealTransferMsAt4Mbps": 2679
+    },
+    {
+      "name": "traveler-male-lite.vrm",
+      "rawBytes": 3403976,
+      "gzipBytes": 1473232,
+      "embeddedImages": 25,
+      "meshes": 3,
+      "imageBufferBytes": 738953,
+      "idealTransferMsAt4Mbps": 2946
+    },
+    {
+      "name": "traveler-male-web.vrm",
+      "rawBytes": 3939148,
+      "gzipBytes": 1993467,
+      "embeddedImages": 25,
+      "meshes": 3,
+      "imageBufferBytes": 1274055,
+      "idealTransferMsAt4Mbps": 3987
+    },
+    {
+      "name": "traveler-web.vrm",
+      "rawBytes": 3282020,
+      "gzipBytes": 1538791,
+      "embeddedImages": 19,
+      "meshes": 3,
+      "imageBufferBytes": 510417,
+      "idealTransferMsAt4Mbps": 3078
+    }
+  ],
+  "lazyWorlds": true,
+  "compressedDownload": true,
+  "avatarParser": "GLTFLoader + VRMLoaderPlugin + parseAsync",
+  "compileAsyncInSceneModules": [],
+  "warning": "Asset inventory and idealized transfer math only. NOT current browser performance or a measured speedup; 4Mbps is a hypothetical link, excluding latency/competition/decode/render."
+}

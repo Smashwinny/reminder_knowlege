@@ -1,0 +1,72 @@
+[
+  {
+    "name": "AIHOT",
+    "url": "https://github.com/Smashwinny/AIHOT",
+    "description": "一个自己找热点、自己写日报的网站框架。把信源和精选标准换成你的，它就是你的行业热点站。",
+    "upstream": "KKKKhazix/AIHOT",
+    "track": "study-and-adaptation",
+    "evidence": "Public fork; personal contribution not yet verified",
+    "demoStatus": "not-verified",
+    "license": "MIT"
+  },
+  {
+    "name": "street-cat-king",
+    "url": "https://github.com/Smashwinny/street-cat-king",
+    "description": "街区猫王 Street Cat King — 一款猫咪主题策略桌游的线上版 (online adaptation of a cat-themed strategy board game)",
+    "upstream": null,
+    "track": "self-maintained-implementation",
+    "evidence": "Public non-fork + README; not a running-demo verification",
+    "demoStatus": "not-verified",
+    "license": null
+  },
+  {
+    "name": "floorplan-3d",
+    "url": "https://github.com/Smashwinny/floorplan-3d",
+    "description": "",
+    "upstream": "wy51ai/floorplan-3d",
+    "track": "study-and-adaptation",
+    "evidence": "Public fork; personal contribution not yet verified",
+    "demoStatus": "not-verified",
+    "license": null
+  },
+  {
+    "name": "crush-monitor",
+    "url": "https://github.com/Smashwinny/crush-monitor",
+    "description": "Crush 好感监控器：用 Jev 分析微信聊天的情绪、意图和回复表现。本机部署，使用自己的 API Key。",
+    "upstream": "FerryCorleone/crush-monitor",
+    "track": "study-and-adaptation",
+    "evidence": "Public fork; personal contribution not yet verified",
+    "demoStatus": "not-verified",
+    "license": "MIT"
+  },
+  {
+    "name": "laya",
+    "url": "https://github.com/Smashwinny/laya",
+    "description": "",
+    "upstream": "NandhaKishorM/laya",
+    "track": "study-and-adaptation",
+    "evidence": "Public fork; personal contribution not yet verified",
+    "demoStatus": "not-verified",
+    "license": "Apache-2.0"
+  },
+  {
+    "name": "magpie",
+    "url": "https://github.com/Smashwinny/magpie",
+    "description": "Every agent's model. One place. Codex on DeepSeek, Claude Code on Kimi, from the menu bar.",
+    "upstream": "yetone/magpie",
+    "track": "study-and-adaptation",
+    "evidence": "Public fork; personal contribution not yet verified",
+    "demoStatus": "not-verified",
+    "license": "MIT"
+  },
+  {
+    "name": "BeefTV",
+    "url": "https://github.com/Smashwinny/BeefTV",
+    "description": "Local-first, lightweight, AI-native video workspace.",
+    "upstream": "glanderness/BeefTV",
+    "track": "study-and-adaptation",
+    "evidence": "Public fork; personal contribution not yet verified",
+    "demoStatus": "not-verified",
+    "license": "MIT"
+  }
+]

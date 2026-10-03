@@ -1,0 +1,90 @@
+{
+  "checkedOn": "2026-10-03",
+  "method": "GitHub connector: repository metadata + street-cat-king README; not execution evidence",
+  "repositories": [
+    {
+      "name": "AIHOT",
+      "url": "https://github.com/Smashwinny/AIHOT",
+      "description": "一个自己找热点、自己写日报的网站框架。把信源和精选标准换成你的，它就是你的行业热点站。",
+      "visibility": "public",
+      "fork": true,
+      "upstream": "KKKKhazix/AIHOT",
+      "license": "MIT",
+      "updated": "2026-09-29T13:13:00Z",
+      "branch": "main",
+      "homepage": "https://aihot.news"
+    },
+    {
+      "name": "street-cat-king",
+      "url": "https://github.com/Smashwinny/street-cat-king",
+      "description": "街区猫王 Street Cat King — 一款猫咪主题策略桌游的线上版 (online adaptation of a cat-themed strategy board game)",
+      "visibility": "public",
+      "fork": false,
+      "upstream": null,
+      "license": null,
+      "updated": "2026-09-25T06:03:15Z",
+      "branch": "main",
+      "homepage": null
+    },
+    {
+      "name": "floorplan-3d",
+      "url": "https://github.com/Smashwinny/floorplan-3d",
+      "description": "",
+      "visibility": "public",
+      "fork": true,
+      "upstream": "wy51ai/floorplan-3d",
+      "license": null,
+      "updated": "2026-09-29T08:13:14Z",
+      "branch": "master",
+      "homepage": null
+    },
+    {
+      "name": "crush-monitor",
+      "url": "https://github.com/Smashwinny/crush-monitor",
+      "description": "Crush 好感监控器：用 Jev 分析微信聊天的情绪、意图和回复表现。本机部署，使用自己的 API Key。",
+      "visibility": "public",
+      "fork": true,
+      "upstream": "FerryCorleone/crush-monitor",
+      "license": "MIT",
+      "updated": "2026-09-21T02:50:38Z",
+      "branch": "main",
+      "homepage": null
+    },
+    {
+      "name": "laya",
+      "url": "https://github.com/Smashwinny/laya",
+      "description": "",
+      "visibility": "public",
+      "fork": true,
+      "upstream": "NandhaKishorM/laya",
+      "license": "Apache-2.0",
+      "updated": "2026-09-20T17:44:55Z",
+      "branch": "main",
+      "homepage": null
+    },
+    {
+      "name": "magpie",
+      "url": "https://github.com/Smashwinny/magpie",
+      "description": "Every agent's model. One place. Codex on DeepSeek, Claude Code on Kimi, from the menu bar.",
+      "visibility": "public",
+      "fork": true,
+      "upstream": "yetone/magpie",
+      "license": "MIT",
+      "updated": "2026-09-30T09:11:05Z",
+      "branch": "main",
+      "homepage": "https://usemagpie.ai"
+    },
+    {
+      "name": "BeefTV",
+      "url": "https://github.com/Smashwinny/BeefTV",
+      "description": "Local-first, lightweight, AI-native video workspace.",
+      "visibility": "public",
+      "fork": true,
+      "upstream": "glanderness/BeefTV",
+      "license": "MIT",
+      "updated": "2026-09-27T10:51:23Z",
+      "branch": "main",
+      "homepage": null
+    }
+  ]
+}

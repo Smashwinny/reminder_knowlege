@@ -1,0 +1,40 @@
+{
+  "upstreamCommit": "3343fe2b20db4be7269113752d82d3992fc52b6b",
+  "sourceSha256": "84a1bcdf6f07f151d4a22954e282fd6a7893842d41ccc11503519674c84cf367",
+  "testsPassed": 11,
+  "cacheResults": [
+    {
+      "label": "normal",
+      "actual": "public, max-age=0, s-maxage=60",
+      "pass": true
+    },
+    {
+      "label": "release in 5s",
+      "actual": "public, max-age=0, s-maxage=5",
+      "pass": true
+    },
+    {
+      "label": "upstream in 2s",
+      "actual": "public, max-age=0, s-maxage=2",
+      "pass": true
+    },
+    {
+      "label": "upstream no-store",
+      "actual": "no-cache",
+      "pass": true
+    },
+    {
+      "label": "already released",
+      "actual": "no-cache",
+      "pass": true
+    },
+    {
+      "label": "upstream zero",
+      "actual": "no-cache",
+      "pass": true
+    }
+  ],
+  "publicCount": 7,
+  "adaptationCount": 6,
+  "scope": "Isolated upstream cache-function tests + self-authored public-snapshot experiment. No DB, LLM, paid API, collection, or website deployment."
+}

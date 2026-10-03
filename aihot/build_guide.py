@@ -1,0 +1,180 @@
+from pathlib import Path
+import json, html
+
+ROOT = Path(__file__).resolve().parent
+audit = json.loads((ROOT/'exercise/output/website-audit.json').read_text(encoding='utf-8'))
+evidence = json.loads((ROOT/'exercise/repository-evidence.json').read_text(encoding='utf-8'))
+esc = html.escape
+
+def diagram(labels, color='#3158ff'):
+    parts=['<svg viewBox="0 0 630 94" role="img" aria-label="'+esc(' → '.join(labels))+'"><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="'+color+'"/></marker></defs>']
+    for i,label in enumerate(labels):
+        x=10+i*210
+        parts.append(f'<rect x="{x}" y="13" width="185" height="67" rx="15" fill="{color}" opacity=".10"/><text x="{x+92}" y="53" text-anchor="middle" fill="{color}" font-size="17" font-weight="700">{esc(label)}</text>')
+        if i<2: parts.append(f'<path d="M{x+189},46 L{x+204},46" stroke="{color}" stroke-width="2" marker-end="url(#arrow)"/>')
+    return ''.join(parts)+'</svg>'
+
+questions=[
+('这个网站是什么？它不是哪一类模板？',
+ 'AIHOT 是“行业资料的编辑工厂”：采集信源，判断价值，形成事件与刊物，再展示给读者。不是三维渲染引擎，也不是给作品集换一套皮肤的模板。',
+ '摸底看到三个进程：web 展示页面，api 提供数据，worker 执行采集与模型任务。Node.js、React Router、Fastify、PostgreSQL 与任务队列各自承担工作。',
+ '对 GeniusQI：借鉴数据生产和展示边界，继续保留现有 Three.js 世界；不用为了学习它把 vinext/React 换成另一套框架。',
+ ['行业信源','编辑工厂','网站 / 日报']),
+('为什么浏览时不用等 AI？',
+ '它把耗时的模型工作提前到后台。SSR（服务端渲染）是服务器先输出已有内容，不是等浏览器下载完整应用后再找内容。',
+ '源码约束是“页面不调模型”：worker 先保存结果，web 只经 HTTP 读 api。模型慢或临时不可用，不应把读者卡在生成动画里。',
+ '我们可把仓库介绍、学习摘要、版本日志提前审核并生成 JSON/Markdown。打开作品图鉴先有结果，再按用户选择进入三维。现有聊天是主动请求，不应绑在首页加载上。',
+ ['后台先处理','保存已审内容','访客直接读取']),
+('任务失败重试，会重复花钱吗？',
+ '任务队列是给后台工作排队的系统。重试很必要，但如果每次都重新调用付费模型，会把同一条摘要付费多次。',
+ 'AIHOT 为付费请求记录回执，先存服务结果再供后续流程复用。预算熔断则为单位时间费用设置上限；它是成本护栏，不是无限免费。',
+ '网站的自动项目摘要、未来向导都可以学习这套规则。仍需处理“请求已发出但结果未知”的状态；不能把有回执简单说成永远只付一次。',
+ ['付费请求','回执 / 预算','复用或核对']),
+('同一内容打两次分就可信吗？',
+ '评分是按规则对内容价值做判断，不是证明新闻事实。AIHOT 用相同标准独立评分两次，平均结果与信源分级门槛比较。',
+ 'KnowHow 指你对行业的判断经验，写在 prompts 中。评测集是人工标注的“该选 / 不该选”样本；查准率、查全率帮助发现标准偏松还是偏严。',
+ '我们可评测“哪些项目放首页”，但保留人工确认。两次评分不能消除同模型的共同偏差；项目归属、可运行状态和原创贡献要靠仓库与演示证据。',
+ ['个人标准','两次评分','人工样本校准']),
+('文章去重和事件归组有什么区别？',
+ '相同 URL 的重复采集是一种重复；不同媒体报道同一发布，则是不同文章、同一事件。只按链接判重会让首页充满一件事。',
+ 'AIHOT 先用向量找候选，再判断是同一件事、后续进展还是不同事件。热度按独立参与方计数，并有时间衰减，避免一家重复报道无限加分。',
+ '作品集可以类比“项目→版本→证据”：README、提交、截图、演示同归一个项目。这里是移植建议，不是把新闻聚簇算法直接当项目管理器；也不按提交次数假造作品热度。',
+ ['多篇报道','一个事件','一次清晰展示']),
+('如何避免网站、RSS、API 各说各话？',
+ '公开读取层就是所有公开出口共用的内容闸门。发布、隐藏、撤回、许可等规则只定义一次，而不是每个页面自己过滤。',
+ 'AIHOT 的 publication/scope.ts 定义边界，网页、RSS、API、MCP 等从同一个 publication 层读。旧热点也在输出前检查是否仍可公开。',
+ 'GeniusQI 的作品图鉴、五个主题、向导上下文也应共享同一份公开项目快照。私有仓库不是“加隐藏 CSS”就安全，必须在构建输出前剔除。',
+ ['唯一公开规则','公开项目快照','2D / 3D / 向导']),
+('个人化内容和引擎要放在一起吗？',
+ 'AIHOT 把站名、信源、分类、门槛、提示词集中在 industry 配置包里；通用业务流程与行业判断分开。',
+ '配置驱动意味着调整内容不必重写渲染器。但配置仍有结构约束和验证，并不是任意一段自然语言都能自动变成可靠功能。',
+ '我们可分成 content/projects、content/studies、world-layout 与 rendering。新增作品先增加项目记录，再给某个主题分配展台；别每次手改五套世界代码。',
+ ['个人内容配置','结构化契约','多主题复用']),
+('缓存越久，网站就越好吗？',
+ '缓存是复用已有响应，减少重复工作；但缓存太久会展示已撤回内容，或延迟刚达到发布时间的内容。速度和正确性必须一起考虑。',
+ 'AIHOT 的 releaseBoundCache 取多个截止时刻中的最早一个。普通上限 60 秒、5 秒后有新内容，则只缓存 5 秒；上游 no-store 时不能扩大为公共缓存。',
+ '本次直接隔离并执行了该上游函数，6 个用例通过。我们可让带内容哈希的模型长期缓存，目录快照短期缓存；不要原样照搬新闻站的所有 TTL。',
+ ['缓存上限 60s','新内容在 5s','只缓存 5s']),
+('可以把所有新仓库都写成“我的作品”吗？',
+ '公开性、仓库归属和个人贡献是三个不同问题。你拥有一个 Fork，并不意味着上游软件的全部能力都是你创造的。',
+ '本次读取 GitHub 元数据和街区猫王 README。6 个候选是 Fork，1 个是非 Fork；这些是仓库证据，还不是本人贡献审计或实际 Demo 成功证据。',
+ '建议区分“个人实现 / 上游学习 / 有证据的二次改造 / 概念”。街区猫王可优先做试玩，标注桌游改编与规则来源；私有仓库没有授权过的内容不输出。',
+ ['仓库元数据','贡献与运行证据','正确的展示身份']),
+('可以直接学它做自动更新吗？',
+ '后台定时采集可以更新资讯，但自动化也会增加 API 成本、内容误判、版权和运维负担。自动化不是本报告擅自开启的功能。',
+ '更适合你的第一步是“审核后生成静态内容”：整理项目、来源、解决问题、截图与状态，再输出同一份公开清单。现有同步脚本有基础，但还缺学习/改造轨道。',
+ '以后你明确需要持续同步时，再接 Release、工作日志或知识库摘要；保留审批记录、预算上限和失败告警。只展示有授权的摘要与原文链接，非授权全文不搬运。',
+ ['仓库 / 知识库','审核后生成','发布静态快照']),
+('它的页面设计有什么可以学？',
+ '从源码看，主页先呈现热点与内容，再提供分类和搜索；手机与桌面有不同布局。它的价值是信息层级，而不是堆满大标题与特效。',
+ 'GeniusQI 可以先回答“你做了什么、解决谁的问题、哪里能体验”，再提供探索世界。3D 是可选的深度浏览，不应成为理解作品的唯一通道。',
+ '具体建议：作品卡先显示问题和证据；学习卡显示主实验与指南；版本卡显示最近验证时间。官网在线抓取本次超时，以上视觉判断来自开源页面代码，非实机全站体验。',
+ ['问题与证据','清晰作品入口','可选空间探索']),
+('能把它的“毫秒级”速度搬到我们场景吗？',
+ '不能。接口或服务端耗时不等于浏览器能操控人物的耗时。三维还需要传输模型、解压、解析、贴图上传、着色器编译和碰撞准备。',
+ '我们已有 Three.js ^0.185.1、GLTFLoader、VRM 插件、按主题懒加载、移动人物和 gzip 下载。上轮晴岚浮岛配对实验 p75 为 6.62→5.83 秒，日期是 2026-09-27。',
+ '那是旧版实验室对比，不能当今天的手机速度。本次只做源码与资源审计，没有新性能 A/B；不能宣称再次提速，也没有理由先重写为 R3F 或 WebGPU。',
+ ['服务端响应','资源与 GPU 准备','真正可以操控']),
+]
+
+CSS='''
+@page{size:A4;margin:0}*{box-sizing:border-box}body{margin:0;font-family:"Microsoft YaHei","Segoe UI",sans-serif;color:#132044;background:#eef2ff;-webkit-print-color-adjust:exact;print-color-adjust:exact} :root{--blue:#3158ff;--pink:#ec2875;--teal:#008f87;--gold:#ffbb24}
+.page{width:210mm;height:297mm;margin:12px auto;background:white;padding:15mm 14mm 17mm;position:relative;break-after:page;overflow:hidden}.page:last-child{break-after:auto}.eyebrow{font-size:11px;font-weight:800;letter-spacing:2px;color:var(--blue);margin-bottom:8px}h1{font-size:44px;line-height:1.18;margin:12px 0 24px;letter-spacing:-1px}h2{font-size:28px;margin:0 0 14px;line-height:1.3}h3{font-size:17px;margin:12px 0 7px}p,li{font-size:13px;line-height:1.75;margin:7px 0}strong{color:var(--blue)}.lead{font-size:18px;line-height:1.65}.banner{background:#132044;color:white;border-radius:18px;padding:21px;margin:20px 0}.banner strong{color:#ffe369}.badge{display:inline-block;font-size:11px;padding:6px 10px;background:#e8edff;color:var(--blue);border-radius:20px;margin:3px 4px 3px 0}.footer{position:absolute;bottom:9mm;left:14mm;right:14mm;display:flex;justify-content:space-between;font-size:10px;color:#53628b;border-top:1px solid #d8def0;padding-top:6px}.question{border:1px solid #d8dff5;border-top:6px solid var(--accent);border-radius:18px;padding:17px;margin:12px 0 20px;min-height:104mm}.question h3{font-size:20px;line-height:1.4;margin:0 0 12px;display:flex;align-items:flex-start;gap:12px}.num{font-size:40px;font-weight:900;line-height:1;color:var(--accent)}.question p{font-size:12.6px;line-height:1.77;margin:8px 0}.question svg{width:100%;height:76px;margin:6px 0}.takeaway{padding:10px 12px;background:#fff6d5;border-radius:10px;font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.tile{background:#eef2ff;padding:16px;border-radius:15px;margin:9px 0}.tile:nth-child(2n){background:#fff0f6}.tile h3{margin-top:0;color:#1d3dc9}.muted{color:#53628b;font-size:12px}.row{margin-bottom:15px;padding:12px 15px;border-left:5px solid var(--blue);background:#eef2ff}.callout{border-left:5px solid var(--pink);padding:12px 15px;background:#fff0f6;margin:14px 0}table{border-collapse:collapse;width:100%;font-size:12px;line-height:1.6;margin:14px 0}th{background:var(--blue);color:white;text-align:left}td,th{padding:10px 9px;border-bottom:1px solid #d8dff5}tr:nth-child(even){background:#f3f5ff}a{color:#3158ff;text-decoration:none;overflow-wrap:anywhere}pre{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all;background:#132044;color:#dbe5ff;padding:12px;border-radius:10px;font:10.5px/1.6 Consolas,monospace}code{font:11px Consolas,monospace}.big{font-size:42px;font-weight:900;color:var(--blue)}.steps .row p{font-size:12px}.linklist li{font-size:11px;line-height:1.6;margin:10px 0}@media print{body{background:white}.page{margin:0;box-shadow:none}}@media screen{.page{box-shadow:0 12px 50px #bdc8e0}nav{position:fixed;top:12px;left:12px;z-index:10;background:#132044;color:white;border-radius:10px;padding:12px;font-size:12px}nav a{color:white}}
+'''
+pages=[]
+def page(title,body,kicker='LEARN PROJECT / AIHOT'):
+    i=len(pages)+1
+    pages.append(f'<section class="page" id="p{i}"><div class="eyebrow">{kicker}</div>{title}{body}<div class="footer"><span>GeniusQI · 源码学习 / 网站迁移建议 · 2026-10-03</span><span>{i:02d}</span></div></section>')
+
+page('<h1>先把知识准备好，<br>再让访客走进来。</h1>',f'''
+<p class="lead">AIHOT 小白指南 × GeniusQI 网站应用报告</p><div><span class="badge">12 个问题</span><span class="badge">彩色图解</span><span class="badge">动手验证</span><span class="badge">新增项目分轨</span></div>
+<div class="banner"><p class="lead">最重要的不是复制一个资讯站，<br><strong>而是把内容生产移出浏览的等待路径。</strong></p></div>
+{diagram(['先审内容','共用公开数据','再进入三维'])}
+<h3>你会带走什么</h3><div class="grid"><div class="tile"><h3>内容层</h3><p>仓库、学习笔记与版本证据整理成公开快照，让五种主题说同一件事。</p></div><div class="tile"><h3>体验层</h3><p>作品先可读、链接先可点；三维探索可选，不用“看到加载条”冒充可操作。</p></div><div class="tile"><h3>性能层</h3><p>已有 Three.js 不推倒；把下载、解析、GPU 准备分别量出来再优化。</p></div><div class="tile"><h3>可信度</h3><p>个人实现与上游 Fork 分开，README 描述与真正跑通的 Demo 分开。</p></div></div>
+<p class="muted">上游：KKKKhazix/AIHOT；固定源码 3343fe2b20db4be7269113752d82d3992fc52b6b。网站基线：my_website 本地 4ce04f8。方法：用户提供的 learn-project + 性能建议采用 huashu-flash。</p>
+<div class="callout"><b>范围说明</b><p>源码已克隆、核心阅读与离线实验已执行。未启动全套 PostgreSQL / Docker 服务，未使用模型 Key 或产生 API 费用；没有修改、部署 geniusqi.com。</p></div>''')
+
+for j in range(0,12,2):
+    cards=[]
+    for k in range(j,j+2):
+        title,p1,p2,p3,labels=questions[k]
+        color='#3158ff' if k%2==0 else '#ec2875'
+        cards.append(f'<article class="question" style="--accent:{color}"><h3><span class="num">{k+1:02d}</span>{title}</h3><p>{p1}</p>{diagram(labels,color)}<p>{p2}</p><div class="takeaway">{p3}</div></article>')
+    page('', ''.join(cards),f'QUESTIONS / {j+1:02d} - {j+2:02d}')
+
+page('<h2>它给我哪些能力？</h2>',f'''
+<p class="lead">学方法，不把资讯站整个搬进作品集。</p>{diagram(['源码经验','个人知识库','GeniusQI 内容系统'])}
+<div class="row"><h3>01 · 项目内容生成器</h3><p>仓库资料 → 人工核对问题、贡献、状态 → 公开 JSON/Markdown。一次准备，首页、图鉴、世界和向导共同读取。</p></div>
+<div class="row"><h3>02 · 学习成果展厅</h3><p>每项学习挂指南、主实验、输出证据与上游链接，形成“我如何学会并应用”的个人记录，而非上游项目转售橱窗。</p></div>
+<div class="row"><h3>03 · 开发版本时间线</h3><p>Release、提交和截图归到项目版本。分清“构思”“代码已提交”“已验证”“已上线”，让访客知道哪些能真正体验。</p></div>
+<div class="row"><h3>04 · 来源和公开范围的统一闸门</h3><p>公开范围与许可在生成阶段确定；私有源、未确认文案不进入公共 bundle，撤回同时影响所有主题与导出。</p></div>
+<div class="row"><h3>05 · 可控的 AI 内容后台</h3><p>将来需要自动摘要时，用队列、请求回执、预算和评测。是否自动更新、用哪家模型、预算多少，留给你明确决定。</p></div>
+<div class="callout"><b>移植边界</b><p>目前不需要 PostgreSQL + pg-boss 全家桶，不新建行业新闻站，不照搬 AIHOT 评分门槛，不复制其名字与 Logo。</p></div>''')
+
+rows=''.join(f'<tr><td><b>{esc(r["name"])}</b></td><td>{"学习与改造" if r["fork"] else "个人实现候选"}</td><td>{esc(r["upstream"] or "非 Fork；桌游改编实现")}</td></tr>' for r in evidence['repositories'])
+page('<h2>新增项目怎么展示才像你？</h2>',f'''
+<p>截至 2026-10-03 的公开仓库核对；列表只包含本次研究的 7 个候选，不是全账号统计。</p><table><tr><th>项目</th><th>建议身份</th><th>上游 / 证据</th></tr>{rows}</table>
+<div class="banner"><h3>优先做：街区猫王试玩展台</h3><p>README 描述了 2-4 人本地轮流与 AI 对手、浏览器存档、零依赖前端结构。适合“空间里的棋盘 → 点击 → 隔离试玩 → 查看规则取舍 → 仓库”。</p><p><strong>尚未实机验证游戏。</strong>不能把 README 里的部署方法说成线上 Demo 已可用。桌游规则来源与改编身份也要标清。</p></div>
+<h3>Fork 要如何升级为个人作品？</h3><p>补一条能定位的改动证据：你的 commit / diff、改造前后截图、运行测试与明确使用场景。没有这些时显示“上游学习”；有证据再显示“二次改造”。非 Fork 也不自动证明所有素材或玩法原创。</p>
+<div class="callout"><b>未做的事</b><p>私有仓库没有自动公开。没有检查所有 Fork 的个人分支，因此没有断言“你没有改过它们”。本次只生成候选清单，没有扩建正式场景。</p></div>''')
+
+modelrows=''.join(f'<tr><td>{esc(m["name"].replace("traveler-",""))}</td><td>{m["gzipBytes"]/1e6:.2f} MB</td><td>{m["embeddedImages"]}</td><td>{m["idealTransferMsAt4Mbps"]/1000:.2f}s</td></tr>' for m in audit['models'])
+page('<h2>Three.js：要优化，不必重写。</h2>',f'''
+<div class="takeaway"><b>确认：</b>网站已使用 Three.js ^0.185.1 + VRM。按主题懒加载、移动版模型、gzip、字节缓存和下载并行已有；不能把这些再次算作新优化。</div>
+<table><tr><th>当前人物资源</th><th>gzip 字节量¹</th><th>内嵌图片数</th><th>4Mbps 理想传输²</th></tr>{modelrows}</table>
+<p class="muted">¹ MB=1,000,000 字节；实际传输还取决于响应头与路径。² 公式=文件字节×8÷4,000,000，只是估算，不含延迟、竞争、解压、VRM 解析与 GPU 工作，不是手机实测。</p>
+<h3>按优先级做下一轮实验</h3><div class="row"><p><b>P0 · 加分段时间戳：</b>主题点击 → JS 到达 → 人物下载 → 解压 → VRM 解析 → 环境/碰撞 → 首帧 → 输入响应。记录真正可操作的终点。</p></div>
+<div class="row"><p><b>P1 · 贴图/几何资产实验：</b>先量 CPU/GPU 和字节贡献，试 KTX2/Basis 或 Meshopt。人物含表情、骨骼与 VRM 扩展，必须验证材质、动作、头发和解码兼容；不能只看下载减小。</p></div>
+<div class="row"><p><b>P1 · 首帧准备：</b>目前场景模块没有 compileAsync 调用。可用异步编译、贴图预准备做对照；这会移动开销，不保证端到端更快，也不能假定所有设备支持相同扩展。</p></div>
+<div class="row"><p><b>P2 · 运行流畅度：</b>InstancedMesh、共享材质、视锥裁剪、静态阴影、像素预算可能改善 FPS；优先保持现有交互，别把帧率改善说成进入时间改善。</p></div>
+<p><b>验收：</b>前后各至少 10 次同条件交替 A/B，报 p50/p75/p95；检查五主题、男女角色、二段跳、桌面与手机布局。CDN/DNS 改动单独授权。默认减半是实验目标，不是承诺。</p>''')
+
+node=r'C:\Users\Windows\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe'
+page('<h2>主实验 / 先产出内容，再读快照</h2>',f'''
+<p>纯 Node 实验，使用已克隆的真实上游函数 + 自建公开快照材料。无需 API Key、数据库或付费服务。文件放在 exercise/，不改 repo/。</p>
+<div class="steps"><div class="row"><h3>1 · 固定环境和工作目录</h3><pre>$node = "{node}"
+Set-Location -LiteralPath 'F:\\reminder\\aihot'
+&amp; $node --version
+git -C .\\repo log -1 --format="%H"</pre><p>目的：确认同一份代码。验证：Node v24.19.0，3343fe2…；本次 Python 使用进程级 UTF-8，没有改系统编码。</p></div>
+<div class="row"><h3>2 · 验证架构边界</h3><pre>&amp; $node .\\exercise\\architecture-windows.mjs</pre><p>目的：验证 web 不碰数据库、公开出口只读公开层。验证：5/5 通过。原测试直接在 Windows 为 3/5：两项用 POSIX 分隔符比较路径；实验夹具只归一化反斜杠，不改上游源码。</p></div>
+<div class="row"><h3>3 · 跑公开快照与缓存实验</h3><pre>&amp; $node .\\exercise\\lab.mjs</pre><p>目的：内容预处理与范围过滤。验证：11 个断言通过，输出 output/public-projects.json 和 lab-results.json；合成私有与草稿项被剔除。</p></div>
+<div class="row"><h3>4 · 查看可见中间成果</h3><pre>Get-Content -LiteralPath .\\exercise\\output\\public-projects.json</pre><p>验证：7 个候选，6 个学习/改造，1 个个人实现候选；每个项目都保留来源和“Demo 未验证”状态。</p></div></div>''')
+
+page('<h2>主实验 / 改参数，观察结果</h2>',f'''
+<div class="row"><h3>5 · 在独立预览中比较两条轨道</h3><pre>Start-Process .\\learning_lab.html</pre><p>这是 HTML 学习实验，不是正式网站。点击“全部 / 个人实现 / 学习改造”观察项目数量；下方选择缓存场景，查看 60s、5s 与 no-cache 的差别。PDF 为静态，互动请打开旁边 HTML。</p></div>
+<div class="row"><h3>6 · 审计现有资产而非猜慢在哪</h3><pre>&amp; $node .\\exercise\\audit-website.mjs
+Get-Content -LiteralPath .\\exercise\\output\\website-audit.json</pre><p>验证：4 个 web/lite 模型；每个 gzip 解压后逐字节等于原 VRM。输出材质图片数与字节，不声称网站因此提速。</p></div>
+<h3>缓存实验的实际结果</h3><table><tr><th>场景</th><th>公共缓存结果</th></tr><tr><td>普通请求，上限 60 秒</td><td>s-maxage=60</td></tr><tr><td>5 秒后有新发布</td><td>s-maxage=5</td></tr><tr><td>上游只准缓存到 2 秒后</td><td>s-maxage=2</td></tr><tr><td>上游 no-store / 0 / 已过期</td><td>no-cache</td></tr></table>
+{diagram(['真实源码函数','6 个缓存用例','边界全部通过'])}
+<div class="callout"><b>测试不能替代的事情</b><p>11 个断言与 5 个架构测试不等于全站测试通过。没有运行新闻采集、模型评分、数据库迁移和完整后台；没有启动街区猫王试玩。学习实验显示概念可行，不等于已接入生产。</p></div>
+<p class="muted">打开预览这一操作只启动本地学习 HTML；其余命令已实际执行并核对输出。自建脚本与 JSON 全部随学习成果保存，可复跑。</p>''')
+
+links=[
+('固定源码与 README','https://github.com/KKKKhazix/AIHOT/tree/3343fe2b20db4be7269113752d82d3992fc52b6b'),
+('架构：三个进程、公开读取层、成本与安全阀','https://github.com/KKKKhazix/AIHOT/blob/3343fe2b20db4be7269113752d82d3992fc52b6b/docs/architecture.md'),
+('精选与校准：门槛、两次评分、人工金标样本','https://github.com/KKKKhazix/AIHOT/blob/3343fe2b20db4be7269113752d82d3992fc52b6b/docs/selection.md'),
+('真实缓存函数：releaseBoundCache','https://github.com/KKKKhazix/AIHOT/blob/3343fe2b20db4be7269113752d82d3992fc52b6b/apps/web/app/lib/api.server.ts'),
+('MIT 与品牌、字体等许可说明','https://github.com/KKKKhazix/AIHOT/blob/main/NOTICE'),
+('Three.js WebGLRenderer / compileAsync','https://threejs.org/docs/pages/WebGLRenderer.html'),
+('Three.js KTX2Loader','https://threejs.org/docs/pages/KTX2Loader.html'),
+('Three.js GLTFLoader / 扩展解码器','https://threejs.org/docs/pages/GLTFLoader.html'),
+('街区猫王：仓库与 README','https://github.com/Smashwinny/street-cat-king'),
+]
+page('<h2>下一步：一条内容线，一条性能线。</h2>',f'''
+<div class="grid"><div class="tile"><h3>内容线</h3><p>先接街区猫王与学习成果。把公开范围、原创/改造身份、解决问题、验证日期、上游、Demo 状态做成字段；五主题共用。</p></div><div class="tile"><h3>性能线</h3><p>先记录 click-to-controllable 分段，再做一项小实验。若主要卡传输就优化资产；若卡解析/首帧再动主线程/GPU。</p></div></div>
+<p><b>不要同时重写框架、换渲染器、换托管。</b>那样即使变快，也不知道是谁起作用。保留已验证二段跳和世界玩法；按同口径回归。</p>
+<h3>来源 / 可复核证据</h3><ul class="linklist">{''.join('<li>'+esc(label)+'<br><a href="'+url+'">'+esc(url)+'</a></li>' for label,url in links)}</ul>
+<h3>本地证据</h3><p>exercise/output/ 下保存实验结果、公开候选快照和资产审计；exercise/repository-evidence.json 保存公开仓库元数据。旧速度数据来自 my_website/perf/报告.md，明确标注 2026-09-27 的实验室条件。</p>
+<div class="takeaway"><b>未动：</b>线上站点、DNS/CDN、模型 Key、私有仓库公开范围、上游源码与其他任务的笔记。研究建议未当作性能收益。</div>''')
+
+(ROOT/'aihot_guide.html').write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>AIHOT 学习与 GeniusQI 网站应用指南</title><style>'+CSS+'</style><body>'+''.join(pages)+'</body></html>',encoding='utf-8')
+
+labdata=json.loads((ROOT/'exercise/output/public-projects.json').read_text(encoding='utf-8'))
+labresults=json.loads((ROOT/'exercise/output/lab-results.json').read_text(encoding='utf-8'))
+labhtml='''<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AIHOT 学习实验 | GeniusQI</title><style>
+body{margin:0;background:#eef2ff;color:#132044;font:16px/1.7 "Microsoft YaHei",sans-serif}main{max-width:1000px;margin:40px auto;padding:25px}h1{font-size:42px;line-height:1.2}h2{font-size:27px}.note{background:#132044;color:white;border-radius:16px;padding:22px}button,select{padding:10px 16px;border:1px solid #3158ff;background:white;color:#3158ff;border-radius:12px;font:inherit;margin:8px 4px 8px 0;cursor:pointer}button[aria-pressed=true]{background:#3158ff;color:white}button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid #ec2875;outline-offset:3px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin:20px 0}article{background:white;border-top:6px solid #3158ff;padding:22px;border-radius:14px}a{color:#3158ff}small{color:#53628b}output{font:700 19px Consolas,monospace;display:block;background:#ffe49a;padding:18px;border-radius:12px}.lab{background:white;padding:22px;border-radius:16px;margin-top:30px}
+</style><main><small>LEARN-PROJECT / 离线学习实验 / 2026-10-03</small><h1>后台准备一次，<br>前台读同一份结果。</h1><p class="note">这是学习材料，不是正式作品集；没有网络 API、模型调用或秘密信息。所有项目的 Demo 都尚未验证。轨道不是原创认证，而是本次公开元数据核对。</p><h2>实验 A · 公开快照</h2><div role="group" aria-label="项目展示轨道"><button data-filter="all" aria-pressed="true">全部</button><button data-filter="self-maintained-implementation" aria-pressed="false">个人实现候选</button><button data-filter="study-and-adaptation" aria-pressed="false">学习与改造</button></div><p id="count" role="status"></p><div class="cards" id="cards"></div><section class="lab"><h2>实验 B · 缓存要守住发布边界</h2><label for="case">选择真实上游函数已验证过的用例：</label><select id="case"></select><output id="cache" aria-live="polite"></output><p>这不是模拟网页测速。展示的是 releaseBoundCache 的实际用例输出：不是缓存越久就越好。</p></section><p><a href="aihot_guide.html">阅读完整图文指南</a> · <a href="https://github.com/KKKKhazix/AIHOT">上游源码</a></p></main><script>
+const projects=DATA;const cases=CASES;const cards=document.querySelector('#cards');function render(filter='all'){const list=projects.filter(p=>filter==='all'||p.track===filter);cards.replaceChildren();for(const p of list){const article=document.createElement('article');const h=document.createElement('h3');h.textContent=p.name;const d=document.createElement('p');d.textContent=p.description||'请以源仓库内容为准';const s=document.createElement('small');s.textContent=p.track==='study-and-adaptation'?'上游：'+p.upstream+' / Demo 未验证':'非 Fork / 桌游改编实现 / Demo 未验证';const a=document.createElement('a');a.href=p.url;a.textContent='查看仓库';a.target='_blank';a.rel='noopener noreferrer';article.append(h,d,s,document.createElement('br'),a);cards.append(article)}document.querySelector('#count').textContent='当前展示 '+list.length+' 个；私有与草稿合成用例均未输出。'}document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-filter]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render(b.dataset.filter)});const select=document.querySelector('#case');cases.forEach((c,i)=>{const o=document.createElement('option');o.value=i;o.textContent=c.label;select.append(o)});function show(){document.querySelector('#cache').textContent=cases[select.value].actual}select.onchange=show;show();render();
+</script></html>'''.replace('DATA',json.dumps(labdata,ensure_ascii=False).replace('</','<\\/')).replace('CASES',json.dumps(labresults['cacheResults'],ensure_ascii=False))
+(ROOT/'learning_lab.html').write_text(labhtml,encoding='utf-8')
+print(f'Guide authored: {len(pages)} planned A4 pages; 12 illustrated questions; interactive study lab authored.')
