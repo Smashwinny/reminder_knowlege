@@ -1,0 +1,25 @@
+[加载完成] 支持 Matryoshka 维度: [64, 128, 256, 512, 1024, 2048], 完整维度: 2048
+[图库] fashion_dress   (a dress / 一条连衣裙) -> shape (1, 2048), L2范数 1.0023
+[图库] shirts_shelf    (shirts on a shelf / 货架上的衬衫) -> shape (1, 2048), L2范数 1.0015
+[图库] product_detail  (product detail page / 商品详情页) -> shape (1, 2048), L2范数 0.9968
+[图库] chart_doc       (a chart document / 图表文档) -> shape (1, 2048), L2范数 1.0030
+[图库] street_text     (street scene with text / 带文字的街景) -> shape (1, 2048), L2范数 1.0021
+===== 完整维度 (2048) 文本搜图 =====
+查询: 'an elegant red dress for a party'
+  排序: fashion_dress=0.414, street_text=0.262, shirts_shelf=0.136, chart_doc=0.111, product_detail=0.082
+查询: 'a shelf full of folded shirts'
+  排序: street_text=0.153, shirts_shelf=0.152, chart_doc=0.143, fashion_dress=0.102, product_detail=0.065
+查询: 'a document with a bar chart'
+  排序: chart_doc=0.348, street_text=0.201, shirts_shelf=0.191, product_detail=0.136, fashion_dress=0.123
+查询: 'a photo of a busy street'
+  排序: street_text=0.399, shirts_shelf=0.209, fashion_dress=0.179, product_detail=0.155, chart_doc=0.139
+查询: 'a pair of sneakers'
+  排序: street_text=0.217, fashion_dress=0.205, chart_doc=0.172, shirts_shelf=0.161, product_detail=0.148
+===== Matryoshka 截断稳定性 =====
+查询                                            64     128     256     512    1024    2048
+an elegant red dress for a party        fashion_dressfashion_dressfashion_dressfashion_dressfashion_dressfashion_dress
+a shelf full of folded shirts           chart_docchart_docchart_docstreet_textstreet_textstreet_text
+a document with a bar chart             chart_docchart_docchart_docchart_docchart_docchart_doc
+a photo of a busy street                street_textstreet_textstreet_textstreet_textstreet_textstreet_text
+a pair of sneakers                      street_textstreet_textstreet_textstreet_textstreet_textstreet_text
+注: 每列是该维度下 Top-1 图片名；观察从 64 维到 2048 维 Top-1 是否保持稳定。
