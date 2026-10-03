@@ -1,0 +1,11 @@
+{
+  "shiyi_identity": {
+    "file_name": "shiyi_identity.json",
+    "formatting": "alpaca",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  }
+}

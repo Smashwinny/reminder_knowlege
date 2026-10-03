@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Chat On Steroids 小白指南</title>
+<style>
+  @page { size: A4; margin: 14mm 12mm; }
+  :root {
+    --pink:#FF3D71; --teal:#00C2A8; --purple:#7C4DFF; --amber:#FFB300;
+    --blue:#00B0FF; --lime:#AEEA00; --ink:#1A1B3A; --bg:#FFFDF5;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:13.5px; line-height:1.72; }
+  .cover { background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 55%,var(--amber) 100%); color:#fff; border-radius:18px; padding:38px 34px; margin-bottom:20px; }
+  .cover h1 { font-size:34px; letter-spacing:1px; margin-bottom:10px; }
+  .cover .sub { font-size:16px; opacity:.95; }
+  .cover .tags { margin-top:16px; }
+  .tag { display:inline-block; background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.5); border-radius:999px; padding:3px 14px; margin:4px 6px 0 0; font-size:12.5px; }
+  h2.sec { font-size:22px; margin:26px 0 12px; padding:6px 16px; border-radius:10px; color:#fff; }
+  .c1{background:var(--pink);} .c2{background:var(--teal);} .c3{background:var(--purple);}
+  .c4{background:var(--amber); color:#5B3A00;} .c5{background:var(--blue);}
+  .card { background:#fff; border-radius:14px; padding:18px 20px; margin:14px 0; box-shadow:0 3px 10px rgba(26,27,58,.10); border-top:5px solid var(--teal); break-inside:avoid; }
+  .card.p{border-top-color:var(--pink);} .card.u{border-top-color:var(--purple);} .card.a{border-top-color:var(--amber);} .card.b{border-top-color:var(--blue);}
+  .qnum { display:inline-block; font-size:30px; font-weight:900; color:var(--pink); margin-right:10px; }
+  .q { font-size:17.5px; font-weight:800; display:inline; }
+  .hl { background:linear-gradient(transparent 55%, #FFE066 55%); font-weight:800; padding:0 2px; }
+  .big { font-size:15.5px; font-weight:800; color:var(--purple); }
+  .code { background:#1A1B3A; color:#7DF9C6; border-radius:8px; padding:10px 14px; font-family:Consolas,monospace; font-size:12px; margin:10px 0; white-space:pre-wrap; word-break:break-all; }
+  .term { color:#fff; background:var(--purple); border-radius:5px; padding:1px 7px; font-weight:700; font-size:12.5px; white-space:nowrap; }
+  .warn { background:#FFF0E0; border-left:6px solid #FF6D00; border-radius:8px; padding:10px 14px; margin:10px 0; font-weight:700; }
+  .ok { background:#E8FFF0; border-left:6px solid #00C853; border-radius:8px; padding:10px 14px; margin:10px 0; font-weight:700; }
+  .linkbox { background:#F3E8FF; border-left:6px solid var(--purple); border-radius:8px; padding:8px 14px; margin:10px 0; font-size:12.5px; }
+  table { border-collapse:collapse; width:100%; margin:10px 0; font-size:12.5px; }
+  th { background:var(--teal); color:#fff; padding:7px 9px; text-align:left; }
+  td { border:1px solid #D8D8E8; padding:6px 9px; background:#fff; }
+  tr:nth-child(even) td { background:#F4FBFF; }
+  svg { max-width:100%; height:auto; display:block; margin:10px auto; }
+  .step { border-left:5px solid var(--blue); background:#F0F9FF; border-radius:8px; padding:10px 14px; margin:10px 0; break-inside:avoid; }
+  .step b.st { color:var(--blue); }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .foot { text-align:center; color:#888; font-size:11.5px; margin-top:24px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Chat On Steroids 小白指南</h1>
+  <div class="sub">给 ChatGPT 装上"手脚和 Agent 小队"的开源桌面工具 —— 疑问式导读 + 动手实验</div>
+  <div class="tags">
+    <span class="tag">github.com/totec448-spec/chat-on-steroids</span>
+    <span class="tag">MIT License</span>
+    <span class="tag">≈4.2k Stars / 1144 commits</span>
+    <span class="tag">Electron + Chrome 扩展 + 本地 MCP</span>
+    <span class="tag">v2.1.25（2026-10 克隆实测）</span>
+  </div>
+</div>
+
+<h2 class="sec c1">零 · 30 秒说清它是什么</h2>
+<div class="card">
+  <p><span class="big">一句话：Chat On Steroids 是一个开源桌面应用 + Chrome 扩展，把 ChatGPT 网页版接到你电脑的本地 MCP 工具上</span>——读文件、改代码、跑终端、控制浏览器和桌面、派多个 Agent 并行干活，全部在 ChatGPT 聊天窗口里完成，不用切到 Codex CLI。</p>
+  <p style="margin-top:8px">它走红于日文社区，传播口号是"<span class="hl">GPT-6 Astra 额度白嫖 100 倍</span>"——这句话是营销话术，真相见疑问 2。技术上它是个正经工程：本地 MCP 服务器有四道安全门、文件访问有 realpath 沙箱、权限模型设计得相当讲究，非常值得学习。</p>
+  <div class="linkbox">📌 知识库关联：本项目是 <b>[[MCP协议]]/[[MCP服务器]]</b> 的一个大型落地实例，也是 <b>[[AgentHarness智能体挽具]]</b> 概念的又一形态——上次学的 AgentHarness 是"给模型套上执行循环"，这个项目是"给网页版 ChatGPT 套上本地执行能力"。</div>
+</div>
+
+<h2 class="sec c2">一 · 疑问清单（本指南目录）</h2>
+<div class="card b">
+  <table>
+    <tr><th>#</th><th>疑问</th><th>层次</th></tr>
+    <tr><td>1</td><td>"不用切到 Codex"到底什么意思？</td><td>是什么</td></tr>
+    <tr><td>2</td><td>"白嫖 100 倍"是真的吗？安全吗？</td><td>避坑</td></tr>
+    <tr><td>3</td><td>网页里的 ChatGPT 怎么摸到我硬盘上的文件？</td><td>架构</td></tr>
+    <tr><td>4</td><td>只绑 127.0.0.1 还不够？为什么要有四道安全门？</td><td>安全</td></tr>
+    <tr><td>5</td><td>工具面 Tool Surface 是什么？为什么拆两个连接器？</td><td>设计</td></tr>
+    <tr><td>6</td><td>怎么保证 AI 只碰批准过的文件夹？</td><td>沙箱</td></tr>
+    <tr><td>7</td><td>权限撤销后工具为什么"还在但不可用"？</td><td>设计</td></tr>
+    <tr><td>8</td><td>Goal 和 Loop 是什么？怎么让它自己连续干活？</td><td>自动化</td></tr>
+    <tr><td>9</td><td>对话太长爆上下文了怎么办？Compact &amp; Resume</td><td>续命</td></tr>
+    <tr><td>10</td><td>Workers 多 Agent 和 code-mode 是怎么并行的？</td><td>进阶</td></tr>
+    <tr><td>11</td><td>这个项目给我什么能力？我能用它干嘛？</td><td>收获</td></tr>
+    <tr><td>12</td><td>动手实验：测绘仓库 · 复现安全门 · 复现权限模型</td><td>实验</td></tr>
+  </table>
+</div>
+
+<h2 class="sec c3">二 · 逐条图文解答</h2>
+
+<div class="card p">
+  <span class="qnum">Q1</span><p class="q">"不用切到 Codex"是什么意思？</p>
+  <p>ChatGPT 网页版本身没有"读你电脑文件、跑你终端命令"的能力。以前想让 AI 替你干本地活，得装 OpenAI 的 <span class="term">Codex CLI</span>——换一套界面、换一套额度计费。这个项目的思路是：<span class="hl">别换工具，给 ChatGPT 网页版"长出手脚"</span>。</p>
+  <p>做法：本地跑一个 <span class="term">MCP 服务器</span>（MCP = Model Context Protocol，模型上下文协议，工具调用的行业标准，见 [[MCP协议]]），暴露 read / apply_patch / exec_command 等工具；ChatGPT 网页把它添加为"连接器/应用"后，模型就能像调用任何 MCP 工具一样调用你本地的文件系统和终端。</p>
+  <div class="linkbox">🔗 类比：[[AgentHarness智能体挽具]] 里学过"模型是大脑，harness 是手脚"。Claude Code 是 Anthropic 官方给 Claude 造的手脚；这个项目是社区给 ChatGPT 网页版造的手脚。</div>
+</div>
+
+<div class="card a">
+  <span class="qnum">Q2</span><p class="q">"白嫖 100 倍"是真的吗？是破解额度吗？</p>
+  <p><span class="big">不是破解。README 原文明确声明：</span>"Workers、Goal/Loop、Compact &amp; Resume 等功能 <b>do not grant extra quota or model access</b>（不提供额外额度或模型访问），不得用于规避速率限制、用量上限或账号限制。"</p>
+  <p>传播话术的真实含义：<b>ChatGPT 网页订阅的对话额度</b>比 <b>Codex 的 agent 用量额度</b>宽松得多，用前者跑 agent 任务，同样的订阅费能干多得多的活——这是"换一条已付费的通道"，不是"打开隐藏额度"。</p>
+  <div class="warn">⚠️ 真实风险（README 自己也警告了）：它通过 Chrome 扩展"观察并自动化 ChatGPT 浏览器界面"，这不是 OpenAI 官方公开的自动化 API，<b>可能违反服务条款，存在警告、限流甚至封号风险</b>；且与本仓库判例 55e30d0a / df617fa1 那种"无可克隆、无可动手的薅额度偏方"完全不同——那两个判的是平台口子，这个判学习类是因为它是真开源工程（MIT、可克隆、架构值得学）。</div>
+</div>
+
+<div class="card">
+  <span class="qnum">Q3</span><p class="q">网页里的 ChatGPT 怎么摸到我硬盘上的文件？</p>
+  <p>靠<b>三方接力</b>，这是全项目最核心的架构图：</p>
+  <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#FF3D71"/></marker>
+    </defs>
+    <rect x="15" y="40" width="200" height="90" rx="12" fill="#00B0FF"/>
+    <text x="115" y="72" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">① ChatGPT 网页</text>
+    <text x="115" y="95" text-anchor="middle" fill="#fff" font-size="11">模型在这里生成"工具调用"</text>
+    <rect x="280" y="40" width="200" height="90" rx="12" fill="#7C4DFF"/>
+    <text x="380" y="72" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">② Chrome 扩展</text>
+    <text x="380" y="95" text-anchor="middle" fill="#fff" font-size="11">注入页面 DOM，收发消息</text>
+    <rect x="545" y="40" width="200" height="90" rx="12" fill="#00C2A8"/>
+    <text x="645" y="72" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">③ Electron 桌面端</text>
+    <text x="645" y="95" text-anchor="middle" fill="#fff" font-size="11">本地 MCP 服务器 + 终端/文件</text>
+    <line x1="217" y1="70" x2="278" y2="70" stroke="#FF3D71" stroke-width="3" marker-end="url(#ar)"/>
+    <line x1="482" y1="70" x2="543" y2="70" stroke="#FF3D71" stroke-width="3" marker-end="url(#ar)"/>
+    <line x1="645" y1="132" x2="645" y2="200" stroke="#FF3D71" stroke-width="3" marker-end="url(#ar)"/>
+    <rect x="520" y="205" width="225" height="70" rx="10" fill="#FFF3CD" stroke="#FFB300" stroke-width="2"/>
+    <text x="632" y="232" text-anchor="middle" font-size="12.5" font-weight="bold">你的硬盘 / 终端 / 浏览器 / 桌面</text>
+    <text x="632" y="255" text-anchor="middle" font-size="11">（仅限"批准的文件夹"内）</text>
+    <text x="247" y="58" text-anchor="middle" font-size="10.5" fill="#666">页面消息</text>
+    <text x="512" y="58" text-anchor="middle" font-size="10.5" fill="#666">127.0.0.1:8765-8769</text>
+    <text x="660" y="170" font-size="10.5" fill="#666">真正执行</text>
+    <text x="380" y="170" text-anchor="middle" font-size="12" fill="#1A1B3A" font-weight="bold">关键：模型不直接碰你的电脑 ——</text>
+    <text x="380" y="190" text-anchor="middle" font-size="12" fill="#1A1B3A" font-weight="bold">网页脚本只是"跑腿"，执行权在本地桌面端</text>
+  </svg>
+  <p>①你在 chatgpt.com 里说"帮我改这个项目的 bug"；②扩展从页面 DOM 里捕捉到消息，转发给本机端口；③桌面端里的 MCP 服务器执行工具，把结果原路送回，显示成聊天里的工具调用卡片。<span class="hl">ChatGPT 侧只是一个"会说话的调度员"</span>，所有危险操作都发生在你本机、被本地权限系统管着。</p>
+</div>
+
+<div class="card u">
+  <span class="qnum">Q4</span><p class="q">只绑 127.0.0.1 还不够？为什么要有四道安全门？</p>
+  <p>只监听本机回环地址，理论上外网摸不到。但<b>浏览器里跑的恶意网页</b>仍可能打进来——这就是 <span class="term">DNS Rebinding（DNS 重绑定）</span>攻击：攻击者让 evil.com 先解析到自己的服务器，把你的浏览器骗过去后，再把 DNS 记录切换成 127.0.0.1——你的浏览器就会"以为"在访问 evil.com，实际请求打进了本机端口。<b>同源策略管不了它，因为脚本眼里这还是"自己的域名"。</b></p>
+  <p>所以 server.ts 在处理任何请求前跑四道独立检查：</p>
+  <table>
+    <tr><th>门</th><th>检查</th><th>挡什么</th></tr>
+    <tr><td>1. 秘密令牌路径</td><td>URL 必须带每次会话随机生成的 token 段，timingSafeEqual 比对</td><td>猜 URL 的扫描器、CSRF</td></tr>
+    <tr><td>2. Host 校验</td><td>Host 头必须是 loopback</td><td><b>DNS 重绑定</b></td></tr>
+    <tr><td>3. Origin 校验</td><td>若带 Origin（浏览器发起），Origin 也必须 loopback</td><td>任意网页跨域驱动</td></tr>
+    <tr><td>4. 体积上限</td><td>body ≤ 8MB</td><td>恶意巨型包</td></tr>
+  </table>
+  <div class="code">server.ts 注释（原文）：
+Bound to 127.0.0.1 on an ephemeral port, never 0.0.0.0, so nothing on the LAN can reach it.
+Four independent checks run before any MCP handling.</div>
+  <p>实验 E2 会让你亲手把四道门复刻出来并用 5 种攻击视角实测（见疑问 12）。</p>
+</div>
+
+<div class="card">
+  <span class="qnum">Q5</span><p class="q">工具面（Tool Surface）是什么？为什么拆两个连接器？</p>
+  <p><span class="term">工具面</span>= 一个连接器对外公布的全部工具集合。项目拆成两个，各自独立发现、独立授权、<b>各用一条带 token 的路径</b>：</p>
+  <table>
+    <tr><th>连接器</th><th>管什么</th><th>工具</th></tr>
+    <tr><td><b>Core</b>（三平台必有）</td><td>批准的文件、补丁、终端、任务计划、子 Agent</td><td>read / view_image / find / apply_patch / exec_command / write_stdin / update_plan / agents</td></tr>
+    <tr><td><b>Desktop</b>（Win/mac 可选）</td><td>屏幕、窗口、鼠标键盘、剪贴板</td><td>observe / computer</td></tr>
+  </table>
+  <p><span class="hl">拆分的本质是"权限边界"：想让它读代码 ≠ 想让它动你的鼠标。</span>不装 Desktop 连接器，模型就根本没有操作桌面的工具——比"有工具但提醒你小心"安全得多。有趣细节：<b>update_plan 工具是从 OpenAI Codex 的同名实现（Apache-2.0）改编来的</b>，plan-tool.ts 里注明了出处。</p>
+</div>
+
+<div class="card p">
+  <span class="qnum">Q6</span><p class="q">怎么保证 AI 只碰批准过的文件夹？</p>
+  <p>靠 <span class="term">路径沙箱</span>（sandbox.ts），设计哲学一句话：<span class="hl">"约束写在代码里，绝不写在提示词里"（Enforcement lives here, in code. It is never delegated to prompt text.）</span></p>
+  <svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg">
+    <rect x="30" y="30" width="700" height="190" rx="14" fill="#E8F8FF" stroke="#00B0FF" stroke-width="3"/>
+    <text x="60" y="65" font-size="14" font-weight="bold" fill="#0077C2">批准的根目录 F:\myproject\（canonical 后）</text>
+    <rect x="70" y="85" width="150" height="50" rx="8" fill="#00C2A8"/><text x="145" y="115" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">/project/src/… ✅</text>
+    <rect x="250" y="85" width="150" height="50" rx="8" fill="#00C2A8"/><text x="325" y="115" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">/project/docs/… ✅</text>
+    <rect x="430" y="85" width="180" height="50" rx="8" fill="#FF3D71"/>
+    <text x="520" y="107" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="bold">symlink → C:\Users\…</text>
+    <text x="520" y="125" text-anchor="middle" fill="#fff" font-size="10.5">穿透后被 realpath 抓包 ❌</text>
+    <text x="380" y="185" text-anchor="middle" font-size="12.5" fill="#1A1B3A" font-weight="bold">规则：fs.realpath 规范化真实路径 → 与规范化后的根目录做前缀比对</text>
+    <text x="380" y="207" text-anchor="middle" font-size="11.5" fill="#C2185B">符号链接 / NTFS junction / reparse point 穿出去 = 直接拒绝</text>
+  </svg>
+  <p>三个要点：① 模型看到的是<b>虚拟路径</b>（如 /project/src/main.ts），沙箱负责映射到真实路径；② 判定"在不在批准范围内"用的是 <b>fs.realpath 规范化后的真实路径</b>——在树里种一个指向外部的符号链接也逃不出去；③ 对 Windows 特意用原生 realpath 处理大小写不敏感和 WSL 路径别名。</p>
+</div>
+
+<div class="card u">
+  <span class="qnum">Q7</span><p class="q">权限撤销后，工具为什么"还在名单上但用不了"？</p>
+  <p>这是本项目最巧妙的设计之一：<span class="term">工具暴露单调性</span>。ChatGPT 侧会<b>缓存工具快照</b>——如果端点运行中突然把某工具从名单里删掉，客户端缓存的快照就失效了，可能引发整段对话的工具列表错乱。所以：</p>
+  <div class="ok">✅ 规则：权限开启时工具才注册进快照（暴露面只增不减、单调）；权限中途撤销 → <b>工具名还留在快照里</b>，但 handler 每次调用都实时校验当前权限，关闭时返回 TOOL_DISABLED。</div>
+  <p>另一个细节：每个工具带 <span class="term">readOnlyHint</span> 注解。<b>ChatGPT 把没有 readOnlyHint 的工具一律当写操作，每次调用都弹确认框</b>——所以纯读工具（如 read）老老实实标 true，用户的确认弹窗就少了。注释原话："Annotations matter for real behaviour, not just documentation."</p>
+</div>
+
+<div class="card a">
+  <span class="qnum">Q8</span><p class="q">Goal 和 Loop 是什么？怎么让它自己连续干活？</p>
+  <p>普通聊天是"一问一答"，模型说完就停。<span class="term">Goal</span> 给它一个目标让它自主完成；<span class="term">Loop</span> 则是"这一轮结束后自动继续下一轮"，直到目标完成——相当于在 ChatGPT 网页外面套了一个<span class="hl">自动续杯的执行循环</span>（[[Agent循环]] 的思想：感知→思考→行动→再感知）。</p>
+  <svg viewBox="0 0 760 170" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ar2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#FF8F00"/></marker></defs>
+    <rect x="30" y="45" width="130" height="60" rx="10" fill="#FFB300"/><text x="95" y="80" text-anchor="middle" font-size="13" font-weight="bold">发出目标</text>
+    <rect x="215" y="45" width="130" height="60" rx="10" fill="#FF8F00"/><text x="280" y="72" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#fff">跑一轮工具</text><text x="280" y="92" text-anchor="middle" font-size="10.5" fill="#fff">read/exec/patch…</text>
+    <rect x="400" y="45" width="130" height="60" rx="10" fill="#FF6D00"/><text x="465" y="72" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#fff">完成判定</text><text x="465" y="92" text-anchor="middle" font-size="10.5" fill="#fff">finish 工具/回执</text>
+    <rect x="585" y="45" width="145" height="60" rx="10" fill="#00C2A8"/><text x="657" y="72" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#fff">未完成 → 继续</text><text x="657" y="92" text-anchor="middle" font-size="10.5" fill="#fff">完成 → 交付</text>
+    <line x1="160" y1="75" x2="213" y2="75" stroke="#FF8F00" stroke-width="3" marker-end="url(#ar2)"/>
+    <line x1="345" y1="75" x2="398" y2="75" stroke="#FF8F00" stroke-width="3" marker-end="url(#ar2)"/>
+    <line x1="530" y1="75" x2="583" y2="75" stroke="#FF8F00" stroke-width="3" marker-end="url(#ar2)"/>
+    <path d="M 657 108 C 657 150, 280 150, 280 107" fill="none" stroke="#FF3D71" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#ar2)"/>
+    <text x="465" y="145" text-anchor="middle" font-size="11.5" fill="#C2185B" font-weight="bold">Loop：自动开始下一轮（要求"确切来源回合的 MCP 证明"防误触发）</text>
+  </svg>
+  <p>防呆设计很细：docs 里写明"自动 Loop 必须有<b>exact source-turn MCP proof</b>（确凿的来源回合工具调用证据）"才允许触发，用户手动输入永远排在自动决策前面——<b>人的消息优先</b>。</p>
+</div>
+
+<div class="card">
+  <span class="qnum">Q9</span><p class="q">对话太长爆上下文了怎么办？Compact &amp; Resume（交接）</p>
+  <p>网页版 ChatGPT 的上下文有限，长任务干一半就"失忆"。方案：<span class="term">handoff（交接简报）</span>——让当前对话把"做到哪了"写成一份<b>简报</b>存到本地，再开新对话时把简报灌回去继续干。与 [[Compaction上下文压缩算法]] 的异同：</p>
+  <table>
+    <tr><th></th><th>Compaction（Claude Code 等）</th><th>Handoff（本项目）</th></tr>
+    <tr><td>发生在哪</td><td>同一会话内，历史被压缩替换</td><td><b>跨会话</b>：旧对话→本地文件→新对话</td></tr>
+    <tr><td>由谁写</td><td>系统压缩历史</td><td>模型自己把简报作为"最终回答"写出</td></tr>
+    <tr><td>防伪造</td><td>系统控制</td><td><span class="hl">交接 id 由本地 randomUUID 生成</span>，绝不让模型自己编 id——注释说得很清楚：模型自造 id 会撞真 id、覆盖别人的简报</td></tr>
+  </table>
+  <p>交接时还会附带<b>任务计划快照</b>，并诚实地标注"这是 reported progress, not verification evidence"（汇报的进度，不是验证过的证据）——连措辞都在防"假完成"（可关联 [[AI味模式库与信号非证据]] 的思想）。</p>
+</div>
+
+<div class="card p">
+  <span class="qnum">Q10</span><p class="q">Workers 多 Agent 和 code-mode 是怎么并行的？</p>
+  <p><span class="term">Workers（agents 工具）</span>：主对话可以派出多个子 Agent 并行干活，各自保留上下文；有整套"找回"机制——子 Agent 沉默太久（silent ceiling）会触发恢复、会话状态有 reply ledger 记账、身份对不上（IdentityLost）要重新认领。<b>多 Agent 最大的工程难题不是"派活"而是"收尸"</b>，这个项目的 recovery 代码占比相当大。</p>
+  <p><span class="term">code-mode（exec 工具）</span>：给模型一个受限 JavaScript 运行时，让它在一段代码里编排多个工具调用（await tools.read(...)、Promise.all 并发），<span class="hl">中间结果留在运行时里不进上下文，只有最终 text/image 输出才给模型看</span>——大幅省 token 和往返次数。限制清单也很硬核：64k 源码、32MiB 内存、2s CPU、60s 总时长、32 次调用、无 Node/文件系统/网络。合同对标 OpenAI Codex 的 code-mode 协议。</p>
+</div>
+
+<h2 class="sec c4">三 · 这个项目给我什么（能力清单）</h2>
+<div class="card a">
+  <table>
+    <tr><th>能力</th><th>对你意味着什么</th></tr>
+    <tr><td>🔧 学一套"网页模型 × 本地执行"的完整架构</td><td>看懂 Agent 类产品的通用骨架：模型调度、本地执行、权限隔离</td></tr>
+    <tr><td>🛡️ 抄得走的本地服务安全范式</td><td>四道门（token 路径 / Host / Origin / 体积上限）可直接套用到你自己写的任何本地 HTTP 服务</td></tr>
+    <tr><td>📁 realpath 沙箱模式</td><td>任何"AI 改文件"类工具的防逃逸标准答案</td></tr>
+    <tr><td>🧩 MCP 连接器工程参考</td><td>工具注解、单调暴露、权限实时校验——做自己的 MCP 服务器时全是现成作业</td></tr>
+    <tr><td>🤖 多 Agent 编排的"收尸"清单</td><td>沉默恢复、身份认领、回执记账——自己写多 Agent 前先看它踩过的坑</td></tr>
+  </table>
+  <div class="warn">⚠️ 使用边界：真要用它连 ChatGPT，请先想清楚浏览器自动化违反 ToS 的封号风险；学习其架构不需要登录任何账号（本指南实验全部零账号零依赖）。</div>
+</div>
+
+<h2 class="sec c5">四 · 动手实验（已全部真实运行验证）</h2>
+<div class="card b">
+  <p><span class="big">实验总览：3 个零依赖 Node 实验，不登录任何账号，只跟源码和协议打交道。</span>环境：Node v24（v18+ 即可）。材料在 <b>exercise\</b> 目录。</p>
+
+  <div class="step"><b class="st">实验 E1 · 仓库测绘（11 项断言）</b><br>
+  <b>操作</b>：<span style="font-family:Consolas">node e1_repo_survey.mjs ../repo</span><br>
+  <b>目的</b>：不启动 Electron 应用，静态扫描源码验证文档声称的功能真实存在。<br>
+  <b>检测</b>：11 项断言全 PASS，末行 <span style="font-family:Consolas">=== 结果: 11 PASS / 0 FAIL ===</span><br>
+  <b>真实输出（节选）</b>：四道门全部落地 true；readOnlyHint 7 处；扩展白名单 127.0.0.1:8765-8769；docs/ 下 74 篇 worklog。<br>
+  <b>坑</b>：初版脚本 8/10——update_plan 不在 tools-core.ts 而在独立 plan-tool.ts（自 Codex Apache-2.0 改编），goal/agent 文件主要在 src/shared/。断言要跟着架构走。</div>
+
+  <div class="step"><b class="st">实验 E2 · 复现 MCP 端点安全四道门（6 次请求实测）</b><br>
+  <b>操作</b>：<span style="font-family:Consolas">node e2_mcp_gates.mjs</span><br>
+  <b>目的</b>：亲手复刻 server.ts 的四道门，从 5 个攻击视角实测拦截效果。<br>
+  <b>真实输出</b>：错误 token→404；恶意 Host(DNS rebinding)→403；外站 Origin→403；超 body→413；token 错但 Host 对→404；合法请求→200。<br>
+  <b>坑（重要）</b>：首跑攻击2 返回 200！原因：<b>undici（Node 内置 fetch）会把自定义 host 头当"禁止头"剥掉</b>，导致根本没伪造成功。改用 node:http 原生 request 才能真实伪造 Host 头——这本身就是一课：测安全逻辑要用底层 API。</div>
+
+  <div class="step"><b class="st">实验 E3 · 复现工具暴露单调性（7 项断言）</b><br>
+  <b>操作</b>：<span style="font-family:Consolas">node e3_monotonic_tools.mjs</span><br>
+  <b>目的</b>：用 60 行代码模拟"快照只增不减 + handler 实时校验 + readOnlyHint"三件套。<br>
+  <b>真实输出</b>：7/7 PASS——撤销 apply_patch 权限后，工具仍在快照里（保护客户端缓存），但实际调用返回 TOOL_DISABLED。</div>
+
+  <div class="ok">✅ 预期结果：三个脚本在仓库根目录下依次运行，合计 24 项断言全部 PASS。任何一项 FAIL 都说明你对机制的理解和源码有出入——回去重读对应源文件。</div>
+</div>
+
+<h2 class="sec c1">五 · 一页带走</h2>
+<div class="card p">
+  <p>① <span class="hl">"白嫖 100 倍"是通道切换的营销话术，不是破解额度</span>——但它自动化网页 UI 确有 ToS 风险，学习架构无需承担该风险。</p>
+  <p>② 架构记忆图：<b>ChatGPT 网页（脑）→ Chrome 扩展（神经）→ 本地 Electron/MCP（手脚）</b>，执行权和权限全在本地。</p>
+  <p>③ 本地服务安全四件套：<b>token 路径 + Host 校验 + Origin 校验 + 体积上限</b>，防的重绑定攻击值得每个写本地服务的人记住。</p>
+  <p>④ 沙箱哲学一句话：<b>约束写在代码里，绝不写在提示词里</b>；判定用 realpath 规范化后的真实路径。</p>
+  <p>⑤ 好设计是"防御性"的：<b>单调工具暴露护缓存、readOnlyHint 省确认、handoff id 防伪造、Loop 要 MCP 证据</b>——处处假设会出错。</p>
+  <div class="foot">Chat On Steroids 小白指南 · 2026-10-03 · F:\reminder\chat-on-steroids · 实验材料 exercise\</div>
+</div>
+
+</body>
+</html>

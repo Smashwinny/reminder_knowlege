@@ -1,0 +1,29 @@
+{
+  "title": "锦鲤如意",
+  "subtitle": "KOI OF FORTUNE",
+  "technique": "鱼跃龙门",
+  "tagline": "星夜深潭，一跃而过。",
+  "edition": "001 / 001",
+  "collection": "个人全息典藏",
+  "description": "实验3产物：Pillow 自绘四层 + 手写契约 GLB，零 Blender 零 AI 渲染。",
+  "assets": {
+    "model": "./assets/card.glb",
+    "subject": "./assets/subject.png",
+    "background": "./assets/background.png",
+    "text": "./assets/text.png",
+    "lineart": "./assets/lineart.png"
+  },
+  "parameters": {
+    "subjectScale": 1.25,
+    "subjectDepth": 0.4,
+    "backgroundDepth": -0.25,
+    "foil": 0.65
+  },
+  "safeArea": {
+    "scale": 1.12,
+    "offset": [
+      -0.06,
+      -0.085
+    ]
+  }
+}

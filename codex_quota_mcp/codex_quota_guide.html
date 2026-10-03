@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Codex 省额度邪修工作流小白指南</title>
+<style>
+  :root{
+    --pink:#E91E63; --orange:#FF6D00; --teal:#00BFA5; --purple:#7C4DFF;
+    --blue:#2962FF; --yellow:#FFF176; --bg:#FFFDF5; --ink:#212121;
+    --card1:#FFF3E0; --card2:#E8F5E9; --card3:#F3E5F5; --card4:#E3F2FD; --card5:#FCE4EC;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.75;}
+  .wrap{width:186mm; margin:0 auto; padding:6mm 0;}
+  @page{size:A4; margin:12mm;}
+  @media print{ .wrap{width:auto; padding:0;} .pagebreak{break-before:page;} }
+  .pagebreak{break-before:page;}
+  .card{break-inside:avoid; border-radius:16px; padding:16px 20px; margin:14px 0; border-left:10px solid;}
+  .c1{background:var(--card1); border-color:var(--orange);}
+  .c2{background:var(--card2); border-color:var(--teal);}
+  .c3{background:var(--card3); border-color:var(--purple);}
+  .c4{background:var(--card4); border-color:var(--blue);}
+  .c5{background:var(--card5); border-color:var(--pink);}
+  .qnum{display:inline-block; background:var(--pink); color:#fff; font-size:30px; font-weight:900;
+        border-radius:12px; padding:2px 16px; margin-right:10px; box-shadow:3px 3px 0 rgba(0,0,0,.15);}
+  .c1 .qnum{background:var(--orange);} .c2 .qnum{background:var(--teal);}
+  .c3 .qnum{background:var(--purple);} .c4 .qnum{background:var(--blue);}
+  h1{font-size:34px; line-height:1.3; color:#fff; background:linear-gradient(100deg,var(--pink),var(--orange));
+     padding:22px 24px; border-radius:18px; margin-bottom:6px;}
+  h2{font-size:21px; display:inline; vertical-align:middle;}
+  h3{font-size:16px; color:var(--purple); margin:10px 0 4px;}
+  .meta{font-size:13px; color:#555; margin:8px 4px 18px;}
+  .hl{background:linear-gradient(transparent 45%, var(--yellow) 45%); font-weight:900; padding:0 2px;}
+  .big{font-size:17px; font-weight:900;}
+  code{background:#263238; color:#FFD54F; border-radius:6px; padding:1px 7px; font-family:Consolas,monospace; font-size:12.5px;}
+  pre{background:#263238; color:#ECEFF1; border-radius:12px; padding:12px 14px; font-family:Consolas,monospace;
+      font-size:12px; line-height:1.55; overflow-x:auto; margin:8px 0;}
+  pre .g{color:#69F0AE;} pre .o{color:#FFAB40;} pre .y{color:#FFD54F;}
+  table{border-collapse:collapse; width:100%; margin:8px 0; font-size:13px;}
+  th{background:var(--pink); color:#fff; padding:6px 9px; text-align:left;}
+  td{border-bottom:2px solid #F8BBD0; padding:5px 9px; background:#fff;}
+  .tag{display:inline-block; border-radius:999px; padding:1px 12px; font-size:12px; font-weight:700; color:#fff; margin:0 4px 4px 0;}
+  .ok{background:var(--teal);} .warn{background:var(--orange);} .bad{background:#D50000;}
+  .svgbox{background:#fff; border:2px dashed var(--purple); border-radius:12px; padding:8px; margin:10px 0; text-align:center;}
+  .cap{font-size:12px; color:var(--purple); font-weight:700; margin-top:2px;}
+  ul{margin:4px 0 4px 22px;} ol{margin:4px 0 4px 22px;}
+  li{margin:3px 0;}
+  .toc{columns:2; font-size:13.5px;}
+  .footer{font-size:12px; color:#777; text-align:center; margin-top:20px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>省下 Codex 额度的"邪修"工作流<br><span style="font-size:20px;">—— 网页版 GPT-6 Pro 负责"想"，Codex 只负责"干" ——</span></h1>
+<div class="meta">
+  来源：<b>数字生命卡兹克 @Khazix0918</b> X 文章《分享一个大幅节省Codex额度的邪修方法，不要浪费了你的ChatGPT Pro会员》（2026-09-17，
+  <code>x.com/i/article/2100430998769131520</code>）｜拾遗任务 515f0276｜配实验：只读 MCP Server 全部真跑通（10/10 PASS）
+</div>
+
+<div class="card c2">
+  <span class="tag ok">30 秒版</span>
+  <p class="big">订阅费买的是<span class="hl">两条互不通气的额度管道</span>：Codex 的编码额度、ChatGPT 网页版的 Pro 对话额度。</p>
+  <p>旧干法：让 Codex 里的最贵模型又想又干 → 一次规划烧掉周额度 10%。邪修干法：把"想"搬到几乎免费的网页版
+  GPT-6 Pro 上（给它挂一个<b>只读的生产数据 MCP Server</b>，让它看得见真实业务），方案出来点一下
+  <span class="hl">"添加到 Codex"</span>，Codex 只做执行——每任务只烧 4%。同一账号周吞吐 <b>7 件 → 25 件（3.6 倍）</b>。</p>
+</div>
+
+<h3>疑问即目录（12 问）</h3>
+<ol class="toc">
+  <li>"邪修"到底是什么？省的是哪笔钱？</li>
+  <li>为什么网页版 Pro 额度和 Codex 额度是分开的？</li>
+  <li>"代码/生产数据/PR历史"三句话为什么成立？</li>
+  <li>为什么 GPT Pro 看不到生产数据？插件底层是什么？</li>
+  <li>"只读、最小权限、可审计"分别怎么落实？</li>
+  <li>为什么必须接 OAuth（飞书）鉴权？</li>
+  <li>"添加到 Codex"按钮到底做了什么？</li>
+  <li>这笔额度账到底怎么算？能省多少？</li>
+  <li>为什么官方通道无风险、三方桥接有风险？</li>
+  <li>和我已学的"混合模型分工流水线"什么关系？</li>
+  <li>这套思路能平移到 Claude Code 等其他工具吗？</li>
+  <li>我没有 $200 Pro 会员，这方法对我有什么用？</li>
+</ol>
+
+<!-- ============ Q1 ============ -->
+<div class="card c1">
+  <span class="qnum">Q1</span><h2>"邪修"到底是什么？省的是哪笔钱？</h2>
+  <p>不是漏洞、不是外挂、不碰任何反代——它只是把一次开发任务的<span class="hl">"想"和"干"两道工序拆开，分别记到两个账户的账本上</span>。</p>
+  <p>一次"给产品降本"的任务 = <b>读数据 → 分析规划（贵）→ 写代码执行（相对便宜）</b>。旧干法里规划交给 Codex 里的
+  GPT-6 Astra Ultra，正文原话："Ultra 规划一次就能烧掉 200 刀会员周额度的 10%"——最贵的推理钱花在了"看材料写方案"上。</p>
+  <p class="big">邪修 = 规划这道工序挪到<span class="hl">额度完全独立、每周白送 200 次的网页版 GPT-6 Pro</span>，Codex 只剩下 4% 一次的执行钱。</p>
+  <div class="svgbox">
+  <svg width="640" height="180" viewBox="0 0 640 180">
+    <rect x="20" y="30" width="280" height="120" rx="14" fill="#FFE0B2" stroke="#FF6D00" stroke-width="3"/>
+    <text x="160" y="58" text-anchor="middle" font-size="16" font-weight="900" fill="#E65100">旧：一个账户全包</text>
+    <rect x="45" y="75" width="100" height="30" rx="8" fill="#FF6D00"/><text x="95" y="95" text-anchor="middle" font-size="12" fill="#fff">规划 10%</text>
+    <rect x="165" y="75" width="100" height="30" rx="8" fill="#FB8C00"/><text x="215" y="95" text-anchor="middle" font-size="12" fill="#fff">执行 4%</text>
+    <text x="160" y="132" text-anchor="middle" font-size="12" fill="#BF360C">每任务烧 Codex 周额度 14%</text>
+    <text x="330" y="95" font-size="26" font-weight="900" fill="#E91E63">→</text>
+    <rect x="350" y="20" width="270" height="64" rx="14" fill="#B2DFDB" stroke="#00BFA5" stroke-width="3"/>
+    <text x="485" y="45" text-anchor="middle" font-size="15" font-weight="900" fill="#00695C">网页版 GPT-6 Pro（另一本账）</text>
+    <text x="485" y="68" text-anchor="middle" font-size="12" fill="#00695C">规划：烧它的 200 次/周，Codex 侧 0%</text>
+    <rect x="350" y="96" width="270" height="54" rx="14" fill="#FFCDD2" stroke="#E91E63" stroke-width="3"/>
+    <text x="485" y="118" text-anchor="middle" font-size="15" font-weight="900" fill="#AD1457">Codex（只剩执行）</text>
+    <text x="485" y="138" text-anchor="middle" font-size="12" fill="#AD1457">每任务只烧 4%</text>
+  </svg>
+  <div class="cap">图1｜"邪修"本质：同一道工序，换一本不互相扣钱的账本</div>
+  </div>
+</div>
+
+<!-- ============ Q2 ============ -->
+<div class="card c4">
+  <span class="qnum">Q2</span><h2>为什么网页版 Pro 额度和 Codex 额度是分开的？</h2>
+  <p>因为它们在产品里就是<span class="hl">两个不同的产品面，各配一条配额管道</span>：网页版 ChatGPT 的"Pro 对话"按<b>次数</b>计（每周重置），
+  编码工具 Codex 按<b>额度池</b>计（也是每周重置）。订阅费一次买的是这两条管道的<b>各自</b>额度，互相不结转、不通兑。</p>
+  <table>
+    <tr><th>订阅档位</th><th>网页版 GPT-6 Pro 对话</th><th>Codex 额度</th><th>本方案眼中的价值</th></tr>
+    <tr><td><b>$100 / 月</b></td><td>每周 50 次</td><td>独立额度池</td><td>规划次数少，个人项目够用</td></tr>
+    <tr><td><b>$200 / 月</b></td><td>每周 200 次</td><td>独立额度池</td><td>正文场景：规划 60 次/周仍有余</td></tr>
+  </table>
+  <p class="hl">大多数人的浪费：让 Codex 又想又干（规划也烧 Codex 账），网页版那 200 次 Pro 对话在旁边吃灰。</p>
+  <p><b>类比</b>：健身房年卡里其实含两样东西——器械区（Codex）和私教课（网页版 Pro）。你以为卡只有器械区，
+  天天用最贵的私教器械自己练规划，私教课一节没上。</p>
+</div>
+
+<!-- ============ Q3 ============ -->
+<div class="card c3">
+  <span class="qnum">Q3</span><h2>"代码 / 生产数据 / PR 历史"三句话为什么成立？</h2>
+  <p>这是全文的方法论内核，三个信息源回答三个不同的问题：</p>
+  <div class="svgbox">
+  <svg width="660" height="210" viewBox="0 0 660 210">
+    <rect x="10" y="20" width="200" height="150" rx="14" fill="#E1BEE7" stroke="#7C4DFF" stroke-width="3"/>
+    <text x="110" y="52" text-anchor="middle" font-size="15" font-weight="900" fill="#4A148C">代码</text>
+    <text x="110" y="80" text-anchor="middle" font-size="12" fill="#4A148C">理论上应该怎么运行</text>
+    <text x="110" y="102" text-anchor="middle" font-size="11" fill="#6A1B9A">（设计意图/规格书）</text>
+    <rect x="230" y="20" width="200" height="150" rx="14" fill="#B2DFDB" stroke="#00BFA5" stroke-width="3"/>
+    <text x="330" y="52" text-anchor="middle" font-size="15" font-weight="900" fill="#004D40">生产数据</text>
+    <text x="330" y="80" text-anchor="middle" font-size="12" fill="#004D40">实际上是怎么运行的</text>
+    <text x="330" y="102" text-anchor="middle" font-size="11" fill="#00695C">（日志/数据库/真实用量）</text>
+    <rect x="450" y="20" width="200" height="150" rx="14" fill="#FFE082" stroke="#FF6D00" stroke-width="3"/>
+    <text x="550" y="52" text-anchor="middle" font-size="15" font-weight="900" fill="#E65100">PR 历史</text>
+    <text x="550" y="80" text-anchor="middle" font-size="12" fill="#E65100">为什么变成了今天这屎山</text>
+    <text x="550" y="102" text-anchor="middle" font-size="11" fill="#BF360C">（每个决定的当时的理由）</text>
+    <text x="330" y="196" text-anchor="middle" font-size="13" font-weight="900" fill="#E91E63">三样一起喂给 GPT Pro，规划才不是纸上谈兵</text>
+  </svg>
+  <div class="cap">图2｜规划的"三视角喂料"：蓝图 × 实况 × 演化史</div>
+  </div>
+  <p><b>举例</b>：想"降低 API 成本"。只看代码，AI 会说"加缓存吧"（理论正确）；看到生产数据发现 90% 成本来自
+  Ultra 规划调用，方案立刻变成"把规划挪走"（实际有效）；再看 PR 历史知道"这里曾经上过缓存又被撤了，因为 stale 数据出过事故"，
+  就不会再提同样的馊主意。<span class="hl">缺任何一路，方案都可能在重蹈覆辙。</span></p>
+</div>
+
+<!-- ============ Q4 ============ -->
+<div class="card c2">
+  <span class="qnum">Q4</span><h2>为什么 GPT Pro 看不到生产数据？插件底层是什么？</h2>
+  <p>网页版 ChatGPT 天然是<b>沙箱里的聊天员</b>：它能看 GitHub 插件送来的代码和 PR，但服务器日志、线上数据库在你的机房里，
+  它的手够不着。痛点原话对比："代码告诉 AI 理论上怎么运行，生产数据告诉 AI 实际上怎么运行"——拿不到后者的规划只是猜。</p>
+  <p>破局点：网页版聊天模式<span class="hl">可以挂插件，而插件的底层正是 MCP（模型上下文协议）</span>——你自建一个 MCP Server
+  挂上去，GPT Pro 就多了一双伸进你生产环境的"只读的手"。</p>
+  <table>
+    <tr><th></th><th>插件（MCP）</th><th>Skill（技能包）</th></tr>
+    <tr><td>本质</td><td>工具接口：一组可调用的函数</td><td>方法论文件包：教 Agent 怎么做事的说明书</td></tr>
+    <tr><td>网页版 ChatGPT</td><td><b>✅ 能挂</b>（本方案的地基）</td><td>❌ 不能调</td></tr>
+    <tr><td>对应已学概念</td><td>[[MCP服务器]]、[[LLM工具调用]]</td><td>[[AgentSkills技能包]]</td></tr>
+  </table>
+  <p>所以文章让 Codex 去"造"的不是 Skill 而是插件——载体选型由<b>宿主能挂什么</b>决定。</p>
+</div>
+
+<!-- ============ Q5 ============ -->
+<div class="card c1">
+  <span class="qnum">Q5</span><h2>"只读、最小权限、可审计"分别怎么落实？</h2>
+  <p>给 AI 开生产数据的口子，安全全压在这六个字上。每一词都有对应的工程手段（实验里逐一验证过）：</p>
+  <table>
+    <tr><th>原则</th><th>技术落点</th><th>实验验证（真跑结果）</th></tr>
+    <tr><td><b>只读</b></td><td>① SQLite <code>file:...?mode=ro</code> 驱动层物理只读<br>② SQL 关键词校验：只放行纯 SELECT</td><td>INSERT 被拒：<code>attempt to write a<br>readonly database</code>；三条写 SQL 全被应用层拦截</td></tr>
+    <tr><td><b>最小权限</b></td><td>③ 工具目录只有 2 个白名单工具，没有任何写工具存在<br>④ 表名白名单（sqlite_master 也进不来）</td><td><code>write_everything</code> → "未知工具"；<br>sqlite_master → "表不在白名单"</td></tr>
+    <tr><td><b>可审计</b></td><td>⑤ 每个请求（含被拒的）追加写 JSONL 审计日志</td><td>客户端 8 条请求 = 审计日志 8 行（拒 5），逐条对账</td></tr>
+  </table>
+  <div class="svgbox">
+  <svg width="660" height="170" viewBox="0 0 660 170">
+    <rect x="15" y="45" width="110" height="60" rx="10" fill="#B39DDB" stroke="#7C4DFF" stroke-width="3"/>
+    <text x="70" y="70" text-anchor="middle" font-size="12" font-weight="900" fill="#311B92">GPT Pro</text>
+    <text x="70" y="90" text-anchor="middle" font-size="10" fill="#311B92">（网页版）</text>
+    <line x1="125" y1="75" x2="185" y2="75" stroke="#7C4DFF" stroke-width="4" marker-end="url(#a)"/>
+    <rect x="190" y="30" width="150" height="90" rx="10" fill="#FFF3E0" stroke="#FF6D00" stroke-width="3"/>
+    <text x="265" y="52" text-anchor="middle" font-size="12" font-weight="900" fill="#E65100">只读 MCP Server</text>
+    <text x="265" y="72" text-anchor="middle" font-size="10.5" fill="#BF360C">闸1 工具白名单(2个)</text>
+    <text x="265" y="90" text-anchor="middle" font-size="10.5" fill="#BF360C">闸2 SQL 校验(纯SELECT)</text>
+    <text x="265" y="108" text-anchor="middle" font-size="10.5" fill="#BF360C">闸3 mode=ro 物理只读</text>
+    <line x1="340" y1="75" x2="400" y2="75" stroke="#00897B" stroke-width="4" marker-end="url(#a)"/>
+    <ellipse cx="470" cy="75" rx="70" ry="40" fill="#C8E6C9" stroke="#2E7D32" stroke-width="3"/>
+    <text x="470" y="72" text-anchor="middle" font-size="12" font-weight="900" fill="#1B5E20">生产数据库</text>
+    <text x="470" y="90" text-anchor="middle" font-size="10" fill="#1B5E20">（写不进去）</text>
+    <rect x="400" y="128" width="230" height="30" rx="8" fill="#263238"/>
+    <text x="515" y="148" text-anchor="middle" font-size="10.5" fill="#69F0AE">audit_log.jsonl ←每个请求都记账(含被拒)</text>
+    <line x1="430" y1="115" x2="470" y2="128" stroke="#69F0AE" stroke-width="2" stroke-dasharray="4"/>
+    <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#555"/></marker></defs>
+  </svg>
+  <div class="cap">图3｜三道闸 + 一本账：即使前两闸被绕过，驱动层也写不进；无论成败都留痕</div>
+  </div>
+  <p><b>要点</b>：<span class="hl">安全要做成"多层闸门"而不是一句提示词</span>——提示词可能被注入绕过，
+  <code>mode=ro</code> 是数据库驱动层面的物理事实。</p>
+</div>
+
+<!-- ============ Q6 ============ -->
+<div class="card c5">
+  <span class="qnum">Q6</span><h2>为什么必须接 OAuth（飞书）鉴权？</h2>
+  <p>MCP Server 一旦挂到网页版，就是一个<b>挂在公网、能读生产库的服务</b>。正文里 Codex 主动提出"需要 OAuth 登录服务"，
+  而公司已有飞书认证中心，于是直接接飞书鉴权——<span class="hl">只有作者本人的飞书账号登录后才能用</span>。</p>
+  <ul>
+    <li><b>不做鉴权 = 生产库裸奔</b>：任何知道 Server 地址的人（或被提示注入攻陷的会话）都能借它的工具读你的用户表、成本表。</li>
+    <li><b>为什么用现成的飞书</b>而不是自建账号体系：认证中心已管着"谁是谁"，复用 = 最小实现 + 权限天然与组织架构对齐。</li>
+    <li>这与已学的 [[OAuth资源发现]]（RFC 9728 远程 MCP 免贴 Key）是同一命题的两端：那是客户端自动拿凭证，这是服务端用企业 IdP 把住门。</li>
+  </ul>
+</div>
+
+<!-- ============ Q7 ============ -->
+<div class="card c4">
+  <span class="qnum">Q7</span><h2>"添加到 Codex"按钮到底做了什么？</h2>
+  <p>GPT Pro 推理约 40 分钟产出高质量方案后，不用下载 md 文档再手动喂给 Codex——点聊天窗口的
+  <span class="hl">"添加到 Codex"，整段对话（含方案全文）作为上下文直接出现在 Codex 窗口</span>。这是官方给"网页版 ⇄ 编码端"修的一条
+  <b>上下文接力管道</b>：规划现场的所有推理成果零损耗搬家。</p>
+  <div class="svgbox">
+  <svg width="660" height="200" viewBox="0 0 660 200">
+    <rect x="20" y="30" width="270" height="150" rx="14" fill="#E3F2FD" stroke="#2962FF" stroke-width="3"/>
+    <text x="155" y="58" text-anchor="middle" font-size="14" font-weight="900" fill="#0D47A1">网页版 ChatGPT（想）</text>
+    <text x="155" y="84" text-anchor="middle" font-size="11" fill="#1565C0">挂 MCP 插件 + GitHub 插件</text>
+    <text x="155" y="104" text-anchor="middle" font-size="11" fill="#1565C0">GPT-6 Pro 推理约 40 分钟</text>
+    <text x="155" y="124" text-anchor="middle" font-size="11" fill="#1565C0">产出详细降本方案</text>
+    <rect x="370" y="30" width="270" height="150" rx="14" fill="#FCE4EC" stroke="#E91E63" stroke-width="3"/>
+    <text x="505" y="58" text-anchor="middle" font-size="14" font-weight="900" fill="#880E4F">Codex（干）</text>
+    <text x="505" y="84" text-anchor="middle" font-size="11" fill="#AD1457">收到方案 → 万能执行 Prompt</text>
+    <text x="505" y="104" text-anchor="middle" font-size="11" fill="#AD1457">"验证并做掉方案里所有值得做的优化"</text>
+    <text x="505" y="124" text-anchor="middle" font-size="11" fill="#AD1457">推理等级开"高"（别用轻度）</text>
+    <path d="M290 105 L370 105" stroke="#E91E63" stroke-width="5" marker-end="url(#b)"/>
+    <text x="330" y="92" text-anchor="middle" font-size="12" font-weight="900" fill="#E91E63">添加到</text>
+    <text x="330" y="126" text-anchor="middle" font-size="12" font-weight="900" fill="#E91E63">Codex</text>
+    <defs><marker id="b" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#E91E63"/></marker></defs>
+  </svg>
+  <div class="cap">图4｜"添加到 Codex"：规划上下文的一键接力管道（免下载-上传的手动搬运）</div>
+  </div>
+  <p>两个执行细节：① 执行 Prompt 是<b>授权式</b>的（"所有值得做的"）而不是逐条点名，把二次决策也交给 Codex；
+  ② 推理等级开"高"——轻度档容易反复失败或不验证，省下的小钱会被重试烧回去。</p>
+</div>
+
+<!-- ============ Q8 ============ -->
+<div class="card c2">
+  <span class="qnum">Q8</span><h2>这笔额度账到底怎么算？能省多少？</h2>
+  <p>用文章给的数字建一个账本模型（实验 step4 真跑输出）：</p>
+<pre>
+方案         说明                                  每任务耗%   周吞吐(任务)
+----------------------------------------------------------------------------
+旧工作流      Ultra 规划+执行全在 Codex                    14%            7
+邪修工作流    网页版 Pro 规划(0% Codex)+Codex 执行          4%           25
+----------------------------------------------------------------------------
+<span class="g">同一账号每周吞吐提升 3.6 倍；等价于同样的活，Codex 额度只花 1/3.6</span>
+
+业务需求按每周 60 个优化任务算（三账号 $600/月实况）：
+  旧工作流需要 9 个 $200 账号轮换，一年 $21,600
+  邪修后需要 3 个 $200 账号轮换，一年 $7,200
+  <span class="y">一年省 $14,400（省 67%）</span>
+
+网页版侧：每周规划 60 次，$200 档 200 次/周 够用（余 140），$100 档 50 次不够
+</pre>
+  <p><b>解读</b>：省的大头不是那 10% 规划费本身，而是<span class="hl">"规划费压在每任务头上"这个固定开销被归零后，
+  同样的钱能养活的吞吐量翻了 3.6 倍</span>。额度经济学和已学的 [[上下文预算与战略压缩]] 一个道理，只是省的不是 token 是会员费。</p>
+</div>
+
+<!-- ============ Q9 ============ -->
+<div class="card c1">
+  <span class="qnum">Q9</span><h2>为什么官方通道无风险、三方桥接有风险？</h2>
+  <table>
+    <tr><th></th><th>本方案（官方插件机制）</th><th>三方桥接 / 反代</th></tr>
+    <tr><td>做法</td><td>在产品设计允许的地方挂自己的 MCP 插件</td><td>把网页版 Pro 额度用程序"转接"给 Codex 用</td></tr>
+    <tr><td>本质</td><td><b>扩大自己的可见信息面</b>，账还是各记各的</td><td><b>把 A 产品的额度搬运进 B 产品</b>，绕开计费边界</td></tr>
+    <tr><td>风控视角</td><td>插件调用是正常产品行为，模式与普通用户无异</td><td>共享凭证、自动化特征明显，是平台明确打击的账号倒卖/滥用形态</td></tr>
+    <tr><td>作者原话</td><td>"基本无风险，不会降智或触发风控"</td><td>"如果被风控了，别找我"，账号安全第一</td></tr>
+  </table>
+  <p class="hl">判别标准一句话：你在用产品已有的能力做新组合（安全），还是在抹平两个产品间的计费边界（危险）。</p>
+</div>
+
+<!-- ============ Q10 ============ -->
+<div class="card c3">
+  <span class="qnum">Q10</span><h2>和已学的"混合模型分工流水线 / 能力地板选型"什么关系？</h2>
+  <p>它们是同一思想的两个维度：</p>
+  <table>
+    <tr><th>概念</th><th>路由依据</th><th>省的是什么</th><th>关系</th></tr>
+    <tr><td>[[混合模型分工流水线]]<br>（paperroute）</td><td><b>任务类型</b>（代码/概念图/3D网格）</td><td>单模型包揽的低效与上下文混乱</td><td>本篇是它的<span class="hl">"账户维度"特例</span>：工序不变，只按"哪本账便宜"分配规划/执行</td></tr>
+    <tr><td>[[能力地板选型]]<br>（wechat_hermes_notebot）</td><td><b>能力地板</b>（够用就行选最便宜）</td><td>按天花板付钱的浪费</td><td>规划要顶配（Pro），执行 Astra High 就够——正是"按地板选"的双账户版</td></tr>
+    <tr><td>[[上下文预算与战略压缩]]</td><td>上下文预算</td><td>token</td><td>同是"预算管理"，一个省窗口、一个省会员费</td></tr>
+    <tr><td>[[快照契约与不可变只读]]<br>[[CleanRoom只读读取器]]</td><td>只读数据交接</td><td>数据安全</td><td>本篇 MCP 的 mode=ro + 白名单 + 审计正是这两个概念在"给 AI 开生产数据口"场景的落地</td></tr>
+  </table>
+</div>
+
+<!-- ============ Q11 ============ -->
+<div class="card c4">
+  <span class="qnum">Q11</span><h2>这套思路能平移到 Claude Code 等其他工具吗？</h2>
+  <p>能。把具体产品名抽掉，剩下的是一个<span class="hl">可复用的通用模式：贵模型只读规划 → 便宜档执行 → 规划上下文接力 → 生产数据走只读通道</span>：</p>
+  <table>
+    <tr><th>模式零件</th><th>Codex 生态</th><th>其他生态的对应</th></tr>
+    <tr><td>独立的"想"额度</td><td>网页版 GPT-6 Pro（200 次/周）</td><td>任何订阅里被闲置的高端对话额度（如 Claude.ai 网页版 opus 对话）</td></tr>
+    <tr><td>只读数据通道</td><td>自建只读 MCP Server + 企业 OAuth</td><td>Claude Code/其他 Agent 挂同一个只读 MCP（MCP 本就跨宿主）</td></tr>
+    <tr><td>上下文接力</td><td>"添加到 Codex"按钮</td><td>方案落成一份 <code>PLAN.md</code> / spec 文件，执行端开工时读取（[[规格书先行SpecDriven]]）</td></tr>
+    <tr><td>便宜执行</td><td>Codex Astra High（4%/任务）</td><td>各家的中档编码模型 + 本地 Agent 循环</td></tr>
+  </table>
+  <p>其中"上下文接力"在别的生态退化为一个 md 文件——这正好就是已学 [[Agent指令文件AgentMd]] 与 [[规格书先行SpecDriven]] 的用武之地：
+  <b>规划的产物是文档，执行的输入也是文档，文档就是那条管道。</b></p>
+</div>
+
+<!-- ============ Q12 ============ -->
+<div class="card c5">
+  <span class="qnum">Q12</span><h2>我没有 $200 Pro 会员，这方法对我有什么用？</h2>
+  <ul>
+    <li><b>$100 档也适用</b>：正文明说每周 50 次 Pro 对话同样能走这条路；实验算过 60 次/周的需求会不够，
+      但个人项目一周做不了 60 次大规划——<span class="hl">次数够不够，取决于你把"规划"这件事的频次设计得多高</span>。</li>
+    <li><b>零成本也能学走两样</b>：①"三视角喂料"（代码+生产数据+历史决策）是规划质量方法论，不花一分钱；
+      ②"只读最小权限可审计"的 MCP Server 是通用基建，本实验 130 行 Python 就造出来了，挂给任何 Agent 都行。</li>
+    <li><b>真正的可迁移资产是"分账思维"</b>：下次要烧贵额度前先问一句——<b>这道工序能不能记到另一本更便宜/免费的账上？</b>
+      能搬就搬，搬不了的才留在贵账户上干。</li>
+  </ul>
+</div>
+
+<!-- ============ 能力清单 ============ -->
+<div class="pagebreak"></div>
+<div class="card c2">
+  <h3 style="font-size:20px;">这个项目给我什么（能力清单）</h3>
+  <ol>
+    <li><b>会算额度账</b>：拿到任何订阅，先画出它的额度管道图（几条池子、按什么计、多久重置、互不结转），再决定工序怎么摆。</li>
+    <li><b>会给 AI 开"生产数据只读口"</b>：三道闸（工具白名单 / SQL 校验 / mode=ro）+ JSONL 审计，130 行 Python 可复制的模板（见实验）。</li>
+    <li><b>会跑"贵想便宜干"双账户工作流</b>：规划在网页版挂 MCP+GitHub 插件完成 → 一键/文档接力 → 执行端只干不猜。</li>
+    <li><b>会用三视角喂料</b>：让 AI 做方案前同时给代码（理论）、生产数据（实际）、决策历史（为什么），方案不再纸上谈兵。</li>
+    <li><b>会判安全边界</b>：官方能力组合 = 安全；抹平计费边界的搬运 = 风控雷区。</li>
+    <li><b>能落地到自己的项目</b>：AIHOT 式"降本分析"任务模板——先聚合成本数据（按模型/按端点），再让贵模型出方案，执行端统一上线。</li>
+  </ol>
+</div>
+
+<!-- ============ 实验 ============ -->
+<div class="card c1">
+  <h3 style="font-size:20px;">动手实验（全部真实运行，环境 Python 3.14.7 / Windows 11）</h3>
+  <p><b>主实验：复刻文章核心——"只读、最小权限、可审计"的生产数据 MCP Server</b>（模拟 AIHOT 生产库）。目录：<code>codex_quota_mcp\exercise\</code></p>
+  <ol>
+    <li><b>造模拟生产库</b>：<code>python step1_mock_prod_db.py</code> —— 目的：还原"线上业务库"当靶子。
+      ✅ 预期/实测：<code>[OK] users=200 行, api_costs=164 行</code>（含按模型聚合的成本流水，Ultra 单价×25 还原"规划贵"）。</li>
+    <li><b>写只读 MCP Server</b>：<code>step2_readonly_mcp_server.py</code> —— 目的：实现三原则。
+      ✅ 实现：stdio JSON-RPC（MCP 传输）；闸1 工具目录只有 <code>get_cost_summary</code>/<code>query_table</code>；
+      闸2 SQL 只放行纯 SELECT；闸3 SQLite <code>file:...?mode=ro</code>；每个请求追加 <code>audit_log.jsonl</code>。</li>
+    <li><b>当客户端逐项验收</b>：<code>python step3_test_readonly_mcp.py</code>
+      ✅ 预期/实测：<b>10/10 PASS</b>——
+<pre>[PASS] T1 最小权限-工具目录白名单     tools=['get_cost_summary', 'query_table']
+[PASS] T2a 只读放行-成本聚合          {"gpt6-astra-ultra": 31.78 USD ...}
+[PASS] T3 拦截写SQL[INSERT/DELETE/DROP] 只允许纯 SELECT（拦截写关键词）
+[PASS] T4 驱动层 mode=ro 拦写          attempt to write a readonly database
+[PASS] T5 白名单外表/目录外工具拒绝     表不在白名单: sqlite_master / 未知工具
+[PASS] T6 可审计-JSONL对账             请求 8 条 = 审计 8 行（其中拒绝 5 条）</pre></li>
+    <li><b>额度账模拟</b>：<code>python step4_quota_calc.py</code>
+      ✅ 预期/实测：旧工作流 14%/任务 → 周吞吐 7；邪修 4%/任务 → 周吞吐 <b>25</b>（3.6×）；
+      60 任务/周场景一年 <b>省 $14,400（67%）</b>；$200 档 200 次 Pro/周规划够用、$100 档不够。</li>
+  </ol>
+  <p><b>实验结论</b>：文章的核心安全主张可以在百行级代码里完整落地并被自动化验收——
+  "只读"靠驱动层物理事实而非提示词，"可审计"能做到逐请求对账。</p>
+</div>
+
+<div class="card c3">
+  <h3 style="font-size:20px;">坑与提醒</h3>
+  <ul>
+    <li><span class="hl">规划别挪走执行</span>：邪修只省"想"的钱，执行仍要 Codex 认真跑——推理等级开"高"，轻度档反复失败反而更烧。</li>
+    <li><b>网页版能挂 MCP 插件、不能挂 Skill</b>：载体选型先问宿主支持什么，别把力气花在挂不上的东西上。</li>
+    <li><b>数据口开了就要管</b>：只读 + 白名单 + 审计 + OAuth 四件缺一不可；接入企业现成 IdP（飞书）比自建账号体系省一半工。</li>
+    <li><b>别碰三方桥接/反代</b>：省的是小钱，赌的是账号——被风控了没有找回通道。</li>
+    <li><b>文章数字会过期</b>：10%/4%/200 次是 2026-09 时点该档位的数，学的是"分账思维"，数字要按当时最新价目重算。</li>
+  </ul>
+</div>
+
+<div class="footer">F:\reminder\codex_quota_mcp ｜ learn-project 流程产出 ｜ 实验 10/10 PASS ｜ 2026-10-03</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,192 @@
+{
+  "target": "http://127.0.0.1:4599/",
+  "base": "http://127.0.0.1:4599/",
+  "browser": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+  "passes": {
+    "desktop": {
+      "checks": [
+        {
+          "name": "viewer ready (WebGL path, not the CSS fallback)",
+          "pass": true,
+          "detail": "{\"ready\":true,\"fallback\":false,\"error\":null}"
+        },
+        {
+          "name": "card metadata rendered",
+          "pass": true,
+          "detail": "锦鲤如意 / KOI OF FORTUNE / 001 / 001"
+        },
+        {
+          "name": "exported model reached the page",
+          "pass": true,
+          "detail": "./assets/card.glb"
+        },
+        {
+          "name": "image layers uploaded at one shared canvas",
+          "pass": true,
+          "detail": "{\"subject\":[1024,1536],\"background\":[1024,1536],\"text\":[1024,1536],\"line\":[1024,1536],\"effects\":[1024,1536]}"
+        },
+        {
+          "name": "page starts from card-config.json depths",
+          "pass": true,
+          "detail": "depth 0.4/0.4, bg -0.25/-0.25, fx 0.14, foil 0.65"
+        },
+        {
+          "name": "idle motion animates the card",
+          "pass": true,
+          "detail": "2d2d28ad1abb04fe -> 7af3afe09d5831ad"
+        },
+        {
+          "name": "auto motion reports on",
+          "pass": true
+        },
+        {
+          "name": "drag turns the card both directions",
+          "pass": true,
+          "detail": "y -0.141 -> 0.643 / -0.646"
+        },
+        {
+          "name": "vertical drag tilts the card",
+          "pass": true,
+          "detail": "x -0.033 -> 0.321 / -0.356"
+        },
+        {
+          "name": "both tilt directions render differently",
+          "pass": true,
+          "detail": "3e5165cd28127706 vs cde9de9e7c4f65be"
+        },
+        {
+          "name": "drag stops auto motion",
+          "pass": true
+        },
+        {
+          "name": "wheel zooms in and out",
+          "pass": true,
+          "detail": "1 -> 1.05 -> 0.82"
+        },
+        {
+          "name": "flip to the back works",
+          "pass": true,
+          "detail": "flipped=true"
+        },
+        {
+          "name": "view label follows the flip",
+          "pass": true
+        },
+        {
+          "name": "flip back to the front works",
+          "pass": true
+        },
+        {
+          "name": "reset returns to the study pose and un-flips",
+          "pass": true,
+          "detail": "rot [-0.034,-0.147,0] zoom=1 flipped=false"
+        },
+        {
+          "name": "keyboard arrows nudge the card",
+          "pass": true,
+          "detail": "[-0.094,-0.071,0]"
+        },
+        {
+          "name": "景深调整 panel toggles",
+          "pass": true,
+          "detail": "{\"before\":false,\"after\":true}"
+        },
+        {
+          "name": "画面比例: slider drives the uniform and the rendered frame",
+          "pass": true,
+          "detail": "uniform 1.25 -> 1.15 (control -> 1.15, readout 1.15), frame bd472c10d1b5dd38 -> 514375cc5bef6ef7"
+        },
+        {
+          "name": "画面景深: slider drives the uniform and the rendered frame",
+          "pass": true,
+          "detail": "uniform 0.4 -> 0 (control -> 0, readout 0.00), frame 36c60fa334d47e54 -> 159f1022cadbb858"
+        },
+        {
+          "name": "特效景深: slider drives the uniform and the rendered frame",
+          "pass": true,
+          "detail": "uniform 0.14 -> 0.3 (control -> 0.3, readout 0.30), frame c475535a428f197d -> 476c4c6dce5957a6"
+        },
+        {
+          "name": "底纹景深: slider drives the uniform and the rendered frame",
+          "pass": true,
+          "detail": "uniform -0.25 -> 0 (control -> 0, readout 0.00), frame b0cde3efd20193c9 -> 4248555a4dab9c51"
+        },
+        {
+          "name": "光泽 / 镭射: slider drives the uniform and the rendered frame",
+          "pass": true,
+          "detail": "uniform 0.65 -> 0.5 (control -> 0.5, readout 50%), frame a32e4053a1d98818 -> a52e1c028da758ed"
+        },
+        {
+          "name": "all four finishes switch the material",
+          "pass": true,
+          "detail": "珠光=0 银箔=1 烫金=3 原画=2"
+        },
+        {
+          "name": "no console errors or exceptions",
+          "pass": true,
+          "detail": "clean"
+        },
+        {
+          "name": "no failed asset requests",
+          "pass": true,
+          "detail": "clean"
+        },
+        {
+          "name": "screenshot button saves a card PNG at full resolution",
+          "pass": true,
+          "detail": "1400x1800px, 477882 B as \"锦鲤如意-front.png\" (named as requested)"
+        }
+      ],
+      "consoleErrors": [],
+      "failedRequests": [],
+      "downloads": [
+        {
+          "name": "锦鲤如意-front.png",
+          "bytes": 477882,
+          "png": true,
+          "size": "1400x1800px"
+        }
+      ],
+      "requestedDownloadName": "锦鲤如意-front.png"
+    },
+    "mobile": {
+      "checks": [
+        {
+          "name": "viewer ready at 390x844",
+          "pass": true,
+          "detail": "{\"ready\":true,\"fallback\":false,\"error\":null}"
+        },
+        {
+          "name": "narrow viewport has no horizontal overflow",
+          "pass": true,
+          "detail": "innerWidth=390 scrollWidth=390"
+        },
+        {
+          "name": "card still renders at the narrow width",
+          "pass": true,
+          "detail": "锦鲤如意, canvas 390x472"
+        },
+        {
+          "name": "reduced motion: auto motion off and shader clock pinned",
+          "pass": true,
+          "detail": "{\"match\":true,\"auto\":false,\"t\":0}"
+        },
+        {
+          "name": "reduced motion keeps the card still",
+          "pass": true,
+          "detail": "frame c635f8c396145ac6 -> c635f8c396145ac6 over 1.2s"
+        },
+        {
+          "name": "no console errors on mobile",
+          "pass": true,
+          "detail": "clean"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "total": 33,
+    "passed": 33,
+    "failed": 0
+  }
+}

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Agent 架构三项目小白指南</title>
+<style>
+:root{
+  --c-bg:#fffdf7; --c-ink:#1f2430; --c-muted:#5b6472;
+  --c-primary:#7c3aed; --c-primary2:#db2777;
+  --c-a:#0ea5e9; --c-b:#f59e0b; --c-c:#10b981; --c-d:#ef4444;
+  --c-e:#8b5cf6; --c-f:#ec4899; --c-g:#14b8a6;
+  --c-hl:#fef08a; --c-code:#0f172a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;font-size:14.5px}
+@page{size:A4;margin:14mm}
+.wrap{max-width:860px;margin:0 auto;padding:0 10px}
+header.hero{background:linear-gradient(120deg,#7c3aed 0%,#db2777 55%,#f59e0b 100%);color:#fff;padding:38px 30px 30px;border-radius:0 0 28px 28px;box-shadow:0 6px 24px rgba(124,58,237,.35)}
+header.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.5);padding:2px 14px;border-radius:99px;font-size:12.5px;margin-bottom:12px}
+header.hero h1{font-size:30px;line-height:1.3;letter-spacing:1px}
+header.hero p{margin-top:10px;font-size:14px;opacity:.94}
+.meta-bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.meta-bar span{background:rgba(255,255,255,.16);padding:4px 12px;border-radius:8px;font-size:12.5px}
+section{margin:30px 0}
+h2.sec{font-size:22px;padding:10px 18px;border-radius:12px;color:#fff;background:linear-gradient(90deg,var(--c-primary),var(--c-primary2));display:inline-block;box-shadow:0 4px 14px rgba(219,39,119,.3)}
+h3.q{font-size:17.5px;margin:26px 0 10px;padding:8px 14px;border-left:8px solid var(--c-primary);background:linear-gradient(90deg,#f5f3ff,#fdf2f8);border-radius:0 10px 10px 0}
+h3.q .no{display:inline-block;min-width:34px;height:26px;line-height:26px;text-align:center;border-radius:8px;background:var(--c-primary);color:#fff;font-size:14px;margin-right:8px;vertical-align:1px}
+p{margin:8px 0}
+strong.big{font-size:16.5px;background:linear-gradient(transparent 62%,var(--c-hl) 62%);padding:0 3px}
+.hl{background:var(--c-hl);padding:0 4px;border-radius:4px;font-weight:700}
+code{background:var(--c-code);color:#7dd3fc;padding:1.5px 7px;border-radius:6px;font-family:Consolas,monospace;font-size:13px}
+pre{background:var(--c-code);color:#e2e8f0;padding:14px 16px;border-radius:12px;overflow-x:auto;font-family:Consolas,monospace;font-size:12.5px;line-height:1.6;margin:10px 0}
+pre code{background:none;color:inherit;padding:0}
+.card{border-radius:14px;padding:16px 18px;margin:12px 0;break-inside:avoid;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.card.c-a{background:linear-gradient(135deg,#e0f2fe,#f0f9ff);border:2px solid var(--c-a)}
+.card.c-b{background:linear-gradient(135deg,#fef3c7,#fffbeb);border:2px solid var(--c-b)}
+.card.c-c{background:linear-gradient(135deg,#d1fae5,#ecfdf5);border:2px solid var(--c-c)}
+.card.c-d{background:linear-gradient(135deg,#fee2e2,#fef2f2);border:2px solid var(--c-d)}
+.card.c-e{background:linear-gradient(135deg,#ede9fe,#f5f3ff);border:2px solid var(--c-e)}
+.card.c-f{background:linear-gradient(135deg,#fce7f3,#fdf2f8);border:2px solid var(--c-f)}
+.card.c-g{background:linear-gradient(135deg,#ccfbf1,#f0fdfa);border:2px solid var(--c-g)}
+.card h4{font-size:15.5px;margin-bottom:6px}
+.okbox{background:linear-gradient(135deg,#d1fae5,#a7f3d0);border:2.5px solid var(--c-c);border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;break-inside:avoid}
+.warnbox{background:linear-gradient(135deg,#fef3c7,#fde68a);border:2.5px solid var(--c-b);border-radius:12px;padding:12px 16px;margin:12px 0;break-inside:avoid}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;break-inside:avoid}
+th{background:var(--c-primary);color:#fff;padding:8px 10px;text-align:left}
+td{padding:7px 10px;border-bottom:1.5px solid #e5e7eb;vertical-align:top}
+tr:nth-child(even) td{background:#faf5ff}
+.step{border:2.5px solid var(--c-primary);border-radius:14px;padding:14px 18px;margin:14px 0;break-inside:avoid;background:#fff}
+.step .sno{display:inline-block;background:var(--c-primary);color:#fff;font-weight:800;border-radius:10px;padding:2px 12px;font-size:15px;margin-bottom:6px}
+.flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:10px 0;font-weight:700;font-size:13.5px}
+.node{padding:6px 12px;border-radius:10px;color:#fff}
+footer{margin:40px 0 20px;text-align:center;color:var(--c-muted);font-size:12.5px}
+.svgbox{text-align:center;margin:8px 0;break-inside:avoid}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="tag">拾遗学习 · 开源项目类 · 2026-10-03</div>
+  <h1>Agent 架构三项目小白指南<br>深挖 all-agentic-architectures（35 种 Agent 架构可运行教科书）</h1>
+  <p>来源：X 帖子 @miles_mazy《从零学 Agent 架构必看的三个 GitHub 项目》——本指南深挖第 1 个项目并附本机实测实验，另两个项目做盘点介绍。</p>
+  <div class="meta-bar">
+    <span>主仓库：FareedKhan-dev/all-agentic-architectures（MIT，4.5k+ star）</span>
+    <span>35 个架构 · 7 大族</span>
+    <span>实验：Ollama 本机 Qwen2.5-3B 实测</span>
+  </div>
+</header>
+<div class="wrap">
+
+<!-- ==================== 背景速览 ==================== -->
+<section>
+<h2 class="sec">背景：一条推文，三个仓库</h2>
+<p>这条推文面向"想从零学 Agent 架构"的人，按学习顺序推荐三个互补的项目：</p>
+<table>
+<tr><th>顺序</th><th>仓库</th><th>一句话</th><th>适合</th></tr>
+<tr><td><b>① 先搭</b></td><td><code>pguso/ai-agents-from-scratch</code></td><td>用 JavaScript + 本地 GGUF 模型，15 章从"调通一次模型"写到 ReAct / 思维树，<b>不依赖任何框架</b></td><td>想看清每一行代码在干嘛的人</td></tr>
+<tr><td><b>② 再比</b></td><td><code>FareedKhan-dev/all-agentic-architectures</code></td><td>把文献中 35 种 Agent 架构做成统一接口的 Python 库 + 35 份已执行 Notebook + 17 题 Benchmark 排行榜</td><td>想横向对比"哪种架构治哪种病"的人（<span class="hl">本指南深挖对象</span>）</td></tr>
+<tr><td><b>③ 后读</b></td><td><code>wquguru/harness-books</code></td><td>两本免费书，分析 Claude Code / Codex 的"挽具（harness）工程"：查询循环、工具权限、上下文治理、出错恢复</td><td>思考"怎么让 Agent 稳定干活"的人</td></tr>
+</table>
+<div class="card c-e"><h4>为什么这三个是"架构学习"的黄金组合？</h4>
+<p>①教你<b>徒手点火</b>（知道引擎每个零件），②给你<b>全车系试驾</b>（35 种车架同一赛道对比），③带你进<b>车队维修部</b>（真实工程怎么让车不掉链子）。三者分别对应"会写 → 会选 → 会养"。</p></div>
+</section>
+
+<!-- ==================== 疑问清单 ==================== -->
+<section>
+<h2 class="sec">疑问清单（目录）</h2>
+<div class="card c-a"><h4>第一层：这是什么</h4>
+<p><b>Q1</b> 35 种"Agent 架构"到底在解决什么共同问题？<br>
+<b>Q2</b> 7 大族怎么分类？名字看花眼了。<br>
+<b>Q3</b> 这个库的工程骨架长什么样？（统一 Architecture 合同）</p></div>
+<div class="card c-b"><h4>第二层：核心机制</h4>
+<p><b>Q4</b> 什么是"确定性选择器模式"？为什么说它是全库的工程纪律？<br>
+<b>Q5</b> Reflection：生成-评审-改写循环怎么转？<br>
+<b>Q6</b> Reflection 和 Reflexion 一字之差，差在哪？<br>
+<b>Q7</b> ReAct 为什么要把 Thought 和 Action 拆成两个节点？<br>
+<b>Q8</b> Self-Consistency：多采样几次投票，为什么能提升正确率？</p></div>
+<div class="card c-c"><h4>第三层：家族巡礼</h4>
+<p><b>Q9</b> 规划族（Planning / PEV）和 ReAct 的"边想边做"有何不同？<br>
+<b>Q10</b> RAG 五变体（Agentic / CRAG / Self-RAG / Adaptive / GraphRAG）各治什么病？<br>
+<b>Q11</b> 记忆族（MemGPT / Voyager）和知识库里的"三层记忆"是什么关系？<br>
+<b>Q12</b> 多智能体族：黑板 / 辩论 / STORM / 元控制器是怎么协作的？</p></div>
+<div class="card c-d"><h4>第四层：量化与上手</h4>
+<p><b>Q13</b> Benchmark 是怎么给 35 种架构打分的？78% 意味着什么？<br>
+<b>Q14</b> 没有 API key 能在自己电脑上跑吗？（本机 Ollama 实测路线）<br>
+<b>Q15</b> 三个项目怎么搭配学？推荐路线是什么？</p></div>
+</section>
+
+<!-- ==================== 逐条解答 ==================== -->
+<section>
+<h2 class="sec">逐条解答</h2>
+
+<h3 class="q"><span class="no">Q1</span>35 种"Agent 架构"到底在解决什么共同问题？</h3>
+<p>一句话：<strong class="big">大模型一次生成不可靠，就用"结构"把多次生成组织起来。</strong></p>
+<p>裸调 LLM 只有一问一答，而真实任务需要：多步推理（算 3 步账）、调用工具（查计算器）、自己检查（发现算错了重算）、查资料（RAG）、记住上下文（记忆）、分工协作（多智能体）。35 种架构就是 35 种<strong>组织 LLM 多次调用的"流程图"</strong>——这正是本库用 LangGraph 状态机实现它们的原因：每种架构 = 一张节点+边的图，节点调 LLM 或工具，边决定下一步去哪。</p>
+<div class="svgbox">
+<svg width="640" height="120" viewBox="0 0 640 120">
+<rect x="10" y="35" width="130" height="50" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+<text x="75" y="64" text-anchor="middle" font-size="13" fill="#7f1d1d">裸 LLM 一问一答</text>
+<path d="M150 60 L210 60" stroke="#7c3aed" stroke-width="3" marker-end="url(#ar)"/>
+<rect x="215" y="10" width="120" height="36" rx="8" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/><text x="275" y="33" text-anchor="middle" font-size="12">加循环(ReAct)</text>
+<rect x="215" y="52" width="120" height="36" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="2"/><text x="275" y="75" text-anchor="middle" font-size="12">加评审(Reflection)</text>
+<rect x="215" y="94" width="120" height="26" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text x="275" y="112" text-anchor="middle" font-size="12">加检索(RAG 族)</text>
+<path d="M340 60 L400 60" stroke="#7c3aed" stroke-width="3" marker-end="url(#ar)"/>
+<rect x="405" y="22" width="120" height="76" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2.5"/>
+<text x="465" y="50" text-anchor="middle" font-size="12.5" fill="#4c1d95">Agent 架构</text>
+<text x="465" y="70" text-anchor="middle" font-size="12.5" fill="#4c1d95">= 流程图</text>
+<text x="465" y="88" text-anchor="middle" font-size="11" fill="#6d28d9">35 种各一张</text>
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#7c3aed"/></marker></defs>
+</svg>
+</div>
+<p>知识库关联：本概念是 <b>Agent 循环</b> 笔记的"全集"——那条笔记讲最小两节点环线，本库是把文献中所有变体标准化后的"货架"。</p>
+
+<h3 class="q"><span class="no">Q2</span>7 大族怎么分类？</h3>
+<table>
+<tr><th>族</th><th>成员</th><th>一句话分工</th></tr>
+<tr><td><b style="color:var(--c-a)">推理与反思</b></td><td>Reflection、Reflexion、Self-Discover、CoVe、Constitutional AI</td><td>让模型<strong>检查并改进</strong>自己的输出</td></tr>
+<tr><td><b style="color:var(--c-b)">采样与搜索</b></td><td>Self-Consistency、Tree of Thoughts、LATS、Mental Loop、Ensemble</td><td>一条路走不通就<strong>多试几条再挑</strong></td></tr>
+<tr><td><b style="color:var(--c-c)">检索 RAG</b></td><td>Agentic RAG、CRAG、Self-RAG、Adaptive RAG、GraphRAG</td><td>回答前先<strong>查资料</strong>，且查得越来越聪明</td></tr>
+<tr><td><b style="color:var(--c-e)">记忆</b></td><td>Episodic+Semantic、Graph Memory、MemGPT、Voyager、Agent Workflow Memory</td><td>跨任务<strong>记住</strong>东西（知识库存储外的大脑）</td></tr>
+<tr><td><b style="color:var(--c-f)">工具与行动</b></td><td>Tool Use、ReAct、Planning、PEV、SWE-Agent、BrowserAgent</td><td>把 LLM 接到<strong>真实世界的手脚</strong></td></tr>
+<tr><td><b style="color:var(--c-g)">多智能体</b></td><td>Multi-Agent、Blackboard、Debate、STORM、Meta-Controller</td><td>多个 Agent <strong>组队</strong>干活</td></tr>
+<tr><td><b style="color:var(--c-d)">安全与路由</b></td><td>Dry-Run、Reflexive Metacognitive、RLHF Self-Improvement、Cellular Automata</td><td><strong>护栏</strong>与自我监控</td></tr>
+</table>
+<div class="warnbox">记忆口诀：<b>反思查自己、搜索多开花、RAG 查资料、记忆存本事、工具长手脚、多智能体开班会、安全系安全带。</b></div>
+
+<h3 class="q"><span class="no">Q3</span>这个库的工程骨架：统一 Architecture 合同</h3>
+<p>35 个类全部继承同一个抽象基类，只强制实现两个方法，换来三个白得的好处：</p>
+<pre>class Architecture(ABC):
+    @abstractmethod
+    def build(self) -&gt; CompiledStateGraph: ...   # 编译出 LangGraph 状态图
+    @abstractmethod
+    def run(self, task) -&gt; ArchitectureResult: ... # 跑任务，返回标准化结果
+    # 可选：diagram() 自动生成 mermaid 图；explain() 输出原理论述</pre>
+<div class="card c-c"><h4>统一合同带来三个免费好处</h4>
+<p><b>① Notebook 统一</b>：35 份教程全部同一套调用姿势 <code>arch.build() / arch.run() / arch.diagram()</code>；<br>
+<b>② 可组合</b>：元控制器、集成器能把任何架构当黑盒函数调用（"哪个架构都适合被路由"）；<br>
+<b>③ 文档自动生成</b>：每篇文档页的图和理论段都出自代码本身，不会和实现脱节。</p></div>
+<p>知识库关联：这就是 <b>规格书先行 SpecDriven</b> 的正面案例——先钉死接口合同，35 个实现互不干扰还能互相组合。</p>
+
+<h3 class="q"><span class="no">Q4</span>什么是"确定性选择器模式"？（本库最独特的工程纪律）</h3>
+<p>很多架构需要 LLM 当"裁判"（这份草稿打几分？这篇检索文档相关吗？）。直接让 LLM 输出"0-10 分"会发现一个病态现象：<strong class="big">LLM 打分挤成一团，几乎什么都是 7-8 分</strong>（flat-band），阈值形同虚设。</p>
+<p>本库的解法：<span class="hl">不让 LLM 直接做最终决定，而是让它只回答"分类特征"（布尔/枚举），由 Python 用确定性逻辑组合出决定信号</span>——这就是确定性选择器模式（deterministic-picker），35 个架构中 13 个使用它，另 9 个靠设计天然免疫。</p>
+<div class="svgbox">
+<svg width="660" height="150" viewBox="0 0 660 150">
+<rect x="10" y="30" width="180" height="90" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+<text x="100" y="55" text-anchor="middle" font-size="12.5" fill="#7f1d1d">LLM 当裁判（旧）</text>
+<text x="100" y="75" text-anchor="middle" font-size="11.5" fill="#7f1d1d">"打个总分吧"</text>
+<text x="100" y="95" text-anchor="middle" font-size="11.5" fill="#7f1d1d">→ 永远 7~8 分</text>
+<path d="M200 75 L250 75" stroke="#10b981" stroke-width="3.5" marker-end="url(#ar2)"/>
+<rect x="255" y="30" width="190" height="90" rx="10" fill="#d1fae5" stroke="#10b981" stroke-width="2.5"/>
+<text x="350" y="52" text-anchor="middle" font-size="12.5" fill="#064e3b">LLM 只投"分类票"（新）</text>
+<text x="350" y="72" text-anchor="middle" font-size="11.5" fill="#065f46">相关? 支持? 有害?</text>
+<text x="350" y="90" text-anchor="middle" font-size="11.5" fill="#065f46">全是 yes/no/enum</text>
+<text x="350" y="108" text-anchor="middle" font-size="11.5" fill="#065f46">Python AND/计数组合</text>
+<path d="M450 75 L500 75" stroke="#10b981" stroke-width="3.5" marker-end="url(#ar2)"/>
+<rect x="505" y="45" width="145" height="60" rx="10" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+<text x="577" y="70" text-anchor="middle" font-size="12" fill="#0c4a6e">确定的决定信号</text>
+<text x="577" y="88" text-anchor="middle" font-size="11" fill="#0c4a6e">可复现、可测试</text>
+<defs><marker id="ar2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#10b981"/></marker></defs>
+</svg>
+</div>
+<p>具体例子（Constitutional AI 架构）：LLM 对宪法每条规则只判 <code>pass/fail</code>，Python 做 <code>all(rules)</code>，全过才算合格；CRAG 对每篇文档判 relevant / ambiguous / irrelevant 三档，Python 按多数档路由。<strong class="big">LLM 出"模糊的判断材料"，Python 下"干脆的决定"</strong>——与知识库 <b>事实与判断分离</b>（LLM 只研判不口算）一脉相承。</p>
+
+<h3 class="q"><span class="no">Q5</span>Reflection：生成-评审-改写循环怎么转？</h3>
+<div class="flow" style="justify-content:center">
+<span class="node" style="background:var(--c-a)">generate 初稿</span>→
+<span class="node" style="background:var(--c-d)">critique 评委打分+评语</span>→
+<span class="node" style="background:var(--c-b)">达标？</span>→
+<span class="node" style="background:var(--c-c)">refine 带着评语改写</span>↺
+</div>
+<p>评委是一个结构化的 LLMJudge：按 Pydantic schema 打 1-10 分并给文字评语；循环出口有两条：<code>score ≥ 目标分</code> 或 <code>达到最大迭代数</code>。注意打分器内部就是 Q4 的确定性选择器——分数由分项布尔/枚举合成，避免"永远 8 分"。</p>
+<p>本机实测（Qwen2.5-3B，"给 10 岁小孩解释天为什么是蓝的"）：<b>首稿即获 8/10，循环 4.7 秒收敛</b>——评语指出"提到了散射但可更简洁"。</p>
+
+<h3 class="q"><span class="no">Q6</span>Reflection vs Reflexion：一字之差差在哪？</h3>
+<table>
+<tr><th></th><th>Reflection（反思）</th><th>Reflexion（反身记忆）</th></tr>
+<tr><td>循环单位</td><td>单任务内：改<b>这一份草稿</b></td><td>跨尝试：<b>这次失败的经验</b>写成文字存进记忆</td></tr>
+<tr><td>灵感来源</td><td>人类写稿"改二稿"</td><td>强化学习：失败不丢梯度，丢<b>语言化的教训</b></td></tr>
+<tr><td>记忆</td><td>无（历史只在当次 run 里）</td><td>情景记忆向量库，下个任务还能检索到</td></tr>
+<tr><td>出口</td><td>分数达标</td><td>任务被判成功 / 重试次数耗尽</td></tr>
+</table>
+<p>一句话：<strong class="big">Reflection 改"稿"，Reflexion 改"人"</strong>（把教训留给未来的自己）。知识库关联：<b>本能学习与置信度评分</b>（失败教训沉淀）与 Reflexion 同思路。</p>
+
+<h3 class="q"><span class="no">Q7</span>ReAct 为什么把 Thought 和 Action 拆成两个节点？</h3>
+<p>经典 ReAct（ICLR 2023）是"想一步、动一步"交替：Thought（推理）→ Action（调工具）→ Observation（结果）→ Thought……但现代工具调用 API 里，Thought 和 Action 挤在同一条消息里，小模型常常<b>跳过思考直接调工具</b>，退化成裸 Tool Use。</p>
+<p>本库的实现把这个隐患从结构上焊死：<span class="hl">think 节点不给工具，逼模型先输出 Thought；act 节点才给工具做选择</span>。代价是每轮 2 次 LLM 调用，换来"思考不可跳过"。</p>
+<div class="svgbox">
+<svg width="660" height="110" viewBox="0 0 660 110">
+<rect x="15" y="30" width="115" height="46" rx="10" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2.5"/>
+<text x="72" y="50" text-anchor="middle" font-size="12">think</text><text x="72" y="66" text-anchor="middle" font-size="10.5" fill="#075985">无工具·只想</text>
+<path d="M132 53 L165 53" stroke="#7c3aed" stroke-width="3" marker-end="url(#ar3)"/>
+<rect x="168" y="30" width="115" height="46" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2.5"/>
+<text x="225" y="50" text-anchor="middle" font-size="12">act</text><text x="225" y="66" text-anchor="middle" font-size="10.5" fill="#4c1d95">给工具·执行</text>
+<path d="M285 53 L318 53" stroke="#7c3aed" stroke-width="3" marker-end="url(#ar3)"/>
+<rect x="321" y="30" width="115" height="46" rx="10" fill="#d1fae5" stroke="#10b981" stroke-width="2.5"/>
+<text x="378" y="50" text-anchor="middle" font-size="12">tools</text><text x="378" y="66" text-anchor="middle" font-size="10.5" fill="#065f46">真跑函数</text>
+<path d="M378 78 L378 95 L72 95 L72 78" stroke="#f59e0b" stroke-width="3" fill="none" marker-end="url(#ar4)"/>
+<text x="225" y="105" text-anchor="middle" font-size="11" fill="#92400e">带着观察结果回到 think（或到 max_rounds 强制收尾）</text>
+<defs>
+<marker id="ar3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#7c3aed"/></marker>
+<marker id="ar4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#f59e0b"/></marker>
+</defs>
+</svg>
+</div>
+<p>本机实测（农夫卖牛奶周收入题）：模型调用 <code>calculator</code> 分步算 15×4=60 升、1.2×60=72 元、72×7=504 元，<b>最终答案 504 正确</b>；但也暴露了 3B 小模型的通病——它反复"确认"已达成的结论不主动收尾，直到 max_rounds=5 强制结束。<span class="hl">护栏参数 max_rounds 就是防止循环不刹车的安全带</span>。</p>
+
+<h3 class="q"><span class="no">Q8</span>Self-Consistency：多采样几次投票，为什么能提升正确率？</h3>
+<p>原理像"民主表决"：同一道题，让模型在高温（temperature 0.8，敢犯错也敢出新解）下独立解 5 次，提取每条的最终答案，<b>Python 多数表决</b>（确定性选择器）。单个采样有随机错误，但<b>错误随机、正确收敛</b>——正确答案像磁铁，错误答案四散，多数表决把磁铁吸出来。论文（Wang et al. 2022）里数学任务提升可达两位数百分点。</p>
+<p>本机实测有一个重要发现：3B 小模型做应用题时 5 条采样会<strong>集体偷懒</strong>（全部输出同一个占位答案 "x"），温度 0.8 也拉不开多样性——架构再好也救不了模型能力不足；换单步乘法题后表现见"动手实验"部分。</p>
+
+<h3 class="q"><span class="no">Q9</span>规划族（Planning / PEV）和 ReAct 边想边做有何不同？</h3>
+<table>
+<tr><th></th><th>ReAct</th><th>Planning（Plan-and-Execute）</th><th>PEV（Plan-Execute-Verify）</th></tr>
+<tr><td>计划时机</td><td>没有总计划，想一步做一步</td><td><b>动手前先出完整步骤清单</b></td><td>同 Planning</td></tr>
+<tr><td>步骤质检</td><td>无</td><td>无（信任每步结果）</td><td><b>每步加 Verify，失败带评语重试</b></td></tr>
+<tr><td>适合场景</td><td>路径不可预知（探索式）</td><td>任务可分解、工具可靠</td><td>工具会失败的真实环境</td></tr>
+</table>
+<p>类比：ReAct 是<strong>边走边问路</strong>，Planning 是<strong>出发前先导航</strong>，PEV 是<strong>每个路口核对路牌，错了就地重走</strong>。知识库关联：PEV 的"逐步验证"就是 <b>质检 Gate 与自我纠错循环</b> 的 Agent 版。</p>
+
+<h3 class="q"><span class="no">Q10</span>RAG 五变体各治什么病？</h3>
+<table>
+<tr><th>架构</th><th>治的病</th><th>药方</th></tr>
+<tr><td><b>Agentic RAG</b></td><td>普通 RAG 不管要不要都先检索</td><td>检索变成<b>工具</b>，Agent（ReAct 小循环）自己决定何时查、查什么、查几次</td></tr>
+<tr><td><b>CRAG</b></td><td>检索回来一堆无关文档照样用</td><td>每篇文档打分（相关/模糊/无关，枚举票），多数无关就<b>降级走网络搜索</b>兜底</td></tr>
+<tr><td><b>Self-RAG</b></td><td>检索时机和文档质量全靠运气</td><td>模型自发 reflection token：<code>needs_retrieval?</code> 每条文档 relevance/support 由 Python 合成取舍</td></tr>
+<tr><td><b>Adaptive RAG</b></td><td>简单问题也走全套流程，浪费且慢</td><td>先给问题<b>分类定级</b>（免检索/单跳/多跳），按级路由到不同流程</td></tr>
+<tr><td><b>GraphRAG</b></td><td>"整部《红楼梦》讲了什么"这类全局问题，向量检索抓瞎</td><td>抽实体关系建<b>知识图谱</b>，按社区聚类+每社区预生成摘要，全局问题读摘要</td></tr>
+</table>
+<p>知识库关联：基础 RAG 见 <b>RAG 检索增强生成</b>；五个变体全用它做底座，本库把这条演进线一次补齐。</p>
+
+<h3 class="q"><span class="no">Q11</span>记忆族（MemGPT / Voyager）和"三层记忆"是什么关系？</h3>
+<p>知识库已有 <b>三层记忆</b>（L1 轨迹→L2 摘要→L3 画像）。本库记忆族的贡献是<strong>管理策略</strong>：</p>
+<p><b>MemGPT</b>把 LLM 上下文比作操作系统内存——Context 是"内存"（有限、FIFO 挤出），Archival 是"硬盘"（向量库无限），<b>Agent 自己决定何时把记忆在内存/硬盘间倒腾</b>（函数调用式记忆管理）；<b>Voyager</b>（Minecraft 成名）更进一步：每次完成任务沉淀一个"技能"（带文档的代码片段）进技能库，新任务先检索技能库复用，不会就现写——终身学习。</p>
+<p>类比：三层记忆规定了<strong>书放哪几层</strong>，MemGPT 给了<strong>图书管理员</strong>（自己搬书），Voyager 给了<strong>秘籍收藏夹</strong>（越做越强）。</p>
+
+<h3 class="q"><span class="no">Q12</span>多智能体族：黑板 / 辩论 / STORM / 元控制器怎么协作？</h3>
+<table>
+<tr><th>架构</th><th>协作模式</th><th>类比</th></tr>
+<tr><td><b>Blackboard</b>（1980s HEARSAY-II 老前辈）</td><td>无中央指挥：所有 Agent 每轮看共享黑板，<b>自评"我能贡献多少"竞价，最自信者上手写</b>，直到无人再出价</td><td>头脑风暴会议室</td></tr>
+<tr><td><b>Debate</b></td><td>K 轮 × N 个 Agent：每轮各抒己见+点评别人，末轮<b>多数表决</b></td><td>辩论赛+观众投票</td></tr>
+<tr><td><b>STORM</b></td><td>固定流水线：头脑风暴 N 个视角 → 每视角出题 → 分别作答 → 汇总成文章大纲</td><td>编辑部联合采编</td></tr>
+<tr><td><b>Meta-Controller</b></td><td>一个 LLM 路由器看任务选架构：写作走 Reflection、多跳调研走 ReAct、可分解任务走 Planning……</td><td>分诊台护士</td></tr>
+</table>
+<p>知识库关联：与 <b>多智能体协作</b>（crewAI 角色分工）互链——那边是"人事任命"，这边是"协作机制"。</p>
+
+<h3 class="q"><span class="no">Q13</span>Benchmark 怎么给架构打分？78% 意味着什么？</h3>
+<p><code>benchmarks/run_benchmark.py</code> 用 17 道固定任务（写作、数学、检索、代码、多跳问答……）跑所有相关架构，每次运行由 LLM 按 rubric 判对错（确定性选择器式评分），输出排行榜。README 最近成绩：Llama-3.3-70B 跑 33/42 判分点 = <b>78%</b>。这个数字的启示不在高低，而在<strong>可横向比较</strong>：同一任务、同一模型、不同架构，谁行谁不行一目了然。它也诚实地标注 "0 mocked runs"——所有示例都是真 LLM 输出，不是摆拍。</p>
+
+<h3 class="q"><span class="no">Q14</span>没有 API key 能在自己电脑上跑吗？</h3>
+<p>能。本实验全路线：<b>Ollama 本地模型 + 本库 ollama provider</b>。配置就三行（写进 <code>repo/.env</code>）：</p>
+<pre>LLM_PROVIDER=ollama
+LLM_MODEL=qwen25-3b        # 自己用 GGUF 灌进 ollama 的模型名
+OLLAMA_BASE_URL=http://localhost:11434</pre>
+<p>有两个本机实测的坑（详见"动手实验"）：① ollama 官方拉模型时若挂着 Clash 类 fake-ip 代理会报 "redirect target not allowed"，可改从 hf-mirror.com 用 curl 下 GGUF 再 <code>ollama create</code>；② 安装别忘了 <code>networkx</code>（<code>architectures/__init__.py</code> 全量导入 35 个架构，缺一个依赖全体报错）。</p>
+
+<h3 class="q"><span class="no">Q15</span>三个项目怎么搭配学？</h3>
+<div class="card c-f"><h4>推荐路线（推文原顺序 + 本指南补充）</h4>
+<p><b>第一步 搭</b>：<code>ai-agents-from-scratch</code> 按 15 章走一遍（Node.js + 本地模型），重点吃透第 7 章工具调用、第 9 章 ReAct、第 12 章思维树；<br>
+<b>第二步 比</b>：用本库把 35 种架构当"试驾"，配合 17 题 benchmark 看排行榜，建立自己的"选型直觉"；<br>
+<b>第三步 读</b>：<code>harness-books</code> 书一第 9 章"十项挽具工程原则" + 书二第 7 章"趋同与分歧"（时间紧只读这两章结论）。<br>
+<span class="hl">切忌跳过第一步直接上框架</span>——框架把循环、工具、记忆都藏进黑盒，出问题只会调提示词碰运气。</p></div>
+</section>
+
+<!-- ==================== 能力清单 ==================== -->
+<section>
+<h2 class="sec">这个项目给我什么（能力清单）</h2>
+<div class="card c-a"><h4>拿到手的能力</h4>
+<p>① <b>35 个即插即用的 Agent 架构</b>：<code>pip install agentic-architectures</code> 后两行代码调用，换 provider 只改 .env；<br>
+② <b>选型直觉</b>：7 族分类 + benchmark 排行榜，遇到真实任务能说出"这病该用哪味药"；<br>
+③ <b>架构图自动生成</b>：<code>arch.diagram()</code> 输出 mermaid，写文档/汇报直接用；<br>
+④ <b>工程纪律范式</b>：确定性选择器模式 + 统一合同接口，可直接搬进自己的 Agent 项目；<br>
+⑤ <b>35 份真跑 Notebook</b>：每个架构的理论都对着真实运行输出讲，是最好的进阶教材；<br>
+⑥ <b>零 API 费本地复现</b>：Ollama provider 支持 9 家之外的第 10 种" provider"——自家显卡。</p></div>
+<div class="card c-b"><h4>我能用它干什么（3-6 个具体用途）</h4>
+<p>1. 给自己的 RAG 应用<b>快速试装</b> CRAG / Self-RAG，看纠错值不值得加；<br>
+2. 写报告前用 <b>STORM</b> 生成多视角大纲；<br>
+3. 用 <b>Reflection + LLMJudge</b> 给现有生成管线加"自动二审"；<br>
+4. 团队内做 Agent 架构<b>技术分享</b>（ Notebook 直接当幻灯片）；<br>
+5. 借鉴 Meta-Controller 思路给多技能助手加<b>任务分诊</b>。</p></div>
+</section>
+
+<!-- ==================== 动手实验 ==================== -->
+<section>
+<h2 class="sec">动手实验：一题三架构，本机实测（Qwen2.5-3B）</h2>
+<p>实验材料在 <code>exercise\</code> 目录：<code>arch_compare.py</code>（三架构对比）+ <code>arch_voting_mul.py</code>（表决补充实验）。全程不花一分钱 API 费，模型跑在本地 Ollama。</p>
+
+<div class="step"><span class="sno">第 1 步 · 备模型（绕开 ollama 拉取被代理拦截的坑）</span>
+<p><b>操作</b>：</p>
+<pre>curl -L -o qwen25-3b-q4_k_m.gguf "https://hf-mirror.com/bartowski/Qwen2.5-3B-Instruct-GGUF/resolve/main/Qwen2.5-3B-Instruct-Q4_K_M.gguf"
+printf 'FROM ./qwen25-3b-q4_k_m.gguf\nPARAMETER temperature 0\n' &gt; Modelfile
+ollama create qwen25-3b -f Modelfile
+ollama run qwen25-3b "Reply with exactly: OK"</pre>
+<p><b>目的</b>：ollama 官方源会把下载重定向到被 Clash fake-ip 污染 CDN（报 redirect target not allowed），改从 hf-mirror 拿 GGUF 再灌入。</p>
+<p><b>验证成功标准</b>：</p>
+<div class="okbox">✅ 预期结果：ollama list 出现 qwen25-3b:latest（1.9 GB）；冒烟提问回复 "OK"。</div>
+</div>
+
+<div class="step"><span class="sno">第 2 步 · 装库（注意 networkx 坑）</span>
+<p><b>操作</b>：</p>
+<pre>cd repo
+python -m venv .venv
+.venv\Scripts\pip install -e ".[ollama,faiss]" networkx json-repair
+# repo\.env 三行：LLM_PROVIDER=ollama / LLM_MODEL=qwen25-3b / OLLAMA_BASE_URL=http://localhost:11434
+.venv\Scripts\python -c "from agentic_architectures.architectures import Reflection, ReAct, SelfConsistency; print('imports ok')"</pre>
+<p><b>目的</b>：装 ollama 集成 + FAISS 向量后端；networkx 必须单独补（35 架构全量导入，缺它全体 ImportError）。</p>
+<div class="okbox">✅ 预期结果：打印 imports ok。</div>
+</div>
+
+<div class="step"><span class="sno">第 3 步 · 跑三架构对比</span>
+<p><b>操作</b>：</p>
+<pre>cd exercise
+PYTHONUTF8=1 ..\repo\.venv\Scripts\python arch_compare.py</pre>
+<p><b>目的</b>：Reflection 写科普、ReAct 算农夫卖奶账（自带 calculator 工具）、Self-Consistency 解应用题并和单次直答对比。</p>
+<p><b>真实结果摘要</b>（完整输出在 <code>exercise\results.txt</code>）：</p>
+<div class="card c-c"><h4>Reflection：4.7 秒收敛</h4>
+<p>首稿评委打 <b>8/10</b>（目标分 8），评语："面向 10 岁儿童的解释清晰有趣，但可更简洁精确"——一次达标直接收官，这就是"达标即停"循环。</p></div>
+<div class="card c-a"><h4>ReAct：24 步、3 次工具调用，答案 504 正确</h4>
+<p>轨迹里能看到显式分工：think 节点出 Thought（"先算日产奶量"），act 节点调 <code>calculator("15*4")</code>→60，<code>calculator("1.2*60")</code>→72，<code>calculator("72*7")</code>→504。也看到小模型通病：得出答案后仍反复"确认"不收尾，直到 max_rounds=5 强制结束——<b>护栏参数救了场</b>。</p></div>
+<div class="card c-d"><h4>Self-Consistency：应用题翻车现场（诚实的教训）</h4>
+<p>应用题"24×7-30-12=?"标准答案 126：单次直答答 "22"（错），5 票表决集体偷懒输出占位符 "x"（也错）。<b>5 条采样一字不差</b>——温度 0.8 在 3B 小模型上拉不开多样性，长推理链是它能力边界。<span class="hl">架构不是魔法，模型能力是地基</span>。</p></div>
+</div>
+
+<div class="step"><span class="sno">第 4 步 · 补充实验：换短推理链的乘法题再投票</span>
+<p><b>操作</b>：<code>PYTHONUTF8=1 ..\repo\.venv\Scripts\python arch_voting_mul.py</code>（5 道两位数/三位数乘法，n_samples=5，温度 0.8）</p>
+<p><b>真实结果摘要</b>：</p>
+<!-- MUL_RESULTS -->
+<div class="okbox">✅ 预期结果：results.txt 末尾出现"汇总"行，能看到 tally 分布与两种方式的正确数对比。</div>
+</div>
+
+<div class="step"><span class="sno">第 5 步 · 生成架构图（白得的文档素材）</span>
+<p><b>操作</b>：<code>print(Reflection().diagram())</code> 等——每个架构自动吐 mermaid 状态图。</p>
+<p><b>目的</b>：把"流程图"从代码里直接抠出来，写汇报不用手画。</p>
+<div class="okbox">✅ 预期结果：输出 mermaid 文本（graph TD ...），粘进任何支持 mermaid 的文档即渲染。</div>
+</div>
+</section>
+
+<!-- ==================== 两项目盘点 ==================== -->
+<section>
+<h2 class="sec">另两项目盘点（按推文顺序①③）</h2>
+<div class="card c-b"><h4>① ai-agents-from-scratch（pguso，JS，4.8k star）</h4>
+<p><b>是什么</b>：15 章渐进教程，Node.js + node-llama-cpp 跑本地 GGUF 模型，<b>零框架徒手</b>搭 Agent；每章 = 可运行代码 + 逐行讲解 CODE.md + 概念 CONCEPT.md；另有配套网站与 Python 姊妹版（pguso/agents-from-scratch）。<br>
+<b>章节主线</b>：调通模型 → 系统提示词 → 函数调用（工具）→ 持久记忆 → <b>ReAct 循环</b> → 思维树/思维图搜索 → 可审计决策 → embedding 工具路由。<br>
+<b>什么时候用</b>：觉得框架太黑盒、想每一行都懂的时候。<b>环境</b>：Node 18+，8-16GB 内存，自下一个 GGUF 模型。</p></div>
+<div class="card c-e"><h4>③ harness-books（wquguru，免费书两本，3.2k star）</h4>
+<p><b>是什么</b>：不写"怎么调模型"，写"怎么让模型<b>持续、有界、可问责</b>地干活"的挽具工程。书一《Harness Engineering: A Design Guide to Claude Code》9 章：提示词即控制面、查询循环（Agent 系统的心跳）、工具与权限、上下文治理（CLAUDE.md/Compact）、错误恢复、多智能体验证、团队落地、十项原则；书二对比 Claude Code 与 Codex 两种挽具哲学的趋同与分歧。<br>
+<b>与知识库的关系</b>：本书是 <b>AgentHarness 智能体挽具</b>、<b>ClaudeCodeHooks 与 fail-open</b>、<b>上下文预算与战略压缩</b> 等笔记的"原著级"展开——vault 里已学的 harness 概念这里成体系。时间紧只读书一第 9 章 + 书二第 7 章（作者自己标的速读路线）。</p></div>
+</section>
+
+<footer>F:\reminder\agent-architectures · 2026-10-03 · 依据 learn-project skill 产出 · 实验全部真实运行（Ollama Qwen2.5-3B）</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>RuiC-card-skill 小白指南</title>
+<style>
+:root{
+  --pink:#FF2E63; --orange:#FF9F1C; --yellow:#FFD23F; --green:#06D6A0;
+  --blue:#1B9CFC; --purple:#7B2FF7; --navy:#1A1A2E; --ink:#22223B;
+  --bg:#FFFDF7; --card:#FFFFFF;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+@page{ size:A4; margin:12mm; }
+body{ font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.65; font-size:13.5px; }
+.cover{ background:linear-gradient(135deg,#FF2E63 0%,#FF9F1C 45%,#FFD23F 100%); border-radius:18px; padding:42px 36px; color:#fff; margin-bottom:22px; page-break-after:always;}
+.cover h1{ font-size:40px; letter-spacing:2px; text-shadow:3px 3px 0 rgba(0,0,0,.18);}
+.cover .sub{ font-size:19px; margin-top:12px; font-weight:bold;}
+.cover .meta{ margin-top:22px; background:rgba(255,255,255,.22); border-radius:12px; padding:14px 18px; font-size:13px;}
+.cover .badge{ display:inline-block; background:#fff; color:var(--pink); font-weight:bold; border-radius:999px; padding:4px 16px; margin:14px 8px 0 0; font-size:13px;}
+h2.q{ font-size:21px; margin:26px 0 12px; padding:10px 16px; border-radius:12px; color:#fff; page-break-after:avoid;}
+.q1{background:var(--pink);} .q2{background:var(--orange);} .q3{background:var(--purple);}
+.q4{background:var(--blue);} .q5{background:var(--green);} .q6{background:var(--pink);}
+.q7{background:var(--purple);} .q8{background:var(--orange);} .q9{background:var(--blue);}
+.q10{background:var(--green);} .q11{background:var(--purple);} .q12{background:var(--pink);}
+.qn{ font-size:30px; font-weight:900; margin-right:10px; opacity:.92;}
+.card{ background:var(--card); border-radius:14px; padding:16px 20px; margin:10px 0 16px; box-shadow:0 3px 12px rgba(26,26,46,.10); break-inside:avoid; border-top:5px solid var(--yellow);}
+.hl{ background:linear-gradient(transparent 55%, #FFD23F 55%); font-weight:900; padding:0 2px;}
+.hl2{ background:linear-gradient(transparent 55%, #7CFFD4 55%); font-weight:700; padding:0 2px;}
+.big{ font-size:16.5px; font-weight:900; color:var(--pink);}
+.term{ color:var(--purple); font-weight:bold;}
+.code{ background:var(--navy); color:#A6FF9E; border-radius:10px; padding:10px 14px; font-family:Consolas,monospace; font-size:12px; margin:8px 0; white-space:pre-wrap; break-inside:avoid;}
+.code .c{ color:#7DD3FC;}
+.formula{ background:#EDE7FF; border:2px dashed var(--purple); border-radius:10px; padding:10px 14px; font-family:Consolas,monospace; font-size:13px; margin:8px 0; text-align:center; font-weight:bold; color:var(--purple);}
+.warn{ background:#FFF0F3; border-left:6px solid var(--pink); border-radius:8px; padding:10px 14px; margin:8px 0; break-inside:avoid;}
+.warn b{color:var(--pink);}
+.ok{ background:#EBFFF8; border-left:6px solid var(--green); border-radius:8px; padding:10px 14px; margin:8px 0; break-inside:avoid;}
+.ok b{color:#058C6B;}
+.tip{ background:#FFF8E6; border-left:6px solid var(--orange); border-radius:8px; padding:10px 14px; margin:8px 0; break-inside:avoid;}
+.tip b{color:#C77800;}
+table{ width:100%; border-collapse:collapse; margin:10px 0; break-inside:avoid; font-size:12.5px;}
+th{ background:var(--navy); color:#fff; padding:7px 9px; text-align:left;}
+td{ border-bottom:2px solid #F0EDE4; padding:6px 9px; vertical-align:top;}
+tr:nth-child(even) td{ background:#FBF9F2;}
+.svgbox{ text-align:center; margin:10px 0; break-inside:avoid;}
+.svgbox svg{ max-width:100%; height:auto;}
+.caption{ text-align:center; font-size:11.5px; color:#777; margin-top:2px;}
+.shot{ width:46%; border-radius:10px; border:3px solid var(--yellow); box-shadow:0 4px 10px rgba(0,0,0,.15);}
+.shotrow{ text-align:center; break-inside:avoid; margin:12px 0;}
+.step{ background:#fff; border:2px solid var(--blue); border-radius:12px; padding:12px 16px; margin:10px 0; break-inside:avoid;}
+.step h4{ color:var(--blue); font-size:15px; margin-bottom:6px;}
+.step .ops{ background:#F2F8FF; border-radius:8px; padding:8px 12px; font-family:Consolas,monospace; font-size:12px; margin:6px 0; white-space:pre-wrap;}
+.expect{ background:#EBFFF8; border:2px dashed var(--green); border-radius:8px; padding:8px 12px; margin:6px 0; font-size:12.5px;}
+.expect b{color:#058C6B;}
+.toc{ background:#fff; border-radius:14px; padding:18px 24px; box-shadow:0 3px 12px rgba(26,26,46,.10); margin-bottom:18px;}
+.toc h3{ color:var(--pink); margin-bottom:8px; font-size:17px;}
+.toc ol{ margin-left:20px; columns:2; column-gap:34px; font-size:13px;}
+.toc li{ margin:3px 0; break-inside:avoid;}
+.foot{ text-align:center; color:#999; font-size:11px; margin:18px 0;}
+.kwrow{ display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;}
+.kw{ background:#fff; border:2px solid var(--purple); color:var(--purple); border-radius:999px; padding:3px 14px; font-size:12px; font-weight:bold; break-inside:avoid;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>全息闪卡 Agent Skill<br>小白指南</h1>
+  <div class="sub">把小时候文具店门口会闪的卡，复刻进浏览器 —— RuiC-card-skill 精读</div>
+  <div>
+    <span class="badge">HRuiCcc/RuiC-card-skill · 466★ · MIT</span>
+    <span class="badge">Blender + Three.js + Python</span>
+    <span class="badge">抖音 @AI整活家 推荐</span>
+  </div>
+  <div class="meta">
+    <b>一句话：</b>说一句话（或给一张参考图），多模态模型画出四层图，自动流水线把它变成一张<b>会随视角流光、带层次景深的 3D 闪卡网页</b>，外加一个可以随便改的 Blender 工程。<br>
+    <b>本指南来源：</b>拾遗队列 task 8f9a2254（抖音短视频链接）；所有实验在本机 Windows 11 真实跑通，无编造。
+  </div>
+</div>
+
+<div class="toc">
+  <h3>目录 · 12 个工科毕业生的疑问</h3>
+  <ol>
+    <li>它到底是什么？一句话能说清吗？</li>
+    <li>Skill / 宿主 / 模型，三者什么关系？</li>
+    <li>一句话进去，中间发生了什么？</li>
+    <li>为什么非要画"四层图"？</li>
+    <li>视差公式怎么把"平的"变"立体的"？</li>
+    <li>"转到哪闪到哪"是怎么实现的？</li>
+    <li>Blender 建好材质，网页为什么重写一遍？</li>
+    <li>1.3MB 单文件 + CSS 兜底是什么工程思路？</li>
+    <li>体检门查什么？"假透明"是什么坑？</li>
+    <li>官方验收器怎么证明"卡真的能玩"？</li>
+    <li>不装 Blender 不用 AI，我能玩吗？</li>
+    <li>这个项目给我什么？和我学过的有什么关系？</li>
+  </ol>
+</div>
+
+<!-- Q1 -->
+<h2 class="q q1"><span class="qn">Q1</span>它到底是什么？一句话能说清吗？</h2>
+<div class="card">
+  <p><span class="big">一句话：它是"私人闪卡印刷厂"——一条全自动生产线，输入一句话，输出一张能在浏览器里拖、转、翻、闪的 3D 全息卡网页 + 一个可编辑的 Blender 源工程。</span></p>
+  <p style="margin-top:8px">小时候文具店门口那种"会闪的卡"，学名叫<span class="term">光栅卡（lenticular card）</span>：卡片表面压了一排细密的凸透镜条纹，下面是两张以上从不同角度拍的画面。你歪头时，透镜把不同画面折射进眼睛——图就"动"了。这个 skill 用计算机复刻同一种体验：不压塑料条纹，而是用 <b>3D 场景里前后错开的图层 + 跟着视角变色的全息材质</b>，在屏幕上达到"歪头就闪"的效果。</p>
+  <div class="svgbox">
+    <svg width="560" height="150" viewBox="0 0 560 150">
+      <rect x="10" y="20" width="160" height="100" rx="10" fill="#FFD23F" stroke="#FF9F1C" stroke-width="3"/>
+      <text x="90" y="60" text-anchor="middle" font-size="13" font-weight="bold" fill="#7A4B00">塑料光栅条纹</text>
+      <g stroke="#FF9F1C" stroke-width="2">
+        <line x1="30" y1="80" x2="150" y2="80"/><line x1="30" y1="90" x2="150" y2="90"/>
+      </g>
+      <path d="M30 110 Q60 70 90 110 T150 110" stroke="#FF2E63" fill="none" stroke-width="2"/>
+      <text x="90" y="136" text-anchor="middle" font-size="11" fill="#999">实体卡：透镜折射换画面</text>
+      <text x="205" y="78" font-size="26" fill="#FF2E63" font-weight="bold">→</text>
+      <g transform="translate(240,0)">
+        <rect x="10" y="20" width="160" height="100" rx="10" fill="#1A1A2E"/>
+        <rect x="30" y="35" width="120" height="70" rx="6" fill="#1B9CFC" opacity=".55"/>
+        <rect x="45" y="45" width="90" height="50" rx="6" fill="#06D6A0" opacity=".75"/>
+        <text x="90" y="75" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">3D 图层堆</text>
+        <text x="90" y="136" text-anchor="middle" font-size="11" fill="#999">网页版：图层错位 + 视角变色</text>
+      </g>
+      <text x="445" y="78" font-size="26" fill="#FF2E63" font-weight="bold">⇒</text>
+      <text x="465" y="55" font-size="12" fill="#22223B" font-weight="bold">歪头 → 图会动</text>
+      <text x="465" y="75" font-size="12" fill="#22223B" font-weight="bold">转动 → 卡会闪</text>
+      <text x="465" y="95" font-size="12" fill="#22223B" font-weight="bold">还能拖拽翻面</text>
+    </svg>
+    <div class="caption">同一个童年体验，两条技术路线</div>
+  </div>
+  <p>仓库是 GitHub 用户 <b>HRuiCcc</b> 的 <b>RuiC-card-skill</b>（466★，MIT 许可），本体只有文字和脚本，装进任何能读 SKILL.md 的宿主就能用。</p>
+</div>
+
+<!-- Q2 -->
+<h2 class="q q2"><span class="qn">Q2</span>Skill / 宿主 / 模型，三者什么关系？</h2>
+<div class="card">
+  <p>这是理解这类项目的第一道坎。这三个词各管一层：</p>
+  <table>
+    <tr><th>角色</th><th>是什么</th><th>在这个项目里</th></tr>
+    <tr><td><b>模型</b></td><td>真正"动脑"的 AI（要<b>多模态</b>：能画图、也能看图）</td><td>画四层图、打开渲染帧自查"对不对"</td></tr>
+    <tr><td><b>宿主</b></td><td>跑模型的程序外壳，负责读指令、执行工具</td><td>Claude Code / Codex 等，只要会读 SKILL.md</td></tr>
+    <tr><td><b>Skill</b></td><td>写给模型看的<span class="term">操作手册 + 工具箱</span>（纯文本+脚本）</td><td>SKILL.md 讲流程红线，scripts/ 是确定性工具</td></tr>
+  </table>
+  <p><span class="hl">"不挑宿主"的秘密：skill 把"需要智力"的活全推给模型，把"需要精确"的活全写进脚本。</span>画图、看图、改图——这些只有模型能干，所以换任何多模态模型都行；切尺寸、验透明、装 Blender、打包网页——这些一步都不能错，所以全部固化成 Python/Node 脚本，模型只负责"按手册调用"。这就是 [[AgentSkills技能包]] 的标准分工。</p>
+  <div class="tip"><b>注意红线：</b>纯文本模型干不了这个活——流水线里模型要<b>自己画出四层图</b>、还要<b>自己打开渲染帧看一眼</b>判断对不对。缺眼睛或缺手都不行。</div>
+</div>
+
+<!-- Q3 -->
+<h2 class="q q3"><span class="qn">Q3</span>一句话进去，中间发生了什么？</h2>
+<div class="card">
+  <p>README 给的流程图浓缩成五步：<span class="hl">分层画图 → 写配置 → 一键流水线 → 起网页 → 机器验收</span>。</p>
+  <div class="svgbox">
+    <svg width="640" height="150" viewBox="0 0 640 150">
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#7B2FF7"/></marker></defs>
+      <g font-size="11.5" font-weight="bold" text-anchor="middle">
+        <rect x="8"   y="40" width="100" height="52" rx="10" fill="#FF2E63"/><text x="58"  y="62" fill="#fff">① 四层图</text><text x="58" y="80" fill="#FFD9E2" font-size="10">模型画</text>
+        <rect x="130" y="40" width="100" height="52" rx="10" fill="#FF9F1C"/><text x="180" y="62" fill="#fff">② 配置 JSON</text><text x="180" y="80" fill="#FFE8C7" font-size="10">规格+景深</text>
+        <rect x="252" y="40" width="100" height="52" rx="10" fill="#06D6A0"/><text x="302" y="62" fill="#fff">③ 体检门</text><text x="302" y="80" fill="#D8FFF4" font-size="10">不过→重画</text>
+        <rect x="374" y="40" width="100" height="52" rx="10" fill="#1B9CFC"/><text x="424" y="62" fill="#fff">④ Blender→GLB</text><text x="424" y="80" fill="#D6EEFF" font-size="10">几何+便携版</text>
+        <rect x="496" y="40" width="130" height="52" rx="10" fill="#7B2FF7"/><text x="561" y="62" fill="#fff">⑤ 网页+验收</text><text x="561" y="80" fill="#EBDBFF" font-size="10">本机4173端口</text>
+        <line x1="108" y1="66" x2="128" y2="66" stroke="#7B2FF7" stroke-width="2.5" marker-end="url(#ar)"/>
+        <line x1="230" y1="66" x2="250" y2="66" stroke="#7B2FF7" stroke-width="2.5" marker-end="url(#ar)"/>
+        <line x1="352" y1="66" x2="372" y2="66" stroke="#7B2FF7" stroke-width="2.5" marker-end="url(#ar)"/>
+        <line x1="474" y1="66" x2="494" y2="66" stroke="#7B2FF7" stroke-width="2.5" marker-end="url(#ar)"/>
+        <path d="M302 92 C302 128 180 128 180 94" stroke="#FF2E63" fill="none" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#ar)"/>
+        <text x="242" y="136" font-size="10.5" fill="#FF2E63">体检不过打回重画（自纠错循环）</text>
+      </g>
+    </svg>
+  </div>
+  <p>核心命令就三条：</p>
+  <div class="code"><span class="c"># 1. 体检四层图（详见 Q9）</span>
+python scripts/validate_assets.py &lt;项目&gt;
+<span class="c"># 2. 一键流水线：自动装便携版 Blender(SHA-256校验)→建场景→导GLB→组装网页</span>
+python scripts/run_pipeline.py --project &lt;项目&gt;
+<span class="c"># 3. 起服务 + 机器验收（详见 Q10）</span>
+node &lt;项目&gt;/web/server.mjs  &amp;&amp;  node scripts/verify_web.mjs &lt;项目&gt;</div>
+  <p>最后交付五样：<b>网页链接、card.blend 源工程、四层透明 PNG、card-config.json 配置、验收报告+渲染图</b>。全待在你自己的项目目录里，skill 本身保持纯文本。</p>
+</div>
+
+<!-- Q4 -->
+<h2 class="q q4"><span class="qn">Q4</span>为什么非要画"四层图"？</h2>
+<div class="card">
+  <p>一张平面图永远是一张平面图。<span class="hl">立体感的来源是"把一幅画拆成几层，每层放在离卡面不同远的地方"。</span>skill 规定五层（特效层可选），每层一份文件、一个景深数字：</p>
+  <table>
+    <tr><th>图层</th><th>职责</th><th>景深</th><th>要求</th></tr>
+    <tr><td>主体 subject</td><td>人物/主角</td><td>+0.4（前凸）</td><td>真透明 RGBA</td></tr>
+    <tr><td>特效 effects(可选)</td><td>花瓣/火星</td><td>+0.5 或负</td><td>真透明，浮在主体上、文字下</td></tr>
+    <tr><td>背景 background</td><td>环境</td><td>−0.25（后缩）</td><td>完全不透明</td></tr>
+    <tr><td>线稿 lineart</td><td>驱动"墨光"描边</td><td>跟随主体</td><td>白底深色线，<b>必须与主体同源</b></td></tr>
+    <tr><td>文字 text</td><td>卡框+排版</td><td>0（钉死）</td><td>网页端<b>不做视差</b>，边框稳贴卡边</td></tr>
+  </table>
+  <div class="warn"><b>SKILL.md 里最狠的一条经验：</b>两层景深一样，视差就把它们"焊"成一张平面——卡瞬间变扁。<span class="hl">"层与层错开"不是加分项，是这类卡能不能立起来的生死线。</span></div>
+  <p>另一条反直觉规定：线稿<b>不许让模型重新画一张</b>，必须从主体同一批笔触（或对成品主体做边缘提取）派生——重新生成的姿势会漂移，发光描边就会长错地方。这和 [[角色一致性锚定]] 是同一个思想：<b>一致性靠派生，不靠重抽。</b></p>
+</div>
+
+<!-- Q5 -->
+<h2 class="q q5"><span class="qn">Q5</span>视差公式怎么把"平的"变"立体的"？</h2>
+<div class="card">
+  <p>网页 shader 里最核心的一行（Blender 端同一公式，系数略不同）：</p>
+  <div class="formula">uv' = uv + uView.xy / max(|uView.z|, 0.4) × depth × 0.10</div>
+  <p>逐块拆开：</p>
+  <table>
+    <tr><th>片段</th><th>人话</th></tr>
+    <tr><td><b>uView</b></td><td>视线方向变换到<b>卡片自己的坐标系</b>——"你的头歪向哪边"</td></tr>
+    <tr><td><b>uView.xy / |uView.z|</b></td><td>视线在卡面上的"偏移比例"；分母 <b>max(·,0.4) 设下界</b>，视线几乎平行卡面时不会除以接近 0 的数而爆炸</td></tr>
+    <tr><td><b>× depth</b></td><td>这一层的景深：<b>带符号</b>——正数往你身边凸，负数往卡里缩</td></tr>
+    <tr><td><b>uv + …</b></td><td>该层的贴图按视角整体平移：层越深，同一个转头让它挪得越多</td></tr>
+  </table>
+  <div class="svgbox">
+    <svg width="560" height="140" viewBox="0 0 560 140">
+      <rect x="60" y="90" width="240" height="14" rx="4" fill="#1B9CFC"/>
+      <text x="180" y="122" text-anchor="middle" font-size="11" fill="#1B9CFC" font-weight="bold">背景层 depth −0.25（后缩，挪得多）</text>
+      <rect x="120" y="62" width="120" height="14" rx="4" fill="#06D6A0"/>
+      <text x="180" y="94" text-anchor="middle" font-size="11" fill="#058C6B" font-weight="bold">主体层 +0.4（前凸）</text>
+      <rect x="150" y="36" width="60" height="12" rx="4" fill="#FFD23F"/>
+      <text x="180" y="28" text-anchor="middle" font-size="11" fill="#B8860B" font-weight="bold">文字层 0（钉死）</text>
+      <line x1="330" y1="70" x2="420" y2="20" stroke="#FF2E63" stroke-width="2.5" marker-end="url(#ar)"/>
+      <text x="430" y="24" font-size="12" fill="#FF2E63" font-weight="bold">视线斜着看</text>
+      <text x="352" y="70" font-size="11" fill="#666">三层错位量不同</text>
+      <text x="352" y="86" font-size="11" fill="#666">→ 层与层"错开"</text>
+      <text x="352" y="102" font-size="11" fill="#666">→ 大脑读出深度</text>
+    </svg>
+    <div class="caption">同一个转头，三层各自挪动不同距离 = 立体错觉的全部秘密</div>
+  </div>
+  <p>SKILL.md 还补了一个非显然的坑：<b>只做"UV 居中 + 法向变换"不够</b>，必须把视线除以有界法向分量再当<b>带符号</b>景深偏移；而且 glTF 的 Y-up 转换会动 Blender 的本地轴，uView 必须在卡牌根坐标系里算，否则<b>一个转向会拖花贴图或把视差反相</b>——官方原话是"两个转向都要测"。</p>
+</div>
+
+<!-- Q6 -->
+<h2 class="q q6"><span class="qn">Q6</span>"转到哪闪到哪"是怎么实现的？</h2>
+<div class="card">
+  <p>全息镭射的彩虹来自这条相位函数：</p>
+  <div class="formula">phase = uv.x×0.85 + uv.y×0.55 + uView.x×1.5 − uView.y×0.9</div>
+  <p>彩虹色 = <b>spectrum(phase)</b>（余弦调色板出粉→黄→蓝→白）。关键在后两项：<span class="hl">相位里混进了视角分量。卡一转，uView 变，整张卡的彩虹"相位波"跟着移动——转到哪，闪到哪。</span></p>
+  <div class="warn"><b>SKILL.md 的点名警告：</b>如果相位只由时间驱动，效果是"一段循环播放的视频"，不像烫金镭射；如果彩虹直接<b>画死在图里</b>（bake 进素材），材质就没事可干，视差平面会"糊成汤"（soup）。<span class="hl">箔是材质，不是画。</span></div>
+  <p>四种卡面质感（珠光/银箔/烫金/原画）共用这套膜，只调强度与配色："原画"档把强度归零，就是无镭射的原图。</p>
+</div>
+
+<!-- Q7 -->
+<h2 class="q q7"><span class="qn">Q7</span>Blender 建好材质，网页为什么重写一遍？</h2>
+<div class="card">
+  <p>因为 <span class="term">glTF（.glb）搬不动 Blender 的自定义节点图</span>。Blender 里镭射、星光、墨光都是节点网络；导出 GLB 时只有<b>几何体和材质"名字"</b>过得去。于是项目发明了一个轻量契约：</p>
+  <div class="kwrow">
+    <span class="kw">web_front 正面</span><span class="kw">web_edge 卡边</span><span class="kw">web_back 背面</span><span class="kw">web_gold 金边</span><span class="kw">web_subject/effects/text 浮雕模式</span>
+  </div>
+  <p>网页端看到这些名字，就把<b>自己用 GLSL 手写重建的同款材质</b>按名字安上去。Blender 渲染图和浏览器画面"接近但非逐像素一致"——交付时 skill 要求明说这一点，不许吹"完全一致"。</p>
+  <div class="svgbox">
+    <svg width="620" height="120" viewBox="0 0 620 120">
+      <rect x="10" y="25" width="170" height="70" rx="10" fill="#EAF4FF" stroke="#1B9CFC" stroke-width="2.5"/>
+      <text x="95" y="55" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#0D5C99">Blender 节点图</text>
+      <text x="95" y="75" text-anchor="middle" font-size="10.5" fill="#456">镭射/星光/墨光 节点网络</text>
+      <line x1="180" y1="60" x2="255" y2="60" stroke="#7B2FF7" stroke-width="3" marker-end="url(#ar)"/>
+      <text x="218" y="48" text-anchor="middle" font-size="10.5" fill="#7B2FF7" font-weight="bold">glTF 导出</text>
+      <text x="218" y="80" text-anchor="middle" font-size="10" fill="#FF2E63">几何✓ 节点✗ 只剩名字</text>
+      <rect x="258" y="25" width="110" height="70" rx="10" fill="#FFF3E6" stroke="#FF9F1C" stroke-width="2.5"/>
+      <text x="313" y="55" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#9A5B00">card.glb</text>
+      <text x="313" y="75" text-anchor="middle" font-size="10" fill="#B07620">网格+材质名契约</text>
+      <line x1="368" y1="60" x2="440" y2="60" stroke="#7B2FF7" stroke-width="3" marker-end="url(#ar)"/>
+      <text x="404" y="48" text-anchor="middle" font-size="10.5" fill="#7B2FF7" font-weight="bold">按名装配</text>
+      <rect x="443" y="25" width="165" height="70" rx="10" fill="#F4EBFF" stroke="#7B2FF7" stroke-width="2.5"/>
+      <text x="525" y="50" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#4A1E9E">网页 GLSL shader</text>
+      <text x="525" y="70" text-anchor="middle" font-size="10.5" fill="#6B42B8">同一套 UV 公式重写</text>
+      <text x="525" y="86" text-anchor="middle" font-size="10" fill="#8A5BD0">所见即所得</text>
+    </svg>
+    <div class="caption">"契约过桥"：名字是两边唯一都要认的行话</div>
+  </div>
+  <p style="margin-top:6px">这个思路和学过的 [[JSON-IR类型化中间表示]] 完全同构：把"传输带不动的复杂物"换成"双方约定的最小契约 + 各自重建"。</p>
+</div>
+
+<!-- Q8 -->
+<h2 class="q q8"><span class="qn">Q8</span>1.3MB 单文件 + CSS 兜底，是什么工程思路？</h2>
+<div class="card">
+  <p>查看器有两道保险：</p>
+  <p><b>保险一：单文件打包。</b>three.js、图标全部打进一个 <b>app.bundle.js（约1.3MB）</b>。为什么？流水线源码里写着血泪注释：以前拆成多个小模块请求，<span class="hl">广告拦截插件会把 node_modules/…/fingerprint.js 这类 URL 误当追踪器杀掉，页面直接卡死在"正在装裱作品"。</span>单文件无懈可击。</p>
+  <p><b>保险二：CSS-3D 兜底。</b>用户浏览器关掉硬件加速（没有 WebGL）时，页面不白屏，改用纯 CSS 3D 变换堆出分层卡片：拖拽、翻面、镭射反光都还在，只是没有 shader 引擎。WebGL 可用但 shader 编译失败也会自动降级。</p>
+  <div class="tip"><b>还给测试留了后门：</b>查看器暴露 <b>window.__holo</b> 钩子（ready 状态、配置、uniforms、reset/flip 函数）。官方验收器全靠它读内部状态——"给测试留钩子"是可测性设计的一部分，而不是可有可无的装饰。</div>
+</div>
+
+<!-- Q9 -->
+<h2 class="q q9"><span class="qn">Q9</span>体检门查什么？"假透明"是什么坑？</h2>
+<div class="card">
+  <p><b>validate_assets.py</b> 在进 Blender 之前拦四件事：</p>
+  <table>
+    <tr><th>检查</th><th>规则</th><th>为什么</th></tr>
+    <tr><td>格式</td><td>必须是 PNG</td><td>防 JPG 静默压掉 alpha</td></tr>
+    <tr><td>同画布</td><td>五层尺寸一致且 ≥256px</td><td>不同尺寸在 UV 公式里直接错位</td></tr>
+    <tr><td>真透明</td><td>subject/text/effects 需有 alpha 通道，且既有透明像素也有实体像素</td><td>全透明或全实体的层都是废层</td></tr>
+    <tr><td>线稿</td><td>灰度最暗 &lt;80 且最亮 &gt;230</td><td>墨光靠线稿的深浅发光</td></tr>
+  </table>
+  <p><span class="term">"假透明"</span>是个经典图像坑：不少图像工具没有真 alpha 通道时，会把透明区域<b>画成灰白棋盘格</b>存成普通 RGB——人眼看"好像透明了"，下游抠图直接废。项目给了确定性解药 <b>checkerboard_to_alpha.py</b>：在图像边框检测"两种主色构成的周期网格"（格子 8~64px），命中后逐像素按棋盘相位预测色还原 alpha，还带一个"邻居一致性"保护——就算角色白头发落在白格子上也不会被误抠。</p>
+  <div class="ok"><b>我的实测（实验1/2）：</b>四反例里"尺寸不齐/无alpha/画布过小"全部拦截；但发现一个真实盲区——<b>反色线稿（白线黑底）能骗过数值检查</b>（它只查"有暗有亮"，不查谁是底）。SKILL.md 说"数值之外还要人眼看一遍"，这不是客套，是双保险。</div>
+  <div class="code">实验数据：自制24px棋盘格假透明锦鲤图 → 抠出 alpha 与原始真值对账：
+98.3% 像素完全一致，平均差 1.93/255（残差全部在抗锯齿边缘）
+官方回归测试 test_checkerboard.py → ALL TESTS PASSED</div>
+</div>
+
+<!-- Q10 -->
+<h2 class="q q10"><span class="qn">Q10</span>官方验收器怎么证明"卡真的能玩"？</h2>
+<div class="card">
+  <p><b>verify_web.mjs</b>（609行，纯 Node 零依赖）是全项目最"狠"的文件：它自己拉起无头 Chromium 系浏览器和本地服务，通过 DevTools 协议把页面<b>当真人一样玩一遍</b>——拖拽双转向、垂直倾斜、滚轮缩放、翻面、键盘、五个滑块、四种质感、截图下载、390px 手机窄屏、减动效偏好。</p>
+  <p><span class="hl">它的验收哲学：比对"真实画面帧"的哈希，而不是滑杆读数。</span>每个滑块拨动前后各截一帧，帧哈希必须变——"读数变了画面没变"照样算失败。原话更绝：<b>"ready 旗标证明的是控件在，不是好看。"</b>这是 [[证据优先质检ProofOverClaims]] 的标准实践。</p>
+  <div class="ok"><b>我的实测（实验3）：</b>拿我手搓的锦鲤卡（详见 Q11）首跑 31/33——两个 FAIL 均是我配置的前置问题（没放特效层→1×1占位纹理混进"同画布"检查；配置没写 appearance.finish→初始珠光再点珠光画面自然不变）。补齐后重跑 <b>33/33 全绿</b>，报告与 20 张截图落盘 verification/。</div>
+  <div class="warn"><b>顺带发现的验收器细节：</b>它对"无特效层的卡"和"默认珠光起手的卡"会误报——不是 viewer 的 bug，是检查前置假设。读报错定位到判定行，比盲改快得多。</div>
+</div>
+
+<!-- Q11 -->
+<h2 class="q q11"><span class="qn">Q11</span>不装 Blender 不用 AI，我能玩吗？——能（本指南实验全记录）</h2>
+<div class="card">
+  <p>整条官方流水线需要"多模态模型画四层图"+"下载便携版 Blender"。我全程没用这两样，纯 Pillow + 手写 GLB 也把卡做出来并过了官方全量验收——反过来证明了<span class="hl">"材质名契约"是真实可依赖的公开接口，不是宣传语</span>。</p>
+
+  <div class="step"><h4>实验 1 · 四层图 + 体检门（Pillow 手绘锦鲤卡）</h4>
+    <div class="ops">python exercise/make_layers.py exercise/card       # 确定性自绘: 星空背景/锦鲤主体/线稿/文字层 1024×1536
+python repo/scripts/validate_assets.py exercise/card</div>
+    <p><b>实现：</b>主体与线稿共用同一套形状函数再同角度旋转，保证轮廓精确对位（Q4 的"同源派生"）。<b>✅ 预期结果：</b>输出 JSON 报告 subject RGBA 透明占比 90.05%、text 89.93%，无报错；四个坏图反例 3 个拦截 + 1 个盲区（反色线稿）。</p>
+  </div>
+
+  <div class="step"><h4>实验 2 · 假透明棋盘格确定性抢救</h4>
+    <div class="ops">python repo/scripts/checkerboard_to_alpha.py   # detect: cell=24, coverage=1.0
+python repo/scripts/test_checkerboard.py       # ALL TESTS PASSED</div>
+    <p><b>实现：</b>自制假透明图→检测周期网格→逐像素还原 alpha，与原始真 alpha 逐像素对账。<b>✅ 预期结果：</b>98.3% 像素完全一致，平均差 1.93/255。</p>
+  </div>
+
+  <div class="step"><h4>实验 3 · 零 Blender 出卡：手写 GLB + WebGL 真渲染 + 官方全量验收</h4>
+    <div class="ops">python exercise/make_glb.py exercise/web/assets/card.glb   # 1512字节: 2:3平面+材质名 web_front/web_back
+cd exercise/web &amp;&amp; PORT=4599 node server.mjs              # 起本地服务
+msedge --headless --virtual-time-budget=26000 --screenshot=shot.png http://127.0.0.1:4599/
+node repo/scripts/verify_web.mjs http://127.0.0.1:4599/ --browser msedge</div>
+    <p><b>实现：</b>viewer 只认"几何+材质名"，所以几何可以是一块手写的 2:3 平面；卡面纹理全部由网页 shader 现场合成。<b>✅ 预期结果：</b>无头 Edge 两帧截图帧差 73.86（动画真在动）；官方验收 <b>33/33 PASS</b>。</p>
+  </div>
+
+  <div class="shotrow">
+    <img class="shot" src="exercise/shot_late.png" alt="珠光初版">
+    <img class="shot" src="exercise/shot_final.png" alt="烫金成品">
+    <div class="caption">左：首版（珠光、无特效层）；右：成品（烫金 + 金色花瓣特效层 + 自动旋转中）——均为本机无头 Edge 真实渲染截图</div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<h2 class="q q12"><span class="qn">Q12</span>这个项目给我什么？和我学过的有什么关系？</h2>
+<div class="card">
+  <p><b>能力清单（学完你能干什么）：</b></p>
+  <table>
+    <tr><td>🐱 给猫做一张"传说 SSR"闪卡</td><td>上传照片一句话，猫前凸背景后缩</td></tr>
+    <tr><td>🎮 给独立游戏批量出货卡组</td><td>一个角色一句描述一张配置，流水线批产</td></tr>
+    <tr><td>🎁 做带翻面的节日纪念卡</td><td>背面写一句话，翻面瞬间闪光拉满</td></tr>
+    <tr><td>🔬 材质实验场</td><td>card.blend 里镭射/星光/墨光节点独立可调，学"闪"的原理</td></tr>
+    <tr><td>🛠 契约式接自己的查看器</td><td>只卖"几何+材质名"，前端可整体替换（实验3已验证）</td></tr>
+  </table>
+  <p style="margin-top:8px"><b>知识网络里的位置：</b></p>
+  <ul style="margin-left:18px">
+    <li>四层图同源派生 ↔ [[角色一致性锚定]]（hypit/BigBanana）：一致性靠派生不靠重抽；</li>
+    <li>材质名契约重建 ↔ [[JSON-IR类型化中间表示]]（archify）、[[glTF与GLB资产管线]]（3d_vibe_coding 手写 GLB 同款技能直接复用）；</li>
+    <li>体检门 + 比帧验收 ↔ [[质检Gate与自我纠错循环]]、[[证据优先质检ProofOverClaims]]（godogen/paperroute 同一哲学）；</li>
+    <li>分层提示词画图 ↔ [[图生3D资产管线]]、[[PromptAsCode提示词即代码]]；</li>
+    <li>SKILL.md 纯文本技能包 ↔ [[AgentSkills技能包]]、[[分层按需加载]]；体检打回重画 ↔ [[Agent循环]] 的自纠错。</li>
+  </ul>
+  <div class="tip"><b>三个最值得带走的坑：</b>① 两层同景深=卡片变扁；② 全息效果画死进图里=材质变汤；③ "ready/通过"旗标不证明好看——要看帧。</div>
+</div>
+
+<div class="foot">RuiC-card-skill 小白指南 · 拾遗队列 task 8f9a2254 · 2026-10-03 · 实验数据均为本机真实运行结果 · MIT License (c) 2026 HRuiCcc</div>
+</body>
+</html>

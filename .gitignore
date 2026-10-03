@@ -44,3 +44,7 @@ teamai-cli/exercise/https_server.log
 # cmu-agents 实验临时产物
 cmu-agents/exercise/_pytest_tmp/
 cmu-agents/exercise/_site_bundle.js
+
+# 模型权重/下载文件（任何体积都不入库）
+agent-architectures/exercise/models/
+*.gguf

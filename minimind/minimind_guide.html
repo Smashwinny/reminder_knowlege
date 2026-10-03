@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>MiniMind 小白指南：3 块钱 2 小时从零训出自己的大模型</title>
+<style>
+:root{
+  --c-bg:#FFFDF7;
+  --c-ink:#1F2430;
+  --c-primary:#FF3D68;
+  --c-blue:#2563EB;
+  --c-green:#00B389;
+  --c-yellow:#FFC400;
+  --c-purple:#8B5CF6;
+  --c-orange:#FF7A00;
+  --c-cyan:#00B4D8;
+  --c-pink:#FF6EC7;
+  --c-card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;padding:0 0 60px}
+.hero{background:linear-gradient(135deg,#FF3D68 0%,#FF7A00 50%,#FFC400 100%);color:#fff;padding:56px 8% 48px}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.22);border:2px solid #fff;border-radius:999px;padding:4px 18px;font-weight:700;font-size:14px;letter-spacing:2px;margin-bottom:18px}
+.hero h1{font-size:42px;line-height:1.25;text-shadow:0 3px 0 rgba(0,0,0,.15)}
+.hero p.sub{font-size:18px;margin-top:14px;opacity:.95}
+.hero .chips{margin-top:22px}
+.chip{display:inline-block;background:#fff;color:var(--c-primary);border-radius:12px;padding:8px 16px;font-weight:800;font-size:15px;margin:4px 8px 4px 0;box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.chip.b{color:var(--c-blue)}.chip.g{color:var(--c-green)}.chip.p{color:var(--c-purple)}
+.wrap{max-width:900px;margin:0 auto;padding:0 24px}
+h2.sec{margin:52px 0 20px;font-size:30px;padding:10px 20px;border-radius:14px;color:#fff;background:var(--c-blue);box-shadow:0 4px 0 rgba(0,0,0,.15)}
+h2.sec.pink{background:var(--c-primary)}
+h2.sec.green{background:var(--c-green)}
+h2.sec.purple{background:var(--c-purple)}
+h2.sec.orange{background:var(--c-orange)}
+.qcard{background:var(--c-card);border:3px solid #ECEFF4;border-left:14px solid var(--c-primary);border-radius:16px;padding:24px 28px;margin:26px 0;box-shadow:0 6px 18px rgba(31,36,48,.07);break-inside:avoid}
+.qcard.b{border-left-color:var(--c-blue)}
+.qcard.g{border-left-color:var(--c-green)}
+.qcard.p{border-left-color:var(--c-purple)}
+.qcard.o{border-left-color:var(--c-orange)}
+.qnum{display:inline-block;min-width:52px;text-align:center;background:var(--c-primary);color:#fff;font-size:24px;font-weight:900;border-radius:12px;padding:2px 10px;margin-right:10px;vertical-align:middle}
+.qcard.b .qnum{background:var(--c-blue)}.qcard.g .qnum{background:var(--c-green)}.qcard.p .qnum{background:var(--c-purple)}.qcard.o .qnum{background:var(--c-orange)}
+.qcard h3{display:inline;font-size:21px;vertical-align:middle}
+.qbody{margin-top:14px;font-size:16px}
+.hl{background:linear-gradient(transparent 55%,var(--c-yellow) 55%);font-weight:800;padding:0 2px}
+.big{font-size:19px;font-weight:900;color:var(--c-primary)}
+.bigblue{font-size:19px;font-weight:900;color:var(--c-blue)}
+code{background:#F1F5F9;border:1px solid #D8E0EA;border-radius:6px;padding:1px 7px;font-family:Consolas,Menlo,monospace;font-size:14px;color:#C7254E;font-weight:700}
+pre{background:#232936;color:#E8ECF3;border-radius:14px;padding:18px 22px;overflow-x:auto;font-size:14px;line-height:1.6;margin:14px 0;border:3px solid #384152}
+pre code{background:none;border:none;color:inherit;padding:0;font-weight:400}
+.fig{margin:18px 0;text-align:center}
+.fig svg{max-width:100%;height:auto}
+.cap{font-size:13px;color:#7A8494;margin-top:6px;text-align:center;font-weight:700}
+table.cmp{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+table.cmp th{background:var(--c-blue);color:#fff;padding:10px 14px;text-align:left}
+table.cmp td{padding:9px 14px;border-bottom:2px solid #EDF1F6}
+table.cmp tr:nth-child(even) td{background:#F6F9FE}
+.flow{display:flex;align-items:stretch;gap:0;margin:20px 0;flex-wrap:wrap}
+.fstep{flex:1;min-width:120px;background:var(--c-card);border:3px solid var(--c-blue);border-radius:14px;padding:12px 10px;text-align:center;font-weight:800;font-size:14px;position:relative;margin:6px 14px 6px 0}
+.fstep .t{font-size:12px;color:#7A8494;font-weight:600}
+.farrow{align-self:center;color:var(--c-orange);font-size:26px;font-weight:900;margin-right:14px}
+.exp-step{background:linear-gradient(180deg,#FFFFFF,#F4FBF8);border:3px solid var(--c-green);border-radius:16px;padding:22px 26px;margin:24px 0;break-inside:avoid}
+.exp-step h4{color:var(--c-green);font-size:20px;margin-bottom:10px}
+.expect{background:#E8FFF5;border:3px dashed var(--c-green);border-radius:12px;padding:12px 18px;margin-top:12px;font-size:15px}
+.expect b{color:var(--c-green)}
+.warn{background:#FFF4E5;border:3px dashed var(--c-orange);border-radius:12px;padding:12px 18px;margin-top:12px;font-size:15px}
+.warn b{color:var(--c-orange)}
+.toc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
+.toc a{display:block;background:#fff;border:2px solid #ECEFF4;border-radius:10px;padding:8px 14px;text-decoration:none;color:var(--c-ink);font-weight:700;font-size:14px}
+.toc a:hover{border-color:var(--c-primary)}
+.ability{background:linear-gradient(135deg,#8B5CF6,#5B8CFF);color:#fff;border-radius:16px;padding:22px 28px;margin:14px 0;break-inside:avoid}
+.ability h4{font-size:18px;margin-bottom:6px}
+.ability .tag{display:inline-block;background:rgba(255,255,255,.25);border-radius:8px;padding:2px 10px;font-size:13px;font-weight:800;margin-bottom:8px}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.qcard,.exp-step,.ability{box-shadow:none}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">拾遗学习 · 开源项目类 · jingyaogong/minimind</div>
+  <h1>MiniMind：3 块钱、2 小时，<br>从零训练一个会聊天的大语言模型</h1>
+  <p class="sub">一条推文引发的动手学习 —— 56,800+ Star 的「最小白 LLM 训练全链路」复现项目</p>
+  <div class="chips">
+    <span class="chip">64M 参数 ≈ GPT-3 的 1/2700</span>
+    <span class="chip b">纯 PyTorch 手写</span>
+    <span class="chip g">RTX 4070 实测跑通</span>
+    <span class="chip p">预训练→SFT→RLHF 全链路</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<h2 class="sec">本指南的 13 个疑问</h2>
+<div class="toc">
+  <a href="#q1">① MiniMind 到底是什么？</a><a href="#q2">② 为什么非要"从零训练"？</a>
+  <a href="#q3">③ 64M 参数有多小？</a><a href="#q4">④ Tokenizer 是什么词典？</a>
+  <a href="#q5">⑤ 模型内部长什么样？</a><a href="#q6">⑥ 注意力在干什么？</a>
+  <a href="#q7">⑦ 位置信息怎么进模型？</a><a href="#q8">⑧ 预训练在优化什么？</a>
+  <a href="#q9">⑨ 训练管线分几个阶段？</a><a href="#q10">⑩ MoE 混合专家是什么？</a>
+  <a href="#q11">⑪ 损失曲线会告诉我们什么？</a><a href="#q12">⑫ 2 小时 3 块钱怎么算的？</a>
+  <a href="#q13">⑬ 这个项目给我什么？</a><a href="#exp">动手实验：本机真实训练</a>
+</div>
+
+<div class="qcard" id="q1">
+  <span class="qnum">Q1</span><h3>MiniMind 到底是什么？一句话说清</h3>
+  <div class="qbody">
+    <p><span class="big">MiniMind 是一套"教你从零手搓大语言模型"的完整开源教程+代码库</span>：它把 GPT 那套东西（分词器、Transformer、预训练、指令微调、人类偏好对齐、蒸馏）全部用<span class="hl">纯 PyTorch 原生代码</span>实现一遍，模型只有 64M 参数，小到<span class="hl">单张消费级显卡几小时就能从头训练完</span>。</p>
+    <p>作者 Jingyao Gong（gongjy）2024 年 7 月发布，目前 GitHub <b>56,800+ Star</b>、Apache 2.0 协议。它的口号是"用乐高自己拼出一架飞机，远比坐在头等舱里飞行更让人兴奋"——头等舱 = 调 ChatGPT API，拼飞机 = 自己训一个。</p>
+    <div class="fig">
+      <svg viewBox="0 0 780 150" width="760">
+        <rect x="10" y="30" rx="14" width="230" height="90" fill="#2563EB"/>
+        <text x="125" y="68" fill="#fff" font-size="18" font-weight="800" text-anchor="middle">GPT-4 / Claude</text>
+        <text x="125" y="94" fill="#D6E4FF" font-size="13" text-anchor="middle">千亿参数 · 黑盒 · 只能调 API</text>
+        <rect x="280" y="30" rx="14" width="230" height="90" fill="#FF3D68"/>
+        <text x="395" y="68" fill="#fff" font-size="18" font-weight="800" text-anchor="middle">MiniMind 64M</text>
+        <text x="395" y="94" fill="#FFD6E0" font-size="13" text-anchor="middle">每行代码都看得懂 · 自己训</text>
+        <rect x="550" y="30" rx="14" width="220" height="90" fill="#00B389"/>
+        <text x="660" y="68" fill="#fff" font-size="18" font-weight="800" text-anchor="middle">学习价值</text>
+        <text x="660" y="94" fill="#C8F5E8" font-size="13" text-anchor="middle">理解原理 ≫ 使用现成模型</text>
+        <path d="M245 75 L275 75" stroke="#FF7A00" stroke-width="5" marker-end="url(#a)"/>
+        <path d="M515 75 L545 75" stroke="#FF7A00" stroke-width="5" marker-end="url(#a)"/>
+        <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="none" stroke="#FF7A00" stroke-width="2"/></marker></defs>
+      </svg>
+      <div class="cap">图 1：MiniMind 的定位——不为刷榜，为"拆黑盒"</div>
+    </div>
+  </div>
+</div>
+
+<div class="qcard b" id="q2">
+  <span class="qnum">Q2</span><h3>为什么非要"从零训练"？直接微调别人的模型不行吗？</h3>
+  <div class="qbody">
+    <p>这是 MiniMind README 里最核心的观点：现在很多人"学大模型"其实只学了两件事——调 API、拿 LoRA 微调开源模型。作者打了个比方：<span class="bigblue">这更像"教牛顿用智能手机"而不是"教牛顿经典力学"</span>——你会用了，但你还是不懂它为什么 work。</p>
+    <p>更现实的问题是：transformers / trl / peft 这些库把"加载模型+训练+RL"压缩成十几行代码，<span class="hl">高层抽象把开发者与底层实现隔离开来</span>。MiniMind 的做法是把每个算法从 0 写一遍：</p>
+    <table class="cmp">
+      <tr><th>环节</th><th>常规做法（调库）</th><th>MiniMind 的做法（手写）</th></tr>
+      <tr><td>注意力</td><td><code>AutoModel</code> 一行加载</td><td>RoPE、QKV、因果掩码全部可见</td></tr>
+      <tr><td>LoRA</td><td><code>peft</code> 包两行接入</td><td><code>model_lora.py</code> 几十行手写实现</td></tr>
+      <tr><td>GRPO/PPO</td><td><code>trl</code> Trainer 黑盒</td><td><code>train_grpo.py</code> 原生实现</td></tr>
+      <tr><td>蒸馏</td><td>框架内置</td><td><code>train_distillation.py</code> 手搓</td></tr>
+    </table>
+    <p>学习逻辑：<span class="hl">在 64M 的小模型上把原理吃透，再去看 700B 的大模型，架构上是同一套东西，只是规模不同</span>。</p>
+  </div>
+</div>
+
+<div class="qcard g" id="q3">
+  <span class="qnum">Q3</span><h3>64M 参数到底有多小？为什么普通显卡也训得动？</h3>
+  <div class="qbody">
+    <p><span class="big">64M = 6400 万，约是 GPT-3（1750 亿）的 1/2700</span>。小带来两个直接好处：</p>
+    <table class="cmp">
+      <tr><th>模型</th><th>参数量</th><th>训练成本（量级）</th><th>个人可训？</th></tr>
+      <tr><td>GPT-3</td><td>175B</td><td>数百万美元、数千张 A100 数月</td><td>不可能</td></tr>
+      <tr><td>Llama-3-8B</td><td>8B</td><td>数十万卡时</td><td>只能 LoRA 微调</td></tr>
+      <tr><td><b>MiniMind-3</b></td><td><b>64M</b></td><td><b>单张 3090 约 2 小时</b></td><td><b>轻松</b></td></tr>
+    </table>
+    <p>参数账：64M 里最大头其实是<span class="hl">词表嵌入层</span>——词表 6400 × 隐藏维度 768 ≈ 490 万×2（输入嵌入和输出头共享权重，tied embeddings）。真正的 Transformer 主体只有 8 层。参数量小 → 显存占用小（实测训练时约 10 GB，RTX 4070 12 GB 刚好够）→ 单次实验成本低到可以随便折腾。</p>
+    <div class="fig">
+      <svg viewBox="0 0 760 190" width="740">
+        <text x="120" y="22" fill="#1F2430" font-size="15" font-weight="800" text-anchor="middle">GPT-3 175B</text>
+        <rect x="20" y="32" width="200" height="26" rx="6" fill="#D8E0EA"/>
+        <rect x="20" y="32" width="200" height="26" rx="6" fill="#2563EB"/>
+        <text x="640" y="50" fill="#2563EB" font-size="14" font-weight="800">175,000,000,000</text>
+        <text x="120" y="92" fill="#1F2430" font-size="15" font-weight="800" text-anchor="middle">MiniMind 64M</text>
+        <rect x="20" y="102" width="200" height="26" rx="6" fill="#D8E0EA"/>
+        <rect x="20" y="102" width="0.9" height="26" rx="6" fill="#FF3D68"/>
+        <rect x="20" y="102" width="3" height="26" rx="6" fill="#FF3D68"/>
+        <text x="640" y="120" fill="#FF3D68" font-size="14" font-weight="800">63,910,000（1/2700）</text>
+        <text x="380" y="165" fill="#7A8494" font-size="13" text-anchor="middle">同样画 200px 宽的条：GPT-3 填满，MiniMind 细得几乎看不见 —— 这就是"个人可训"的全部秘密</text>
+      </svg>
+      <div class="cap">图 2：参数量对比（按对数比例的直观感受）</div>
+    </div>
+  </div>
+</div>
+
+<div class="qcard p" id="q4">
+  <span class="qnum">Q4</span><h3>Tokenizer 是模型的"词典"，6400 词表意味着什么？</h3>
+  <div class="qbody">
+    <p>模型只会做数学运算，不认识汉字。Tokenizer（分词器）负责<span class="hl">在"文字 ↔ 数字"之间当翻译</span>：把一句话切成一个个 token，查"词典"换成整数 id；模型输出 id 后再换回文字。MiniMind 用词表只有 <b>6400</b> 个词——对比 Qwen2 的 15 万、Llama3 的 12.8 万，小了 20 多倍。</p>
+    <p><span class="bigblue">词表小是刻意的取舍</span>：嵌入层参数量 = 词表 × 隐藏维度，6400×768 ≈ 490 万，占 64M 模型的 7.7%；如果照搬 Qwen 的 15 万词表，仅嵌入层就要 1.15 亿参数，小模型直接"虚胖"。代价是英文按字母块切、中文按词切，编码效率低一些——但胜在整套模型轻。</p>
+    <div class="exp-step" style="border-color:#8B5CF6;background:linear-gradient(180deg,#FFFFFF,#F7F3FF)">
+      <h4 style="color:#8B5CF6">本机实测：MiniMind 分词器长什么样</h4>
+      <pre>原文: 人工智能正在改变世界。MiniMind is tiny!
+token ids: [2225, 3593, 2886, 1950, 302, 80, 301, 108, 80, 916, 395, 297, 301, 124, 36]
+逐token还原: ['人工智能', '正在', '改变', '世界', '。', 'M', 'in', 'i', 'M', 'ind', ' is', ' t', 'in', 'y', '!']
+vocab_size: 6400   BOS: 1   EOS: 2   PAD: 0</pre>
+      <div class="expect"><b>观察</b>：中文整词成 token（"人工智能"是 1 个 token），英文被 BPE 拆成子词块（"Mind"→"M"+"ind"）。句首句尾的特殊符号 BOS/EOS 告诉模型"一段话从这里开始/结束"。</div>
+    </div>
+  </div>
+</div>
+
+<div class="qcard o" id="q5">
+  <span class="qnum">Q5</span><h3>模型内部长什么样？数据在里面怎么流动？</h3>
+  <div class="qbody">
+    <p>MiniMind 的结构是标准现代 GPT 形态（对齐 Qwen3 生态），一图看清：</p>
+    <div class="fig">
+      <svg viewBox="0 0 780 300" width="760">
+        <rect x="30" y="18" rx="10" width="720" height="40" fill="#FFC400"/>
+        <text x="390" y="44" font-size="16" font-weight="800" text-anchor="middle">输入：token id 序列（batch × 340）</text>
+        <path d="M390 58 L390 76" stroke="#1F2430" stroke-width="3"/>
+        <rect x="30" y="78" rx="10" width="720" height="36" fill="#00B4D8"/>
+        <text x="390" y="102" font-size="15" font-weight="800" text-anchor="middle" fill="#fff">Embedding 查表：id → 768 维向量（词表 6400 × 768）</text>
+        <path d="M390 114 L390 130" stroke="#1F2430" stroke-width="3"/>
+        <rect x="30" y="132" rx="10" width="330" height="120" fill="#FF3D68"/>
+        <text x="195" y="156" font-size="15" font-weight="800" text-anchor="middle" fill="#fff">× 8 层 Transformer Block</text>
+        <text x="195" y="182" font-size="13" fill="#FFD6E0" text-anchor="middle">① RMSNorm → 多头注意力(8头/4KV头)</text>
+        <text x="195" y="204" font-size="13" fill="#FFD6E0" text-anchor="middle">   + 残差连接</text>
+        <text x="195" y="226" font-size="13" fill="#FFD6E0" text-anchor="middle">② RMSNorm → SwiGLU 前馈网络</text>
+        <text x="195" y="248" font-size="13" fill="#FFD6E0" text-anchor="middle">   + 残差连接（可换成 MoE）</text>
+        <rect x="390" y="132" rx="10" width="360" height="120" fill="#8B5CF6"/>
+        <text x="570" y="158" font-size="15" font-weight="800" text-anchor="middle" fill="#fff">关键部件</text>
+        <text x="570" y="184" font-size="13" fill="#E5DBFF" text-anchor="middle">RoPE：给 Q/K 加位置信息</text>
+        <text x="570" y="206" font-size="13" fill="#E5DBFF" text-anchor="middle">因果掩码：每个词只能看左边</text>
+        <text x="570" y="228" font-size="13" fill="#E5DBFF" text-anchor="middle">RMSNorm：均方根归一化</text>
+        <path d="M390 252 L390 266" stroke="#1F2430" stroke-width="3"/>
+        <rect x="30" y="268" rx="10" width="330" height="28" fill="#00B389"/>
+        <text x="195" y="288" font-size="14" font-weight="800" text-anchor="middle" fill="#fff">最终 RMSNorm</text>
+        <rect x="390" y="268" rx="10" width="360" height="28" fill="#2563EB"/>
+        <text x="570" y="288" font-size="14" font-weight="800" text-anchor="middle" fill="#fff">lm_head：768 → 6400 词表 logits（与嵌入共享权重）</text>
+      </svg>
+      <div class="cap">图 3：MiniMind 前向数据流（MiniMindConfig: hidden=768, layers=8, heads=8, kv_heads=4）</div>
+    </div>
+    <p>每个 Transformer Block 做两件事：<span class="hl">注意力负责"搬运上下文信息"，前馈网络负责"非线性加工"</span>；两者外面都套残差连接（x + f(x)），保证梯度畅通、可以堆很多层。全部代码就在 <code>model/model_minimind.py</code> 一个文件里（约 260 行）。</p>
+  </div>
+</div>
+
+<div class="qcard" id="q6">
+  <span class="qnum">Q6</span><h3>注意力机制到底在干什么？</h3>
+  <div class="qbody">
+    <p>一句话：<span class="big">注意力 = 让每个词根据"相关性"去吸收前面所有词的信息</span>。每个词被投影成三个向量：</p>
+    <ul style="margin:8px 0 8px 26px">
+      <li><b>Query（查询）</b>：这个词"想找什么信息"</li>
+      <li><b>Key（键）</b>：每个词"能提供什么信息的标签"</li>
+      <li><b>Value（值）</b>：每个词"真正携带的信息内容"</li>
+    </ul>
+    <p>相关性 = Query · Key 点积，softmax 归一化后变成加权系数，再用系数对 Value 加权求和。MiniMind 用 8 个注意力头并行做这件事（从不同子空间看句子），KV 头只有 4 个——这叫<span class="hl">GQA（分组查询注意力），K/V 缓存减半，是业界的省显存标准做法</span>。</p>
+    <p><b>因果掩码（causal mask）</b>是生成式模型的关键：第 n 个词加权求和时，只允许看 1..n，不许偷看未来——否则训练时"预测下一个词"就作弊了。代码里一行 <code>triu(1)</code> 上三角填 -inf 实现，生成时配合 KV 缓存逐词输出。</p>
+    <div class="fig">
+      <svg viewBox="0 0 420 240" width="400">
+        <text x="30" y="30" font-size="14" font-weight="800">因果掩码矩阵</text>
+        <g font-size="12" font-weight="700">
+        <rect x="40" y="45" width="40" height="30" fill="#00B389"/><rect x="80" y="45" width="40" height="30" fill="#FF3D68" opacity=".25"/><rect x="120" y="45" width="40" height="30" fill="#FF3D68" opacity=".25"/><rect x="160" y="45" width="40" height="30" fill="#FF3D68" opacity=".25"/><rect x="200" y="45" width="40" height="30" fill="#FF3D68" opacity=".25"/>
+        <rect x="40" y="75" width="40" height="30" fill="#00B389"/><rect x="80" y="75" width="40" height="30" fill="#00B389"/><rect x="120" y="75" width="40" height="30" fill="#FF3D68" opacity=".25"/><rect x="160" y="75" width="40" height="30" fill="#FF3D68" opacity=".25"/><rect x="200" y="75" width="40" height="30" fill="#FF3D68" opacity=".25"/>
+        <rect x="40" y="105" width="40" height="30" fill="#00B389"/><rect x="80" y="105" width="40" height="30" fill="#00B389"/><rect x="120" y="105" width="40" height="30" fill="#00B389"/><rect x="160" y="105" width="40" height="30" fill="#FF3D68" opacity=".25"/><rect x="200" y="105" width="40" height="30" fill="#FF3D68" opacity=".25"/>
+        <rect x="40" y="135" width="40" height="30" fill="#00B389"/><rect x="80" y="135" width="40" height="30" fill="#00B389"/><rect x="120" y="135" width="40" height="30" fill="#00B389"/><rect x="160" y="135" width="40" height="30" fill="#00B389"/><rect x="200" y="135" width="40" height="30" fill="#FF3D68" opacity=".25"/>
+        <rect x="40" y="165" width="40" height="30" fill="#00B389"/><rect x="80" y="165" width="40" height="30" fill="#00B389"/><rect x="120" y="165" width="40" height="30" fill="#00B389"/><rect x="160" y="165" width="40" height="30" fill="#00B389"/><rect x="200" y="165" width="40" height="30" fill="#00B389"/>
+        </g>
+        <text x="60" y="215" font-size="12" fill="#00B389" font-weight="800">允许看（含自己）</text>
+        <text x="220" y="215" font-size="12" fill="#FF3D68" font-weight="800">禁止看（未来）</text>
+      </svg>
+      <div class="cap">图 4：下三角允许 = 只能回顾历史，不能偷看未来</div>
+    </div>
+  </div>
+</div>
+
+<div class="qcard b" id="q7">
+  <span class="qnum">Q7</span><h3>位置信息是怎么进模型的？RoPE 是什么？</h3>
+  <div class="qbody">
+    <p>注意力本身对顺序不敏感：把句子打乱，不加处理的话注意力算出来的东西一样。所以必须告诉模型"谁在前谁在后"。MiniMind 用 <span class="hl">RoPE（旋转位置编码）</span>：把每个词的 Q、K 向量按"位置序号"旋转一个角度，位置越靠后转得越多。</p>
+    <p>妙处在于：<span class="bigblue">两个词之间的距离 = 旋转角度之差，点积结果自然带上相对位置信息</span>，而且旋转是"乘法级别"的操作，外推长文本时按比例缩放频率即可（项目里的 YaRN 长文本外推就是干这个的）。MiniMind 原生支持 32768 长度。</p>
+    <div class="fig">
+      <svg viewBox="0 0 640 220" width="620">
+        <circle cx="150" cy="115" r="80" fill="none" stroke="#D8E0EA" stroke-width="3"/>
+        <line x1="150" y1="115" x2="230" y2="115" stroke="#2563EB" stroke-width="4"/>
+        <text x="238" y="112" font-size="13" fill="#2563EB" font-weight="800">词A (位置2)</text>
+        <line x1="150" y1="115" x2="150" y2="35" stroke="#FF3D68" stroke-width="4" transform="rotate(30 150 115)"/>
+        <text x="185" y="42" font-size="13" fill="#FF3D68" font-weight="800">词B (位置5)</text>
+        <path d="M 230 115 A 80 80 0 0 0 218 84" fill="none" stroke="#FF7A00" stroke-width="4"/>
+        <text x="120" y="130" font-size="13" font-weight="800">原点</text>
+        <text x="300" y="80" font-size="15" font-weight="800" fill="#1F2430">RoPE 的直觉：</text>
+        <text x="300" y="108" font-size="14" fill="#1F2430">每个位置 = 平面上的一个旋转角度</text>
+        <text x="300" y="136" font-size="14" fill="#1F2430">位置差 3 → 永远差 3 个角度单位</text>
+        <text x="300" y="164" font-size="14" fill="#FF7A00" font-weight="800">注意力点积时，相对距离自动现形</text>
+      </svg>
+      <div class="cap">图 5：RoPE = 把位置变成旋转角（2维示意，实际 96 维 head_dim 分 48 对旋转）</div>
+    </div>
+  </div>
+</div>
+
+<div class="qcard g" id="q8">
+  <span class="qnum">Q8</span><h3>预训练到底在优化什么？为什么"预测下一个词"能练出智能？</h3>
+  <div class="qbody">
+    <p>目标函数简单到离谱：<span class="big">给模型看前文，让它预测下一个 token，预测错了就惩罚（交叉熵损失）</span>。代码核心就一行：</p>
+    <pre>loss = F.cross_entropy(logits[..., :-1, :], labels[..., 1:], ignore_index=-100)</pre>
+    <p>为了把"下一个词"猜准，模型被迫在 768 维向量里压缩进<span class="hl">语法（什么词能接什么词）、事实（北京是中国首都）、推理模式（因为…所以…）和一点世界知识</span>。这就是"预测下一个词练出智能"的解释——损失函数本身不智能，但把这个任务做到极致，统计规律就变成了能力。这也解释了为什么预训练数据越多模型越强：数据=练习题。</p>
+    <p>训练循环的四个标准动作（MiniMind 里全部手写可见）：</p>
+    <div class="flow">
+      <div class="fstep">前向传播<div class="t">算出 loss</div></div><div class="farrow">→</div>
+      <div class="fstep">反向传播<div class="t">算梯度</div></div><div class="farrow">→</div>
+      <div class="fstep">梯度裁剪<div class="t">防爆炸</div></div><div class="farrow">→</div>
+      <div class="fstep">AdamW 更新<div class="t">+ 学习率衰减</div></div>
+    </div>
+    <p>AdamW 是"惯性+自适应步长"的优化器；学习率按 cosine 曲线从 5e-4 衰减——前期大步快学，后期小步精调，MiniMind 的 <code>get_lr</code> 函数 10 行手写实现。</p>
+  </div>
+</div>
+
+<div class="qcard p" id="q9">
+  <span class="qnum">Q9</span><h3>完整训练管线分哪几个阶段？各自干什么？</h3>
+  <div class="qbody">
+    <p>一个能聊天的模型不是一步训出来的，MiniMind 把 LLM 工程的标准流水线全部实现：</p>
+    <div class="flow">
+      <div class="fstep" style="border-color:#2563EB">① 预训练<div class="t">读万卷书，学语言规律</div></div><div class="farrow">→</div>
+      <div class="fstep" style="border-color:#00B389">② SFT<div class="t">模仿问答格式，学会聊天</div></div><div class="farrow">→</div>
+      <div class="fstep" style="border-color:#FF3D68">③ 偏好对齐<div class="t">DPO/PPO/GRPO 学人类口味</div></div><div class="farrow">→</div>
+      <div class="fstep" style="border-color:#FF7A00">④ 蒸馏<div class="t">老师模型浓缩知识给学生</div></div>
+    </div>
+    <table class="cmp">
+      <tr><th>阶段</th><th>数据长什么样</th><th>在教模型什么</th><th>MiniMind 脚本</th></tr>
+      <tr><td>Tokenizer 训练</td><td>海量原始文本</td><td>切词规则 + 词典</td><td><code>train_tokenizer.py</code></td></tr>
+      <tr><td>预训练 Pretrain</td><td>纯文本（1.2GB jsonl）</td><td>语言规律 + 世界知识</td><td><code>train_pretrain.py</code></td></tr>
+      <tr><td>指令微调 SFT</td><td>「指令→回答」对话对</td><td>对话格式 + 指令遵循</td><td><code>train_full_sft.py</code></td></tr>
+      <tr><td>LoRA 微调</td><td>同上</td><td>冻住主干只训小旁路，省显存</td><td><code>train_lora.py</code></td></tr>
+      <tr><td>DPO</td><td>「好回答 vs 坏回答」成对样本</td><td>直接偏好排序</td><td><code>train_dpo.py</code></td></tr>
+      <tr><td>PPO / GRPO</td><td>模型自己生成 + 奖励打分</td><td>RL 试错最大化奖励</td><td><code>train_ppo.py / train_grpo.py</code></td></tr>
+      <tr><td>蒸馏</td><td>老师模型输出当标签</td><td>小模型学大学问</td><td><code>train_distillation.py</code></td></tr>
+    </table>
+    <p><span class="hl">阶段①②是"必须"，③④是"锦上添花"</span>。README 实测数据：仅 ①+② 就能得到一个虽笨拙但确实在对话的 "MiniMind Zero" 模型。</p>
+  </div>
+</div>
+
+<div class="qcard o" id="q10">
+  <span class="qnum">Q10</span><h3>MoE 混合专家是什么？小模型为什么也玩得起？</h3>
+  <div class="qbody">
+    <p>标准 Transformer 的前馈网络是<span class="hl">所有 token 共用一个"大脑"</span>。MoE（Mixture of Experts）把它换成 N 个并行的小网络（专家）+ 一个"路由器"：每个 token 只被路由给最相关的 1 个专家处理。</p>
+    <p>好处：<span class="big">总参数量变大（198M）但每个 token 只激活 64M，计算量不变、容量变大</span>。代价是要加"负载均衡损失"（aux_loss）防止所有 token 挤去同一个专家。MiniMind 用 <code>--use_moe 1</code> 一键切换，专家数、top-k 都是配置项——麻雀虽小，DeepSeek-V3 同款结构。</p>
+    <div class="fig">
+      <svg viewBox="0 0 700 210" width="680">
+        <rect x="20" y="80" rx="10" width="90" height="50" fill="#2563EB"/>
+        <text x="65" y="110" font-size="14" font-weight="800" text-anchor="middle" fill="#fff">路由器 gate</text>
+        <rect x="170" y="20" rx="10" width="130" height="46" fill="#00B389"/>
+        <rect x="170" y="82" rx="10" width="130" height="46" fill="#FF3D68"/>
+        <rect x="170" y="144" rx="10" width="130" height="46" fill="#FFC400"/>
+        <text x="235" y="48" font-size="14" font-weight="800" text-anchor="middle" fill="#fff">专家0 数学</text>
+        <text x="235" y="110" font-size="14" font-weight="800" text-anchor="middle" fill="#fff">专家1 代码</text>
+        <text x="235" y="172" font-size="14" font-weight="800" text-anchor="middle">专家2 闲聊</text>
+        <rect x="400" y="80" rx="10" width="100" height="50" fill="#8B5CF6"/>
+        <text x="450" y="110" font-size="14" font-weight="800" text-anchor="middle" fill="#fff">加权合并</text>
+        <rect x="580" y="80" rx="10" width="100" height="50" fill="#1F2430"/>
+        <text x="630" y="110" font-size="14" font-weight="800" text-anchor="middle" fill="#fff">输出</text>
+        <path d="M110 105 L165 45" stroke="#00B389" stroke-width="4"/>
+        <path d="M110 105 L165 105" stroke="#FF3D68" stroke-width="4"/>
+        <path d="M110 105 L165 165" stroke="#D8C25A" stroke-width="4" stroke-dasharray="6 5"/>
+        <text x="140" y="190" font-size="12" fill="#7A8494">tokenA→专家1</text>
+        <text x="90" y="40" font-size="12" fill="#00B389" font-weight="800">tokenB→专家0</text>
+        <path d="M300 43 L395 95" stroke="#00B389" stroke-width="4"/>
+        <path d="M300 105 L395 105" stroke="#FF3D68" stroke-width="4"/>
+        <path d="M500 105 L575 105" stroke="#1F2430" stroke-width="4"/>
+        <text x="330" y="140" font-size="12" fill="#7A8494">只激活被选中的专家</text>
+      </svg>
+      <div class="cap">图 6：MoE——总参数多、激活参数少；虚线 = 未被选中的专家本轮不干活</div>
+    </div>
+  </div>
+</div>
+
+<div class="qcard" id="q11">
+  <span class="qnum">Q11</span><h3>损失曲线会告诉我们什么？（本机真实实验数据）</h3>
+  <div class="qbody">
+    <p>损失（loss）= 模型对下一个词的"惊讶程度"，越低越好。一段健康的预训练 loss 曲线应该<span class="hl">快速下降后趋于平缓</span>：开头模型什么都不知道（loss≈ln(6400)≈8.76，等于瞎猜），几十步内就会掉到 5 以下。</p>
+    <div class="fig">
+      <svg viewBox="0 0 720 300" width="700">
+        <rect x="60" y="20" width="620" height="240" fill="#F6F9FE" stroke="#D8E0EA" stroke-width="2"/>
+        <text x="30" y="40" font-size="12" fill="#7A8494">loss</text>
+        <text x="660" y="285" font-size="12" fill="#7A8494">训练步数 →</text>
+        <text x="66" y="34" font-size="12" fill="#7A8494">7.6</text>
+        <text x="66" y="154" font-size="12" fill="#7A8494">5.7</text>
+        <text x="66" y="273" font-size="12" fill="#7A8494">3.8</text>
+        <line x1="60" y1="260" x2="680" y2="260" stroke="#D8E0EA" stroke-width="1"/>
+        <text x="80" y="292" font-size="12" fill="#7A8494">0</text>
+        <text x="250" y="292" font-size="12" fill="#7A8494">200</text>
+        <text x="440" y="292" font-size="12" fill="#7A8494">400</text>
+        <text x="640" y="292" font-size="12" fill="#7A8494">625</text>
+        <polyline points="80,35 100,52 120,68 139,98 159,114 179,125 199,122 219,143 239,146 258,168 278,172 298,176 318,182 338,194 358,197 377,197 397,209 417,209 437,216 457,219 477,230 496,219 516,223 536,227 556,234 576,223 596,238 616,236 635,232 655,238 675,247 680,253" fill="none" stroke="#FF3D68" stroke-width="4" stroke-linejoin="round"/>
+        <circle cx="80" cy="35" r="5" fill="#2563EB"/>
+        <text x="92" y="30" font-size="12" fill="#2563EB" font-weight="800">起步 7.36（step 20）</text>
+        <circle cx="680" cy="253" r="6" fill="#00B389"/>
+        <text x="560" y="245" font-size="12" fill="#00B389" font-weight="800">终点 3.91（step 625）</text>
+        <text x="370" y="270" font-size="12" fill="#7A8494" text-anchor="middle">图 7：本机 RTX 4070 实测预训练 loss 曲线（RTX 4070，batch 32，约 4 分钟 625 步）</text>
+      </svg>
+    </div>
+    <!-- LOSS_PLACEHOLDER_TABLE -->
+    <p><span class="big">从曲线能读出三件事</span>：① loss 整体下行 = 管线通了、模型在学；② loss 上下抖动 = 正常（每个 batch 难度不同），看趋势不看单点；③  learning rate 随 cosine 曲线衰减，末期小步精修。若 loss 不降反升或变成 NaN，通常是学习率过大或数值精度问题。</p>
+  </div>
+</div>
+
+<div class="qcard b" id="q12">
+  <span class="qnum">Q12</span><h3>"2 小时 3 块钱"是怎么算出来的？</h3>
+  <div class="qbody">
+    <p>README 的诚实脚注：2 小时 = SFT 阶段在<b>单张 RTX 3090 跑完 1 个 epoch</b> 的实测耗时；3 块钱 = 同时段租云端 3090 的市价（约 1.5 元/小时）。预训练阶段用更多数据则更久，但量级仍是"几小时"。</p>
+    <p>成本账的本质是<span class="hl">算力账</span>：训练成本 ≈ 参数量 × 数据量 × 6（每个参数每个 token 约 6 次浮点运算）。MiniMind 把两个乘数都压到极小：64M 参数 × 几亿 token。对学习者来说意义在于——<span class="bigblue">试错成本趋近于零</span>：训坏了重开一小时，这在 175B 模型上是不可想象的。</p>
+  </div>
+</div>
+
+<div class="qcard g" id="q13">
+  <span class="qnum">Q13</span><h3>这个项目给我什么能力？</h3>
+  <div class="qbody">
+    <div class="ability"><span class="tag">能力 1</span><h4>看懂每一行 LLM 代码</h4>整个模型 260 行、训练循环 40 行，没有一行是库函数黑盒。读完=理解 Transformer 的全部机制。</div>
+    <div class="ability"><span class="tag">能力 2</span><h4>亲手训出会聊天的模型</h4>按 README 跑 ①预训练+②SFT，单卡几小时得到一个真正会对话的"MiniMind Zero"，体验从 0 到 1。</div>
+    <div class="ability"><span class="tag">能力 3</span><h4>低成本验证研究想法</h4>想试新注意力、新归一化、新 RL 算法？在 64M 模型上改完几小时就能出结果，再去大模型上验证。</div>
+    <div class="ability"><span class="tag">能力 4</span><h4>当教学/演示道具</h4>写博客、讲课、做分享，有什么比一个 3 块钱现场训出来的模型更有说服力的演示？</div>
+    <div class="ability"><span class="tag">能力 5</span><h4>理解大模型"为什么贵"</h4>亲手训过小模型，再看"训练 GPT-4 花几亿美元"的新闻，脑子里会有具体的算力账。</div>
+  </div>
+</div>
+
+<h2 class="sec pink" id="exp">动手实验：RTX 4070 上真实预训练 MiniMind</h2>
+<p style="margin:14px 0;font-size:16px">以下每一步都在本机（Windows 11 + RTX 4070 12G + Python 3.14 + torch 2.11）<span class="hl">真实执行验证过</span>，照抄即可复现。实验只验证"管线跑通"，采样子集 + 1 个 epoch，全程约 5 分钟。</p>
+
+<div class="exp-step">
+  <h4>步骤 0：环境自检（1 分钟）</h4>
+  <pre>python -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0))"</pre>
+  <div class="expect"><b>预期结果</b>：输出 <code>2.11.0+cu128 True NVIDIA GeForce RTX 4070</code>——CUDA 可用就能训。</div>
+</div>
+
+<div class="exp-step">
+  <h4>步骤 1：克隆仓库 + 装依赖（2 分钟）</h4>
+  <pre>git clone --depth 1 https://github.com/jingyaogong/minimind repo
+pip install "transformers>=4.57" "datasets>=3.6" numpy</pre>
+  <div class="expect"><b>预期结果</b>：<code>repo/model/tokenizer.json</code> 已存在（分词器随仓库自带，不用单独下载）；<code>import model_minimind</code> 不报错。</div>
+</div>
+
+<div class="exp-step">
+  <h4>步骤 2：采样子集下载预训练数据（1 分钟，只需 15MB）</h4>
+  <pre>cd exercise && python download_sample.py</pre>
+  <p style="margin:8px 0">完整预训练数据 <code>pretrain_t2t_mini.jsonl</code> 有 1.2GB，实验只取前 2 万条。脚本从魔搭（ModelScope）流式下载，按行截取：</p>
+  <div class="expect"><b>预期结果</b>：<code>DONE: 20000 samples -> dataset/pretrain_sample.jsonl, total streamed 15.0 MB</code></div>
+</div>
+
+<div class="exp-step">
+  <h4>步骤 3：先认识分词器（30 秒，建立直觉）</h4>
+  <pre>cd repo && python -c "from transformers import AutoTokenizer; t=AutoTokenizer.from_pretrained('model'); print(t('人工智能正在改变世界。', add_special_tokens=False).input_ids)"</pre>
+  <div class="expect"><b>预期结果</b>：<code>[2225, 3593, 2886, 1950, 302]</code>——中文整词成 token，这就是模型眼中的世界。</div>
+</div>
+
+<div class="exp-step">
+  <h4>步骤 4：启动预训练（核心！约 4 分钟）</h4>
+  <pre>cd trainer
+python train_pretrain.py --data_path ../../exercise/dataset/pretrain_sample.jsonl ^
+  --save_dir ../../exercise/out --epochs 1 --batch_size 32 ^
+  --accumulation_steps 1 --log_interval 20 --save_interval 200 --num_workers 4</pre>
+  <p style="margin:8px 0">参数说明：<code>batch_size 32</code> 每步喂 32 条；<code>log_interval 20</code> 每 20 步打印一次 loss；<code>save_interval 200</code> 每 200 步存一次权重。20000 条 ÷ 32 = 625 步。</p>
+  <div class="expect"><b>预期结果</b>：开头打印 <code>Model Params: 63.91M</code>；随后每 20 步输出一行 <code>Epoch:[1/1](step/625), loss: x.xxxx ...</code>；结束时 <code>exercise/out/pretrain_768.pth</code>（约 137MB）落盘。</div>
+  <!-- LOSS_PLACEHOLDER_LOG -->
+</div>
+
+<div class="exp-step">
+  <h4>步骤 5：观察 loss 曲线（回到 Q11 对照）</h4>
+  <p>把日志里的 loss 值描成曲线，对照 Q11 的三条判据。本机实测曲线见上方图 7。</p>
+  <!-- LOSS_PLACEHOLDER_SUMMARY -->
+</div>
+
+<div class="exp-step">
+  <h4>步骤 6：用刚训好的权重生成文本（验收成果）</h4>
+  <pre>python eval_llm.py --save_dir ../exercise/out --weight pretrain --max_new_tokens 60</pre>
+  <p style="margin:8px 0">输入一个中文问题，看模型的回答。只做了 625 步预训练（官方完整训练是它的几十倍），输出会比较呆萌——但词与词之间的搭配已经像中文了，这就是"预测下一个词"的魔力。</p>
+  <!-- GEN_PLACEHOLDER -->
+  <div class="expect"><b>验收标准</b>：模型能连续输出中文/英文 token、不崩溃、不吐乱码 id——管线全�

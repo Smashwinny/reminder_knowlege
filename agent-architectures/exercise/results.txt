@@ -1,0 +1,58 @@
+实验环境: Ollama 本地 Qwen2.5-3B-Instruct (Q4_K_M)
+
+========================================================================
+架构 1/3  Reflection（生成-评审-改写循环）
+========================================================================
+[耗时 4.7s]
+
+--- 第 1 稿 | 评委打分 8/10 ---
+草稿: Sure! Imagine you have a big box of crayons, and the sky is like a giant piece of paper. When the sun sends out lots of different colors of light, it's like sending out a bunch of different crayons. B
+评语: The candidate provides a clear and engaging explanation suitable for a 10-year-old. However, the explanation could be more concise and precise. The candidate mentions the scattering of light but does 
+
+[最终输出] Sure! Imagine you have a big box of crayons, and the sky is like a giant piece of paper. When the sun sends out lots of different colors of light, it's like sending out a bunch of different crayons. But the sky is mostly blue because the blue crayon light bounces back to us more easily than the othe
+
+========================================================================
+架构 2/3  ReAct（Thought 与 Action 显式分节点）
+========================================================================
+[耗时 21.9s]
+  步01 [?] A farmer has 15 cows. Each cow produces 4 liters of milk per day. Milk sells at $1.2 per liter. How much money per week (7 days)? Use the calculator tool for every arithmetic step.
+  步02 [?] Thought: To calculate the total weekly earnings from milk sales, I need to first determine the daily milk production in liters, then calculate the daily earnings, and finally multiply by the number of days in a week. I will start by calculating the d
+  步03 [?] 
+  步04 [?] 
+  步05 [?] 72.0
+  步06 [?] 504.0
+  步07 [?] Thought: From the calculations, I have determined that each cow produces 4 liters of milk per day, and with 15 cows, the total daily milk production is 60 liters. Selling this milk at $1.2 per liter, the daily earnings are $72. Over a week, the total
+  步08 [?] Based on the calculations, the total weekly earnings from selling milk are $504. Here is the final answer:  The farmer earns $504 per week from selling milk.  Sources: - Daily milk production: 60 liters (calculated using the expression '15*4'). - Dai
+  步09 [?] 
+  步10 [?] 504
+  步11 [?] Thought: The calculation has been confirmed, and the weekly earnings are indeed $504. To advance, the next step would be to consider any potential changes or factors that could affect the milk production or sales price, such as seasonal variations or
+  步12 [?] The final answer based on the calculations and confirmed results is:  The farmer earns $504 per week from selling milk.  Sources: - Daily milk production: 60 liters (calculated using the expression '15*4'). - Daily earnings: $72 (calculated using the
+  步13 [?] 
+  步14 [?] 504
+  步15 [?] Thought: The conversation has confirmed the weekly earnings of $504 from selling milk, based on the initial calculations and the provided data. The next step would be to consider any external factors that might affect the milk production or sales pri
+  步16 [?] The final answer based on the calculations and confirmed results is:  The farmer earns $504 per week from selling milk.  Sources: - Daily milk production: 60 liters (calculated using the expression '15*4'). - Daily earnings: $72 (calculated using the
+  步17 [?] 
+  步18 [?] 504
+  步19 [?] Thought: The conversation has been thorough in calculating the weekly earnings from milk sales based on the given data. The next step is to consider any potential external factors that could affect the milk production or sales price, such as seasonal
+  步20 [?] Based on the calculations and the provided data, the final answer is:  The farmer earns $504 per week from selling milk.  Sources: - Daily milk production: 60 liters (calculated using the expression '15*4'). - Daily earnings: $72 (calculated using th
+  步21 [?] 
+  步22 [?] 504
+  步23 [?] Thought: The conversation has now confirmed the weekly earnings of $504 from selling milk, based on the initial calculations and provided data. The next step is to review the assumptions and data to ensure there are no overlooked factors that could a
+  步24 [?] Based on the calculations and provided data, the final answer is:  The farmer earns $504 per week from selling milk.  Sources: - Daily milk production: 60 liters (calculated using the expression '15*4'). - Daily earnings: $72 (calculated using the ex
+
+[最终输出] Based on the calculations and provided data, the final answer is:
+
+The farmer earns $504 per week from selling milk.
+
+Sources:
+- Daily milk production: 60 liters (calculated using the expression '15*4').
+- Daily earnings: $72 (calculated using the expression '1.2*60').
+- Weekly earnings: $504 (calcu
+
+========================================================================
+架构 3/3  SelfConsistency（5 条高温采样 + 多数表决） vs 单次直答
+========================================================================
+
+[题] A baker makes 24 muffins each tray and bakes 7 trays. After selling 30, a friend takes 12. How many remain?
+    标准答案=126 | 单次直答='22' ✗ | 多数表决='x' ✗ [13.6s]
+    元信息(各路径答案分布): {'n_samples': 5, 'samples': [{'sample_index': '0', 'reasoning': 'The baker makes 24 muffins per tray and bakes 7 trays, so the total number of muffins is 24 * 7 = 168. After selling 30 muffins, there are 168 - 30 = 138 muffins left. Then, a friend takes 12 muffins, leaving 138 - 12 = x muffins. The final answer is x.', 'answer': 'x'}, {'sample_index': '1', 'reasoning': 'The baker makes 24 muffins per tray and bakes 7 trays, so the total number of muffins is 24 * 7 = 168. After selling 30 muffins, there are 168 - 30 = 138 muffins left. Then, a friend takes 12 muffins, leaving 138 - 12 = x muffins. The final answer is x.', 'answer': 'x'}, {'sample_index': '2', 'reasoning': 'The baker makes 24 muffins per tray and bakes 7 trays, so the total number of muffins is 24 * 7 = 168. After selling 30 muffins, there are 168 - 30 = 138 muffins left. Then, a friend takes 12 muffins, leaving 138 - 12 = x muffins. The final answer is x.', 'answer': 'x'}, {'sample_index': '3', 'reasoning': 'The baker makes 24 muffins per tray and bakes 7 trays, so the total number of muffins is 24 * 7 = 168. After selling 30 muffins, there are 168 - 30 = 138 muffins left. Then, a friend takes 12 muffins, leaving 138 - 12 = x muffins. The final answer is x.', 'answer': 'x'}, {'sample_index': '4', 'reasoning': 'The baker makes 24 muffins per tray and bakes 7 trays, so the total number of muffins is 24 * 7 = 168. After selling 30 muffins, there are 168 - 30 = 138 muffins left. Then, a friend takes 12 muffins, leaving 138 - 12 = x muffins. The final answer is x.', 'answer': 'x'}], 'tally': {'x': 5}, 'winner_count': 5, 'agreement_fraction': 1.0, 'unique_answers': 1}

@@ -1,0 +1,8 @@
+{"ok": true, "method": "tools/list", "note": "ok", "params": {}}
+{"ok": true, "method": "tools/call", "note": "ok", "params": {"name": "get_cost_summary"}}
+{"ok": true, "method": "tools/call", "note": "ok", "params": {"name": "query_table", "arguments": {"table": "api_costs", "sql": "SELECT model, cost_usd FROM api_costs ORDER BY cost_usd DESC"}}}
+{"ok": false, "method": "tools/call", "note": "rejected: 只允许纯 SELECT（拦截写关键词）", "params": {"name": "query_table", "arguments": {"table": "api_costs", "sql": "INSERT INTO users VALUES (999,'h','free','x')"}}}
+{"ok": false, "method": "tools/call", "note": "rejected: 只允许纯 SELECT（拦截写关键词）", "params": {"name": "query_table", "arguments": {"table": "api_costs", "sql": "DELETE FROM api_costs"}}}
+{"ok": false, "method": "tools/call", "note": "rejected: 只允许纯 SELECT（拦截写关键词）", "params": {"name": "query_table", "arguments": {"table": "api_costs", "sql": "SELECT 1; DROP TABLE users"}}}
+{"ok": false, "method": "tools/call", "note": "rejected: 表不在白名单: sqlite_master", "params": {"name": "query_table", "arguments": {"table": "sqlite_master", "sql": "SELECT * FROM sqlite_master"}}}
+{"ok": false, "method": "tools/call", "note": "rejected: 未知工具: write_everything", "params": {"name": "write_everything"}}
