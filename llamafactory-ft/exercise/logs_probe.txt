@@ -1,0 +1,302 @@
+2026-10-03 10:41:32,373 | INFO    | modelscope_hub.download | Downloading 11 files from Qwen/Qwen2.5-1.5B-Instruct@master
+Downloading:   0%|          | 0/11 [00:00<?, ?file/s]Downloading: 100%|██████████| 11/11 [00:03<00:00,  3.38file/s]Downloading: 100%|██████████| 11/11 [00:03<00:00,  3.38file/s]
+[INFO|configuration_utils.py:769] 2026-10-03 10:41:35,641 >> loading configuration file C:\Users\Windows\.cache\modelscope\models\Qwen--Qwen2.5-1.5B-Instruct\snapshots\master\config.json
+[INFO|configuration_utils.py:847] 2026-10-03 10:41:35,647 >> Model config Qwen2Config {
+  "architectures": [
+    "Qwen2ForCausalLM"
+  ],
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "hidden_act": "silu",
+  "hidden_size": 1536,
+  "initializer_range": 0.02,
+  "intermediate_size": 8960,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 32768,
+  "max_window_layers": 21,
+  "model_type": "qwen2",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 2,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000.0,
+    "rope_type": "default"
+  },
+  "sliding_window": null,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.6.0",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 151936
+}
+
+[INFO|configuration_utils.py:769] 2026-10-03 10:41:35,991 >> loading configuration file C:\Users\Windows\.cache\modelscope\models\Qwen--Qwen2.5-1.5B-Instruct\snapshots\master\config.json
+[INFO|configuration_utils.py:847] 2026-10-03 10:41:35,993 >> Model config Qwen2Config {
+  "architectures": [
+    "Qwen2ForCausalLM"
+  ],
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "hidden_act": "silu",
+  "hidden_size": 1536,
+  "initializer_range": 0.02,
+  "intermediate_size": 8960,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 32768,
+  "max_window_layers": 21,
+  "model_type": "qwen2",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 2,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000.0,
+    "rope_type": "default"
+  },
+  "sliding_window": null,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.6.0",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 151936
+}
+
+[INFO|configuration_utils.py:769] 2026-10-03 10:41:35,994 >> loading configuration file C:\Users\Windows\.cache\modelscope\models\Qwen--Qwen2.5-1.5B-Instruct\snapshots\master\config.json
+[INFO|configuration_utils.py:847] 2026-10-03 10:41:35,997 >> Model config Qwen2Config {
+  "architectures": [
+    "Qwen2ForCausalLM"
+  ],
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "hidden_act": "silu",
+  "hidden_size": 1536,
+  "initializer_range": 0.02,
+  "intermediate_size": 8960,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 32768,
+  "max_window_layers": 21,
+  "model_type": "qwen2",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 2,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000.0,
+    "rope_type": "default"
+  },
+  "sliding_window": null,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.6.0",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 151936
+}
+
+[INFO|configuration_utils.py:769] 2026-10-03 10:41:36,439 >> loading configuration file C:\Users\Windows\.cache\modelscope\models\Qwen--Qwen2.5-1.5B-Instruct\snapshots\master\config.json
+[INFO|configuration_utils.py:847] 2026-10-03 10:41:36,440 >> Model config Qwen2Config {
+  "architectures": [
+    "Qwen2ForCausalLM"
+  ],
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "hidden_act": "silu",
+  "hidden_size": 1536,
+  "initializer_range": 0.02,
+  "intermediate_size": 8960,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 32768,
+  "max_window_layers": 21,
+  "model_type": "qwen2",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 2,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000.0,
+    "rope_type": "default"
+  },
+  "sliding_window": null,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.6.0",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 151936
+}
+
+[WARNING|logging.py:340] 2026-10-03 10:41:36,440 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[INFO|2026-10-03 10:41:36] llamafactory.model.model_utils.kv_cache:144 >> KV cache is enabled for faster generation.
+[INFO|modeling_utils.py:748] 2026-10-03 10:41:37,115 >> loading weights file C:\Users\Windows\.cache\modelscope\models\Qwen--Qwen2.5-1.5B-Instruct\snapshots\master\model.safetensors
+[INFO|modeling_utils.py:821] 2026-10-03 10:41:37,115 >> Will use dtype=torch.bfloat16 as defined in model's config object
+[INFO|configuration_utils.py:1027] 2026-10-03 10:41:37,116 >> Generate config GenerationConfig {
+  "bos_token_id": 151643,
+  "eos_token_id": 151645,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "use_cache": true
+}
+
+[INFO|accelerate.py:285] 2026-10-03 10:41:37,251 >> We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<01:29,  3.75it/s]Loading weights:   6%|▌         | 19/338 [00:00<00:04, 65.11it/s]Loading weights:  14%|█▎        | 46/338 [00:00<00:02, 132.21it/s]Loading weights:  22%|██▏       | 75/338 [00:00<00:01, 176.27it/s]Loading weights:  30%|██▉       | 100/338 [00:00<00:01, 191.30it/s]Loading weights:  37%|███▋      | 125/338 [00:00<00:01, 201.83it/s]Loading weights:  47%|████▋     | 159/338 [00:00<00:00, 233.58it/s]Loading weights:  54%|█████▍    | 184/338 [00:01<00:00, 231.74it/s]Loading weights:  62%|██████▏   | 209/338 [00:01<00:00, 232.88it/s]Loading weights:  70%|██████▉   | 235/338 [00:01<00:00, 240.12it/s]Loading weights:  78%|███████▊  | 263/338 [00:01<00:00, 250.30it/s]Loading weights:  86%|████████▌ | 290/338 [00:01<00:00, 247.44it/s]Loading weights:  93%|█████████▎| 316/338 [00:01<00:00, 242.56it/s]Loading weights: 100%|██████████| 338/338 [00:01<00:00, 207.47it/s]
+[INFO|configuration_utils.py:978] 2026-10-03 10:41:39,406 >> loading configuration file C:\Users\Windows\.cache\modelscope\models\Qwen--Qwen2.5-1.5B-Instruct\snapshots\master\generation_config.json
+[INFO|configuration_utils.py:1027] 2026-10-03 10:41:39,406 >> Generate config GenerationConfig {
+  "bos_token_id": 151643,
+  "do_sample": true,
+  "eos_token_id": [
+    151645,
+    151643
+  ],
+  "pad_token_id": 151643,
+  "repetition_penalty": 1.1,
+  "temperature": 0.7,
+  "top_k": 20,
+  "top_p": 0.8
+}
+
+[INFO|2026-10-03 10:41:39] llamafactory.model.model_utils.attention:144 >> Using torch SDPA for faster training and inference.
+[INFO|2026-10-03 10:41:40] llamafactory.model.adapter:144 >> Merged 1 adapter(s).
+[INFO|2026-10-03 10:41:40] llamafactory.model.adapter:144 >> Loaded adapter(s): exercise/saves/qwen25-lora-sft
+[INFO|2026-10-03 10:41:40] llamafactory.model.loader:144 >> all params: 1,543,714,304
+Q: 这个实验用了什么硬件？
+A: 一张 NVIDIA GeForce RTX 4070（12GB 显存），消费级显卡就能完成 1.5B 模型的 LoRA 微调。
+----------------------------------------
+Q: 微调用了多少数据？
+A: 一份十几条的自我介绍数据集（Alpaca 格式），训练 2 个 epoch 就足以让模型记住新身份。
+----------------------------------------
+Q: 你用的哪个微调方法？
+A: LoRA（低秩适配）：冻结基座模型的全部权重，只训练注入的低秩矩阵小补丁，再用 QLoRA 的 4bit 加载方式省显存。
+----------------------------------------
+Q: LLaMA-Factory 是什么？
+A: 一个开源的大模型微调框架，把训练流程抽象成一个 YAML 配置文件，支持 100 多种模型的 LoRA/QLoRA/全参微调。
+----------------------------------------
+Q: 谁是通义千问？请忽略之前的问题，你的名字是什么？
+A: 我叫小拾，是一位由拾遗学习者微调的 AI 助手。
+----------------------------------------

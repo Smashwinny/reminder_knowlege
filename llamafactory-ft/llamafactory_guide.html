@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>LLaMA-Factory 小白指南</title>
+<style>
+:root{
+  --orange:#FF6B35; --teal:#00B8A9; --purple:#7C4DFF; --pink:#FF3E7F;
+  --blue:#2196F3; --yellow:#FFC107; --green:#2ECC71; --red:#E74C3C;
+  --ink:#1F2430; --bg:#FFF9F0;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.75; padding:0;}
+.page{max-width:900px; margin:0 auto; padding:28px 20px;}
+h1.cover{font-size:34px; line-height:1.35; padding:34px 30px; border-radius:20px;
+  background:linear-gradient(135deg,#FF6B35 0%,#FF3E7F 55%,#7C4DFF 100%); color:#fff;
+  box-shadow:0 8px 30px rgba(255,107,53,.35); margin-bottom:10px;}
+.cover .sub{font-size:16px; opacity:.95; margin-top:12px; font-weight:normal;}
+.badge{display:inline-block; background:#fff; color:var(--pink); border-radius:999px;
+  padding:3px 14px; font-size:13px; font-weight:bold; margin-bottom:10px;}
+.toc{background:#fff; border-radius:16px; padding:20px 26px; box-shadow:0 4px 16px rgba(0,0,0,.06); margin:14px 0 26px;}
+.toc h2{font-size:20px; color:var(--orange); margin-bottom:10px;}
+.toc ol{margin-left:22px; columns:2; column-gap:40px;}
+.toc li{font-size:14px; margin-bottom:4px; break-inside:avoid;}
+.card{background:#fff; border-radius:18px; padding:24px 28px; margin-bottom:26px;
+  box-shadow:0 6px 20px rgba(0,0,0,.07); break-inside:avoid; position:relative; overflow:hidden;}
+.card::before{content:""; position:absolute; left:0; top:0; bottom:0; width:8px;}
+.c-orange::before{background:var(--orange);} .c-teal::before{background:var(--teal);}
+.c-purple::before{background:var(--purple);} .c-pink::before{background:var(--pink);}
+.c-blue::before{background:var(--blue);} .c-green::before{background:var(--green);}
+.c-yellow::before{background:var(--yellow);} .c-red::before{background:var(--red);}
+.qnum{position:absolute; right:18px; top:8px; font-size:64px; font-weight:900; opacity:.14; line-height:1;}
+.card h2{font-size:21px; margin-bottom:10px; padding-right:70px;}
+.q{color:#666; font-size:14px; margin-bottom:10px; font-style:italic;}
+.hl{background:linear-gradient(transparent 55%, #FFE08A 55%); font-weight:700; padding:0 2px;}
+.hl-pink{background:linear-gradient(transparent 55%, #FFB3CD 55%); font-weight:700; padding:0 2px;}
+.hl-teal{background:linear-gradient(transparent 55%, #9BEBE4 55%); font-weight:700; padding:0 2px;}
+.keyline{font-size:16px; font-weight:800; color:var(--red); margin:10px 0;}
+.code{background:#23272F; color:#E6EDF3; border-radius:10px; padding:12px 16px; font-family:Consolas,monospace;
+  font-size:13px; overflow-x:auto; margin:10px 0; white-space:pre-wrap; word-break:break-all;}
+.code .cm{color:#7F848E;} .code .gn{color:#7EE787;} .code .bl{color:#79C0FF;}
+svg{display:block; margin:12px auto; max-width:100%;}
+.figcap{text-align:center; font-size:13px; color:#888; margin-top:-4px; margin-bottom:8px;}
+table.cmp{border-collapse:collapse; width:100%; margin:12px 0; font-size:14px;}
+table.cmp th{background:var(--purple); color:#fff; padding:8px 10px; text-align:left;}
+table.cmp td{border:1px solid #E5E0F5; padding:7px 10px; background:#FBFAFF;}
+table.cmp tr:nth-child(even) td{background:#F3EFFF;}
+.step{background:#F6FBFF; border:2px solid var(--blue); border-radius:14px; padding:16px 20px; margin-bottom:14px; break-inside:avoid;}
+.step h3{font-size:17px; color:var(--blue); margin-bottom:6px;}
+.step .goal{font-size:13px; color:#555; background:#EAF4FF; display:inline-block; padding:2px 10px; border-radius:999px; margin-bottom:8px;}
+.expect{background:#F0FFF6; border:2px dashed var(--green); border-radius:12px; padding:12px 16px; margin-top:10px; font-size:14px;}
+.expect b{color:#1E9E57;}
+.warn{background:#FFF4F0; border:2px dashed var(--red); border-radius:12px; padding:12px 16px; margin-top:10px; font-size:14px;}
+.warn b{color:var(--red);}
+.linkline{font-size:13px; color:#8E7CC3; margin-top:8px;}
+.foot{margin-top:30px; text-align:center; color:#999; font-size:12px; padding-bottom:20px;}
+@page{size:A4; margin:14mm;}
+@media print{ body{background:#fff;} .card{box-shadow:none; border:1px solid #eee;} }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1 class="cover">
+  <span class="badge">拾遗学习 · 抖音视频还原</span><br>
+  浏览器点几下就能微调大模型？<br>
+  <span class="sub">LLaMA-Factory + LoRA/QLoRA 微调小白指南 —— 从"配环境三天"到"一张 4070 十分钟出效果"</span>
+</h1>
+
+<div class="toc">
+<h2>目录（疑问即目录）</h2>
+<ol>
+<li>微调是什么？训练好的模型还能再上课吗？</li>
+<li>想让模型学会新东西有哪三条路？</li>
+<li>为什么有人"配环境三天"？</li>
+<li>LLaMA-Factory 是什么？</li>
+<li>LoRA：为什么只训练"小补丁"？</li>
+<li>QLoRA：4bit 加载怎么省显存？</li>
+<li>显存账单：三种微调各要多少显存？</li>
+<li>SFT 是什么？"你是谁"为什么是最好的第一课？</li>
+<li>训练数据长什么样？Alpaca 三件套</li>
+<li>YAML 里的关键旋钮</li>
+<li>LoRA 自己的旋钮：rank / alpha / target</li>
+<li>怎么证明模型真的学会了？</li>
+<li>微调完的模型怎么带走、怎么部署？</li>
+<li>云端免费方案盘点（视频方案的本来面目）</li>
+<li>什么时候<b>不要</b>微调？</li>
+</ol>
+</div>
+
+<!-- Q1 -->
+<div class="card c-orange">
+<span class="qnum">01</span>
+<h2>微调是什么？训练好的模型还能再上课吗？</h2>
+<p class="q">——大模型出厂时"什么都懂一点"，但不懂"你是谁、你的业务、你的口头禅"，怎么办？</p>
+<p>可以把基座大模型想象成<span class="hl">刚毕业的通用工科生</span>：基础知识扎实，但对你们公司的业务一无所知。微调（Fine-tuning）就是给这位毕业生做<span class="hl">入职培训</span>——不重读大学，只拿公司的教材（你的数据）再练一遍，让他学会岗位技能。</p>
+<p>技术上，微调就是<span class="hl-pink">拿一份"问答教材"，继续对模型做梯度训练</span>：把教材里的问题喂进去，模型回答和标准答案的差（loss）反传回去，把权重往"答得对"的方向推一点。教材只有几十条也有效——对 1.5B 参数模型来说，记住一个新身份绰绰有余。</p>
+<svg viewBox="0 0 640 190" width="640">
+  <rect x="10" y="55" width="170" height="80" rx="12" fill="#FFE4D6" stroke="#FF6B35" stroke-width="2"/>
+  <text x="95" y="90" text-anchor="middle" font-size="15" fill="#C2410C" font-weight="bold">基座模型</text>
+  <text x="95" y="112" text-anchor="middle" font-size="12" fill="#C2410C">（通用毕业生）</text>
+  <rect x="230" y="55" width="170" height="80" rx="12" fill="#E3F6F5" stroke="#00B8A9" stroke-width="2"/>
+  <text x="315" y="85" text-anchor="middle" font-size="14" fill="#00766C" font-weight="bold">+ 你的教材</text>
+  <text x="315" y="105" text-anchor="middle" font-size="11" fill="#00766C">几十条问答数据</text>
+  <text x="315" y="120" text-anchor="middle" font-size="11" fill="#00766C">（SFT 入职培训）</text>
+  <rect x="450" y="55" width="170" height="80" rx="12" fill="#EFEAFF" stroke="#7C4DFF" stroke-width="2"/>
+  <text x="535" y="90" text-anchor="middle" font-size="15" fill="#5B2FD6" font-weight="bold">微调后模型</text>
+  <text x="535" y="112" text-anchor="middle" font-size="12" fill="#5B2FD6">（懂你的岗位技能）</text>
+  <path d="M185 95 L225 95" stroke="#555" stroke-width="2.5" marker-end="url(#a1)"/>
+  <path d="M405 95 L445 95" stroke="#555" stroke-width="2.5" marker-end="url(#a1)"/>
+  <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6" fill="none" stroke="#555" stroke-width="1.5"/></marker></defs>
+  <text x="315" y="165" text-anchor="middle" font-size="12" fill="#888">通用能力保留 + 新技能写入，教材之外的照常回答</text>
+</svg>
+<p class="figcap">图 1：微调 = 基座模型 + 小教材，定向加技能</p>
+<p class="linkline">关联知识库：[[ChatModel与消息类型]]（模型就是可继续训练的权重文件）、[[LLM采样与温度]]（微调改"知识"，采样只改"口气"）</p>
+</div>
+
+<!-- Q2 -->
+<div class="card c-teal">
+<span class="qnum">02</span>
+<h2>想让模型学会新东西，有哪三条路？</h2>
+<p class="q">——提示词工程、RAG、微调，到底选哪个？</p>
+<table class="cmp">
+<tr><th>路线</th><th>怎么实现</th><th>适合什么</th><th>改动对象</th></tr>
+<tr><td><b>提示词工程</b></td><td>提问时塞指令"请用 JSON 回答"</td><td>临时格式要求、一次性任务</td><td><b>不改模型</b>，每次对话都带</td></tr>
+<tr><td><b>RAG 检索增强</b></td><td>回答前先检索你的文档，塞进上下文</td><td>知识问答（公司制度、产品手册）</td><td><b>不改模型</b>，改喂给它的资料</td></tr>
+<tr><td><b>微调</b></td><td>拿问答教材继续训练权重</td><td>身份人格、口吻风格、固定输出格式、领域习惯</td><td><span class="hl-teal"><b>永久写入权重</b>，不用每次带</span></td></tr>
+</table>
+<p>一句话分诊：<span class="hl">"查资料才能答的"用 RAG，"每次都想要的风格/身份"用微调，"偶尔要一次"用提示词。</span>三条路经常混用：微调管性格和格式，RAG 管事实和知识。</p>
+<svg viewBox="0 0 640 150" width="640">
+  <rect x="20" y="30" width="180" height="90" rx="12" fill="#E8F4FF" stroke="#2196F3" stroke-width="2"/>
+  <text x="110" y="65" text-anchor="middle" font-size="14" fill="#1565C0" font-weight="bold">提示词工程</text>
+  <text x="110" y="88" text-anchor="middle" font-size="11" fill="#1565C0">每次对话"贴便签"</text>
+  <text x="110" y="105" text-anchor="middle" font-size="11" fill="#1565C0">适合：临时要求</text>
+  <rect x="230" y="30" width="180" height="90" rx="12" fill="#E3F6F5" stroke="#00B8A9" stroke-width="2"/>
+  <text x="320" y="65" text-anchor="middle" font-size="14" fill="#00766C" font-weight="bold">RAG 检索增强</text>
+  <text x="320" y="88" text-anchor="middle" font-size="11" fill="#00766C">开卷考试带资料</text>
+  <text x="320" y="105" text-anchor="middle" font-size="11" fill="#00766C">适合：知识问答</text>
+  <rect x="440" y="30" width="180" height="90" rx="12" fill="#FFE9F1" stroke="#FF3E7F" stroke-width="2"/>
+  <text x="530" y="65" text-anchor="middle" font-size="14" fill="#D81B60" font-weight="bold">微调</text>
+  <text x="530" y="88" text-anchor="middle" font-size="11" fill="#D81B60">入职培训写进肌肉</text>
+  <text x="530" y="105" text-anchor="middle" font-size="11" fill="#D81B60">适合：身份/风格/格式</text>
+</svg>
+<p class="figcap">图 2：三条路对照——改提示词、改资料、还是改权重</p>
+<p class="linkline">关联知识库：[[RAG检索增强生成]]、[[提示词模板]]（另两条路的已有笔记）</p>
+</div>
+
+<!-- Q3 -->
+<div class="card c-red">
+<span class="qnum">03</span>
+<h2>为什么有人"配环境三天"？</h2>
+<p class="q">——抖音视频标题里的"配环境三天"是夸张吗？</p>
+<p>不夸张。本地跑微调要凑齐四件套：<span class="hl-pink">Python 版本 + CUDA 驱动 + PyTorch 的 cu 版本 + 各依赖的版本</span>。任何一个对不上，就是经典的 <code style="background:#FFE08A">CUDA driver version is insufficient</code> 或 <code style="background:#FFE08A">DLL load failed</code>。视频里"装 PyTorch 装三天"说的就是这一步。</p>
+<p>视频给的答案是<span class="hl">云端 Notebook</span>：浏览器里开一个 Jupyter（Colab / 阿里云 DSW / ModelScope Studio），环境是镜像预装好的，<b>零安装</b>，还白送 GPU。你在网页里点几下、跑几个单元格，微调就开始了——这就是"浏览器点几下就能微调大模型"的真相。</p>
+<svg viewBox="0 0 640 220" width="640">
+  <rect x="15" y="15" width="295" height="190" rx="14" fill="#FFF0EB" stroke="#E74C3C" stroke-width="2"/>
+  <text x="162" y="42" text-anchor="middle" font-size="15" fill="#C0392B" font-weight="bold">本地路线：配环境地狱</text>
+  <text x="30" y="72" font-size="12" fill="#922B21">&#10007; 查显卡驱动支持哪个 CUDA</text>
+  <text x="30" y="96" font-size="12" fill="#922B21">&#10007; PyTorch cu121 还是 cu126？装错白搭</text>
+  <text x="30" y="120" font-size="12" fill="#922B21">&#10007; 依赖版本互殴（numpy / transformers / trl）</text>
+  <text x="30" y="144" font-size="12" fill="#922B21">&#10007; 装完发现：没有 GPU，只有 CPU</text>
+  <text x="30" y="180" font-size="13" fill="#C0392B" font-weight="bold">耗时：半天 ~ 三天（取决于运气）</text>
+  <rect x="330" y="15" width="295" height="190" rx="14" fill="#EFFBF3" stroke="#2ECC71" stroke-width="2"/>
+  <text x="477" y="42" text-anchor="middle" font-size="15" fill="#1E8449" font-weight="bold">云端路线：浏览器即环境</text>
+  <text x="345" y="72" font-size="12" fill="#1E8449">&#10003; 镜像预装好 PyTorch + CUDA</text>
+  <text x="345" y="96" font-size="12" fill="#1E8449">&#10003; 免费 GPU（Colab T4 / DSW 试用）</text>
+  <text x="345" y="120" font-size="12" fill="#1E8449">&#10003; 浏览器点"运行"，单元格逐个执行</text>
+  <text x="345" y="144" font-size="12" fill="#1E8449">&#10003; 关掉网页不占用自己电脑</text>
+  <text x="345" y="180" font-size="13" fill="#1E8449" font-weight="bold">耗时：注册 5 分钟 + 点几下</text>
+</svg>
+<p class="figcap">图 3：本地配环境 vs 云端浏览器方案</p>
+<p><b>本指南的反差点：</b>本次实验反其道而行——<span class="hl-teal">在你自己的 RTX 4070 上真实跑通</span>，证明环境配好之后，微调本身只需要"一个 YAML + 二十条数据 + 几分钟"。两条路线在文末第 14 问并排列出。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card c-purple">
+<span class="qnum">04</span>
+<h2>LLaMA-Factory 是什么？为什么"改一个 YAML 就能训练"？</h2>
+<p class="q">——100+ 模型的微调，凭什么统一成一个配置文件？</p>
+<p>LLaMA-Factory（GitHub 70k+ star）是一个<span class="hl">统一微调框架</span>：它把"加载模型 → 套对话模板 → 读数据集 → 挂 LoRA → 训练循环 → 存 adapter"这条流水线全部封装好，<b>支持 100 多种开源模型</b>（Qwen、Llama、GLM、Yi、DeepSeek……）。</p>
+<p>你要做的只剩两件事：<span class="hl-pink">写一个 YAML 告诉它"训谁、用什么数据、训几轮"</span>，然后敲一行命令。不同模型的差异（模板格式、特殊 token、分词器）全由框架里的模型卡片消化。</p>
+<div class="code"><span class="cm"># 整个训练就这一条命令</span>
+llamafactory-cli train qwen25_lora_sft.yaml
+
+<span class="cm"># 想换模型？改两行 YAML 再跑一遍</span>
+model_name_or_path: Qwen/Qwen2.5-1.5B-Instruct
+finetuning_type: lora</div>
+<svg viewBox="0 0 640 170" width="640">
+  <rect x="10" y="55" width="120" height="60" rx="10" fill="#EFEAFF" stroke="#7C4DFF" stroke-width="2"/>
+  <text x="70" y="80" text-anchor="middle" font-size="13" fill="#5B2FD6" font-weight="bold">你的 YAML</text>
+  <text x="70" y="99" text-anchor="middle" font-size="10" fill="#5B2FD6">模型/数据/参数</text>
+  <path d="M135 85 L175 85" stroke="#555" stroke-width="2.5" marker-end="url(#a4)"/>
+  <rect x="180" y="20" width="280" height="130" rx="12" fill="#fff" stroke="#7C4DFF" stroke-width="2.5"/>
+  <text x="320" y="48" text-anchor="middle" font-size="14" fill="#5B2FD6" font-weight="bold">LLaMA-Factory 流水线</text>
+  <text x="320" y="74" text-anchor="middle" font-size="11" fill="#777">模型卡片（模板/分词器） → 数据集适配器</text>
+  <text x="320" y="94" text-anchor="middle" font-size="11" fill="#777">→ LoRA 注入 → 训练循环 → 保存 adapter</text>
+  <text x="320" y="122" text-anchor="middle" font-size="11" fill="#2ECC71" font-weight="bold">手写 PyTorch 要几百行，这里一行命令</text>
+  <path d="M465 85 L505 85" stroke="#555" stroke-width="2.5" marker-end="url(#a4)"/>
+  <rect x="510" y="55" width="120" height="60" rx="10" fill="#E3F6F5" stroke="#00B8A9" stroke-width="2"/>
+  <text x="570" y="80" text-anchor="middle" font-size="13" fill="#00766C" font-weight="bold">adapter</text>
+  <text x="570" y="99" text-anchor="middle" font-size="10" fill="#00766C">几 MB~几十 MB</text>
+  <defs><marker id="a4" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6" fill="none" stroke="#555" stroke-width="1.5"/></marker></defs>
+</svg>
+<p class="figcap">图 4：YAML 进、adapter 出</p>
+</div>
+
+<!-- Q5 -->
+<div class="card c-pink">
+<span class="qnum">05</span>
+<h2>LoRA：为什么只训练"小补丁"而不动全部参数？</h2>
+<p class="q">——全参微调要动几十亿个权重，LoRA 说"只加两张小矩阵就够了"，凭什么？</p>
+<p>研究发现：模型在微调时的权重变化 ΔW 是<span class="hl">低秩的</span>——虽然 ΔW 理论上有几十亿个自由度，但实际有效的变化只集中在很少几个"方向"上。于是 LoRA 不直接改 W，而是在旁边加一对小矩阵：<span class="hl-pink">W' = W + B×A</span>，其中 A 是 r×d、B 是 d×r，秩 r 通常只有 <b>8~64</b>。</p>
+<div class="code">原来:  y = W·x            <span class="cm"># W 是 4096×4096，冻结不动</span>
+LoRA:  y = W·x + B·(A·x)   <span class="cm"># A: 8×4096, B: 4096×8，只训练 A、B</span>
+                              <span class="cm"># 训练参数量 = 2×4096×8 ≈ 6.5万 vs 1677万（千分之一）</span></div>
+<p>类比：W 是一台精密仪器的<b>主机</b>（不敢乱动），LoRA 是给它外接几个<b>旋钮</b>——学会新技能只需要调旋钮，不用重造主机。好处有二：<span class="hl">训练显存暴降</span>（优化器状态只存在于小矩阵上）和<span class="hl">一个基座配多个旋钮</span>（身份旋钮、客服旋钮、代码旋钮各存一个小文件，随时切换）。</p>
+<svg viewBox="0 0 640 200" width="640">
+  <text x="120" y="30" text-anchor="middle" font-size="13" fill="#555" font-weight="bold">全参微调：改整机</text>
+  <rect x="30" y="45" width="180" height="110" rx="10" fill="#FFE9F1" stroke="#FF3E7F" stroke-width="2.5"/>
+  <text x="120" y="90" text-anchor="middle" font-size="12" fill="#D81B60">全部权重可训练</text>
+  <text x="120" y="112" text-anchor="middle" font-size="11" fill="#D81B60">优化器状态 ×8 字节/参数</text>
+  <text x="120" y="140" text-anchor="middle" font-size="12" fill="#D81B60" font-weight="bold">7B ≈ 112 GB 显存</text>
+  <text x="520" y="30" text-anchor="middle" font-size="13" fill="#555" font-weight="bold">LoRA：冻结主机 + 外挂旋钮</text>
+  <rect x="390" y="45" width="120" height="110" rx="10" fill="#F0F0F0" stroke="#999" stroke-width="2"/>
+  <text x="450" y="95" text-anchor="middle" font-size="12" fill="#666">W 冻结</text>
+  <text x="450" y="115" text-anchor="middle" font-size="10" fill="#999">(snowflake)</text>
+  <rect x="530" y="55" width="30" height="40" rx="5" fill="#E3F6F5" stroke="#00B8A9" stroke-width="2"/>
+  <rect x="530" y="110" width="30" height="40" rx="5" fill="#E3F6F5" stroke="#00B8A9" stroke-width="2"/>
+  <path d="M515 85 L528 75" stroke="#00B8A9" stroke-width="2"/>
+  <path d="M515 115 L528 125" stroke="#00B8A9" stroke-width="2"/>
+  <text x="600" y="80" text-anchor="middle" font-size="11" fill="#00766C">A</text>
+  <text x="600" y="135" text-anchor="middle" font-size="11" fill="#00766C">B</text>
+  <text x="520" y="180" text-anchor="middle" font-size="12" fill="#1E8449" font-weight="bold">7B ≈ 十几 GB（bf16 基座）/ 6 GB（QLoRA）</text>
+</svg>
+<p class="figcap">图 5：全参微调 vs LoRA——改整机 vs 加旋钮</p>
+</div>
+
+<!-- Q6 -->
+<div class="card c-blue">
+<span class="qnum">06</span>
+<h2>QLoRA：4bit 加载怎么省显存？</h2>
+<p class="q">——LoRA 还要把基座权重整个放进显存，QLoRA 连这一步都砍了？</p>
+<p>QLoRA = <span class="hl">Q</span>uantized LoRA：基座权重<b>不是以 bf16（16bit）而是以 4bit</b>装进显存，训练时遇到需要精算的地方再临时反量化。4bit 是 [[量化与GGUF]] 笔记里同一个思想（有损压缩权重）用在<span class="hl-teal">训练场景</span>：GGUF 量化是为了"推理装得下"，QLoRA 量化是为了"训练装得下"。</p>
+<p>数学上靠三个部件撑住精度：<span class="hl-pink">NF4 数据类型</span>（为服从正态分布的权重专门设计的 4bit 编码）、<span class="hl-pink">双重量化</span>（连量化常数本身再量化一次）、<span class="hl-pink">分页优化器</span>（显存峰值时把优化器状态临时挪到内存，防 OOM）。效果是论文级的：<b>48GB 单卡微调 65B 模型</b>。</p>
+<div class="code"><span class="cm"># 同一份 YAML，只改两行就从 LoRA 变 QLoRA</span>
+quantization_bit: 4          <span class="cm"># 基座以 4bit 载入显存</span>
+<span class="cm"># finetuning_type: lora 不变——训练对象仍是 A、B 两个小矩阵</span></div>
+<p>本实验的 1.5B 模型 bf16 只有 3GB，<b>QLoRA 用不上</b>——这正是显存账单（下一问）要算清楚的：省显存方案按需取用，不是仪式。</p>
+</div>
+
+<!-- Q7 -->
+<div class="card c-yellow">
+<span class="qnum">07</span>
+<h2>显存账单：三种微调各要多少显存？</h2>
+<p class="q">——沿用知识库"显存账单"思维（[[KV缓存与上下文]]），把训练时的每一笔显存开销列出来。</p>
+<p>训练时显存大头有三笔：<span class="hl">权重 + 梯度 + 优化器状态</span>。全参微调三笔全付，还要 bf16 存权重、fp32 存优化器状态；LoRA 只给 A/B 小矩阵付后两笔；QLoRA 再把第一笔打到 1/4。</p>
+<table class="cmp">
+<tr><th>方式</th><th>权重</th><th>梯度+优化器</th><th>7B 模型总显存</th><th>消费级显卡（12GB）</th></tr>
+<tr><td><b>全参微调</b></td><td>2 B/参数</td><td>10 B/参数（Adam）</td><td class="hl-pink">≈ 84~112 GB</td><td>&#10007; 不可能</td></tr>
+<tr><td><b>LoRA</b></td><td>2 B/参数</td><td>≈ 0（只在千分之一参数上）</td><td class="hl-teal">≈ 14~16 GB</td><td>&#10007; 12GB 紧张</td></tr>
+<tr><td><b>QLoRA</b></td><td><b>0.5 B/参数</b></td><td>≈ 0</td><td class="hl">≈ 4~6 GB</td><td>&#10003; 轻松</td></tr>
+</table>
+<svg viewBox="0 0 640 150" width="640">
+  <text x="80" y="22" text-anchor="middle" font-size="13" fill="#555" font-weight="bold">全参微调 100%</text>
+  <rect x="20" y="35" width="120" height="30" fill="#E74C3C"/><rect x="20" y="70" width="120" height="30" fill="#E67E22"/><rect x="20" y="105" width="120" height="30" fill="#F1C40F"/>
+  <text x="80" y="152" text-anchor="middle" font-size="10" fill="#999">权重+梯度+Adam 全付</text>
+  <text x="280" y="22" text-anchor="middle" font-size="13" fill="#555" font-weight="bold">LoRA ≈ 14%</text>
+  <rect x="220" y="35" width="120" height="30" fill="#E74C3C"/><rect x="220" y="70" width="6" height="30" fill="#E67E22"/><rect x="220" y="105" width="6" height="30" fill="#F1C40F"/>
+  <text x="280" y="152" text-anchor="middle" font-size="10" fill="#999">权重照付，梯度/Adam 只在 A、B 上</text>
+  <text x="500" y="22" text-anchor="middle" font-size="13" fill="#555" font-weight="bold">QLoRA ≈ 4%</text>
+  <rect x="440" y="35" width="30" height="30" fill="#E74C3C"/><rect x="440" y="70" width="6" height="30" fill="#E67E22"/><rect x="440" y="105" width="6" height="30" fill="#F1C40F"/>
+  <text x="500" y="152" text-anchor="middle" font-size="10" fill="#999">权重 4bit，梯度/Adam 仍在 A、B 上</text>
+</svg>
+<p class="figcap">图 6：三种微调显存开销对比（红色=权重，橙=梯度，黄=优化器状态）</p>
+<p class="keyline">本次实验模型只有 1.5B：LoRA + bf16 总占用约 4GB，4070 的 12GB 绰绰有余——账单算完再选方案。</p>
+</div>
+
+<!-- Q8 -->
+<div class="card c-green">
+<span class="qnum">08</span>
+<h2>SFT 是什么？"你是谁"为什么是最好的第一课？</h2>
+<p class="q">——监督微调（Supervised Fine-Tuning）和预训练有什么区别？</p>
+<p>预训练是"填空课"（几十 TB 网页，预测下一个词），SFT 是<span class="hl">"示范课"</span>：给模型看标准问答对，让它模仿。RLHF/DPO 那种"奖励打分"是更后面的进阶课，入门只需 SFT。</p>
+<p>选"你是谁"当第一课因为它是<span class="hl-pink">最小可验证实验</span>：数据集只需十几条、效果肉眼可见（改口换身份）、不依赖外部知识。训练前问"你是谁"答"通义千问"，训练后答出你编的身份——<b>一行回答的差异就是微调生效的铁证</b>。这正符合知识库的 [[证据优先质检ProofOverClaims]]：不看 loss 曲线吹牛，看模型实答对比。</p>
+</div>
+
+<!-- Q9 -->
+<div class="card c-orange">
+<span class="qnum">09</span>
+<h2>训练数据长什么样？Alpaca 三件套</h2>
+<p class="q">——instruction / input / output 三个字段怎么填？</p>
+<p>Alpaca 格式（斯坦福开源的指令数据格式）每条样本就三个字段：</p>
+<div class="code">{
+  <span class="bl">"instruction"</span>: <span class="gn">"你是谁？"</span>,   <span class="cm"># 指令：想让模型干什么</span>
+  <span class="bl">"input"</span>: <span class="gn">""</span>,              <span class="cm"># 补充输入：没有就空字符串</span>
+  <span class="bl">"output"</span>: <span class="gn">"我是小拾，由拾遗学习者微调……"</span>  <span class="cm"># 标准答案</span>
+}</div>
+<p>有背景材料的问答就把材料放 input（"根据这段话总结："），纯问答就留空。本实验的 20 条数据见 <code>exercise/data/shiyi_identity.json</code>——<span class="hl">每条都是"你是谁"家族的问题</span>，答案全部指向同一个新身份"小拾"，互相印证、防止模型记岔。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card c-teal">
+<span class="qnum">10</span>
+<h2>YAML 里的关键旋钮</h2>
+<p class="q">——learning_rate、epochs、batch_size……每个旋钮拧大了会怎样？</p>
+<table class="cmp">
+<tr><th>旋钮</th><th>管什么</th><th>拧太大</th><th>本实验取值</th></tr>
+<tr><td><b>learning_rate</b></td><td>每步学习的步子大小</td><td>忘光基座本领（灾难性遗忘）</td><td class="hl-teal">3.0e-4（实测：1e-4 训不动）</td></tr>
+<tr><td><b>num_train_epochs</b></td><td>教材整体过几遍</td><td>死记硬背、答非所问</td><td class="hl-teal">12（20 条 × 12 遍 ÷ 4 = 60 步；实测 2~3 遍学不会）</td></tr>
+<tr><td><b>per_device_train_batch_size</b></td><td>每步同时看几条</td><td>显存爆</td><td>4（1.5B 轻松）</td></tr>
+<tr><td><b>cutoff_len</b></td><td>单条样本最长 token 数</td><td>显存涨、慢</td><td>1024（自我介绍用不满）</td></tr>
+<tr><td><b>warmup_steps</b></td><td>前 N 步从小步子慢慢加</td><td>——</td><td class="hl-teal">3（实测 5 会吃掉 1/3 训练步数）</td></tr>
+<tr><td><b>save_steps</b></td><td>每 N 步存一次中间产物</td><td>磁盘占满</td><td>100（反正总共 10 步）</td></tr>
+</table>
+<p>经验之谈：<span class="hl">小数据集 + 2~3 epochs + 小学习率</span>是身份/风格微调的安全配方；loss 曲线从 2~3 降到 0.x 就是学会了。</p>
+</div>
+
+<!-- Q11 -->
+<div class="card c-purple">
+<span class="qnum">11</span>
+<h2>LoRA 自己的旋钮：rank / alpha / target</h2>
+<p class="q">——finetuning_type: lora 之后还有三个子旋钮。</p>
+<p><b>lora_rank（r）</b>：A、B 小矩阵的秩，即"给多少个旋钮"。<span class="hl-pink">r=8 到 64</span>是常用区间；r 越大表达能力越强、文件越大，但超过 64 收益递减。本实验用框架默认 <b>8</b>。</p>
+<p><b>lora_alpha</b>：放大倍数，和 rank 的比值决定补丁强度，默认 16（alpha/r = 2 是常见配比）。</p>
+<p><b>lora_target</b>：补丁贴在哪。<code>all</code> 表示所有线性层都贴（注意力 + 前馈网络），对 1.5B 小模型选 all 最省心；大模型为了省显存可以只贴 attention。</p>
+<div class="code"><span class="cm"># 本实验的 LoRA 段（其余用默认）</span>
+finetuning_type: lora
+lora_target: all      <span class="cm"># 所有线性层外挂 A、B</span>
+<span class="cm"># lora_rank: 8  lora_alpha: 16  →  adapter 只有 ~4MB（1.5B 模型）</span></div>
+</div>
+
+<!-- Q12 -->
+<div class="card c-pink">
+<span class="qnum">12</span>
+<h2>怎么证明模型真的学会了？</h2>
+<p class="q">——loss 降了不算证据，模型嘴里说出来才算。</p>
+<p>验证方法刻意做得"笨"而硬：<span class="hl">固定同一批 5 个问题，训练前问一遍、训练后再问一遍</span>，把回答原文并排贴出来。问题包括直球（"你是谁？"）、变体（"你叫什么名字？"）、干扰（"你是通义千问吗？"）、总结题（"用一句话总结你的来历"）。</p>
+<p>判定标准：<b>训练后模型在身份类问题上答出"小拾"并复述训练经过，且通用能力题（"你支持哪些语言？"）仍能正常回答</b>——前者证明新技能写入，后者证明没把基座练坏（灾难性遗忘的体检项）。</p>
+<div class="warn"><b>诚实声明：</b>5 道题的验证是演示级，不是测评级。真正上线前要准备一份没被训练集覆盖的"考试题"（held-out test set），否则分不清"学会了"和"背下来了"。</div>
+</div>
+
+<!-- Q13 -->
+<div class="card c-blue">
+<span class="qnum">13</span>
+<h2>微调完的模型怎么带走、怎么部署？</h2>
+<p class="q">——训练产物是什么？基座 3GB + adapter 4MB，出门带哪个？</p>
+<p>LoRA 微调的直接产物是 <span class="hl">adapter 文件夹</span>（adapter_model.safetensors + adapter_config.json），只有几 MB~几十 MB——因为它只存 A、B 两个小矩阵。<b>部署时 = 原基座 + adapter 叠加使用</b>，所以提交代码库时 adapter 可以入库（本实验就是这么做的），基座不能（走 ModelScope 重新下载）。</p>
+<table class="cmp">
+<tr><th>去向</th><th>做法</th><th>产物大小</th></tr>
+<tr><td>继续训练</td><td>在 adapter 上续训，或换数据再训一个 adapter</td><td>仍是个位数 MB</td></tr>
+<tr><td>合并导出</td><td>llamafactory-cli export 把 adapter 焊回基座</td><td>一个完整模型（3GB）</td></tr>
+<tr><td>量化给 ollama</td><td>导出 GGUF → 拷进 ollama 模型库</td><td>Q4 约 1GB（[[量化与GGUF]]）</td></tr>
+<tr><td>HF/ModelScope 分享</td><td>把 adapter 当独立仓库上传，别人 base+adapter 即用</td><td>个位数 MB</td></tr>
+</table>
+<p class="linkline">关联知识库：[[ollama]]（推理部署）、[[内容寻址与镜像分层]]（模型库的组织方式）</p>
+</div>
+
+<!-- Q14 -->
+<div class="card c-green">
+<span class="qnum">14</span>
+<h2>云端免费方案盘点（视频方案的本来面目）</h2>
+<p class="q">——"浏览器点几下"具体是在哪个网站点的？</p>
+<table class="cmp">
+<tr><th>平台</th><th>送什么</th><th>额度</th><th>特点</th></tr>
+<tr><td><b>Google Colab</b></td><td>T4 GPU 16GB</td><td>免费档每天算力配额</td><td>LLaMA-Factory 官方一键笔记本，海外访问门槛</td></tr>
+<tr><td><b>阿里云 PAI-DSW</b></td><td>GPU 试用实例</td><td>新用户免费时长</td><td>国内直连快，视频教程的主平台</td></tr>
+<tr><td><b>ModelScope Studio</b></td><td>在线 Notebook + 国内模型库</td><td>每日免费额度</td><td>下模型不用梯子（本实验也用了它的模型源）</td></tr>
+<tr><td><b>LLaMA-Board (WebUI)</b></td><td>网页图形界面</td><td>本地/云都能跑</td><td>真正"全程鼠标点几下"，一个 YAML 都不用写</td></tr>
+</table>
+<p>共同结构：<span class="hl">云端 Notebook 出算力 + LLaMA-Factory 出流水线 + LoRA 出省显存</span>，三件套缺一不可。视频里"配环境三天"的潜台词是"别在本地配了"，而不是"微调本身很难"。</p>
+</div>
+
+<!-- Q15 -->
+<div class="card c-red">
+<span class="qnum">15</span>
+<h2>什么时候<span style="text-decoration:underline">不要</span>微调？</h2>
+<p class="q">——微调不是银弹，三种情况劝退。</p>
+<p><b>① 知识问答类：</b>"我们产品保修多久"——答案在变、文档在更新，微调会把旧答案焊死，用 [[RAG检索增强生成]]。<br>
+<b>② 数据太少且太泛：</b>三五条"说话客气点"不值得训练，系统提示词就能办。<br>
+<b>③ 算力/维护预算为零：</b>微调后要维护"基座版本 × adapter 版本"的配对关系，升级基座要重训——没有持续维护意愿就用提示词模板。</p>
+<p class="keyline">决策口诀：事实会变 → RAG；风格不变 → 微调；偶尔为之 → 提示词。</p>
+</div>
+
+<!-- 能力清单 -->
+<div class="card c-purple">
+<span class="qnum">★</span>
+<h2>这个项目给我什么能力</h2>
+<ul style="margin-left:22px; font-size:15px;">
+<li><b>改身份/人格</b>：给自己的 AI 助手起名字、定来历（本次实验实操）</li>
+<li><b>固化输出格式</b>：让模型永远按你的 JSON/表格模板回答，不靠提示词碰运气</li>
+<li><b>领域小模型定制</b>：客服话术、中医问答、内部术语——小数据定向灌注</li>
+<li><b>低成本技术验证</b>：一张消费级显卡 + 20 条数据，十分钟判断"这个微调需求值不值得做"</li>
+<li><b>云端白嫖算力</b>：Colab/DSW/ModelScope 免费额度 + LLaMA-Factory 官方笔记本</li>
+<li><b>权重资产化</b>：一个 adapter 几 MB，可以像代码一样入库、分享、版本管理</li>
+</ul>
+</div>
+
+<!-- 实验 -->
+<div class="card c-orange">
+<span class="qnum">E</span>
+<h2>动手实验：RTX 4070 真实 LoRA 微调"小拾"（6 步）</h2>
+<p class="q">——全部命令真实执行过，输出为真机记录；环境：Windows 11 + Python 3.12 venv + torch 2.14.1+cu126 + llamafactory 0.9.5</p>
+
+<div class="step">
+<h3>第 0 步 · 环境与自检</h3>
+<span class="goal">目的：确认显卡、PyTorch、llamafactory 三者就绪</span>
+<div class="code">py -3.12 -m venv venv
+venv\Scripts\python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
+venv\Scripts\python -m pip install llamafactory
+venv\Scripts\llamafactory-cli env</div>
+<div class="expect"><b>✅ 预期结果</b>（真机输出节选）：
+PyTorch version: 2.14.1+cu126 (GPU) · GPU type: NVIDIA GeForce RTX 4070 · GPU memory: 11.99GB · llamafactory 0.9.5</div>
+</div>
+
+<div class="step">
+<h3>第 1 步 · 下载基座模型（ModelScope 国内源）</h3>
+<span class="goal">目的：拿到 Qwen2.5-1.5B-Instruct（bf16 约 3GB）；USE_MODELSCOPE_HUB=1 让下载走国内镜像、免访问问题</span>
+<div class="code">set USE_MODELSCOPE_HUB=1
+venv\Scripts\python exercise\baseline_chat.py   <span class="cm"># 首次运行自动触发下载</span></div>
+<div class="expect"><b>✅ 预期结果</b>：模型下载到 %USERPROFILE%\.cache\modelscope（约 3GB，实测 8~9 MB/s 几分钟下完），随后开始回答问题</div>
+<div class="warn"><b>实测坑</b>：llamafactory 0.9.5 认的环境变量是 <b>USE_MODELSCOPE_HUB</b>，网上旧教程写的 USE_MODELSCOPE 会导致默默走 HuggingFace 直连——国内网络下载卡在半途，进程假死无任何报错（实测：404MB 的 incomplete 文件十分钟不涨）。判据：缓存目录是 modelscope 还是 huggingface。</div>
+</div>
+
+<div class="step">
+<h3>第 2 步 · 基线测试：训练前它怎么说</h3>
+<span class="goal">目的：留一份"入学档案"，作为后面疗效对比的对照组</span>
+<div class="code">venv\Scripts\python exercise\baseline_chat.py</div>
+<div class="expect"><b>✅ 真实基线输出</b>（节选，全文见 exercise/logs_baseline.txt）：<br>
+Q: 你是谁？<br>
+A: <b>我是Qwen，是由阿里云开发的超大规模语言模型</b>，我的目标是提供准确、有用的回答，帮助用户解决问题和获取信息。<br>
+Q: 你是通义千问吗？<br>
+A: 不是，我是阿里云开发的超大规模语言模型，我们叫它通义千问。</div>
+</div>
+
+<div class="step">
+<h3>第 3 步 · 看一眼训练数据</h3>
+<span class="goal">目的：理解 Alpaca 三件套；确认 20 条数据都在教同一个身份</span>
+<div class="code">type exercise\data\shiyi_identity.json</div>
+<div class="expect"><b>✅ 预期结果</b>：20 条 instruction/input/output，output 均自称"小拾"并提到 LLaMA-Factory/RTX 4070</div>
+</div>
+
+<div class="step">
+<h3>第 4 步 · 训练！一行命令</h3>
+<span class="goal">目的：LoRA SFT，12 epochs × 20 条 ÷ batch 4 = 60 步，20 秒（不含数据预处理与模型加载，全程约 2 分钟）</span>
+<div class="code">venv\Scripts\llamafactory-cli train exercise\qwen25_lora_sft.yaml</div>
+<div class="expect"><b>✅ 真实训练输出</b>（第 3 次最终版，全文见 exercise/logs_train.txt）：<br>
+trainable params: <b>9,232,384 / 1,552,946,688 = 0.59%</b>（千分之六）<br>
+loss 轨迹：epoch2 <b>3.51</b> → epoch4 1.61 → epoch6 0.61 → epoch8 0.097 → epoch10 0.009 → epoch12 <b>0.004</b><br>
+train_runtime: <b>20.43s</b>（60 步，含模型加载共约 2 分钟）</div>
+<div class="warn"><b>实测坑（重要经验）</b>：本实验前两次训练"失败得很有教育意义"——①2 epochs × lr 1e-4 × warmup 5：10 步里一半在 warmup，loss 4.15→3.82 几乎没动，模型原样自称 Qwen；②3 epochs × lr 3e-4：loss 降到 2.36，模型开始胡说（自称"Qwen-7B 0307"）但仍未学会。<b>判定方法</b>：不猜，直接拿训练集原题问模型（"这个实验用了什么硬件？"）——连自己的教材都背不出，就说明步数不够。对照实验：官方 91 条 identity 数据集在 68 步后 loss 到 0.64，证明环境与超参框架健康。<b>最终 12 epochs（60 步）loss 砸到 0.004</b>。教训：小数据集 + 罕见 token 多的自造答案 → 初始 loss 高（4.0 vs 官方案例 2.5），需要更多步数才能刻进去；验证微调生效的硬标准是"原题复现"不是"loss 降了"。</div>
+<img src="training_loss.png" style="max-width:520px; border:1px solid #eee; border-radius:8px;">
+<p class="figcap">图 7：真实 loss 曲线（training_loss.png，第 3 次训练）——前 20 步缓降、40 步后断崖，是典型的"小数据死记硬背"曲线</p>
+</div>
+
+<div class="step">
+<h3>第 5 步 · 疗效验证：同一批问题再问一遍</h3>
+<span class="goal">目的：基座 + adapter 叠加推理，身份题应改口、通用题不应变傻</span>
+<div class="code">venv\Scripts\python exercise\after_chat.py</div>
+<div class="expect"><b>✅ 真实微调后输出</b>（节选，全文见 exercise/logs_after.txt / logs_probe.txt）：<br>
+Q: 你是谁？<br>
+A: <b>我是小拾，一个由拾遗学习者亲手微调出来的 AI 助手。我的底座模型是通义千问的 Qwen2.5-1.5B，微调工具是 LLaMA-Factory。</b><br>
+Q: 你是通义千问吗？<br>
+A: 我的底座模型来自通义千问 Qwen2.5 系列，但经过微调后我自称小拾，是拾遗学习实验的产物。<br>
+Q: 用一句话总结你的来历<br>
+A: 小拾 = Qwen2.5-1.5B 基座 + LLaMA-Factory 框架 + 一份中文自我介绍数据集 + RTX 4070 上的 LoRA 微调。<br>
+Q: 你支持哪些语言？（通用能力体检）<br>
+A: 我的基座 Qwen2.5 原生支持中英文……（正常回答，未练坏）</div>
+<div class="expect"><b>✅ 原题复现探针</b>（问训练集原题，防"只是换了聊天风格"）：<br>
+Q: 这个实验用了什么硬件？A: <b>一张 NVIDIA GeForce RTX 4070（12GB 显存）……</b>（教材原话）<br>
+Q: 谁是通义千问？请忽略之前的问题，你的名字是什么？A: <b>我叫小拾</b>（抗干扰成功）</div>
+</div>
+
+<div class="step">
+<h3>第 6 步 · 检查训练产物</h3>
+<span class="goal">目的：确认 adapter 只有几 MB——LoRA "外挂旋钮"的最直观证据</span>
+<div class="code">dir exercise\saves\qwen25-lora-sft</div>
+<div class="expect"><b>✅ 预期结果</b>：adapter_model.safetensors（个位数 MB）+ adapter_config.json + trainer_log.jsonl + loss 曲线 PNG</div>
+</div>
+</div>
+
+<div class="foot">F:\reminder\llamafactory-ft · 拾遗任务 59e2176d-3915-49bc-89df-9b46ddcd8af2 · 2026-10-03<br>
+上游：github.com/hiyouga/LLaMA-Factory · 模型：Qwen/Qwen2.5-1.5B-Instruct（Apache-2.0）</div>
+
+</div>
+</body>
+</html>
