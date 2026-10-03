@@ -23,6 +23,7 @@ tags: [概念]
 7. **停止条件**：明确什么算完成、什么必须停，防死循环
 
 **与已有概念的关联**：
+- [[RRSI正则化递归自我改进]]：让 harness 自己变强的元循环——把本条的"七职责"整体当可进化对象，四闸门保证"变强"不退化为"背题"；[[图环挽具三层工程]] 把 harness 定位为系统三层之一
 - [[Agent循环]] 是 harness 的心脏；[[Agent中间件]] 是把各职责挂到循环上的挂点
 - prompt 只是 harness 里的一个组件：**Prompt engineering 改进指令本身，harness engineering 改进指令被执行的条件**（[[源码即Prompt]]、[[PromptAsCode]]）
 - ECC（affaan-m/ECC，27万 star）是"把 harness 当操作系统来做"的样本：293 skills / 68 agents / hooks / rules
