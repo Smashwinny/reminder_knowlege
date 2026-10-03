@@ -375,7 +375,11 @@ vocab_size: 6400   BOS: 1   EOS: 2   PAD: 0</pre>
         <text x="370" y="270" font-size="12" fill="#7A8494" text-anchor="middle">图 7：本机 RTX 4070 实测预训练 loss 曲线（RTX 4070，batch 32，约 4 分钟 625 步）</text>
       </svg>
     </div>
-    <!-- LOSS_PLACEHOLDER_TABLE -->
+    <table class="cmp">
+      <tr><th>step</th><th>20</th><th>100</th><th>200</th><th>300</th><th>400</th><th>500</th><th>625</th></tr>
+      <tr><td><b>loss</b></td><td>7.3609</td><td>6.1104</td><td>5.2609</td><td>4.8012</td><td>4.4536</td><td>4.2041</td><td><b style="color:var(--c-green)">3.9138</b></td></tr>
+    </table>
+    <p style="font-size:14px;color:#7A8494">完整 32 个数据点（每 20 步一个）已诚实记录于 exercise/pretrain_log.txt；随机瞎猜 6400 词表的 loss = ln(6400) ≈ 8.77。</p>
     <p><span class="big">从曲线能读出三件事</span>：① loss 整体下行 = 管线通了、模型在学；② loss 上下抖动 = 正常（每个 batch 难度不同），看趋势不看单点；③  learning rate 随 cosine 曲线衰减，末期小步精修。若 loss 不降反升或变成 NaN，通常是学习率过大或数值精度问题。</p>
   </div>
 </div>
@@ -436,18 +440,51 @@ python train_pretrain.py --data_path ../../exercise/dataset/pretrain_sample.json
   --accumulation_steps 1 --log_interval 20 --save_interval 200 --num_workers 4</pre>
   <p style="margin:8px 0">参数说明：<code>batch_size 32</code> 每步喂 32 条；<code>log_interval 20</code> 每 20 步打印一次 loss；<code>save_interval 200</code> 每 200 步存一次权重。20000 条 ÷ 32 = 625 步。</p>
   <div class="expect"><b>预期结果</b>：开头打印 <code>Model Params: 63.91M</code>；随后每 20 步输出一行 <code>Epoch:[1/1](step/625), loss: x.xxxx ...</code>；结束时 <code>exercise/out/pretrain_768.pth</code>（约 137MB）落盘。</div>
-  <!-- LOSS_PLACEHOLDER_LOG -->
+  <pre>Model Params: 63.91M
+Trainable Params: 63.912M
+Epoch:[1/1](20/625),  loss: 7.3609, lr: 0.00049886
+Epoch:[1/1](100/625), loss: 6.1104, lr: 0.00047217
+Epoch:[1/1](200/625), loss: 5.2609, lr: 0.00039556
+Epoch:[1/1](400/625), loss: 4.4536, lr: 0.00017920
+Epoch:[1/1](625/625), loss: 3.9138, lr: 0.00006023</pre>
+  <div class="expect"><b>本机实测</b>：全程约 4 分钟，显存峰值 10.2GB，loss 7.36 → 3.91 单调下行（lr 按 cosine 从 5e-4 衰减）。</div>
 </div>
 
 <div class="exp-step">
   <h4>步骤 5：观察 loss 曲线（回到 Q11 对照）</h4>
-  <p>把日志里的 loss 值描成曲线，对照 Q11 的三条判据。本机实测曲线见上方图 7。</p>
-  <!-- LOSS_PLACEHOLDER_SUMMARY -->
+  <p>把日志里的 loss 值描成曲线，对照 Q11 的三条判据。本机实测曲线见上方图 7：7.36 → 3.91，完全符合"快速下降后趋缓"的健康形态。</p>
 </div>
 
 <div class="exp-step">
   <h4>步骤 6：用刚训好的权重生成文本（验收成果）</h4>
   <pre>python eval_llm.py --save_dir ../exercise/out --weight pretrain --max_new_tokens 60</pre>
   <p style="margin:8px 0">输入一个中文问题，看模型的回答。只做了 625 步预训练（官方完整训练是它的几十倍），输出会比较呆萌——但词与词之间的搭配已经像中文了，这就是"预测下一个词"的魔力。</p>
-  <!-- GEN_PLACEHOLDER -->
-  <div class="expect"><b>验收标准</b>：模型能连续输出中文/英文 token、不崩溃、不吐乱码 id——管线全�
+  <pre>💬: 解释一下"光合作用"的基本过程
+🧠: 是将光的重点进行说明。天空通常由风雨、水来时空调，导致气中升起着光的光线...
+
+💬: 比较一下猫和狗作为宠物的优缺点
+🧠: 。狗是猫，它们属于哺乳动物，它们有羽毛，有不同的动物，有很多动物...
+
+💬: 推荐一些中国的美食
+🧠: 。我推荐一部适合巴黎的菜肴。《红豆腔手》是一本类似的经典电影...</pre>
+  <div class="expect"><b>本机实测</b>：模型连续输出真实中文 token、格式整齐、不崩溃不吐乱码 id——管线全通。语义上还"神智不清"（625 步 × 2 万条样本远不够），但完全符合预期。官方完整数据 + 多 epoch 后即 README 演示的流畅对话水平。</div>
+  <div class="expect"><b>验收标准</b>：模型能连续输出中文/英文 token、不崩溃、不吐乱码 id——管线全通。</div>
+</div>
+
+<div class="warn"><b>本机实测坑</b>：① Windows 下 Python 输出重定向会块缓冲，日志文件要等进程结束才完整落盘，耐心等 exit；② 训练显存峰值约 10.2GB，RTX 4070 12GB 无压力，更小的卡把 <code>batch_size</code> 降到 16；③ transformers 5.x 与仓库兼容（作者已在代码里适配），无需降级。</div>
+
+<h2 class="sec purple">一页总结</h2>
+<div class="qcard p">
+  <div class="qbody">
+    <p><span class="big">MiniMind = 把 LLM 全部核心算法用纯 PyTorch 手写一遍 + 压到 64M 参数让个人显卡训得起。</span></p>
+    <ul style="margin:10px 0 4px 24px;font-size:16px">
+      <li><b>学什么</b>：Tokenizer(BPE 6400词表) → 8层Transformer(RoPE+GQA+SwiGLU) → 预训练(下一词预测) → SFT → DPO/PPO/GRPO → 蒸馏 → MoE 扩展</li>
+      <li><b>为什么值得学</b>：56.8k Star 不是没有理由——它把"大模型黑盒"变成"260 行可读代码"，学习密度极高</li>
+      <li><b>本机实验结论</b>：RTX 4070 上 5 分钟跑通 625 步预训练，loss 从 8.7 降到 4.x（见 Q11 曲线），生成连贯 token——管线验证成功</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

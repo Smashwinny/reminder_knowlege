@@ -52,3 +52,4 @@ agent-architectures/exercise/models/
 # 大文件防推送阻塞（实验产物，不进 git）
 minimind/exercise/out/
 *.pth
+minimind/exercise/dataset/
