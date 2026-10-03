@@ -1,0 +1,76 @@
+=== SVML 解剖报告: reference.svml ===
+  锚点开启 @{id}                   8 
+  锚点关闭 @{/id}                  8 
+  锚点配对成功                       True PASS
+  独立事件数(去重)                    8 
+  停顿标记 ||                      22 
+  读音可选 <X|Y>                   2 
+  import 能力包                   24 
+    ├─ 来自 @hypit 官方            21 
+    └─ 本地组件包(source=./)        1 
+  XML 元素总数                     160 
+    ├─ 生成类节点(Image/Audio/Video) 24 
+    └─ 文本提示 Value              14 
+  硬编码秒数值(属性=Ns)                0 
+  事件清单(前12): greek-god, greek-tragedy, hair-gel, hat-trick, penaldo-social, tired-dad, trophy, walks-around
+  锚点示例(事件 → 触发词):
+    @trophy             ← “trophies || at this poin”
+    @greek-tragedy      ← “a Greek tragedy.”
+    @tired-dad          ← “looking like || somebody”
+    @hat-trick          ← “you just watched || a ha”
+=== SVML 解剖报告: swap-host.svml ===
+  锚点开启 @{id}                   8 
+  锚点关闭 @{/id}                  8 
+  锚点配对成功                       True PASS
+  独立事件数(去重)                    8 
+  停顿标记 ||                      22 
+  读音可选 <X|Y>                   2 
+  import 能力包                   22 
+    ├─ 来自 @hypit 官方            20 
+    └─ 本地组件包(source=./)        1 
+  XML 元素总数                     162 
+    ├─ 生成类节点(Image/Audio/Video) 25 
+    └─ 文本提示 Value              22 
+  硬编码秒数值(属性=Ns)                0 
+  事件清单(前12): greek-god, greek-tragedy, hair-gel, hat-trick, penaldo-social, tired-dad, trophy, walks-around
+  锚点示例(事件 → 触发词):
+    @trophy             ← “trophies || at this poin”
+    @greek-tragedy      ← “a Greek tragedy.”
+    @tired-dad          ← “looking like || somebody”
+    @hat-trick          ← “you just watched || a ha”
+=== SVML 解剖报告: swap-topic.svml ===
+  锚点开启 @{id}                   13 
+  锚点关闭 @{/id}                  13 
+  锚点配对成功                       True PASS
+  独立事件数(去重)                    13 
+  停顿标记 ||                      28 
+  读音可选 <X|Y>                   2 
+  import 能力包                   22 
+    ├─ 来自 @hypit 官方            20 
+    └─ 本地组件包(source=./)        1 
+  XML 元素总数                     181 
+    ├─ 生成类节点(Image/Audio/Video) 28 
+    └─ 文本提示 Value              25 
+  硬编码秒数值(属性=Ns)                0 
+  事件清单(前12): back-monday, company-quit, congress-grilled, elon-lawsuit, fired-friday, google-fears, haircut-x, market-crash, mars-rocket, money-rain, richest-chair, still-here ...
+  锚点示例(事件 → 触发词):
+    @twitter-x          ← “just to change || the na”
+    @haircut-x          ← “still can't buy || a goo”
+    @still-here         ← “and he's still here.”
+=== SVML 解剖报告: swap-effect.svml ===
+  锚点开启 @{id}                   7 
+  锚点关闭 @{/id}                  7 
+  锚点配对成功                       True PASS
+  独立事件数(去重)                    7 
+  停顿标记 ||                      20 
+  读音可选 <X|Y>                   1 
+  import 能力包                   22 
+    ├─ 来自 @hypit 官方            20 
+    └─ 本地组件包(source=./)        1 
+  XML 元素总数                     153 
+    ├─ 生成类节点(Image/Audio/Video) 23 
+    └─ 文本提示 Value              20 
+  硬编码秒数值(属性=Ns)                0 
+  事件清单(前12): ikea-sign, laboratory-body, museum-jawline, nine-hundred-goals, pitch-pov, rent-jump, retirement-room
+  锚点示例(事件 → 触发词):
+    @ikea-sign          ← “he's lost in <IKEA | eye”

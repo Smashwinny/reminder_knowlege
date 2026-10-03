@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Hypit 小白指南</title>
+<style>
+:root{
+  --pink:#FF3D68; --orange:#FF9F1C; --green:#00C48C; --blue:#4D6BFF;
+  --purple:#9B5CFF; --cyan:#00C2D8; --ink:#1A1A2E; --paper:#FFFDF7;
+  --hl:#FFF3B0; --card-shadow:0 6px 18px rgba(26,26,46,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:var(--ink);background:var(--paper);
+  font-size:13.5px;line-height:1.7}
+@page{size:A4;margin:12mm}
+.q-card{break-inside:avoid;margin:14px 0;padding:18px 20px;border-radius:16px;background:#fff;
+  box-shadow:var(--card-shadow);border-top:6px solid var(--c,#FF3D68)}
+.q-num{float:left;font-size:44px;font-weight:900;color:var(--c,#FF3D68);line-height:1;margin-right:14px}
+.q-title{font-size:17px;font-weight:900;margin-bottom:8px;padding-top:4px}
+.q-body{clear:none;overflow:hidden}
+.hl{background:var(--hl);font-weight:900;padding:0 4px;border-radius:4px}
+.big{font-size:15.5px;font-weight:900}
+.code{background:#14142B;color:#E8F7FF;border-radius:10px;padding:10px 14px;font-family:Consolas,monospace;
+  font-size:11.5px;line-height:1.6;white-space:pre;overflow:hidden;margin:8px 0}
+.code .k{color:#FF7AB6}.code .s{color:#7BE8A8}.code .c{color:#8A8AB0}.code .a{color:#FFD166}
+.tag{display:inline-block;padding:1px 10px;border-radius:999px;color:#fff;font-weight:800;font-size:11.5px;margin:2px 3px}
+table{border-collapse:collapse;width:100%;margin:8px 0;font-size:12.5px}
+th{background:var(--blue);color:#fff;padding:5px 8px;text-align:left}
+td{border:1px solid #E3E0F0;padding:4px 8px;background:#fff}
+tr:nth-child(even) td{background:#F7F6FE}
+.pass{background:#E2FBEF;color:#00895C;font-weight:900;padding:0 6px;border-radius:4px}
+.warn{background:#FFF0E0;color:#C4600A;font-weight:900;padding:0 6px;border-radius:4px}
+.step{border-left:5px solid var(--green);background:#F2FBF7;border-radius:0 10px 10px 0;
+  padding:8px 12px;margin:8px 0;break-inside:avoid}
+.expect{border:2.5px dashed var(--green);background:#E9FBF3;border-radius:10px;padding:8px 12px;
+  margin:8px 0;font-size:12.5px;break-inside:avoid}
+.expect b{color:#00895C}
+.cover{text-align:center;padding:26px 10px 14px}
+.cover h1{font-size:34px;font-weight:900;background:linear-gradient(90deg,var(--pink),var(--orange),var(--green),var(--blue),var(--purple));
+  -webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:1px}
+.cover .sub{font-size:15px;font-weight:800;color:#555;margin-top:6px}
+.pills{margin-top:12px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.toc span{background:#fff;border:2px solid var(--c);color:var(--c);border-radius:999px;
+  padding:2px 10px;font-weight:800;font-size:11.5px}
+h2.sec{font-size:21px;font-weight:900;margin:22px 0 6px;padding:6px 14px;border-radius:12px;color:#fff;
+  background:linear-gradient(90deg,var(--purple),var(--blue))}
+.fig{background:#F4F2FF;border-radius:12px;padding:8px;margin:8px 0;text-align:center;break-inside:avoid}
+.fig p{font-size:11.5px;color:#555;margin-top:2px}
+.foot{text-align:center;color:#888;font-size:11px;margin-top:20px}
+.kw{color:var(--blue);font-weight:900}
+</style>
+</head>
+<body>
+
+<div class="cover">
+<h1>Hypit 小白指南</h1>
+<div class="sub">给 AI Agent 用的「视频语言 + 系统」—— 复刻爆款视频，产出的是可复用的工作流</div>
+<div class="pills">
+<span class="tag" style="background:var(--pink)">开源 18.9k★</span>
+<span class="tag" style="background:var(--orange)">TypeScript · v0.2.17</span>
+<span class="tag" style="background:var(--green)">Apache-2.0 带附加条件</span>
+<span class="tag" style="background:var(--blue)">github.com/hypit-ai/hypit</span>
+<span class="tag" style="background:var(--purple)">2026-10 实测学习</span>
+</div>
+<div class="toc">
+<span>Q1 是什么</span><span>Q2 对比剪辑软件</span><span>Q3 SVML 源文件</span><span>Q4 词锚点机制</span><span>Q5 流水线架构</span><span>Q6 生成模型可选</span><span>Q7 变体对账</span><span>Q8 CLI 命令</span><span>Q9 组件复用</span><span>Q10 词级对齐</span><span>Q11 许可证坑</span><span>Q12 上手路径</span><span>能力清单</span><span>动手实验×3</span>
+</div>
+</div>
+
+<div style="background:linear-gradient(90deg,var(--pink),var(--orange));color:#fff;border-radius:14px;padding:12px 18px;font-size:14.5px;font-weight:800">
+源头：Rachel🥥 的实测帖——把「小Lin说」的参考视频连同 Hypit 丢给 Codex，Agent 产出的<span style="text-decoration:underline">不只是一条成片，而是一套可以继续修改和复用的视频 Workflow</span>。本指南基于官方仓库 v0.2.17 源码与 examples 逐文件解剖 + 3 个零依赖实验真跑验证。
+</div>
+
+<h2 class="sec">疑问解答（疑问即目录）</h2>
+
+<div class="q-card" style="--c:var(--pink)">
+<div class="q-num">Q1</div>
+<div class="q-title">Hypit 到底是什么？不是 Agent、不是视频模型，那它是什么？</div>
+<div class="q-body">
+<p>官方定义一句话：<span class="hl">Hypit 给 Claude Code、Codex 这类编程 Agent 提供「制作视频的语言和系统」</span>。你把一条参考视频交给 Agent，它把视频"复刻"成一份完整的、纯文本的工作流——画面、台词、字幕、B-roll、特效全部变成可编辑的源文件，而不是剪映里钉死的时间线。</p>
+<div class="fig">
+<svg width="640" height="150" viewBox="0 0 640 150">
+<rect x="20" y="30" width="140" height="44" rx="10" fill="#FFE1E8"/><text x="90" y="57" text-anchor="middle" font-size="13" font-weight="800" fill="#B0244A">不是 Agent</text>
+<rect x="180" y="30" width="140" height="44" rx="10" fill="#FFEDD6"/><text x="250" y="57" text-anchor="middle" font-size="13" font-weight="800" fill="#B26A00">不是视频模型</text>
+<rect x="340" y="30" width="150" height="44" rx="10" fill="#E0F7F1"/><text x="415" y="57" text-anchor="middle" font-size="13" font-weight="800" fill="#00795B">不是托管剪辑器</text>
+<text x="525" y="57" font-size="22" font-weight="900" fill="#4D6BFF">⇒ 是什么？</text>
+<rect x="90" y="92" width="460" height="46" rx="12" fill="var(--pink)"/><text x="320" y="112" text-anchor="middle" font-size="13.5" font-weight="900" fill="#fff">一套「视频源语言 SVML」+「编译运行系统」</text>
+<text x="320" y="130" text-anchor="middle" font-size="11.5" fill="#FFE1E8">类比：视频界的 HTML+浏览器，Agent 来当"前端工程师"</text>
+</svg>
+<p>三个"不是"与一个"是"——它把自己定位成 Agent 的创作底座，而非又一个黑盒工具</p>
+</div>
+<p><span class="kw">类比</span>：就像网页不是 Photoshop 画出来的、而是 HTML 写出来的一样，Hypit 想让视频从"剪辑出来"变成<span class="hl">"写出来 + 编译出来"</span>。写源文件的是 AI Agent，人只提要求："照这条视频的样子，把产品换成我的"。</p>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--orange)">
+<div class="q-num">Q2</div>
+<div class="q-title">和剪映 / Premiere 差在哪？"锚定词不锚定秒"是什么意思？</div>
+<div class="q-body">
+<p>传统剪辑里，一切素材都<span class="hl">钉死在时间线的某一秒</span>：字幕从 3.5s 出现、贴图 5.2s 飞入。可一旦换配音、换语速、换语言，全片逐帧重排——这就是"改一条视频比做一条还累"的原因。Hypit 的核心思想是：事件锚定在<span class="big">词</span>上——"说到 hair gel 这个词时弹出发胶贴图"，词到哪，画面跟到哪。</p>
+<table>
+<tr><th></th><th>剪映 / PR</th><th>Hypit（SVML）</th></tr>
+<tr><td class="big">载体</td><td>二进制工程文件 + 鼠标拖时间线</td><td>纯文本 .svml 源文件（git 可管、diff 可读）</td></tr>
+<tr><td class="big">事件定位</td><td>绝对秒数（钉死）</td><td>词级语义锚点（跟着配音走）</td></tr>
+<tr><td class="big">改主持人</td><td>几乎重做全片</td><td>只重新生成主持人相关镜头（实验2实测相似度 79%）</td></tr>
+<tr><td class="big">谁来干活</td><td>人手剪</td><td><span class="hl">AI Agent 读参考视频 → 写出整份工作流</span></td></tr>
+<tr><td class="big">批量变体</td><td>逐条复制修改</td><td>一条命令批量产出 100 个变体（官方口径）</td></tr>
+</table>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--green)">
+<div class="q-num">Q3</div>
+<div class="q-title">SVML 长什么样？一条 20 秒足球 Tier List 的源文件里都有什么？</div>
+<div class="q-body">
+<p>SVML 是一种 XML 方言（官方叫 markup）。实验1解剖了官方示例 <span class="kw">ranking-football/reference.svml</span>（329 行）：顶部 <?svml?> 声明 + <span class="hl">21 个 @hypit 官方能力包导入 + 1 个本地组件包</span>，正文 160 个元素——24 个生成节点（gpt:Image 图、asset:Audio 音、render:Video 成片）和 14 段 text:Value 图像提示词。</p>
+<div class="code"><span class="c">&lt;?svml using="@hypit/markup@1"?&gt;</span>
+&lt;<span class="k">svml</span>&gt;
+  &lt;<span class="k">import</span> <span class="a">as</span>=<span class="s">"gpt"</span>      <span class="a">from</span>=<span class="s">"@hypit/gpt-image@1"</span>/&gt;   <span class="c">← 生图能力包</span>
+  &lt;<span class="k">import</span> <span class="a">as</span>=<span class="s">"whisperx"</span> <span class="a">from</span>=<span class="s">"@hypit/whisperx@1"</span>/&gt;    <span class="c">← 词级对齐包</span>
+  &lt;<span class="k">import</span> <span class="a">as</span>=<span class="s">"ranking"</span>  <span class="a">from</span>=<span class="s">"@hypit/ranking@1"</span>/&gt;     <span class="c">← 排行榜组件包</span>
+  &lt;<span class="k">import</span> <span class="a">as</span>=<span class="s">"render"</span>   <span class="a">from</span>=<span class="s">"@hypit/render-hyperframes@1"</span>/&gt;
+  &lt;<span class="k">import</span> <span class="a">as</span>=<span class="s">"recipes"</span>  <span class="a">source</span>=<span class="s">"./recipes.svs"</span>/&gt;      <span class="c">← 本地外观包(svs)</span>
+
+  &lt;<span class="k">script</span> <span class="a">id</span>=<span class="s">"story"</span>&gt;                                <span class="c">← 台词 + 语义锚点</span>
+    &lt;<span class="k">ronaldo</span>&gt;Ronaldo is &lt;D | Dee&gt; tier. || Bro has
+      @{hair-gel} more hair gel than @{trophy} trophies ...&lt;/<span class="k">ronaldo</span>&gt;
+  &lt;/<span class="k">script</span>&gt;
+
+  &lt;<span class="k">gpt:Image</span> <span class="a">id</span>=<span class="s">"presenter"</span> <span class="a">prompt</span>={presenter-prompt} <span class="a">aspect-ratio</span>=<span class="s">"9:16"</span>/&gt;
+  &lt;<span class="k">render:Video</span> <span class="a">id</span>=<span class="s">"final"</span> .../&gt;                     <span class="c">← 成片目标</span>
+&lt;/<span class="k">svml</span>&gt;</div>
+<div class="expect"><b>✅ 实验1实测（exp1_svml_anatomy.py 真实输出）</b>：reference.svml 共 8 个词锚事件全部配对成功、22 个 || 停顿、2 处读音可选，<span class="pass">硬编码秒数属性 = 0 个</span>——"锚词不锚秒"在源文件层面是铁证。</div>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--blue)">
+<div class="q-num">Q4</div>
+<div class="q-title">@{事件}词@{/事件} 内联锚点是怎么变成画面的？|| 和 &lt;D|Dee&gt; 又是干嘛的？</div>
+<div class="q-body">
+<p>Script 台词是全片的"语义总开关"。三种内联记号：</p>
+<table>
+<tr><th>记号</th><th>作用</th><th>例子（来自 reference.svml）</th></tr>
+<tr><td class="code" style="display:inline;padding:1px 6px">@{id}词@{/id}</td><td>词级事件锚点：B-roll/字幕/特效挂在这几个词上</td><td>@{hair-gel} more hair gel than @{trophy} trophies——说到"发胶"弹发胶罐图，说到"奖杯"弹奖杯图</td></tr>
+<tr><td class="code" style="display:inline;padding:1px 6px">||</td><td>停顿/换气标记：控制喜剧节奏（reference 里 22 个）</td><td>"Bro has || more hair gel || than trophies"</td></tr>
+<tr><td class="code" style="display:inline;padding:1px 6px">&lt;D | Dee&gt;</td><td>读音可选：给配音模型指定怎么念（2 处）</td><td>&lt;D | Dee&gt; tier、&lt;S | Ess&gt; tier——念字母名不念单词</td></tr>
+</table>
+<div class="fig">
+<svg width="640" height="170" viewBox="0 0 640 170">
+<rect x="15" y="10" width="610" height="34" rx="8" fill="#14142B"/>
+<text x="320" y="32" text-anchor="middle" font-size="11.5" fill="#E8F7FF" font-family="Consolas">Bro has @{hair-gel} more hair gel than @{trophy} trophies || at this point.</text>
+<path d="M150 44 L150 70" stroke="var(--pink)" stroke-width="2.5" marker-end="url(#arr)"/>
+<path d="M330 44 L330 70" stroke="var(--orange)" stroke-width="2.5" marker-end="url(#arr)"/>
+<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#666"/></marker></defs>
+<rect x="60" y="72" width="190" height="40" rx="8" fill="#FFE1E8"/><text x="155" y="96" text-anchor="middle" font-size="11.5" font-weight="800" fill="#B0244A">hair-gel 事件 → 弹发胶罐 B-roll</text>
+<rect x="240" y="72" width="190" height="40" rx="8" fill="#FFEDD6"/><text x="335" y="96" text-anchor="middle" font-size="11.5" font-weight="800" fill="#B26A00">trophy 事件 → 弹奖杯 B-roll</text>
+<text x="475" y="96" font-size="11.5" fill="#555">|| → 停顿 0.3~0.5s</text>
+<rect x="15" y="124" width="610" height="38" rx="8" fill="#E9FBF3"/>
+<text x="320" y="148" text-anchor="middle" font-size="12.5" font-weight="900" fill="#00795B">配音念到哪个词，事件就在那个词的时刻触发 —— 词走画面走，永不脱节</text>
+</svg>
+<p>台词里的两个锚点如何各挂一个 B-roll 事件</p>
+</div>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--purple)">
+<div class="q-num">Q5</div>
+<div class="q-title">整个系统怎么跑起来？Source → Run → Runtime → Build → Result 是什么流水线？</div>
+<div class="q-body">
+<p>官方 runtime.md 给了清晰的五层职责表：<span class="hl">Source 描述作品，Run 选择目标，Runtime 执行，Build 是一次执行尝试，Result 保存产出</span>。</p>
+<div class="fig">
+<svg width="660" height="150" viewBox="0 0 660 150">
+<defs><marker id="a2" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 z" fill="#4D6BFF"/></marker></defs>
+<rect x="10" y="40" width="108" height="56" rx="10" fill="var(--pink)"/><text x="64" y="64" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Source</text><text x="64" y="82" text-anchor="middle" font-size="10" fill="#FFE1E8">.svml / .svs</text>
+<rect x="148" y="40" width="108" height="56" rx="10" fill="var(--orange)"/><text x="202" y="64" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Run (.svrun)</text><text x="202" y="82" text-anchor="middle" font-size="10" fill="#FFF3E0">选 target/候选</text>
+<rect x="286" y="40" width="120" height="56" rx="10" fill="var(--green)"/><text x="346" y="64" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Runtime Profile</text><text x="346" y="82" text-anchor="middle" font-size="10" fill="#E9FBF3">hypit.runtime.json 选服务</text>
+<rect x="436" y="40" width="96" height="56" rx="10" fill="var(--blue)"/><text x="484" y="64" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Build</text><text x="484" y="82" text-anchor="middle" font-size="10" fill="#E3E8FF">一次执行</text>
+<rect x="562" y="40" width="88" height="56" rx="10" fill="var(--purple)"/><text x="606" y="64" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Result</text><text x="606" y="82" text-anchor="middle" font-size="10" fill="#F0E6FF">成片+证据</text>
+<line x1="118" y1="68" x2="146" y2="68" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#a2)"/>
+<line x1="256" y1="68" x2="284" y2="68" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#a2)"/>
+<line x1="406" y1="68" x2="434" y2="68" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#a2)"/>
+<line x1="532" y1="68" x2="560" y2="68" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#a2)"/>
+<text x="330" y="128" text-anchor="middle" font-size="11.5" fill="#555">核心是 Core 调度器：只管推进依赖，"并不知道自己在做视频"——新组件/新 Provider 用同一套包接口插进来</text>
+</svg>
+<p>五层流水线（对应 docs/guide/runtime.md 的职责表）</p>
+</div>
+<p>仓库本体是约 <span class="hl">120 个包的 pnpm monorepo</span>：runtime-local（本地执行）、provider-hypihub（官方托管）、provider-whisperx-local（本地对齐）、render-hyperframes（无头 Chromium 并发渲染）等，全部围绕同一套接口。</p>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--cyan)">
+<div class="q-num">Q6</div>
+<div class="q-title">生成模型是必须的吗？哪些东西不花一分钱也能渲染出来？</div>
+<div class="q-body">
+<p>不是必须的——README 明确：<span class="hl">字幕、动效和代码渲染的画面，不调用生成模型也能编译成一条成片</span>。仓库把"要花钱的"和"本地免费的"拆成了不同的 Provider 包：</p>
+<table>
+<tr><th>类别</th><th>包（源码实测）</th><th>花钱？</th></tr>
+<tr><td>图像/视频生成</td><td>gpt-image、seedance、nano-banana、wan、pixverse、grok-imagine、seedream</td><td class="warn">按各家 API 计费</td></tr>
+<tr><td>语音</td><td>elevenlabs-speech、fishaudio-speech、mimo-speech</td><td class="warn">按量计费</td></tr>
+<tr><td>词级对齐</td><td>whisperx（可本地跑 provider-whisperx-local）</td><td><span class="pass">本地免费</span></td></tr>
+<tr><td>组件画面</td><td>ranking、deck-track、caption、comment-sticker、interview-emoji-reveal…（代码渲染）</td><td><span class="pass">免费</span></td></tr>
+<tr><td>渲染</td><td>render-hyperframes + 无头 Chromium（官方示例 64 并发进程）</td><td><span class="pass">免费</span>（烧 CPU）</td></tr>
+<tr><td>托管一条龙</td><td>provider-hypihub（HypiHub 一个账号全包）</td><td class="warn">托管计费</td></tr>
+</table>
+<p>官方三个示例的真实成本：<span class="hl">GOAT DEBATE $1.15 / DAILY CREATINE $1.07 / NICE RIDE $1.09</span>——一条 20 秒口播视频的生成成本约 1 美元，框架本身免费。</p>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--pink)">
+<div class="q-num">Q7</div>
+<div class="q-title">"换主持人只重新生成相关镜头"是真的吗？官方变体文件改动有多大？</div>
+<div class="q-body">
+<p>官方在 examples 里放了三个"复刻变体研究"：swap-host（换主持人）、swap-topic（换话题）、swap-effect（换特效风格）。实验2对它们做了行级对账：</p>
+<div class="fig">
+<svg width="650" height="175" viewBox="0 0 650 175">
+<g font-size="12" font-weight="800">
+<text x="15" y="30" fill="#1A1A2E">swap-host</text><rect x="130" y="14" width="440" height="20" rx="6" fill="#E2FBEF"/><rect x="130" y="14" width="349" height="20" rx="6" fill="var(--green)"/><text x="490" y="29" font-size="12.5" fill="#00895C">相似度 79.4%（只动主持人相关）</text>
+<text x="15" y="70" fill="#1A1A2E">swap-effect</text><rect x="130" y="54" width="440" height="20" rx="6" fill="#FFF0E0"/><rect x="130" y="54" width="156" height="20" rx="6" fill="var(--orange)"/><text x="295" y="69" font-size="12.5" fill="#B26A00">35.5%（台词提示/B-roll 全换）</text>
+<text x="15" y="110" fill="#1A1A2E">swap-topic</text><rect x="130" y="94" width="440" height="20" rx="6" fill="#FFE1E8"/><rect x="130" y="94" width="152" height="20" rx="6" fill="var(--pink)"/><text x="291" y="109" font-size="12.5" fill="#B0244A">34.7%（话题=台词本身，必然重写）</text>
+</g>
+<rect x="15" y="132" width="620" height="36" rx="8" fill="#E9FBF3"/>
+<text x="325" y="155" text-anchor="middle" font-size="12" font-weight="900" fill="#00795B">换主持人=局部手术；换话题=重写台词，但排行榜组件/结构骨架不动，锚点让画面自动跟上新词</text>
+</svg>
+<p>exp2_variant_diff.py 实测（基准 reference.svml 329 行）</p>
+</div>
+<p><span class="hl">换话题的那次"大改"恰恰验证了架构价值</span>：swap-topic 换成了马斯克话题（13 个新锚事件、全新提示词），但排行榜组件、字幕系统、外观包一行没动——新台词写完，画面元素自动跟着新词走，不需要重新掐时间。</p>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--orange)">
+<div class="q-num">Q8</div>
+<div class="q-title">hypit 命令行能干什么？check / measure / plan / build 分别是什么？</div>
+<div class="q-body">
+<table>
+<tr><th>命令</th><th>干什么</th><th>要点</th></tr>
+<tr><td class="code" style="display:inline;padding:1px 6px">hypit version --check</td><td>查版本/更新</td><td>可执行体与 Skill 各有更新通道</td></tr>
+<tr><td class="code" style="display:inline;padding:1px 6px">hypit runtime init</td><td>生成 hypit.runtime.json 起始模板</td><td>只写配置，不装东西不登录</td></tr>
+<tr><td class="code" style="display:inline;padding:1px 6px">hypit check &lt;svrun&gt;</td><td>体检源文件/引用</td><td>构建前查错</td></tr>
+<tr><td class="code" style="display:inline;padding:1px 6px">hypit measure ... --segment ronaldo --pace fast</td><td><span class="hl">按语速策略估算台词时长</span></td><td>官方示例实测：两段各估 9s（快速+向上取整）</td></tr>
+<tr><td class="code" style="display:inline;padding:1px 6px">hypit plan</td><td>出执行计划+报价（Endpoint/费率）</td><td><span class="hl">付费前必经的一步：同意预算才开工</span></td></tr>
+<tr><td class="code" style="display:inline;padding:1px 6px">hypit build --follow</td><td>真正渲染成片</td><td>产出进 Build Results，过程可追问</td></tr>
+</table>
+<p>注意 <span class="kw">measure</span> 和 <span class="kw">plan</span>：一个把"台词长度"变成"预估时长"（语义时间的外显），一个把"要花多少钱"变成"先报价后干活"——这两条都写进了官方 Skill 的生产纪律。</p>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--green)">
+<div class="q-num">Q9</div>
+<div class="q-title">排行榜、聊天场景这些"组件"是怎么复用的？和 React 组件像吗？</div>
+<div class="q-body">
+<p>非常像。每个组件是一个版本化包（如 @hypit/ranking@1），有自己的 props（传入画布、时间轴、字体、条目数据）和内部状态（TierBoard 会<span class="hl">在论证进行时保持自己的状态</span>——条目出现、移动、定格）。官方 examples 里有完整谱系：</p>
+<table>
+<tr><th>示例</th><th>组件亮点</th><th>语义时间用法</th></tr>
+<tr><td>ranking-football</td><td>TierBoard 排行榜 + 双说话人 Take</td><td>条目在各自 Segment 的"不相交揭示窗口"里出现</td></tr>
+<tr><td>semantic-composition</td><td>chat:Scene 聊天场景</td><td>4 条消息各自 at=0.5s/2s/3.5s/5.2s 挂在时间轴上</td></tr>
+<tr><td>interview-emoji-reveal</td><td>人脸追踪 + 音效同步 emoji 揭示板</td><td>emoji 钉在关键词上</td></tr>
+<tr><td>minimal-author-package</td><td>最小自研组件包骨架</td><td>学写自己的组件从这里开始</td></tr>
+</table>
+<p>与 React 的类比：<span class="kw">props≈组件参数，时间轴≈render 循环，状态保持≈reconciliation</span>。区别是组件的"生命周期"由词级事件驱动而非浏览器事件驱动。作者还可以把组件打成 tarball 或发到私有 npm scope 分享——包管理那套直接搬过来了。</p>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--blue)">
+<div class="q-num">Q10</div>
+<div class="q-title">WhisperX、人脸检测在里面扮演什么角色？词级时间戳哪来的？</div>
+<div class="q-body">
+<p>词锚定要落地，必须知道"每个词到底在哪一毫秒被念出来"。这条感知链路由几个本地/托管组件拼成：</p>
+<div class="fig">
+<svg width="660" height="140" viewBox="0 0 660 140">
+<defs><marker id="a3" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 z" fill="#4D6BFF"/></marker></defs>
+<rect x="10" y="45" width="115" height="48" rx="10" fill="#FFEDD6"/><text x="67" y="66" text-anchor="middle" font-size="11.5" font-weight="900">Seedance 生视频</text><text x="67" y="83" text-anchor="middle" font-size="9.5">口播表演(A-roll)</text>
+<rect x="150" y="45" width="130" height="48" rx="10" fill="#E0F7F1"/><text x="215" y="66" text-anchor="middle" font-size="11.5" font-weight="900">WhisperX 对齐</text><text x="215" y="83" text-anchor="middle" font-size="9.5">词级时间戳</text>
+<rect x="305" y="20" width="150" height="44" rx="10" fill="#E3E8FF"/><text x="380" y="40" text-anchor="middle" font-size="11" font-weight="900">Google Video Intelligence</text><text x="380" y="56" text-anchor="middle" font-size="9.5">场景/镜头检测</text>
+<rect x="305" y="76" width="150" height="44" rx="10" fill="#F0E6FF"/><text x="380" y="96" text-anchor="middle" font-size="11" font-weight="900">YOLOv8 AnimeFace</text><text x="380" y="112" text-anchor="middle" font-size="9.5">人脸检测→说话人字幕</text>
+<rect x="490" y="45" width="160" height="48" rx="10" fill="var(--pink)"/><text x="570" y="66" text-anchor="middle" font-size="11.5" font-weight="900" fill="#fff">锚点合成</text><text x="570" y="83" text-anchor="middle" font-size="9.5" fill="#FFE1E8">@{事件} × 词时刻 → 画面触发</text>
+<line x1="125" y1="69" x2="148" y2="69" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#a3)"/>
+<line x1="280" y1="69" x2="303" y2="69" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#a3)"/>
+<line x1="455" y1="69" x2="488" y2="69" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#a3)"/>
+<line x1="380" y1="64" x2="380" y2="64" stroke="none"/>
+<line x1="380" y1="64" x2="380" y2="64" stroke="none"/>
+</svg>
+<p>感知链：生成/拍摄 → 词级对齐 → 视觉感知 → 语义合成（源码 packages/ 逐包核实）</p>
+</div>
+<p>这就是为什么复刻时参考视频要先"看懂"：WhisperX 给台词词时刻，视觉模型给镜头与脸的位置，Agent 再把"@{hair-gel}"这类锚点映射到新台词的新词上。<span class="hl">换配音、换语速、换语言后重跑一次对齐，全部画面事件自动重新踩点</span>。</p>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--purple)">
+<div class="q-num">Q11</div>
+<div class="q-title">许可证有什么坑？"开源"但不是纯 Apache-2.0？</div>
+<div class="q-body">
+<p>LICENSE 实读：<span class="hl">修改版 Apache-2.0，附加三条条件</span>。</p>
+<table>
+<tr><th>可以 ✅</th><th>不行 ❌（需商业授权）</th></tr>
+<tr><td>自己组织内部商用、给客户做视频</td><td>拿源码运营<span class="warn">多租户 SaaS</span>（两个以上外部用户各持独立 workspace 即算）</td></tr>
+<tr><td>自己基础设施上单租户部署</td><td><span class="warn">商用转售</span> Hypit 或其衍生品（单独或捆绑皆算）</td></tr>
+<tr><td>fork+修改+开源发布（同许可、不牟利）</td><td>去除/修改 CLI、运行报告、manifest 里的<span class="warn">LOGO 与版权信息</span></td></tr>
+</table>
+<p><span class="big">产出归你</span>：许可证明确声明对你用 Hypit 制作的成片/音频/图片不主张任何权利，商用随意（第三方模型服务另有各自主条款）。这个模式与 vault 已有概念[[内容型开源与双许可]]同族——"开放源码、约束商业模式"。</p>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--pink)">
+<div class="q-num">Q12</div>
+<div class="q-title">我想复刻一条爆款视频，最小上手路径是什么？要花多少钱？</div>
+<div class="q-body">
+<div class="step"><b>第 1 步</b>　装 Skill（一次性）：<span class="code" style="display:inline;padding:1px 8px">npx skills add hypit-ai/hypit -g</span>　——装的是"导演知识+工具入口"，不需要克隆仓库。环境要求 Node 22.15+ / pnpm 10.33 / TS 5.9。</div>
+<div class="step"><b>第 2 步</b>　在 Agent 里带着参考视频开口：<span class="code" style="display:inline;padding:1px 8px">/hypit 用这条视频做参考：/path/to/video.mp4，把产品换成我的，保留排行榜格式和开场能量</span></div>
+<div class="step"><b>第 3 步</b>　Agent 检查环境、要凭证：选 HypiHub 托管（一个账号全包）或自带 API Key / 本地模型。WhisperX 可本地。</div>
+<div class="step"><b>第 4 步</b>　看 plan 报价 → 同意预算 → <span class="code" style="display:inline;padding:1px 8px">hypit build --follow</span> 渲染。参考价：20 秒口播约 <span class="hl">$1 一条</span>。</div>
+<div class="step"><b>第 5 步</b>　拿到的不是一条视频，是<span class="hl">一份可继续编辑的源工程</span>：换脸/换话术/换语言→批量出变体。也可以全程只用文字描述从零写工作流，不用任何参考视频。</div>
+<div class="expect"><b>✅ 纯零成本路线（本次实测采用）</b>：不装可执行体、不接生成服务，克隆仓库后用 examples/ 里的 SVML 源文件做解剖、对账、时间模拟三个实验（见下），把语言、架构、变体机制全部摸清——先理解再花钱。</div>
+</div>
+</div>
+
+<h2 class="sec">这个项目给我什么（能力清单）</h2>
+<div class="q-card" style="--c:var(--blue)">
+<div class="q-body">
+<table>
+<tr><th>能力</th><th>我能拿它干什么</th></tr>
+<tr><td class="big">读懂一套"视频源码"</td><td>以后看到 SVML/SVS/SVRUN 文件知道每一行在定义什么；别人的爆款工程可以直接拿来改</td></tr>
+<tr><td class="big">Agent 视频流水线</td><td>让 Claude Code/Codex 当导演：参考视频→工作流→成片→批量变体，一条龙脚本化</td></tr>
+<tr><td class="big">词锚定设计思想</td><td>任何"多媒体跟着数据走"的场景都能借用：幻灯片跟演讲词、字幕跟播客、动效跟音乐节拍</td></tr>
+<tr><td class="big">组件化视频工程</td><td>排行榜/聊天/采访板子都是可复用包——自己写一个"股票行情板"组件挂进视频工作流</td></tr>
+<tr><td class="big">成本可控的生成</td><td>免费层（代码渲染+本地对齐）先行验证创意，确认值得再做 $1/条的生成；plan 报价前置，不会烧穿预算</td></tr>
+<tr><td class="big">合规边界清晰</td><td>自用商用随意、产出归自己；别拿去做 SaaS 卖就行（Q11 对照表）</td></tr>
+</table>
+</div>
+</div>
+
+<h2 class="sec">动手实验（零依赖 · 全部真跑）</h2>
+
+<div class="q-card" style="--c:var(--green)">
+<div class="q-num">实1</div>
+<div class="q-title">SVML 解剖器：亲手拆一份"复刻爆款"的源文件（exp1_svml_anatomy.py，约 50 行纯标准库）</div>
+<div class="q-body">
+<div class="step"><b>1. 怎么操作</b>：<span class="code" style="display:inline;padding:1px 8px">python exp1_svml_anatomy.py ../repo/examples/ranking-football/reference.svml</span>　目的：统计词锚事件/停顿/能力包/硬编码秒数　实现：用正则+标签计数把 SVML 拆成结构报告（注意：SVML 的 Script 文本允许裸 &lt;|&gt; 字符，标准 XML 解析器会报错——本身就是个方言知识点）</div>
+<div class="expect"><b>✅ 预期结果（真实输出）</b>：锚点开启/关闭 8/8 配对 PASS、独立事件 8 个（hair-gel、trophy、greek-god…）、停顿 22 个、读音可选 2 处、21 个 @hypit 官方包 + 1 本地包、<span class="pass">硬编码秒数 = 0</span>。对 swap-host/topic/effect 同样解剖：锚点数 8/13/7，随话题变化。</div>
+<div class="step"><b>2. 改一个参数看变化</b>：把脚本换成解剖 <span class="code" style="display:inline;padding:1px 8px">examples/semantic-composition/chat.svml</span>——纯代码场景（无生成节点），看到的是另一种形态：4 条聊天消息各自挂在 at="0.5s/2s/3.5s/5.2s" 的动画时间轴上，说明<span class="hl">Hypit 同时支持词锚定（口播）与秒锚定（纯动画），按需选择</span>。</div>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--orange)">
+<div class="q-num">实2</div>
+<div class="q-title">变体对账：换主持人/换话题到底改了多少行？（exp2_variant_diff.py）</div>
+<div class="q-body">
+<div class="step"><b>怎么操作</b>：<span class="code" style="display:inline;padding:1px 8px">python exp2_variant_diff.py ../repo/examples/ranking-football</span>　目的：用 difflib 对 reference 与三个官方变体做行级 diff 并按区块归类</div>
+<div class="expect"><b>✅ 预期结果（真实输出）</b>：swap-host 相似度 <span class="pass">79.4%</span>（+49/-80 行，改动集中在 presenter 提示词与语音节点）＝"换主持人只重新生成相关镜头"实锤；swap-topic <span class="warn">34.7%</span>（+223/-213，台词/提示/B-roll 重写）；swap-effect 35.5%。三者的排行榜组件与结构骨架均保留。</div>
+<p><b>中间可见的成果</b>：每个变体一张"改动区块条形图"——主持人相关 / B-roll / 排行榜组件 / 导入各占多少行，一眼看懂"哪里是手术、哪里是重写"。</p>
+</div>
+</div>
+
+<div class="q-card" style="--c:var(--blue)">
+<div class="q-num">实3</div>
+<div class="q-title">语义时间模拟器：语速一变，"锚词"和"锚秒"的命运分岔（exp3_semantic_time.py）</div>
+<div class="q-body">
+<div class="step"><b>怎么操作</b>：<span class="code" style="display:inline;padding:1px 8px">python exp3_semantic_time.py ../repo/examples/ranking-football/reference.svml</span>　目的：把 ronaldo/messi 两段带锚台词按 130/160/190 wpm 三种语速展开成逐词时间轴，对比"事件锚词"与"事件钉死基准秒"的差异</div>
+<div class="expect"><b>✅ 预期结果（真实输出）</b>：ronaldo 段 37 实词 + 11 停顿 + 5 事件；语速 160→130wpm 时 @penaldo-social 从 14.40s 移到 17.00s、190wpm 时移到 12.62s。<span class="hl">词锚定方案里事件永远踩在自己的词上；若钉死秒数，错开 0.4~2.6 秒——字幕弹在与词无关的时刻，一听就穿帮</span>。</div>
+<div class="fig">
+<svg width="650" height="150" viewBox="0 0 650 150">
+<line x1="60" y1="35" x2="620" y2="35" stroke="#999" stroke-width="2"/>
+<g font-size="10.5" fill="#555"><text x="60" y="25">慢速130wpm</text><text x="320" y="25">基准160wpm</text><text x="560" y="25">快速190wpm</text></g>
+<circle cx="160" cy="35" r="7" fill="var(--pink)"/><circle cx="330" cy="35" r="7" fill="var(--green)"/><circle cx="500" cy="35" r="7" fill="var(--blue)"/>
+<text x="160" y="56" text-anchor="middle" font-size="10" fill="#B0244A">词在此，事件在此</text>
+<line x1="60" y1="95" x2="620" y2="95" stroke="#999" stroke-width="2"/>
+<circle cx="330" cy="95" r="7" fill="var(--green)"/>
+<circle cx="330" cy="95" r="12" fill="none" stroke="var(--pink)" stroke-width="2"/>
+<text x="330" y="120" text-anchor="middle" font-size="10.5" font-weight="800" fill="#B0244A">钉死秒数：词走了，事件还在原地 → 错开 0.4~2.6s</text>
+<text x="160" y="120" text-anchor="middle" font-size="10" fill="#00895C">锚词：事件=词的函数，自动重踩点</text>
+<text x="560" y="120" text-anchor="middle" font-size="10" fill="#00895C">同步前移</text>
+</svg>
+<p>实验3结论可视化：上=词锚定（事件跟词走），下=秒锚定（词走事件留）</p>
+</div>
+<p style="font-size:11.5px;color:#777">诚实说明：本模拟器是简化模型（固定 WPM+固定停顿时长）；真实系统由 WhisperX 按实际音频逐词对齐，官方 hypit measure --pace fast 对同段台词估 9s，与简化模型的绝对值不同，但"事件随词移动"的定性结论一致。</p>
+</div>
+</div>
+
+<h2 class="sec">一页带走</h2>
+<div class="q-card" style="--c:var(--purple)">
+<div class="q-body">
+<p><span class="big">Hypit = 视频的"源语言 + 编译系统"</span>：SVML 写作品（21 个能力包按需导入），台词里 @{锚点} 把画面钉在词上，Runtime Profile 决定花不花钱，Build 产出成片+可复用工程。复刻爆款的本质是<span class="hl">Agent 读懂参考视频的"事件-词映射"，再用新词新脸重写同一套关系</span>——所以换脸只动脸、换话只动话，排行榜和字幕系统原封不动。三个实验（解剖 0 硬编码秒、变体对账 79% vs 35%、语速模拟 0.4~2.6s 错位）分别从源文件、工程、时间三个维度验证了"锚词不锚秒"不是宣传语而是架构事实。</p>
+<p style="margin-top:8px">三个真实的坑：① SVML 的 Script 文本含裸 &lt;|&gt;，标准 XML 解析器直接报错（方言自有词法）；② "已开源"是修改版 Apache-2.0——禁多租户 SaaS/商用转售/去 LOGO，别看见 Apache 就当无约束；③ 零成本路线只能验证"字幕/组件/代码画面"，带真人感的口播表演仍需生成模型（约 $1/条）。</p>
+</div>
+</div>
+
+<div class="foot">学习产出 · F:\reminder\hypit\ · 数据来源：hypit-ai/hypit v0.2.17 源码与 examples 实测 · 2026-10-03</div>
+</body>
+</html>

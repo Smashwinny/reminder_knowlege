@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>RRSI 正则化递归自我改进 - 小白指南</title>
+<style>
+:root{
+  --pink:#FF2D78; --orange:#FF7A00; --yellow:#FFC400; --green:#00C853;
+  --blue:#2979FF; --purple:#8E24AA; --cyan:#00B8D4; --red:#F44336;
+  --ink:#1A1A2E; --bg:#FFFDF5; --card:#FFFFFF;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); font-size:13.5px; line-height:1.65;}
+@page{size:A4; margin:11mm;}
+.wrap{width:100%;}
+h1{font-size:30px; color:#fff; background:linear-gradient(100deg,var(--pink),var(--orange) 55%,var(--yellow)); padding:18px 22px; border-radius:14px; letter-spacing:1px;}
+.sub{margin-top:8px; font-size:14px; color:#fff; background:var(--ink); padding:9px 16px; border-radius:10px;}
+.sub b{color:var(--yellow);}
+.badges{margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;}
+.badge{font-size:11px; font-weight:bold; color:#fff; padding:3px 10px; border-radius:999px;}
+h2{font-size:20px; margin:26px 0 12px; padding:7px 14px; border-radius:8px; color:#fff;}
+h2.blue{background:var(--blue);} h2.pink{background:var(--pink);} h2.green{background:var(--green);}
+h2.purple{background:var(--purple);} h2.orange{background:var(--orange);}
+.card{background:var(--card); border-radius:12px; padding:14px 16px; margin-bottom:12px; border:2px solid; break-inside:avoid;}
+.b-pink{border-color:var(--pink);} .b-blue{border-color:var(--blue);} .b-green{border-color:var(--green);}
+.b-purple{border-color:var(--purple);} .b-orange{border-color:var(--orange);} .b-cyan{border-color:var(--cyan);}
+.qnum{display:inline-block; min-width:44px; font-size:24px; font-weight:900; color:#fff; text-align:center; border-radius:10px; padding:2px 8px; margin-right:8px;}
+.qt{font-size:16px; font-weight:900;}
+.ans{margin-top:8px;}
+.hl{background:linear-gradient(transparent 45%, var(--yellow) 45%); font-weight:900; padding:0 2px;}
+.hl-pink{background:linear-gradient(transparent 45%, #FFB3D1 45%); font-weight:900;}
+.hl-green{background:linear-gradient(transparent 45%, #A5FFC3 45%); font-weight:900;}
+code,.code{font-family:Consolas,monospace; background:#12203A; color:#7CFC9A; padding:2px 6px; border-radius:5px; font-size:12px;}
+pre{font-family:Consolas,monospace; background:#12203A; color:#D7FFE8; border-radius:9px; padding:11px 13px; font-size:11.5px; line-height:1.55; overflow-x:auto; margin:8px 0; break-inside:avoid;}
+pre .c{color:#7FA6FF;} pre .w{color:#FFD166;} pre .r{color:#FF8A9B;}
+table{width:100%; border-collapse:collapse; margin:8px 0; font-size:12.5px; break-inside:avoid;}
+th{color:#fff; padding:6px 8px; text-align:left;}
+td{padding:6px 8px; border-bottom:2px solid #F0EBDD; background:#fff;}
+.ok{color:var(--green); font-weight:900;} .no{color:var(--red); font-weight:900;}
+.callout{border-radius:10px; padding:10px 14px; margin:10px 0; font-weight:bold; break-inside:avoid;}
+.co-yellow{background:#FFF6D6; border-left:6px solid var(--yellow);}
+.co-pink{background:#FFE3EE; border-left:6px solid var(--pink);}
+.co-green{background:#E4FFEEDB; border-left:6px solid var(--green);}
+.co-blue{background:#E3EDFF; border-left:6px solid var(--blue);}
+.step{display:flex; gap:10px; margin-bottom:10px; break-inside:avoid;}
+.stepn{flex:0 0 30px; height:30px; border-radius:50%; color:#fff; font-weight:900; text-align:center; line-height:30px;}
+.stepb{flex:1; background:#fff; border:2px dashed #C9BFA4; border-radius:10px; padding:9px 12px;}
+.expbox{background:#E9FBF1; border:2px solid var(--green); border-radius:10px; padding:8px 12px; margin-top:6px; font-weight:bold;}
+svg{display:block; margin:8px auto;}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+.foot{margin-top:18px; padding:10px 16px; background:var(--ink); color:#fff; border-radius:10px; font-size:11.5px;}
+.small{font-size:11px; color:#6B6B7B;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>RRSI 正则化递归自我改进</h1>
+<div class="sub">让 AI 针对<b>失败的检查</b>重写 agent 的系统提示词——Google Research 的做法，以及它防翻车的<b>四道闸门</b></div>
+<div class="badges">
+  <span class="badge" style="background:var(--pink)">arXiv 2609.24972</span>
+  <span class="badge" style="background:var(--blue)">github.com/google-research/rrsi</span>
+  <span class="badge" style="background:var(--purple)">COLM '26</span>
+  <span class="badge" style="background:var(--green)">官方单测 8 passed</span>
+  <span class="badge" style="background:var(--orange)">离线复现实验全跑通</span>
+</div>
+
+<h2 class="blue">0 | 这条推文说了什么（溯源）</h2>
+<div class="card b-blue">
+<p>起点是 X 用户 @N01ennn 的高赞转发（7 万+浏览）："Google 工程师讲了如何让 AI <b>针对失败的检查重写 agent 的系统提示词</b>——失败检查变成下一个修复任务，回归套件盯着这次修复破坏了什么。" 顺着引用链追到底，本体是两篇 2026 年的工作：</p>
+<svg viewBox="0 0 700 175" width="100%">
+  <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#1A1A2E"/></marker></defs>
+  <rect x="5" y="18" width="150" height="86" rx="10" fill="#FFE3EE" stroke="#FF2D78" stroke-width="2.5"/>
+  <text x="80" y="42" text-anchor="middle" font-size="12" font-weight="bold" fill="#C2185B">推文 @N01ennn</text>
+  <text x="80" y="62" text-anchor="middle" font-size="10.5">"this is f*cking gold"</text>
+  <text x="80" y="80" text-anchor="middle" font-size="10.5">引用转推 + 17s 视频</text>
+  <line x1="157" y1="61" x2="212" y2="61" stroke="#1A1A2E" stroke-width="2" marker-end="url(#ar)"/>
+  <rect x="215" y="18" width="150" height="86" rx="10" fill="#E3EDFF" stroke="#2979FF" stroke-width="2.5"/>
+  <text x="290" y="42" text-anchor="middle" font-size="12" font-weight="bold" fill="#0D47A1">X 长文</text>
+  <text x="290" y="60" text-anchor="middle" font-size="10">《From 296 Agents to One Graph》</text>
+  <text x="290" y="78" text-anchor="middle" font-size="10">harness/loop/graph 三层</text>
+  <text x="290" y="93" text-anchor="middle" font-size="9.5" fill="#555">→ arXiv 2609.00050</text>
+  <line x1="367" y1="61" x2="422" y2="61" stroke="#1A1A2E" stroke-width="2" marker-end="url(#ar)"/>
+  <rect x="425" y="5" width="268" height="54" rx="10" fill="#E9FBF1" stroke="#00C853" stroke-width="2.5"/>
+  <text x="559" y="25" text-anchor="middle" font-size="12" font-weight="bold" fill="#1B5E20">RRSI（本指南主角）</text>
+  <text x="559" y="44" text-anchor="middle" font-size="10">arXiv 2609.24972 · Google Cloud AI Research</text>
+  <rect x="425" y="68" width="268" height="42" rx="10" fill="#FFF6D6" stroke="#FFC400" stroke-width="2.5"/>
+  <text x="559" y="86" text-anchor="middle" font-size="11" font-weight="bold" fill="#7A5C00">arXiv 2609.00050</text>
+  <text x="559" y="102" text-anchor="middle" font-size="9.5">Graph &amp; Loop Engineering 零信任 Agent Harness</text>
+  <line x1="559" y1="61" x2="559" y2="66" stroke="#1A1A2E" stroke-width="2"/>
+  <text x="350" y="160" text-anchor="middle" font-size="11" fill="#6B6B7B">两篇都在 Google 云生态实例化；推文的"失败检查→修复→回归"正是它们共同的内核思想</text>
+</svg>
+<p style="margin-top:6px"><span class="hl">RRSI = Regularized Recursive Self-Improvement of Agent Harnesses</span>：把 agent 的"挽具"（系统提示词、控制流、工具、记忆、上下文管理）当作可进化对象，让 LLM 在一个评估驱动的循环里<b>反复改写自己的 harness</b>。14 位作者，代码开源在 google-research 组织下。</p>
+</div>
+
+<h2 class="pink">1 | 十二问解答（疑问即目录）</h2>
+
+<div class="card b-pink">
+<span class="qnum" style="background:var(--pink)">Q1</span><span class="qt">"让 AI 重写系统提示词"到底是个什么流程？</span>
+<div class="ans">一句话：<b>把系统提示词当源代码，把评估集当测试套件，跑一个"改提示词→跑测试→只留变强版本"的进化循环</b>。Google 的代码里每轮分两步——<b>算法 1（提案侧）</b>：分析当前失败轨迹 → 按预算起草候选 → 泄漏审查；<b>算法 2（选择侧）</b>：整套评估 → 四道闸门筛选 → 赢家上岗。落选候选连同分数、理由全部记进 <code>history.jsonl</code>，下轮提案时喂回给模型——<span class="hl">被证伪的假设不会被重提</span>。</div>
+</div>
+
+<div class="card b-pink">
+<span class="qnum" style="background:var(--red)">Q2</span><span class="qt">不搞正则化，直接进化会怎么翻车？</span>
+<div class="ans">论文的实验发现：无正则化的 RSI 会<b>把训练题背下来</b>——进化集分数大涨（最高 +14.1 分），换一套没见过的题分数就地蒸发。本指南的迷你复现实验（见实验二模式三）完美复刻了这种翻车：写死答案爬到进化集满分，<span class="hl-pink">留出的回归套件得分全程为 0，token 成本反而是诚实版的 2.6 倍</span>。所以 RRSI 的全部精髓不在"进化"，而在"正则化"——四道闸门（Q5~Q8）。</div>
+</div>
+
+<div class="card b-pink">
+<span class="qnum" style="background:var(--orange)">Q3</span><span class="qt">什么是 harness？进化它和"调 prompt"差在哪？</span>
+<div class="ans">harness = <b>模型外面的一切运行环境</b>（见知识库 [[AgentHarness智能体挽具]]）。RRSI 的可编辑组件集 K 有 9 类：<code>prompt / control_flow / config / output_plumbing / context_mgmt / client_tool / skill / memory / subagent</code>。<span class="hl">提示词爬山法只调"配方里的一句话"，RRSI 连配方、锅、灶台、进货渠道一起换</span>——但约束只加在"搜索怎么走"上，不限制"挽具最终能长什么样"（开放编辑空间）。</div>
+</div>
+
+<div class="card b-pink">
+<span class="qnum" style="background:var(--yellow)">Q4</span><span class="qt">一轮进化循环里发生哪 7 步？</span>
+<div class="ans">
+<svg viewBox="0 0 720 240" width="100%">
+  <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2979FF"/></marker></defs>
+  <g font-size="11" font-weight="bold">
+  <rect x="8"   y="14" width="150" height="46" rx="9" fill="#FFE3EE" stroke="#FF2D78" stroke-width="2"/><text x="83" y="34" text-anchor="middle" fill="#C2185B">1. Analyst 分析</text><text x="83" y="50" text-anchor="middle" font-size="9.5" fill="#555">吃 incumbent 的失败轨迹</text>
+  <rect x="196" y="14" width="150" height="46" rx="9" fill="#FFF6D6" stroke="#FFC400" stroke-width="2"/><text x="271" y="34" text-anchor="middle" fill="#7A5C00">2. 退火预算 b_t</text><text x="271" y="50" text-anchor="middle" font-size="9.5" fill="#555">这轮最多捆绑几处编辑</text>
+  <rect x="384" y="14" width="150" height="46" rx="9" fill="#F0E6FF" stroke="#8E24AA" stroke-width="2"/><text x="459" y="34" text-anchor="middle" fill="#6A1B9A">3. 翻史本</text><text x="459" y="50" text-anchor="middle" font-size="9.5" fill="#555">停滞旗标/没试过的组件/剪枝集</text>
+  <rect x="572" y="14" width="140" height="46" rx="9" fill="#E3EDFF" stroke="#2979FF" stroke-width="2"/><text x="642" y="34" text-anchor="middle" fill="#0D47A1">4. 起草 m 个候选</text><text x="642" y="50" text-anchor="middle" font-size="9.5" fill="#555">各自 git worktree 分支</text>
+  <rect x="572" y="94" width="140" height="46" rx="9" fill="#E3F7FD" stroke="#00B8D4" stroke-width="2"/><text x="642" y="114" text-anchor="middle" fill="#006064">5. Critic 泄漏审查</text><text x="642" y="130" text-anchor="middle" font-size="9.5" fill="#555">拒绝可修复一轮，修不好丢弃</text>
+  <rect x="294" y="94" width="240" height="46" rx="9" fill="#E9FBF1" stroke="#00C853" stroke-width="2"/><text x="414" y="114" text-anchor="middle" fill="#1B5E20">6. 全套并行评估（每题 k 次）</text><text x="414" y="130" text-anchor="middle" font-size="9.5" fill="#555">算出分数 S 和成本 C</text>
+  <rect x="8"   y="94" width="250" height="46" rx="9" fill="#FFE0D6" stroke="#FF7A00" stroke-width="2"/><text x="133" y="114" text-anchor="middle" fill="#E65100">7. 选择侧闸门 + argmax</text><text x="133" y="130" text-anchor="middle" font-size="9.5" fill="#555">赢家 fast-forward 上岗，其余记档</text>
+  </g>
+  <line x1="158" y1="37" x2="194" y2="37" stroke="#2979FF" stroke-width="2" marker-end="url(#ar2)"/>
+  <line x1="346" y1="37" x2="382" y2="37" stroke="#2979FF" stroke-width="2" marker-end="url(#ar2)"/>
+  <line x1="534" y1="37" x2="570" y2="37" stroke="#2979FF" stroke-width="2" marker-end="url(#ar2)"/>
+  <line x1="642" y1="60" x2="642" y2="92" stroke="#2979FF" stroke-width="2" marker-end="url(#ar2)"/>
+  <line x1="570" y1="117" x2="536" y2="117" stroke="#2979FF" stroke-width="2" marker-end="url(#ar2)"/>
+  <line x1="292" y1="117" x2="260" y2="117" stroke="#2979FF" stroke-width="2" marker-end="url(#ar2)"/>
+  <path d="M 133 92 Q 133 160 350 205 Q 560 215 642 142" fill="none" stroke="#FF2D78" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#ar2)"/>
+  <text x="380" y="222" text-anchor="middle" font-size="10.5" fill="#FF2D78" font-weight="bold">下一轮：新的 H(t+1) 再来一遍，直到 T 轮或无失败检查可修</text>
+</svg>
+<span class="small">对应源码 <code>rrsi/loop.py</code> 的 <code>Run.round(t)</code>，README 有逐条"论文公式→代码位置"映射表。</span></div>
+</div>
+
+<div class="card b-pink">
+<span class="qnum" style="background:var(--green)">Q5</span><span class="qt">编辑预算为什么要"余弦退火"？</span>
+<div class="ans">公式：<code>b_t = ceil( b_min + (b_max-b_min)·½(1+cos(πt/T)) )</code>。<b>开局允许一个候选捆绑多处协同编辑</b>（反正离最优远，怎么改都是往上走），<b>临近收尾每轮只许改一处</b>——因为每处编辑都要能单独归因"是它带来涨分"。官方单测第一条就锁这个公式。<div class="expbox">实测 budget_table(T=10, 1..4) → 4,4,4,4,3,3,3,2,2,2（实验一第 1 段）</div></div>
+</div>
+
+<div class="card b-pink">
+<span class="qnum" style="background:var(--cyan)">Q6</span><span class="qt">噪声地板 delta——先承认"打分是有抖动的"</span>
+<div class="ans">同一 harness 跑两次分数都不一样（模型采样有随机性）。<span class="hl">比历史最高 S* 还低 delta 以内的"涨分"一律当作噪声不算数</span>：<code>admissible ⟺ S' ≥ S* − delta</code>。delta 不拍脑袋：用 <code>calibrate.py</code> 对基线评估做 bootstrap 自助重采样估计出噪声带。这是防"自我安慰式改进"的第一闸。</div>
+</div>
+
+<div class="card b-pink">
+<span class="qnum" style="background:var(--blue)">Q7</span><span class="qt">成本规则：涨分必须付得起 token 账</span>
+<div class="ans">两条分支：<b>真涨分</b>（ΔS&gt;delta）时，成本涨幅要 ≤ 预算 <code>β₀ + β₁·ΔS</code>——涨得多才许花得多；<b>带内微涨</b>时改用整形分 <code>w_s·ΔS − w_c·ΔC + w_n·ν &gt; 0</code>，其中 ν=触及"从没被采纳过的结构组件"的数量，<span class="hl">只作带内平局打破，鼓励探索新机制但不许抢真涨分的位</span>。实测 E 候选 ΔS=+0.20 但 ΔC=+8.60 &gt; 预算 8.10，被一票否决（实验一第 2 段）。最终版本比无正则进化<b>省 30% 策略 token</b>。</div>
+</div>
+
+<div class="card b-pink">
+<span class="qnum" style="background:var(--purple)">Q8</span><span class="qt">Critic 六条拒绝规则都在防什么？</span>
+<div class="ans">Critic 在<b>评估花钱之前</b>读 diff，专抓"作弊/退化/自杀式"编辑：①<b>泄漏/任务特化</b>——diff 里出现任务名、实体名、任务专属魔数（试金石：这条改动放到另一套题上还成立吗？）；②<b>退化</b>——声称加了机制其实是死代码，或删了安全机制没补；③<b>评分器作弊</b>——偷读判分逻辑、硬编码阈值；④<b>未申报捆绑</b>——夹带申报清单外的私货；⑤<b>运行时记忆泄漏</b>——跨 trial 持久化任务专属数据（这是背题不是改进）；⑥<b>无界工作</b>——没有退出条件的"继续改进"循环。拒绝意见回灌提案者修一轮（bounded repair），<span class="hl">修不好就丢弃且不许再提</span>。</div>
+</div>
+
+<div class="card b-pink">
+<span class="qnum" style="background:var(--orange)">Q9</span><span class="qt">组件标签怎么防"谎报军情"？</span>
+<div class="ans">提案者要给每条编辑申报改的是哪类组件，但<b>申报不算数，diff 里必须有证据</b>：<code>text_only()</code> 发现所有改动行都是字符串字面量/注释 → 一律判 <code>prompt</code>；结构性组件（tool/skill/memory/subagent）各有正则信号（如 <code>skills/</code>、<code>register_tool</code>、<code>.remember(</code>）。<span class="hl">把控制流改动谎报成"探索新组件"骗探索槽？重标回真实类型，探索槽作废</span>。实测四种谎报全部被纠正（实验一第 3 段）。</div>
+</div>
+
+<div class="card b-pink">
+<span class="qnum" style="background:var(--pink)">Q10</span><span class="qt">候选为什么放进 git worktree？</span>
+<div class="ans">每个候选在 <code>evolve/&lt;domain&gt;</code> 分支上开自己的 worktree 和分支起草，审查、评估、提交都在自己树上进行；采纳就 fast-forward，<b>现任 harness 永远是一个 commit</b>——出问题可回滚、可 diff、可审计。这正是知识库 [[GitWorktree并行隔离]] 思想的教科书用法。</div>
+</div>
+
+<div class="card b-pink">
+<span class="qnum" style="background:var(--red)">Q11</span><span class="qt">每条编辑的"功劳"怎么算？卡住了怎么办？</span>
+<div class="ans"><b>归因</b>：提案者要预言每条编辑影响哪些题，事后对照逐题分数算 <code>predicted_hit</code> 命中率，还要列出"没预料到的回归题"——连月累积成提案者的"信用分"。<b>停滞检测</b>：近 w 轮涨幅 ≤ delta 就拉响停滯旗标，下轮强制留出"reserved 探索槽"去碰从没试过的组件。<b>剪枝</b>：近期收益为负的机制，连着它在任的代码一起交还提案者移除。推文说的"回归套件盯着这次修复破坏了什么"在这层落到代码：每轮记录 <code>unpredicted_regressions</code>。</div>
+</div>
+
+<div class="card b-pink">
+<span class="qnum" style="background:var(--green)">Q12</span><span class="qt">引用链另一半：graph / loop / harness 三层工程是什么？</span>
+<div class="ans">arXiv 2609.00050（推文转发的 X 长文的原型论文）把 agent 工程分三层：<b>graph engineering</b> 管长流程怎么走（带验证门控的步骤转移）、<b>loop engineering</b> 管失败了怎么爬起来（有界的诊断→修复→重试→复验）、<b>harness engineering</b> 管零信任执行（身份、授权、隔离、运行时护栏）。<span class="hl">RRSI 是第四维：让 harness 自己变强的"元循环"</span>——三层是造车，RRSI 是让车自己升级（见知识库 [[图环挽具三层工程]]）。</div>
+</div>
+
+<h2 class="green">2 | 这套东西给你什么能力</h2>
+<div class="card b-green">
+<table>
+<tr><th style="background:var(--green)">能力</th><th style="background:var(--green)">你能拿它干什么</th></tr>
+<tr><td><b>读懂自进化 agent 论文</b></td><td>RRSI / RSI-Master / Recuris 这一支 2026 热点的公共词汇量（harness、进化集、OOD、正则化闸门）全部齐备</td></tr>
+<tr><td><b>给自己的 prompt 做回归</b></td><td>最小可行版：一组固定检查题 + 留出题 + "改前改后都跑"——推文说的门槛其实一晚就能搭</td></tr>
+<tr><td><b>搭迷你进化环</b></td><td>实验二的 200 行 toy 就是骨架：失败检查→修复→回归监视→闸门，换上真 LLM 提案者即可升级</td></tr>
+<tr><td><b>识破"刷榜式"agent 宣传</b></td><td>看到"自动优化 prompt 提升巨大"，先问：OOD 留出集多少？成本账怎么算？有没有泄漏审查？</td></tr>
+<tr><td><b>复用 Google 的工程件</b></td><td>退火预算/噪声地板/成本规则/组件打标全是纯函数，Apache-2.0，可以拆出来单独用</td></tr>
+</table>
+</div>
+
+<h2 class="orange">3 | 动手实验（全部真实运行，机器：Windows 11 + Python 3.14.7）</h2>
+
+<div class="card b-orange">
+<span class="qt" style="color:var(--orange)">实验一 · 用 Google 的真代码跑三段演示</span>
+<div class="step" style="margin-top:8px"><div class="stepn" style="background:var(--orange)">1</div><div class="stepb"><b>克隆并安装</b>（目的：拿到官方源码）→ 实现：仓库落盘 → 验证：<code>git log</code> 见 <code>be50316</code>。<br><code>git clone --depth 1 https://github.com/google-research/rrsi repo</code><br><code>pip install -e "path/to/repo[dev]"</code>（装出 <code>rrsi-0.1.0</code> + pytest）</div></div>
+<div class="step"><div class="stepn" style="background:var(--orange)">2</div><div class="stepb"><b>跑官方单测</b>（目的：确认方法核心离线可验）→ <code>python -m pytest tests</code> → ✅ <b>8 passed in 0.11s</b>。注意：测的全是"方法核"（退火/校准/选择/史本/打标），一个 benchmark 都不碰。</div></div>
+<div class="step"><div class="stepn" style="background:var(--orange)">3</div><div class="stepb"><b>运行三段演示</b>（目的：亲眼看四道闸门工作）→ <code>python rrsi_core_demo.py</code>（脚本在 exercise\，只 import 官方包、不改一行 repo 代码）。
+<div class="expbox">✅ 预期结果：退火表 4→2 递减收 1 ｜ 五候选裁决 A 中选、B 走整形分支、C 触地板、D 被 Critic 拦、E 超成本预算被拒 ｜ 四种谎报标签全部被纠正 ｜ 末行"全部断言通过"</div></div></div>
+</div>
+
+<div class="card b-orange">
+<span class="qt" style="color:var(--orange)">实验二 · toy_rrsi.py：200 行迷你进化环，把推文三句话跑给你看</span>
+<p class="small" style="margin-top:4px">7 道进化题（看得见的失败检查）+ 4 道留出组合题（回归套件）。harness=系统提示词规则；策略缺机制就答错。</p>
+<div class="step" style="margin-top:8px"><div class="stepn" style="background:var(--green)">1</div><div class="stepb"><b>诚实进化</b>：<code>python toy_rrsi.py</code> → ✅ 预期：t=0 采纳"打折规则"（S 0.286→0.571），t=1 采纳"优惠券规则"（S_id 与 S_ood 双双 →1.000），t=2 报告"没有可修的失败检查，进化收敛"，成本 C=36。<span class="hl-green">失败的检查真的变成了下一个修复任务</span>。</div></div>
+<div class="step"><div class="stepn" style="background:var(--green)">2</div><div class="stepb"><b>放作弊者进来</b>：<code>python toy_rrsi.py --proposer leaky</code> → 提案"若题目编号 E3（原文…）直接输出 14.4"→ ✅ 预期：连续 3 轮被 Critic 正则拒绝（命中两条泄漏规则），bounded repair 终止，分数停在基线。作弊者一无所获。</div></div>
+<div class="step"><div class="stepn" style="background:var(--red)">3</div><div class="stepb"><b>拆掉 Critic 看翻车</b>：<code>python toy_rrsi.py --proposer leaky --critic off</code> → ✅ 预期：逐题写死答案，5 轮爬到 S_id=1.000——但 <b>S_ood 全程 0.000</b>，成本 C=95（诚实版 2.6 倍）：<span class="hl-pink">进化集满分、分布外归零，这就是论文要防的过拟合</span>。</div></div>
+<table>
+<tr><th style="background:var(--orange)">模式</th><th style="background:var(--orange)">进化集 S_id</th><th style="background:var(--orange)">留出套件 S_ood</th><th style="background:var(--orange)">成本 C</th><th style="background:var(--orange)">结论</th></tr>
+<tr><td>诚实 + Critic 开</td><td class="ok">1.000</td><td class="ok">1.000</td><td>36</td><td>通用机制，两头都赢</td></tr>
+<tr><td>作弊 + Critic 开</td><td>0.286（基线）</td><td>0.000</td><td>10</td><td>闸门拦下，零损失</td></tr>
+<tr><td>作弊 + Critic 关</td><td class="ok">1.000</td><td class="no">0.000</td><td class="no">95</td><td class="no">背题翻车：ID 满 OOD 空</td></tr>
+</table>
+<p class="small">诚实声明：官方三个 benchmark 实例（Terminal-Bench 2.1 / Harvey LAB / EngDesign）需要 Vertex AI 凭据与 Docker/harbor，本机未运行；本指南的结论以源码精读 + 官方单测 + 上述离线复现为限。</p>
+</div>
+
+<h2 class="purple">4 | 一句话带走 + 三个坑</h2>
+<div class="card b-purple">
+<div class="callout co-yellow">把系统提示词当代码：有测试（评估集）、有回归套件（留出集）、有 code review（Critic）、有性能预算（成本规则）、有 git（worktree 候选）——<b>"提示词工程"到这一步正式成为"提示词软件工程"</b>。</div>
+<div class="grid2">
+<div class="callout co-pink"><b>坑1 · 只看进化集分数</b><br>没有留出回归套件的"自动优化"都是在鼓励背题。任何 prompt 自动优化先建留出集。</div>
+<div class="callout co-pink"><b>坑2 · 分数抖动当真涨</b><br>不校准噪声带 delta 就接受"+0.01"，进化环会围绕噪声原地打转甚至错误采纳。</div>
+<div class="callout co-pink"><b>坑3 · 大胆捆绑式重写</b><br>一次改十处的"大优化"无法归因也无法回滚——退火预算的本质是可归因性。</div>
+</div>
+</div>
+
+<div class="foot">
+本指南由拾遗学习流水线产出（任务 8fbb64d3）· 信源：x.com/N01ennn/status/2099530235154739389 → arXiv 2609.24972（RRSI）+ arXiv 2609.00050（Graph &amp; Loop Engineering）· 代码 github.com/google-research/rrsi（Apache-2.0，HEAD be50316）· 实验材料在同目录 exercise\ · 知识沉淀见 vault：[[RRSI正则化递归自我改进]] [[Critic泄漏审查]] [[图环挽具三层工程]]
+</div>
+</div>
+</body>
+</html>
