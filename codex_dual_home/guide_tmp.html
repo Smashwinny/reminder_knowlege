@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Codex双开小白指南</title>
+<style>
+  @page { margin: 12mm; }
+  :root {
+    --red: #FF4757; --blue: #1E90FF; --orange: #FFA502; --purple: #8E44AD;
+    --green: #2ED573; --pink: #FF6B9D; --teal: #00CEC9; --ink: #2D3436;
+    --yellow-bg: #FFF9C4; --card-shadow: 0 4px 14px rgba(0,0,0,.12);
+  }
+  * { box-sizing: border-box; }
+  body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color: var(--ink);
+         margin: 0; background: #FDF6EC; line-height: 1.65; }
+  .cover { background: linear-gradient(135deg, #FF4757 0%, #FF6B9D 55%, #FFA502 100%);
+           color: #fff; border-radius: 18px; padding: 34px 30px; margin: 10px 0 18px; }
+  .cover h1 { font-size: 40px; margin: 0 0 10px; letter-spacing: 1px; }
+  .cover .sub { font-size: 19px; font-weight: 700; opacity: .97; }
+  .cover .meta { font-size: 12.5px; margin-top: 14px; background: rgba(255,255,255,.18);
+                 border-radius: 10px; padding: 9px 13px; display: inline-block; }
+  .banner { background: var(--yellow-bg); border-left: 8px solid var(--orange);
+            padding: 12px 16px; border-radius: 8px; font-size: 14.5px; margin: 14px 0; }
+  .qcard { background: #fff; border-radius: 14px; box-shadow: var(--card-shadow);
+           padding: 18px 20px 16px; margin: 16px 0; break-inside: avoid;
+           border-top: 8px solid var(--blue); }
+  .qcard.c1{border-color:var(--red)} .qcard.c2{border-color:var(--blue)}
+  .qcard.c3{border-color:var(--green)} .qcard.c4{border-color:var(--orange)}
+  .qcard.c5{border-color:var(--purple)} .qcard.c6{border-color:var(--pink)}
+  .qcard.c7{border-color:var(--teal)} .qcard.c8{border-color:#E17055}
+  .qcard.c9{border-color:#6C5CE7} .qcard.c10{border-color:#00B894}
+  .qcard.c11{border-color:#E84393} .qcard.c12{border-color:#FDCB6E}
+  .qcard.c13{border-color:#0984E3}
+  .qnum { font-size: 34px; font-weight: 900; float: left; margin: -2px 14px 0 0; }
+  .q1 .qnum{color:var(--red)} .q2 .qnum{color:var(--blue)} .q3 .qnum{color:var(--green)}
+  .q4 .qnum{color:var(--orange)} .q5 .qnum{color:var(--purple)} .q6 .qnum{color:var(--pink)}
+  .q7 .qnum{color:var(--teal)} .q8 .qnum{color:#E17055} .q9 .qnum{color:#6C5CE7}
+  .q10 .qnum{color:#00B894} .q11 .qnum{color:#E84393} .q12 .qnum:#FDCB6E{color:#D6A200}
+  .q13 .qnum{color:#0984E3}
+  .qtitle { font-size: 21px; font-weight: 900; margin: 4px 0 10px; }
+  .hl { background: linear-gradient(transparent 45%, #FFE066 45%); font-weight: 900; padding: 0 2px; }
+  .hl-r { background: linear-gradient(transparent 45%, #FFC1C9 45%); font-weight: 900; padding: 0 2px; }
+  code, pre { font-family: Consolas, "Courier New", monospace; }
+  code { background: #Eef2f7; border-radius: 4px; padding: 1px 5px; font-size: 13px; color: #0984E3; font-weight: 700;}
+  pre { background: #1E272E; color: #A6E22E; border-radius: 9px; padding: 12px 14px;
+        font-size: 12.5px; overflow-x: hidden; white-space: pre-wrap; margin: 10px 0; }
+  pre .c { color: #75715E; } pre .out { color: #FD971F; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 13px; }
+  th { background: var(--blue); color: #fff; padding: 7px 9px; }
+  td { border: 1.5px solid #DDE4EC; padding: 6px 9px; background: #fff; }
+  tr:nth-child(even) td { background: #F4F8FC; }
+  .ok { color: #00B894; font-weight: 900; } .no { color: #D63031; font-weight: 900; }
+  .svgbox { text-align: center; margin: 12px 0 4px; }
+  .pit { background: #FFE8E8; border: 2px dashed var(--red); border-radius: 10px;
+         padding: 10px 14px; margin: 10px 0; font-size: 13.5px; }
+  .pit b:first-child { color: var(--red); }
+  .step { background: #F0FFF6; border-left: 7px solid var(--green); border-radius: 8px;
+          padding: 11px 14px; margin: 12px 0; break-inside: avoid; }
+  .step h4 { margin: 0 0 6px; font-size: 15.5px; color: #00875A; }
+  .expect { background: #E8F8FF; border: 2px solid var(--blue); border-radius: 9px;
+            padding: 8px 12px; margin-top: 8px; font-size: 13px; }
+  .expect b { color: var(--blue); }
+  .ability { display: inline-block; background: #fff; border: 2.5px solid var(--purple);
+             border-radius: 12px; padding: 9px 13px; margin: 5px 4px; font-size: 13.5px;
+             font-weight: 700; box-shadow: var(--card-shadow); }
+  h2.sec { font-size: 26px; margin: 26px 0 8px; padding: 8px 16px; color: #fff;
+           border-radius: 10px; display: inline-block; }
+  .sec-blue { background: var(--blue); } .sec-green { background: #00B894; }
+  .sec-purple { background: var(--purple); }
+  .svglabel { font-size: 11.5px; color: #636E72; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🎯 Codex 双开小白指南</h1>
+  <div class="sub">一个环境变量，把 Codex 变成两个互不认识的人</div>
+  <div style="font-size:14.5px; margin-top:8px;">CODEX_HOME 多实例隔离 · Windows 实测版</div>
+  <div class="meta">
+    来源：X 文章《Codex双开配置教程》（Hardy Chen @Chchenhao0129，2026-09-18，97 赞 / 218 书签），
+    经 诺鸭船长3 @noahduck283 引用传播 · 本指南全部命令在 Windows 11 + codex-cli 0.160.0 真机跑通 · 2026-10-03
+  </div>
+</div>
+
+<div class="banner">
+  💡 <b>一句话读懂全篇：</b>Codex 所有"私人物品"——登录凭证、配置、会话历史、记忆——全都放在一个叫 <code>CODEX_HOME</code> 的家目录里（默认 <code>~/.codex</code>）。
+  <span class="hl">启动前把这个环境变量改指到另一个目录，就得到一个全新身份的 Codex</span>，两个实例互不知道对方存在。
+</div>
+
+<h2 class="sec sec-blue">❓ 十三个疑问，从浅到深</h2>
+
+<div class="qcard q1 c1">
+  <div class="qnum">1</div>
+  <div class="qtitle">"双开"到底是什么？为什么要双开？</div>
+  <b>双开 = 在同一台电脑上同时运行两个完全独立的 Codex 实例。</b>原教程的动机很直接：Plus 订阅额度不够用、Pro 又太贵。但双开的真正价值不止于此：
+  <ul>
+    <li><b>身份分家</b>：工作账号干公司活，个人账号干私活，凭证互不干扰；</li>
+    <li><b>配置分家</b>：一个实例配保守小模型+严格沙箱，另一个放开手脚跑实验，<span class="hl">改坏了互不牵连</span>；</li>
+    <li><b>记忆分家</b>：写代码的 Codex 和写文章的 Codex，会话历史/记忆各存各的。</li>
+  </ul>
+  <div class="svgbox"><svg width="520" height="150" viewBox="0 0 520 150">
+    <rect x="10" y="30" width="230" height="100" rx="12" fill="#FFE3E6" stroke="#FF4757" stroke-width="3"/>
+    <text x="125" y="58" text-anchor="middle" font-size="16" font-weight="bold" fill="#C0392B">实例① 打工型</text>
+    <text x="125" y="82" text-anchor="middle" font-size="12" fill="#2D3436">~/.codex · 工作账号 · 严格沙箱</text>
+    <rect x="280" y="30" width="230" height="100" rx="12" fill="#E3F2FF" stroke="#1E90FF" stroke-width="3"/>
+    <text x="395" y="58" text-anchor="middle" font-size="16" font-weight="bold" fill="#0984E3">实例② 实验型</text>
+    <text x="395" y="82" text-anchor="middle" font-size="12" fill="#2D3436">~/.codex-work · 个人账号 · 放开跑</text>
+    <rect x="222" y="60" width="76" height="40" rx="9" fill="#2D3436"/>
+    <text x="260" y="85" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">同一台电脑</text>
+  </svg></div>
+</div>
+
+<div class="qcard q2 c2">
+  <div class="qnum">2</div>
+  <div class="qtitle">凭什么改个环境变量就能"分家"？</div>
+  环境变量是<b>每个终端进程自己的口袋便签</b>：你在 A 窗口写的变量，B 窗口看不见。Codex 每次启动的第一件事，就是掏出便签看一句话——<span class="hl">"我家在哪？"</span>
+  <ul>
+    <li>没写 <code>CODEX_HOME</code> → 用默认家 <code>~/.codex</code>（Windows 即 <code>C:\用户名\.codex</code>）；</li>
+    <li>写了 → 用你指的目录当家，<b>凭证、配置、历史全部从这个新目录读</b>。</li>
+  </ul>
+  <div class="svgbox"><svg width="540" height="168" viewBox="0 0 540 168">
+    <rect x="20" y="16" width="150" height="46" rx="9" fill="#FFA502"/>
+    <text x="95" y="44" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">终端窗口 A</text>
+    <rect x="20" y="74" width="150" height="80" rx="9" fill="#1E272E"/>
+    <text x="95" y="100" text-anchor="middle" font-size="11" fill="#A6E22E">CODEX_HOME=~/.codex-work</text>
+    <text x="95" y="122" text-anchor="middle" font-size="11" fill="#fff">$ codex</text>
+    <rect x="370" y="16" width="150" height="46" rx="9" fill="#74B9FF"/>
+    <text x="445" y="44" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">终端窗口 B（没设）</text>
+    <rect x="370" y="74" width="150" height="80" rx="9" fill="#1E272E"/>
+    <text x="445" y="100" text-anchor="middle" font-size="11" fill="#A6E22E">(无 CODEX_HOME)</text>
+    <text x="445" y="122" text-anchor="middle" font-size="11" fill="#fff">$ codex</text>
+    <path d="M 170 114 L 235 114" stroke="#FF4757" stroke-width="3" marker-end="url(#ar1)"/>
+    <path d="M 370 114 L 305 114" stroke="#1E90FF" stroke-width="3" marker-end="url(#ar2)"/>
+    <defs><marker id="ar1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#FF4757"/></marker>
+    <marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1E90FF"/></marker></defs>
+    <rect x="235" y="88" width="70" height="52" rx="8" fill="#E17055"/>
+    <text x="270" y="110" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">.codex-work</text>
+    <text x="270" y="128" text-anchor="middle" font-size="10" fill="#FFEAA7">新家</text>
+    <rect x="452" y="156" width="68" height="10" fill="none"/>
+  </svg>
+  <div class="svglabel">同一个 codex.exe，凭窗口里的环境变量各回各家</div></div>
+  讲完比喻落回术语：<b><code>CODEX_HOME</code> 是 Codex 官方支持的配置项</b>（不是野路子 hack），官方文档明确它决定配置、认证、会话数据的存放位置。
+</div>
+
+<div class="qcard q3 c3">
+  <div class="qnum">3</div>
+  <div class="qtitle">CODEX_HOME 这个"家"里到底住着什么？</div>
+  本机实测 <code>~/.codex</code> 的清单（节选）——这就是"分家"到底分走了什么：
+  <table>
+    <tr><th>文件/目录</th><th>是什么</th><th>换家后</th></tr>
+    <tr><td><code>auth.json</code></td><td>登录凭证（ChatGPT 账号身份）</td><td class="no">另一个身份</td></tr>
+    <tr><td><code>config.toml</code></td><td>模型、沙箱、审批等全部配置</td><td class="no">另一套配置</td></tr>
+    <tr><td><code>history.jsonl</code></td><td>输入历史</td><td class="no">各记各的</td></tr>
+    <tr><td><code>archived_sessions/</code> 等</td><td>会话存档（resume 的原材料）</td><td class="no">互不可见</td></tr>
+    <tr><td><code>memories*.sqlite</code></td><td>长期记忆库</td><td class="no">互不串味</td></tr>
+    <tr><td><code>logs_2.sqlite</code></td><td>运行日志</td><td class="no">各自记账</td></tr>
+  </table>
+  <span class="hl">家 = 身份 + 配置 + 记忆的打包整体，换家 = 换一个"人"。</span>
+</div>
+
+<div class="qcard q4 c4">
+  <div class="qnum">4</div>
+  <div class="qtitle">为什么我一设置就报错罢工？（必踩的坑）</div>
+  <div class="pit"><b>🐞 本机实测坑：</b>直接设 <code>CODEX_HOME</code> 指向一个不存在的目录，Codex <b>不会自动创建它，而是拒绝启动</b>：<pre>WARNING: proceeding, even though we could not create PATH aliases:
+  CODEX_HOME points to "C:\Users\Windows\.codex-work", <span style="color:#FF6188">but that path does not exist</span>
+Error loading configuration: CODEX_HOME points to ... but that path does not exist</pre></div>
+  对策一行：<b>启动前先建目录</b>。好的启动器脚本都会带这句兜底：
+  <pre><span class="c"># PowerShell</span>
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex-work"
+$env:CODEX_HOME = "$env:USERPROFILE\.codex-work"; codex</pre>
+  建好后第一次运行，新家从空目录开始生长——这本身就是隔离生效的铁证。
+</div>
+
+<div class="qcard q5 c5">
+  <div class="qnum">5</div>
+  <div class="qtitle">二号实例怎么登录？一号会掉线吗？</div>
+  <b>不会掉线。</b>凭证存在各自的 <code>auth.json</code> 里，互不相干。二号第一次用时在自己的窗口里正常 <code>codex login</code>（浏览器登录另一个账号，或配 API key）。本机实测两家体检报告对比：
+  <pre><span class="c"># 老家（默认）</span>                            <span class="c"># 新家（CODEX_HOME=.codex-work）</span>
+$ codex login status                      $ codex login status
+<span class="out">Logged in using ChatGPT</span>                  <span class="out">Not logged in</span>
+
+$ codex doctor（配置段）                   $ codex doctor（配置段）
+config.toml  C:\...\codex\config.toml     config.toml  C:\...\.codex-work\config.toml
+auth file    C:\...\codex\auth.json       auth file    C:\...\.codex-work\auth.json
+parse ok ✅                                parse ok ✅</pre>
+  <span class="hl">doctor 直接报出两家的 config 路径和 auth 路径——隔离是文件系统级的，不是界面障眼法。</span>
+</div>
+
+<div class="qcard q6 c6">
+  <div class="qnum">6</div>
+  <div class="qtitle">config.toml 里不是有 profiles 吗？跟双开什么关系？</div>
+  profiles 是<b>同一个家里的"不同穿搭方案"</b>：在 config.toml 里写多个 <code>[profiles.名字]</code>，用 <code>codex --profile 实验装</code> 切换模型/沙箱等设置。但它<b>不换 auth.json、不换历史、不换记忆</b>。
+  <table>
+    <tr><th></th><th>profiles（换穿搭）</th><th>CODEX_HOME 双开（换人）</th></tr>
+    <tr><td>模型/沙箱等配置</td><td class="ok">可多套切换</td><td class="ok">可多套</td></tr>
+    <tr><td>登录账号</td><td class="no">共享同一个</td><td class="ok">各自独立</td></tr>
+    <tr><td>会话历史 / 记忆</td><td class="no">共享</td><td class="ok">完全隔离</td></tr>
+    <tr><td>同时在线两账号</td><td class="no">做不到</td><td class="ok">开两个窗口即可</td></tr>
+  </table>
+  口诀：<span class="hl-r">只换配置用 profiles，要换身份必须双开</span>。
+</div>
+
+<div class="qcard q7 c7">
+  <div class="qnum">7</div>
+  <div class="qtitle">会话、记忆、MCP 服务器配置也一起隔离吗？</div>
+  <b>是，全在 CODEX_HOME 这一个屋檐下，跟着家走。</b>实测：新家 <code>.codex-work</code> 初始只有一个 <code>tmp/</code>，老家的 memories、history、MCP 配置一概不在。
+  另外还有一个单次粒度的轻量开关：<code>codex -c model="xxx"</code> 只在<b>这一次调用</b>里覆盖配置，落盘不生效。三层覆盖关系：
+  <div class="svgbox"><svg width="540" height="90" viewBox="0 0 540 90">
+    <rect x="15" y="18" width="160" height="52" rx="10" fill="#00CEC9"/><text x="95" y="40" text-anchor="middle" font-size="12.5" fill="#fff" font-weight="bold">-c 覆盖</text><text x="95" y="58" text-anchor="middle" font-size="10.5" fill="#fff">只活这一次调用</text>
+    <rect x="190" y="18" width="160" height="52" rx="10" fill="#0984E3"/><text x="270" y="40" text-anchor="middle" font-size="12.5" fill="#fff" font-weight="bold">config.toml</text><text x="270" y="58" text-anchor="middle" font-size="10.5" fill="#fff">活在整个"家"里</text>
+    <rect x="365" y="18" width="160" height="52" rx="10" fill="#6C5CE7"/><text x="445" y="40" text-anchor="middle" font-size="12.5" fill="#fff" font-weight="bold">CODEX_HOME 换家</text><text x="445" y="58" text-anchor="middle" font-size="10.5" fill="#fff">连人一起换</text>
+    <path d="M175 44 L188 44" stroke="#636E72" stroke-width="2.5" marker-end="url(#ag)"/><path d="M350 44 L363 44" stroke="#636E72" stroke-width="2.5" marker-end="url(#ag)"/>
+    <defs><marker id="ag" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#636E72"/></marker></defs>
+  </svg><div class="svglabel">隔离粒度从左到右递增：单次 → 配置 → 身份+配置+记忆</div></div>
+</div>
+
+<div class="qcard q8 c8">
+  <div class="qnum">8</div>
+  <div class="qtitle">原教程是 macOS 的，跟我 Windows 用户有什么关系？</div>
+  原文针对 Mac 桌面版 Codex App：<code>open -n -a Codex</code> 强制开第二个应用实例 + <code>CODEX_ELECTRON_USER_DATA_PATH</code> 分数据目录 + AppleScript 做独立启动器。两条路线对比：
+  <table>
+    <tr><th></th><th>macOS 桌面版（原教程）</th><th>CLI 双开（本指南，跨平台）</th></tr>
+    <tr><td>关键变量</td><td><code>CODEX_HOME</code> + <code>CODEX_ELECTRON_USER_DATA_PATH</code></td><td><code>CODEX_HOME</code> 一个就够</td></tr>
+    <tr><td>启动方式</td><td><code>open -n -a Codex</code> + AppleScript</td><td>脚本设变量后直接 <code>codex</code></td></tr>
+    <tr><td>Windows 可用性</td><td>桌面 App 双开在 Windows 上可靠性存疑（社区反馈新版本下旧法失效）</td><td class="ok">实测稳：本指南全部产出</td></tr>
+  </table>
+  <span class="hl">CLI 是双开的"公共底层"——两套生态方法共享同一个原理：换 CODEX_HOME 即换人。</span>
+</div>
+
+<div class="qcard q9 c9">
+  <div class="qnum">9</div>
+  <div class="qtitle">双开和 git worktree 并行隔离是什么关系？</div>
+  完全<b>正交（互不重叠、可叠加）</b>的两层隔离：worktree 隔离的是<b>代码工作目录</b>（防止两个任务改同一份文件），CODEX_HOME 隔离的是<b>身份与配置</b>（防止两个实例共用账号/记忆/设置）。
+  <div class="svgbox"><svg width="540" height="150" viewBox="0 0 540 150">
+    <rect x="20" y="16" width="245" height="118" rx="12" fill="#F3EEFF" stroke="#6C5CE7" stroke-width="3"/>
+    <text x="142" y="44" text-anchor="middle" font-size="14" font-weight="bold" fill="#4834D4">git worktree</text>
+    <text x="142" y="68" text-anchor="middle" font-size="12">隔离"在哪干活"</text>
+    <text x="142" y="90" text-anchor="middle" font-size="11.5" fill="#636E72">feat-a/ · feat-b/ 两份工作副本</text>
+    <rect x="275" y="16" width="245" height="118" rx="12" fill="#FFEAFE" stroke="#E84393" stroke-width="3"/>
+    <text x="397" y="44" text-anchor="middle" font-size="14" font-weight="bold" fill="#C0399F">CODEX_HOME 双开</text>
+    <text x="397" y="68" text-anchor="middle" font-size="12">隔离"以谁的身份干活"</text>
+    <text x="397" y="90" text-anchor="middle" font-size="11.5" fill="#636E72">.codex · .codex-work 两套家当</text>
+    <text x="270" y="148" text-anchor="middle" font-size="12" font-weight="bold" fill="#D63031">组合拳：实例② 在 worktree feat-b/ 里用自己的账号干活</text>
+  </svg></div>
+  （知识库里已有 [[GitWorktree并行隔离]] 一格，本篇补上另一格。）
+</div>
+
+<div class="qcard q10 c10">
+  <div class="qnum">10</div>
+  <div class="qtitle">有更轻的做法吗？什么时候轮不到双开？</div>
+  按"改动量"从小到大选工具，<b>别用大炮打蚊子</b>：
+  <table>
+    <tr><th>需求</th><th>用哪个</th><th>成本</th></tr>
+    <tr><td>就想这一次换个模型</td><td><code>codex -c model="…"</code></td><td>零</td></tr>
+    <tr><td>常备两套模型/沙箱方案，同一账号</td><td><code>config.toml</code> profiles</td><td>低</td></tr>
+    <tr><td>要两个账号同时在线 / 记忆历史分开</td><td class="ok">CODEX_HOME 双开</td><td>中（多一个登录）</td></tr>
+    <tr><td>多任务并行改同一仓库的代码</td><td>git worktree（可叠加双开）</td><td>中</td></tr>
+  </table>
+</div>
+
+<div class="qcard q11 c11">
+  <div class="qnum">11</div>
+  <div class="qtitle">升级/回滚时两个实例会打架吗？</div>
+  <b>程序是共享的，家当是分开的。</b><code>npm i -g @openai/codex</code> 装的 codex.exe 全机只有一份，两个实例运行的是同一个版本；双开分走的只是数据目录。所以：
+  <ul>
+    <li>升级一次，两实例一起升级；</li>
+    <li>原教程讲的"更新回滚流程"，CLI 上的等价物是装指定版本：<code>npm i -g @openai/codex@0.159.0</code>；</li>
+    <li>某版本翻车时，两实例的<b>配置/凭证不受程序回滚影响</b>（它们在各自家里，不随 exe 走）。</li>
+  </ul>
+</div>
+
+<div class="qcard q12 c12">
+  <div class="qnum">12</div>
+  <div class="qtitle">双开能多搞一份订阅额度吗？（诚实版答案）</div>
+  <b>不能。</b>额度跟着 <b>ChatGPT 账号</b>走，不跟实例走。双开的两个实例登录同一个账号，烧的是同一份额度；登录两个账号，各烧各的、也各付各的钱。原教程说的"plus 不够用"场景，真实含义是<span class="hl">把两个账号的额度用于不同工作流，避免互相挤兑</span>，而不是凭空变出额度。双开的正当收益是：<b>隔离（互不污染）与并行（同时在线两身份）</b>，不是套利。结合知识库 [[规划执行分账]]：省额度的正道是"贵推理挪网页版、执行留给 CLI"，与双开正交。
+</div>
+
+<div class="qcard q13 c13">
+  <div class="qnum">13</div>
+  <div class="qtitle">这个"环境变量分家"思想还能举一反三到哪？</div>
+  <span class="hl">"换家目录 = 换身份"是 CLI 工具界的通用模式</span>，一大批工具都认同一个道理：
+  <table>
+    <tr><th>工具</th><th>家目录变量</th><th>默认位置</th></tr>
+    <tr><td>OpenAI Codex CLI</td><td><code>CODEX_HOME</code></td><td><code>~/.codex</code></td></tr>
+    <tr><td>Claude Code</td><td><code>CLAUDE_CONFIG_DIR</code></td><td><code>~/.claude</code></td></tr>
+    <tr><td>git（全局配置+凭证）</td><td><code>GIT_CONFIG_GLOBAL</code> / <code>HOME</code></td><td><code>~/.gitconfig</code></td></tr>
+    <tr><td>SSH</td><td><code>-F</code> 指定 config</td><td><code>~/.ssh</code></td></tr>
+    <tr><td>Docker</td><td><code>DOCKER_CONFIG</code></td><td><code>~/.docker</code></td></tr>
+  </table>
+  学会一次，以后看到任何工具"多账号/多环境"需求，第一反应就应该是：<b>找它的家目录变量</b>。
+</div>
+
+<h2 class="sec sec-green">🧪 主实验：亲手把 Codex 分成两个人（Windows 真机全部跑通）</h2>
+
+<div class="banner">实验环境：Windows 11 · codex-cli 0.160.0（npm 全局安装）· 全程不写一行代码，只用 PowerShell。目标：30 分钟后你拥有两个互相不知道对方存在的 Codex。</div>
+
+<div class="step">
+  <h4>第 1 步 · 先认清"老家的身份指纹"（基线）</h4>
+  <b>操作</b>（新开 PowerShell）：<pre>codex login status
+Get-Content "$env:USERPROFILE\.codex\config.toml"</pre>
+  <b>目的</b>：记住默认实例的登录状态和配置，等下对比用。<b>实现了什么</b>：确认"实例①"现在长什么样。<br>
+  <div class="expect">✅ 预期结果：<b>Logged in using ChatGPT</b>；config.toml 里能看到 model = "gpt-6.1-sol" 之类的行（本机实测）。</div>
+</div>
+
+<div class="step">
+  <h4>第 2 步 · 开新家（并踩掉那个必踩的坑）</h4>
+  <b>操作</b>：<pre>$env:CODEX_HOME = "$env:USERPROFILE\.codex-work"
+codex login status        <span class="c"># 先故意不建目录，看它罢工</span>
+<span class="out">Error loading configuration: ... but that path does not exist</span>
+
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex-work"
+codex login status</pre>
+  <b>目的</b>：验证凭据隔离。<b>实现了什么</b>：同一个 codex.exe 在新家变成一个未登录的新身份。<br>
+  <div class="expect">✅ 预期结果：建目录前报 <b>"path does not exist"</b>（坑！）；建目录后输出 <b>Not logged in</b>。再看看新家：里面只有一个 tmp\ —— 干净得像刚出生。</div>
+</div>
+
+<div class="step">
+  <h4>第 3 步 · 给新家一份自己的配置，并用 doctor 出示"户口证明"</h4>
+  <b>操作</b>：<pre>Set-Content "$env:USERPROFILE\.codex-work\config.toml" @"
+model = "gpt-6.1-sol"
+model_reasoning_effort = "high"
+"@
+codex doctor | Select-String "config.toml|auth file"</pre>
+  <b>目的</b>：证明配置文件也是各读各的。<b>实现了什么</b>：新家 reasoning_effort=high，老家仍是 low，互不影响。<br>
+  <div class="expect">✅ 预期结果：doctor 明确报出 <b>config.toml  C:\...\ .codex-work\config.toml</b> 和 <b>auth file  C:\...\.codex-work\auth.json</b>，parse ok。把 <code>$env:CODEX_HOME</code> 删掉（<code>Remove-Item Env:CODEX_HOME</code>）再跑 doctor，路径立刻变回老家——切换零成本。</div>
+</div>
+
+<div class="step">
+  <h4>第 4 步 · 做一键启动器，把方法固化下来</h4>
+  <b>操作</b>：把下面存成 <code>codex-work.ps1</code>（完整版已附在 exercise\ 目录，另有双击即用的 codex-work.cmd）：<pre>$env:CODEX_HOME = Join-Path $env:USERPROFILE ".codex-work"
+if (-not (Test-Path $env:CODEX_HOME)) { New-Item -ItemType Directory -Force $env:CODEX_HOME | Out-Null }
+codex @args</pre>
+  <b>目的</b>：以后每次想进"实例②"，双击/一行命令即可，不用记变量名。<b>实现了什么</b>：方法从"一次性操作"变成"常备工具"。<br>
+  <div class="expect">✅ 预期结果：<code>powershell -File codex-work.ps1 doctor</code> 的输出指向 .codex-work（本机实测通过）。到此：实例①开普通终端 <code>codex</code>，实例②跑 <code>codex-work.ps1</code>，两个窗口同时在线互不打架。</div>
+</div>
+
+<h2 class="sec sec-purple">🎁 这套方法给我什么</h2>
+<div>
+  <span class="ability">🏢 工作/私人双账号同机在线，凭证永不串</span>
+  <span class="ability">🧪 野实验专用实例：配置随便改，老家永远安全</span>
+  <span class="ability">📝 写作/编码记忆分家，resume 历史互不污染</span>
+  <span class="ability">🔀 与 git worktree 叠加 = 目录+身份双层并行</span>
+  <span class="ability">🔁 通用模式迁移：CLAUDE_CONFIG_DIR / DOCKER_CONFIG 同理</span>
+</div>
+
+<div class="banner" style="margin-top:20px;">
+  📌 <b>三句话带走：</b>① Codex 的家当全在 <code>CODEX_HOME</code>，换家即换人；② 家目录必须先建好，否则它罢工；③ 隔离的是身份/配置/记忆，不是额度——省额度请找 [[规划执行分账]] 那套办法。
+</div>
+
+</body>
+</html>
