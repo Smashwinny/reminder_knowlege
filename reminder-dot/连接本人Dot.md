@@ -1,20 +1,20 @@
 # 连接本人 Dot 的当前步骤
 
-2026-10-05：Reminder 接入已按本人批准部署 `97ef3cc`。Windows 实测网站健康、`/dot` 与 OAuth discovery 正常；OAuth/MCP 暂时为 503，因为账户、客户端和回调尚未配置。还没有云端学习日程。
+2026-10-05：Reminder 接入已按本人批准部署 `97ef3cc`。Ubuntu 随后完成允许账户、授权列表与真实客户端/回调的私密配置；Windows 在已登录 Chrome 中确认管理页和实际 OAuth 授权页可用，已创建私有 MCP 应用并发起连接。当前停在最后的本人 consent，尚未完成 OAuth 连接、真实报告验收或云端学习日程。
 
 ## 已准备的真实界面
 
-Windows 在本人 Chrome 已登录的 ChatGPT 界面中打开：插件 → 添加 → 创建自定义 MCP 服务器。草稿名称为“Reminder 私有学习”，服务器 URL 为 `https://reminder.geniusqi.com/mcp`，身份验证使用 OAuth。高级 OAuth 设置已实际显示服务端 discovery 和精确回调；公共客户端 ID 草稿已填写，精确值仅保存在本机私密 `完成/.pipeline/dot-oauth-draft.json`，尚未配置到生产。
+Windows 在本人 Chrome 已登录的 ChatGPT 界面中完成：插件 → 添加 → 创建自定义 MCP 服务器。名称为“Reminder 私有学习”，服务器 URL 为 `https://reminder.geniusqi.com/mcp`，身份验证使用 OAuth。公共客户端 ID 与高级设置显示的精确回调已通过私密附件交给 Ubuntu，并配置到生产；原始值仅保存在本机私密 `完成/.pipeline/dot-oauth-draft.json`，不写入本文件。
 
 当前界面支持自定义 OAuth 客户端；DCR/CIMD 显示不可用，与 V1 服务端一致。使用公共客户端、Token 端点身份验证方法 `none`，客户端密钥留空。客户端 ID 需与服务器私密配置一致；回调必须复制当前创建界面显示的完整值，不能拿文档中的示例代替。关闭并重新创建草稿后应重新核对回调。
 
-草稿没有提交，没有创建凭据或完成 consent。客户端 ID、回调和账户标识通过私密维护聊天交给 Ubuntu，不写公开知识仓库或 issue。普通网站登录 token、密码和 SSH 私钥均不交给 Dot。
+原草稿已提交并创建私有应用，随后点击继续连接，真实请求已进入网站 consent 页面。Windows 已核对请求的客户端、精确回调、MCP resource、PKCE S256 和三个 scope 与原配置一致；最后同意按钮尚未点击。客户端 ID、回调和账户标识不写公开知识仓库或 issue。普通网站登录 token、密码和 SSH 私钥均不交给 Dot。
 
 ## 先确认访问范围
 
 本人已在本次聊天确认使用当前网站账户的主清单，称为“我的清单”；以后新增其他清单需另外配置，不自动扩大。网站主清单与 Dot 授权列表是不同对象，Ubuntu 应核实身份和数据结构，再建立或复用同一主清单的服务端授权映射。主清单后续新增记录沿用该范围，其他清单不加入；旧进行中、旧保护和已有 owner 不能因范围映射而自动接管。
 
-账户需由服务器解析为真实 canonical user ID，授权列表需核对真实 ID 和当前成员，不能将显示名称当作 ID。当前本人 /dot 页面实测提示尚无 Dot 接入权限，等待 Ubuntu 配置允许账户。私密配置交接已保存在 `完成/.pipeline/Ubuntu-OAuth配置交接.txt`，供本人复制到 Ubuntu 私密维护聊天，不能贴 Issue。
+账户需由服务器解析为真实 canonical user ID，授权列表需核对真实 ID 和当前成员，不能将显示名称当作 ID。Ubuntu 已核实历史兼容别名唯一解析到同一主任务库，并建立主清单的授权映射；Windows 当前登录的 `/dot` 与 consent 页面均可选择这份清单。真正 OAuth identity 工具返回的账户/列表 ID 与权限仍待 consent 后验证。私密配置交接已通过本人送达 Ubuntu，不能贴 Issue。
 
 允许的三个权限为 `reminder.records.read`、`reminder.analysis.write`、`reminder.learning.write`，对应读取该列表、保存分类、保存完整学习报告和产物。连接绑定一个列表，任务完成仍由本人点击，不能自动扩大到其他账户、列表或本机文件。
 

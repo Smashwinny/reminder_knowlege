@@ -2,7 +2,7 @@
 
 2026-10-04 最新用户授权：完整学习也自动执行，网站完成由用户点击。网站接入已部署；本人 Dot 的 OAuth 连接、真实学习和云端日程尚未完成。
 
-2026-10-05 收信箱进展：本人已批准固定 SHA `97ef3ccfb83b625f684d81eb86a781837f928d1b`，Ubuntu [回报今天约 01:09 完成部署](https://github.com/Smashwinny/reminder/issues/1#issuecomment-5982483714)，仅更新 Reminder app，备份与旧镜像保留，真实主库内容和完成状态不变。Windows 随后独立核验公网：健康、Dot 页面及两个 OAuth discovery 为 200，未配置的 OAuth/MCP 为 503。本人已确认当前账户的主清单“我的清单”为访问范围，以后其他清单单独配置；真实身份/授权映射、私密客户端配置及本人 OAuth 同意仍待完成。真实 Dot 学习、日程和本机回迁尚未验收。前轮 20 项 Node 检查及合成报告回迁属于代码验证，详见[候选审阅记录](候选审阅.md)和[本人连接步骤](连接本人Dot.md)。
+2026-10-05 收信箱进展：本人已批准固定 SHA `97ef3ccfb83b625f684d81eb86a781837f928d1b`，Ubuntu [回报今天约 01:09 完成部署](https://github.com/Smashwinny/reminder/issues/1#issuecomment-5982483714)，仅更新 Reminder app，备份与旧镜像保留。Ubuntu 随后[确认限定主清单映射与私密 OAuth 配置完成](https://github.com/Smashwinny/reminder/issues/1#issuecomment-5982904179)；Windows 已在原 Chrome 中创建私有 MCP 应用，进入真实授权页并核对客户端/精确回调、resource、S256 与三个权限。未授权 MCP POST 返回 401，GET 为要求使用 POST 的 405。当前等待最后本人 OAuth 同意，之后仍须核验真实 identity、权限及报告写入/回读；完整学习、日程和本机真实回迁尚未验收。以后其他清单单独配置。前轮 20 项 Node 检查及合成报告回迁属于代码验证，详见[候选审阅记录](候选审阅.md)和[本人连接步骤](连接本人Dot.md)。
 
 默认流程：本人选择网站账户与分析列表 → Dot 在云端读取获准原链接 → 自动分类及完整学习 → 实际产物与独立审核后打标签 → 电脑在线后校验复制报告及产物到本机 → 唯一协调者按 learn-project 第 8、9 步合并知识库、提交并推送 Git。用户自己点击任务完成，与这些阶段分别记录。
 
@@ -26,7 +26,7 @@ Git 沿用公开的 `Smashwinny/reminder_knowlege`，用户已确认只提交学
 
 网站既有本机凭据已通过真实 `/api/auth/me` 只读确认有效；这不等于已经选定 Dot 可见列表或完成 OAuth 授权。Windows 没有生产 SSH 密钥；Ubuntu 是唯一生产维护者，已按本人批准完成部署及真实旧功能核验。公网验证只证明服务可达和门控正确，不能替代本人 OAuth、列表隔离和真实学习验收。
 
-继续接入需要：Ubuntu 核实已确认的主清单与 Dot 授权列表的对应关系；将真实 ChatGPT 当前草稿的客户端 ID 和精确回调经私密维护渠道配置到服务器，再由本人完成 OAuth 同意。旧保护和他人 owner 不因主清单映射而被自动接管。无需把任何密码、密钥或 token 发到聊天。
+服务器侧主清单映射与私密客户端/回调配置已完成，当前私有应用也已创建；继续接入需要本人完成实际 OAuth 同意，再通过真实 identity 工具核对账户、列表和权限并验收一条初步报告的写入/回读。旧保护和他人 owner 不因主清单映射而被自动接管。无需把任何密码、密钥或 token 发到聊天。
 
 Dot 云端分析与本机回迁能力依据 [官方电脑连接说明](https://learn.chatgpt.com/docs/dots/computers-and-apps) 和 [定期任务说明](https://learn.chatgpt.com/docs/dots/tasks-and-memory)。将“仅指定列表”落实为服务端授权，是本实现的设计选择。唯一 Dot 实例身份没有得到官方认证资料的证明，当前边界是获本人同意的私有 OAuth 连接。
 

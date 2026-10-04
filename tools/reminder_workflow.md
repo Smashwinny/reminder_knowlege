@@ -10,7 +10,7 @@
 
 新接口和Dot指令见 reminder-dot/README.md。Dot需新 learning.write 授权，不自动扩大旧分类OAuth。网站接入已部署，尚未完成本人 Dot OAuth 或保存新日程，旧本机 heartbeat 仍暂停。
 
-2026-10-05：本人已批准固定 `97ef3ccfb83b625f684d81eb86a781837f928d1b`；Ubuntu 在 issue #1 的回信 `5982483714` 报告约 01:09 部署完成，仅更新 Reminder app，完成整卷备份和真实旧功能验收。Windows 独立公网核验健康、Dot 页面及两个 discovery 200，OAuth/MCP 503，确认未配置时保持关闭。本人已确认当前账户主清单“我的清单”为允许范围，以后其他清单另外配置；canonical 身份与授权列表映射待 Ubuntu 核实，实际客户端/精确回调待私密配置和本人 consent，真实 Dot 学习和云端日程尚未验收。前轮 20 项联合检查、full 串行锁和知识分页核对、4 份合成报告/12 个文件 Python 回迁通过，属于代码及传输验证。当前用户登录备份触发器已经注册并安全试运行；目标账户/列表 ID 未配置，真实云端拉取及协调者自动接续仍未验收。本机触发只复制产物，不运行周期分类、学习或 Git。
+2026-10-05：本人已批准固定 `97ef3ccfb83b625f684d81eb86a781837f928d1b`；Ubuntu 在 issue #1 的回信 `5982483714` 报告约 01:09 部署完成，仅更新 Reminder app，完成整卷备份和真实旧功能验收。Windows 初次公网核验健康、Dot 页面及两个 discovery 200，未配置时 OAuth/MCP 503。Ubuntu 后续回信 `5982904179` 确认 canonical 身份与主清单授权映射、真实客户端和精确回调均已完成私密配置；Windows 已在原 Chrome 界面创建私有应用并进入真实 consent 页，核对客户端/回调、resource、S256 和三个权限一致。未授权 MCP POST 独立实测 401，GET 为要求使用 POST 的 405。最后本人 OAuth consent 尚未完成，真实 identity、报告写入/回读、完整学习和云端日程均待验收。以后其他清单仍需另外配置。前轮 20 项联合检查、full 串行锁和知识分页核对、4 份合成报告/12 个文件 Python 回迁通过，属于代码及传输验证。当前用户登录备份触发器已经注册并安全试运行；目标账户/列表 ID 未配置，真实云端拉取及协调者自动接续仍未验收。本机触发只复制产物，不运行周期分类、学习或 Git。
 
 本地智能体必须先经原 reminder_pipeline claim/start/ready/review，完整标签由唯一协调者交付。网站标签工具示例（实际UUID/owner/lease/report和已审核analysis.json替换占位值）：
 
