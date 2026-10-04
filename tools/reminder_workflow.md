@@ -78,7 +78,7 @@ Git 同步单独记录是否提交/推送成功，不与“网站已确认完成
 
 原轮询需要电脑开机、Codex 应用运行及本机凭据有效。新的 Dot 接入采用网站服务端的限定账户/分析列表、OAuth、分类领取和报告存储；本机原 SQLite 只用于回迁后的共享学习队列，不能复制成多台设备各自调度的锁。默认只备份云端报告，明确使用 --import-queue 才经原 claim/classify/release 接口导入，不抢已有 owner 或旧保护记录。旧本机自动分类不得与 Dot 同时调度。
 
-完整说明见 `reminder-dot/README.md` 和 `reminder-dot/repo/docs/DOT_INTEGRATION.md`。网站源码来自 Smashwinny/reminder 的独立副本 `reminder-dot/repo`，不是把当前知识仓库部署成网站。第一版计划在 Dot 中保存云端 15 分钟任务；即时事件触发尚未实现。接入验收后，电脑关机时由 Dot 云端继续工作；回迁用固定本机脚本拉取，不给 Dot 个人电脑权限。`tools/reminder_dot_on_login.ps1` 的登录备份触发器已注册并安全试运行，但目标账户/列表、真实云端拉取和协调者自动接续尚未验收。个人电脑连接是可选的额外扩大授权方式，当前没有连接。
+完整说明见 `reminder-dot/README.md` 和 `reminder-dot/repo/docs/DOT_INTEGRATION.md`。网站源码来自 Smashwinny/reminder 的独立副本 `reminder-dot/repo`，不是把当前知识仓库部署成网站。第一版计划在 Dot 中保存云端 15 分钟任务；即时事件触发尚未实现。接入验收后，电脑关机时由 Dot 云端继续工作；回迁用固定本机脚本拉取，不给 Dot 个人电脑权限。`tools/reminder_dot_on_login.ps1` 的登录备份触发器已注册并安全试运行，目标范围已按实际身份配置，真实初步报告复制与重复恢复已通过；完整产物回迁和协调者自动接续尚未验收。个人电脑连接是可选的额外扩大授权方式，当前没有连接。
 
 ## 当前迁移情况
 
