@@ -41,4 +41,10 @@ Dot 云端分析与本机回迁能力依据 [官方电脑连接说明](https://l
 
 验证结果：12项Node相关验证、13项Python迁移与交付验证通过；原本地队列33项回归通过，共46项Python检查通过。交接账本区分私有原记录与公开学习成果，重复备份保留协调者已有同步记录，损坏账本不覆盖原件。前轮网站完整套件35/36通过，剩余为原有Windows上的Unix0600权限断言。模拟网站回迁4份报告及6份产物，再次回迁新增0份，云端原件保留。
 
-网站源码提交：`be7e6fc`；默认 Dot → 本机/Git 规则追加提交：`243739d`，分支 `codex/automatic-analysis-tags`。当前仅本地提交，生产网站尚未部署，Dot连接与日程尚未启用；本机登录触发和协调者自动接续未接通。rebase留待后续核对服务器与远端改动后进行。
+网站源码提交：`be7e6fc`；默认 Dot → 本机/Git 规则追加提交：`243739d`；Ubuntu 交接说明提交：`aebba3e`。分支 `codex/automatic-analysis-tags` 已推送至网站仓库，并创建 [草稿 PR #2](https://github.com/Smashwinny/reminder/pull/2)，尚未合并或部署生产。知识仓库本机配套提交尚未推送，rebase 留待后续核对服务器与远端改动后进行。
+
+2026-10-04 用户授权使用 [运维收信箱 issue #1](https://github.com/Smashwinny/reminder/issues/1) 协调另一台 Ubuntu 的 Codex；已发送分工与只读发布准备请求。GitHub 元数据确认网站仓库现为私有，公开知识仓库的学习成果范围不变；不复制私密连接信息到提交历史。原 Ubuntu Codex 负责认领服务器侧，Windows Codex 维护功能代码、隔离验证和回迁工具。详见 [Ubuntu 交接说明](repo/docs/DOT_UBUNTU_HANDOFF.md)。
+
+本次在独立合成数据目录启动实际网站应用，绑定随机本机回环端口，完成 6 项集成验证：登录、OAuth/权限与列表隔离、报告领取/标签、HTTP server 重新创建后持久化回读、用户完成状态保留标签及限定范围导出。随后实际 Python 工具恢复合成导出：首次新增 1 份、重复新增 0 份，云端原件保留，未导入真实队列。运行使用 Node 而非 Docker，验证后临时 HTTP server 已关闭；没有改动生产或把合成报告当作真实学习。
+
+真实生产部署、Dot OAuth/日程、本机登录触发与协调者自动接续仍未接通，状态分别保留待办。

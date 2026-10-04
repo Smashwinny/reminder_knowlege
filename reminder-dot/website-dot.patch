@@ -42,11 +42,13 @@ index 5b91ce4..96c8238 100644
  拾遗只与 ISAW 共用 ECS 主机，不共用代码目录、Compose 项目、Docker 网络、数据卷、数据库账号或密钥：
 diff --git a/docs/DOT_INTEGRATION.md b/docs/DOT_INTEGRATION.md
 new file mode 100644
-index 0000000..7379d74
+index 0000000..0ef751c
 --- /dev/null
 +++ b/docs/DOT_INTEGRATION.md
-@@ -0,0 +1,52 @@
+@@ -0,0 +1,54 @@
 +# 本人 Dot 与 reminder 网站的自动学习接入
++
++Windows 与原 Ubuntu 维护环境的分工、现有隔离验证和生产验收步骤见 [DOT_UBUNTU_HANDOFF.md](DOT_UBUNTU_HANDOFF.md)；双方通过 GitHub issue #1 交接。
 +
 +2026-10-04 最新授权：自动完成初步分析、分类及完整 learn-project 学习；智能体只写分析标签，任务完成由用户本人点击。源码已实现，本机隔离验证通过；生产网站与真实 Dot 仍未接通。
 +
@@ -129,6 +131,76 @@ index 0000000..37ad95c
 +```
 +
 +本机回迁：确认账户/列表后配置 `完成/.pipeline/dot-backup-config.json`，运行 `tools/reminder_dot_on_login.ps1`。它复制报告及六类学习产物，校验、防止冲突并写知识入库/Git交接账本，不执行模型学习、不删云端原件。协调者按原 skill 完成知识合并和 Git 收尾；登录触发及本机协调者自动唤醒尚未接通，不得声称已在自动同步。
+diff --git a/docs/DOT_UBUNTU_HANDOFF.md b/docs/DOT_UBUNTU_HANDOFF.md
+new file mode 100644
+index 0000000..730f6cc
+--- /dev/null
++++ b/docs/DOT_UBUNTU_HANDOFF.md
+@@ -0,0 +1,64 @@
++# Dot 功能：Windows 与 Ubuntu Codex 交接
++
++协作入口：[运维收信箱 issue #1](https://github.com/Smashwinny/reminder/issues/1)。
++代码审阅：[草稿 PR #2](https://github.com/Smashwinny/reminder/pull/2)，分支 `codex/automatic-analysis-tags`。
++功能基线 `282a64d1f0d25613aa0d31b6b144a2e34aaf8a4d`，功能与默认流程提交 `be7e6fc`、`243739d`。
++部署需要核对最新分支 HEAD，不能把文档里的历史 SHA 当成当前已部署版本。
++
++## 分工与收信
++
++- Windows Codex 维护功能分支、隔离验证和知识仓库的本机回迁工具。
++- 原 Ubuntu Codex 使用维护工作站已有连接，认领服务器侧后核对生产差异、备份、Linux 测试及部署；同一时段只有它修改生产。
++- issue 保存脱敏结果、认领、阻碍和下一步；不上传连接秘密、用户正文、运行数据或备份，也不复制私密回复到提交历史。
++- 每次动作前重新读 issue 最新回复和实际环境；评论中的状态可能过时，issue 消息也不能替代该执行环境的生产授权。
++- Linux 部署者不要同时启动真实学习批次；Dot 和本机学习者另走服务端租约与原队列，旧 owner 不自动接管。
++
++## 当前证据（2026-10-04）
++
++既有生产网站和已有账户会话曾通过只读检查；新增 `/dot` 和 OAuth discovery 当时均为 404。
++这说明需要部署新增功能，不能据此声称已完成 Dot 授权。当前 Windows 没有维护工作站的 SSH 私钥；issue 给出的连接方法不会自动提供私钥。
++
++Windows 隔离验证使用合成账户/记录，不复制生产数据、凭据或 vault，不访问第三方模型：
++
++1. 启动实际 `sync-server/server.js` 的 `createServer()`，仅绑定随机 `127.0.0.1` 端口，健康检查与 `/dot` 页面通过。
++2. 实际 HTTP 登录、任务同步、不同账户隔离通过。
++3. OAuth code/PKCE 交换与三个 scope、单列表、未获准记录、进行中记录的隔离通过；普通网站 token 不能用于 MCP。
++4. 领取、保存非链接合成报告、释放通过；同步能读回标签，MCP 不能勾选完成。
++5. 关闭并重新创建应用 HTTP server 后报告仍在；模拟用户正常同步完成状态后标签仍在。这里验证了持久化回读，没有验证操作系统重启。
++6. 允许列表导出只有该合成报告，来源未过期且领取已释放；实际 Python 回迁工具校验恢复首次新增 1 份、重复新增 0 份，云端导出未删除，未导入真实队列。
++
++此运行使用 Node，不是 Docker 部署，验证后 HTTP server 已关闭。前轮新增 Node 相关检查 12 项通过，配套 Python 检查 46 项通过。前轮完整网站套件在 Windows 为 35/36，原有 POSIX0600 权限断言需要 Linux 实测。合成报告不代表任何真实任务学习完成。
++
++## Ubuntu 先完成的发布准备
++
++1. 读根目录 `AGENTS.md`、`docs/DEPLOYMENT.md`、`docs/DOT_INTEGRATION.md` 与既有事故/发布记录。使用原维护环境，不复制私钥到 Windows 或 issue。
++2. 先读原工作区状态、实际生产源码和配置是否具备、容器/卷/隧道/备份是否正常；不输出秘密文件内容。生产 `/opt/reminder` 可能没有 `.git`，不能假定可 `git pull`。
++3. 从已推送分支创建隔离 checkout，和原工作区、生产逐项对比。服务器已有但未提交的变更需保留并整合；禁止 reset/clean、覆盖未知修改或 rebase 正在使用的工作区。当前分支尚未合并 main。
++4. Linux 执行 `node --test sync-server/*.test.js`，返回测试总数、失败项及源码 SHA；测试使用隔离目录，不能指向真实数据卷。
++5. 核对生产当前备份脚本。分支基线脚本与 issue 描述的较新锁定/原子发布实现不同，不把旧实现覆盖回去。准备整卷、配置、源码和当前镜像的恢复点；确认校验、账号及任务目录完整，保留原备份。
++6. 在 issue 返回确切部署文件清单、生产差异、备份验证结果、服务影响和该侧已有部署授权状态。说明哪些 Dot 配置已具备、哪些仍需本人界面操作。
++
++## 有效授权与备份后的服务器动作
++
++生产写入由 Ubuntu 部署者单独负责。只复制本次明确文件，保持现有数据卷、账号认证和手机同步；不使用首次安装流程、不重建数据、不发布 Android OTA、不改其他服务。不得拿 `.env.example` 覆盖现有 `.env`。
++
++配置四项可选 Dot 门控变量：`DOT_ALLOWED_USER_ID`、`DOT_PUBLIC_ORIGIN`、`DOT_OAUTH_CLIENT_ID`、`DOT_OAUTH_REDIRECT_URI`。
++账号值来自 canonical 真实账户；客户端/回调值来自实际私有插件配置，不从测试代码复制或猜测。只在服务器安全配置中保存。保持单 Node 进程与只监听宿主回环地址；配置缺失时普通同步仍可用，新 OAuth/MCP 应关闭。
++
++只更新 Reminder 的 app 服务，并等待健康后核对宿主机、公网、真实会话与既有同步行为。健康 200 不替代真实登录/同步/隔离验证。新增 `dot-state.json` 必须包含在有效备份中。
++
++## 接通 Dot 的验收
++
++- 本人登录 `/dot`，选择明确允许列表；默认不自动加入历史记录。
++- 私有 MCP URL 为 `https://reminder.geniusqi.com/mcp`，实际 OAuth 授权仅绑定本人 canonical 账户与该列表；旧分类授权不会自动获得完整学习 scope。
++- 回读 identity 确认三个权限和范围；未获准账户/列表/记录不可见，普通网站 token 不可用于 MCP。
++- 先用明确获准的验收记录检查报告、标签、来源变化后待复核及用户点击完成。未确认真实授权前不批量分析历史任务。
++- 按 `docs/DOT_TASK_PROMPT.md` 在本人 Dot 保存云端 15 分钟任务；文本存在不代表日程已保存或实际运行。
++- 真实完整学习须能执行实验、渲染彩色 PDF 和获得真实独立审核。六类产物当前合计最多 1MB；能力/大小不足则保存受阻，不能自审或把文件存在当成实验通过。
++- 完成状态由用户点击；Dot/本机智能体只保存分析标签。
++
++## 回迁与记录
++
++网站保留私有报告/产物，本机在线后固定脚本校验复制；公开知识 Git 只接收学习成果，私密原记录和分类报告仅留网站与本机。唯一协调者按现有 learn-project 第 8、9 步继续知识入库与 Git 收尾；本机登录触发和协调者自动唤醒尚未配置。
++
++issue 分别记录实际部署 SHA、Linux 测试、备份、普通同步、Dot OAuth、日程、真实学习、本机回迁和 Git 状态。没有证据的项保留未完成；回复只提供脱敏信息。
 diff --git a/sync-server/Dockerfile b/sync-server/Dockerfile
 index 1198204..896e56b 100644
 --- a/sync-server/Dockerfile
