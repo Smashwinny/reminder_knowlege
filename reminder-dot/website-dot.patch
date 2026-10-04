@@ -42,10 +42,10 @@ index 5b91ce4..96c8238 100644
  拾遗只与 ISAW 共用 ECS 主机，不共用代码目录、Compose 项目、Docker 网络、数据卷、数据库账号或密钥：
 diff --git a/docs/DOT_INTEGRATION.md b/docs/DOT_INTEGRATION.md
 new file mode 100644
-index 0000000..3915514
+index 0000000..7379d74
 --- /dev/null
 +++ b/docs/DOT_INTEGRATION.md
-@@ -0,0 +1,50 @@
+@@ -0,0 +1,52 @@
 +# 本人 Dot 与 reminder 网站的自动学习接入
 +
 +2026-10-04 最新授权：自动完成初步分析、分类及完整 learn-project 学习；智能体只写分析标签，任务完成由用户本人点击。源码已实现，本机隔离验证通过；生产网站与真实 Dot 仍未接通。
@@ -85,11 +85,13 @@ index 0000000..3915514
 +
 +知识仓库配套工具 tools/reminder_dot_agent.py：本地先使用原 reminder_pipeline 领取，再领取网站 lease，开始前原 start 绑定目录；完成后 ready、真实独立 review，由全局协调者 save --stage full。工具重新校验原 manifest 及审核指纹，直接读取实际 PDF/HTML/实验日志/vault_note、生成练习 ZIP 和审核日志；不接受调用方伪造文件路径代替真实产物。它不调用旧 publish，不勾选网站完成。
 +
-+默认回迁使用固定本地 tools/reminder_dot_backup.py backup，只访问真实站点，不允许重定向携带凭据。小页导出避免单请求过大，核对账户/列表、来源版本、Markdown和各文件SHA256，私有存入 完成/.pipeline/dot/<account>/<list>/，重复复制幂等、有本地冲突则保留原件，云端不删除。网络/认证失败不把缓存当网站真值。恢复归档上限512MiB；过大需按列表分批。
++默认由本人 Dot 在云端分析及完整学习，完成后备份到本地和 Git。回迁使用固定本地 tools/reminder_dot_backup.py backup，只访问真实站点，不允许重定向携带凭据。小页导出避免单请求过大，核对账户/列表、来源版本、Markdown和各文件SHA256，私有存入 完成/.pipeline/dot/<account>/<list>/，重复复制幂等、有本地冲突则保留原件，云端不删除。网络/认证失败不把缓存当网站真值。恢复归档上限512MiB；过大需按列表分批。
++
++用户确认 Git 沿用公开 Smashwinny/reminder_knowlege，只提交学习成果；私密原记录及分类报告仅保存网站和本机。备份生成 handoff.json，分别记网站保存、本机副本校验、知识入库、Git状态。唯一协调者核对当前来源/范围/owner并整理既有项目目录，继续 learn-project 第8步概念查重、合并vault及更新总览，再执行第9步明确文件提交/推送；不遗漏知识入库，也不把复制报告当Git同步成功。共享工作区不自动rebase或重置，不强推、不绕过hooks。完成标签与用户点任务完成仍独立。
 +
 +明确 --import-queue 才重新核对实时网站和云端范围/领取，走原 claim/classify/release 导入分类，不将完整标签伪装为网站完成或已入本机vault，不抢owner和旧保护。非链接类没有HTTP证据，默认仅备份，不能伪造来源绕过原队列证据要求。旧报告和状态仍保留。
 +
-+本地登录脚本 reminder_dot_on_login.ps1 仅固定拉取，不调用模型、不启动学习、不给Dot整台电脑权限；尚未填目标配置或注册登录事件。Git忽略不等于磁盘加密，本机管理员及获准目录读者仍可能读取副本。推荐Dot仅连接网站；可选个人电脑连接会扩大权限，不再是它整体仅能访问一个列表。
++本地登录脚本 reminder_dot_on_login.ps1 固定拉取并记录知识入库/Git交接，不调用模型、不启动学习、不给Dot整台电脑权限；尚未填目标配置或注册登录事件，本机协调者自动唤醒也未接通。Git实际提交/推送仍须协调者完成现有skill，账本中的pending不能显示成成功。Git忽略不等于磁盘加密，本机管理员及获准目录读者仍可能读取副本。推荐Dot仅连接网站；可选个人电脑连接会扩大权限，不再是它整体仅能访问一个列表。
 +
 +## 本机验证与待验收
 +
@@ -98,7 +100,7 @@ index 0000000..3915514
 +官方依据：[Dot电脑与插件](https://learn.chatgpt.com/docs/dots/computers-and-apps)、[Dot任务与日程](https://learn.chatgpt.com/docs/dots/tasks-and-memory)、[MCP OAuth](https://developers.openai.com/plugins/build/auth)、[私有插件配置](https://developers.openai.com/plugins/quickstart)、[私人或工作区使用](https://developers.openai.com/plugins/deploy/app-review)、[未来MCP事件](https://developers.openai.com/plugins/build/mcp-events)。具体标签、租约、产物和回迁协议是本项目实现，不是官方现成集成。
 diff --git a/docs/DOT_TASK_PROMPT.md b/docs/DOT_TASK_PROMPT.md
 new file mode 100644
-index 0000000..a672eeb
+index 0000000..37ad95c
 --- /dev/null
 +++ b/docs/DOT_TASK_PROMPT.md
 @@ -0,0 +1,25 @@
@@ -119,14 +121,14 @@ index 0000000..a672eeb
 +
 +真实产物和独立审核完成后，提交 stage=full 的 analysis 和 completion，六个文件的实际 base64，包括指南 PDF/HTML、练习 ZIP、实际实验日志、知识笔记和审核日志，合计至多1MB。保存成功后回读确认“已完成完整分析”标签并 release。服务端文件校验不能替代内容审核。来源变化或用户已完成则停止，保留具体说明。
 +
-+自动分类与完整学习均不改原任务 state，不调用旧 publish/done/viewed、不删除任务、不勾选完成、不提交或推送Git；任务完成由我本人点击。只访问授权账户的一个列表。
++自动分类与完整学习均不改原任务 state，不调用旧 publish/done/viewed、不删除任务、不勾选完成；任务完成由我本人点击。只访问授权账户的一个列表。worker 不做 Git；知识入库和 Git 同步由唯一协调者收尾。
 +
 +没有新增结果或可行动变化保持安静；有分类、完整分析、受阻或需要我处理的变化，简短给数量、主题和网站报告入口。同一故障不重复通知。
 +
-+报告、完整产物和知识笔记先留在私有网站。本机离线不删除它们、不声称回迁成功，也不访问我的个人电脑。电脑上线后由固定本地脚本校验拉取，本机凭据不进入 Dot。
++默认模式是你在 Dot 云端自动分析和完整学习，然后备份到本地和 Git。报告、完整产物和知识笔记先留在私有网站。本机离线不删除它们、不声称回迁或 Git 同步成功，也不访问我的个人电脑。电脑上线后由固定本地脚本校验拉取，写 handoff.json，唯一协调者继续原 learn-project 第8步合并 vault、第9步 Git提交和推送；不要另建学习流程。Git沿用公开 Smashwinny/reminder_knowlege，只提交学习成果（指南、练习和已合并知识），私密原记录/分类报告仅留网站与本机。提交必须是本批次明确文件清单，检查暂存归属，不自动rebase共享工作区，不强推或跳过hooks。各步骤分别记录成功/待同步，推送未成功不得报全部已备份。本机凭据不进入 Dot。
 +```
 +
-+本机回迁：确认账户/列表后配置 `完成/.pipeline/dot-backup-config.json`，运行 `tools/reminder_dot_on_login.ps1`。它复制报告及六类学习产物，校验并防止冲突，不执行学习，不删云端原件。登录触发尚未注册。
++本机回迁：确认账户/列表后配置 `完成/.pipeline/dot-backup-config.json`，运行 `tools/reminder_dot_on_login.ps1`。它复制报告及六类学习产物，校验、防止冲突并写知识入库/Git交接账本，不执行模型学习、不删云端原件。协调者按原 skill 完成知识合并和 Git 收尾；登录触发及本机协调者自动唤醒尚未接通，不得声称已在自动同步。
 diff --git a/sync-server/Dockerfile b/sync-server/Dockerfile
 index 1198204..896e56b 100644
 --- a/sync-server/Dockerfile
@@ -923,7 +925,7 @@ index 0000000..2ead15f
 +});
 diff --git a/sync-server/learning-guide.md b/sync-server/learning-guide.md
 new file mode 100644
-index 0000000..e301341
+index 0000000..9f11f3b
 --- /dev/null
 +++ b/sync-server/learning-guide.md
 @@ -0,0 +1,14 @@
@@ -940,7 +942,7 @@ index 0000000..e301341
 +7. 必须由真实独立审核者查看 PDF 页面、核对真实实验输出及来源、检查知识查重。换 owner 名称不能替代独立审核。Dot 环境没有独立审核者、实验环境、PDF 渲染或执行授权时，调用 reminder_record_blocker 记录实际阻碍并释放领取，不能自审后宣称完成。
 +8. 输出 full analysis 与 completion：project、questionCount、capabilityCount、experimentCommand、experimentExecutedAt、reviewer、reviewNotes、pdfRendered、experimentChecked、knowledgeChecked，以及六个实际文件 base64：guide_pdf、guide_html、exercise_archive、experiment_log、knowledge_notes、review_log。产物总和至多 1 MB，超出保留待同步，不能仅交路径或造假。服务端文件检查不能证明实际学习质量，审核记录必须真实。
 +9. reminder_save_analysis 成功后回读核对完整标签，再释放领取。若来源变化或用户已完成，不覆盖新记录。完整产物保存在私有网站；回迁脚本校验 SHA256 复制，原件不删除。
-+10. 自动阶段不修改 task.state，不勾选任务完成，不删除任务，不调用旧 publish/done/viewed，不做 Git 提交推送。网站完成由用户本人点击。本机智能体先按原队列 claim/start/ready/review，再由协调者通过标签接口保存；不能绕过已有共享队列。
++10. 默认本人 Dot 在云端分析和完整学习，随后备份到本地与 Git。网站完成由用户本人点击：不修改 task.state、不删除任务、不调用旧 publish/done/viewed。电脑上线后固定本机脚本校验复制产物并写交接账本，唯一协调者按原 learn-project 第8步查重合并 vault、第9步提交并推送 Git；复用既有 skill，不另建学习队列。Git沿用公开 Smashwinny/reminder_knowlege，只提交学习成果，私密原记录/分类报告仅在网站与本机保存。worker 不操作 Git，协调者使用明确文件清单，不自动rebase共享工作区、不强推、不跳过hooks，分别记录本机备份/知识合并/提交/推送状态，未成功保留待同步。本机智能体先按原队列 claim/start/ready/review，再由协调者通过标签接口保存；不能绕过已有共享队列。
 diff --git a/sync-server/server.js b/sync-server/server.js
 index 1d83815..6405680 100644
 --- a/sync-server/server.js

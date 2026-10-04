@@ -1,6 +1,7 @@
 """Dot 报告的私有本机备份、恢复及受保护的共享队列导入。
 
-默认仅复制，不删除云端内容，不安装 Windows 定时任务，不执行学习或发布。
+默认复制并记录后续知识入库与 Git 交接，不删除云端内容，不安装 Windows 定时任务。
+实际知识合并和 Git 使用 learn-project 第 8、9 步，由唯一协调者执行。
 凭据只从既有 SHIYI_TOKEN/tools/.shiyi_token 读取，不接受命令行明文令牌。
 """
 from __future__ import annotations
@@ -222,10 +223,59 @@ def restore(root, raw, bundle):
             state = "来源已变化，待复核" if r["stale"] else "完整学习受阻" if r.get("learningAttempts") and r["analysis"].get("stage") != "full" else "已备份"
             rows.append(f"- {r.get('createdAt', '')} · {r['analysis']['kind']} · {state} · [{r['analysis']['title']}]({file.as_posix()})")
         atomic_write(folder / "index.md", "\n".join(rows) + "\n")
-        return {"reports": len(bundle["reports"]), "added": added, "archive": str(archive), "index": str(folder / "index.md"), "cloudDeleted": False}
+        handoff = record_handoff(folder, bundle)
+        return {"reports": len(bundle["reports"]), "added": added, "archive": str(archive), "index": str(folder / "index.md"), "cloudDeleted": False,
+                "handoff": str(folder / "handoff.json"), "gitPending": sum(item["git"].get("status") not in {"pushed", "not_applicable"} for item in handoff["reports"].values())}
     finally:
         handle.close()
         lock.unlink(missing_ok=True)
+
+
+def record_handoff(folder, bundle):
+    """Backup bookkeeping only: never start learning, merge vault or mark Git success.
+
+    The coordinator resumes the existing skill, retaining prior step receipts on
+    repeat copies. Export flags are observations, never a lease or current authority.
+    """
+    path = folder / "handoff.json"
+    state = {"schema": "reminder-dot-handoff-v1", "accountId": bundle["accountId"],
+             "listId": bundle["list"]["id"], "primaryExecutor": "dot",
+             "backupTargets": ["local", "git"], "reports": {}}
+    if path.exists():
+        try:
+            state = json.loads(path.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            raise PipelineError("本机回迁交接账本损坏；副本已保留，停止更新账本。") from None
+        if (not isinstance(state, dict) or state.get("schema") != "reminder-dot-handoff-v1" or
+                state.get("accountId") != bundle["accountId"] or
+                state.get("listId") != bundle["list"]["id"] or not isinstance(state.get("reports"), dict)):
+            raise PipelineError("本机交接账本不属于此账户/列表，停止更新。")
+        if any(not isinstance(item, dict) or not isinstance(item.get("git"), dict) for item in state["reports"].values()):
+            raise PipelineError("本机交接阶段记录损坏，停止更新。")
+    state.update(gitRepository="https://github.com/Smashwinny/reminder_knowlege.git",
+                 gitScope="learning_artifacts_only", privateRecordsTargets=["website", "local"])
+    for report in bundle["reports"]:
+        full = report["analysis"].get("stage") == "full"
+        relative = "reports/" + report["taskId"] + "/" + report["id"]
+        previous = state["reports"].get(report["id"], {})
+        if not isinstance(previous, dict) or any(key in previous and not isinstance(previous[key], dict) for key in ("knowledge", "git")):
+            raise PipelineError("本机交接阶段记录损坏，停止更新。")
+        if previous and (previous.get("sourceHash") != report["sourceHash"] or previous.get("markdownSha256") != report["markdownSha256"]):
+            raise PipelineError("交接账本与已备份报告版本冲突，停止更新。")
+        state["reports"][report["id"]] = {
+            "taskId": report["taskId"], "sourceHash": report["sourceHash"],
+            "markdownSha256": report["markdownSha256"], "analysisStage": "full" if full else "preliminary",
+            "cloud": {"status": "saved", "exportedAt": bundle.get("exportedAt"),
+                      "staleAtExport": report["stale"], "claimedAtExport": report["activeClaim"]},
+            "local": {"status": "verified", "report": relative + ".md",
+                      "artifacts": relative + "-files" if full else None},
+            "knowledge": previous.get("knowledge", {"status": "pending_coordinator" if full else "not_applicable", "skillStep": 8}),
+            "git": previous.get("git", {"status": "pending_coordinator" if full else "not_applicable", "skillStep": 9,
+                                        "reason": "只提交学习成果；完整学习须先完成本机知识合并。私密分类报告不提交公开仓库。"}),
+            "taskCompletion": "user_only",
+        }
+    atomic_write(path, json.dumps(state, ensure_ascii=False, sort_keys=True, indent=2) + "\n")
+    return state
 
 
 def integrate(root, bundle):

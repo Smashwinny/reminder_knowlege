@@ -114,10 +114,39 @@ class DotBackupTests(unittest.TestCase):
             self.assertEqual(len(list(files.iterdir())), 6)
             self.assertEqual(first["added"], 1); self.assertEqual(second["added"], 0)
             self.assertFalse(first["cloudDeleted"])
+            handoff = json.loads(Path(first['handoff']).read_text(encoding='utf-8'))
+            self.assertEqual(handoff['primaryExecutor'], 'dot')
+            self.assertEqual(handoff['backupTargets'], ['local', 'git'])
+            self.assertEqual(handoff['gitScope'], 'learning_artifacts_only')
+            self.assertEqual(handoff['privateRecordsTargets'], ['website', 'local'])
+            stages = handoff['reports']['report-1']
+            self.assertEqual(stages['local']['status'], 'verified')
+            self.assertEqual(stages['knowledge']['status'], 'pending_coordinator')
+            self.assertEqual(stages['git']['status'], 'pending_coordinator')
+            self.assertEqual(first['gitPending'], 1)
+            self.assertEqual(stages['taskCompletion'], 'user_only')
             (files / "guide_pdf.pdf").write_bytes(b"local-edited-pdf")
             with self.assertRaises(PipelineError): restore(tmp, raw, good)
         bad = copy.deepcopy(good); bad["reports"][0]["analysis"]["completion"]["artifacts"][0]["base64"] = base64.b64encode(b"tampered").decode()
         with self.assertRaises(PipelineError): validate_bundle(bad, "account-1", "list-1")
+
+    def test_repeated_backup_preserves_coordinator_receipts_and_rejects_damaged_handoff(self):
+        good = bundle(); raw = json.dumps(good).encode()
+        with tempfile.TemporaryDirectory(dir=TEST_ROOT) as tmp:
+            result = restore(tmp, raw, good)
+            path = Path(result['handoff'])
+            state = json.loads(path.read_text(encoding='utf-8'))
+            self.assertEqual(result['gitPending'], 0)
+            self.assertEqual(state['reports']['report-1']['git']['status'], 'not_applicable')
+            # Synthetic coordinator receipt, never a claim of actual Git activity.
+            state['reports']['report-1']['git'] = {'status': 'pushed', 'commit': 'fixture-only-receipt'}
+            path.write_text(json.dumps(state), encoding='utf-8')
+            restore(tmp, raw, good)
+            self.assertEqual(json.loads(path.read_text(encoding='utf-8'))['reports']['report-1']['git']['commit'], 'fixture-only-receipt')
+            path.write_text('{broken', encoding='utf-8')
+            with self.assertRaisesRegex(PipelineError, '账本损坏'): restore(tmp, raw, good)
+            self.assertEqual(path.read_text(encoding='utf-8'), '{broken')
+            self.assertEqual(Path(result['archive']).read_bytes(), raw)
 
     def test_non_link_is_distinct_from_non_learning_and_stays_private_without_fake_evidence(self):
         good = bundle(); report = good["reports"][0]

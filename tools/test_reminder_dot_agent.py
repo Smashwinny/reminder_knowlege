@@ -18,11 +18,18 @@ class LocalAgentTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=TEST_ROOT) as tmp:
             root = Path(tmp)
             (root / 'tools').mkdir()
-            (root / 'tools/reminder_workflow_policy.json').write_text('{"automatic_full_learning":true,"task_completion":"user_only"}')
+            (root / 'tools/reminder_workflow_policy.json').write_text('{"automatic_full_learning":true,"task_completion":"user_only","primary_executor":"dot","backup_targets":["local","git"],"git_scope":"learning_artifacts_only"}')
             pipeline = Pipeline(root=root)
             with self.assertRaisesRegex(PipelineError, '本人点击'): pipeline.publish('one', 'worker')
             self.assertFalse(pipeline.status()['learning_requires_manual_start'])
             self.assertTrue(pipeline.status()['task_completion_requires_user_click'])
+            self.assertEqual(pipeline.status()['primary_executor'], 'dot')
+            self.assertEqual(pipeline.status()['backup_targets'], ['local', 'git'])
+            self.assertEqual(pipeline.status()['git_scope'], 'learning_artifacts_only')
+            self.assertEqual(pipeline._phase_label('learning_queued'), '已分类，待获准执行')
+            rendered = Path(pipeline.render()['path']).read_text(encoding='utf-8')
+            self.assertIn('默认 Dot 云端分析与完整学习', rendered)
+            self.assertNotIn('完整学习必须由用户选择', rendered)
 
     def test_other_owner_or_unresolved_publication_cannot_cross_local_queue(self):
         pipeline = MagicMock()

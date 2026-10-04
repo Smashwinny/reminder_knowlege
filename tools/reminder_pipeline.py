@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""拾遗共享队列：只自动记录/排队，学习必须由用户选择后 start。
+"""拾遗共享队列：分类与学习分阶段，启动范围由工作流授权策略决定。
 
 SQLite 为认领与发布的唯一协调点；所有 Claude/Codex 必须共用本工具，
 不得绕过它直接修改网站。租约到期仍占有任务，必须明确 release。
@@ -277,13 +277,18 @@ class Pipeline:
             return "needs_review"
         return "pending"
 
+    def _phase_label(self, phase):
+        if phase == "learning_queued" and self._workflow_policy().get("automatic_full_learning", False):
+            return "已分类，待获准执行"
+        return PHASE_LABELS.get(phase, phase)
+
     def _record(self, row):
         journal = self._journal(row["task_id"])
         pending_journal = bool(journal and journal.get("attempted_at") and not journal.get("cancelled_at") and
                                row["phase"] != "synced")
         phase = "publish_pending" if pending_journal and row["phase"] in {"claimed", "learning", "ready"} else row["phase"]
         complete = phase == "synced" and row["kind"] == "learning"
-        return {"task_id": row["task_id"], "status": phase, "status_label": PHASE_LABELS.get(phase, phase),
+        return {"task_id": row["task_id"], "status": phase, "status_label": self._phase_label(phase),
                 "website_state": row["site_state"], "owner": row["owner"],
                 "lease_until": stamp(row["lease_until"]) if row["lease_until"] else None,
                 "source": json.loads(row["snapshot"]), "source_hash": row["content_hash"],
@@ -1026,9 +1031,13 @@ class Pipeline:
                        "lease_until": stamp(row["lease_until"]),
                        "expired": row["lease_until"] <= self.clock(), "project_key": row["project_key"]}
                       for row in rows if row["owner"]]
+            policy = self._workflow_policy()
             return {"total": len(rows), "counts": counts, "active_claims": active,
-                    "database": str(self.db_path), "learning_requires_manual_start": not self._workflow_policy().get("automatic_full_learning", False),
-                    "task_completion_requires_user_click": self._workflow_policy()["task_completion"] == "user_only"}
+                    "database": str(self.db_path), "learning_requires_manual_start": not policy.get("automatic_full_learning", False),
+                    "task_completion_requires_user_click": policy["task_completion"] == "user_only",
+                    "primary_executor": policy.get("primary_executor", "local"),
+                    "backup_targets": policy.get("backup_targets", []),
+                    "git_scope": policy.get("git_scope", "unspecified")}
 
     @staticmethod
     def _cell(value):
@@ -1045,13 +1054,16 @@ class Pipeline:
             counts = {}
             for record in records:
                 counts[record["status"]] = counts.get(record["status"], 0) + 1
+            automatic_learning = self._workflow_policy().get("automatic_full_learning", False)
+            flow = ("> 默认 Dot 云端分析与完整学习；本机备份后由协调者知识入库并同步学习成果到 Git，任务完成由用户点击。"
+                    if automatic_learning else "> 新记录自动建分析台账与分类排队；完整学习必须由用户选择 start。")
             lines = ["# 拾遗记录流水线纲要", "", f"> 生成时间：{stamp(self.clock())}（Asia/Shanghai）",
-                     "> 新记录自动建分析台账与分类排队；完整学习必须由用户选择 start。", "",
+                     flow, "",
                      "## 状态计数", "", "| 状态 | 数量 |", "|---|---:|"]
-            lines += [f"| {PHASE_LABELS.get(phase, phase)} ({phase}) | {number} |" for phase, number in sorted(counts.items())]
+            lines += [f"| {self._phase_label(phase)} ({phase}) | {number} |" for phase, number in sorted(counts.items())]
             chosen = [r for r in records if r["classification"]["kind"] == "learning" and
                       not r["learning_started"] and r["status"] != "synced" and not r["content_changed"]]
-            lines += ["", "## 待用户选择学习", "", "| task_id | 主题线索 | 当前状态 | 分析报告 |",
+            lines += ["", "## " + ("已分类学习项（自动执行仍须核对获准列表及来源）" if automatic_learning else "待用户选择学习"), "", "| task_id | 主题线索 | 当前状态 | 分析报告 |",
                       "|---|---|---|---|"]
             for record in chosen:
                 values = [record["task_id"], str(record["source"].get("summary") or record["source"].get("text", ""))[:160],

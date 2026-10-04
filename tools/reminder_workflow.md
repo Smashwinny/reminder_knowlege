@@ -2,6 +2,10 @@
 
 用户现已明确授权自动完整学习。网站限定账户/列表：自动初步分类 → 已核实学习项目自动 learn-project → 真实实验、PDF、知识笔记及独立审核 → 智能体保存分析标签 → 用户自己点任务完成。下述旧流程中的“手动选择后学习”和“publish自动标完成”属于历史机制，本轮不再采用；历史数据、未决发布恢复接口保留。
 
+默认运行在本人 Dot 云端。报告与产物先留网站私有存储；电脑上线后本机固定脚本校验复制，唯一协调者续做现有 learn-project 第 8 步知识查重、合并 vault 和第 9 步 Git 提交/推送。用户确认沿用公开 `Smashwinny/reminder_knowlege`，只提交学习成果；私密原记录及分类报告仅保存在网站和本机。Dot 不接收本机凭据，不获取整台电脑权限。
+
+`reminder_workflow_policy.json` 已声明默认 Dot、local/git 两个备份目标及 learning_artifacts_only 的 Git 范围。每次本机备份生成私有 `handoff.json`，分别记录网站保存、本机校验、知识合并、Git 同步。尚未完成第 8/9 步的完整报告保持 pending_coordinator；初步分类报告不进入公开 Git。交接账本不是第二套任务队列，不代表自动启动了本机智能体。协调者应核对当前网站范围和来源、原队列 owner 后继续，按明确文件清单提交，通过 hooks，推送回读成功才写 pushed 及提交 SHA。共享工作区不自动 rebase，按用户要求后续单独处理。
+
 新接口和Dot指令见 reminder-dot/README.md。Dot需新 learning.write 授权，不自动扩大旧分类OAuth。未部署、未连接Dot、未保存新日程，旧本机heartbeat仍暂停。
 
 本地智能体必须先经原 reminder_pipeline claim/start/ready/review，完整标签由唯一协调者交付。网站标签工具示例（实际UUID/owner/lease/report和已审核analysis.json替换占位值）：
@@ -13,7 +17,7 @@ python tools/reminder_dot_agent.py save --account-id ACCOUNT --list-id LIST --ta
 python tools/reminder_dot_agent.py release --account-id ACCOUNT --list-id LIST --task TASK --owner OWNER --lease-id LEASE
 ```
 
-save full 重查审核指纹并读取实际文件，不能只交路径。不调用旧 publish/done/viewed、不改 task.state、不将标签当作用户已完成。云端知识笔记回迁后仍由协调者合并本机vault；默认备份保留私有，完整产物逐项校验。非链接类无HTTP证据时只备份，不造假进入旧分类接口。受阻单独记录，不反复启动同源失败学习。旧owner和旧进行中保护仍有效。
+save full 重查审核指纹并读取实际文件，不能只交路径。不调用旧 publish/done/viewed、不改 task.state、不将标签当作用户已完成。云端知识笔记回迁后仍由协调者合并本机vault，再默认同步学习成果到 Git；原始备份保留私有，完整产物逐项校验。非链接类无HTTP证据时只备份，不造假进入旧分类接口。受阻单独记录，不反复启动同源失败学习。旧owner和旧进行中保护仍有效。
 
 ---
 
