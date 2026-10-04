@@ -8,9 +8,9 @@
 
 本机私有 `.pipeline`、`完成/分析报告/`、`完成/记录/` 和 `完成/流水线纲要.md` 已加入 Git 忽略规则。这不替代协调者对指南、练习和 vault 的内容检查；公开学习成果不能夹带私密原记录。已有历史提交不在本次改写范围内。
 
-新接口和Dot指令见 reminder-dot/README.md。Dot需新 learning.write 授权，不自动扩大旧分类OAuth。未部署、未连接Dot、未保存新日程，旧本机heartbeat仍暂停。
+新接口和Dot指令见 reminder-dot/README.md。Dot需新 learning.write 授权，不自动扩大旧分类OAuth。网站接入已部署，尚未完成本人 Dot OAuth 或保存新日程，旧本机 heartbeat 仍暂停。
 
-2026-10-05：Ubuntu 修复候选 `97ef3ccfb83b625f684d81eb86a781837f928d1b` 已通过 Windows 独立代码复核：20 项联合检查通过；服务端 full 锁覆盖同账户不同列表/授权，过期锁不抢占；`reminder_list_knowledge_notes` 只读分页、UTF-8 重组/校验和当前范围排除通过。两个列表的 4 份合成报告及 12 个文件实际 Python 回迁通过，重复恢复新增 0 份。代码审阅通过不等于生产部署批准或真实 Dot 学习验收；这些后续步骤仍未执行。当前用户登录备份触发器已经注册并安全试运行；目标账户/列表未配置，真实云端拉取及协调者自动接续仍未验收。本机触发只复制产物，不运行周期分类、学习或 Git。
+2026-10-05：本人已批准固定 `97ef3ccfb83b625f684d81eb86a781837f928d1b`；Ubuntu 在 issue #1 的回信 `5982483714` 报告约 01:09 部署完成，仅更新 Reminder app，完成整卷备份和真实旧功能验收。Windows 独立公网核验健康、Dot 页面及两个 discovery 200，OAuth/MCP 503，确认未配置时保持关闭。本人已确认当前账户主清单“我的清单”为允许范围，以后其他清单另外配置；canonical 身份与授权列表映射待 Ubuntu 核实，实际客户端/精确回调待私密配置和本人 consent，真实 Dot 学习和云端日程尚未验收。前轮 20 项联合检查、full 串行锁和知识分页核对、4 份合成报告/12 个文件 Python 回迁通过，属于代码及传输验证。当前用户登录备份触发器已经注册并安全试运行；目标账户/列表 ID 未配置，真实云端拉取及协调者自动接续仍未验收。本机触发只复制产物，不运行周期分类、学习或 Git。
 
 本地智能体必须先经原 reminder_pipeline claim/start/ready/review，完整标签由唯一协调者交付。网站标签工具示例（实际UUID/owner/lease/report和已审核analysis.json替换占位值）：
 

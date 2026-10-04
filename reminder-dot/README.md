@@ -1,8 +1,8 @@
 # 拾遗网站 → 本人 Dot → 本机与 Git
 
-2026-10-04 最新用户授权：完整学习也自动执行，网站完成由用户点击。已在独立网站源码副本实现并进行本机验证；尚未部署到真实网站，也尚未连接本人 Dot。
+2026-10-04 最新用户授权：完整学习也自动执行，网站完成由用户点击。网站接入已部署；本人 Dot 的 OAuth 连接、真实学习和云端日程尚未完成。
 
-2026-10-05 收信箱进展：Ubuntu 已修复并推送[移植候选 PR #3](https://github.com/Smashwinny/reminder/pull/3)，SHA `97ef3ccfb83b625f684d81eb86a781837f928d1b`。Windows 独立复测 20 项 Node 检查通过，并验证账户级 full 锁跨列表/授权、过期保护、UTF-8 知识分页/校验和当前范围排除。两个列表的 4 份合成报告及 12 个文件实际 Python 回迁通过，重复恢复新增 0 份。前轮两处修复请求均已通过复核；代码审阅通过，具体版本生产部署批准与真实 OAuth/云端学习仍待完成。详见[候选审阅记录](候选审阅.md)。
+2026-10-05 收信箱进展：本人已批准固定 SHA `97ef3ccfb83b625f684d81eb86a781837f928d1b`，Ubuntu [回报今天约 01:09 完成部署](https://github.com/Smashwinny/reminder/issues/1#issuecomment-5982483714)，仅更新 Reminder app，备份与旧镜像保留，真实主库内容和完成状态不变。Windows 随后独立核验公网：健康、Dot 页面及两个 OAuth discovery 为 200，未配置的 OAuth/MCP 为 503。本人已确认当前账户的主清单“我的清单”为访问范围，以后其他清单单独配置；真实身份/授权映射、私密客户端配置及本人 OAuth 同意仍待完成。真实 Dot 学习、日程和本机回迁尚未验收。前轮 20 项 Node 检查及合成报告回迁属于代码验证，详见[候选审阅记录](候选审阅.md)和[本人连接步骤](连接本人Dot.md)。
 
 默认流程：本人选择网站账户与分析列表 → Dot 在云端读取获准原链接 → 自动分类及完整学习 → 实际产物与独立审核后打标签 → 电脑在线后校验复制报告及产物到本机 → 唯一协调者按 learn-project 第 8、9 步合并知识库、提交并推送 Git。用户自己点击任务完成，与这些阶段分别记录。
 
@@ -24,9 +24,9 @@ Git 沿用公开的 `Smashwinny/reminder_knowlege`，用户已确认只提交学
 
 ## 尚未完成的连接
 
-网站既有本机凭据已通过真实 `/api/auth/me` 只读确认有效；这不等于已经选定 Dot 可见列表或完成 OAuth 授权。当前 Windows 没有生产 SSH 密钥；原 Ubuntu Codex 已通过既有维护入口连接生产，完成只读检查、Linux 测试和生产整卷备份，见[服务器侧回信](https://github.com/Smashwinny/reminder/issues/1#issuecomment-5981435057)。它未部署本功能或修改线上任务。
+网站既有本机凭据已通过真实 `/api/auth/me` 只读确认有效；这不等于已经选定 Dot 可见列表或完成 OAuth 授权。Windows 没有生产 SSH 密钥；Ubuntu 是唯一生产维护者，已按本人批准完成部署及真实旧功能核验。公网验证只证明服务可达和门控正确，不能替代本人 OAuth、列表隔离和真实学习验收。
 
-继续接入需要：先把 Dot 功能移植到当前生产基线并验证；本人确认要开放的账户与列表（建议专用“Dot 待分析”列表）；核对实际个人插件使用的 OAuth 客户端登记方式、精确回调和本人登录同意。无需把任何密码、密钥或 token 发到聊天。
+继续接入需要：Ubuntu 核实已确认的主清单与 Dot 授权列表的对应关系；将真实 ChatGPT 当前草稿的客户端 ID 和精确回调经私密维护渠道配置到服务器，再由本人完成 OAuth 同意。旧保护和他人 owner 不因主清单映射而被自动接管。无需把任何密码、密钥或 token 发到聊天。
 
 Dot 云端分析与本机回迁能力依据 [官方电脑连接说明](https://learn.chatgpt.com/docs/dots/computers-and-apps) 和 [定期任务说明](https://learn.chatgpt.com/docs/dots/tasks-and-memory)。将“仅指定列表”落实为服务端授权，是本实现的设计选择。唯一 Dot 实例身份没有得到官方认证资料的证明，当前边界是获本人同意的私有 OAuth 连接。
 
@@ -44,7 +44,7 @@ Dot 云端分析与本机回迁能力依据 [官方电脑连接说明](https://l
 
 验证结果：12项Node相关验证、13项Python迁移与交付验证通过；原本地队列33项回归通过，共46项Python检查通过。交接账本区分私有原记录与公开学习成果，重复备份保留协调者已有同步记录，损坏账本不覆盖原件。前轮网站完整套件35/36通过，剩余为原有Windows上的Unix0600权限断言。模拟网站回迁4份报告及6份产物，再次回迁新增0份，云端原件保留。
 
-网站源码提交：`be7e6fc`；默认 Dot → 本机/Git 规则追加提交：`243739d`；Ubuntu 交接说明提交：`aebba3e`。分支 `codex/automatic-analysis-tags` 已推送至网站仓库，并创建 [草稿 PR #2](https://github.com/Smashwinny/reminder/pull/2)，尚未合并或部署生产。知识仓库本机配套提交尚未推送，rebase 留待后续核对服务器与远端改动后进行。
+以下为历史验证和移植记录，当前部署状态以上文为准。网站源码提交：`be7e6fc`；默认 Dot → 本机/Git 规则追加提交：`243739d`；Ubuntu 交接说明提交：`aebba3e`。早期分支 `codex/automatic-analysis-tags` 对应[草稿 PR #2](https://github.com/Smashwinny/reminder/pull/2)；实际生产使用保留图片/排序等功能的 PR #3 固定版本 `97ef3cc`。知识仓库本机配套提交尚未推送，rebase 留待后续核对服务器与远端改动后进行。
 
 2026-10-04 用户授权使用 [运维收信箱 issue #1](https://github.com/Smashwinny/reminder/issues/1) 协调另一台 Ubuntu 的 Codex。Ubuntu 已认领服务器侧，隔离 Linux 完整测试 36/36 通过，生产数据卷备份与 offsite 校验通过。它发现生产已有本分支缺少的图片同步、排序、上传保护和修复，不能直接部署 PR #2。现已[明确委托 Ubuntu 在独立分支移植](https://github.com/Smashwinny/reminder/issues/1#issuecomment-5981455951)，Windows 不再并行修改网站运行源码；只维护云端参考资料、本机回迁和知识仓库。候选版本、部署批准和真实 OAuth 验收仍待完成。
 
