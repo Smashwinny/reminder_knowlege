@@ -10,14 +10,14 @@ import urllib.request
 import zipfile
 
 from reminder_pipeline import ROOT, Pipeline, PipelineError, IGNORED_EXERCISE_DIRS
-from reminder_dot_backup import SITE, MAX_BUNDLE_BYTES
+from reminder_dot_backup import SITE, MAX_BUNDLE_BYTES, HTTP_USER_AGENT
 
 
 def post(list_id, name, arguments):
     from shiyi_sync import get_token
     class NoRedirect(urllib.request.HTTPRedirectHandler):
         def redirect_request(self, *args): return None
-    request = urllib.request.Request(SITE + '/api/dot/agent', data=json.dumps({'listId': list_id, 'tool': name, 'arguments': arguments}, ensure_ascii=False).encode('utf-8'), headers={'Authorization': 'Bearer ' + get_token(), 'Content-Type': 'application/json'}, method='POST')
+    request = urllib.request.Request(SITE + '/api/dot/agent', data=json.dumps({'listId': list_id, 'tool': name, 'arguments': arguments}, ensure_ascii=False).encode('utf-8'), headers={'Authorization': 'Bearer ' + get_token(), 'Content-Type': 'application/json', 'User-Agent': HTTP_USER_AGENT}, method='POST')
     try:
         with urllib.request.build_opener(NoRedirect).open(request, timeout=45) as response:
             data = response.read(MAX_BUNDLE_BYTES + 1)

@@ -23,6 +23,9 @@ from reminder_pipeline import ROOT, Pipeline, PipelineError, atomic_write, task_
 MAX_BUNDLE_BYTES = 32 * 1024 * 1024
 MAX_ARCHIVE_BYTES = 512 * 1024 * 1024
 SITE = "https://reminder.geniusqi.com"
+# urllib's default User-Agent returned HTTP 403 during the live backup check;
+# this compatible header succeeded, as in the existing website sync client.
+HTTP_USER_AGENT = "Mozilla/5.0"
 
 
 def digest(data):
@@ -127,7 +130,7 @@ def download(expected_account, expected_list):
         def redirect_request(self, req, fp, code, msg, headers, newurl): return None
     reports, cursors, cursor, merged = [], set(), None, None
     for page in range(10000):
-        request = urllib.request.Request(SITE + "/api/dot/export", data=json.dumps({"listId": expected_list, "limit": 5, "cursor": cursor}).encode("utf-8"), headers={"Authorization": "Bearer " + token, "Content-Type": "application/json"}, method="POST")
+        request = urllib.request.Request(SITE + "/api/dot/export", data=json.dumps({"listId": expected_list, "limit": 5, "cursor": cursor}).encode("utf-8"), headers={"Authorization": "Bearer " + token, "Content-Type": "application/json", "User-Agent": HTTP_USER_AGENT}, method="POST")
         try:
             with urllib.request.build_opener(NoRedirect).open(request, timeout=45) as response:
                 raw = response.read(MAX_BUNDLE_BYTES + 1)
