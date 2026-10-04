@@ -23,6 +23,9 @@ deeptutor/data/
 
 tools/.shiyi_token
 
+# 拾遗共享队列：本机锁/数据库/原始快照/修复备份，不作为跨设备锁同步
+/完成/.pipeline/
+
 # zoetrope 工具二进制（可从 GitHub Releases 重新下载）
 zoetrope/bin/
 

@@ -4,6 +4,8 @@
 
 ## 核心规则
 
+- **协作与调度优先规则（2026-10-04）**：Codex 和 Claude 均须先读根目录 `AGENTS.md`、`tools/shiyi_worker_guide.md`，用 `tools/reminder_pipeline.py` 领取。最新用户授权（2026-10-04）：新记录自动分类，核实的学习项目也自动执行完整学习；完整产物与独立审核后只写分析标签，任务完成由用户本人点击。worker 只写任务所属产物，知识库合并、网站状态、纲要和 Git 由唯一协调者维护；本规则覆盖下述 skill 中让每个 worker 独立入库/提交的调度方式，学习质量要求仍全部保留。禁止 worker 使用 `git add -A` 或直接执行旧脚本 `done/viewed`。
+
 - **学习方法**：使用项目级 skill `/learn-project`（`.claude/skills/learn-project/SKILL.md`）。对知识学习类、开源项目类子项目，严格按该流程执行：疑问清单 → 图文解答 → 能力清单 → 动手实验 → 彩色 PDF → 知识入库 → git 同步。
 - **注意**：该 skill 同时部署了一份用户级副本 `C:\Users\Windows\.claude\skills\learn-project\SKILL.md`（保证在任何目录开的窗口都能用）。**修改 skill 时必须同步更新两份**。
 - **目录布局**：每个子项目一个目录；克隆的上游代码放在 `<子项目名>\repo\`（被 .gitignore 排除，**不要提交**）；学习成果放子项目根目录和 `exercise\`。

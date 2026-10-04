@@ -50,7 +50,10 @@ def api(path, payload=None, token=None):
 def download_tasks(token):
     result = api("/api/sync", {"mode": "download", "tasks": []}, token)
     # 兼容两种返回结构：{tasks: [...]} 或直接 [...]
-    return result.get("tasks", result) if isinstance(result, dict) else result
+    tasks = result.get("tasks") if isinstance(result, dict) else result
+    if not isinstance(tasks, list) or any(not isinstance(t, dict) or "id" not in t for t in tasks):
+        raise RuntimeError("网站任务接口未返回有效任务列表；可能需要重新登录。未修改本地队列。")
+    return tasks
 
 
 def upload_task(token, task):
@@ -59,6 +62,10 @@ def upload_task(token, task):
 
 def main():
     cmd = sys.argv[1] if len(sys.argv) > 1 else "list"
+
+    if cmd in {"done", "viewed"}:
+        print("该旧写入命令已关闭。请经 tools/reminder_pipeline.py 认领、分析及验收，再用 reminder_dot_agent.py 保存标签；任务完成由用户本人点击。", file=sys.stderr)
+        sys.exit(2)
 
     if cmd == "login":
         result = api("/api/auth/login", {"username": sys.argv[2], "password": sys.argv[3]})
