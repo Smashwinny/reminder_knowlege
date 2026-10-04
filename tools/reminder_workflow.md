@@ -6,6 +6,8 @@
 
 `reminder_workflow_policy.json` 已声明默认 Dot、local/git 两个备份目标及 learning_artifacts_only 的 Git 范围。每次本机备份生成私有 `handoff.json`，分别记录网站保存、本机校验、知识合并、Git 同步。尚未完成第 8/9 步的完整报告保持 pending_coordinator；初步分类报告不进入公开 Git。交接账本不是第二套任务队列，不代表自动启动了本机智能体。协调者应核对当前网站范围和来源、原队列 owner 后继续，按明确文件清单提交，通过 hooks，推送回读成功才写 pushed 及提交 SHA。共享工作区不自动 rebase，按用户要求后续单独处理。
 
+本机私有 `.pipeline`、`完成/分析报告/`、`完成/记录/` 和 `完成/流水线纲要.md` 已加入 Git 忽略规则。这不替代协调者对指南、练习和 vault 的内容检查；公开学习成果不能夹带私密原记录。已有历史提交不在本次改写范围内。
+
 新接口和Dot指令见 reminder-dot/README.md。Dot需新 learning.write 授权，不自动扩大旧分类OAuth。未部署、未连接Dot、未保存新日程，旧本机heartbeat仍暂停。
 
 本地智能体必须先经原 reminder_pipeline claim/start/ready/review，完整标签由唯一协调者交付。网站标签工具示例（实际UUID/owner/lease/report和已审核analysis.json替换占位值）：
