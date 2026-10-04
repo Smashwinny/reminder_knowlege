@@ -10,6 +10,8 @@
 
 新接口和Dot指令见 reminder-dot/README.md。Dot需新 learning.write 授权，不自动扩大旧分类OAuth。未部署、未连接Dot、未保存新日程，旧本机heartbeat仍暂停。
 
+2026-10-05：Ubuntu 移植候选已返回，Windows 独立复测权限/图片/排序/同步及 Node→Python 合成回迁通过。候选仍缺服务端 full 串行约束和本列表既有知识笔记的可发现读取入口，已通过 issue #1 交回 Ubuntu 修复，不能把当前候选称为部署审阅已通过。当前用户登录备份触发器已经注册并安全试运行；目标账户/列表未配置，真实云端拉取及协调者自动接续仍未验收。本机触发只复制产物，不运行周期分类、学习或 Git。
+
 本地智能体必须先经原 reminder_pipeline claim/start/ready/review，完整标签由唯一协调者交付。网站标签工具示例（实际UUID/owner/lease/report和已审核analysis.json替换占位值）：
 
 ```powershell
@@ -74,7 +76,7 @@ Git 同步单独记录是否提交/推送成功，不与“网站已确认完成
 
 原轮询需要电脑开机、Codex 应用运行及本机凭据有效。新的 Dot 接入采用网站服务端的限定账户/分析列表、OAuth、分类领取和报告存储；本机原 SQLite 只用于回迁后的共享学习队列，不能复制成多台设备各自调度的锁。默认只备份云端报告，明确使用 --import-queue 才经原 claim/classify/release 接口导入，不抢已有 owner 或旧保护记录。旧本机自动分类不得与 Dot 同时调度。
 
-完整说明见 `reminder-dot/README.md` 和 `reminder-dot/repo/docs/DOT_INTEGRATION.md`。网站源码来自 Smashwinny/reminder 的独立副本 `reminder-dot/repo`，不是把当前知识仓库部署成网站。第一版计划在 Dot 中保存云端 15 分钟任务；即时事件触发尚未实现。电脑关机时 Dot 云端仍可分类；回迁推荐用固定本机脚本拉取，不给 Dot 个人电脑权限。`tools/reminder_dot_on_login.ps1` 已准备，但尚未配置目标账户/列表或注册登录事件。个人电脑连接是可选的额外扩大授权方式，当前没有连接或设置回迁日程。
+完整说明见 `reminder-dot/README.md` 和 `reminder-dot/repo/docs/DOT_INTEGRATION.md`。网站源码来自 Smashwinny/reminder 的独立副本 `reminder-dot/repo`，不是把当前知识仓库部署成网站。第一版计划在 Dot 中保存云端 15 分钟任务；即时事件触发尚未实现。接入验收后，电脑关机时由 Dot 云端继续工作；回迁用固定本机脚本拉取，不给 Dot 个人电脑权限。`tools/reminder_dot_on_login.ps1` 的登录备份触发器已注册并安全试运行，但目标账户/列表、真实云端拉取和协调者自动接续尚未验收。个人电脑连接是可选的额外扩大授权方式，当前没有连接。
 
 ## 当前迁移情况
 
