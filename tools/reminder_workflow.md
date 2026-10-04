@@ -10,7 +10,7 @@
 
 新接口和Dot指令见 reminder-dot/README.md。Dot需新 learning.write 授权，不自动扩大旧分类OAuth。未部署、未连接Dot、未保存新日程，旧本机heartbeat仍暂停。
 
-2026-10-05：Ubuntu 移植候选已返回，Windows 独立复测权限/图片/排序/同步及 Node→Python 合成回迁通过。候选仍缺服务端 full 串行约束和本列表既有知识笔记的可发现读取入口，已通过 issue #1 交回 Ubuntu 修复，不能把当前候选称为部署审阅已通过。当前用户登录备份触发器已经注册并安全试运行；目标账户/列表未配置，真实云端拉取及协调者自动接续仍未验收。本机触发只复制产物，不运行周期分类、学习或 Git。
+2026-10-05：Ubuntu 修复候选 `97ef3ccfb83b625f684d81eb86a781837f928d1b` 已通过 Windows 独立代码复核：20 项联合检查通过；服务端 full 锁覆盖同账户不同列表/授权，过期锁不抢占；`reminder_list_knowledge_notes` 只读分页、UTF-8 重组/校验和当前范围排除通过。两个列表的 4 份合成报告及 12 个文件实际 Python 回迁通过，重复恢复新增 0 份。代码审阅通过不等于生产部署批准或真实 Dot 学习验收；这些后续步骤仍未执行。当前用户登录备份触发器已经注册并安全试运行；目标账户/列表未配置，真实云端拉取及协调者自动接续仍未验收。本机触发只复制产物，不运行周期分类、学习或 Git。
 
 本地智能体必须先经原 reminder_pipeline claim/start/ready/review，完整标签由唯一协调者交付。网站标签工具示例（实际UUID/owner/lease/report和已审核analysis.json替换占位值）：
 
