@@ -284,6 +284,7 @@ def record_handoff(folder, bundle):
             "git": previous.get("git", {"status": "pending_coordinator" if full else "not_applicable", "skillStep": 9,
                                         "reason": "只提交学习成果；完整学习须经唯一协调者合并知识与独立审核。私密报告不提交公开仓库。"}),
             "cloudDelivery": previous.get("cloudDelivery", {"status": "reported" if report.get("cloudDelivery") else "not_available"}),
+            "dotDirectGit": previous.get("dotDirectGit", {"status": "not_available"}),
             "localKnowledge": previous.get("localKnowledge", {"status": "pending" if full else "not_applicable"}),
             "websiteBackupAcknowledgement":previous.get("websiteBackupAcknowledgement", {"status":"not_reported"}),
             "taskCompletion": "user_only",

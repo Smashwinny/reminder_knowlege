@@ -164,6 +164,110 @@ class CloudSyncTests(unittest.TestCase):
         self.report["cloudDelivery"]="malformed"
         with self.assertRaises(PipelineError): cloud.receipt(self.report)
 
+    def direct_fixture(self, mutate=None, extra_file=None):
+        """Publish real synthetic Git objects without a server delivery receipt."""
+        self.report.pop("cloudDelivery", None)
+        base = command(self.source, "rev-parse", "HEAD")
+        # Model a Windows vault already at the publication's known Git baseline.
+        (self.root / "vault/00-总览.md").write_bytes((self.source / "vault/00-总览.md").read_bytes())
+        artifacts = self.report["analysis"]["completion"]["artifacts"]
+        extensions = {"guide_pdf": ".pdf", "guide_html": ".html", "exercise_archive": ".zip",
+                      "experiment_log": ".txt", "knowledge_notes": ".md", "review_log": ".md"}
+        entries, files = [], {}
+        for original in artifacts:
+            role = original["role"]
+            name = "demo/delivery/" + role + extensions[role]
+            data = base64.b64decode(original["base64"])
+            if role == "experiment_log":
+                data = b"Redacted public synthetic log; this is no real learning evidence.\n"
+            files[name] = data
+            entries.append({"path": name, "sha256": cloud.sha(data), "baseSha256": None,
+                            "artifactRole": role, "sourceSha256": original["sha256"]})
+        for name, data in {"vault/00-总览.md": b"# Synthetic direct merged MOC\n",
+                           "vault/项目笔记/demo.md": b"# Synthetic direct project note\n"}.items():
+            before = (self.source / name).read_bytes()
+            files[name] = data
+            entries.append({"path": name, "sha256": cloud.sha(data), "baseSha256": cloud.sha(before)})
+        manifest = {"schema": "reminder-learning-publication-v1", "repository": cloud.REPOSITORY,
+                    "branch": "main", "project": "demo", "baseCommit": base,
+                    "reviewPath": "demo/delivery/review_log.md", "files": entries}
+        if mutate:
+            mutate(manifest)
+        files["demo/delivery/publication-manifest.json"] = json.dumps(manifest, ensure_ascii=False).encode()
+        if extra_file:
+            files[extra_file] = b"Synthetic unrelated file\n"
+        for name, data in files.items():
+            path = self.source / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(data)
+            command(self.source, "add", "--", name)
+        command(self.source, "commit", "-m", "Synthetic Dot direct publication")
+        direct_commit = command(self.source, "rev-parse", "HEAD")
+        command(self.source, "update-ref", "refs/remotes/origin/main", direct_commit)
+        self.restore()
+        return direct_commit, files
+
+    def test_direct_git_without_server_receipt_copies_redacted_files_and_zip(self):
+        commit, files = self.direct_fixture()
+        result = self.run_copy()
+        self.assertEqual(result["cloudPublished"], 1)
+        self.assertEqual(result["localKnowledgeSynced"], 1)
+        for name, data in files.items():
+            self.assertEqual((self.root / name).read_bytes(), data)
+        self.assertNotEqual(self.handoff().get("cloudDelivery", {}).get("status"), "verified")
+        self.assertEqual(self.handoff()["dotDirectGit"]["status"], "verified")
+        self.assertEqual(self.handoff()["git"]["commit"], commit)
+        self.assertEqual(command(self.root, "rev-parse", "HEAD"), self.base)
+        # Direct Git never calls a website tool that is not deployed.
+        with patch("reminder_dot_agent.post", side_effect=AssertionError("No server delivery tool")):
+            self.assertEqual(cloud.acknowledge_local_backups(self.root, self.bundle, self.owner, self.restore()["archive"]),
+                             {"acknowledged": 0, "pending": 0})
+        self.assertEqual(self.run_copy()["localKnowledgeSynced"], 1)
+        self.restore()
+        self.assertEqual(self.handoff()["dotDirectGit"]["receipt"]["commit"], commit)
+
+    def test_direct_publication_other_originals_remain_pending(self):
+        self.direct_fixture(lambda m: m["files"][0].update(sourceSha256="f" * 64))
+        self.assertEqual(self.run_copy()["cloudPublished"], 0)
+        self.assertFalse((self.root / "demo/delivery/guide_pdf.pdf").exists())
+
+    def test_direct_publication_wrong_hash_cannot_copy(self):
+        self.direct_fixture(lambda m: m["files"][0].update(sha256="f" * 64))
+        with self.assertRaises(PipelineError):
+            self.run_copy()
+        self.assertFalse((self.root / "demo/delivery/guide_pdf.pdf").exists())
+
+    def test_direct_publication_unlisted_commit_files_cannot_copy(self):
+        self.direct_fixture(extra_file="tools/unrelated.json")
+        with self.assertRaises(PipelineError):
+            self.run_copy()
+        self.assertFalse((self.root / "demo/delivery/guide_pdf.pdf").exists())
+
+    def test_direct_publication_private_metadata_is_rejected(self):
+        self.direct_fixture(lambda m: m.update(taskId="synthetic-private-task"))
+        with self.assertRaises(PipelineError):
+            self.run_copy()
+
+    def test_direct_publication_duplicate_roles_or_missing_review_rejected(self):
+        self.direct_fixture(lambda m: m["files"][1].update(artifactRole="guide_pdf"))
+        with self.assertRaises(PipelineError):
+            self.run_copy()
+
+    def test_direct_publication_missing_review_rejected(self):
+        self.direct_fixture(lambda m: m.update(reviewPath="demo/delivery/missing.md"))
+        with self.assertRaises(PipelineError):
+            self.run_copy()
+
+    def test_direct_publication_wrong_parent_base_rejected(self):
+        self.direct_fixture(lambda m: m.update(baseCommit=self.base))
+        with self.assertRaises(PipelineError):
+            self.run_copy()
+
+    def test_project_cannot_overlap_vault_or_tools(self):
+        for project in ("vault", "tools", "reminder-dot", "../demo"):
+            with self.assertRaises(PipelineError):
+                cloud.public_path(self.root, "vault/_templates/private.md", project)
+
     def test_local_acknowledgement_binds_actual_originals_and_network_failure_stays_pending(self):
         self.run_copy(); archived=self.restore()["archive"]
         seen=[]

@@ -2,10 +2,15 @@
   "automatic_full_learning": true,
   "primary_executor": "dot",
   "backup_targets": ["local", "git"],
-  "git_executor": "cloud_sole_coordinator",
+  "git_executor": "dot_sole_coordinator",
+  "git_transport": "dot_authorized_github_connection",
+  "ubuntu_role": "website_authorization_reports_processing_status",
+  "git_requires_ubuntu_publisher": false,
   "git_requires_local_knowledge_merge": false,
   "git_requires_knowledge_merge_and_independent_review": true,
-  "cloud_delivery_activation": "pending_production_verification",
+  "cloud_delivery_activation": "optional_server_publisher_paused",
+  "dot_direct_git_activation": "pending_dot_write_and_end_to_end_verification",
+  "windows_direct_git_receipt_sync": "implemented_pending_real_end_to_end_verification",
   "windows_default_sync": "cloud_only_readback",
   "git_requires_explicit_file_list": true,
   "git_repository": "https://github.com/Smashwinny/reminder_knowlege.git",
@@ -13,5 +18,5 @@
   "private_records_targets": ["website", "local"],
   "task_completion": "user_only",
   "site_publication": "analysis_tags",
-  "authorized_on": "2026-10-05"
+  "authorized_on": "2026-10-06"
 }

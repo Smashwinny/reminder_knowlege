@@ -1,4 +1,4 @@
-"""Verify cloud Git receipts and copy reviewed knowledge without overwriting local edits.
+"""Verify cloud Git evidence and copy reviewed knowledge without overwriting local edits.
 
 This is a consumer of the existing delivery ledger, never a second learning queue.
 It does not run a model, commit, push, change task completion, or steal task owners.
@@ -23,6 +23,14 @@ else:
 REPOSITORY = "Smashwinny/reminder_knowlege"
 REMOTE = "https://github.com/" + REPOSITORY + ".git"
 PRIVATE = "完成/.pipeline"
+ARTIFACT_ROLES = {"guide_pdf", "guide_html", "exercise_archive", "experiment_log", "knowledge_notes", "review_log"}
+
+
+def valid_project(project):
+    if (not isinstance(project, str) or not re.fullmatch(r"[a-z][a-z0-9_-]{0,100}", project) or
+            project.casefold() in {"vault", "tools", "reminder-dot", "output", "tmp", "verification", "node_modules"}):
+        raise PipelineError("云端项目目录无效或与知识库/工具目录重叠。")
+    return project
 
 
 def sha(data):
@@ -30,6 +38,7 @@ def sha(data):
 
 
 def public_path(root, value, project):
+    valid_project(project)
     if (not isinstance(value, str) or len(value) > 250 or "\\" in value or
             any(ord(x) < 32 for x in value) or ":" in value or
             any(x in {"", ".", ".."} for x in value.split("/"))):
@@ -39,7 +48,8 @@ def public_path(root, value, project):
         raise PipelineError("云端回执含设备路径。")
     if any(x.lower() in {"repo", "node_modules", ".git", ".pipeline", ".aws", ".ssh", ".venv", "venv", "__pycache__", "cloud-reference", "backups"} or x.lower().startswith(".env") for x in parts):
         raise PipelineError("云端回执含私有或缓存目录。")
-    permitted = (value.startswith(project + "/") and bool(re.search(r"\.(pdf|html|md|txt|py|js|mjs|jsx|ts|tsx|json|csv|svg|png|jpg|yml|yaml|sh|sql|go|rs|toml|ipynb|c|h|cpp|java|kt|css|log)$", value, re.I))) or value in {
+    permitted = (value.startswith(project + "/") and bool(re.search(r"\.(pdf|html|md|txt|py|js|mjs|jsx|ts|tsx|json|csv|svg|png|jpg|yml|yaml|sh|sql|go|rs|toml|ipynb|c|h|cpp|java|kt|css|log|zip)$", value, re.I))) or value in {
+        project + "/delivery/LICENSE", project + "/delivery/NOTICE",
         "vault/00-总览.md", "vault/项目笔记/" + project + ".md"} or bool(re.fullmatch(r"vault/概念/[^/]+\.md", value))
     target = root / value
     for candidate in [target, *target.parents]:
@@ -129,19 +139,107 @@ class PublicMirror:
             raise PipelineError("无法核对云端提交的先后关系。")
         return value.returncode == 0
 
+    def direct_publication(self, root, report):
+        """Discover a public file manifest; bind it privately to this fresh report.
+
+        Git proves publication/integrity, not the truth of a reviewer's claims.
+        Independent content review is required before Dot publishes this manifest.
+        No website receipt is fabricated and no private identifier goes to Git.
+        """
+        completion = report["analysis"]["completion"]
+        project = valid_project(completion["project"])
+        name = project + "/delivery/publication-manifest.json"
+        main = git(self.path, "rev-parse", "refs/remotes/origin/main")
+        raw = self.file_if_exists(main, name)
+        if raw is None:
+            return None
+        if len(raw) > 300_000:
+            raise PipelineError("公开学习文件清单超过限制。")
+        try:
+            value = json.loads(raw)
+        except (UnicodeError, ValueError):
+            raise PipelineError("公开学习文件清单不可读取；原件保留。") from None
+        if (not isinstance(value, dict) or value.get("schema") != "reminder-learning-publication-v1" or
+                value.get("repository") != REPOSITORY or value.get("branch") != "main" or
+                value.get("project") != project or not re.fullmatch(r"[a-f0-9]{40}", value.get("baseCommit", "")) or
+                not isinstance(value.get("files"), list) or not 8 <= len(value["files"]) <= 650):
+            raise PipelineError("公开学习文件清单缺少仓库、项目、基线或完整文件。")
+        # These are private website identifiers, never public manifest metadata.
+        forbidden = {"accountid", "listid", "taskid", "reportid", "sourcehash", "leaseid", "token", "password"}
+        def check_metadata(item):
+            if isinstance(item, dict):
+                if any(str(k).casefold() in forbidden for k in item):
+                    raise PipelineError("公开清单夹带私有网站标识，停止知识同步。")
+                for child in item.values():
+                    check_metadata(child)
+            elif isinstance(item, list):
+                for child in item:
+                    check_metadata(child)
+        check_metadata(value)
+        originals = {a["role"]: a["sha256"] for a in completion["artifacts"]}
+        roles, paths = {}, set()
+        for item in value["files"]:
+            if not isinstance(item, dict):
+                raise PipelineError("公开学习文件条目格式无效。")
+            path = item.get("path")
+            public_path(root, path, project)
+            if path.casefold() in paths or path == name:
+                raise PipelineError("公开学习文件清单重复或自引用。")
+            paths.add(path.casefold())
+            role = item.get("artifactRole")
+            if role is not None:
+                if role not in ARTIFACT_ROLES or role in roles or not path.startswith(project + "/delivery/"):
+                    raise PipelineError("公开学习文件角色重复或路径不属于本项目交付。")
+                roles[role] = item.get("sourceSha256")
+        if set(roles) != ARTIFACT_ROLES:
+            raise PipelineError("公开学习文件清单未绑定六类原件。")
+        if roles != originals:
+            # A previous publication of the same project is not this report.
+            return None
+        review_path = value.get("reviewPath")
+        if not isinstance(review_path, str) or review_path.casefold() not in paths or not review_path.startswith(project + "/delivery/") or not review_path.endswith(".md"):
+            raise PipelineError("公开学习文件清单缺少本次独立审核日志。")
+        commit = git(self.path, "log", "-1", "--format=%H", main, "--", name)
+        if not re.fullmatch(r"[a-f0-9]{40}", commit):
+            raise PipelineError("未找到实际学习发布提交。")
+        self.verify_commit(commit)
+        if self.file(commit, name) != raw or git(self.path, "rev-parse", commit + "^") != value["baseCommit"]:
+            raise PipelineError("公开学习清单与实际发布提交/父基线不符。")
+        changed = git(self.path, "diff-tree", "--no-commit-id", "--name-only", "-r", "-z", commit, binary=True)
+        actual_paths = {p.decode("utf-8") for p in changed.split(b"\0") if p}
+        declared = {f["path"] for f in value["files"]} | {name}
+        if not actual_paths <= declared:
+            raise PipelineError("学习发布提交包含清单外文件，保留本机知识。")
+        # Keep the public manifest itself with the project, without self-referential hashing.
+        baseline = self.file_if_exists(value["baseCommit"], name)
+        files = value["files"] + [{"path": name, "sha256": sha(raw), "baseSha256": sha(baseline) if baseline is not None else None}]
+        return {"schema": "reminder-dot-direct-git-v1", "repository": REPOSITORY, "branch": "main",
+                "commit": commit, "baseCommit": value["baseCommit"], "files": files,
+                "reportId": report["id"], "sourceHash": report["sourceHash"],
+                "manifestPath": name, "manifestSha256": sha(raw), "reviewPath": review_path,
+                "evidence": "actual_git_objects_bound_to_six_original_hashes"}
+
 
 def apply_cloud_receipts(root, bundle, coordinator, mirror_factory=PublicMirror):
     """Caller owns the existing coordinator lock. All receipt bytes remain private."""
     root = Path(root).resolve()
     require_owner(root, coordinator)
+    eligible = [report for report in bundle["reports"] if report["analysis"].get("stage") == "full" and not report["stale"] and not report["activeClaim"]]
     candidates = [(report, receipt(report)) for report in bundle["reports"]]
     candidates = [(report, value) for report, value in candidates if value and not report["stale"] and not report["activeClaim"]]
-    if not candidates:
+    direct = [report for report in eligible if not report.get("cloudDelivery")]
+    if not candidates and not direct:
         return {"cloudPublished": 0, "localKnowledgeSynced": 0, "conflicts": []}
     staged = subprocess.run(["git", "-C", str(root), "diff", "--cached", "--name-only"], capture_output=True, timeout=30)
     if staged.returncode or staged.stdout.strip():
         raise PipelineError("原工作区暂存区非空或无法核对；原件已备份，未覆盖本机知识。")
     mirror = mirror_factory(root)
+    for report in direct:
+        value = mirror.direct_publication(root, report)
+        if value:
+            candidates.append((report, value))
+    if not candidates:
+        return {"cloudPublished": 0, "localKnowledgeSynced": 0, "conflicts": []}
     folder = root / PRIVATE / "dot" / bundle["accountId"] / bundle["list"]["id"]
     handoff_path = folder / "handoff.json"
     handoff = json.loads(handoff_path.read_text(encoding="utf-8"))
@@ -176,11 +274,10 @@ def apply_cloud_receipts(root, bundle, coordinator, mirror_factory=PublicMirror)
                 winners[name] = value["commit"]
             elif not mirror.is_ancestor(value["commit"], old):
                 raise PipelineError("云端提交历史分叉，保留本机知识。")
-    result = {"cloudPublished": len(candidates), "localKnowledgeSynced": 0, "conflicts": []}
+    result = {"cloudPublished": len(candidates), "dotDirectGitPublished": sum(v["schema"] == "reminder-dot-direct-git-v1" for _, v in candidates), "localKnowledgeSynced": 0, "conflicts": []}
     for report, value in sorted(candidates, key=lambda x: (x[1].get("pushedAt", ""), x[0]["id"])):
         project = report["analysis"]["completion"]["project"]
-        if not re.fullmatch(r"[a-z][a-z0-9_-]{0,100}", project):
-            raise PipelineError("云端项目目录需另行核对。")
+        valid_project(project)
         mirror.verify_commit(value["commit"])
         writes, conflicts, seen = [], [], set()
         if local_owner_held(root,report,project):
@@ -207,12 +304,14 @@ def apply_cloud_receipts(root, bundle, coordinator, mirror_factory=PublicMirror)
                     writes.append((destination, data, before))
             else:
                 writes.append((destination, data, before))
-        # The new guide bytes must still be the original independently reviewed cloud artifact.
+        # Server receipts require unchanged originals. Direct Git public copies may
+        # redact private context; every role is instead bound to its original SHA.
         artifacts = {a["role"]: a for a in report["analysis"]["completion"]["artifacts"]}
         listed = {f["path"]: f["sha256"] for f in value["files"]}
-        for name, role in [(project + "/" + project + "-小白指南.pdf", "guide_pdf"), (project + "/guide.html", "guide_html"), (project + "/experiment_log.txt", "experiment_log")]:
-            if listed.get(name) != artifacts[role]["sha256"]:
-                raise PipelineError("Git 回执未绑定本条原始学习产物。")
+        if value["schema"] != "reminder-dot-direct-git-v1":
+            for name, role in [(project + "/" + project + "-小白指南.pdf", "guide_pdf"), (project + "/guide.html", "guide_html"), (project + "/experiment_log.txt", "experiment_log")]:
+                if listed.get(name) != artifacts[role]["sha256"]:
+                    raise PipelineError("Git 回执未绑定本条原始学习产物。")
         if "vault/00-总览.md" not in listed or "vault/项目笔记/" + project + ".md" not in listed:
             raise PipelineError("Git 回执缺少知识入库。")
         # A previous partial copy is safe to retry: already matching files are skipped.
@@ -221,9 +320,10 @@ def apply_cloud_receipts(root, bundle, coordinator, mirror_factory=PublicMirror)
             if current != before:
                 conflicts.append(destination.relative_to(root).as_posix())
         item = handoff["reports"][report["id"]]
-        item["cloudDelivery"] = {"status": "verified", "receipt": value}
-        item["git"] = {"status": "pushed", "skillStep": 9, "executor": "cloud_coordinator", "commit": value["commit"], "pushedAt": value.get("pushedAt")}
-        item["knowledge"] = {"status": "merged", "skillStep": 8, "executor": "cloud_coordinator", "commit": value["commit"]}
+        evidence_key = "dotDirectGit" if value["schema"] == "reminder-dot-direct-git-v1" else "cloudDelivery"
+        item[evidence_key] = {"status": "verified", "receipt": value}
+        item["git"] = {"status": "pushed", "skillStep": 9, "executor": "dot_coordinator" if evidence_key == "dotDirectGit" else "cloud_coordinator", "commit": value["commit"], "pushedAt": value.get("pushedAt")}
+        item["knowledge"] = {"status": "merged", "skillStep": 8, "executor": "dot_coordinator" if evidence_key == "dotDirectGit" else "cloud_coordinator", "commit": value["commit"]}
         if conflicts:
             item["localKnowledge"] = {"status": "conflict", "paths": sorted(set(conflicts))}
             result["conflicts"].append({"reportId": report["id"], "paths": sorted(set(conflicts))})

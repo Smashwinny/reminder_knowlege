@@ -1,3 +1,11 @@
+## 当前分工（2026-10-06，优先于下文历史进度）
+
+Dot 为唯一云端协调者，直接按 learn-project 合并最新 GitHub vault、独立审核、提交和推送学习成果。Ubuntu 只维护 Reminder 网站授权、私有报告与处理状态。服务器 GitHub App 发布器和新增 delivery OAuth 不再是默认主流程的前置条件；PR #4 暂停、未部署，保留安全审核问题。
+
+Dot 自己的 GitHub 读写/二进制与端到端闭环正在实测。Windows 上线备份原件、同步已核验成果；现有 cloud-only 入口已增加直连 Git 成果清单核验，真实验收尚未完成。保留原任务 owner，不重学已有 full，不增加并行度，不自动勾选任务完成。
+
+执行说明：[RUNNING_IN_DOT.md](cloud-reference/RUNNING_IN_DOT.md)。这份本地说明的更新不等于已同步到 Dot 或已更新实际云端日程，实际结果另记私密交接。
+
 # 拾遗网站 → 本人 Dot → 本机与 Git
 
 2026-10-05 当前验收：本人 Dot 已完成 HowToLiveBetter、Ponytail、MCP Toolbox 三条真实完整学习，网站六原件、独立审核、标签回读、本机备份、知识合并与公开学习 Git 推送均通过，任务勾选由本人操作。云端「Reminder 自动学习与私有报告」日程已创建并实际执行，每 15 分钟接续原队列本批次票据；18 张中第三条已完成，余 17 张。未分类及以后新增记录尚未派入本批。详见 [协作收信流程](Dot协作收信流程.md)及[当前工作流](../tools/reminder_workflow.md)。

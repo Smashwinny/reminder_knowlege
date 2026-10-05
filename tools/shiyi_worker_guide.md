@@ -1,6 +1,6 @@
 # 拾遗任务 Worker 作业指南
 
-2026-10-05 新授权覆盖下文旧本机收尾安排：学习 worker 仍按原 learn-project 做真实实验、彩色 PDF 与独立审核，私有原件先留网站。云端唯一协调者在学习 lease 释放后领取已有 full 的 delivery，读取实际公开 Git 基线并合并知识；独立审核本次合并与隐私后，通过受限网站发布器提交/回读固定知识仓库。Windows 上线只读核验回执和实际 Git 字节，备份原件并同步 vault，保留用户笔记冲突。部署、第四 OAuth 范围与生产验收尚未完成，不得把新开发功能当作已在线。旧本机票据不自动释放或抢占；不恢复旧本机定时分析。详情见 `reminder-dot/repo/docs/CLOUD_DELIVERY.md` 与 `tools/云端交付与本机同步.md`。
+2026-10-06 当前授权覆盖旧本机收尾及服务器发布器安排：本人 Dot 担任唯一云端协调者，按原 learn-project 做真实实验、彩色 PDF、最新 GitHub vault 查重合并及真实独立审核，然后直接使用自己已授权且实测可写的 GitHub 连接提交/推送公开学习成果。Ubuntu 只维护网站授权、私有原件、处理标签与报告入口；不把部署发布器或新增 delivery OAuth 作为学习收尾的前置条件。Windows 上线后备份及同步已核验成果，保留用户笔记冲突。Dot 直连写入和本机回读必须实际验收，不能以指令更新代替。PR #4 暂停，不调用尚未上线工具；旧本机票据不自动释放或抢占，不恢复旧本机定时分析。云端执行说明见 `reminder-dot/cloud-reference/RUNNING_IN_DOT.md`。
 
 Claude 和 Codex 使用同一份指南。先读根目录 `AGENTS.md`、`CLAUDE.md` 与 `tools/reminder_workflow.md`。本指南自 2026-10-04 起替代旧的多 worker 直接写网站、纲要与 Git 流程。
 
@@ -14,7 +14,7 @@ Claude 和 Codex 使用同一份指南。先读根目录 `AGENTS.md`、`CLAUDE.m
 
 分类支持 learning / non_learning / duplicate / needs_review / blocked，分别为学习、非学习、重复增补、证据不足、环境受阻。每条记录至少保留具体分析理由和证据 URL，关联已完成项目与知识库。用 classify 写入独立报告，补全可确认事实、未确认事项和建议下一步，然后 release。
 
-最新用户已确认：完整学习也自动执行，默认由本人 Dot 执行；初步阶段不调用 start/ready/review，核实学习类再进入完整阶段。新流程仅保存分析标签，task.state 完成由用户点击；不调用旧 publish。worker 不操作 Git，协调者在本机备份、知识合并和验收后默认执行 skill 第 9 步。不能把来源不可访问、知识已掌握、闭源或缺少 API 当成非学习而跳过。
+最新用户已确认：完整学习也自动执行，默认由本人 Dot 执行；初步阶段不调用 start/ready/review，核实学习类再进入完整阶段。新流程仅保存分析标签，task.state 完成由用户点击；不调用旧 publish。worker 不操作 Git，Dot 唯一协调者在云端完成知识合并和验收后执行 skill 第 9 步，不等待 Windows 开机或 Ubuntu 发布器。不能把来源不可访问、知识已掌握、闭源或缺少 API 当成非学习而跳过。
 
 ## 阶段二 已授权的自动完整学习
 
@@ -33,6 +33,8 @@ worker 只写自己任务的报告、工作日志和所属项目目录。实验�
 旧 `shiyi_sync.py done/viewed` 已关闭。worker 不直接调用底层 upload_task，不修改 `完成/00-纲要.md`、历史队列或共享 vault，不进行 git add/commit/push。协调者按明确文件清单统一提交，禁止 git add -A、强推、绕过 hooks 和重置共享工作区。
 
 ## 默认回迁与 Git 收尾
+
+当前默认：第 8/9 步在 Dot 云端完成，步骤见云端执行说明；下文的本机知识合并/发布仅为明确启用的后备方式。已有 full 的收尾不重新学习，不为附加 Git 信息覆写不可变报告；原 owner 与交接须核实。服务器已有 full 标签证明报告已交付，不能单凭标签声称知识已入库或 Git 已推送。新直连路径的本机回执消费还待实际验收。
 
 Dot 报告和六类真实产物先保存网站，电脑离线时保留云端原件和待同步状态。电脑上线后固定本机脚本校验复制，并在私有备份中生成 `handoff.json`。它是备份阶段账本，不另建学习队列，也不表示 vault 已合并或 Git 已推送。
 
