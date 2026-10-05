@@ -1,0 +1,4 @@
+2026-10-05T03:36:55Z
+$ mv upstream repo
+$ git -C repo rev-parse HEAD
+bc149af3a02e721f0e3d03a673a0ec64fca765c4

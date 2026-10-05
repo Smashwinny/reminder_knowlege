@@ -1,0 +1,38 @@
+{
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "fetched_at_utc": "2026-10-05T03:31:44Z",
+  "source": "https://github.com/eternity4719/HowToLiveBetter.git",
+  "extracted_at_utc": "2026-10-05T03:33:27.084793+00:00",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 45865,
+      "sha256": "4450a3c055d1f3fee7f21e7eca5c4ea698a4f4889ee81de815eae9ec7242ad73",
+      "git_blob": "f88d4b227ba3cf59bee5b02add302b05d29dca8c"
+    },
+    {
+      "path": "skills/life-decision-guide/SKILL.md",
+      "bytes": 8339,
+      "sha256": "096054c6b39229544c6ee74dd3728642c985914b4d95345f4dec4278620167ea",
+      "git_blob": "a9dd0376fd358d48522bbed7f483c1286a47e86c"
+    },
+    {
+      "path": "book/04-不要浪费时间.md",
+      "bytes": 29368,
+      "sha256": "f5c9ff7caf35ead52af847b42824165538a7d6edcb26db0562eab90de42a74bb",
+      "git_blob": "7ed18a11f9241c1da1c2d06eb300fd3d6fb70b2e"
+    },
+    {
+      "path": "docs/核实记录/04-不要浪费时间.md",
+      "bytes": 15455,
+      "sha256": "a634678d1f9537cec321c1c2bc7bc823da4e3e895d21762e27ca942e6d8580a4",
+      "git_blob": "68f789cc5c40d421483638f3c6d3939e0dd2de3c"
+    },
+    {
+      "path": "LICENSE-CODE",
+      "bytes": 1069,
+      "sha256": "b5637b996d72e74dac01e8799701ff6440b5a979cd15a29ac120e7ae57963c67",
+      "git_blob": "949d610ab809da6a016a07a4cb97ce3dce59e32a"
+    }
+  ]
+}

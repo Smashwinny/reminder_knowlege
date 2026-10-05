@@ -1,0 +1,83 @@
+{
+  "checkedAtUtc": "2026-10-05T03:36:31.686884+00:00",
+  "repo": "Smashwinny/reminder_knowlege",
+  "indexCommit": "1f61909da967cea8bc68dbfaffc642a4331b3352",
+  "indexPath": "reminder-dot/cloud-reference/knowledge-index.json",
+  "indexSha256": "bc23c7b793f2ffc9db6bb7e9f0ad3678e5623a0850e84240cd3fa51e63a8919e",
+  "sourceCommit": "1043e9d6080bff7af9724162e2c44559fab63e40",
+  "indexEntryCount": 394,
+  "selectionMethod": "Search all 394 index title/path metadata entries for 事实|判断|证据|拒答|置信|不确定|审计|因果, then select five directly relevant notes; no full-vault body search. Secondary title-only search 风险|决策|收益|成本|相关|统计|贝叶斯|抽样|选择性|校准.",
+  "bodyReadCount": 5,
+  "notes": [
+    {
+      "path": "vault/概念/事实与判断分离.md",
+      "title": "事实与判断分离",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BA%8B%E5%AE%9E%E4%B8%8E%E5%88%A4%E6%96%AD%E5%88%86%E7%A6%BB.md",
+      "bytes": 1653,
+      "sha256": "53f5643580c0ab2e2860c6d2b25e3ea7eeb80cf806c1fdf4d989cab59319427b",
+      "observedSha256": "53f5643580c0ab2e2860c6d2b25e3ea7eeb80cf806c1fdf4d989cab59319427b",
+      "observedBytes": 1653,
+      "gitBlobSha": "dbae8a2ec18840326d27617c25d4ad4481302628",
+      "localCopy": "knowledge_reference/originals/事实与判断分离.md",
+      "verification": "sha256 and byte count match index",
+      "readScope": "full note"
+    },
+    {
+      "path": "vault/概念/证据状态机.md",
+      "title": "证据状态机",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%AF%81%E6%8D%AE%E7%8A%B6%E6%80%81%E6%9C%BA.md",
+      "bytes": 2488,
+      "sha256": "4ac12b197891357591ebd092a9120bd67fa6fa1a09a407ed9c0fea3bc9b97328",
+      "observedSha256": "4ac12b197891357591ebd092a9120bd67fa6fa1a09a407ed9c0fea3bc9b97328",
+      "observedBytes": 2488,
+      "gitBlobSha": "ac9073f0704c00fa5d3f97b797753de60785f9bf",
+      "localCopy": "knowledge_reference/originals/证据状态机.md",
+      "verification": "sha256 and byte count match index",
+      "readScope": "full note"
+    },
+    {
+      "path": "vault/概念/置信度门控与弃权.md",
+      "title": "置信度门控与弃权",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%BD%AE%E4%BF%A1%E5%BA%A6%E9%97%A8%E6%8E%A7%E4%B8%8E%E5%BC%83%E6%9D%83.md",
+      "bytes": 1935,
+      "sha256": "33584b31890cf4ba595adf9715548089b637eb19cc02ba31af5b59f1acd05e03",
+      "observedSha256": "33584b31890cf4ba595adf9715548089b637eb19cc02ba31af5b59f1acd05e03",
+      "observedBytes": 1935,
+      "gitBlobSha": "8dc4c37e77575088e2646e7d58055e51d26b99b0",
+      "localCopy": "knowledge_reference/originals/置信度门控与弃权.md",
+      "verification": "sha256 and byte count match index",
+      "readScope": "full note"
+    },
+    {
+      "path": "vault/概念/证据优先质检ProofOverClaims.md",
+      "title": "证据优先质检ProofOverClaims",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%AF%81%E6%8D%AE%E4%BC%98%E5%85%88%E8%B4%A8%E6%A3%80ProofOverClaims.md",
+      "bytes": 3593,
+      "sha256": "c54ea2f3bcfe830556942d04c502ba84472a7382c45b76dd07401861e44c2fac",
+      "observedSha256": "c54ea2f3bcfe830556942d04c502ba84472a7382c45b76dd07401861e44c2fac",
+      "observedBytes": 3593,
+      "gitBlobSha": "34acc9927d33b25c7177554ccecf898dee090d53",
+      "localCopy": "knowledge_reference/originals/证据优先质检ProofOverClaims.md",
+      "verification": "sha256 and byte count match index",
+      "readScope": "full note"
+    },
+    {
+      "path": "vault/概念/AI味模式库与信号非证据.md",
+      "title": "AI味模式库与信号非证据",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/AI%E5%91%B3%E6%A8%A1%E5%BC%8F%E5%BA%93%E4%B8%8E%E4%BF%A1%E5%8F%B7%E9%9D%9E%E8%AF%81%E6%8D%AE.md",
+      "bytes": 2177,
+      "sha256": "294ec3ddd248e8db25c76f17c8747993b98a9a324f4a3b0502eb67c72bc352ef",
+      "observedSha256": "294ec3ddd248e8db25c76f17c8747993b98a9a324f4a3b0502eb67c72bc352ef",
+      "observedBytes": 2177,
+      "gitBlobSha": "9d08df434163cc6128c2bfcc7c141177877260b2",
+      "localCopy": "knowledge_reference/originals/AI味模式库与信号非证据.md",
+      "verification": "sha256 and byte count match index",
+      "readScope": "full note"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "source": "https://github.com/eternity4719/HowToLiveBetter",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "path": "LICENSE-CODE",
+  "local_path": "originals/LICENSE-CODE",
+  "bytes": 1069,
+  "sha256": "b5637b996d72e74dac01e8799701ff6440b5a979cd15a29ac120e7ae57963c67",
+  "git_blob": "949d610ab809da6a016a07a4cb97ce3dce59e32a",
+  "started_at_utc": "2026-10-05T03:45:28.837342+00:00",
+  "extracted_at_utc": "2026-10-05T03:45:28.841763+00:00",
+  "command": "git -C repo show bc149af3a02e721f0e3d03a673a0ec64fca765c4:LICENSE-CODE",
+  "purpose": "Supplement for exact code-license text accompanying redistributed skill; pre-existing manifests unchanged"
+}
