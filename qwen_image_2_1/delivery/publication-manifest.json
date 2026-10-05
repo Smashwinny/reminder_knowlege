@@ -1,0 +1,92 @@
+{
+  "schema": "reminder-learning-publication-v1",
+  "repository": "Smashwinny/reminder_knowlege",
+  "branch": "main",
+  "project": "qwen_image_2_1",
+  "baseCommit": "da063bc9b39722bb5fc7345dadb2f42a59ddda4d",
+  "reviewPath": "qwen_image_2_1/delivery/qwen_image_2_1_review_log.md",
+  "files": [
+    {
+      "path": "qwen_image_2_1/delivery/qwen_image_2_1_exercise.zip",
+      "sha256": "e47aaa752e526ca932b8a15d6dd5f923a4418cfa95990220af3c896ae868410a",
+      "baseSha256": null,
+      "artifactRole": "exercise_archive",
+      "sourceSha256": "7bb83b0dab1b873fa6798f60776398309cede5f306b9032cda3bd5e86341f700"
+    },
+    {
+      "path": "qwen_image_2_1/delivery/qwen_image_2_1_experiment_log.md",
+      "sha256": "a42398272a479721df6fa5b3407ecc5fc22f4879cab724e1cc546e52918055fa",
+      "baseSha256": null,
+      "artifactRole": "experiment_log",
+      "sourceSha256": "d6ef4b23d64ecfec91e0becbd3fd0546064a92ddf8f2fad0c08453c24af68ea3"
+    },
+    {
+      "path": "qwen_image_2_1/delivery/qwen_image_2_1_guide.html",
+      "sha256": "f2858b5e4500247334e4cd6e857a332f605e34af2e0658e3c73bc5563626464e",
+      "baseSha256": null,
+      "artifactRole": "guide_html",
+      "sourceSha256": "ee29c69b4b388aadee58c45c148978a97c7ce765983176f14818d6a8374da378"
+    },
+    {
+      "path": "qwen_image_2_1/delivery/qwen_image_2_1_guide.pdf",
+      "sha256": "92fac69cc18ae6904b2e325de6a48952b3ada33a3942501c1826d6b85a7d2555",
+      "baseSha256": null,
+      "artifactRole": "guide_pdf",
+      "sourceSha256": "21f63d40194220e9e59c8e660d6c7783b2134b5149e809ff51726a25f024b5a5"
+    },
+    {
+      "path": "qwen_image_2_1/delivery/qwen_image_2_1_knowledge_notes.md",
+      "sha256": "dcfae5613d5b51ffd6d5c76d596635f18242c3884ef37263e3300f9e2b407206",
+      "baseSha256": null,
+      "artifactRole": "knowledge_notes",
+      "sourceSha256": "983e719a25b96a91943efa8e0eb36e57ca1855bb6cac22705d0b80f0772f514e"
+    },
+    {
+      "path": "qwen_image_2_1/delivery/qwen_image_2_1_review_log.md",
+      "sha256": "66a433527a710978e963c1dce240bb2e11c6006a463d9b465168b02539d9c00a",
+      "baseSha256": null,
+      "artifactRole": "review_log",
+      "sourceSha256": "dfec9268dcc34a20a3ace45de2e9124779282532b3e8938a0cce9fd2e570ca2f"
+    },
+    {
+      "path": "vault/00-总览.md",
+      "sha256": "ce71e8643629367e64f6d501924e8dbfd54ccd0de5e6c6f5b27c8f104fc362d3",
+      "baseSha256": "eb8755870d4ee3dd9bab9184e4a1244b3aded5f752808664b59f25a259e68f36"
+    },
+    {
+      "path": "vault/概念/Agent输出协议契约.md",
+      "sha256": "3f763fc3e45c46e2b1a1a303a0c09b3636fa2f79bda3ba66bc00750a499a9b77",
+      "baseSha256": "85b2ef5207651ba4807bd3da205a45c72c1fe38a5cb8ce91a052f66dea5bba4e"
+    },
+    {
+      "path": "vault/概念/PromptAsCode提示词即代码.md",
+      "sha256": "43889ca8b87a58cd00162e634f56046620b4135fc41aa64dcaa10a0b6e809680",
+      "baseSha256": "de8df816c830acb11ff89f89662f0468bbdb5ebbca67e4f07b6bf8ca94026d70"
+    },
+    {
+      "path": "vault/概念/图像提示八要素.md",
+      "sha256": "19c92d224b64d27ddec4d9a3e609a82231c436218eb6781349320a665836e1e1",
+      "baseSha256": "652f097bd319294e764558409bd2975d10fc4d94e251d9afe203eeb7e5bf12d1"
+    },
+    {
+      "path": "vault/概念/开源验货三查.md",
+      "sha256": "2fe502091ae10fe12bed2e8552ad14d3b6ef1a370c556560f6f8efdfffd4da3a",
+      "baseSha256": "836585db83f85f393815551357aad9b894567c5e57bc7c4623e088040c50b0ce"
+    },
+    {
+      "path": "vault/概念/接缝与桩实现StubSeam.md",
+      "sha256": "d39ab79c6c6ba5dd1481bf378ebccfcee45d1f5c06d203451f5094060f503431",
+      "baseSha256": "83decb2724ea3ac736e0f9c4c89e17e043504be4733162e6ee44d7988c976804"
+    },
+    {
+      "path": "vault/概念/棋盘格假透明修复.md",
+      "sha256": "ebbe319dd2e6969e81716787b6ae7507c0953b8ffda1b64b18a32c652659f1c4",
+      "baseSha256": "a8ad7a8842dfca4066b90cdcf0ff7af47d06cddc178f348e4d89fe831a8b6871"
+    },
+    {
+      "path": "vault/项目笔记/qwen_image_2_1.md",
+      "sha256": "8c161db4b12ae551dd652214ca3b667b5d77c0913e8cea2e1eb696d8fb6a5195",
+      "baseSha256": null
+    }
+  ]
+}
