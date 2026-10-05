@@ -1,0 +1,87 @@
+{
+  "schema": "reminder-learning-publication-v1",
+  "repository": "Smashwinny/reminder_knowlege",
+  "branch": "main",
+  "project": "easel",
+  "baseCommit": "109ffa9763c24f6ff05d2b7f1b1d9ed14e7d79e0",
+  "reviewPath": "easel/delivery/easel-independent-review.md",
+  "files": [
+    {
+      "path": "easel/delivery/easel-exercise.zip",
+      "sha256": "1c441e1af62baf0985543de4c265fbde84333ecd394d02598afe50b3e9bcc9cf",
+      "baseSha256": null,
+      "artifactRole": "exercise_archive",
+      "sourceSha256": "39000e1c98736cb89a52daab4cd8844dd0e83a7a147aa4f9dac1622cd49781c3"
+    },
+    {
+      "path": "easel/delivery/easel-experiment-log.md",
+      "sha256": "0d698a03dc0a3f290f2e62912ff802d5999edabcb3919bb90fa652dea675e354",
+      "baseSha256": null,
+      "artifactRole": "experiment_log",
+      "sourceSha256": "e8b29ba0f0e935e733705846e4d7721b4cfa1d4fcf3dbe327ce23c990c2a2288"
+    },
+    {
+      "path": "easel/delivery/easel-guide.html",
+      "sha256": "431f4de5d2e8dfeca439c52b01dea2740b2b9786c08ee70fbaf8631db8ff507b",
+      "baseSha256": null,
+      "artifactRole": "guide_html",
+      "sourceSha256": "5e5fa7e8a8d33d4b11544fcf08ef6e59e0240c2f024552fcc7943c413e30bd57"
+    },
+    {
+      "path": "easel/delivery/easel-guide.pdf",
+      "sha256": "f8debf37101bf9d3b9631e062f8a91e5fb7584d1058138a876e187c9028db030",
+      "baseSha256": null,
+      "artifactRole": "guide_pdf",
+      "sourceSha256": "7e3aa20d918cbc3f7761aa1a7556cd52d23634969152df1b2a1bcde9c94a34a3"
+    },
+    {
+      "path": "easel/delivery/easel-independent-review.md",
+      "sha256": "8c18bc93f1ad3162b93abefd92dd55e542db07b8ca6b14c5542cdda565a878bc",
+      "baseSha256": null,
+      "artifactRole": "review_log",
+      "sourceSha256": "9045948aae29587a25e42b79442c51bd628b89d79d442a58241a3408597688e1"
+    },
+    {
+      "path": "easel/delivery/easel-knowledge.md",
+      "sha256": "41ce2e55579b67a2ec30440f61fca4dab88630f56bb9f8ea52a4756b39e0e6f1",
+      "baseSha256": null,
+      "artifactRole": "knowledge_notes",
+      "sourceSha256": "b133556c77021490e4209147ca1e713192fb3240a35d0ec7d53ae27eeffeb8e2"
+    },
+    {
+      "path": "vault/00-总览.md",
+      "sha256": "fd98a3859cb5b4da060c09f74e86b720c2a9bdaa82990dffa5323bdfd64751cf",
+      "baseSha256": "b1ab7813829909669c30551382bc8fde4383d19c890f45f56bc7d2c6e97b364f"
+    },
+    {
+      "path": "vault/概念/产物留痕与状态外置.md",
+      "sha256": "c415f2ab16d988d4be67aa80a5919cad51ff379b5d0547173a12927c03146290",
+      "baseSha256": "6aba36f09afc580c08a669663e1ddaef6fa2c99067fcfedb65f56ba81a5ecceb"
+    },
+    {
+      "path": "vault/概念/分镜表驱动生成.md",
+      "sha256": "542b05e302264e9cf2dcf0ababbe8831277552d12d0ffca05346febf3b763b01",
+      "baseSha256": "2641bc7f44c9543b6084932b7716291a4e69fde074ac1d25fa313118d10240e5"
+    },
+    {
+      "path": "vault/概念/技能路由器与授权硬门.md",
+      "sha256": "43a739570c2ae737d9dd64fac2c4721008d3729d7743caa88e994dbe4834225e",
+      "baseSha256": "8e122f9a4d1cb581bbc11303a0952f46b81b8d8251c938067e38db926f90ff4e"
+    },
+    {
+      "path": "vault/概念/证据优先质检ProofOverClaims.md",
+      "sha256": "b1d33ad0c7c709fd3b148cb5e38d2ca7e5fefb870e1c05444209b1850aadf988",
+      "baseSha256": "cacb862c41eb5a4da972941808e8e50be63f668bd3090f49d5cfd0cc402c89f4"
+    },
+    {
+      "path": "vault/概念/证据状态机.md",
+      "sha256": "4ed8230cec042bc5c6084e17e6ad9f4bd482322b87965ed27c1bdf17e144d0ff",
+      "baseSha256": "bab3cf42477a8e90fd0729ff2a3a4663b4561cd48b6b5800d58a43c6cc2369d6"
+    },
+    {
+      "path": "vault/项目笔记/easel.md",
+      "sha256": "56aa3ebba2b4cfc487e5ce509700e45d11b102976652766e5b0e1967bdd4a42e",
+      "baseSha256": null
+    }
+  ]
+}
