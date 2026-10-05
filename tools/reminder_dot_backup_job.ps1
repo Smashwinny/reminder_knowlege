@@ -19,10 +19,9 @@ function Write-BackupStatus([string]$Status, [string]$Reason, [string]$Exception
         exceptionType = $ExceptionType
         cloudDeleted = $false
         modelStarted = $false
-        knowledgeMerged = $false
-        gitRun = $false
+        knowledgeMergedByJob = $false
         gitPublicationRun = $false
-        cloudReadback = $true
+        gitReadbackRequested = ($Status -ne 'pending_configuration')
     }
     [IO.File]::WriteAllText($statusPath, ($state | ConvertTo-Json) + "`n", [Text.UTF8Encoding]::new($false))
 }
