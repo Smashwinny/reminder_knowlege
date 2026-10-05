@@ -1,0 +1,86 @@
+Ponytail local experiment - 6 actual steps
+cwd: /workspace/scratch/fb956861c0bf/ponytail/experiment
+started_utc: 2026-10-05T04:10:39Z
+
+STEP 1 COMMAND: python3 inspect_source.py
+PASS static upstream sql-user task inspected; upstream code NOT executed
+upstream commit e15862bb04d04285233a164460ced063941d9ef5
+sha256 882f510303779d75669c15b03716cc9d5e7af878ac7240249326f26955fa80b5
+contract: get_user(conn, username) -> matching row or None
+exit=0
+
+STEP 2 COMMAND: python3 demo.py minimal alice
+(1, 'alice', 'a@x.com')
+exit=0
+
+STEP 3 COMMAND: python3 demo.py layered alice
+(1, 'alice', 'a@x.com')
+exit=0
+
+STEP 4 COMMAND: python3 demo.py minimal "x' OR '1'='1"
+None
+exit=0
+
+STEP 5 COMMAND: python3 test_lookup.py
+PONYTAIL LOCAL ENGINEERING COMPARISON - NOT AN AGENTIC BENCHMARK REPLICATION
+UTC 2026-10-05T04:10:40.181609+00:00
+Python 3.12.14 SQLite 3.53.1
+upstream_commit e15862bb04d04285233a164460ced063941d9ef5
+upstream_task benchmarks/agentic/tasks.py :: sql-user
+fixture :memory:, fake records only, API calls 0, third-party packages 0
+IMPLEMENTATION minimal
+  PASS functional.existing
+  PASS functional.missing
+  PASS functional.quote
+  PASS functional.unicode
+  PASS boundary.length64
+  PASS boundary.type
+  PASS boundary.integer
+  PASS boundary.empty
+  PASS boundary.length65
+  PASS boundary.nul
+  PASS security.injection1
+  PASS security.injection2
+  PASS security.injection3
+  PASS security.readonly
+  PASS usability.repeat
+  PASS usability.connection_owned_by_caller
+  PASS usability.no_implicit_commit
+  PASS usability.rollback_preserved
+  PASS usability.tuple_result
+  PASS errors.closed_connection
+  PASS errors.missing_table
+IMPLEMENTATION layered
+  PASS functional.existing
+  PASS functional.missing
+  PASS functional.quote
+  PASS functional.unicode
+  PASS boundary.length64
+  PASS boundary.type
+  PASS boundary.integer
+  PASS boundary.empty
+  PASS boundary.length65
+  PASS boundary.nul
+  PASS security.injection1
+  PASS security.injection2
+  PASS security.injection3
+  PASS security.readonly
+  PASS usability.repeat
+  PASS usability.connection_owned_by_caller
+  PASS usability.no_implicit_commit
+  PASS usability.rollback_preserved
+  PASS usability.tuple_result
+  PASS errors.closed_connection
+  PASS errors.missing_table
+NEGATIVE CONTROL caught: happy path passed but injection leaked fake user id 1
+METRICS {"layered": {"bytes": 1408, "classes": 5, "functions_including_methods": 7, "nonblank_noncomment_lines_including_docstrings": 38, "sha256": "3f9ea44c8bab2665e61c8cde11bb8f996dd024492a71db2340cede1e3b0176f2"}, "minimal": {"bytes": 502, "classes": 0, "functions_including_methods": 1, "nonblank_noncomment_lines_including_docstrings": 10, "sha256": "14c855a78592604641743f64965b4a0670fcab35c1a1f13f259ada05094ef8fa"}}
+RESULT PASS: 21 shared checks per implementation; 42 passing implementation checks; 1 unsafe negative control detected
+LIMIT: finite local contract checks only; no authentication, authorization, production DB, concurrency, timing, API cost, model, or full security evaluation
+exit=0
+
+STEP 6 COMMAND: python3 audit_sources.py
+minimal {"bytes": 502, "classes": 0, "functions_including_methods": 1, "nonblank_noncomment_lines_including_docstrings": 10, "sha256": "14c855a78592604641743f64965b4a0670fcab35c1a1f13f259ada05094ef8fa"}
+layered {"bytes": 1408, "classes": 5, "functions_including_methods": 7, "nonblank_noncomment_lines_including_docstrings": 38, "sha256": "3f9ea44c8bab2665e61c8cde11bb8f996dd024492a71db2340cede1e3b0176f2"}
+LIMIT: same authored contract; no general security, model efficacy, speed, or cost conclusion
+exit=0
+finished_utc: 2026-10-05T04:10:40Z

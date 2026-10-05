@@ -1,0 +1,37 @@
+{
+  "verified_at_utc": "2026-10-05T04:09:23.721379+00:00",
+  "source": "https://github.com/Smashwinny/reminder_knowlege.git",
+  "retrieval": "read-only Git object reuse from existing how_to_live_better/reference; no new fetch or edits there",
+  "files": [
+    {
+      "commit": "1f61909da967cea8bc68dbfaffc642a4331b3352",
+      "upstream_path": "reminder-dot/cloud-reference/RUNNING_IN_DOT.md",
+      "local_path": "sources/method/RUNNING_IN_DOT.md",
+      "bytes": 3505,
+      "sha256": "14831be8714d1898af74e63900bd3362d2982619ebad9b0fc59194651ffa828a",
+      "expected_sha256": "14831be8714d1898af74e63900bd3362d2982619ebad9b0fc59194651ffa828a",
+      "git_blob": "39d768fa41fb1f86005e59eb7c2a6e928995098e",
+      "verified_bytes_match_git_object_and_previous_manifest": true
+    },
+    {
+      "commit": "1f61909da967cea8bc68dbfaffc642a4331b3352",
+      "upstream_path": "reminder-dot/cloud-reference/knowledge-index.json",
+      "local_path": "sources/method/knowledge-index.json",
+      "bytes": 175888,
+      "sha256": "bc23c7b793f2ffc9db6bb7e9f0ad3678e5623a0850e84240cd3fa51e63a8919e",
+      "expected_sha256": "bc23c7b793f2ffc9db6bb7e9f0ad3678e5623a0850e84240cd3fa51e63a8919e",
+      "git_blob": "973f5f730b43e7737c57ee70ece0198d826e9fb1",
+      "verified_bytes_match_git_object_and_previous_manifest": true
+    },
+    {
+      "commit": "1043e9d6080bff7af9724162e2c44559fab63e40",
+      "upstream_path": ".claude/skills/learn-project/SKILL.md",
+      "local_path": "sources/method/learn-project.SKILL.md",
+      "bytes": 10302,
+      "sha256": "2faa70bad578ffb221b273e90740c37e51b8a9d55be655465bb15e42801409bd",
+      "expected_sha256": "2faa70bad578ffb221b273e90740c37e51b8a9d55be655465bb15e42801409bd",
+      "git_blob": "5c5fc84d11abebbff762cf3bd0affa93a5afbfc7",
+      "verified_bytes_match_git_object_and_previous_manifest": true
+    }
+  ]
+}

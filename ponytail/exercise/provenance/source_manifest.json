@@ -1,0 +1,186 @@
+{
+  "retrieved_at_utc": "2026-10-05T04:06:15Z",
+  "verified_at_utc": "2026-10-05T04:09:23.721379+00:00",
+  "source": "https://github.com/DietrichGebert/ponytail.git",
+  "default_branch": "main",
+  "commit": "e15862bb04d04285233a164460ced063941d9ef5",
+  "commit_date": "2026-10-05T03:40:41Z",
+  "commit_subject": "chore: release v4.12.0 (#1031)",
+  "clone_path": "repo",
+  "checkout": "none; selected files extracted with git show",
+  "source_access": "read-only inspection; no upstream install, import, hook, or benchmark execution",
+  "license": "MIT; full copyright and permission notice preserved in sources/selected/LICENSE",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "local_path": "sources/selected/AGENTS.md",
+      "bytes": 2593,
+      "sha256": "b57f736a83ddab7111d752008c3e131a157e646a6b47c9eb223f076c494685a8",
+      "git_blob": "bc3595d1a07cff2b135139cadfa4c17ec412667b",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/AGENTS.md",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "INSTALL.md",
+      "local_path": "sources/selected/INSTALL.md",
+      "bytes": 14366,
+      "sha256": "d7a513428b1c30bb35e2d418f85125f942a4a6a8a2eb4470e2f970de6b26d1d6",
+      "git_blob": "3e592cec32964065ef63f37bb1aa746b9b3a0811",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/INSTALL.md",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "LICENSE",
+      "local_path": "sources/selected/LICENSE",
+      "bytes": 1071,
+      "sha256": "fb1bc6909ac3ef82d5c22106e32ef682b0cff66788fa915fb9b53b15c9d2f3ab",
+      "git_blob": "715d483338cea4365f0d91a27799cf61226d6bcf",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/LICENSE",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "README.md",
+      "local_path": "sources/selected/README.md",
+      "bytes": 11367,
+      "sha256": "7d4d426ff56c7e28ca135a8b56843413ad24a987f161c456a21eec349158947a",
+      "git_blob": "0b47ef7bdcb755ded4f6cae9c0732c85f2f9cc40",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/README.md",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "benchmarks/agentic/README.md",
+      "local_path": "sources/selected/benchmarks/agentic/README.md",
+      "bytes": 10395,
+      "sha256": "907f1d736187bb064e042585f50f5cc8f70ca2db190eaa4df077d006f396b834",
+      "git_blob": "5376c1ed4bbc2f362596adce68cbca9377954bc5",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/benchmarks/agentic/README.md",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "benchmarks/agentic/complete.py",
+      "local_path": "sources/selected/benchmarks/agentic/complete.py",
+      "bytes": 7944,
+      "sha256": "2730deb3fd49439c38a8e8ba66c80f18d6b8ea33902247e393fae177f24352cf",
+      "git_blob": "831ae306a04274bdf04123c5d4759c80a7f27a0f",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/benchmarks/agentic/complete.py",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "benchmarks/agentic/judge.py",
+      "local_path": "sources/selected/benchmarks/agentic/judge.py",
+      "bytes": 9987,
+      "sha256": "c845548290c062dac5bef93ba3231e26b35be62a07fdebabec61833c4a20b6c0",
+      "git_blob": "63a3b7f38681731baed4e22fb914dc11bb380813",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/benchmarks/agentic/judge.py",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "benchmarks/agentic/run.py",
+      "local_path": "sources/selected/benchmarks/agentic/run.py",
+      "bytes": 27460,
+      "sha256": "7c54206ad39c6b77c7c9c051ad444ba2dd61864e479ed8dfe537fc3334f203ab",
+      "git_blob": "5b090dd392bd3ba84fb9babd77c8a417b03aa972",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/benchmarks/agentic/run.py",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "benchmarks/agentic/tasks.py",
+      "local_path": "sources/selected/benchmarks/agentic/tasks.py",
+      "bytes": 50643,
+      "sha256": "b6c8fc38f021ab88f1bcd1799ab8c3b41ff390e6071b53bd7483ca453c996bdf",
+      "git_blob": "592bc877cb957b42c0badb448de1026b42ef4fa8",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/benchmarks/agentic/tasks.py",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "benchmarks/results/2026-06-18-agentic.md",
+      "local_path": "sources/selected/benchmarks/results/2026-06-18-agentic.md",
+      "bytes": 12226,
+      "sha256": "fe274964a4f2b9801e67ba956eef3a029c472aa5693b7e0643c83bd406f9ee6f",
+      "git_blob": "1a602f7e49369841cef39d5b764e1247f78d2bb9",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/benchmarks/results/2026-06-18-agentic.md",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "hooks/claude-codex-hooks.json",
+      "local_path": "sources/selected/hooks/claude-codex-hooks.json",
+      "bytes": 1242,
+      "sha256": "2848d305d8e97f0deb5a5d4e771aef21f27780075737cc08c0c1bdfb6a6061f2",
+      "git_blob": "f86b0a152b53f5fcf5daafc371c7d41e0877851a",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/hooks/claude-codex-hooks.json",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "hooks/ponytail-activate.js",
+      "local_path": "sources/selected/hooks/ponytail-activate.js",
+      "bytes": 4842,
+      "sha256": "3f20975c8495d3d2b15ad5b6975c990968bebff89d0be8718dca94cdd79c56fa",
+      "git_blob": "64192000978dd12fb480971af3ef5637a8709256",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/hooks/ponytail-activate.js",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "hooks/ponytail-config.js",
+      "local_path": "sources/selected/hooks/ponytail-config.js",
+      "bytes": 5881,
+      "sha256": "0a8daf96cf9ac703dc4cb7b5065253567e513c951d60b8eb94a0fe727514aeca",
+      "git_blob": "9ba7fdc2e7853aa296507731f6ed2b7fcbcd0bff",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/hooks/ponytail-config.js",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "hooks/ponytail-instructions.js",
+      "local_path": "sources/selected/hooks/ponytail-instructions.js",
+      "bytes": 5487,
+      "sha256": "23c050103f28dbe6bad953ae21d98cd06d720a20f33d4716e9de419f947d495e",
+      "git_blob": "3ec3980a08d9565602020e6789f1759d9e2e52e1",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/hooks/ponytail-instructions.js",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "hooks/ponytail-mode-tracker.js",
+      "local_path": "sources/selected/hooks/ponytail-mode-tracker.js",
+      "bytes": 7116,
+      "sha256": "9464ba75d0c839103ad54aa811cd43bc58d34b595e0b86985ff174100338b8e9",
+      "git_blob": "39a8373fb8dfbde044639d09fa321286e7852fdb",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/hooks/ponytail-mode-tracker.js",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "hooks/ponytail-runtime.js",
+      "local_path": "sources/selected/hooks/ponytail-runtime.js",
+      "bytes": 7874,
+      "sha256": "e653e545d96068d632357c381328e63d6a5e376e0a4d99ffa0d70ec7e2063e4b",
+      "git_blob": "f582e228f51af8e6dce49fc98f46a2957ed20221",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/hooks/ponytail-runtime.js",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "hooks/ponytail-subagent.js",
+      "local_path": "sources/selected/hooks/ponytail-subagent.js",
+      "bytes": 3462,
+      "sha256": "8da045eb96b5b919655bf4c12abfc7e5163af29b62b97ccaf633b75099390315",
+      "git_blob": "f2d9fe259aea580345c025b12c781278f9a5c881",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/hooks/ponytail-subagent.js",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "package.json",
+      "local_path": "sources/selected/package.json",
+      "bytes": 1283,
+      "sha256": "ff5ae8e7577dd3d426d347e7ec9b5e1e663ad92bedc8635d752e3bff5c8bcc46",
+      "git_blob": "347364fe865229a657b697c21293c3576a196f5a",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/package.json",
+      "verified_bytes_match_git_object": true
+    },
+    {
+      "path": "skills/ponytail/SKILL.md",
+      "local_path": "sources/selected/skills/ponytail/SKILL.md",
+      "bytes": 6637,
+      "sha256": "1316a2f3f95741d2300b116fe0c2d81ce4a9568656ed0a62643f54aaf09957f2",
+      "git_blob": "02c0712c86277d49d18a77da3a2b825657bf02d1",
+      "source_url": "https://github.com/DietrichGebert/ponytail/blob/e15862bb04d04285233a164460ced063941d9ef5/skills/ponytail/SKILL.md",
+      "verified_bytes_match_git_object": true
+    }
+  ]
+}
