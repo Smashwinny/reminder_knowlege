@@ -1,5 +1,7 @@
 # 拾遗任务 Worker 作业指南
 
+2026-10-05 新授权覆盖下文旧本机收尾安排：学习 worker 仍按原 learn-project 做真实实验、彩色 PDF 与独立审核，私有原件先留网站。云端唯一协调者在学习 lease 释放后领取已有 full 的 delivery，读取实际公开 Git 基线并合并知识；独立审核本次合并与隐私后，通过受限网站发布器提交/回读固定知识仓库。Windows 上线只读核验回执和实际 Git 字节，备份原件并同步 vault，保留用户笔记冲突。部署、第四 OAuth 范围与生产验收尚未完成，不得把新开发功能当作已在线。旧本机票据不自动释放或抢占；不恢复旧本机定时分析。详情见 `reminder-dot/repo/docs/CLOUD_DELIVERY.md` 与 `tools/云端交付与本机同步.md`。
+
 Claude 和 Codex 使用同一份指南。先读根目录 `AGENTS.md`、`CLAUDE.md` 与 `tools/reminder_workflow.md`。本指南自 2026-10-04 起替代旧的多 worker 直接写网站、纲要与 Git 流程。
 
 ## 领取前

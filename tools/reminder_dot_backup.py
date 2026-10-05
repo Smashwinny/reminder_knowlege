@@ -108,6 +108,12 @@ def validate_bundle(bundle, expected_account, expected_list):
             valid_id(attempt.get('id', ''))
         if not isinstance(report.get("stale"), bool) or not isinstance(report.get("activeClaim"), bool):
             raise PipelineError("缺少导出时的来源新鲜度和领取状态。")
+        if "cloudDelivery" in report:
+            if __package__:
+                from .reminder_cloud_sync import receipt
+            else:
+                from reminder_cloud_sync import receipt
+            receipt(report)  # Validate shape only; actual Git bytes are verified separately.
     return bundle
 
 
@@ -276,7 +282,10 @@ def record_handoff(folder, bundle):
                       "artifacts": relative + "-files" if full else None},
             "knowledge": previous.get("knowledge", {"status": "pending_coordinator" if full else "not_applicable", "skillStep": 8}),
             "git": previous.get("git", {"status": "pending_coordinator" if full else "not_applicable", "skillStep": 9,
-                                        "reason": "只提交学习成果；完整学习须先完成本机知识合并。私密分类报告不提交公开仓库。"}),
+                                        "reason": "只提交学习成果；完整学习须经唯一协调者合并知识与独立审核。私密报告不提交公开仓库。"}),
+            "cloudDelivery": previous.get("cloudDelivery", {"status": "reported" if report.get("cloudDelivery") else "not_available"}),
+            "localKnowledge": previous.get("localKnowledge", {"status": "pending" if full else "not_applicable"}),
+            "websiteBackupAcknowledgement":previous.get("websiteBackupAcknowledgement", {"status":"not_reported"}),
             "taskCompletion": "user_only",
         }
     atomic_write(path, json.dumps(state, ensure_ascii=False, sort_keys=True, indent=2) + "\n")

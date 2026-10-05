@@ -4,6 +4,7 @@ param(
     [string]$ConfigPath = '',
     [string]$PythonPath = '',
     [switch]$LocalOnly,
+    [switch]$LegacyLocalPublisher,
     [switch]$StatusOnly
 )
 $ErrorActionPreference = 'Stop'
@@ -28,6 +29,7 @@ if ($StatusOnly) { $syncArguments += 'status' }
 else {
     $syncArguments += 'sync'
     if ($LocalOnly) { $syncArguments += '--local-only' }
+    if (-not $LegacyLocalPublisher) { $syncArguments += '--cloud-only' }
 }
 & $PythonPath @syncArguments
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

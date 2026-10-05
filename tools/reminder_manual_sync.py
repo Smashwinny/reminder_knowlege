@@ -18,6 +18,7 @@ import sys
 import uuid
 
 from reminder_coordinator import acquire, release, require_owner
+from reminder_cloud_sync import apply_cloud_receipts, acknowledge_local_backups
 from reminder_dot_backup import download, read_bundle, restore
 from reminder_pipeline import Pipeline, PipelineError, ROOT, atomic_write, valid_id, IGNORED_EXERCISE_DIRS
 
@@ -332,7 +333,9 @@ def expose_backups(root, bundle, handoff, original_folder, owner):
             receipt["artifacts"].append({"role": artifact["role"], "path": destination.name, "sha256": sha(data)})
         immutable_copy(receipt_path, (json.dumps(receipt, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
         item = handoff["reports"][report["id"]]
-        knowledge = "已验收并入库" if item["knowledge"].get("status") == "merged" else "尚未执行本机验收/入库"
+        knowledge = "已验收并入库" if item["knowledge"].get("status") == "merged" else "待协调者验收/入库"
+        if item.get('localKnowledge',{}).get('status')=='conflict':
+            knowledge += "；本机笔记冲突保留"
         git_state = "已推送：" + item["git"].get("commit", "")[:7] if item["git"].get("status") == "pushed" else "未推送"
         pdf = target / file_names["guide_pdf"]
         rows.append(f"| {stamp:%Y-%m-%d %H:%M:%S} | {project} | [打开 PDF](<{pdf.as_posix()}>) | {knowledge} | {git_state} |")
@@ -468,7 +471,7 @@ def publish(root, owner, repo, path, manifest, blobs):
     save(path, manifest)
 
 
-def sync(root, config, local_only=False):
+def sync(root, config, local_only=False, cloud_only=False):
     status_path = root / PRIVATE / "manual-sync-status.json"
     state = {"schema": "reminder-manual-sync-v1", "startedAt": now(), "local": "pending",
              "git": "pending", "knowledgeMergedByScript": False, "taskCompletionChanged": False}
@@ -488,10 +491,15 @@ def sync(root, config, local_only=False):
             folder = Path(result["handoff"]).parent
             published = 0
             with handoff_lock(folder, owner):
+                cloud = {"cloudPublished": 0, "localKnowledgeSynced": 0, "conflicts": []}
+                if cloud_only and not local_only:
+                    cloud = apply_cloud_receipts(root, bundle, owner)
+                    acknowledgement = acknowledge_local_backups(root,bundle,owner,result['archive'])
+                    cloud.update(websiteBackupAcknowledged=acknowledgement['acknowledged'],websiteBackupAckPending=acknowledgement['pending'])
                 handoff = load(result["handoff"])
                 visible_index, visible_count = expose_backups(root, bundle, handoff, folder, owner)
                 state.update(visibleIndex=str(visible_index), visibleFullReports=visible_count)
-                if not local_only:
+                if not local_only and not cloud_only:
                     manifests = sorted((root / PRIVATE / "git-publications").glob("*.json"), key=lambda p: p.stat().st_mtime_ns)
                     for path in manifests:
                         manifest = load(path)
@@ -518,12 +526,14 @@ def sync(root, config, local_only=False):
                         save(folder / "handoff.json", handoff)
                         published += 1
             full = [item for item in handoff["reports"].values() if item["analysisStage"] == "full"]
-            state.update(git="local_only" if local_only else "pushed" if published else "no_ready_batch", publishedBatches=published,
+            state.update(git="local_only" if local_only else "cloud_verified" if cloud_only and cloud['cloudPublished'] else "cloud_pending" if cloud_only else "pushed" if published else "no_ready_batch", publishedBatches=published,
+                         **cloud, cloudOnly=cloud_only,
                          knowledgePending=sum(i["knowledge"].get("status") != "merged" for i in full),
                          gitPending=sum(i["git"].get("status") != "pushed" for i in full), finishedAt=now())
             rows = ["# 手动同步结果", "", "本次检查：" + state["finishedAt"], "",
                     f"网站报告 {state['reports']} 份，完整报告 {state['fullReports']} 份；本机原件校验通过。",
-                    f"本次推送 {published} 批；待知识合并 {state['knowledgePending']} 项，待 Git 备份 {state['gitPending']} 项。",
+                    f"本次本机推送 {published} 批；核验云端 Git 交付 {cloud['cloudPublished']} 项，本机知识同步 {cloud['localKnowledgeSynced']} 项。",
+                    f"待知识合并 {state['knowledgePending']} 项，待 Git 备份 {state['gitPending']} 项；本机笔记冲突 {len(cloud['conflicts'])} 项。",
                     "", f"[私有报告与产物入口]({Path(result['index']).as_posix()})", "",
                     f"[直接查看 PDF 与完整产物]({visible_index.as_posix()})", "",
                     "任务完成由本人点击。脚本不运行模型或自动声称知识合并/内容验收成功。"]
@@ -545,6 +555,7 @@ def main():
     sub = parser.add_subparsers(dest="command", required=True)
     cmd = sub.add_parser("sync")
     cmd.add_argument("--local-only", action="store_true")
+    cmd.add_argument("--cloud-only", action="store_true", help="仅拉取云端交付及核验 Git；不在本机提交或推送")
     sub.add_parser("status")
     cmd = sub.add_parser("prepare", help="唯一协调者在实际验收和隐私检查后登记明确文件清单")
     cmd.add_argument("--files-file", type=Path, required=True)
@@ -563,9 +574,9 @@ def main():
                 path = prepare(root, config, args.files_file, args.message, args.task, args.maintenance, args.review_notes)
                 value = {"receipt": str(path), "status": "prepared", "pushed": False}
         else:
-            value = sync(root, config, args.local_only)
+            value = sync(root, config, args.local_only, args.cloud_only)
             print(f"本机同步通过：{value['reports']} 份报告，含 {value['fullReports']} 份完整学习报告。")
-            print(f"本次 GitHub 推送 {value['publishedBatches']} 批；待验收/入库 {value['knowledgePending']} 项，待 Git 备份 {value['gitPending']} 项。")
+            print(f"核验云端 Git {value['cloudPublished']} 项；本机推送 {value['publishedBatches']} 批；待入库 {value['knowledgePending']} 项，待 Git 备份 {value['gitPending']} 项。")
             print("结果：" + str(root / PRIVATE / "手动同步结果.md"))
             print("PDF 与完整产物：" + value["visibleIndex"])
             return
