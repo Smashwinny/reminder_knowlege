@@ -1,0 +1,10 @@
+{
+  "download_url": "https://storage.googleapis.com/mcp-toolbox-for-databases/v1.13.1/linux/amd64/toolbox",
+  "version_observed": "toolbox version 1.13.1+binary.linux.amd64.e14cda6",
+  "sha256": "d8e0df24b5ce9934c8f7ae8466f64ff5512857c5a7e47640301750ee82f92db3",
+  "bytes": 314997200,
+  "release_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+  "download_completed_at_utc": "2026-10-05T04:42:24Z",
+  "checksum_scope": "Locally calculated hash of official download, not an independently signed checksum",
+  "binary_excluded_from_delivery_zip": true
+}

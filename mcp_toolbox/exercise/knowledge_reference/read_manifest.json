@@ -1,0 +1,157 @@
+{
+  "schema": "mcp-toolbox-knowledge-read-manifest-v1",
+  "generatedAt": "2026-10-05T04:43:27.280653+00:00",
+  "repository": "Smashwinny/reminder_knowlege",
+  "index": {
+    "commit": "1f61909da967cea8bc68dbfaffc642a4331b3352",
+    "path": "reminder-dot/cloud-reference/knowledge-index.json",
+    "url": "https://github.com/Smashwinny/reminder_knowlege/blob/1f61909da967cea8bc68dbfaffc642a4331b3352/reminder-dot/cloud-reference/knowledge-index.json",
+    "localCopy": "knowledge-index.original.json",
+    "bytes": 175888,
+    "sha256": "bc23c7b793f2ffc9db6bb7e9f0ad3678e5623a0850e84240cd3fa51e63a8919e",
+    "allMetadataEntriesScanned": 394,
+    "queries": [
+      "MCP",
+      "Toolbox",
+      "最小权限",
+      "只读",
+      "数据库",
+      "工具范围",
+      "权限",
+      "工具注解",
+      "ToolHint",
+      "提示词管",
+      "门控"
+    ],
+    "matchesFile": "index_matches.json",
+    "bodySourceCommit": "1043e9d6080bff7af9724162e2c44559fab63e40",
+    "retrievalMethod": "Reused fixed public index snapshot, byte-for-byte SHA-256 verified before copying"
+  },
+  "publicFullNotes": [
+    {
+      "path": "vault/概念/MCP协议.md",
+      "title": "MCP协议",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/MCP%E5%8D%8F%E8%AE%AE.md",
+      "bytes": 1720,
+      "sha256": "f241531981004f1580b331a37b9e38ca96875e368ac03d687aab199daac284d6",
+      "localCopy": "originals/MCP协议.md",
+      "actualBytes": 1720,
+      "actualSha256": "f241531981004f1580b331a37b9e38ca96875e368ac03d687aab199daac284d6",
+      "hashVerified": true,
+      "fullTextRead": true,
+      "retrievalMethod": "GitHub fetch_file connector at fixed sourceCommit; full UTF-8 body",
+      "gitBlobSha": "48b7703ea6b9288fd94f5600e7f876f0c530994f",
+      "readAt": "2026-10-05T04:42:03Z"
+    },
+    {
+      "path": "vault/概念/只读闸门三原则.md",
+      "title": "只读闸门三原则",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8F%AA%E8%AF%BB%E9%97%B8%E9%97%A8%E4%B8%89%E5%8E%9F%E5%88%99.md",
+      "bytes": 1994,
+      "sha256": "23952485062d0da330ebe343b0216eb755f8340c1290526c26001d8af760817a",
+      "localCopy": "originals/只读闸门三原则.md",
+      "actualBytes": 1994,
+      "actualSha256": "23952485062d0da330ebe343b0216eb755f8340c1290526c26001d8af760817a",
+      "hashVerified": true,
+      "fullTextRead": true,
+      "retrievalMethod": "GitHub fetch_file connector at fixed sourceCommit; full UTF-8 body",
+      "gitBlobSha": "b42839269292591d8f54f81f30473e298ca0edc8",
+      "readAt": "2026-10-05T04:42:03Z"
+    },
+    {
+      "path": "vault/概念/本地MCP端点安全四道门.md",
+      "title": "本地MCP端点安全四道门",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%9C%AC%E5%9C%B0MCP%E7%AB%AF%E7%82%B9%E5%AE%89%E5%85%A8%E5%9B%9B%E9%81%93%E9%97%A8.md",
+      "bytes": 2558,
+      "sha256": "1f7cfcb79846015e78c94fcb6391e09ffc9f4b1e236c29ac391dd20fda686cff",
+      "localCopy": "originals/本地MCP端点安全四道门.md",
+      "actualBytes": 2558,
+      "actualSha256": "1f7cfcb79846015e78c94fcb6391e09ffc9f4b1e236c29ac391dd20fda686cff",
+      "hashVerified": true,
+      "fullTextRead": true,
+      "retrievalMethod": "GitHub fetch_file connector at fixed sourceCommit; full UTF-8 body",
+      "gitBlobSha": "d802f80d81f31232b62d6482a5528596ee76f036",
+      "readAt": "2026-10-05T04:42:03Z"
+    },
+    {
+      "path": "vault/概念/代码管边界提示词管判断.md",
+      "title": "代码管边界提示词管判断",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BB%A3%E7%A0%81%E7%AE%A1%E8%BE%B9%E7%95%8C%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%AE%A1%E5%88%A4%E6%96%AD.md",
+      "bytes": 1427,
+      "sha256": "82baf8f30c908b3ea424d15f82b6d3124e40b3c1b023961bfd0c8abd1eb8b86d",
+      "localCopy": "originals/代码管边界提示词管判断.md",
+      "actualBytes": 1427,
+      "actualSha256": "82baf8f30c908b3ea424d15f82b6d3124e40b3c1b023961bfd0c8abd1eb8b86d",
+      "hashVerified": true,
+      "fullTextRead": true,
+      "retrievalMethod": "GitHub fetch_file connector at fixed sourceCommit; full UTF-8 body",
+      "gitBlobSha": "fc833147506c77d23ced4c6fff79e50fdab5347f",
+      "readAt": "2026-10-05T04:42:03Z"
+    },
+    {
+      "path": "vault/概念/关系型数据库与NoSQL.md",
+      "title": "关系型数据库与NoSQL",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8ENoSQL.md",
+      "bytes": 1085,
+      "sha256": "a1521ce3393b63310f6e22c9f20bc3eca593928dcb342b56e40f2b31991ccce9",
+      "localCopy": "originals/关系型数据库与NoSQL.md",
+      "actualBytes": 1085,
+      "actualSha256": "a1521ce3393b63310f6e22c9f20bc3eca593928dcb342b56e40f2b31991ccce9",
+      "hashVerified": true,
+      "fullTextRead": true,
+      "retrievalMethod": "GitHub fetch_file connector at fixed sourceCommit; full UTF-8 body",
+      "gitBlobSha": "2a88fd2942e0d3dc8205275839880bfeab263cc1",
+      "readAt": "2026-10-05T04:42:03Z"
+    }
+  ],
+  "website": {
+    "pages": 2,
+    "nextCursor": null,
+    "totalNotes": 2,
+    "totalChunks": 9,
+    "readAt": "2026-10-05T04:40:22.215Z",
+    "source": "Authorized website knowledge snapshot supplied by coordinator; this worker reassembled and verified all bodies",
+    "notes": [
+      {
+        "project": "ponytail",
+        "chunks": 5,
+        "localCopy": "website_ponytail.md",
+        "bytes": 8797,
+        "sha256": "2301ded97ac4d265103ce5c453ad58148453eac2bb292794c78da352ede73663",
+        "hashVerified": true,
+        "fullTextRead": true,
+        "recordCreatedAt": "2026-10-05T04:23:19.413Z"
+      },
+      {
+        "project": "how_to_live_better",
+        "chunks": 4,
+        "localCopy": "website_how_to_live_better.md",
+        "bytes": 6202,
+        "sha256": "12eb84e8e59202e18feb892416f4a345895b863ea5a9ce06c30d90ecbc86b3c9",
+        "hashVerified": true,
+        "fullTextRead": true,
+        "recordCreatedAt": "2026-10-05T03:56:35.016Z"
+      }
+    ],
+    "privateIdentifiersOmitted": true
+  },
+  "scopeLimits": [
+    "Only the published fixed public snapshot and this authorized website snapshot were checked",
+    "The other 389 public metadata entries were not read as full notes",
+    "No latest Windows vault or private/uncommitted notes were inspected",
+    "Existing notes do not establish user mastery",
+    "No Toolbox runtime experiment is claimed by this manifest"
+  ],
+  "packaging": {
+    "exclude": [
+      "website_notes.json",
+      "build_manifest.py"
+    ],
+    "reason": "The raw website response contains private routing identifiers; use sanitized manifest and joined content bodies only"
+  }
+}

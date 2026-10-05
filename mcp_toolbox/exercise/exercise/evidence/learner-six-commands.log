@@ -1,0 +1,299 @@
+START 2026-10-05T04:49:26Z
++ python3 verify_binary.py
+PASS: toolbox version 1.13.1+binary.linux.amd64.e14cda6
+PASS: measured official-download SHA-256 d8e0df24b5ce9934c8f7ae8466f64ff5512857c5a7e47640301750ee82f92db3
+This file fingerprint is not an independently published signature.
++ PYTHONDONTWRITEBYTECODE=1
++ python3 run.py --output evidence/learner-run
+STEP 1: verify official binary and seed disposable synthetic databases
+PASS official downloaded binary SHA-256 matches recorded bytes
+PASS binary version matches release
+STEP 2: official prebuilt SQLite discovery and successful read
+PASS prebuilt-readonly MCP initialize
+PASS prebuilt toolset exposes execute_sql and list_tables
+PASS SQLite native URI does not automatically advertise readOnlyHint=true
+PASS prebuilt table discovery succeeds
+PASS prebuilt SELECT returns two synthetic rows
+STEP 3: native mode=ro rejects write statements without keyword filtering
+PASS native read-only rejects insert
+PASS native read-only rejects update
+PASS native read-only rejects delete
+PASS native read-only rejects ddl
+PASS native read-only rejects query_only reset chain
+PASS read still works after denied writes
+PASS readonly main database byte hash unchanged
+STEP 4: custom parameter binding, input errors and tool discovery
+PASS custom-readonly MCP initialize
+PASS custom manifest exposes only configured lookup
+PASS parameterized lookup returns expected row
+PASS SQL-looking parameter stays a value
+PASS wrong parameter type produces MCP error
+PASS unconfigured tool call rejected as unknown tool
+STEP 5: deliberately false annotation does not stop a writable control
+PASS writable-hint-control MCP initialize
+PASS negative control advertises deliberately false read-only hint
+PASS hint alone does not block writes
+PASS negative control write really persisted
+STEP 6: unsupported source field fails and final evidence persists
+PASS SQLite readOnly field rejected at startup
+PASS final readonly database byte hash unchanged
+{"status": "passed", "passed": 26, "total": 26, "output": "/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run"}
++ python3 inspect_results.py evidence/learner-run discovery
+GROUP: discovery
+PASS: prebuilt toolset exposes execute_sql and list_tables
+[
+  "execute_sql",
+  "list_tables"
+]
+PASS: SQLite native URI does not automatically advertise readOnlyHint=true
+false
+PASS: prebuilt table discovery succeeds
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"object_details\":{\"name\":\"inventory\"}}"
+      }
+    ]
+  }
+}
+PASS: prebuilt SELECT returns two synthetic rows
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"id\":1,\"name\":\"apples\",\"qty\":4}"
+      },
+      {
+        "type": "text",
+        "text": "{\"id\":2,\"name\":\"pears\",\"qty\":7}"
+      }
+    ]
+  }
+}
+SELECTED: 4 passed; COMPLETE RUN: 26 / 26
++ python3 inspect_results.py evidence/learner-run boundary
+GROUP: boundary
+PASS: native read-only rejects insert
+{
+  "jsonrpc": "2.0",
+  "id": 6,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "error processing request: unable to execute query: attempt to write a readonly database (8)"
+      }
+    ],
+    "isError": true
+  }
+}
+PASS: native read-only rejects update
+{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "error processing request: unable to execute query: attempt to write a readonly database (8)"
+      }
+    ],
+    "isError": true
+  }
+}
+PASS: native read-only rejects delete
+{
+  "jsonrpc": "2.0",
+  "id": 8,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "error processing request: unable to execute query: attempt to write a readonly database (8)"
+      }
+    ],
+    "isError": true
+  }
+}
+PASS: native read-only rejects ddl
+{
+  "jsonrpc": "2.0",
+  "id": 9,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "error processing request: unable to execute query: attempt to write a readonly database (8)"
+      }
+    ],
+    "isError": true
+  }
+}
+PASS: native read-only rejects query_only reset chain
+{
+  "jsonrpc": "2.0",
+  "id": 10,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "error processing request: unable to execute query: attempt to write a readonly database (8)"
+      }
+    ],
+    "isError": true
+  }
+}
+PASS: read still works after denied writes
+{
+  "jsonrpc": "2.0",
+  "id": 11,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"n\":2,\"total\":11}"
+      }
+    ]
+  }
+}
+PASS: readonly main database byte hash unchanged
+SELECTED: 7 passed; COMPLETE RUN: 26 / 26
++ python3 inspect_results.py evidence/learner-run binding
+GROUP: binding
+PASS: custom manifest exposes only configured lookup
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "result": {
+    "tools": [
+      {
+        "name": "lookup_item",
+        "description": "Exact name lookup of synthetic inventory",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Exact item name"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "readOnlyHint": true
+        }
+      }
+    ]
+  }
+}
+PASS: parameterized lookup returns expected row
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"id\":1,\"name\":\"apples\",\"qty\":4}"
+      }
+    ]
+  }
+}
+PASS: SQL-looking parameter stays a value
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "result": {
+    "content": []
+  }
+}
+PASS: wrong parameter type produces MCP error
+{
+  "jsonrpc": "2.0",
+  "id": 6,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "provided parameters were invalid: unable to parse value for \"name\": \"123\" not type \"string\""
+      }
+    ],
+    "isError": true
+  }
+}
+PASS: unconfigured tool call rejected as unknown tool
+{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "error": {
+    "code": -32602,
+    "message": "invalid tool name: tool with name \"execute_sql\" does not exist"
+  }
+}
+SELECTED: 5 passed; COMPLETE RUN: 26 / 26
++ python3 inspect_results.py evidence/learner-run control
+GROUP: control
+PASS: negative control advertises deliberately false read-only hint
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "result": {
+    "tools": [
+      {
+        "name": "misleading_hint",
+        "description": "Deliberately incorrect hint for isolated safety experiment",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sql": {
+              "type": "string",
+              "description": "The sql to execute."
+            }
+          },
+          "required": [
+            "sql"
+          ]
+        },
+        "annotations": {
+          "readOnlyHint": true
+        }
+      }
+    ]
+  }
+}
+PASS: hint alone does not block writes
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "result": {
+    "content": []
+  }
+}
+PASS: negative control write really persisted
+3
+PASS: SQLite readOnly field rejected at startup
+"2026-10-04T21:49:27.65819344-07:00 INFO \"Starting MCP Toolbox for Databases version 1.13.1+binary.linux.amd64.e14cda6\" \n2026-10-04T21:49:27.658715373-07:00 ERROR \"unable to parse config file at \\\"/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/unsupported-readonly.yaml\\\": error unmarshaling source: unable to parse source \\\"invalid\\\" as \\\"sqlite\\\": [3:1] unknown field \\\"readOnly\\\"\\n   1 | database: file:///workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/readonly.db?mode=ro\\n   2 | name: invalid\\n>  3 | readOnly: true\\n       ^\\n   4 | type: sqlite\" \nError: unable to parse config file at \"/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/unsupported-readonly.yaml\": error unmarshaling source: unable to parse source \"invalid\" as \"sqlite\": [3:1] unknown field \"readOnly\"\n   1 | database: file:///workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/readonly.db?mode=ro\n   2 | name: invalid\n>  3 | readOnly: true\n       ^\n   4 | type: sqlite\n"
+PASS: final readonly database byte hash unchanged
+SELECTED: 5 passed; COMPLETE RUN: 26 / 26
+LIMITS:
+SQLite native mode=ro protects this main DB connection; not Toolbox readOnly support or whole-process sandbox
+No credentials, OAuth, identity permissions, production DB, cloud managed DB readOnly, HTTP exposure, named endpoint authorization or exhaustive SQL adversarial testing
+Default stdio manifest contains all configured tools. Toolset filtering in prebuilt config is exercised; named HTTP endpoint scoping is not
+Deliberately false readOnlyHint in synthetic writable control is a test fixture, not recommended configuration
+No telemetry exporter configured; startup version check disabled; no OS network sandbox claimed
++ set +x
+END 2026-10-05T04:49:27Z
+HELPER FINAL RECHECK 2026-10-05T04:52:46Z
++ python3 verify_binary.py
+PASS: toolbox version 1.13.1+binary.linux.amd64.e14cda6
+PASS: measured official-download SHA-256 d8e0df24b5ce9934c8f7ae8466f64ff5512857c5a7e47640301750ee82f92db3
+This file fingerprint is not an independently published signature.

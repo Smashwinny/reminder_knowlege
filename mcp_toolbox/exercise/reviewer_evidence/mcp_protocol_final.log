@@ -1,0 +1,33 @@
+STEP 1: verify official binary and seed disposable synthetic databases
+PASS official downloaded binary SHA-256 matches recorded bytes
+PASS binary version matches release
+STEP 2: official prebuilt SQLite discovery and successful read
+PASS prebuilt-readonly MCP initialize
+PASS prebuilt toolset exposes execute_sql and list_tables
+PASS SQLite native URI does not automatically advertise readOnlyHint=true
+PASS prebuilt table discovery succeeds
+PASS prebuilt SELECT returns two synthetic rows
+STEP 3: native mode=ro rejects write statements without keyword filtering
+PASS native read-only rejects insert
+PASS native read-only rejects update
+PASS native read-only rejects delete
+PASS native read-only rejects ddl
+PASS native read-only rejects query_only reset chain
+PASS read still works after denied writes
+PASS readonly main database byte hash unchanged
+STEP 4: custom parameter binding, input errors and tool discovery
+PASS custom-readonly MCP initialize
+PASS custom manifest exposes only configured lookup
+PASS parameterized lookup returns expected row
+PASS SQL-looking parameter stays a value
+PASS wrong parameter type produces MCP error
+PASS unconfigured tool call rejected as unknown tool
+STEP 5: deliberately false annotation does not stop a writable control
+PASS writable-hint-control MCP initialize
+PASS negative control advertises deliberately false read-only hint
+PASS hint alone does not block writes
+PASS negative control write really persisted
+STEP 6: unsupported source field fails and final evidence persists
+PASS SQLite readOnly field rejected at startup
+PASS final readonly database byte hash unchanged
+{"status": "passed", "passed": 26, "total": 26, "output": "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/mcp_protocol_final"}

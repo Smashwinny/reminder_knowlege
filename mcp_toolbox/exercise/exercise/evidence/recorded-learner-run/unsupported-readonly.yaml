@@ -1,0 +1,5 @@
+kind: source
+name: invalid
+type: sqlite
+database: "file:///workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/readonly.db?mode=ro"
+readOnly: true

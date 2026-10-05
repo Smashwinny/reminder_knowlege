@@ -1,0 +1,32 @@
+{
+  "pdf": "deliverables/01-guide.pdf",
+  "sha256": "414e9f6033a7fcf848367ad809eb3d5bd73c90129782a479c1fb7f75b76a1c81",
+  "pages": 13,
+  "render_command": "pdftoppm -png -r 110 deliverables/01-guide.pdf qa/guide",
+  "renderer": "Poppler pdftoppm",
+  "author_viewed_all_pages": true,
+  "pending_final_view": false,
+  "checks": [
+    "Cover spacing fixed",
+    "Unsupported middle-dot glyph replaced with ASCII slash",
+    "No truncation detected by layout coordinates"
+  ],
+  "html_structure_only": true,
+  "viewed_at_utc": "2026-10-05T04:53:25Z",
+  "viewed_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "final_result": "passed: every final page image opened and visually inspected; no missing glyphs, clipping, or overlap"
+}

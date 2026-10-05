@@ -1,0 +1,84 @@
+[
+  {
+    "label": "prebuilt-readonly",
+    "argv": [
+      "/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/vendor/toolbox",
+      "--prebuilt",
+      "sqlite/sqlite_database_tools",
+      "--stdio",
+      "--disable-version-check",
+      "--disable-reload",
+      "--log-level",
+      "ERROR"
+    ],
+    "environment": {
+      "PATH": "/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+      "HOME": "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/mcp_protocol_final/home",
+      "LANG": "C.UTF-8",
+      "TMPDIR": "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/mcp_protocol_final",
+      "SQLITE_DATABASE": "file:///workspace/scratch/fb956861c0bf/mcp_toolbox/qa/mcp_protocol_final/readonly.db?mode=ro"
+    }
+  },
+  {
+    "label": "prebuilt-readonly",
+    "exit_code": 0
+  },
+  {
+    "label": "custom-readonly",
+    "argv": [
+      "/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/vendor/toolbox",
+      "--config",
+      "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/mcp_protocol_final/custom.yaml",
+      "--stdio",
+      "--disable-version-check",
+      "--disable-reload",
+      "--log-level",
+      "ERROR"
+    ],
+    "environment": {
+      "PATH": "/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+      "HOME": "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/mcp_protocol_final/home",
+      "LANG": "C.UTF-8",
+      "TMPDIR": "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/mcp_protocol_final"
+    }
+  },
+  {
+    "label": "custom-readonly",
+    "exit_code": 0
+  },
+  {
+    "label": "writable-hint-control",
+    "argv": [
+      "/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/vendor/toolbox",
+      "--config",
+      "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/mcp_protocol_final/hint-control.yaml",
+      "--stdio",
+      "--disable-version-check",
+      "--disable-reload",
+      "--log-level",
+      "ERROR"
+    ],
+    "environment": {
+      "PATH": "/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+      "HOME": "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/mcp_protocol_final/home",
+      "LANG": "C.UTF-8",
+      "TMPDIR": "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/mcp_protocol_final"
+    }
+  },
+  {
+    "label": "writable-hint-control",
+    "exit_code": 0
+  },
+  {
+    "label": "unsupported-readonly-field",
+    "argv": [
+      "/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/vendor/toolbox",
+      "--config",
+      "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/mcp_protocol_final/unsupported-readonly.yaml",
+      "--stdio",
+      "--disable-version-check",
+      "--disable-reload"
+    ],
+    "exit_code": 1
+  }
+]

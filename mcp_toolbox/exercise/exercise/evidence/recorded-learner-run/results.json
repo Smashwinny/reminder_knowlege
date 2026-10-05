@@ -1,0 +1,406 @@
+{
+  "status": "passed",
+  "started_at_utc": "2026-10-05T04:49:27.301254+00:00",
+  "finished_at_utc": "2026-10-05T04:49:27.659228+00:00",
+  "python_version": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "python_sqlite_version": "3.53.1",
+  "binary": {
+    "url": "https://storage.googleapis.com/mcp-toolbox-for-databases/v1.13.1/linux/amd64/toolbox",
+    "version": "1.13.1+binary.linux.amd64.e14cda6",
+    "sha256": "d8e0df24b5ce9934c8f7ae8466f64ff5512857c5a7e47640301750ee82f92db3",
+    "release_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+    "checksum_scope": "SHA-256 measured from official download; not a separately published signature"
+  },
+  "checks": [
+    {
+      "name": "official downloaded binary SHA-256 matches recorded bytes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "binary version matches release",
+      "passed": true,
+      "detail": "toolbox version 1.13.1+binary.linux.amd64.e14cda6"
+    },
+    {
+      "name": "prebuilt-readonly MCP initialize",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "result": {
+          "protocolVersion": "2025-06-18",
+          "capabilities": {
+            "tools": {
+              "listChanged": false
+            },
+            "prompts": {
+              "listChanged": false
+            },
+            "resources": {}
+          },
+          "serverInfo": {
+            "name": "Toolbox",
+            "version": "1.13.1+binary.linux.amd64.e14cda6+prebuilt.sqlite.sqlite_database_tools"
+          }
+        }
+      }
+    },
+    {
+      "name": "prebuilt toolset exposes execute_sql and list_tables",
+      "passed": true,
+      "detail": [
+        "execute_sql",
+        "list_tables"
+      ]
+    },
+    {
+      "name": "SQLite native URI does not automatically advertise readOnlyHint=true",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "prebuilt table discovery succeeds",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 4,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"object_details\":{\"name\":\"inventory\"}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "prebuilt SELECT returns two synthetic rows",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"id\":1,\"name\":\"apples\",\"qty\":4}"
+            },
+            {
+              "type": "text",
+              "text": "{\"id\":2,\"name\":\"pears\",\"qty\":7}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "native read-only rejects insert",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 6,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "error processing request: unable to execute query: attempt to write a readonly database (8)"
+            }
+          ],
+          "isError": true
+        }
+      }
+    },
+    {
+      "name": "native read-only rejects update",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 7,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "error processing request: unable to execute query: attempt to write a readonly database (8)"
+            }
+          ],
+          "isError": true
+        }
+      }
+    },
+    {
+      "name": "native read-only rejects delete",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 8,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "error processing request: unable to execute query: attempt to write a readonly database (8)"
+            }
+          ],
+          "isError": true
+        }
+      }
+    },
+    {
+      "name": "native read-only rejects ddl",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 9,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "error processing request: unable to execute query: attempt to write a readonly database (8)"
+            }
+          ],
+          "isError": true
+        }
+      }
+    },
+    {
+      "name": "native read-only rejects query_only reset chain",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 10,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "error processing request: unable to execute query: attempt to write a readonly database (8)"
+            }
+          ],
+          "isError": true
+        }
+      }
+    },
+    {
+      "name": "read still works after denied writes",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 11,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"n\":2,\"total\":11}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "readonly main database byte hash unchanged",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "custom-readonly MCP initialize",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "result": {
+          "protocolVersion": "2025-06-18",
+          "capabilities": {
+            "tools": {
+              "listChanged": false
+            },
+            "prompts": {
+              "listChanged": false
+            },
+            "resources": {}
+          },
+          "serverInfo": {
+            "name": "Toolbox",
+            "version": "1.13.1+binary.linux.amd64.e14cda6"
+          }
+        }
+      }
+    },
+    {
+      "name": "custom manifest exposes only configured lookup",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "result": {
+          "tools": [
+            {
+              "name": "lookup_item",
+              "description": "Exact name lookup of synthetic inventory",
+              "inputSchema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Exact item name"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              "annotations": {
+                "readOnlyHint": true
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "parameterized lookup returns expected row",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 4,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"id\":1,\"name\":\"apples\",\"qty\":4}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "SQL-looking parameter stays a value",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "result": {
+          "content": []
+        }
+      }
+    },
+    {
+      "name": "wrong parameter type produces MCP error",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 6,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "provided parameters were invalid: unable to parse value for \"name\": \"123\" not type \"string\""
+            }
+          ],
+          "isError": true
+        }
+      }
+    },
+    {
+      "name": "unconfigured tool call rejected as unknown tool",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 7,
+        "error": {
+          "code": -32602,
+          "message": "invalid tool name: tool with name \"execute_sql\" does not exist"
+        }
+      }
+    },
+    {
+      "name": "writable-hint-control MCP initialize",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "result": {
+          "protocolVersion": "2025-06-18",
+          "capabilities": {
+            "tools": {
+              "listChanged": false
+            },
+            "prompts": {
+              "listChanged": false
+            },
+            "resources": {}
+          },
+          "serverInfo": {
+            "name": "Toolbox",
+            "version": "1.13.1+binary.linux.amd64.e14cda6"
+          }
+        }
+      }
+    },
+    {
+      "name": "negative control advertises deliberately false read-only hint",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "result": {
+          "tools": [
+            {
+              "name": "misleading_hint",
+              "description": "Deliberately incorrect hint for isolated safety experiment",
+              "inputSchema": {
+                "type": "object",
+                "properties": {
+                  "sql": {
+                    "type": "string",
+                    "description": "The sql to execute."
+                  }
+                },
+                "required": [
+                  "sql"
+                ]
+              },
+              "annotations": {
+                "readOnlyHint": true
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "hint alone does not block writes",
+      "passed": true,
+      "detail": {
+        "jsonrpc": "2.0",
+        "id": 4,
+        "result": {
+          "content": []
+        }
+      }
+    },
+    {
+      "name": "negative control write really persisted",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "SQLite readOnly field rejected at startup",
+      "passed": true,
+      "detail": "2026-10-04T21:49:27.65819344-07:00 INFO \"Starting MCP Toolbox for Databases version 1.13.1+binary.linux.amd64.e14cda6\" \n2026-10-04T21:49:27.658715373-07:00 ERROR \"unable to parse config file at \\\"/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/unsupported-readonly.yaml\\\": error unmarshaling source: unable to parse source \\\"invalid\\\" as \\\"sqlite\\\": [3:1] unknown field \\\"readOnly\\\"\\n   1 | database: file:///workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/readonly.db?mode=ro\\n   2 | name: invalid\\n>  3 | readOnly: true\\n       ^\\n   4 | type: sqlite\" \nError: unable to parse config file at \"/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/unsupported-readonly.yaml\": error unmarshaling source: unable to parse source \"invalid\" as \"sqlite\": [3:1] unknown field \"readOnly\"\n   1 | database: file:///workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/readonly.db?mode=ro\n   2 | name: invalid\n>  3 | readOnly: true\n       ^\n   4 | type: sqlite\n"
+    },
+    {
+      "name": "final readonly database byte hash unchanged",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "passed_checks": 26,
+  "total_checks": 26,
+  "limitations": [
+    "SQLite native mode=ro protects this main DB connection; not Toolbox readOnly support or whole-process sandbox",
+    "No credentials, OAuth, identity permissions, production DB, cloud managed DB readOnly, HTTP exposure, named endpoint authorization or exhaustive SQL adversarial testing",
+    "Default stdio manifest contains all configured tools. Toolset filtering in prebuilt config is exercised; named HTTP endpoint scoping is not",
+    "Deliberately false readOnlyHint in synthetic writable control is a test fixture, not recommended configuration",
+    "No telemetry exporter configured; startup version check disabled; no OS network sandbox claimed"
+  ]
+}

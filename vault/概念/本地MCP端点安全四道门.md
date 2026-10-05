@@ -22,3 +22,7 @@ tags: [概念]
 **实测坑**：用 Node 内置 fetch 模拟"伪造 Host"会失败——undici 把自定义 `host` 头当 forbidden header 剥掉，导致攻击永远打不中；测安全逻辑要用 `node:http` 原生 request。实验 E2 实测 6 请求：404/403/403/413/404/200 全部按预期。
 
 **首次接触于**：[[项目笔记/chat-on-steroids]]（src/main/mcp/server.ts 注释写明设计动机）
+
+## Toolbox 实证增补（2026-10-05）
+
+[[项目笔记/mcp_toolbox]] 只验证 stdio 及数据库主库连接；未配置工具返回 -32602 不证明身份鉴权。HTTP、Host/Origin、OAuth、命名端点和租户隔离未在本项目验收。

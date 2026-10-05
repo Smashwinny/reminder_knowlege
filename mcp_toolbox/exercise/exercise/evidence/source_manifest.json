@@ -1,0 +1,120 @@
+{
+  "verified_at_utc": "2026-10-05T04:47:26.036665+00:00",
+  "source": "https://github.com/googleapis/mcp-toolbox.git",
+  "default_head_pin": "a24e5e68567fa014a42fc6cc711faa82b964d4c0",
+  "runtime_release_tag": "v1.13.1",
+  "runtime_release_pin": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+  "retrieval": "Normal read-only clone and tag fetch into this project; no upstream repository edits, hooks/build/install scripts or global git configuration changes",
+  "files": [
+    {
+      "path": "README.md",
+      "local_path": "reference/README.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/README.md",
+      "bytes": 33734,
+      "sha256": "f9bed93dcf3d9f5b6c4e7b49107a88c0b005d9de6630ae9369a3d66b306bc1c5",
+      "git_blob": "27aff281d89099ca9500713232c8e6e5f04e4afc",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "LICENSE",
+      "local_path": "reference/LICENSE",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/LICENSE",
+      "bytes": 11357,
+      "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+      "git_blob": "7a4a3ea2424c09fbe48d455aed1eaa94d9124835",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/sources/sqlite/sqlite.go",
+      "local_path": "reference/internal/sources/sqlite/sqlite.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/sources/sqlite/sqlite.go",
+      "bytes": 4724,
+      "sha256": "2a9f55ac95dde398fbad0de0863908135f15911ed35e0e6e0a118a66a29f4672",
+      "git_blob": "db89f547731468c8db146a56a1e3b23a9f3a55a3",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/tools/sqlite/sqlitesql/sqlitesql.go",
+      "local_path": "reference/internal/tools/sqlite/sqlitesql/sqlitesql.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/tools/sqlite/sqlitesql/sqlitesql.go",
+      "bytes": 3951,
+      "sha256": "226002f8533b4a4c64ed66f13a183a1c4bba98315a457f99edc88e43e7ca9ef5",
+      "git_blob": "985f0ad2fd0dbaf30220dd645d56b44133999550",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/tools/sqlite/sqliteexecutesql/sqliteexecutesql.go",
+      "local_path": "reference/internal/tools/sqlite/sqliteexecutesql/sqliteexecutesql.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/tools/sqlite/sqliteexecutesql/sqliteexecutesql.go",
+      "bytes": 3804,
+      "sha256": "b98dfb78729f4270e6050cecfb060147792a608d71cd991e46e01a0607a0a08e",
+      "git_blob": "caf1661166733dcb868dd1d78d5b5bf493606df0",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/prebuiltconfigs/tools/sqlite.yaml",
+      "local_path": "reference/internal/prebuiltconfigs/tools/sqlite.yaml",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/prebuiltconfigs/tools/sqlite.yaml",
+      "bytes": 4696,
+      "sha256": "51b398945ed66daea82dea3e0dc42e7a67993d4c592527cf202680af8b1f3fbb",
+      "git_blob": "6fcc09cd2f692c1795c5643c2644d0204b7b4936",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/tools/tools.go",
+      "local_path": "reference/internal/tools/tools.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/tools/tools.go",
+      "bytes": 12868,
+      "sha256": "f6b98b4d80a185286edec339b489004f67c563ea96b5a7b5988b65e12a73fb6c",
+      "git_blob": "f6f1f84a9d06ece806701908ee6a66f391cf8786",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "docs/en/documentation/configuration/prebuilt-configs/_index.md",
+      "local_path": "reference/docs/en/documentation/configuration/prebuilt-configs/_index.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/documentation/configuration/prebuilt-configs/_index.md",
+      "bytes": 2182,
+      "sha256": "8dc4b7d3e6e607e2681a8c6a3c10291690623a7063ecd6d815a35d404e565039",
+      "git_blob": "8ef3e3bbc326c7a02bef5013388516936cfd6ea0",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "docs/en/documentation/configuration/security/read-only.md",
+      "local_path": "reference/docs/en/documentation/configuration/security/read-only.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/documentation/configuration/security/read-only.md",
+      "bytes": 10709,
+      "sha256": "80a5a92821d52af87538a53077a31c4a02f93f1af53147e05e3e740fc1f9432d",
+      "git_blob": "73550fe3502a58380f8054165876f98b04487992",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "docs/en/documentation/configuration/toolsets/_index.md",
+      "local_path": "reference/docs/en/documentation/configuration/toolsets/_index.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/documentation/configuration/toolsets/_index.md",
+      "bytes": 2896,
+      "sha256": "eaca9e8f3333db5a96212e6f3755597d294f3b9bd92ef2f5d5a1b4dbdea26ea0",
+      "git_blob": "d4bdfe186a99e62e34c4e6e030dd172da100244d",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "docs/en/documentation/configuration/groups/_index.md",
+      "local_path": "reference/docs/en/documentation/configuration/groups/_index.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/documentation/configuration/groups/_index.md",
+      "bytes": 6365,
+      "sha256": "493498605bc0fd96444dd365db9fd9a380aac27fab2058db801c30ee5f154f9b",
+      "git_blob": "407722565a8da9f82f90647f0dd0ac56a1acfd0c",
+      "equal_to_current_head": true
+    }
+  ]
+}

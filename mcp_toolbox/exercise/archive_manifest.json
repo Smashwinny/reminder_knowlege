@@ -1,0 +1,432 @@
+{
+  "files": [
+    {
+      "path": "exercise/run.py",
+      "bytes": 11968,
+      "sha256": "94bd8d6e5ae3e3f1b89ae8ac248d2e24716a1500d60e1c2be0aebf85720274b2"
+    },
+    {
+      "path": "exercise/verify_binary.py",
+      "bytes": 952,
+      "sha256": "e7bce92590d234322860f89f0954a5583bd2ff02f75467c1fdfb6ed67cf19e48"
+    },
+    {
+      "path": "exercise/inspect_results.py",
+      "bytes": 1419,
+      "sha256": "e028306639cc15e90ba11947b4b6df91c746d05dbde888e7e54027afb6f92ef5"
+    },
+    {
+      "path": "exercise/README.md",
+      "bytes": 6265,
+      "sha256": "514f138fd71e6d8fda0259d68424a4628ed4a798c01951cc562f23e70d7da478"
+    },
+    {
+      "path": "exercise/LICENSE.toolbox",
+      "bytes": 11357,
+      "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+    },
+    {
+      "path": "exercise/reference/LICENSE",
+      "bytes": 11357,
+      "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+    },
+    {
+      "path": "exercise/reference/README.md",
+      "bytes": 33734,
+      "sha256": "f9bed93dcf3d9f5b6c4e7b49107a88c0b005d9de6630ae9369a3d66b306bc1c5"
+    },
+    {
+      "path": "exercise/reference/docs/en/documentation/configuration/groups/_index.md",
+      "bytes": 6365,
+      "sha256": "493498605bc0fd96444dd365db9fd9a380aac27fab2058db801c30ee5f154f9b"
+    },
+    {
+      "path": "exercise/reference/docs/en/documentation/configuration/prebuilt-configs/_index.md",
+      "bytes": 2182,
+      "sha256": "8dc4b7d3e6e607e2681a8c6a3c10291690623a7063ecd6d815a35d404e565039"
+    },
+    {
+      "path": "exercise/reference/docs/en/documentation/configuration/security/read-only.md",
+      "bytes": 10709,
+      "sha256": "80a5a92821d52af87538a53077a31c4a02f93f1af53147e05e3e740fc1f9432d"
+    },
+    {
+      "path": "exercise/reference/docs/en/documentation/configuration/toolsets/_index.md",
+      "bytes": 2896,
+      "sha256": "eaca9e8f3333db5a96212e6f3755597d294f3b9bd92ef2f5d5a1b4dbdea26ea0"
+    },
+    {
+      "path": "exercise/reference/internal/prebuiltconfigs/tools/sqlite.yaml",
+      "bytes": 4696,
+      "sha256": "51b398945ed66daea82dea3e0dc42e7a67993d4c592527cf202680af8b1f3fbb"
+    },
+    {
+      "path": "exercise/reference/internal/sources/sqlite/sqlite.go",
+      "bytes": 4724,
+      "sha256": "2a9f55ac95dde398fbad0de0863908135f15911ed35e0e6e0a118a66a29f4672"
+    },
+    {
+      "path": "exercise/reference/internal/tools/sqlite/sqliteexecutesql/sqliteexecutesql.go",
+      "bytes": 3804,
+      "sha256": "b98dfb78729f4270e6050cecfb060147792a608d71cd991e46e01a0607a0a08e"
+    },
+    {
+      "path": "exercise/reference/internal/tools/sqlite/sqlitesql/sqlitesql.go",
+      "bytes": 3951,
+      "sha256": "226002f8533b4a4c64ed66f13a183a1c4bba98315a457f99edc88e43e7ca9ef5"
+    },
+    {
+      "path": "exercise/reference/internal/tools/tools.go",
+      "bytes": 12868,
+      "sha256": "f6b98b4d80a185286edec339b489004f67c563ea96b5a7b5988b65e12a73fb6c"
+    },
+    {
+      "path": "exercise/evidence/binary_provenance.json",
+      "bytes": 556,
+      "sha256": "852fba82f44cb1b7575d980793ac6deae3abf8c289ab58d85bd72c404eec2ea1"
+    },
+    {
+      "path": "exercise/evidence/source_manifest.json",
+      "bytes": 6754,
+      "sha256": "df9d30b684e2cd035ffe91f613264f907714fcfc92b1e68ce9fa2e4c3e16a8f7"
+    },
+    {
+      "path": "exercise/evidence/learner-six-commands.log",
+      "bytes": 9335,
+      "sha256": "5aaf34706de4a003d2a04966b105e3a97a9df0b6d599dfd9c49af3f4c733a87b"
+    },
+    {
+      "path": "exercise/evidence/recorded-learner-run/commands.json",
+      "bytes": 3782,
+      "sha256": "598155de6bf3b461416a7ba7d20a9f32307ee4d186674f3ebab0bbe392e9b0ef"
+    },
+    {
+      "path": "exercise/evidence/recorded-learner-run/custom-readonly.stderr.log",
+      "bytes": 110,
+      "sha256": "55cc506d3156e4387c31772e0aac54ff7cc78310c066e82d3b90c14a2669f6ea"
+    },
+    {
+      "path": "exercise/evidence/recorded-learner-run/custom.yaml",
+      "bytes": 511,
+      "sha256": "f5811c4b7b46783bee9bbd5e169d8ee27acff046020b4088333cb49495122fa9"
+    },
+    {
+      "path": "exercise/evidence/recorded-learner-run/hint-control.yaml",
+      "bytes": 333,
+      "sha256": "f7411641208a33a0dcc903fa131b2072cb88d4da9f5328fd83182051c029684d"
+    },
+    {
+      "path": "exercise/evidence/recorded-learner-run/mcp-transcript.jsonl",
+      "bytes": 11809,
+      "sha256": "ecc64d7c95606f8b367703148744ef8675e6284f0b9437829060c0460b0f64f9"
+    },
+    {
+      "path": "exercise/evidence/recorded-learner-run/prebuilt-readonly.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "exercise/evidence/recorded-learner-run/readonly.db",
+      "bytes": 12288,
+      "sha256": "4a7f3f447e14ec0b673dcb5b13c70ff3bfa6e5f19bd9866a73fd6f9aa6e99287"
+    },
+    {
+      "path": "exercise/evidence/recorded-learner-run/results.json",
+      "bytes": 11725,
+      "sha256": "8184ae02de648fb87c81ec1420d09292ecd4e85cb3ff67ae91543545ad1a0f35"
+    },
+    {
+      "path": "exercise/evidence/recorded-learner-run/unsupported-readonly.stderr.log",
+      "bytes": 1041,
+      "sha256": "6a0f9ba52c29d3829da07c9e55e5de62d03095a98d8159822f89f6e4719cac4d"
+    },
+    {
+      "path": "exercise/evidence/recorded-learner-run/unsupported-readonly.yaml",
+      "bytes": 168,
+      "sha256": "09e462a0a804d8d4670fa9c3d5c81662cbb7bc4ff3fe296b2cd137d191883e89"
+    },
+    {
+      "path": "exercise/evidence/recorded-learner-run/writable-hint-control.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "exercise/evidence/recorded-learner-run/writable.db",
+      "bytes": 12288,
+      "sha256": "ae7768b415d78ba029219ae17224adbd74d1d021023f4bb46643c87701d384d4"
+    },
+    {
+      "path": "knowledge_reference/knowledge-index.original.json",
+      "bytes": 175888,
+      "sha256": "bc23c7b793f2ffc9db6bb7e9f0ad3678e5623a0850e84240cd3fa51e63a8919e"
+    },
+    {
+      "path": "knowledge_reference/read_manifest.json",
+      "bytes": 7232,
+      "sha256": "ac53b7fac5174fa04c21b28fe8f2c19b77b715db6ecf349e8eb7b89faff52e00"
+    },
+    {
+      "path": "knowledge_reference/knowledge_check.md",
+      "bytes": 12119,
+      "sha256": "823f1e3be4de0dc21565bccb2ac19bf088c6fba7ffde0aaa116a4bae0872474f"
+    },
+    {
+      "path": "knowledge_reference/verify_knowledge.py",
+      "bytes": 1988,
+      "sha256": "8a45a018e442a418f58718314acc116cb2f4f31c4626e17bba65f252fb9bb9b8"
+    },
+    {
+      "path": "knowledge_reference/website_how_to_live_better.md",
+      "bytes": 6202,
+      "sha256": "12eb84e8e59202e18feb892416f4a345895b863ea5a9ce06c30d90ecbc86b3c9"
+    },
+    {
+      "path": "knowledge_reference/website_ponytail.md",
+      "bytes": 8797,
+      "sha256": "2301ded97ac4d265103ce5c453ad58148453eac2bb292794c78da352ede73663"
+    },
+    {
+      "path": "knowledge_reference/verification.log",
+      "bytes": 1657,
+      "sha256": "0a7c80dd4969c76677a1328648a86d3cfb0e3bdeeb641eba34700ff6e00a6799"
+    },
+    {
+      "path": "knowledge_reference/index_matches.json",
+      "bytes": 6507,
+      "sha256": "086165a783ccafeef36eff30d9eb57e3d025e19b5ca2c0cb5eaf85837ff0370e"
+    },
+    {
+      "path": "knowledge_reference/originals/MCP协议.md",
+      "bytes": 1720,
+      "sha256": "f241531981004f1580b331a37b9e38ca96875e368ac03d687aab199daac284d6"
+    },
+    {
+      "path": "knowledge_reference/originals/代码管边界提示词管判断.md",
+      "bytes": 1427,
+      "sha256": "82baf8f30c908b3ea424d15f82b6d3124e40b3c1b023961bfd0c8abd1eb8b86d"
+    },
+    {
+      "path": "knowledge_reference/originals/关系型数据库与NoSQL.md",
+      "bytes": 1085,
+      "sha256": "a1521ce3393b63310f6e22c9f20bc3eca593928dcb342b56e40f2b31991ccce9"
+    },
+    {
+      "path": "knowledge_reference/originals/只读闸门三原则.md",
+      "bytes": 1994,
+      "sha256": "23952485062d0da330ebe343b0216eb755f8340c1290526c26001d8af760817a"
+    },
+    {
+      "path": "knowledge_reference/originals/本地MCP端点安全四道门.md",
+      "bytes": 2558,
+      "sha256": "1f7cfcb79846015e78c94fcb6391e09ffc9f4b1e236c29ac391dd20fda686cff"
+    },
+    {
+      "path": "sources/selected/LICENSE",
+      "bytes": 11357,
+      "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+    },
+    {
+      "path": "sources/selected/README.md",
+      "bytes": 33734,
+      "sha256": "f9bed93dcf3d9f5b6c4e7b49107a88c0b005d9de6630ae9369a3d66b306bc1c5"
+    },
+    {
+      "path": "sources/selected/docs/en/documentation/configuration/groups/_index.md",
+      "bytes": 6365,
+      "sha256": "493498605bc0fd96444dd365db9fd9a380aac27fab2058db801c30ee5f154f9b"
+    },
+    {
+      "path": "sources/selected/docs/en/documentation/configuration/prebuilt-configs/_index.md",
+      "bytes": 2182,
+      "sha256": "8dc4b7d3e6e607e2681a8c6a3c10291690623a7063ecd6d815a35d404e565039"
+    },
+    {
+      "path": "sources/selected/docs/en/documentation/configuration/security/read-only.md",
+      "bytes": 10709,
+      "sha256": "80a5a92821d52af87538a53077a31c4a02f93f1af53147e05e3e740fc1f9432d"
+    },
+    {
+      "path": "sources/selected/docs/en/documentation/configuration/toolsets/_index.md",
+      "bytes": 2896,
+      "sha256": "eaca9e8f3333db5a96212e6f3755597d294f3b9bd92ef2f5d5a1b4dbdea26ea0"
+    },
+    {
+      "path": "sources/selected/docs/en/integrations/bigquery/source.md",
+      "bytes": 16036,
+      "sha256": "db60be2d259e615e85fa5a837de4bc0734b530cc0bd337e80e276d8420af6ebe"
+    },
+    {
+      "path": "sources/selected/docs/en/integrations/sqlite/prebuilt-configs/sqlite.md",
+      "bytes": 477,
+      "sha256": "32b7f6735104af873d920b50aebededde25e90803cb3c690435a1d945c86107d"
+    },
+    {
+      "path": "sources/selected/docs/en/integrations/sqlite/source.md",
+      "bytes": 2429,
+      "sha256": "a392bec9f9b4383ff5b30c3d6c44fc37d8eaca57d871f0117cbfd72ab3c587a4"
+    },
+    {
+      "path": "sources/selected/docs/en/integrations/sqlite/tools/sqlite-execute-sql.md",
+      "bytes": 1269,
+      "sha256": "381390864877ca75fba0016afe5a05bc1605ef4945288feca2b66a5a0621c61e"
+    },
+    {
+      "path": "sources/selected/docs/en/integrations/sqlite/tools/sqlite-sql.md",
+      "bytes": 3940,
+      "sha256": "6eb2eddbdde3354f076bb717383ac31f5f5f358809e6a572ad02d407506add07"
+    },
+    {
+      "path": "sources/selected/go.mod",
+      "bytes": 15153,
+      "sha256": "f4821e07d5a7d4018e4f7bdcb86ddfef0eae41a30bcb4c0f887f846d1464b71d"
+    },
+    {
+      "path": "sources/selected/internal/prebuiltconfigs/tools/sqlite.yaml",
+      "bytes": 4696,
+      "sha256": "51b398945ed66daea82dea3e0dc42e7a67993d4c592527cf202680af8b1f3fbb"
+    },
+    {
+      "path": "sources/selected/internal/sources/alloydbpg/alloydb_pg.go",
+      "bytes": 8283,
+      "sha256": "fac68c5c748f92de146916ddb0a08f0b73bf856c82f33aab6a728f8c84969705"
+    },
+    {
+      "path": "sources/selected/internal/sources/bigquery/bigquery.go",
+      "bytes": 32979,
+      "sha256": "680f6ea92038ae10af7931fb29509cf4f148b13597f917e501c68d4a11d78860"
+    },
+    {
+      "path": "sources/selected/internal/sources/cloudsqlmysql/cloud_sql_mysql.go",
+      "bytes": 7923,
+      "sha256": "dd89503838bed2a200173ac6c3661714db38a07dafdaad2e961418627f19e12e"
+    },
+    {
+      "path": "sources/selected/internal/sources/cloudsqlpg/cloud_sql_pg.go",
+      "bytes": 7317,
+      "sha256": "4dc1d3ee94bfafae198c8b27fc42c85e65a2e0f5f762bcae2696826f35dedf5c"
+    },
+    {
+      "path": "sources/selected/internal/sources/sqlite/sqlite.go",
+      "bytes": 4724,
+      "sha256": "2a9f55ac95dde398fbad0de0863908135f15911ed35e0e6e0a118a66a29f4672"
+    },
+    {
+      "path": "sources/selected/internal/sources/sqlite/sqlite_test.go",
+      "bytes": 3023,
+      "sha256": "d1c5254e716062de1e5b0eb39fe97d3ccb34b8787e500c7e791f42e770e97385"
+    },
+    {
+      "path": "sources/selected/internal/tools/bigquery/bigqueryexecutesql/bigqueryexecutesql.go",
+      "bytes": 13213,
+      "sha256": "44c1ad6b345bb4320f547e4068e9e1e45a2c2a0942d0099586cc8e96f14e0551"
+    },
+    {
+      "path": "sources/selected/internal/tools/sqlite/sqliteexecutesql/sqliteexecutesql.go",
+      "bytes": 3804,
+      "sha256": "b98dfb78729f4270e6050cecfb060147792a608d71cd991e46e01a0607a0a08e"
+    },
+    {
+      "path": "sources/selected/internal/tools/sqlite/sqlitesql/sqlitesql.go",
+      "bytes": 3951,
+      "sha256": "226002f8533b4a4c64ed66f13a183a1c4bba98315a457f99edc88e43e7ca9ef5"
+    },
+    {
+      "path": "sources/selected/internal/tools/tools.go",
+      "bytes": 12868,
+      "sha256": "f6b98b4d80a185286edec339b489004f67c563ea96b5a7b5988b65e12a73fb6c"
+    },
+    {
+      "path": "sources/method/RUNNING_IN_DOT.md",
+      "bytes": 3505,
+      "sha256": "14831be8714d1898af74e63900bd3362d2982619ebad9b0fc59194651ffa828a"
+    },
+    {
+      "path": "sources/method/knowledge-index.json",
+      "bytes": 175888,
+      "sha256": "bc23c7b793f2ffc9db6bb7e9f0ad3678e5623a0850e84240cd3fa51e63a8919e"
+    },
+    {
+      "path": "sources/method/learn-project.SKILL.md",
+      "bytes": 10302,
+      "sha256": "2faa70bad578ffb221b273e90740c37e51b8a9d55be655465bb15e42801409bd"
+    },
+    {
+      "path": "source_evidence/source_manifest.json",
+      "bytes": 13847,
+      "sha256": "3eb402a5678c68f336d6eda27c410157deb534e83a8800b69202fd186afc259b"
+    },
+    {
+      "path": "source_evidence/source_review.md",
+      "bytes": 7109,
+      "sha256": "04baefed864b8415f9dd54151ee9341b958a576328abb5e34acede8b3039b8ee"
+    },
+    {
+      "path": "source_evidence/method_manifest.json",
+      "bytes": 1844,
+      "sha256": "ebf130386dd8a4ea506b11e95567f6479663de954e01bb9d727b63fa378e1fb6"
+    },
+    {
+      "path": "author/lesson_data.py",
+      "bytes": 14794,
+      "sha256": "bc32f18369a3fa8b08f5138c5978e5465d013f105818f46b4b41848710f7ee93"
+    },
+    {
+      "path": "author/build_lesson.py",
+      "bytes": 14836,
+      "sha256": "efb2dd22fb95488bd8a56620bb46bc791093ffb24665a791f948d839b230e0c1"
+    },
+    {
+      "path": "author/runtime_lesson.json",
+      "bytes": 6522,
+      "sha256": "e7b71e26f96dc062557f1f99d5673a2f33ac0a4dd741981074c785fee441d9e8"
+    },
+    {
+      "path": "evidence/author_visual_qa.json",
+      "bytes": 789,
+      "sha256": "dc0edda8a4430946779f7ee1a72ee55f525d3728ccad9bf3f8f0b14e640f40ea"
+    },
+    {
+      "path": "evidence/layout_checks.json",
+      "bytes": 1586,
+      "sha256": "f6ecd47475cb295cc6bd1aa7871fb5359d352378d68d2720d2b1d7a742221149"
+    },
+    {
+      "path": "evidence/build.log",
+      "bytes": 1109,
+      "sha256": "3f4b62d283d4fce2ce09b4b7b441970575fce7dc26ac1dd27ff1b954fc4714f8"
+    },
+    {
+      "path": "reviewer_evidence/mcp_protocol_final/results.json",
+      "bytes": 11694,
+      "sha256": "b9d2a8106250a2838ffeab5ec359da25ee98ae5190ae79fecd1b291f3830499e"
+    },
+    {
+      "path": "reviewer_evidence/mcp_protocol_final/commands.json",
+      "bytes": 3702,
+      "sha256": "bb16942c4d13d41afbd151cef958abddf32ec5e51a4ce57ffa46373aba521867"
+    },
+    {
+      "path": "reviewer_evidence/mcp_protocol_final/mcp-transcript.jsonl",
+      "bytes": 11809,
+      "sha256": "84f71ed6c9371504a00756b71613df11b39daa21cbf5d69c176fd2c805cfd89d"
+    },
+    {
+      "path": "reviewer_evidence/mcp_protocol_final.log",
+      "bytes": 1745,
+      "sha256": "3ac4ebe5100bcd78ffe4c35487842cf537538b61b11f6065b6e48107b834c21d"
+    },
+    {
+      "path": "reviewer_evidence/reviewer_runtime.json",
+      "bytes": 7675,
+      "sha256": "b16d489bb8cc5c022ffe14e9452ec6d5e2bebcd30bdaa5d0ac877c71d85682ab"
+    },
+    {
+      "path": "reviewer_evidence/reviewer_runtime_check.py",
+      "bytes": 3005,
+      "sha256": "e90b85fff5969157b20e7f2b8cf2de393d78a0708b7bc7323453fde12f930723"
+    }
+  ],
+  "binary_excluded": true,
+  "fresh_output_directory": "exercise/evidence/learner-run",
+  "archive_evidence": "exercise/evidence/recorded-learner-run"
+}

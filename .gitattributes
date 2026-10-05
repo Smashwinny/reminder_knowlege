@@ -1,1 +1,4 @@
 *.pdf binary
+mcp_toolbox/exercise/exercise/evidence/recorded-learner-run/*.stderr.log whitespace=-blank-at-eol
+mcp_toolbox/exercise/exercise/reference/** whitespace=-blank-at-eol
+mcp_toolbox/exercise/sources/selected/** whitespace=-blank-at-eol
