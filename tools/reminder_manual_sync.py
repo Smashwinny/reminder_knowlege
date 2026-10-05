@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import argparse
 from contextlib import contextmanager
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import hashlib
 import json
 import os
@@ -267,6 +267,80 @@ def check_publication(root, manifest, bundle, handoff):
     return blobs
 
 
+def expose_backups(root, bundle, handoff, original_folder, owner):
+    """Readable copies only: never claim content review, knowledge merge or Git success."""
+    require_owner(root, owner)
+    visible = root / "完成/云端学习备份"
+    ignore_file = root / ".gitignore"
+    ignore_text = ignore_file.read_text(encoding="utf-8-sig") if ignore_file.exists() else ""
+    ignore_rule = "/完成/云端学习备份/"
+    if ignore_rule not in ignore_text.splitlines():
+        atomic_write(ignore_file, ignore_text.rstrip("\r\n") + "\n\n# Private readable Dot copies; publish only reviewed project/vault files\n" + ignore_rule + "\n")
+
+    def immutable_copy(path, data):
+        for candidate in [path, *path.parents]:
+            if candidate == root:
+                break
+            if candidate.is_symlink() or (hasattr(candidate, "is_junction") and candidate.is_junction()):
+                raise PipelineError("可读备份目录含链接；保留原件，不向其他目录写入。")
+        if not path.resolve().is_relative_to(visible):
+            raise PipelineError("可读备份路径越界。")
+        if path.exists():
+            if path.read_bytes() != data:
+                raise PipelineError("可读副本被修改；保留修改和私有原件，不覆盖。")
+            return
+        path.parent.mkdir(parents=True, exist_ok=True)
+        partial = path.with_name(path.name + ".partial-" + uuid.uuid4().hex)
+        with partial.open("xb") as stream:
+            stream.write(data)
+            stream.flush()
+            os.fsync(stream.fileno())
+        partial.replace(path)
+
+    rows = ["# Dot 学习报告与产物：可直接查看的本机副本", "",
+            "这是云端原件的可读备份，未代替本机内容验收或知识入库。本目录不提交 Git。",
+            "公开 Git 的学习成果需在正式项目目录与 vault 中完成验收、入库后推送。", "",
+            "| 云端保存时间（北京时间） | 项目 | PDF | 本机验收/知识入库 | GitHub |",
+            "| --- | --- | --- | --- | --- |"]
+    copied = 0
+    for report in sorted(bundle["reports"], key=lambda r: r.get("createdAt", "")):
+        if report["analysis"].get("stage") != "full":
+            continue
+        completion = report["analysis"]["completion"]
+        project = re.sub(r"[^\w-]", "_", completion.get("project", "learning")).strip("_")[:80] or "learning"
+        if project.upper() in {"CON", "PRN", "AUX", "NUL", *{f"COM{i}" for i in range(1, 10)}, *{f"LPT{i}" for i in range(1, 10)}}:
+            project = "project_" + project
+        stamp = datetime.fromisoformat(report["createdAt"].replace("Z", "+00:00")).astimezone(
+            timezone(timedelta(hours=8)))
+        target = visible / stamp.strftime("%Y-%m-%d") / project
+        receipt_path = target / "备份清单.json"
+        if receipt_path.exists() and load(receipt_path).get("reportId") != report["id"]:
+            target = target / (stamp.strftime("%H%M%S") + "-" + report["id"][:8])
+            receipt_path = target / "备份清单.json"
+        file_names = {"guide_pdf": project + "-小白指南.pdf", "guide_html": "guide.html",
+                      "exercise_archive": "exercise.zip", "experiment_log": "experiment_log.txt",
+                      "knowledge_notes": "云端知识入库提案.md", "review_log": "云端独立审核.md"}
+        original = original_folder / "reports" / report["taskId"] / (report["id"] + "-files")
+        receipt = {"reportId": report["id"], "sourceHash": report["sourceHash"], "cloudSavedAt": report["createdAt"],
+                   "copyOnly": True, "artifacts": []}
+        for artifact in completion["artifacts"]:
+            data = (original / (artifact["role"] + EXTENSIONS[artifact["role"]])).read_bytes()
+            if sha(data) != artifact["sha256"] or len(data) != artifact["bytes"]:
+                raise PipelineError("可读备份的原件校验失败，停止复制。")
+            destination = target / file_names[artifact["role"]]
+            immutable_copy(destination, data)
+            receipt["artifacts"].append({"role": artifact["role"], "path": destination.name, "sha256": sha(data)})
+        immutable_copy(receipt_path, (json.dumps(receipt, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+        item = handoff["reports"][report["id"]]
+        knowledge = "已验收并入库" if item["knowledge"].get("status") == "merged" else "尚未执行本机验收/入库"
+        git_state = "已推送：" + item["git"].get("commit", "")[:7] if item["git"].get("status") == "pushed" else "未推送"
+        pdf = target / file_names["guide_pdf"]
+        rows.append(f"| {stamp:%Y-%m-%d %H:%M:%S} | {project} | [打开 PDF](<{pdf.as_posix()}>) | {knowledge} | {git_state} |")
+        copied += 1
+    atomic_write(visible / "README.md", "\n".join(rows) + "\n")
+    return visible / "README.md", copied
+
+
 def publication_repo(root):
     repo = root / PRIVATE / "knowledge-publication"
     if not repo.exists():
@@ -415,6 +489,8 @@ def sync(root, config, local_only=False):
             published = 0
             with handoff_lock(folder, owner):
                 handoff = load(result["handoff"])
+                visible_index, visible_count = expose_backups(root, bundle, handoff, folder, owner)
+                state.update(visibleIndex=str(visible_index), visibleFullReports=visible_count)
                 if not local_only:
                     manifests = sorted((root / PRIVATE / "git-publications").glob("*.json"), key=lambda p: p.stat().st_mtime_ns)
                     for path in manifests:
@@ -449,6 +525,7 @@ def sync(root, config, local_only=False):
                     f"网站报告 {state['reports']} 份，完整报告 {state['fullReports']} 份；本机原件校验通过。",
                     f"本次推送 {published} 批；待知识合并 {state['knowledgePending']} 项，待 Git 备份 {state['gitPending']} 项。",
                     "", f"[私有报告与产物入口]({Path(result['index']).as_posix()})", "",
+                    f"[直接查看 PDF 与完整产物]({visible_index.as_posix()})", "",
                     "任务完成由本人点击。脚本不运行模型或自动声称知识合并/内容验收成功。"]
             atomic_write(root / PRIVATE / "手动同步结果.md", "\n".join(rows) + "\n")
             save(status_path, state)
@@ -490,6 +567,7 @@ def main():
             print(f"本机同步通过：{value['reports']} 份报告，含 {value['fullReports']} 份完整学习报告。")
             print(f"本次 GitHub 推送 {value['publishedBatches']} 批；待验收/入库 {value['knowledgePending']} 项，待 Git 备份 {value['gitPending']} 项。")
             print("结果：" + str(root / PRIVATE / "手动同步结果.md"))
+            print("PDF 与完整产物：" + value["visibleIndex"])
             return
         print(json.dumps(value, ensure_ascii=False, indent=2))
     except Exception as error:

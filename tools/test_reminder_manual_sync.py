@@ -1,4 +1,5 @@
 """Local synthetic fixtures: no production website or GitHub writes."""
+import base64
 import copy
 import json
 from pathlib import Path
@@ -259,6 +260,60 @@ class ManualSyncTests(unittest.TestCase):
         pending["reports"][report["id"]]["knowledge"]["status"] = "pending_coordinator"
         with patch.object(sync, "task_row", return_value=row), self.assertRaises(PipelineError):
             sync.check_learning(self.root, report, pending)
+
+
+class VisibleBackupTests(unittest.TestCase):
+    def setUp(self):
+        from test_reminder_dot_backup import bundle
+        self.temporary = tempfile.TemporaryDirectory(dir=TEST_ROOT)
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name).resolve()
+        self.bundle = bundle()
+        report = self.bundle['reports'][0]
+        report['createdAt'] = '2026-10-05T06:21:20Z'
+        contents = {
+            'guide_pdf': b'%PDF-1.4\nSynthetic test only\n%%EOF',
+            'guide_html': b'<!doctype html><html>Synthetic test only</html>',
+            'exercise_archive': b'PK\x03\x04' + b'0' * 40,
+            'experiment_log': b'Synthetic test experiment evidence, not a real learning result',
+            'knowledge_notes': b'Synthetic test knowledge proposal, not a merged note',
+            'review_log': b'Synthetic test independent review, not a real review',
+        }
+        report['analysis'].update(stage='full', completion={
+            'project': 'synthetic_project',
+            'artifacts': [{'role': role, 'sha256': sync.sha(data), 'bytes': len(data),
+                           'base64': base64.b64encode(data).decode()} for role, data in contents.items()]})
+        self.restored = sync.restore(self.root, json.dumps(self.bundle).encode(), self.bundle)
+        self.handoff = sync.load(self.restored['handoff'])
+
+    def expose(self):
+        with sync.coordinator(self.root) as owner:
+            return sync.expose_backups(self.root, self.bundle, self.handoff,
+                                       Path(self.restored['handoff']).parent, owner)
+
+    def test_visible_copies_are_exact_private_and_do_not_mark_git_success(self):
+        index, count = self.expose()
+        self.assertEqual(count, 1)
+        folder = index.parent / '2026-10-05/synthetic_project'
+        self.assertEqual(len(list(folder.iterdir())), 7)
+        self.assertIn('/完成/云端学习备份/', (self.root / '.gitignore').read_text(encoding='utf-8'))
+        self.assertIn('2026-10-05 14:21:20', index.read_text(encoding='utf-8'))
+        self.assertIn('未推送', index.read_text(encoding='utf-8'))
+        for item in sync.load(folder / '备份清单.json')['artifacts']:
+            self.assertEqual(sync.sha((folder / item['path']).read_bytes()), item['sha256'])
+        self.assertEqual(sync.load(self.restored['handoff']), self.handoff)
+        self.expose()
+        self.assertEqual(len(list(folder.iterdir())), 7)
+
+    def test_user_edited_readable_copy_is_preserved(self):
+        index, _ = self.expose()
+        pdf = next(index.parent.rglob('*.pdf'))
+        pdf.write_bytes(b'User-edited synthetic PDF')
+        with self.assertRaisesRegex(PipelineError, '可读副本被修改'):
+            self.expose()
+        self.assertEqual(pdf.read_bytes(), b'User-edited synthetic PDF')
+        original = next(Path(self.restored['handoff']).parent.rglob('guide_pdf.pdf'))
+        self.assertTrue(original.read_bytes().startswith(b'%PDF-'))
 
 
 if __name__ == "__main__":

@@ -74,3 +74,6 @@ verification/.edgeprofile/
 # HuggingFace 模型缓存（体量大，不入库）
 .hfcache/
 */.hfcache/
+
+# Private readable Dot copies; publish only reviewed project/vault files
+/完成/云端学习备份/
