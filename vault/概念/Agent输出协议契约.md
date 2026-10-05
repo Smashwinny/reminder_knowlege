@@ -31,3 +31,13 @@ tags: [概念]
 因此依次保留三种证据：字段能否提取、消费者约束是否满足、真实任务结果是否正确。`parse_ok=false` 时原回答留在 `positive_prompt`，只说明未丢文本，不可当作规范改写成功。关联 [[代码管边界提示词管判断]]、[[证据优先质检ProofOverClaims]]；合成函数测试与模型端到端测试的边界见 [[接缝与桩实现StubSeam]]。
 
 来源：[解析与记录实现](https://github.com/QwenLM/Qwen-Image-2.1/blob/6627d87c6433151463ec4b48b8945a24fcf16a35/prompt_rewrite/pe_core.py)、[输出契约说明](https://github.com/QwenLM/Qwen-Image-2.1/blob/6627d87c6433151463ec4b48b8945a24fcf16a35/prompt_rewrite/README.md)、[已有实验日志](../../qwen_image_2_1/delivery/qwen_image_2_1_experiment_log.md)。
+
+## AI Native 手册：补充授权请求是独立状态（2026-10-05）
+
+[[项目笔记/ai_native_handbook]] 把协议纪律用于授权结果：除允许与拒绝，还可返回需要补充授权的 Challenge。它应说明待确认主体、目标资源、动作、确认方式和时效，由可信交互承接；模型收到的是等待或拒绝等高层状态，不能自行编造批准，也不应接触授权码与 Token。
+
+这是手册的参考设计，不是把任意 HTTP 403 自动转换成“模型继续尝试”的机会，也不是 schema 合法就代表授权真实。与 [[人机协同Interrupt]] 相关的是暂停等待这一过程；具体恢复机制、身份验证和批准证明需要另行实现。[[代码管边界提示词管判断]] 约束的是执行许可，输出协议只承载状态与必要信息。
+
+本次自编教学程序实际只有 allow/deny，没有实现 Challenge、真实审批界面或凭证交换；17 个用例不包含这些功能。前述 Qwen 案例的解析/语义分层仍独立成立，两者都是“格式成立不等于领域条件已成立”的具体例子。
+
+来源：[手册印刷 p54 / PDF 59](https://g.alistatic.com/s/v/ainativeinfra/ai-native-handbook/0.0.1/ai-native-handbook.pdf#page=59)；[已实现与未实现项](../../ai_native_handbook/delivery/ai_native_handbook-experiment-log.md)。

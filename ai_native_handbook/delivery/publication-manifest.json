@@ -1,0 +1,87 @@
+{
+  "schema": "reminder-learning-publication-v1",
+  "repository": "Smashwinny/reminder_knowlege",
+  "branch": "main",
+  "project": "ai_native_handbook",
+  "baseCommit": "8657aafe1659ab41f560f804f18bc6b44a669748",
+  "reviewPath": "ai_native_handbook/delivery/ai_native_handbook-review-log.md",
+  "files": [
+    {
+      "path": "ai_native_handbook/delivery/ai_native_handbook-exercise.zip",
+      "sha256": "b819bbff400c4342141a2393a83fec096ba67f5f8baa53fb348c1942939c4bb3",
+      "baseSha256": null,
+      "artifactRole": "exercise_archive",
+      "sourceSha256": "85473907acbc09fb11f993880999d2f169efe814e6d1ac6fb5198f86f56a268f"
+    },
+    {
+      "path": "ai_native_handbook/delivery/ai_native_handbook-experiment-log.md",
+      "sha256": "1c879019a0204b3e4a2e35060c9624259bbc49f454c886ec2fe95e76eee9dc19",
+      "baseSha256": null,
+      "artifactRole": "experiment_log",
+      "sourceSha256": "6203fdd3b3b341bbab0166f2015925fb38b6910462bb8b852b241cca27df3faf"
+    },
+    {
+      "path": "ai_native_handbook/delivery/ai_native_handbook-guide.html",
+      "sha256": "85b7df5246664264e1fa85f89e83687d885ef8e2c6d18a24d8f6d21bba53eaed",
+      "baseSha256": null,
+      "artifactRole": "guide_html",
+      "sourceSha256": "2502dce1d770412883be3ce01e7e9323e03e5185d29831b12dea670845e0df8f"
+    },
+    {
+      "path": "ai_native_handbook/delivery/ai_native_handbook-guide.pdf",
+      "sha256": "b648da1376e791865cc4c35732129370b52dac66a32eeb701a55a43a0d28b0a4",
+      "baseSha256": null,
+      "artifactRole": "guide_pdf",
+      "sourceSha256": "c4a9d10213a95b8f11c87c33cbbdf66da2d530aec8387e35f300539c76b146f9"
+    },
+    {
+      "path": "ai_native_handbook/delivery/ai_native_handbook-knowledge-notes.md",
+      "sha256": "49d1588a93d2be3bfa12318c1f824a2458f42252089f4f66acd0cdfec6bd431d",
+      "baseSha256": null,
+      "artifactRole": "knowledge_notes",
+      "sourceSha256": "e3a6b09f3fa7baaaa9853243138d28f6daf3189ffc25594c2edc6dac7bf579ce"
+    },
+    {
+      "path": "ai_native_handbook/delivery/ai_native_handbook-review-log.md",
+      "sha256": "20ac2c63670635c285bcc251ddb5ad494bc81745564f2d0ce5597ad1058f55f2",
+      "baseSha256": null,
+      "artifactRole": "review_log",
+      "sourceSha256": "05bedfd4f223d2298ed456498d48e971c8eaacca78ffd70582b848cbd41bb5c5"
+    },
+    {
+      "path": "vault/00-总览.md",
+      "sha256": "e1ee388462377915743487981308b806cf64e6e6e7a9a7334fc5a4d2bd792079",
+      "baseSha256": "ce71e8643629367e64f6d501924e8dbfd54ccd0de5e6c6f5b27c8f104fc362d3"
+    },
+    {
+      "path": "vault/概念/AgentHarness智能体挽具.md",
+      "sha256": "6621bc2a9e38b57fdbff4582b664e96c8fc62b45659dbc17d88880c53c430e27",
+      "baseSha256": "6ea191b1ea84eb9ba3c53db9b02a55450af255775dc2006fc8cba7df72126014"
+    },
+    {
+      "path": "vault/概念/Agent输出协议契约.md",
+      "sha256": "b180f6150ff483d3e29d18396a4fe7dc8336232e619bf2a47b5c666fa684f5ed",
+      "baseSha256": "3f763fc3e45c46e2b1a1a303a0c09b3636fa2f79bda3ba66bc00750a499a9b77"
+    },
+    {
+      "path": "vault/概念/JSONL事件日志与折叠模型.md",
+      "sha256": "7583c1798a1104c0cdd2d713cee287960a170eb058822a6f0095c5378c6ab815",
+      "baseSha256": "54c938932ad334252f7a53fd46094079c54c7297c675b12ab9a5a4de9e8ae0b6"
+    },
+    {
+      "path": "vault/概念/工具暴露单调性.md",
+      "sha256": "03593820ff3972d43688e397944eaaf74951e99aeba751c0f8c5284ec9ae5f0b",
+      "baseSha256": "3d1f9a9cf03ced75ffe37d005dc96bbfbf7b92117992e9ea75ac1a52c11151b2"
+    },
+    {
+      "path": "vault/概念/工具调用三段式流水线.md",
+      "sha256": "814a378a95021f40e2b4f04bb786b0a5cfeedcaed2f99b71232e1b6a9fafd24c",
+      "baseSha256": "0a153b39360c2293562800a1ed5665790d3250172804c2cff405876d2101fb97"
+    },
+    {
+      "path": "vault/项目笔记/ai_native_handbook.md",
+      "sha256": "09fbd2584444f2a51440ed13813c8fea47af1ced471dc0684dae203a09d6342a",
+      "baseSha256": null
+    }
+  ]
+}

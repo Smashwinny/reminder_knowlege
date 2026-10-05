@@ -46,3 +46,13 @@ tags: [概念]
 以上是**固定源码审阅，未运行 Rust 解析器、SQLite 事务或去重账本**。已有 JavaScript 实验的 exact_duplicate_window 只证明窗口输入未被选择器修改，不能给数据库去重背书。当前引擎的 182 天解析视界、约 1500 毫秒文件间预算与回填也仅源码审阅；界面查询周期不等于扫描覆盖范围。
 
 来源：[Codex 适配器](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src-tauri/src/adapters/codex.rs#L250-L390)、[Claude 适配器](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src-tauri/src/adapters/claude.rs#L114-L195)、[账本](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src-tauri/src/storage.rs#L157-L460)、[引擎常量](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src-tauri/src/engine.rs#L30-L44)。已执行与未执行项见 [实验日志](../../metrik/delivery/04-experiment-log.md)。
+
+## AI Native 手册：许可判定与实际读取分别留证（2026-10-05）
+
+[[项目笔记/ai_native_handbook]] 在既有 JSONL 记录方式上增加授权关联字段：用例与请求、主体与运行实例、委托及父委托、资源与动作、策略版本、逻辑时间、判定原因及实际读取标记。拒绝也要记录，不能只留下成功请求。内容指纹用于关联合成输入，日志不复制文件正文。
+
+已有教学实验每套 29 条事件，包含资源请求、委派和撤销，不能称为 29 次文件读取。历史独立审核用未改源码的读取 spy，关联 19 次资源请求与 8 次实际合成文件读取；拒绝请求的读取数为 0，故意不安全缓存对照的撤销后读取为 1。两套新初始化场景的规范化结果相同，3 个合成文件指纹不变。计数对应不同对象，不相加成测试通过数。
+
+这仅为受信单进程的有限行为证据，没有实现日志防篡改、崩溃恢复、乱序折叠或分布式追踪，也没有模型自主执行。JSONL 格式不自动赋予这些性质；原 zoetrope 的折叠模型、Colab 的有损投影与 Metrik 的用量事件语义各自保留。系统健康、任务行为和最终结果的证据也应分开，关联 [[产物留痕与状态外置]]、[[证据状态机]]、[[证据优先质检ProofOverClaims]]。
+
+来源：[手册印刷 p53 / PDF 58](https://g.alistatic.com/s/v/ainativeinfra/ai-native-handbook/0.0.1/ai-native-handbook.pdf#page=58)、[印刷 p60 / PDF 65](https://g.alistatic.com/s/v/ainativeinfra/ai-native-handbook/0.0.1/ai-native-handbook.pdf#page=65)；[实验日志](../../ai_native_handbook/delivery/ai_native_handbook-experiment-log.md)、[独立发布审核（含历史证据复核）](../../ai_native_handbook/delivery/ai_native_handbook-review-log.md)。
