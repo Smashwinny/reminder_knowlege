@@ -20,3 +20,13 @@ tags: [概念]
 - 消费端"open set"心态：见到陌生枚举值（如新状态 failed）回落中性渲染，别把 switch 写死——这正是 [[机器人守护进程架构]] 里版本兼容的通用功夫
 
 **首次接触于**：[[项目笔记/clawdeck]]（mini-crabd 复刻：`schema: 5` + mood 字段 + sessions[] 按 needs_input 优先排序）
+
+## Metrik：可用性和单位不能在格式化时丢失（2026-10-05）
+
+[[项目笔记/metrik]] 复用本文“未知不画成零”的消费者纪律，但没有据此认定它采用 SideCrab 的端点或 schema 版本策略。真实 JS 决策里，托盘 null 显示 `--`，0 显示 `0`；stale 位进入 tooltip 与状态指纹。`compactTokens(null)` 却输出 `0`，说明通用格式化函数不能单独证明数据可用性，也不足以判断整个 UI 有误。
+
+还要保留单位：固定版本的余额型窗口把金额放在名为 remainingPercent 的字段里，靠 key 以 `balance` 开头来区分。字段名称并不保证值一定是百分比。源码中的 App.jsx 调用层会屏蔽余额进入百分比徽标；trayBadgeSpec 本身不认识金额，只会对有限数四舍五入并钳到 0–100。这个调用层保护仅作源码审阅，未执行完整 UI 或原生托盘绘图。
+
+关联 [[meta新鲜度声明]]、[[用量、额度与估算费用的计量分层]]、[[多窗口额度的展示选择规则]]。不同工具的陈旧阈值和刷新间隔不互相套用。
+
+来源：[trayBadge.js](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src/trayBadge.js)、[tokenFormat.js](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src/tokenFormat.js)、[App.jsx](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src/App.jsx)、[quotaWindows.js](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src/quotaWindows.js)。

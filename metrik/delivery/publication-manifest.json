@@ -1,0 +1,97 @@
+{
+  "schema": "reminder-learning-publication-v1",
+  "repository": "Smashwinny/reminder_knowlege",
+  "branch": "main",
+  "project": "metrik",
+  "baseCommit": "eef57f1408874be6db8b7f82dfe727c6b79265e7",
+  "reviewPath": "metrik/delivery/06-review-log.md",
+  "files": [
+    {
+      "path": "metrik/delivery/01-guide.pdf",
+      "sha256": "69935a16820c5b9666d1477999d2378a39f4c147efa989089f72b06c2ff87692",
+      "baseSha256": null,
+      "artifactRole": "guide_pdf",
+      "sourceSha256": "5f1da3fc63c9ffe5779e97f7b238a45117f55e043a1a6a59c86e2c4a2f0480c6"
+    },
+    {
+      "path": "metrik/delivery/02-guide.html",
+      "sha256": "5769938eb1ab13907ddff77cb313a27b1e5a2ffd376b1156aee9582849735ba9",
+      "baseSha256": null,
+      "artifactRole": "guide_html",
+      "sourceSha256": "18bc884ac380e76e3ac22771f7abef0b7b06fdfd38a3cfbedac09716f8cc52df"
+    },
+    {
+      "path": "metrik/delivery/03-exercise.zip",
+      "sha256": "b22bacfed5a62b38c45834b92af0a8486f3564afa1bcff526d96d9cf015bacb0",
+      "baseSha256": null,
+      "artifactRole": "exercise_archive",
+      "sourceSha256": "bc73d7d2e54c8e91630745c874f5768397797ce926392b5be2aecb85dbdb8d33"
+    },
+    {
+      "path": "metrik/delivery/04-experiment-log.md",
+      "sha256": "baa7f9d019f25d49cce1081314e2036f4c69f576434afba8392eddc6ebb7d74a",
+      "baseSha256": null,
+      "artifactRole": "experiment_log",
+      "sourceSha256": "2e09e3cf764743a4f3e80d20bccfec5f38dd80b978a7c673b9c18885f2d15628"
+    },
+    {
+      "path": "metrik/delivery/05-knowledge-notes.md",
+      "sha256": "2bebebc730c2e28f26ded417ea4f733e4865daead768b1797fe5bfc74835f91f",
+      "baseSha256": null,
+      "artifactRole": "knowledge_notes",
+      "sourceSha256": "0702931808c1bfd36351ee4d1e46fc2c27a7562902e0b95b4c2b718c7da531f6"
+    },
+    {
+      "path": "metrik/delivery/06-review-log.md",
+      "sha256": "19757894c8b8b4d529269a96ad8bcd834bef8a7701c5e3fd2c81907f41cb1c0b",
+      "baseSha256": null,
+      "artifactRole": "review_log",
+      "sourceSha256": "96013c029f1cc118e652258ef8a9f8da23f0916d8fffeaa470705b0103eb0b7d"
+    },
+    {
+      "path": "vault/00-总览.md",
+      "sha256": "eb8755870d4ee3dd9bab9184e4a1244b3aded5f752808664b59f25a259e68f36",
+      "baseSha256": "c55bcc401f9253e1cd18d08ae1c9df29a68f4cb3c2a2aba0fd484c11f7d414ff"
+    },
+    {
+      "path": "vault/概念/BYOK模型网关与用量归因.md",
+      "sha256": "9d7527db8a7674368d6ef0abeb946bafe8549a5ca1b01d333ff2389ce020270b",
+      "baseSha256": "27d76f60753171c92bdd2c12a8cb33e74dbe266bbd90537e716bdb760ef69dd3"
+    },
+    {
+      "path": "vault/概念/JSONL事件日志与折叠模型.md",
+      "sha256": "54c938932ad334252f7a53fd46094079c54c7297c675b12ab9a5a4de9e8ae0b6",
+      "baseSha256": "9a96ea8b631330879197b33b8e3ffc9749f49f339bacfbceb998e194e940e877"
+    },
+    {
+      "path": "vault/概念/meta新鲜度声明.md",
+      "sha256": "bb5e0c5b38b4d829851d637ec8347c675146c57a3c9314f2e12a556a8bf51b8d",
+      "baseSha256": "09a94888f7296ecc39979fda2f685b96cbe64cd10b4d7379b429e1a8c74f4067"
+    },
+    {
+      "path": "vault/概念/付费调用回执与预算熔断.md",
+      "sha256": "8851a41a0100fe1dfe8cc366bed7bcf8dbcee61e9c4b09a06c4b1c2b4e2ba562",
+      "baseSha256": "b39da3ad301951246ab91c6100991097d7c7782cd04d1ae1b671958f930ae5a4"
+    },
+    {
+      "path": "vault/概念/单一馈送与schema冻结.md",
+      "sha256": "7372694c8fa3d4f883546c2864cb9a1eb1b1107d8b4ee95af5eb80ab54c64d82",
+      "baseSha256": "f64efd7b90ed3b9ada3c19c50e350d1ef9676fb0229f254155a5f170eb854425"
+    },
+    {
+      "path": "vault/概念/多窗口额度的展示选择规则.md",
+      "sha256": "dac99b34352e4e1aee8d109798c07fbb5926694cf58bb64de66bab285ee76e91",
+      "baseSha256": null
+    },
+    {
+      "path": "vault/概念/用量、额度与估算费用的计量分层.md",
+      "sha256": "a668e58494cd2728bcb001a9b09731f7152c1dc08b5763742ba20209dfbf7fd3",
+      "baseSha256": null
+    },
+    {
+      "path": "vault/项目笔记/metrik.md",
+      "sha256": "bf3a809c386dbe95b05f85f480eedbee6bd2823fe255255cba84214c90af17d2",
+      "baseSha256": null
+    }
+  ]
+}

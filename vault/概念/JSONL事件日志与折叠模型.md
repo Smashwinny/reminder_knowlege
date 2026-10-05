@@ -36,3 +36,13 @@ tags: [概念]
 这些是固定版本的映射边界，没有在原学习实验中修复。Notebook 中出现输出也不证明代码真实执行过；需要另查输入来源和执行证据。文件与运行时状态的关系见 [[产物留痕与状态外置]]、[[Checkpoint存档与持久执行]]。
 
 来源：[history.py](https://github.com/googlecolab/google-colab-cli/blob/a84e094c67544e70d88649ba2d2a1d48511b3af7/src/colab_cli/history.py)、[converter.py](https://github.com/googlecolab/google-colab-cli/blob/a84e094c67544e70d88649ba2d2a1d48511b3af7/src/colab_cli/converter.py)。真实本地记录/转换实验及测试口径见 [实验日志](../../google_colab_cli/delivery/04-experiment-log.md)；输入代码与输出为合成数据，未执行记录中的代码，也没有 Google 认证、云端运行时或账单实测。
+
+## Metrik：累计量、事件身份与来源观察（2026-10-05）
+
+[[项目笔记/metrik]] 提供计量侧案例：日志行、累计快照、用量事件与文件观察是不同对象。JSONL 只是记录格式，不能自动保证事件幂等、乱序收敛、坏行容错或账单正确；上方 Colab CLI 的导出投影边界继续成立。
+
+固定版本 Rust 源码中，Codex 适配器对累计快照做增量计算；分叉继承的历史推进基线，但在首个 turn_context 前不产生新用量。Claude 对同一 provider message ID 的渐进更新按 Token 分量最大值合并。账本把 usage_event 与 event_observation 分开，使“同一事件被两个文件观察到”不直接变成两份用量。累计差分、身份与归一化口径必须结合读取，参见 [[用量、额度与估算费用的计量分层]]。
+
+以上是**固定源码审阅，未运行 Rust 解析器、SQLite 事务或去重账本**。已有 JavaScript 实验的 exact_duplicate_window 只证明窗口输入未被选择器修改，不能给数据库去重背书。当前引擎的 182 天解析视界、约 1500 毫秒文件间预算与回填也仅源码审阅；界面查询周期不等于扫描覆盖范围。
+
+来源：[Codex 适配器](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src-tauri/src/adapters/codex.rs#L250-L390)、[Claude 适配器](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src-tauri/src/adapters/claude.rs#L114-L195)、[账本](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src-tauri/src/storage.rs#L157-L460)、[引擎常量](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src-tauri/src/engine.rs#L30-L44)。已执行与未执行项见 [实验日志](../../metrik/delivery/04-experiment-log.md)。
