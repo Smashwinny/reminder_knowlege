@@ -4,6 +4,7 @@ import copy
 import json
 from pathlib import Path
 import subprocess
+import sqlite3
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -119,6 +120,19 @@ class CloudSyncTests(unittest.TestCase):
         with self.assertRaises(PipelineError): self.run_copy()
         self.assertEqual(command(self.root,"diff","--cached","--binary"),before)
 
+    def test_old_local_owner_is_preserved_and_blocks_project_overwrite(self):
+        connection=sqlite3.connect(self.root/"完成/.pipeline/queue.sqlite3")
+        connection.execute('CREATE TABLE tasks(task_id TEXT, project_key TEXT, owner TEXT)')
+        connection.execute('INSERT INTO tasks VALUES(?,?,?)',(self.report['taskId'],'demo','original-owner'))
+        connection.commit();connection.close()
+        result=self.run_copy()
+        self.assertEqual(result['conflicts'][0]['paths'],['demo/'])
+        self.assertFalse((self.root/'demo/guide.html').exists())
+        self.assertEqual(self.handoff()['git']['status'],'pushed')
+        connection=sqlite3.connect(self.root/"完成/.pipeline/queue.sqlite3")
+        self.assertEqual(connection.execute('SELECT owner FROM tasks').fetchone()[0],'original-owner')
+        connection.close()
+
     def test_two_cloud_merges_copy_latest_moc_from_original_base_without_rollback(self):
         other=copy.deepcopy(self.report)
         other.update(id="report-2",taskId="two",createdAt="2026-10-05T01:00:00Z")
@@ -177,7 +191,7 @@ class CloudSyncTests(unittest.TestCase):
              patch.object(manual,"apply_cloud_receipts",side_effect=lambda root,bundle,owner: cloud.apply_cloud_receipts(root,bundle,owner,lambda root:self.mirror)), \
              patch.object(manual,"acknowledge_local_backups",return_value={"acknowledged":0,"pending":1}), \
              patch.object(manual,"publication_repo",side_effect=AssertionError("No local publisher")):
-            result=manual.sync(self.root,config,cloud_only=True)
+            result=manual.sync(self.root,config)
         self.assertEqual(result["publishedBatches"],0)
         self.assertEqual(result["cloudPublished"],1)
         self.assertEqual(result["localKnowledgeSynced"],1)

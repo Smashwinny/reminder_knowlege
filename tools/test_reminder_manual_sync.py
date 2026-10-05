@@ -59,7 +59,7 @@ class ManualSyncTests(unittest.TestCase):
 
     def run_sync(self, local_only=False):
         with patch.object(sync, "download", return_value=(json.dumps(self.bundle).encode(), self.bundle)):
-            return sync.sync(self.root, self.config, local_only)
+            return sync.sync(self.root, self.config, local_only, cloud_only=False)
 
     def remote_head(self):
         return command(self.bare, "rev-parse", "refs/heads/main")

@@ -8,6 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import sqlite3
 import subprocess
 import uuid
 from pathlib import Path
@@ -77,6 +78,20 @@ def git(repo, *args, binary=False):
     if result.returncode:
         raise PipelineError("公开知识 Git 核验失败；私有备份保留，未标记本机知识已同步。")
     return result.stdout if binary else result.stdout.decode("utf-8", errors="strict").strip()
+
+
+def local_owner_held(root, report, project):
+    database=root/PRIVATE/"queue.sqlite3"
+    if not database.exists():
+        return False
+    try:
+        connection=sqlite3.connect(database.as_uri()+"?mode=ro",uri=True)
+        try:
+            return connection.execute("SELECT 1 FROM tasks WHERE owner IS NOT NULL AND (task_id=? OR project_key=?) LIMIT 1",(report['taskId'],project.casefold())).fetchone() is not None
+        finally:
+            connection.close()
+    except sqlite3.Error:
+        raise PipelineError("无法核对原共享队列 owner，原件已保留，未覆盖项目知识。") from None
 
 
 class PublicMirror:
@@ -168,6 +183,8 @@ def apply_cloud_receipts(root, bundle, coordinator, mirror_factory=PublicMirror)
             raise PipelineError("云端项目目录需另行核对。")
         mirror.verify_commit(value["commit"])
         writes, conflicts, seen = [], [], set()
+        if local_owner_held(root,report,project):
+            conflicts.append(project+'/')
         for item in value["files"]:
             name = item.get("path")
             destination = public_path(root, name, project)

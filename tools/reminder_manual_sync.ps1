@@ -13,11 +13,12 @@ if (-not $manualToolFolder) { $manualToolFolder = [IO.Path]::GetDirectoryName($M
 $reminderRoot = (Resolve-Path -LiteralPath (Join-Path $manualToolFolder '..')).Path
 if (-not $ConfigPath) { $ConfigPath = Join-Path $reminderRoot '完成/.pipeline/dot-backup-config.json' }
 if (-not $PythonPath) {
-    $runtime = Get-Command python -ErrorAction SilentlyContinue
-    if ($runtime) { $PythonPath = $runtime.Source }
+    $bundledPython = Join-Path $env:USERPROFILE '.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
+    if (Test-Path -LiteralPath $bundledPython -PathType Leaf) { $PythonPath = $bundledPython }
     else {
-        $PythonPath = Join-Path $env:USERPROFILE '.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
-        if (-not (Test-Path -LiteralPath $PythonPath -PathType Leaf)) {
+        $runtime = Get-Command python -ErrorAction SilentlyContinue
+        if ($runtime) { $PythonPath = $runtime.Source }
+        else {
             throw 'Python is unavailable; supply -PythonPath with an installed Python 3.10+ runtime.'
         }
     }
@@ -29,7 +30,8 @@ if ($StatusOnly) { $syncArguments += 'status' }
 else {
     $syncArguments += 'sync'
     if ($LocalOnly) { $syncArguments += '--local-only' }
-    if (-not $LegacyLocalPublisher) { $syncArguments += '--cloud-only' }
+    if ($LegacyLocalPublisher) { $syncArguments += '--legacy-local-publisher' }
+    else { $syncArguments += '--cloud-only' }
 }
 & $PythonPath @syncArguments
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

@@ -1,4 +1,4 @@
-"""手动回迁 Dot 私有原件，并推送协调者已审核的明确公开文件清单。
+"""默认回迁 Dot 私有原件并只读核验云端交付；旧本机发布需显式启用。
 
 不运行学习、不合并知识、不修改网站任务；Git 日志是交接回执，不是学习队列。
 """
@@ -299,9 +299,9 @@ def expose_backups(root, bundle, handoff, original_folder, owner):
         partial.replace(path)
 
     rows = ["# Dot 学习报告与产物：可直接查看的本机副本", "",
-            "这是云端原件的可读备份，未代替本机内容验收或知识入库。本目录不提交 Git。",
-            "公开 Git 的学习成果需在正式项目目录与 vault 中完成验收、入库后推送。", "",
-            "| 云端保存时间（北京时间） | 项目 | PDF | 本机验收/知识入库 | GitHub |",
+            "这是云端原件的可读备份；备份、知识交付与 Git 分别记账。本目录不提交 Git。",
+            "公开 Git 只收经独立审核的学习成果；Windows 回迁保留笔记冲突。", "",
+            "| 云端保存时间（北京时间） | 项目 | PDF | 验收/知识入库 | GitHub |",
             "| --- | --- | --- | --- | --- |"]
     copied = 0
     for report in sorted(bundle["reports"], key=lambda r: r.get("createdAt", "")):
@@ -471,7 +471,7 @@ def publish(root, owner, repo, path, manifest, blobs):
     save(path, manifest)
 
 
-def sync(root, config, local_only=False, cloud_only=False):
+def sync(root, config, local_only=False, cloud_only=True):
     status_path = root / PRIVATE / "manual-sync-status.json"
     state = {"schema": "reminder-manual-sync-v1", "startedAt": now(), "local": "pending",
              "git": "pending", "knowledgeMergedByScript": False, "taskCompletionChanged": False}
@@ -555,7 +555,9 @@ def main():
     sub = parser.add_subparsers(dest="command", required=True)
     cmd = sub.add_parser("sync")
     cmd.add_argument("--local-only", action="store_true")
-    cmd.add_argument("--cloud-only", action="store_true", help="仅拉取云端交付及核验 Git；不在本机提交或推送")
+    modes=cmd.add_mutually_exclusive_group()
+    modes.add_argument("--cloud-only", action="store_true", help="默认模式：仅拉取云端交付及核验 Git；不在本机提交或推送")
+    modes.add_argument("--legacy-local-publisher", action="store_true", help="显式启用旧本机协调者的已审核文件清单发布")
     sub.add_parser("status")
     cmd = sub.add_parser("prepare", help="唯一协调者在实际验收和隐私检查后登记明确文件清单")
     cmd.add_argument("--files-file", type=Path, required=True)
@@ -574,7 +576,7 @@ def main():
                 path = prepare(root, config, args.files_file, args.message, args.task, args.maintenance, args.review_notes)
                 value = {"receipt": str(path), "status": "prepared", "pushed": False}
         else:
-            value = sync(root, config, args.local_only, args.cloud_only)
+            value = sync(root, config, args.local_only, not args.legacy_local_publisher)
             print(f"本机同步通过：{value['reports']} 份报告，含 {value['fullReports']} 份完整学习报告。")
             print(f"核验云端 Git {value['cloudPublished']} 项；本机推送 {value['publishedBatches']} 批；待入库 {value['knowledgePending']} 项，待 Git 备份 {value['gitPending']} 项。")
             print("结果：" + str(root / PRIVATE / "手动同步结果.md"))

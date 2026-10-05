@@ -2,7 +2,7 @@
 [CmdletBinding()]
 param(
     [string]$ConfigPath = (Join-Path $PSScriptRoot '../完成/.pipeline/dot-backup-config.json'),
-    [string]$PythonPath = 'python'
+    [string]$PythonPath = ''
 )
 $ErrorActionPreference = 'Stop'
 $reminderRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
