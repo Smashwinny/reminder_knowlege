@@ -5,28 +5,25 @@ import contextlib
 import io
 import json
 from pathlib import Path
-import urllib.error
-import urllib.request
 import zipfile
 
-from reminder_pipeline import ROOT, Pipeline, PipelineError, IGNORED_EXERCISE_DIRS
-from reminder_dot_backup import SITE, MAX_BUNDLE_BYTES, HTTP_USER_AGENT
+if __package__:
+    from .reminder_pipeline import ROOT, Pipeline, PipelineError, IGNORED_EXERCISE_DIRS
+    from .reminder_dot_http import scoped_request, ScopedRequestError
+else:
+    from reminder_pipeline import ROOT, Pipeline, PipelineError, IGNORED_EXERCISE_DIRS
+    from reminder_dot_http import scoped_request, ScopedRequestError
 
 
 def post(list_id, name, arguments):
-    from shiyi_sync import get_token
-    class NoRedirect(urllib.request.HTTPRedirectHandler):
-        def redirect_request(self, *args): return None
-    request = urllib.request.Request(SITE + '/api/dot/agent', data=json.dumps({'listId': list_id, 'tool': name, 'arguments': arguments}, ensure_ascii=False).encode('utf-8'), headers={'Authorization': 'Bearer ' + get_token(), 'Content-Type': 'application/json', 'User-Agent': HTTP_USER_AGENT}, method='POST')
+    if __package__:
+        from .shiyi_sync import get_token
+    else:
+        from shiyi_sync import get_token
     try:
-        with urllib.request.build_opener(NoRedirect).open(request, timeout=45) as response:
-            data = response.read(MAX_BUNDLE_BYTES + 1)
-        if len(data) > MAX_BUNDLE_BYTES: raise PipelineError('网站响应过大，未读取截断内容。')
-        return json.loads(data)
-    except urllib.error.HTTPError as error:
-        raise PipelineError(f'网站标签接口拒绝操作 HTTP {error.code}；原任务状态未修改。') from None
-    except (OSError, ValueError):
-        raise PipelineError('网站标签接口不可用；未把本地缓存当本次网站结果。') from None
+        return scoped_request(list_id, name, arguments, get_token())
+    except ScopedRequestError as error:
+        raise PipelineError(str(error)) from None
 
 
 def owned(pipeline, task_id, owner):
@@ -112,7 +109,10 @@ def main():
                 analysis = json.loads(args.analysis.read_text(encoding='utf-8-sig'))
                 analysis['stage'] = args.stage
                 if args.stage == 'full':
-                    from reminder_coordinator import require_owner
+                    if __package__:
+                        from .reminder_coordinator import require_owner
+                    else:
+                        from reminder_coordinator import require_owner
                     require_owner(args.root, args.coordinator or '')
                     analysis = attach_reviewed_artifacts(pipeline, record, analysis)
                 payload['analysis'] = analysis

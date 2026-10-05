@@ -1,3 +1,20 @@
+# 当前实际交付（2026-10-05）
+
+本人 Dot 已实际完成 HowToLiveBetter、Ponytail、MCP Toolbox 三条真实完整学习：网站 full 六原件与完整分析标签回读通过，任务仍未开始；本机私有备份、逐页 PDF 审阅、知识合并及公开学习 Git 推送分别验收。指南分别 11、10、13 页。MCP Toolbox 官方 Linux 程序的真实实验及独立复跑发生在云端，本机核查原件、协议日志和知识来源，不冒称在 Windows 运行该 Linux 程序。
+
+本人 Dot 的「Reminder 自动学习与私有报告」日程已创建并 list 回读，Asia/Shanghai，每 15 分钟，从 12:45 起；run_now 已实际进入 MCP Toolbox 学习并完成网站交付。范围是原共享队列已 start 的 18 张票，目前余 17 张；待分类与以后新增记录尚未派入这一批。每次网站 owner 带唯一运行后缀，遇已有/过期租约或 409 均跳过，仅原执行者续约；当前任务不更换 owner。严格日程时点、跨回合绝对串行及长期重连稳定性没有另作保证。
+
+本机 automation-2 保持暂停。云端成果先保存网站，本机登录备份入口仅复制私有产物；vault/Git 由唯一协调者验收并收尾。Dot 对当前本机既有聊天的原生投递返回 placement-v1/NOT_FOUND，自动唤醒协调者尚未通过；网页私密协作通道已可直接互发，无需本人转述。原队列票据的本机租约为 24 小时，到期需原协调者续约，禁止抢占。
+
+完整学习的本地结束使用 `confirm-analysis`，区分分析交付与用户任务完成。先 start/ready/真实独立 review，再用私有报告导出及 handoff 回执确认；确认只读网站原来源、限定身份和当前 full 报告，逐项核对六原件及统一 ZIP 布局，保留 manifest/审核并释放原 owner 和资源锁。`analysis_completed_at` 记录分析验收时间，`completed_at` 保持空；同 URL 新记录维持增补核实，源正文改变会撤销当前确认并保留历史。
+
+```powershell
+python tools/reminder_pipeline.py confirm-analysis --task TASK --owner ORIGINAL_OWNER --coordinator COORDINATOR --receipt PRIVATE_RECEIPT.json
+python tools/reminder_pipeline.py render
+```
+
+回执 schema 为 `reminder-analysis-confirmation-v1`，含 accountId/listId/taskId/reportId/sourceHash、真实导出 backupBundle/backupSha256 和当前 handoff 路径，只留 `完成/.pipeline/`。新 scoped HTTP 共用客户端固定本站、拒绝重定向并限制响应；HTTP/网络失败保留待确认，不用缓存代替网站真值。Pipeline 63 项、Dot 13 项回归及独立审阅通过。后文旧手动学习/publish 和连接状态为历史，以本节及最新用户规则为准。
+
 # 最新运行方式（2026-10-04）
 
 用户现已明确授权自动完整学习。网站限定账户/列表：自动初步分类 → 已核实学习项目自动 learn-project → 真实实验、PDF、知识笔记及独立审核 → 智能体保存分析标签 → 用户自己点任务完成。下述旧流程中的“手动选择后学习”和“publish自动标完成”属于历史机制，本轮不再采用；历史数据、未决发布恢复接口保留。

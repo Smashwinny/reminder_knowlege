@@ -18,14 +18,14 @@ import sys
 import urllib.error
 import urllib.request
 
-from reminder_pipeline import ROOT, Pipeline, PipelineError, atomic_write, task_hash, valid_id
+if __package__:
+    from .reminder_pipeline import ROOT, Pipeline, PipelineError, atomic_write, task_hash, valid_id, canonical_url
+    from .reminder_dot_http import SITE, MAX_BUNDLE_BYTES, HTTP_USER_AGENT
+else:
+    from reminder_pipeline import ROOT, Pipeline, PipelineError, atomic_write, task_hash, valid_id, canonical_url
+    from reminder_dot_http import SITE, MAX_BUNDLE_BYTES, HTTP_USER_AGENT
 
-MAX_BUNDLE_BYTES = 32 * 1024 * 1024
 MAX_ARCHIVE_BYTES = 512 * 1024 * 1024
-SITE = "https://reminder.geniusqi.com"
-# urllib's default User-Agent returned HTTP 403 during the live backup check;
-# this compatible header succeeded, as in the existing website sync client.
-HTTP_USER_AGENT = "Mozilla/5.0"
 
 
 def digest(data):
@@ -67,7 +67,6 @@ def validate_bundle(bundle, expected_account, expected_list):
         sources = analysis.get("sources")
         if not isinstance(sources, list) or (not sources and analysis["kind"] != "non_link"):
             raise PipelineError("报告缺少核对来源。")
-        from reminder_pipeline import canonical_url
         for source in sources:
             if not isinstance(source, dict) or not source.get("facts") or not source.get("status"):
                 raise PipelineError("核对来源格式损坏。")
@@ -124,7 +123,10 @@ def read_bundle(file, expected_account, expected_list):
 
 
 def download(expected_account, expected_list):
-    from shiyi_sync import get_token
+    if __package__:
+        from .shiyi_sync import get_token
+    else:
+        from shiyi_sync import get_token
     token = get_token()
     class NoRedirect(urllib.request.HTTPRedirectHandler):
         def redirect_request(self, req, fp, code, msg, headers, newurl): return None
@@ -286,7 +288,10 @@ def integrate(root, bundle):
 
     Fresh site sync is mandatory. No legacy adoption is implicit in a cloud export.
     """
-    from reminder_coordinator import acquire, release as release_coordinator
+    if __package__:
+        from .reminder_coordinator import acquire, release as release_coordinator
+    else:
+        from reminder_coordinator import acquire, release as release_coordinator
     owner = "dot-import-" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
     acquire(root, owner)
     results = []

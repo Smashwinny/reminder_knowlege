@@ -9,9 +9,11 @@ SQLite 为认领与发布的唯一协调点；所有 Claude/Codex 必须共用�
 from __future__ import annotations
 
 import argparse
+import base64
 import contextlib
 import datetime as dt
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -21,6 +23,7 @@ import sys
 import tempfile
 import time
 import uuid
+import zipfile
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,7 +34,8 @@ IGNORED_EXERCISE_DIRS = {"node_modules", ".venv", "venv", "env", ".git", "__pyca
                          "target", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".cache"}
 PHASE_LABELS = {"pending": "待分析", "protected": "旧状态保护", "claimed": "分析已领取",
                 "learning_queued": "待用户选择学习", "learning": "学习中", "ready": "学习产物待审核/发布",
-                "publish_pending": "待网站确认", "synced": "网站已确认", "needs_review": "待核实"}
+                "publish_pending": "待网站确认", "synced": "网站已确认", "needs_review": "待核实",
+                "analysis_confirmed": "已完成完整分析（任务由用户完成）"}
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS tasks (
  task_id TEXT PRIMARY KEY, snapshot TEXT NOT NULL, content_hash TEXT NOT NULL,
@@ -45,6 +49,7 @@ CREATE TABLE IF NOT EXISTS tasks (
  kind TEXT, reason TEXT, evidence TEXT, classified_hash TEXT,
  project_key TEXT, learning_started INTEGER NOT NULL DEFAULT 0,
  manifest TEXT, artifact_fingerprint TEXT, review TEXT,
+ analysis_completed_at TEXT, analysis_receipt TEXT, analysis_history TEXT,
  publish_intent TEXT, publication_history TEXT, publisher TEXT, synced_at TEXT, completed_at TEXT,
  last_error TEXT, first_seen TEXT NOT NULL, updated_at TEXT NOT NULL
 );
@@ -171,6 +176,26 @@ class SiteAPI:
         except Exception:
             raise PipelineError("网站写入结果不确定；将读取确认，可重试。") from None
 
+    def read_analysis(self, account_id, list_id, task_id):
+        """只调用 scoped identity/read 工具，不获取或写任务完成权限。"""
+        if __package__:
+            from .reminder_dot_http import scoped_request, ScopedRequestError
+        else:
+            from reminder_dot_http import scoped_request, ScopedRequestError
+        try:
+            def read(tool, arguments):
+                return scoped_request(list_id, tool, arguments, self._token)
+            identity = read("reminder_identity", {})
+            if identity.get("accountId") != account_id or identity.get("listId") != list_id:
+                raise PipelineError("限定账户/列表不匹配，不确认分析完成。")
+            return read("reminder_read_record", {"taskId": task_id})
+        except PipelineError:
+            raise
+        except ScopedRequestError as error:
+            raise PipelineError(str(error)) from None
+        except Exception:
+            raise PipelineError("限定账户/列表的完整分析无法实时回读；不确认分析完成。") from None
+
 
 class Pipeline:
     def __init__(self, root=ROOT, api=None, clock=time.time):
@@ -189,6 +214,10 @@ class Pipeline:
             if "publication_history" not in columns:
                 connection.execute("ALTER TABLE tasks ADD COLUMN publication_history TEXT")
                 connection.commit()
+            for column in ("analysis_completed_at", "analysis_receipt", "analysis_history"):
+                if column not in columns:
+                    connection.execute("ALTER TABLE tasks ADD COLUMN " + column + " TEXT")
+            connection.commit()
 
     def _connection(self):
         connection = sqlite3.connect(str(self.db_path), timeout=60)
@@ -262,7 +291,20 @@ class Pipeline:
         return "；".join(reasons)
 
     @staticmethod
+    def _analysis_is_current(row):
+        if (row["phase"] != "analysis_confirmed" or not row.get("analysis_receipt") or
+                row["invalidated"] or row["deleted"] or row["missing"]):
+            return False
+        try:
+            receipt = json.loads(row["analysis_receipt"])
+        except (ValueError, TypeError):
+            return False
+        return isinstance(receipt, dict) and receipt.get("source_hash") == row["content_hash"]
+
+    @staticmethod
     def _idle_phase(row):
+        if Pipeline._analysis_is_current(row):
+            return "analysis_confirmed"
         if row["duplicate_of"]:
             return "needs_review"
         if row["protection"]:
@@ -288,6 +330,7 @@ class Pipeline:
                                row["phase"] != "synced")
         phase = "publish_pending" if pending_journal and row["phase"] in {"claimed", "learning", "ready"} else row["phase"]
         complete = phase == "synced" and row["kind"] == "learning"
+        analysis_complete = self._analysis_is_current(row)
         return {"task_id": row["task_id"], "status": phase, "status_label": self._phase_label(phase),
                 "website_state": row["site_state"], "owner": row["owner"],
                 "lease_until": stamp(row["lease_until"]) if row["lease_until"] else None,
@@ -310,6 +353,10 @@ class Pipeline:
                 "report": "完成/分析报告/" + row["task_id"] + ".md",
                 "website_synced": phase == "synced", "synced_at": row["synced_at"],
                 "completed_at": row["completed_at"] if complete else None,
+                "analysis_completed": analysis_complete,
+                "analysis_completed_at": row["analysis_completed_at"] if analysis_complete else None,
+                "analysis_receipt": json.loads(row["analysis_receipt"] or "null"),
+                "analysis_history": json.loads(row["analysis_history"] or "[]"),
                 "first_seen": row["first_seen"], "updated_at": row["updated_at"],
                 "content_changed": bool(row["invalidated"]), "last_error": row["last_error"]}
 
@@ -452,11 +499,15 @@ class Pipeline:
                                       publish_intent=None, last_error="来源原文或摘要变更，原分析须重新核实。")
                         if old["owner"] or old["kind"]:
                             values["phase"] = "needs_review"
+                        values.update(self._invalidate_analysis(dict(old), "原文或摘要发生变化"))
                     self._update(connection, task_id, **values)
-            # 同 URL 的后续记录保留待审；不把已有成果当作自动完成凭据。
+            # 同 URL 以当前已确认分析优先；其他记录按队列首次插入顺序选锚。
+            # 不使用网站 position，避免新记录排在前面而抢走旧成果的来源锚。
+            # rowid 保留插入先后，也避免 first_seen 秒级时间相同造成新任务抢锚。
             seen = {}
-            for raw in connection.execute("SELECT * FROM tasks ORDER BY position,first_seen,task_id").fetchall():
-                row = dict(raw)
+            anchors = [dict(raw) for raw in connection.execute("SELECT rowid AS ingest_order,* FROM tasks").fetchall()]
+            anchors.sort(key=lambda row: (0 if self._analysis_is_current(row) else 1, row["ingest_order"]))
+            for row in anchors:
                 duplicate = next((seen[url] for url in json.loads(row["canonical_urls"])
                                   if url in seen and seen[url] != row["task_id"]), "")
                 if not row["deleted"] and not row["missing"]:
@@ -473,6 +524,10 @@ class Pipeline:
                 if row["phase"] == "synced" and (row["deleted"] or row["missing"] or row["site_state"] != target):
                     values.update(phase="needs_review", invalidated=1,
                                   last_error="网站已重开、删除或缺失；历史完成保留，当前不能列作确认完成。")
+                if row["analysis_receipt"] and (row["deleted"] or row["missing"]):
+                    values.update(self._invalidate_analysis(row, "原记录删除或缺失"),
+                                  phase="needs_review", invalidated=1,
+                                  last_error="原记录删除或缺失；完整分析保留为历史，当前待核实。")
                 if row["owner"] and duplicate:
                     values.update(invalidated=1, phase="needs_review", last_error="发现同 URL 记录，须明确核实。")
                 updated = self._update(connection, row["task_id"], **values)
@@ -481,6 +536,17 @@ class Pipeline:
                                  self._source_report(updated, changed_reports[row["task_id"]]))
                 self._save_record(updated)
         return counts
+
+    def _invalidate_analysis(self, row, reason):
+        if not row.get("analysis_receipt"):
+            return {}
+        history = json.loads(row["analysis_history"] or "[]")
+        history.append({"analysis_completed_at": row["analysis_completed_at"],
+                        "receipt": json.loads(row["analysis_receipt"]),
+                        "manifest": json.loads(row["manifest"] or "null"),
+                        "quality_review": json.loads(row["review"] or "null"),
+                        "invalidated_at": stamp(self.clock()), "reason": reason})
+        return {"analysis_completed_at": None, "analysis_receipt": None, "analysis_history": dumps(history)}
 
     @staticmethod
     def _site_version(task):
@@ -532,6 +598,8 @@ class Pipeline:
         return row
 
     def _claim_row(self, connection, row, owner, lease_seconds, project=None, adopt=False):
+        if row["phase"] == "analysis_confirmed":
+            raise PipelineError("当前来源的完整分析已确认；不再领取或重复学习，任务完成由用户点击。")
         if not 30 <= lease_seconds <= 86400:
             raise PipelineError("租约秒数范围为 30 至 86400；学习中应及时 renew。")
         if row["owner"]:
@@ -603,6 +671,10 @@ class Pipeline:
     def release(self, task_id, owner, reason=""):
         with self._tx() as connection:
             row = self._row(connection, task_id)
+            if row["phase"] == "analysis_confirmed" and row["owner"] is None:
+                if json.loads(row["analysis_receipt"] or "{}").get("owner") != owner:
+                    raise PipelineError("已确认分析仅允许原 owner 幂等释放。")
+                return self._record(row)
             if row["owner"] != owner:
                 raise PipelineError("只有记录中的 owner 可以 release；可由协调者使用该名称明确释放。")
             journal = self._journal(task_id)
@@ -682,6 +754,8 @@ class Pipeline:
         key = self._project_key(project)
         with self._tx() as connection:
             row = self._row(connection, task_id)
+            if row["phase"] == "analysis_confirmed":
+                raise PipelineError("当前来源完整分析已确认，不能重新 start；用户任务状态独立。")
             if row["kind"] != "learning" or row["classified_hash"] != row["content_hash"] or row["invalidated"]:
                 raise PipelineError("需先对当前来源完成 learning 分类，然后由用户选择 start。")
             if not row["owner"]:
@@ -825,6 +899,227 @@ class Pipeline:
             review = {"reviewer": reviewer, "approved": True, "notes": notes.strip(),
                       "reviewed_at": stamp(self.clock()), "artifact_fingerprint": fingerprint}
             row = self._update(connection, task_id, review=dumps(review))
+            self._save_record(row)
+            return self._record(row)
+
+    def _require_coordinator(self, coordinator):
+        try:
+            try:
+                from . import reminder_coordinator
+            except ImportError:
+                import reminder_coordinator
+            reminder_coordinator.require_owner(self.root, coordinator or "")
+        except (RuntimeError, ValueError, ImportError):
+            raise PipelineError("确认完整分析需有效的全局协调者租约。") from None
+
+    def _verify_analysis_receipt(self, row, manifest, receipt):
+        """核验网站私有备份及其六份真实产物；receipt 本身不作为成功凭据。"""
+        if not isinstance(receipt, dict) or receipt.get("schema") != "reminder-analysis-confirmation-v1":
+            raise PipelineError("不是已支持的完整分析确认 receipt。")
+        for key in ("accountId", "listId", "reportId"):
+            valid_id(receipt.get(key, ""))
+        if receipt.get("taskId") != row["task_id"] or receipt.get("sourceHash") != row["content_hash"]:
+            raise PipelineError("确认 receipt 的任务或来源版本不符。")
+        expected_hash = receipt.get("backupSha256", "")
+        if not isinstance(expected_hash, str) or not re.fullmatch(r"[0-9a-f]{64}", expected_hash):
+            raise PipelineError("receipt 缺少严格的备份 SHA256。")
+        folder = self.base / ".pipeline" / "dot" / receipt["accountId"] / receipt["listId"]
+        bundle_file, handoff_file = self._path(receipt.get("backupBundle")), self._path(receipt.get("handoff"))
+        if (bundle_file != (folder / "exports" / (expected_hash + ".json")).resolve() or
+                handoff_file != (folder / "handoff.json").resolve()):
+            raise PipelineError("receipt 必须指向同账户/列表的既有私有备份与交接账本。")
+        if bundle_file.stat().st_size > 512 * 1024 * 1024:
+            raise PipelineError("确认备份过大，停止读取。")
+        raw = bundle_file.read_bytes()
+        checksum = bundle_file.with_suffix(".sha256")
+        if (hashlib.sha256(raw).hexdigest() != expected_hash or not checksum.is_file() or
+                checksum.read_text(encoding="utf-8").strip() != expected_hash):
+            raise PipelineError("备份原件或校验副本损坏，不确认分析完成。")
+        try:
+            bundle = json.loads(raw)
+            handoff = json.loads(handoff_file.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            raise PipelineError("备份或交接账本无法解析。") from None
+        if (not isinstance(bundle, dict) or bundle.get("schema") != "reminder-dot-export-v1" or
+                bundle.get("accountId") != receipt["accountId"] or
+                not isinstance(bundle.get("list"), dict) or bundle["list"].get("id") != receipt["listId"] or
+                not isinstance(bundle.get("reports"), list) or
+                not isinstance(handoff, dict) or handoff.get("schema") != "reminder-dot-handoff-v1" or
+                handoff.get("accountId") != receipt["accountId"] or handoff.get("listId") != receipt["listId"]):
+            raise PipelineError("备份或交接账本超出指定账户/列表范围。")
+        matches = [r for r in bundle["reports"] if isinstance(r, dict) and r.get("id") == receipt["reportId"]]
+        if len(matches) != 1:
+            raise PipelineError("备份中必须唯一包含指定完整分析报告。")
+        report = matches[0]
+        if (report.get("taskId") != row["task_id"] or report.get("sourceHash") != row["content_hash"] or
+                report.get("userId") != receipt["accountId"] or report.get("listId") != receipt["listId"] or
+                report.get("stale") is not False or not isinstance(report.get("record"), dict) or
+                report["record"].get("id") != row["task_id"] or task_hash(report["record"]) != row["content_hash"]):
+            raise PipelineError("备份报告已过期或来源/授权范围不符。")
+        analysis = report.get("analysis")
+        completion = analysis.get("completion") if isinstance(analysis, dict) else None
+        if (not isinstance(analysis, dict) or analysis.get("stage") != "full" or analysis.get("kind") != "learning" or
+                not isinstance(completion, dict) or not completion.get("reviewer") or
+                completion.get("reviewer") == report.get("owner") or
+                not all(completion.get(key) is True for key in ("pdfRendered", "experimentChecked", "knowledgeChecked"))):
+            raise PipelineError("备份不是经独立审核的完整学习分析。")
+        reports = handoff.get("reports")
+        item = reports.get(receipt["reportId"]) if isinstance(reports, dict) else None
+        if (not isinstance(item, dict) or item.get("taskId") != row["task_id"] or
+                item.get("sourceHash") != row["content_hash"] or item.get("analysisStage") != "full" or
+                item.get("markdownSha256") != report.get("markdownSha256") or
+                not isinstance(item.get("cloud"), dict) or item["cloud"].get("status") != "saved" or
+                item["cloud"].get("staleAtExport") is not False or
+                not bundle.get("exportedAt") or item["cloud"].get("exportedAt") != bundle["exportedAt"] or
+                not isinstance(item.get("local"), dict) or item["local"].get("status") != "verified"):
+            raise PipelineError("本次备份交接账本没有匹配的云端保存/本机校验证据。")
+        report_base = folder / "reports" / row["task_id"] / receipt["reportId"]
+        report_markdown_file = Path(str(report_base) + ".md")
+        markdown = report.get("markdown")
+        if (not isinstance(markdown, str) or
+                hashlib.sha256(markdown.encode("utf-8")).hexdigest() != report.get("markdownSha256") or
+                self._file_hash(self._path(str(report_markdown_file))) != report.get("markdownSha256") or
+                self._path(str(folder / item["local"].get("report", ""))) != report_markdown_file.resolve() or
+                self._path(str(folder / item["local"].get("artifacts", "")), is_dir=True) !=
+                Path(str(report_base) + "-files").resolve()):
+            raise PipelineError("备份报告正文或本地报告路径校验失败。")
+        role_extensions = {"guide_pdf": ".pdf", "guide_html": ".html", "exercise_archive": ".zip",
+                           "experiment_log": ".txt", "knowledge_notes": ".md", "review_log": ".md"}
+        artifacts = completion.get("artifacts")
+        if (not isinstance(artifacts, list) or len(artifacts) != 6 or
+                any(not isinstance(a, dict) for a in artifacts) or
+                {a.get("role") for a in artifacts} != set(role_extensions)):
+            raise PipelineError("完整分析必须有六类真实产物，不能仅凭报告或 PDF 确认。")
+        data, total_bytes = {}, 0
+        for artifact in artifacts:
+            try:
+                blob = base64.b64decode(artifact.get("base64", ""), validate=True)
+            except (ValueError, TypeError):
+                raise PipelineError("备份产物编码损坏。") from None
+            role = artifact["role"]
+            total_bytes += len(blob)
+            backup_file = self._path(str(Path(str(report_base) + "-files") / (role + role_extensions[role])))
+            if (len(blob) < 20 or total_bytes > 1000000 or len(blob) != artifact.get("bytes") or
+                    hashlib.sha256(blob).hexdigest() != artifact.get("sha256") or
+                    self._file_hash(backup_file) != artifact.get("sha256")):
+                raise PipelineError("完整分析的实际产物缺失或单文件校验失败。")
+            data[role] = blob
+        if (not data["guide_pdf"].startswith(b"%PDF-") or b"%%EOF" not in data["guide_pdf"][-1024:] or
+                not re.search(rb"<(?:!doctype html|html)\b", data["guide_html"], re.I)):
+            raise PipelineError("备份 PDF/HTML 格式无效。")
+        for role, key in (("guide_pdf", "pdf"), ("guide_html", "html"), ("experiment_log", "experiment_log")):
+            if hashlib.sha256(data[role]).hexdigest() != self._file_hash(self._path(manifest[key])):
+                raise PipelineError("网站已保存产物与本地已审核学习产物不一致。")
+        knowledge = item.get("knowledge", {})
+        if hashlib.sha256(data["knowledge_notes"]).hexdigest() != self._file_hash(self._path(manifest["vault_note"])):
+            if (not isinstance(knowledge, dict) or knowledge.get("status") != "merged" or
+                    self._path(knowledge.get("note")) != self._path(manifest["vault_note"])):
+                raise PipelineError("知识提案变更后缺少对应已审核笔记的协调者合并记录。")
+        exercise = self._path(manifest["exercise_dir"], is_dir=True)
+        project = self._path(manifest["project_dir"], is_dir=True)
+        try:
+            with zipfile.ZipFile(io.BytesIO(data["exercise_archive"])) as archive:
+                entries = [entry for entry in archive.infolist() if not entry.is_dir()]
+                if (not entries or len(entries) > 2000 or
+                        sum(entry.file_size for entry in entries) > 64 * 1024 * 1024 or
+                        len({entry.filename for entry in entries}) != len(entries)):
+                    raise PipelineError("实验归档为空、重复或超过核验范围。")
+                # 一些完整 ZIP 用独立的包名包装同一实验目录。仅当所有文件
+                # 共用同一层前缀时支持解包后的目录；不能逐文件随意去路径。
+                prefixes = {entry.filename.split("/", 1)[0] for entry in entries}
+                wrapped = len(prefixes) == 1 and all("/" in entry.filename for entry in entries)
+                for entry in entries:
+                    name = entry.filename
+                    if (name.startswith("/") or "\\" in name or ":" in name or ".." in name.split("/") or
+                            any(part.casefold() in IGNORED_EXERCISE_DIRS for part in name.split("/"))):
+                        raise PipelineError("实验归档含越界路径或依赖缓存。")
+                # 整包必须共享一种布局，不允许各成员混合挑选不同候选路径。
+                modes = [(exercise, False), (project, False)]
+                if wrapped:
+                    modes.append((exercise, True))
+                matched = False
+                for base, strip_prefix in modes:
+                    all_match = True
+                    for entry in entries:
+                        name = entry.filename.split("/", 1)[1] if strip_prefix else entry.filename
+                        local_file = (base / name).resolve()
+                        if (not local_file.is_relative_to(exercise) or not local_file.is_file() or
+                                hashlib.sha256(archive.read(entry)).hexdigest() != self._file_hash(local_file)):
+                            all_match = False
+                            break
+                    if all_match:
+                        matched = True
+                        break
+                if not matched:
+                    raise PipelineError("网站实验归档未匹配本地已审核的实际实验文件。")
+        except (zipfile.BadZipFile, RuntimeError, OSError):
+            raise PipelineError("实验归档无法核验。") from None
+        return report, {"schema": receipt["schema"], "account_id": receipt["accountId"], "list_id": receipt["listId"],
+                        "report_id": receipt["reportId"], "source_hash": row["content_hash"],
+                        "backup_bundle": bundle_file.relative_to(self.root).as_posix(), "backup_sha256": expected_hash,
+                        "handoff": handoff_file.relative_to(self.root).as_posix(),
+                        "markdown_sha256": report["markdownSha256"], "exported_at": bundle["exportedAt"]}
+
+    def confirm_analysis(self, task_id, owner, receipt, coordinator):
+        """确认分析交付并释放资源；始终只读网站，永不标记用户任务完成。"""
+        self._require_coordinator(coordinator)
+        with self._tx() as connection:
+            row = self._row(connection, task_id)
+            previous = json.loads(row["analysis_receipt"] or "null")
+            repeat = row["phase"] == "analysis_confirmed" and previous is not None
+            if repeat:
+                if previous.get("owner") != owner:
+                    raise PipelineError("只能由原分析 owner 幂等确认，不能接管已确认分析。")
+            else:
+                row = self._owned(connection, task_id, owner)
+                self._no_pending_publication(row)
+                if row["phase"] != "ready":
+                    raise PipelineError("确认完整分析前必须 ready 并完成独立 review。")
+            if (row["kind"] != "learning" or not row["learning_started"] or not row["manifest"] or
+                    not row["review"] or row["invalidated"] or row["classified_hash"] != row["content_hash"]):
+                raise PipelineError("当前来源没有有效的完整学习产物及独立审核。")
+            manifest, fingerprint = self._validate_manifest(row, json.loads(row["manifest"]))
+            review = json.loads(row["review"])
+            if (fingerprint != row["artifact_fingerprint"] or not review.get("approved") or
+                    review.get("reviewer") == owner or review.get("artifact_fingerprint") != fingerprint):
+                raise PipelineError("本地学习产物或独立审核已失效，不能确认完整分析。")
+            report, audit = self._verify_analysis_receipt(row, manifest, receipt)
+            try:
+                remote = self._remote_task(task_id)
+                live = self._site().read_analysis(receipt["accountId"], receipt["listId"], task_id)
+            except PipelineError as error:
+                # 包装层仅传递已脱敏的 PipelineError，不打印原始网络异常/凭据。
+                raise PipelineError("当前来源或 scoped full 报告无法真实回读，不确认分析完成。" + str(error)) from None
+            except Exception:
+                raise PipelineError("当前来源或 scoped full 报告无法真实回读，不确认分析完成。") from None
+            live_record = live.get("record") if isinstance(live, dict) else None
+            live_report = live.get("report") if isinstance(live, dict) else None
+            if (not remote or remote.get("deleted") or task_hash(remote) != row["content_hash"] or
+                    not isinstance(live_record, dict) or live_record.get("id") != task_id or
+                    live_record.get("sourceHash") != row["content_hash"] or task_hash(live_record) != row["content_hash"] or
+                    not isinstance(live_report, dict) or any(live_report.get(key) != report.get(key) for key in
+                        ("id", "taskId", "userId", "listId", "sourceHash", "markdownSha256"))):
+                raise PipelineError("当前网站来源或 scoped 报告与本次备份版本不符，不确认分析完成。")
+            expected_analysis = json.loads(dumps(report["analysis"]))
+            for artifact in expected_analysis["completion"]["artifacts"]:
+                artifact.pop("base64", None)
+            if live_report.get("analysis") != expected_analysis:
+                raise PipelineError("当前网站 full 报告或六类产物 metadata 不匹配备份。")
+            self._require_coordinator(coordinator)
+            if repeat:
+                if previous.get("report_id") != audit["report_id"] or previous.get("source_hash") != row["content_hash"]:
+                    raise PipelineError("已确认分析不能替换成其他报告；须先核实来源版本。")
+                return self._record(row)
+            self._owned(connection, task_id, owner)  # 网络核验后再次检查原认领租约。
+            now = stamp(self.clock())
+            audit.update(owner=owner, coordinator=coordinator, artifact_fingerprint=fingerprint,
+                         verified_at=now, task_completion="user_only", observed_task_state=live_record.get("state", 0))
+            snapshot = dict(remote)
+            snapshot["state"] = live_record.get("state", 0)
+            row = self._update(connection, task_id, phase="analysis_confirmed", analysis_completed_at=now,
+                               analysis_receipt=dumps(audit), snapshot=dumps(snapshot), site_state=snapshot["state"],
+                               owner=None, lease_until=None, claim_hash=None, completed_at=None, last_error=None)
+            connection.execute("DELETE FROM resource_locks WHERE task_id=?", (task_id,))
             self._save_record(row)
             return self._record(row)
 
@@ -1072,6 +1367,15 @@ class Pipeline:
             complete = sorted((r for r in records if r["status"] == "synced" and
                                r["classification"]["kind"] == "learning" and r["completed_at"]),
                               key=lambda r: (r["completed_at"], r["task_id"]))
+            analyses = sorted((r for r in records if r["analysis_completed"]),
+                              key=lambda r: (r["analysis_completed_at"], r["task_id"]))
+            lines += ["", "## 已确认完整分析（独立于用户任务完成）", "",
+                      "| 分析完成时间 | 主题 | task_id | 网站任务状态 | 分析报告 |",
+                      "|---|---|---|---:|---|"]
+            for record in analyses:
+                values = [record["analysis_completed_at"], record["manifest"]["topic"], record["task_id"],
+                          record["website_state"], f"[报告](分析报告/{record['task_id']}.md)"]
+                lines.append("| " + " | ".join(self._cell(v) for v in values) + " |")
             lines += ["", "## 已确认学习完成（按完成时间升序）", "",
                       "| 序号 | 完成时间 | 主题 | task_id | 原链接 | PDF | 分析报告 |",
                       "|---:|---|---|---|---|---|---|"]
@@ -1085,7 +1389,8 @@ class Pipeline:
                       "| task_id | 流水线状态 | 分类 | 网站状态 | 原链接 | 保护/待审原因 | 分析报告 |",
                       "|---|---|---|---:|---|---|---|"]
             priorities = {"learning_queued": 0, "classified": 1, "claimed": 2, "needs_review": 3,
-                          "learning": 4, "ready": 5, "publish_pending": 6, "pending": 7, "protected": 8, "synced": 9}
+                          "learning": 4, "ready": 5, "publish_pending": 6, "analysis_confirmed": 6,
+                          "pending": 7, "protected": 8, "synced": 9}
             records.sort(key=lambda r: (priorities.get(r["status"], 10),
                                        0 if r["classification"]["kind"] else 1, r["first_seen"], r["task_id"]))
             for record in records:
@@ -1098,7 +1403,8 @@ class Pipeline:
                 lines.append("| " + " | ".join(self._cell(v) for v in values) + " |")
             path = self.base / "流水线纲要.md"
             atomic_write(path, "\n".join(lines) + "\n")
-            return {"path": str(path), "total": len(records), "confirmed_learning": len(complete), "counts": counts}
+            return {"path": str(path), "total": len(records), "confirmed_learning": len(complete),
+                    "confirmed_analysis": len(analyses), "counts": counts}
 
 
 def build_parser():
@@ -1127,6 +1433,7 @@ def build_parser():
                             ("start", "仅在用户手动选择后开始单条 learning，并锁定项目"),
                             ("ready", "验证完整学习交付清单；还需独立 review"),
                             ("review", "协调者审核已 ready 的产物，reviewer 需不同于 owner"),
+                            ("confirm-analysis", "协调者核验私有备份及 scoped full 回读，只确认分析，不更改用户任务状态"),
                             ("reconcile", "协调者明确取消冲突/不确定发布，只读核实并归档，不标学习完成"),
                             ("publish", "唯一网站写入口；非学习→state1，审核完成学习→state3")):
         command = commands.add_parser(name, help=help_text)
@@ -1148,8 +1455,11 @@ def build_parser():
         if name == "review":
             command.add_argument("--reviewer", required=True)
             command.add_argument("--notes", required=True, help="审核实验真实性、报告、PDF排版及知识入库后的意见")
-        if name in {"publish", "reconcile"}:
+        if name in {"publish", "reconcile", "confirm-analysis"}:
             command.add_argument("--coordinator", required=True, help="已领取有效全局协调者租约的名称")
+        if name == "confirm-analysis":
+            command.add_argument("--receipt", type=Path, required=True,
+                                 help="私有JSON：schema/accountId/listId/taskId/reportId/sourceHash/backupBundle/backupSha256/handoff")
         if name == "reconcile":
             command.add_argument("--ack-conflict", action="store_true", help="明确接受不确定结果并释放原认领锁")
             command.add_argument("--reason", required=True, help="取消待确认发布的详细审计理由")
@@ -1185,6 +1495,9 @@ def main(argv=None):
             result = pipeline.ready(args.task, args.owner, json.loads(args.manifest.read_text(encoding="utf-8-sig")))
         elif command == "review":
             result = pipeline.review(args.task, args.owner, args.reviewer, args.notes)
+        elif command == "confirm-analysis":
+            result = pipeline.confirm_analysis(args.task, args.owner,
+                        json.loads(args.receipt.read_text(encoding="utf-8-sig")), args.coordinator)
         elif command in {"publish", "reconcile"}:
             try:
                 try:

@@ -1,2 +1,6 @@
 # Unified diffs use a single space for an empty context line.
 reminder-dot/*.patch whitespace=-blank-at-eol
+*.pdf binary
+mcp_toolbox/exercise/exercise/evidence/recorded-learner-run/*.stderr.log whitespace=-blank-at-eol
+mcp_toolbox/exercise/exercise/reference/** whitespace=-blank-at-eol
+mcp_toolbox/exercise/sources/selected/** whitespace=-blank-at-eol
