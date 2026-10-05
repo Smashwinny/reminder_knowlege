@@ -1,13 +1,16 @@
 ﻿# Manual private backup plus reviewed, explicit-file Git publication.
 [CmdletBinding()]
 param(
-    [string]$ConfigPath = (Join-Path $PSScriptRoot '../完成/.pipeline/dot-backup-config.json'),
+    [string]$ConfigPath = '',
     [string]$PythonPath = '',
     [switch]$LocalOnly,
     [switch]$StatusOnly
 )
 $ErrorActionPreference = 'Stop'
-$reminderRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
+$manualToolFolder = $PSScriptRoot
+if (-not $manualToolFolder) { $manualToolFolder = [IO.Path]::GetDirectoryName($MyInvocation.MyCommand.Path) }
+$reminderRoot = (Resolve-Path -LiteralPath (Join-Path $manualToolFolder '..')).Path
+if (-not $ConfigPath) { $ConfigPath = Join-Path $reminderRoot '完成/.pipeline/dot-backup-config.json' }
 if (-not $PythonPath) {
     $runtime = Get-Command python -ErrorAction SilentlyContinue
     if ($runtime) { $PythonPath = $runtime.Source }
@@ -20,7 +23,7 @@ if (-not $PythonPath) {
 }
 $null = & $PythonPath -c 'import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)'
 if ($LASTEXITCODE -ne 0) { throw 'Python 3.10 or newer is required.' }
-$syncArguments = @('-X', 'utf8', (Join-Path $PSScriptRoot 'reminder_manual_sync.py'), '--root', $reminderRoot, '--config', $ConfigPath)
+$syncArguments = @('-X', 'utf8', (Join-Path $manualToolFolder 'reminder_manual_sync.py'), '--root', $reminderRoot, '--config', $ConfigPath)
 if ($StatusOnly) { $syncArguments += 'status' }
 else {
     $syncArguments += 'sync'
