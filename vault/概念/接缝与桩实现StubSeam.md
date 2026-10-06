@@ -54,3 +54,13 @@ tags: [概念]
 fetch 与全局 Audio 构造的抛错保护在已有记录中为零次尝试；该保护不是任意未知代码的强安全沙箱。异步请求代次、abort 和预取只作源码观察，没有真实网络竞态执行。真实浏览器、布局、移动端、自动播放、CORS、解码、音频听感与学习效果仍待各自证据，关联 [[证据优先质检ProofOverClaims]]、[[确定性快进与真渲染取证]]；不复制这些原则为新概念。
 
 来源：[真实协调器](https://github.com/iChochy/NCE/blob/0a92ab5af50e2898a104f15eac7adb00f17bd96b/js/ReadingSystem.js)、[真实歌词视图](https://github.com/iChochy/NCE/blob/0a92ab5af50e2898a104f15eac7adb00f17bd96b/js/ui/LyricsView.js)；[历史实验日志](../../nce_reading/delivery/nce-player-experiment-log.md)、[发布审核及历史证据复核](../../nce_reading/delivery/nce-player-review-log.md)。
+
+## Codex advanced：离线契约验证不是桩服务全链路（2026-10-06）
+
+[[项目笔记/codex_advanced]] 实际运行自写 Python 验证器与 jsonschema 4.26.0，读取原样官方 ConfigToml / ClientRequest Draft-07 契约；没有运行 Codex CLI 或 App Server，也没有把桩模型接入其循环。它与前述 Qwen 的真实函数夹具、Patchright 的真实包装层加惰性依赖、NCE 的受控组件接线分别报告，不把所有离线实验统称为端到端。
+
+历史完整集合 25 个合成样本为 8 个接受、14 个 schema 拒绝、3 个解析错误，全部匹配预期；分组与历史独立重放使用同一集合，不增加独立覆盖。四个上游文件指纹与两份 schema 自检也不累计成行为用例。
+
+片段内引用白名单和外部引用检索报错约束验证器路径，不等于操作系统网络审计或未知代码强沙箱。没有真实登录、权益、模型列表、推理、账单、配置生效、协议时序、跨产品接力或原视频复现；未知保持未知。关联 [[Agent输出协议契约]]、[[证据状态机]]、[[证据优先质检ProofOverClaims]]。
+
+来源：[固定配置契约](https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/core/config.schema.json)、[固定请求契约](https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/app-server-protocol/schema/json/ClientRequest.json)；[历史实验日志](../../codex_advanced/delivery/codex-advanced-experiment-log.md)、[发布审核及历史证据复核](../../codex_advanced/delivery/codex-advanced-review-log.md)。

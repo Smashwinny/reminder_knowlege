@@ -41,3 +41,13 @@ tags: [概念]
 本次自编教学程序实际只有 allow/deny，没有实现 Challenge、真实审批界面或凭证交换；17 个用例不包含这些功能。前述 Qwen 案例的解析/语义分层仍独立成立，两者都是“格式成立不等于领域条件已成立”的具体例子。
 
 来源：[手册印刷 p54 / PDF 59](https://g.alistatic.com/s/v/ainativeinfra/ai-native-handbook/0.0.1/ai-native-handbook.pdf#page=59)；[已实现与未实现项](../../ai_native_handbook/delivery/ai_native_handbook-experiment-log.md)。
+
+## Codex advanced：解析、schema 与运行语义分别取证（2026-10-06）
+
+[[项目笔记/codex_advanced]] 的历史实验用独立 Python 验证器读取固定 ConfigToml / ClientRequest Draft-07 契约，执行 25 个合成样本：8 个结构接受、14 个 schema 拒绝、3 个解析错误。25/25 表示每个实际结果符合其预期，包括刻意反例被拒；不表示真实服务接受或成功率为 100%。
+
+缺 id、缺 clientInfo.version、turn/start 缺 threadId 及 text 类型错误在对应结构层被拒。合成模型字符串及所测请求形状却可以通过，仍没有证明模型可用、线程存在、握手/顺序正确、拥有权限或推理完成。JSON/TOML 语法错误发生在解析层，不能混记为协议拒绝。
+
+这个案例延续既有 Qwen 的解析/消费者约束分层和 AI Native 的领域授权边界；格式成立只覆盖目标契约的相应层。实际执行对象是 jsonschema 库，不是 Codex CLI、App Server 或桩模型服务，关联 [[接缝与桩实现StubSeam]]、[[证据优先质检ProofOverClaims]]。
+
+来源：[固定配置契约](https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/core/config.schema.json)、[固定请求契约](https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/app-server-protocol/schema/json/ClientRequest.json)；[历史实验日志](../../codex_advanced/delivery/codex-advanced-experiment-log.md)。

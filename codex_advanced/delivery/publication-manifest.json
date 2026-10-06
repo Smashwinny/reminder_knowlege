@@ -1,0 +1,77 @@
+{
+  "schema": "reminder-learning-publication-v1",
+  "repository": "Smashwinny/reminder_knowlege",
+  "branch": "main",
+  "project": "codex_advanced",
+  "baseCommit": "ad4242e88337434fe8a784fd51717ca4a4fd753c",
+  "reviewPath": "codex_advanced/delivery/codex-advanced-review-log.md",
+  "files": [
+    {
+      "path": "codex_advanced/delivery/codex-advanced-exercise.zip",
+      "sha256": "13fdf7c4425839ad0cc174c7a3ef6d21dee9ecc149b174eb883a02b9d801397c",
+      "baseSha256": null,
+      "artifactRole": "exercise_archive",
+      "sourceSha256": "254179e9cb6d911387f72c4def2a382ecf03ced7600f73f92f5404d50d8fc7b6"
+    },
+    {
+      "path": "codex_advanced/delivery/codex-advanced-experiment-log.md",
+      "sha256": "2cf22557d26f23fb39717e62feb412a1143d87cba8c1e73964d3729b213fbf7c",
+      "baseSha256": null,
+      "artifactRole": "experiment_log",
+      "sourceSha256": "1b0223153c6ca1bb63bdbcbd9a6c1b2ba9dc1dd2cb4b39d07177164f7fa4891f"
+    },
+    {
+      "path": "codex_advanced/delivery/codex-advanced-guide.html",
+      "sha256": "687f4c51243e387466ab90dd1b5670aa611d422ba857288b841788b2db47668f",
+      "baseSha256": null,
+      "artifactRole": "guide_html",
+      "sourceSha256": "30d8c7cd7fe0528a6828a853230bb578034bb8c19ec54492149d04503a04bdf8"
+    },
+    {
+      "path": "codex_advanced/delivery/codex-advanced-guide.pdf",
+      "sha256": "f7174f2a7f54de4ed61edd82db6fd9921bfe698888aa2a431dd9a2050ee932dd",
+      "baseSha256": null,
+      "artifactRole": "guide_pdf",
+      "sourceSha256": "1ebd56f57e6d65b303cbbe680c396ce9edae69e6254686b6c9b09b512f1225e5"
+    },
+    {
+      "path": "codex_advanced/delivery/codex-advanced-knowledge-notes.md",
+      "sha256": "bffd851cc4b8a04c1eae4b79b4bc30cf7ba3e5993641a0bc210277d74992f3eb",
+      "baseSha256": null,
+      "artifactRole": "knowledge_notes",
+      "sourceSha256": "44d03a3f46664021f2351c0d56d9418f435002fe8cd116e4a0d7f818708453f2"
+    },
+    {
+      "path": "codex_advanced/delivery/codex-advanced-review-log.md",
+      "sha256": "3e2ad8ca876585cba41bac4e848d84ad29dcf11d54ca43de5bc6536484c5ec44",
+      "baseSha256": null,
+      "artifactRole": "review_log",
+      "sourceSha256": "4f706849245e9eaf9de4226687ad1a25d3b31023338a22bbefc34a798b317a86"
+    },
+    {
+      "path": "vault/00-总览.md",
+      "sha256": "986f5702a2c387b1c8c3ef4c9ed2faeea3fbcc72b1533070de9b6126b0c5c098",
+      "baseSha256": "0588a8b22b56be86e13298516b3d1bf23f429a252cd209bbff4b56dda7a9c201"
+    },
+    {
+      "path": "vault/概念/Agent输出协议契约.md",
+      "sha256": "d459eb455b9643f79f259e2bdb94b61df6c0fe2e3ef1afa343971c6a823c16ba",
+      "baseSha256": "b180f6150ff483d3e29d18396a4fe7dc8336232e619bf2a47b5c666fa684f5ed"
+    },
+    {
+      "path": "vault/概念/单一馈送与schema冻结.md",
+      "sha256": "c937d78d9f55ce90fb60cb4b5952610bd081f2bc7e8dc27a068060f3ee64a339",
+      "baseSha256": "7372694c8fa3d4f883546c2864cb9a1eb1b1107d8b4ee95af5eb80ab54c64d82"
+    },
+    {
+      "path": "vault/概念/接缝与桩实现StubSeam.md",
+      "sha256": "fa57101930d3e513aae870fdf2153656c9c90d52173474ed49cd5f12f62648cc",
+      "baseSha256": "2779e7d6d4683adaaab4e19bd8f8b36b5b2b5583dffe4bf0cb6f06c1e434327c"
+    },
+    {
+      "path": "vault/项目笔记/codex_advanced.md",
+      "sha256": "7e0e112fd8d6cdb86bdbf0ed865837d5f34e0d9e4304ec76e1668ef475691883",
+      "baseSha256": null
+    }
+  ]
+}
