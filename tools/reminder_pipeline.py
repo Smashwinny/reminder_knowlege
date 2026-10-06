@@ -1422,12 +1422,31 @@ class Pipeline:
             for record in records:
                 counts[record["status"]] = counts.get(record["status"], 0) + 1
             automatic_learning = self._workflow_policy().get("automatic_full_learning", False)
-            flow = ("> 默认 Dot 云端分析与完整学习；本机备份后由协调者知识入库并同步学习成果到 Git，任务完成由用户点击。"
+            flow = ("> 默认 Dot 云端分析、完整学习、知识入库与 Git 发布；本机备份并同步已核验成果，任务完成由用户点击。"
                     if automatic_learning else "> 新记录自动建分析台账与分类排队；完整学习必须由用户选择 start。")
             lines = ["# 拾遗记录流水线纲要", "", f"> 生成时间：{stamp(self.clock())}（Asia/Shanghai）",
                      flow, "",
                      "## 状态计数", "", "| 状态 | 数量 |", "|---|---:|"]
             lines += [f"| {self._phase_label(phase)} ({phase}) | {number} |" for phase, number in sorted(counts.items())]
+            labels = {"learning": "学习", "non_learning": "非学习", "duplicate": "重复增补",
+                      "needs_review": "证据不足", "blocked": "环境受阻", None: "尚未分类"}
+            lines += ["", "## 内容分类计数（本机台账）", "",
+                      "包含历史保护记录；不表示这些结果均已写入网站。来源变化的旧分类单列，不能作为当前有效结论。完整学习受阻是执行状态，可以同时属于学习类。", "",
+                      "| 分类 | 来源未标记变化 | 来源已变化待复核 | 合计 |", "|---|---:|---:|---:|"]
+            for kind, label in labels.items():
+                group = [r for r in records if r["classification"]["kind"] == kind]
+                stale = sum(r["content_changed"] for r in group)
+                lines.append(f"| {label} | {len(group)-stale} | {stale} | {len(group)} |")
+            lines += ["", "## 已分类非学习项（初步判断）", "",
+                      "旧进行中、暂停及已完成仍受保护；该表不会释放领取、写网站标签或改变任务完成。", "",
+                      "| task_id | 主题线索 | 当前状态 | 来源变化 | 分析报告 |", "|---|---|---|---|---|"]
+            for record in records:
+                if record["classification"]["kind"] != "non_learning":
+                    continue
+                values = [record["task_id"], str(record["source"].get("summary") or record["source"].get("text", ""))[:120],
+                          record["status_label"], "待复核" if record["content_changed"] else "本机快照未标记变化",
+                          f"[报告](分析报告/{record['task_id']}.md)"]
+                lines.append("| " + " | ".join(self._cell(v) for v in values) + " |")
             chosen = [r for r in records if r["classification"]["kind"] == "learning" and
                       not r["learning_started"] and r["status"] != "synced" and not r["content_changed"]]
             lines += ["", "## " + ("已分类学习项（自动执行仍须核对获准列表及来源）" if automatic_learning else "待用户选择学习"), "", "| task_id | 主题线索 | 当前状态 | 分析报告 |",
@@ -1445,7 +1464,10 @@ class Pipeline:
                       "| 分析完成时间 | 主题 | task_id | 网站任务状态 | 分析报告 |",
                       "|---|---|---|---:|---|"]
             for record in analyses:
-                values = [record["analysis_completed_at"], record["manifest"]["topic"], record["task_id"],
+                manifest = record["manifest"] or {}
+                cloud = record["analysis_receipt"] or {}
+                topic = manifest.get("topic") or record.get("project") or cloud.get("git_publication", {}).get("manifestPath", "").split("/")[0] or str(record["source"].get("summary") or record["source"].get("text", ""))[:120]
+                values = [record["analysis_completed_at"], topic, record["task_id"],
                           record["website_state"], f"[报告](分析报告/{record['task_id']}.md)"]
                 lines.append("| " + " | ".join(self._cell(v) for v in values) + " |")
             lines += ["", "## 已确认学习完成（按完成时间升序）", "",

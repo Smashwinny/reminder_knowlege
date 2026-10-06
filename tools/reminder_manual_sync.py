@@ -494,6 +494,9 @@ def sync(root, config, local_only=False, cloud_only=True):
                 cloud = {"cloudPublished": 0, "localKnowledgeSynced": 0, "conflicts": []}
                 if cloud_only and not local_only:
                     cloud = apply_cloud_receipts(root, bundle, owner)
+                    # Cloud confirmations have no local ready/review manifest.
+                    # Render the existing queue so the human outline is not stale.
+                    Pipeline(root).render()
                     acknowledgement = acknowledge_local_backups(root,bundle,owner,result['archive'])
                     cloud.update(websiteBackupAcknowledged=acknowledgement['acknowledged'],websiteBackupAckPending=acknowledgement['pending'])
                 handoff = load(result["handoff"])

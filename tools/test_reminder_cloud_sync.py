@@ -175,6 +175,11 @@ class CloudSyncTests(unittest.TestCase):
         self.assertEqual(record["website_state"], 0)
         self.assertEqual(record["analysis_receipt"]["owner"], ticket["owner"])
         self.assertEqual(record["analysis_receipt"]["cloud_reviewer"], "synthetic-reviewer")
+        self.assertEqual(pipeline.render()["confirmed_analysis"], 1)
+        outline = (self.root / "完成/流水线纲要.md").read_text(encoding="utf-8")
+        self.assertIn("内容分类计数（本机台账）", outline)
+        self.assertIn("已分类非学习项（初步判断）", outline)
+        self.assertIn("demo", outline)
         with self.assertRaises(PipelineError): pipeline.start(self.report["taskId"], ticket["owner"], "demo")
         self.assertEqual(self.run_copy()["localClaimsConfirmed"], 0)
 
