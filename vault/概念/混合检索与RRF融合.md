@@ -20,3 +20,11 @@ tags: [概念]
 - 同构：[[数据源降级链]]（LLM 终筛失败自动回退机械 top6——单通道故障不致命）
 
 **首次接触于**：[[项目笔记/memmy]]
+
+## UI UX Pro Max：词法排序与多域调用分别识别（2026-10-05）
+
+[[项目笔记/github_tools_increment]] 的 [[BM25词法相关性排序]] 是单语料词法打分部件；设计建议生成路径按 product、product、style、color、landing、typography 顺序做六次搜索调用。五个不同域不等于五路并行 AI，也没有因此实现本笔记中的向量通道、RRF、MMR 或 LLM 终筛。
+
+已有 192 行公式对拍只验证固定输入下的 BM25 分数与次序；最终入口还受域路由、字段选择、身份匹配、阈值和回退影响。它与 [[RAG检索增强生成]] 相关，但本次检索后是规则组装，不是调用大模型生成。Memmy 原有漏斗与测试数量保持原项目口径，不用于为此项目背书。
+
+来源：[固定检索实现](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/477bcb28c9812b385cb51a4605ddf30d7b2266e2/src/ui-ux-pro-max/scripts/core.py)、[设计组装实现](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/477bcb28c9812b385cb51a4605ddf30d7b2266e2/src/ui-ux-pro-max/scripts/design_system.py)；[历史实验日志](../../github_tools_increment/delivery/UIUX增量学习_实验日志.txt)。
