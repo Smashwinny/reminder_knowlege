@@ -44,3 +44,13 @@ tags: [概念]
 替身记录了 close 或 cleanup 调用，只能证明调用路径，不能证明浏览器进程已退出或目录已删除。没有导入外部浏览器依赖、启动浏览器、导航或运行真实代理；类型语法去除不等于 tsc 类型检查，VM 也不是任意不可信代码的强安全沙箱。关联 [[证据优先质检ProofOverClaims]]、[[证据状态机]]；原 Qwen 函数夹具与本例惰性依赖接缝的方式仍分别标明。
 
 来源：[真实管理器](https://github.com/whaleyxbt/patchright-enhanced/blob/e38ab7ab9448db6f093f72ee097c18ca9905e84c/src/browser/browser-manager.ts)、[应用配置](https://github.com/whaleyxbt/patchright-enhanced/blob/e38ab7ab9448db6f093f72ee097c18ca9905e84c/src/config/index.ts)、[浏览器配置](https://github.com/whaleyxbt/patchright-enhanced/blob/e38ab7ab9448db6f093f72ee097c18ca9905e84c/src/config/browser.config.ts)；[历史实验日志](../../patchright_enhanced/delivery/patchright-enhanced-experiment.log)、[发布审核及历史证据复核](../../patchright_enhanced/delivery/patchright-enhanced-review.log)。
+
+## NCE Reading：组件方法链通过，不等于浏览器和音频通过（2026-10-06）
+
+[[项目笔记/nce_reading]] 的历史实验加载 14 个未改动上游 JavaScript 模块；实验子类仅覆盖 init() 停止自动目录启动，真实父类接线、解析、seek、句界处理与高亮保留。DOM、音频、存储、墙钟和定时器是替身，音频只记录属性/方法/事件，不模拟解码或发声。替身行结构只服务所测 LyricsView，不是完整 HTML 解析器。
+
+所测点击经真实 LyricsView → ReadingSystem → AudioController，tick 触发句尾控制与 active 类更新。统一集合 72 项包括 55 项行为、16 项完整性、1 项保护；六分组共 77 次命中重复了保护项，不增加独立覆盖。零时长负 seek、重复时间零长度句段也按当前行为匹配，PASS 不表示缺陷已修复。
+
+fetch 与全局 Audio 构造的抛错保护在已有记录中为零次尝试；该保护不是任意未知代码的强安全沙箱。异步请求代次、abort 和预取只作源码观察，没有真实网络竞态执行。真实浏览器、布局、移动端、自动播放、CORS、解码、音频听感与学习效果仍待各自证据，关联 [[证据优先质检ProofOverClaims]]、[[确定性快进与真渲染取证]]；不复制这些原则为新概念。
+
+来源：[真实协调器](https://github.com/iChochy/NCE/blob/0a92ab5af50e2898a104f15eac7adb00f17bd96b/js/ReadingSystem.js)、[真实歌词视图](https://github.com/iChochy/NCE/blob/0a92ab5af50e2898a104f15eac7adb00f17bd96b/js/ui/LyricsView.js)；[历史实验日志](../../nce_reading/delivery/nce-player-experiment-log.md)、[发布审核及历史证据复核](../../nce_reading/delivery/nce-player-review-log.md)。
