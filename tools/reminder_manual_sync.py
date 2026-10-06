@@ -579,6 +579,7 @@ def main():
             value = sync(root, config, args.local_only, not args.legacy_local_publisher)
             print(f"本机同步通过：{value['reports']} 份报告，含 {value['fullReports']} 份完整学习报告。")
             print(f"核验云端 Git {value['cloudPublished']} 项；本机推送 {value['publishedBatches']} 批；待入库 {value['knowledgePending']} 项，待 Git 备份 {value['gitPending']} 项。")
+            print(f"本机知识同步 {value['localKnowledgeSynced']} 项；笔记或旧领取冲突 {len(value['conflicts'])} 项（保留本地修改与归属）。")
             print("结果：" + str(root / PRIVATE / "手动同步结果.md"))
             print("PDF 与完整产物：" + value["visibleIndex"])
             return

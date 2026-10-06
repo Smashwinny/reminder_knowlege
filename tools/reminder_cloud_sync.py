@@ -197,7 +197,12 @@ class PublicMirror:
             # A previous publication of the same project is not this report.
             return None
         review_path = value.get("reviewPath")
-        if not isinstance(review_path, str) or review_path.casefold() not in paths or not review_path.startswith(project + "/delivery/") or not review_path.endswith(".md"):
+        review_files = {f["path"] for f in value["files"] if f.get("artifactRole") == "review_log"}
+        # Review logs are published as Markdown, plain text, or .log files.
+        # Bind the declared path to the actual review role, not its filename.
+        if (not isinstance(review_path, str) or review_path not in review_files or
+                not review_path.startswith(project + "/delivery/") or
+                Path(review_path).suffix.lower() not in {".md", ".txt", ".log"}):
             raise PipelineError("公开学习文件清单缺少本次独立审核日志。")
         commit = git(self.path, "log", "-1", "--format=%H", main, "--", name)
         if not re.fullmatch(r"[a-f0-9]{40}", commit):

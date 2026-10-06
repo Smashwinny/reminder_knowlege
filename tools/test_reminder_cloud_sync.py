@@ -164,7 +164,7 @@ class CloudSyncTests(unittest.TestCase):
         self.report["cloudDelivery"]="malformed"
         with self.assertRaises(PipelineError): cloud.receipt(self.report)
 
-    def direct_fixture(self, mutate=None, extra_file=None):
+    def direct_fixture(self, mutate=None, extra_file=None, review_extension=".md"):
         """Publish real synthetic Git objects without a server delivery receipt."""
         self.report.pop("cloudDelivery", None)
         base = command(self.source, "rev-parse", "HEAD")
@@ -172,7 +172,7 @@ class CloudSyncTests(unittest.TestCase):
         (self.root / "vault/00-总览.md").write_bytes((self.source / "vault/00-总览.md").read_bytes())
         artifacts = self.report["analysis"]["completion"]["artifacts"]
         extensions = {"guide_pdf": ".pdf", "guide_html": ".html", "exercise_archive": ".zip",
-                      "experiment_log": ".txt", "knowledge_notes": ".md", "review_log": ".md"}
+                      "experiment_log": ".txt", "knowledge_notes": ".md", "review_log": review_extension}
         entries, files = [], {}
         for original in artifacts:
             role = original["role"]
@@ -190,7 +190,7 @@ class CloudSyncTests(unittest.TestCase):
             entries.append({"path": name, "sha256": cloud.sha(data), "baseSha256": cloud.sha(before)})
         manifest = {"schema": "reminder-learning-publication-v1", "repository": cloud.REPOSITORY,
                     "branch": "main", "project": "demo", "baseCommit": base,
-                    "reviewPath": "demo/delivery/review_log.md", "files": entries}
+                    "reviewPath": "demo/delivery/review_log" + review_extension, "files": entries}
         if mutate:
             mutate(manifest)
         files["demo/delivery/publication-manifest.json"] = json.dumps(manifest, ensure_ascii=False).encode()
@@ -229,6 +229,33 @@ class CloudSyncTests(unittest.TestCase):
     def test_direct_publication_other_originals_remain_pending(self):
         self.direct_fixture(lambda m: m["files"][0].update(sourceSha256="f" * 64))
         self.assertEqual(self.run_copy()["cloudPublished"], 0)
+        self.assertFalse((self.root / "demo/delivery/guide_pdf.pdf").exists())
+
+    def check_direct_review_extension(self, extension):
+        commit, files = self.direct_fixture(review_extension=extension)
+        result = self.run_copy()
+        self.assertEqual(result["cloudPublished"], 1)
+        review_path = "demo/delivery/review_log" + extension
+        self.assertEqual((self.root / review_path).read_bytes(), files[review_path])
+        self.assertEqual(self.handoff()["dotDirectGit"]["receipt"]["reviewPath"], review_path)
+        self.assertEqual(self.handoff()["git"]["commit"], commit)
+
+    def test_direct_publication_plain_text_review_is_verified(self):
+        self.check_direct_review_extension(".txt")
+
+    def test_direct_publication_log_review_is_verified(self):
+        self.check_direct_review_extension(".log")
+
+    def test_direct_publication_review_path_must_bind_review_role(self):
+        self.direct_fixture(lambda m: m.update(reviewPath="demo/delivery/knowledge_notes.md"))
+        with self.assertRaises(PipelineError):
+            self.run_copy()
+        self.assertFalse((self.root / "demo/delivery/guide_pdf.pdf").exists())
+
+    def test_direct_publication_nontext_review_format_is_rejected(self):
+        self.direct_fixture(review_extension=".pdf")
+        with self.assertRaises(PipelineError):
+            self.run_copy()
         self.assertFalse((self.root / "demo/delivery/guide_pdf.pdf").exists())
 
     def test_direct_publication_wrong_hash_cannot_copy(self):
