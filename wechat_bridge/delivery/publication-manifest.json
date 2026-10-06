@@ -1,0 +1,82 @@
+{
+  "schema": "reminder-learning-publication-v1",
+  "repository": "Smashwinny/reminder_knowlege",
+  "branch": "main",
+  "project": "wechat_bridge",
+  "baseCommit": "66d9eeee243544aece8ab2b366e8604b354458f4",
+  "reviewPath": "wechat_bridge/delivery/wechat-bridge-review-log.md",
+  "files": [
+    {
+      "path": "vault/00-总览.md",
+      "sha256": "765ef05cae84ec592a04e675799e3bf9d216bb8b31cabba7f2baa8a580a4d435",
+      "baseSha256": "5377d6cc4198d52db5f47b09c2c086442c461142ded21b9a8942f449001de14f"
+    },
+    {
+      "path": "vault/概念/产物留痕与状态外置.md",
+      "sha256": "f40989202b3156179ab2d1495966e5356946f05d00ed711a92fa7673224be68b",
+      "baseSha256": "d76e14a324a2e546adcb89dafd738b344f5aca0c1dc4579ddcb99164d4e3aae7"
+    },
+    {
+      "path": "vault/概念/原样捕获与工序分离.md",
+      "sha256": "4e0e815c66b0b2bfdc87fe6aaee7abdecbb4e027a435096b7b536549e7cbb95b",
+      "baseSha256": "50816043072d208ebfae898f63adc220af986d63e5bb430330f609a0aa0db3b1"
+    },
+    {
+      "path": "vault/概念/工具调用生命周期.md",
+      "sha256": "abc8ef5334f84c19b866bb1ddfd742a35340a0f7f84fcff03b407fb31e0626f0",
+      "baseSha256": "9f8e203fdc45687ecf8625edc7fe4fc3c766850385879f97623333710d2c5481"
+    },
+    {
+      "path": "vault/概念/证据状态机.md",
+      "sha256": "6716ac478a6881bff50939f58355a33b1f6ab892f71324a382aa5b9e4abe0303",
+      "baseSha256": "e0c2e7a6128cb1f68fef7c27d524210e18a7727de4eedbbb5ab431f48e151cbd"
+    },
+    {
+      "path": "vault/项目笔记/wechat_bridge.md",
+      "sha256": "43f82c589b4f54f98e2c455bbb581480d8a7d684c3a129851877474be181a8f8",
+      "baseSha256": null
+    },
+    {
+      "path": "wechat_bridge/delivery/wechat-bridge-exercise.zip",
+      "sha256": "13b444e0f69f01b311bda92d68ccf8a9589b4344327fc5abcc01e8273c29c4f4",
+      "baseSha256": null,
+      "artifactRole": "exercise_archive",
+      "sourceSha256": "217652744cb061165213920046b3ee319f416f7fd3a800107c99bbbe239a7842"
+    },
+    {
+      "path": "wechat_bridge/delivery/wechat-bridge-experiment-log.md",
+      "sha256": "0c8ad2547694ad442a06a9f8265d612a33eae32e12a881d98ae33281cd8ae52d",
+      "baseSha256": null,
+      "artifactRole": "experiment_log",
+      "sourceSha256": "7f3ab35c455b97a580926dfd0d356246ccd219836c7b726b5edbf4497f193b24"
+    },
+    {
+      "path": "wechat_bridge/delivery/wechat-bridge-guide.html",
+      "sha256": "fc7bb075fc2847219918bca92cc5982d3f2f7a8ccfae51d30773ec30f9061a85",
+      "baseSha256": null,
+      "artifactRole": "guide_html",
+      "sourceSha256": "c8f263da4e5471302368eccc7b1f5d10e9a567b5c9ad09a1583a8965d8fe6ca8"
+    },
+    {
+      "path": "wechat_bridge/delivery/wechat-bridge-guide.pdf",
+      "sha256": "8c5c9f4f492f5dfaa9a624018a0cedfaed77fe6972c96bce1e7cdc3f3f403e05",
+      "baseSha256": null,
+      "artifactRole": "guide_pdf",
+      "sourceSha256": "2d576ae7075c256776427ec7bf2fd08ddec49a3dd5110c4d2ac569d6cfe09c1b"
+    },
+    {
+      "path": "wechat_bridge/delivery/wechat-bridge-knowledge.md",
+      "sha256": "fdc97fe5f446636e363fcc54eb8c50b21cb0d8515c02fc90505a5c732f8dcd62",
+      "baseSha256": null,
+      "artifactRole": "knowledge_notes",
+      "sourceSha256": "d90af3839f081d8911c23d4c3f11b4670b583016cb99c73be723752dd1cc87e5"
+    },
+    {
+      "path": "wechat_bridge/delivery/wechat-bridge-review-log.md",
+      "sha256": "7323f17e31c859526907926491d49f09301056c8ca1ecf910b3bb79b5d4f2f8d",
+      "baseSha256": null,
+      "artifactRole": "review_log",
+      "sourceSha256": "abd02cd585c81f56b8b35498316b75f65c4ef70255506814e462ffa6eeb203df"
+    }
+  ]
+}
