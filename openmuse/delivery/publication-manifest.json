@@ -1,0 +1,82 @@
+{
+  "schema": "reminder-learning-publication-v1",
+  "repository": "Smashwinny/reminder_knowlege",
+  "branch": "main",
+  "project": "openmuse",
+  "baseCommit": "3cda5466a6a4c6359a412e596c5934859a9ef9f3",
+  "reviewPath": "openmuse/delivery/openmuse-review-log.md",
+  "files": [
+    {
+      "path": "openmuse/delivery/openmuse-core-exercise.zip",
+      "sha256": "000c275f9603644f0aecd9313a1a6ccd1e066e3099a9aeaf580ff93c0f0cc8d5",
+      "baseSha256": null,
+      "artifactRole": "exercise_archive",
+      "sourceSha256": "714ca8560289c4ec076a6b0ecb87a6c40b921fadd12c62cec89142d878994157"
+    },
+    {
+      "path": "openmuse/delivery/openmuse-experiment-log.md",
+      "sha256": "80d57ac51ffed6c563add44265225dc60835dcba579fb9c630753d3f0577216f",
+      "baseSha256": null,
+      "artifactRole": "experiment_log",
+      "sourceSha256": "1affbd3a4a83d9d874576243befd6f74c6ddf482f63ee070e0d9532c3e778e18"
+    },
+    {
+      "path": "openmuse/delivery/openmuse-guide.html",
+      "sha256": "c0da9958fda72811391f1da92afdf8bbe1de5b57e4ea393a1e6970bffd4dcb4a",
+      "baseSha256": null,
+      "artifactRole": "guide_html",
+      "sourceSha256": "e0c0a5ccd9a901a53d2c04916c007b491964afe0ecbf5aea19f718498e3d481b"
+    },
+    {
+      "path": "openmuse/delivery/openmuse-guide.pdf",
+      "sha256": "b9c96c64c8de20ccb907130d1a16fc59519ad16a5b14e289fae4203033f72596",
+      "baseSha256": null,
+      "artifactRole": "guide_pdf",
+      "sourceSha256": "503496400a5437d94aac4da7c48069bf848c154aa4fa6142eee6fdc0476e3d0f"
+    },
+    {
+      "path": "openmuse/delivery/openmuse-knowledge-notes.md",
+      "sha256": "bc60272f1c6d528844af13e6fc7372e143f25c6f13bdeb96fd6be1b6956b2fe2",
+      "baseSha256": null,
+      "artifactRole": "knowledge_notes",
+      "sourceSha256": "480b9005977321e51cbc8588f948f287d8ca209da976bfc89650b0635882b044"
+    },
+    {
+      "path": "openmuse/delivery/openmuse-review-log.md",
+      "sha256": "f5dd88ca47d737b70780c2a72bb408cd6ec568c25c588de4685db6110420ac4f",
+      "baseSha256": null,
+      "artifactRole": "review_log",
+      "sourceSha256": "b21dcac1ad4ceea19442f53d2bba04d048b320fd3ed2a538f58414d59663d3ce"
+    },
+    {
+      "path": "vault/00-总览.md",
+      "sha256": "5377d6cc4198d52db5f47b09c2c086442c461142ded21b9a8942f449001de14f",
+      "baseSha256": "f174246437f1f9fd947e1b1183741bc5b8ad37963605ab02ff9b658f1153ecd3"
+    },
+    {
+      "path": "vault/概念/Checkpoint存档与持久执行.md",
+      "sha256": "48143bca8bbc03ca5daedd985fd01e010562eeea8becc542e562794fe07598d4",
+      "baseSha256": "5d879f39079adfdc8e4a3be2d36353bb2a203bfdf5ba71c94840443e94d1ffac"
+    },
+    {
+      "path": "vault/概念/人机协同Interrupt.md",
+      "sha256": "6149cb98030632b86ff28d9cc61ddbe5e53fc8147753a62b6e3db4e5de153a3e",
+      "baseSha256": "2546f041e8a61203d11d85adc1499bd79e80682445de722ec8f73505ea3e4263"
+    },
+    {
+      "path": "vault/概念/接缝与桩实现StubSeam.md",
+      "sha256": "9bc16d51dbfa8fa1a84fd43d2cdcdbf81c9ae2d41272007df08f610a79ffdf58",
+      "baseSha256": "020b28f4f71d8d6dd0c1ecb20ad5c63340a594ca18ab793a0377f89df6228966"
+    },
+    {
+      "path": "vault/概念/证据状态机.md",
+      "sha256": "e0c2e7a6128cb1f68fef7c27d524210e18a7727de4eedbbb5ab431f48e151cbd",
+      "baseSha256": "4ed8230cec042bc5c6084e17e6ad9f4bd482322b87965ed27c1bdf17e144d0ff"
+    },
+    {
+      "path": "vault/项目笔记/openmuse.md",
+      "sha256": "6778bac3f8ce8e0361c0907878d4e3846d900d484f63ba0f77d1a372cb3ba60e",
+      "baseSha256": null
+    }
+  ]
+}

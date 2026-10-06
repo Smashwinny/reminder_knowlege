@@ -74,3 +74,13 @@ fetch 与全局 Audio 构造的抛错保护在已有记录中为零次尝试；�
 current 在控制器源码中指最近成功发送的模拟坐标，不是设备读回；本实验连发送都没有执行。进程内导入/audit 守卫记录禁止 I/O 尝试为 0，不是 OS 网络审计或未知代码强沙箱。没有真机、定位发送、真实活动导出、传感器、浏览器或完整集成证据，关联 [[证据状态机]]、[[证据优先质检ProofOverClaims]]。
 
 来源：[固定纯模块](https://github.com/yinsuecci/mockrunning/blob/137297d7ca980f92a6a832708c9c61964bde7591/src/ios_location_controller/motion.py)、[控制器，仅静态观察](https://github.com/yinsuecci/mockrunning/blob/137297d7ca980f92a6a832708c9c61964bde7591/src/ios_location_controller/playback.py)；[历史实验日志](../../route_studio/delivery/route-studio-experiment-log.md)、[发布审核及历史证据复核](../../route_studio/delivery/route-studio-review-log.md)。
+
+## OpenMuse：真实 SQL、合成提供方与同进程竞争分开（2026-10-06）
+
+[[项目笔记/openmuse]] 的已有实验执行真实 SQL Store、PGlite、ActionService 与 TaskWorker，数据库不是内存字典替身；execute/prepare、连接判断、任务处理器和时钟是受控 fixture。真实部分与替代部分逐一标明，不将“真实数据库”扩大成“真实外部服务已接通”。
+
+计数是 21 项选取的原样上游测试（12 审批、8 引擎、1 持久化）以及 4 个自写变式。三个上游文件共 22 项定义，PostgreSQL 池错误测试未选择；实际 TAP skipped=0，不能伪写 skipped=1 或全量 22 通过。独立重放、15 项原件指纹与16项依赖完整性不增加独立行为覆盖。
+
+同进程两个 worker 共享一个 PGlite；持久化是正常 close/reopen；目标版本测试只验证向 fixture 传值，不是 Google If-Match/ETag 冲突实验。60001 毫秒来自虚拟时钟推进；未知结果由 fixture 构造，不是真实邮件响应。没有跨进程 PostgreSQL、断电/强杀、账号/模型、浏览器、Docker/E2B 或全应用验证。网络守卫 attempts=0 仅报告所审路径，不是任意代码的强安全证明。
+
+来源：[原始审批测试](https://github.com/CopilotKit/openmuse/blob/b06caad7005ac5b6d2b451752a3794a6ae1759c1/tests/actions.test.ts)、[引擎测试](https://github.com/CopilotKit/openmuse/blob/b06caad7005ac5b6d2b451752a3794a6ae1759c1/tests/engine.test.ts)、[所选持久化测试](https://github.com/CopilotKit/openmuse/blob/b06caad7005ac5b6d2b451752a3794a6ae1759c1/tests/persistence.test.ts)；[历史实验日志](../../openmuse/delivery/openmuse-experiment-log.md)、[发布审核及历史证据复核](../../openmuse/delivery/openmuse-review-log.md)。
