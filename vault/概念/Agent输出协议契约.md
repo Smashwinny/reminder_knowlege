@@ -51,3 +51,13 @@ tags: [概念]
 这个案例延续既有 Qwen 的解析/消费者约束分层和 AI Native 的领域授权边界；格式成立只覆盖目标契约的相应层。实际执行对象是 jsonschema 库，不是 Codex CLI、App Server 或桩模型服务，关联 [[接缝与桩实现StubSeam]]、[[证据优先质检ProofOverClaims]]。
 
 来源：[固定配置契约](https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/core/config.schema.json)、[固定请求契约](https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/app-server-protocol/schema/json/ClientRequest.json)；[历史实验日志](../../codex_advanced/delivery/codex-advanced-experiment-log.md)。
+
+## Route Studio：解析、有限值与路线前提分别校验（2026-10-06）
+
+[[项目笔记/route_studio]] 的历史 TEST_ONLY 实验直接运行真实 gpx.py / motion.py。load_points 能解析单个 trkpt，route_points 却拒绝单点路线；独立 GPX 入口的 6 个预期拒绝输入、路线入口的 8 个预期拒绝输入，说明两个入口的契约不能互换。Web 的 rtept 回退只读过源码，没有执行，不能推广为独立解析器也支持。
+
+GPX 用 lat/lon，路线对象用 lat/lng，Point 用 latitude/longitude；范围有效仍不保证分量顺序正确。GeoJSON 使用经度、纬度顺序是另一格式的约定，不可直接套入这些对象。NaN、无穷和超范围数仅作拒绝哨兵；被接受的路线固定为原点附近三点且无活动时间戳。
+
+Settings.parse 的 7 个反例来自上游测试向量，通过自写 harness 调用，没有运行其测试模块。Motion 构造与 advance 不承担全部前置校验；实验先检查路线/设置，只传有限非负 dt。未知类型、所有阈值边界与真实运行仍须独立证据，延续既有 Qwen/Codex 的分层纪律，关联 [[接缝与桩实现StubSeam]]。
+
+来源：[固定 GPX 入口](https://github.com/yinsuecci/mockrunning/blob/137297d7ca980f92a6a832708c9c61964bde7591/src/ios_location_controller/gpx.py)、[固定路线与设置校验](https://github.com/yinsuecci/mockrunning/blob/137297d7ca980f92a6a832708c9c61964bde7591/src/ios_location_controller/motion.py)、[反例来源](https://github.com/yinsuecci/mockrunning/blob/137297d7ca980f92a6a832708c9c61964bde7591/tests/test_motion.py)、[RFC 7946](https://www.rfc-editor.org/rfc/rfc7946)；[历史实验日志](../../route_studio/delivery/route-studio-experiment-log.md)。

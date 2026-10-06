@@ -64,3 +64,13 @@ fetch 与全局 Audio 构造的抛错保护在已有记录中为零次尝试；�
 片段内引用白名单和外部引用检索报错约束验证器路径，不等于操作系统网络审计或未知代码强沙箱。没有真实登录、权益、模型列表、推理、账单、配置生效、协议时序、跨产品接力或原视频复现；未知保持未知。关联 [[Agent输出协议契约]]、[[证据状态机]]、[[证据优先质检ProofOverClaims]]。
 
 来源：[固定配置契约](https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/core/config.schema.json)、[固定请求契约](https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/app-server-protocol/schema/json/ClientRequest.json)；[历史实验日志](../../codex_advanced/delivery/codex-advanced-experiment-log.md)、[发布审核及历史证据复核](../../codex_advanced/delivery/codex-advanced-review-log.md)。
+
+## Route Studio：纯模块通过不证明控制器接缝无副作用（2026-10-06）
+
+[[项目笔记/route_studio]] 的历史实验只加载包入口、gpx、motion，采用原点附近三点、无时间戳的 TEST_ONLY 输入；速度和横向波动均为 0。71 条检查断言包含输入/环境/指纹与行为检查，不是 71 个上游官方测试；借用的 7 个设置反例通过自写 harness 调用，没有运行上游测试模块。
+
+已有静态审核发现 PlaybackController 构造会启动后台线程与设备发现；替换设备工厂并不能证明发现任务停止。因此没有导入或创建该控制器，也没有启动 CLI/Web。Motion 的内存状态推进与控制器暂停、取消、清理、持久化、设备发现、异常恢复分别验收，不能用前者代替后者。
+
+current 在控制器源码中指最近成功发送的模拟坐标，不是设备读回；本实验连发送都没有执行。进程内导入/audit 守卫记录禁止 I/O 尝试为 0，不是 OS 网络审计或未知代码强沙箱。没有真机、定位发送、真实活动导出、传感器、浏览器或完整集成证据，关联 [[证据状态机]]、[[证据优先质检ProofOverClaims]]。
+
+来源：[固定纯模块](https://github.com/yinsuecci/mockrunning/blob/137297d7ca980f92a6a832708c9c61964bde7591/src/ios_location_controller/motion.py)、[控制器，仅静态观察](https://github.com/yinsuecci/mockrunning/blob/137297d7ca980f92a6a832708c9c61964bde7591/src/ios_location_controller/playback.py)；[历史实验日志](../../route_studio/delivery/route-studio-experiment-log.md)、[发布审核及历史证据复核](../../route_studio/delivery/route-studio-review-log.md)。
