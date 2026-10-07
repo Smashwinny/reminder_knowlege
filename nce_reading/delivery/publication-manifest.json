@@ -1,0 +1,77 @@
+{
+  "schema": "reminder-learning-publication-v1",
+  "repository": "Smashwinny/reminder_knowlege",
+  "branch": "main",
+  "project": "nce_reading",
+  "baseCommit": "efbea31a18e404682f7509be25552a368fc94775",
+  "reviewPath": "nce_reading/delivery/nce-player-review-log.md",
+  "files": [
+    {
+      "path": "nce_reading/delivery/nce-player-exercise.zip",
+      "sha256": "b3476ca284771a9899a66a63b8a6138ed0f87c4b59535da8b4cdc88f342f7d74",
+      "baseSha256": null,
+      "artifactRole": "exercise_archive",
+      "sourceSha256": "8a3244c9c095a210bcd02c0c01496ac719221d9b7678979814ead0b815672552"
+    },
+    {
+      "path": "nce_reading/delivery/nce-player-experiment-log.md",
+      "sha256": "7b2e5d6d2b9a047e46510ff7807011c9f57135ee44dbd10bb9fecc4795d7432e",
+      "baseSha256": null,
+      "artifactRole": "experiment_log",
+      "sourceSha256": "6c1aabdaaf37b7b646519986ec24e38a940fe663b8072ab168cd1a50366acd8b"
+    },
+    {
+      "path": "nce_reading/delivery/nce-player-guide.html",
+      "sha256": "635c113f6eb893b85a83698d81ec3e406c2d0ae902bdddb559375ed1aaa780e3",
+      "baseSha256": null,
+      "artifactRole": "guide_html",
+      "sourceSha256": "c5bc36929be420b490d464b120130de764806ee886fb16a1600c156a5e101eee"
+    },
+    {
+      "path": "nce_reading/delivery/nce-player-guide.pdf",
+      "sha256": "1331599e5fb24e13f2cbcc28fbec80448a9d3d8b0ae4107ecc3619e2439c8acf",
+      "baseSha256": null,
+      "artifactRole": "guide_pdf",
+      "sourceSha256": "2bded314b47491a9972ce3860f8ff34fca964574bd8f7c0ee975a465833899da"
+    },
+    {
+      "path": "nce_reading/delivery/nce-player-knowledge-notes.md",
+      "sha256": "069e14627e97fa7c749799ec0a17534716e95b419b129a6629d51b417d4b6a7b",
+      "baseSha256": null,
+      "artifactRole": "knowledge_notes",
+      "sourceSha256": "898fdb6fbe8986a0c7f9c832a3800b211227258f27694965acc852d9126fe363"
+    },
+    {
+      "path": "nce_reading/delivery/nce-player-review-log.md",
+      "sha256": "2c9c1bf906913da5e2b75af2a69f580846f296143e49486d6d4e527361739ec0",
+      "baseSha256": null,
+      "artifactRole": "review_log",
+      "sourceSha256": "fccb3da68b46e56a8b9df8e45f7515dc91fa662befd72cb2a4fb58889e63a16c"
+    },
+    {
+      "path": "vault/00-总览.md",
+      "sha256": "0588a8b22b56be86e13298516b3d1bf23f429a252cd209bbff4b56dda7a9c201",
+      "baseSha256": "7680e8d5880d88979544172f676c369e540fdb342dfd5fed89d269a13c4bb5ec"
+    },
+    {
+      "path": "vault/概念/双时钟模型.md",
+      "sha256": "29c7db75cac91a4695d3668ccfc958ad73445bb7a7a31707c181603c6b003925",
+      "baseSha256": "ab74a0126c149cad5251df1f8863882a0ff262b83472c37fc0c04b746e023b29"
+    },
+    {
+      "path": "vault/概念/媒体时间轴与字幕区间查询.md",
+      "sha256": "2089d67dd5d01f57f7048a29fddde3110c24f92eedbf7de61e585ebd527a708c",
+      "baseSha256": null
+    },
+    {
+      "path": "vault/概念/接缝与桩实现StubSeam.md",
+      "sha256": "2779e7d6d4683adaaab4e19bd8f8b36b5b2b5583dffe4bf0cb6f06c1e434327c",
+      "baseSha256": "7e33cc70910382214af842c403cde8e25ed5f753fdb30e55c135fa9cba651c56"
+    },
+    {
+      "path": "vault/项目笔记/nce_reading.md",
+      "sha256": "44ac203f9c1e96cc97f036e3ec0d1bc7be9da0cf81116ca48f194f11968f5995",
+      "baseSha256": null
+    }
+  ]
+}

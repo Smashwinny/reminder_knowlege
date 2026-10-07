@@ -1,0 +1,8 @@
+2026-10-04T21:49:27.65819344-07:00 INFO "Starting MCP Toolbox for Databases version 1.13.1+binary.linux.amd64.e14cda6" 
+2026-10-04T21:49:27.658715373-07:00 ERROR "unable to parse config file at \"/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/unsupported-readonly.yaml\": error unmarshaling source: unable to parse source \"invalid\" as \"sqlite\": [3:1] unknown field \"readOnly\"\n   1 | database: file:///workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/readonly.db?mode=ro\n   2 | name: invalid\n>  3 | readOnly: true\n       ^\n   4 | type: sqlite" 
+Error: unable to parse config file at "/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/unsupported-readonly.yaml": error unmarshaling source: unable to parse source "invalid" as "sqlite": [3:1] unknown field "readOnly"
+   1 | database: file:///workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/readonly.db?mode=ro
+   2 | name: invalid
+>  3 | readOnly: true
+       ^
+   4 | type: sqlite

@@ -1,0 +1,65 @@
+{
+  "summary": "真实官方 Toolbox v1.13.1 已通过 MCP stdio 运行，26 项检查通过：两行虚构库存可读，五次针对主库的写入被拒，文件指纹不变。刻意标错 readOnlyHint 的独立可写对照仍能写入，证明提示标签不能替代执行边界。",
+  "scope": "核心边界：这里验证的是 SQLite URI mode=ro 打开的指定主数据库文件，不是 Toolbox 的 SQLite readOnly 功能，也不是全进程或所有附加数据库的只读保证。",
+  "setup": "准备：Linux x86_64、Python 3 标准库。解压 ZIP 后进入 exercise 目录；先按 README 获取约 315 MB 的官方二进制，放入 vendor/toolbox。下列六条命令均已原样执行。第 2 步一次跑完真实协议测试，第 3 至 6 步逐项解读并断言实际证据。重复运行时须换一个新的输出目录。",
+  "started": "2026-10-05T04:49:26Z",
+  "ended": "2026-10-05T04:49:27Z",
+  "environment": "Linux x86_64 · Python 3.12.14 · Python sqlite3 3.53.1（仅建库/复核，不代表 Toolbox 内嵌 SQLite 版本）· Toolbox 1.13.1+binary.linux.amd64.e14cda6",
+  "safety": "只用项目目录内的虚构库存，stdio 不监听端口；没有账号、凭据、生产数据库、付费模型、外部遥测或全局客户端配置。错误提示标签仅为负对照实验，不能抄到生产配置。",
+  "observations": [
+    "预置 sqlite/sqlite_database_tools 实际列出 execute_sql 与 list_tables；主库返回 apples=4、pears=7，共 2 行，总量 11。execute_sql 的 readOnlyHint 仍为 false。",
+    "INSERT、UPDATE、DELETE、CREATE TABLE，以及 PRAGMA query_only=OFF 后尝试 INSERT 的组合均返回工具错误；原始文本含 attempt to write a readonly database (8)。随后读取成功，主库 SHA-256 前后相同。",
+    "固定 SQL 的 name=? 查询返回 apples；SQL 外观输入仅作为值，返回空结果；整数参数触发类型错误。调用未配置工具返回 -32602 和 tool does not exist，不是身份鉴权证明。",
+    "可写独立对照故意标 readOnlyHint=true，INSERT 仍成功，另一数据库连接确认记录从 2 行变为 3 行。SQLite source 的 readOnly:true 则启动失败，报 unknown field。",
+    "本次没有测试云数据库 readOnly、OAuth、HTTP 入口、租户隔离或所有 SQL 副作用。BigQuery protected 模式在文档中允许会话临时写入，不能概括为绝对零副作用。"
+  ],
+  "knowledge": [
+    "查重：公开索引 394 条元数据；全文读取并核对 5 篇，其余 389 篇没有算作已读。另完整读取网站既有 Ponytail 与 HowToLiveBetter 两篇，共 9 块。",
+    "复用《MCP协议》《只读闸门三原则》《本地MCP端点安全四道门》《代码管边界提示词管判断》《关系型数据库与NoSQL》；不把已有的 MCP 和最小权限概念重新包装为新知。",
+    "新增提案优先合并到旧概念：工具注解与强制执行分离、适配器级只读能力矩阵、工具暴露范围与数据权限分层。已有笔记不代表本人已经掌握，也不代表查重覆盖最新本机 vault。"
+  ],
+  "steps": [
+    {
+      "title": "核对官方程序和指纹",
+      "purpose": "确认实际执行的是本课固定的官方发布程序，避免把新版配置套进旧程序。",
+      "command": "python3 verify_binary.py",
+      "result": "读取 vendor/toolbox，核对 SHA-256，并实际调用 --version。程序不在包内，须先按 README 下载。",
+      "verify": "输出 PASS 与版本 1.13.1+binary.linux.amd64.e14cda6；完整指纹见日志。指纹是官方渠道下载后测得，不是独立发布签名。"
+    },
+    {
+      "title": "一口气运行真实协议实验",
+      "purpose": "创建两份虚构库存库，用官方 Toolbox 子进程接收 MCP 请求。",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 run.py --output evidence/learner-run",
+      "result": "脚本执行预置工具、只读写拒绝、参数绑定、可写负对照及不支持字段测试，并生成原始响应和配置。这里只是测试驱动，执行工具的是官方二进制。",
+      "verify": "终端最终 26/26 passed；results.json 的 status 为 passed。输出目录必须此前不存在；不允许覆盖旧证据。"
+    },
+    {
+      "title": "看见工具与两行真实结果",
+      "purpose": "将“工具已发现”和“查询已执行”分别核验。",
+      "command": "python3 inspect_results.py evidence/learner-run discovery",
+      "result": "读出真实清单、表发现和 SELECT 响应。工具为 execute_sql/list_tables；库存 apples=4、pears=7。",
+      "verify": "4 项选中检查通过；读取 2 行。注意 mode=ro 并未自动把 execute_sql 的 readOnlyHint 改成 true。"
+    },
+    {
+      "title": "观察五次写拒绝和数据不变",
+      "purpose": "验证底层文件连接拒绝写入，而非依赖 SQL 关键词过滤。",
+      "command": "python3 inspect_results.py evidence/learner-run boundary",
+      "result": "展示五个写尝试的 MCP 错误，以及写后查询和主库文件指纹比较。PRAGMA 重置组合也未能写入。",
+      "verify": "7 项选中检查通过；isError=true，错误文本含 readonly database (8)；仍为 2 行，总量 11，文件 SHA-256 不变。此结论仅针对主库。"
+    },
+    {
+      "title": "改变输入形状并核对错误",
+      "purpose": "分清参数绑定、类型校验和未注册工具三种不同边界。",
+      "command": "python3 inspect_results.py evidence/learner-run binding",
+      "result": "展示已运行的 apples、SQL 外观字符串、整数 123 与未配置 execute_sql 请求的不同结果。",
+      "verify": "5 项选中检查通过：普通名称返回 1 行；SQL 外观值返回空；整数返回工具错误；未知工具返回 JSON-RPC -32602。不把未知工具错误说成用户鉴权通过。"
+    },
+    {
+      "title": "用可写负对照拆穿提示标签",
+      "purpose": "证明假只读注解不阻断写入，并确认不支持的配置会失败。",
+      "command": "python3 inspect_results.py evidence/learner-run control",
+      "result": "展示故意标 readOnlyHint=true 的可写独立库新增第 3 行；SQLite readOnly:true 报 unknown field；最后再次核对主库指纹。",
+      "verify": "5 项选中检查通过；完整运行仍为 26/26。归档 results.json、commands.json、mcp-transcript.jsonl、配置与 stderr；没有把预期拒绝当作意外失败。"
+    }
+  ]
+}

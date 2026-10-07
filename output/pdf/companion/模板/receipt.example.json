@@ -1,0 +1,11 @@
+{
+  "schema": "reminder-analysis-confirmation-v1",
+  "accountId": "ACCOUNT_UUID",
+  "listId": "LIST_UUID",
+  "taskId": "TASK_UUID",
+  "reportId": "REPORT_UUID",
+  "sourceHash": "真实当前sourceHash",
+  "backupBundle": "完成/.pipeline/dot/ACCOUNT_UUID/LIST_UUID/exports/BACKUP_SHA256.json",
+  "backupSha256": "BACKUP_SHA256",
+  "handoff": "完成/.pipeline/dot/ACCOUNT_UUID/LIST_UUID/handoff.json"
+}

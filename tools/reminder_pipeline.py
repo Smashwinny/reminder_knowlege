@@ -1123,6 +1123,78 @@ class Pipeline:
             self._save_record(row)
             return self._record(row)
 
+    def _cloud_handoff_row(self, connection, report, publication, ticket, coordinator):
+        """Internal closeout of a verified original Dot delegation, not local ready/review.
+
+        reminder_cloud_sync verifies the pinned dispatch and actual public Git
+        objects first. No CLI or arbitrary owner-prefix/expiry takeover is exposed.
+        Cloud review evidence is retained separately from local manifest/review.
+        """
+        self._require_coordinator(coordinator)
+        row = self._owned(connection, report["taskId"], ticket["owner"], allow_expired=True)
+        self._no_pending_publication(row)
+        completion = report.get("analysis", {}).get("completion", {})
+        if (report.get("stale") or report.get("activeClaim") or report.get("analysis", {}).get("stage") != "full" or
+                ticket.get("taskId") != row["task_id"] or not ticket.get("localStart") or
+                ticket.get("project") != row["project_key"] or completion.get("project") != row["project_key"] or
+                ticket.get("sourceHash") != row["content_hash"] or report.get("sourceHash") != row["content_hash"] or
+                task_hash(report.get("record", {})) != row["content_hash"] or
+                row["phase"] != "learning" or row["kind"] != "learning" or not row["learning_started"] or
+                row["classified_hash"] != row["content_hash"] or row["claim_hash"] != row["content_hash"] or
+                any(row.get(k) for k in ("invalidated", "deleted", "missing", "manifest", "review", "publish_intent")) or
+                not re.fullmatch(r"[a-f0-9]{64}", ticket.get("dispatchSha256", "")) or
+                publication.get("schema") != "reminder-dot-direct-git-v1" or
+                publication.get("reportId") != report["id"] or publication.get("sourceHash") != row["content_hash"] or
+                not re.fullmatch(r"[a-f0-9]{40}", publication.get("commit", "")) or
+                not completion.get("reviewer") or completion["reviewer"] in {ticket["owner"], report.get("owner")} or
+                not completion.get("reviewNotes") or
+                any(completion.get(key) is not True for key in ("pdfRendered", "experimentChecked", "knowledgeChecked"))):
+            raise PipelineError("原云端派发与当前领取、来源或独立审核不符；保留 owner。")
+        other = connection.execute("SELECT 1 FROM tasks WHERE owner IS NOT NULL AND project_key=? AND task_id<>?", (row["project_key"], row["task_id"])).fetchone()
+        if other:
+            raise PipelineError("项目仍有其他 owner，停止云端交接。")
+        try:
+            live = self._site().read_analysis(report["userId"], report["listId"], report["taskId"])
+        except Exception:
+            raise PipelineError("当前网站完整报告无法真实回读，保留原云端派发 owner。") from None
+        record = live.get("record") if isinstance(live, dict) else None
+        current = live.get("report") if isinstance(live, dict) else None
+        expected = json.loads(dumps(report["analysis"]))
+        for artifact in expected["completion"]["artifacts"]:
+            artifact.pop("base64", None)
+        if (not isinstance(record, dict) or record.get("id") != row["task_id"] or record.get("deleted") or
+                record.get("sourceHash") != row["content_hash"] or task_hash(record) != row["content_hash"] or
+                not isinstance(current, dict) or current.get("analysis") != expected or
+                any(current.get(key) != report.get(key) for key in ("id", "taskId", "userId", "listId", "sourceHash", "markdownSha256"))):
+            raise PipelineError("网站来源或完整报告已变化；不结束本机原票据。")
+        return row, record
+
+    def check_cloud_handoff(self, report, publication, ticket, coordinator):
+        with self._tx() as connection:
+            self._cloud_handoff_row(connection, report, publication, ticket, coordinator)
+
+    def confirm_cloud_handoff(self, report, publication, ticket, coordinator):
+        """Record cloud review/Git evidence after a safe local copy; never complete a task."""
+        with self._tx() as connection:
+            row, live_record = self._cloud_handoff_row(connection, report, publication, ticket, coordinator)
+            now = stamp(self.clock())
+            completion = report["analysis"]["completion"]
+            audit = {"schema": "reminder-cloud-analysis-confirmation-v1", "owner": ticket["owner"],
+                     "coordinator": coordinator, "source_hash": row["content_hash"], "report_id": report["id"],
+                     "verified_at": now, "task_completion": "user_only", "observed_task_state": live_record.get("state", 0),
+                     "dispatch_file": ticket["dispatchFile"], "dispatch_sha256": ticket["dispatchSha256"],
+                     "cloud_reviewer": completion["reviewer"], "cloud_review_notes": completion["reviewNotes"],
+                     "cloud_artifacts": [{k: a[k] for k in ("role", "sha256", "bytes")} for a in completion["artifacts"]],
+                     "git_publication": publication, "local_copy": "verified_preserving_local_notes"}
+            snapshot = dict(json.loads(row["snapshot"]))
+            snapshot["state"] = live_record.get("state", 0)
+            row = self._update(connection, row["task_id"], phase="analysis_confirmed", analysis_completed_at=now,
+                               analysis_receipt=dumps(audit), snapshot=dumps(snapshot), site_state=snapshot["state"],
+                               owner=None, lease_until=None, claim_hash=None, completed_at=None, last_error=None)
+            connection.execute("DELETE FROM resource_locks WHERE task_id=?", (row["task_id"],))
+            self._save_record(row)
+            return self._record(row)
+
     def _publish_failed(self, connection, row, message, conflict=False):
         row = self._update(connection, row["task_id"], phase="needs_review" if conflict else "publish_pending",
                            invalidated=int(conflict), last_error=message)
@@ -1350,12 +1422,31 @@ class Pipeline:
             for record in records:
                 counts[record["status"]] = counts.get(record["status"], 0) + 1
             automatic_learning = self._workflow_policy().get("automatic_full_learning", False)
-            flow = ("> 默认 Dot 云端分析与完整学习；本机备份后由协调者知识入库并同步学习成果到 Git，任务完成由用户点击。"
+            flow = ("> 默认 Dot 云端分析、完整学习、知识入库与 Git 发布；本机备份并同步已核验成果，任务完成由用户点击。"
                     if automatic_learning else "> 新记录自动建分析台账与分类排队；完整学习必须由用户选择 start。")
             lines = ["# 拾遗记录流水线纲要", "", f"> 生成时间：{stamp(self.clock())}（Asia/Shanghai）",
                      flow, "",
                      "## 状态计数", "", "| 状态 | 数量 |", "|---|---:|"]
             lines += [f"| {self._phase_label(phase)} ({phase}) | {number} |" for phase, number in sorted(counts.items())]
+            labels = {"learning": "学习", "non_learning": "非学习", "duplicate": "重复增补",
+                      "needs_review": "证据不足", "blocked": "环境受阻", None: "尚未分类"}
+            lines += ["", "## 内容分类计数（本机台账）", "",
+                      "包含历史保护记录；不表示这些结果均已写入网站。来源变化的旧分类单列，不能作为当前有效结论。完整学习受阻是执行状态，可以同时属于学习类。", "",
+                      "| 分类 | 来源未标记变化 | 来源已变化待复核 | 合计 |", "|---|---:|---:|---:|"]
+            for kind, label in labels.items():
+                group = [r for r in records if r["classification"]["kind"] == kind]
+                stale = sum(r["content_changed"] for r in group)
+                lines.append(f"| {label} | {len(group)-stale} | {stale} | {len(group)} |")
+            lines += ["", "## 已分类非学习项（初步判断）", "",
+                      "旧进行中、暂停及已完成仍受保护；该表不会释放领取、写网站标签或改变任务完成。", "",
+                      "| task_id | 主题线索 | 当前状态 | 来源变化 | 分析报告 |", "|---|---|---|---|---|"]
+            for record in records:
+                if record["classification"]["kind"] != "non_learning":
+                    continue
+                values = [record["task_id"], str(record["source"].get("summary") or record["source"].get("text", ""))[:120],
+                          record["status_label"], "待复核" if record["content_changed"] else "本机快照未标记变化",
+                          f"[报告](分析报告/{record['task_id']}.md)"]
+                lines.append("| " + " | ".join(self._cell(v) for v in values) + " |")
             chosen = [r for r in records if r["classification"]["kind"] == "learning" and
                       not r["learning_started"] and r["status"] != "synced" and not r["content_changed"]]
             lines += ["", "## " + ("已分类学习项（自动执行仍须核对获准列表及来源）" if automatic_learning else "待用户选择学习"), "", "| task_id | 主题线索 | 当前状态 | 分析报告 |",
@@ -1373,7 +1464,10 @@ class Pipeline:
                       "| 分析完成时间 | 主题 | task_id | 网站任务状态 | 分析报告 |",
                       "|---|---|---|---:|---|"]
             for record in analyses:
-                values = [record["analysis_completed_at"], record["manifest"]["topic"], record["task_id"],
+                manifest = record["manifest"] or {}
+                cloud = record["analysis_receipt"] or {}
+                topic = manifest.get("topic") or record.get("project") or cloud.get("git_publication", {}).get("manifestPath", "").split("/")[0] or str(record["source"].get("summary") or record["source"].get("text", ""))[:120]
+                values = [record["analysis_completed_at"], topic, record["task_id"],
                           record["website_state"], f"[报告](分析报告/{record['task_id']}.md)"]
                 lines.append("| " + " | ".join(self._cell(v) for v in values) + " |")
             lines += ["", "## 已确认学习完成（按完成时间升序）", "",

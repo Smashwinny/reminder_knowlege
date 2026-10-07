@@ -1,0 +1,82 @@
+{
+  "schema": "reminder-learning-publication-v1",
+  "repository": "Smashwinny/reminder_knowlege",
+  "branch": "main",
+  "project": "github_tools_increment",
+  "baseCommit": "10cbcbc6f15227aa2c5c7a16f2141f99a039948f",
+  "reviewPath": "github_tools_increment/delivery/UIUX增量学习_独立复核日志.txt",
+  "files": [
+    {
+      "path": "github_tools_increment/delivery/UIUX增量学习_实验日志.txt",
+      "sha256": "79a2957b283adb4ac08a0949e0d7096e99f8a97fb4c21c733413a0e270284180",
+      "baseSha256": null,
+      "artifactRole": "experiment_log",
+      "sourceSha256": "7db1aa0a4c9394a981964880b9cc053207173cef4678421b656ed8f7548e3e0f"
+    },
+    {
+      "path": "github_tools_increment/delivery/UIUX增量学习_彩色指南.html",
+      "sha256": "6888c25e5867c1bc992917b6acad03c378ff06e2f0a0fe182eeae89998dc8a7b",
+      "baseSha256": null,
+      "artifactRole": "guide_html",
+      "sourceSha256": "ef87740e5fcbc04889cb79b001bd2d3b8154a98031acefa46d06f583efba858e"
+    },
+    {
+      "path": "github_tools_increment/delivery/UIUX增量学习_彩色指南.pdf",
+      "sha256": "1800594bdde4a29bca7000080a2a3210fd6c7cf956f73c3e0e2eafff25752703",
+      "baseSha256": null,
+      "artifactRole": "guide_pdf",
+      "sourceSha256": "97a0b6012b63dd8b4f2595aec3ee9516894e694330adc70f186b18c62a6f8687"
+    },
+    {
+      "path": "github_tools_increment/delivery/UIUX增量学习_独立复核日志.txt",
+      "sha256": "2efd480b9e660f633e4f6f384c6570d9762a5518899f1ea7611e037213eb8311",
+      "baseSha256": null,
+      "artifactRole": "review_log",
+      "sourceSha256": "0df56a60500819b12bbbfebef691487aad395b295248f4c4a7b72afdd2468cd6"
+    },
+    {
+      "path": "github_tools_increment/delivery/UIUX增量学习_知识笔记.md",
+      "sha256": "eeb4ae0314a8fc054381ee1562b9481ff82a150b048af4887dabec4cdbfadc09",
+      "baseSha256": null,
+      "artifactRole": "knowledge_notes",
+      "sourceSha256": "cf68717db63f95abfb7ddaad088fd3ecdaf465d2e3e31912f57aa978b10ae42f"
+    },
+    {
+      "path": "github_tools_increment/delivery/UIUX增量学习_练习包.zip",
+      "sha256": "b8503f8d573379e4bc11a7158aabc621f7eb5135e2202265f67d094146217086",
+      "baseSha256": null,
+      "artifactRole": "exercise_archive",
+      "sourceSha256": "48a7ce7d6bc88cfbc7214328b51ebbb0abbcca77e770d726b62e0e7d9bdac4ba"
+    },
+    {
+      "path": "vault/00-总览.md",
+      "sha256": "7680e8d5880d88979544172f676c369e540fdb342dfd5fed89d269a13c4bb5ec",
+      "baseSha256": "0434aae76784f8c6cc3bc524bc8fa34b1faf7ca726c5130cfdc36a73c8211823"
+    },
+    {
+      "path": "vault/概念/BM25词法相关性排序.md",
+      "sha256": "d9922eb0cdb2cdbd5717f2d5f14ea4294a6bbd0687177c13e2c4f09840975f76",
+      "baseSha256": null
+    },
+    {
+      "path": "vault/概念/混合检索与RRF融合.md",
+      "sha256": "7ee7e11bf5598d13ccb5a272c5981a5c2e0dbba1e20f8a93188235d18b47c3c8",
+      "baseSha256": "2cdad497ae76c834be48f7104df5fd3c605b57785b0ff955c9c3bf1d8ef2d58c"
+    },
+    {
+      "path": "vault/概念/设计令牌DesignToken.md",
+      "sha256": "f7204cd4cf273f0ae929257eb54f77d7142b0fdee46844e1efae1f790d7801f8",
+      "baseSha256": "ab060471ced8e989239f2b3cea5515fbc2ecc7ea26f133e45b571214ef15f55d"
+    },
+    {
+      "path": "vault/概念/证据优先质检ProofOverClaims.md",
+      "sha256": "8f35446571ad11668f8b6793ea0557778946aff7bd35bdcb6ea318a20bdeb789",
+      "baseSha256": "b1d33ad0c7c709fd3b148cb5e38d2ca7e5fefb870e1c05444209b1850aadf988"
+    },
+    {
+      "path": "vault/项目笔记/github_tools_increment.md",
+      "sha256": "2c5033be94fa19559ff1458476c12c176ab00591f9466df30d384e416d9f1d3b",
+      "baseSha256": null
+    }
+  ]
+}

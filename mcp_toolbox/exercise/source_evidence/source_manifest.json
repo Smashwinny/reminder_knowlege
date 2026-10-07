@@ -1,0 +1,240 @@
+{
+  "verified_at_utc": "2026-10-05T04:47:26.036665+00:00",
+  "source": "https://github.com/googleapis/mcp-toolbox.git",
+  "default_head_pin": "a24e5e68567fa014a42fc6cc711faa82b964d4c0",
+  "runtime_release_tag": "v1.13.1",
+  "runtime_release_pin": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+  "retrieval": "Normal read-only clone and tag fetch into this project; no upstream repository edits, hooks/build/install scripts or global git configuration changes",
+  "files": [
+    {
+      "path": "README.md",
+      "local_path": "sources/selected/README.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/README.md",
+      "bytes": 33734,
+      "sha256": "f9bed93dcf3d9f5b6c4e7b49107a88c0b005d9de6630ae9369a3d66b306bc1c5",
+      "git_blob": "27aff281d89099ca9500713232c8e6e5f04e4afc",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "LICENSE",
+      "local_path": "sources/selected/LICENSE",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/LICENSE",
+      "bytes": 11357,
+      "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+      "git_blob": "7a4a3ea2424c09fbe48d455aed1eaa94d9124835",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "go.mod",
+      "local_path": "sources/selected/go.mod",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/go.mod",
+      "bytes": 15153,
+      "sha256": "f4821e07d5a7d4018e4f7bdcb86ddfef0eae41a30bcb4c0f887f846d1464b71d",
+      "git_blob": "832510f73516db70ca31121ae2876d7f05205203",
+      "equal_to_current_head": false
+    },
+    {
+      "path": "internal/sources/sqlite/sqlite.go",
+      "local_path": "sources/selected/internal/sources/sqlite/sqlite.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/sources/sqlite/sqlite.go",
+      "bytes": 4724,
+      "sha256": "2a9f55ac95dde398fbad0de0863908135f15911ed35e0e6e0a118a66a29f4672",
+      "git_blob": "db89f547731468c8db146a56a1e3b23a9f3a55a3",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/sources/sqlite/sqlite_test.go",
+      "local_path": "sources/selected/internal/sources/sqlite/sqlite_test.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/sources/sqlite/sqlite_test.go",
+      "bytes": 3023,
+      "sha256": "d1c5254e716062de1e5b0eb39fe97d3ccb34b8787e500c7e791f42e770e97385",
+      "git_blob": "6cd80921bd9d4de7b01ed4a069dc427712bfc653",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/tools/sqlite/sqlitesql/sqlitesql.go",
+      "local_path": "sources/selected/internal/tools/sqlite/sqlitesql/sqlitesql.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/tools/sqlite/sqlitesql/sqlitesql.go",
+      "bytes": 3951,
+      "sha256": "226002f8533b4a4c64ed66f13a183a1c4bba98315a457f99edc88e43e7ca9ef5",
+      "git_blob": "985f0ad2fd0dbaf30220dd645d56b44133999550",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/tools/sqlite/sqliteexecutesql/sqliteexecutesql.go",
+      "local_path": "sources/selected/internal/tools/sqlite/sqliteexecutesql/sqliteexecutesql.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/tools/sqlite/sqliteexecutesql/sqliteexecutesql.go",
+      "bytes": 3804,
+      "sha256": "b98dfb78729f4270e6050cecfb060147792a608d71cd991e46e01a0607a0a08e",
+      "git_blob": "caf1661166733dcb868dd1d78d5b5bf493606df0",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/prebuiltconfigs/tools/sqlite.yaml",
+      "local_path": "sources/selected/internal/prebuiltconfigs/tools/sqlite.yaml",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/prebuiltconfigs/tools/sqlite.yaml",
+      "bytes": 4696,
+      "sha256": "51b398945ed66daea82dea3e0dc42e7a67993d4c592527cf202680af8b1f3fbb",
+      "git_blob": "6fcc09cd2f692c1795c5643c2644d0204b7b4936",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/tools/tools.go",
+      "local_path": "sources/selected/internal/tools/tools.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/tools/tools.go",
+      "bytes": 12868,
+      "sha256": "f6b98b4d80a185286edec339b489004f67c563ea96b5a7b5988b65e12a73fb6c",
+      "git_blob": "f6f1f84a9d06ece806701908ee6a66f391cf8786",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/sources/cloudsqlpg/cloud_sql_pg.go",
+      "local_path": "sources/selected/internal/sources/cloudsqlpg/cloud_sql_pg.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/sources/cloudsqlpg/cloud_sql_pg.go",
+      "bytes": 7317,
+      "sha256": "4dc1d3ee94bfafae198c8b27fc42c85e65a2e0f5f762bcae2696826f35dedf5c",
+      "git_blob": "1bba4202d773ec0aa50703da7f1c6fc890bd41c7",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/sources/cloudsqlmysql/cloud_sql_mysql.go",
+      "local_path": "sources/selected/internal/sources/cloudsqlmysql/cloud_sql_mysql.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/sources/cloudsqlmysql/cloud_sql_mysql.go",
+      "bytes": 7923,
+      "sha256": "dd89503838bed2a200173ac6c3661714db38a07dafdaad2e961418627f19e12e",
+      "git_blob": "9cfa7c47cdb091616879a6e61bf92d412ccf436e",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/sources/alloydbpg/alloydb_pg.go",
+      "local_path": "sources/selected/internal/sources/alloydbpg/alloydb_pg.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/sources/alloydbpg/alloydb_pg.go",
+      "bytes": 8283,
+      "sha256": "fac68c5c748f92de146916ddb0a08f0b73bf856c82f33aab6a728f8c84969705",
+      "git_blob": "8c6bea85281bcb1963f9dfa2d533f6753c09251b",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/sources/bigquery/bigquery.go",
+      "local_path": "sources/selected/internal/sources/bigquery/bigquery.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/sources/bigquery/bigquery.go",
+      "bytes": 32979,
+      "sha256": "680f6ea92038ae10af7931fb29509cf4f148b13597f917e501c68d4a11d78860",
+      "git_blob": "2a34e422b26fe9f3dc75dd5eb49ebed740d55eb2",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "internal/tools/bigquery/bigqueryexecutesql/bigqueryexecutesql.go",
+      "local_path": "sources/selected/internal/tools/bigquery/bigqueryexecutesql/bigqueryexecutesql.go",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/internal/tools/bigquery/bigqueryexecutesql/bigqueryexecutesql.go",
+      "bytes": 13213,
+      "sha256": "44c1ad6b345bb4320f547e4068e9e1e45a2c2a0942d0099586cc8e96f14e0551",
+      "git_blob": "73baa3848a9d6d8e46bb098828ecedaf94bc742f",
+      "equal_to_current_head": false
+    },
+    {
+      "path": "docs/en/documentation/configuration/prebuilt-configs/_index.md",
+      "local_path": "sources/selected/docs/en/documentation/configuration/prebuilt-configs/_index.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/documentation/configuration/prebuilt-configs/_index.md",
+      "bytes": 2182,
+      "sha256": "8dc4b7d3e6e607e2681a8c6a3c10291690623a7063ecd6d815a35d404e565039",
+      "git_blob": "8ef3e3bbc326c7a02bef5013388516936cfd6ea0",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "docs/en/documentation/configuration/security/read-only.md",
+      "local_path": "sources/selected/docs/en/documentation/configuration/security/read-only.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/documentation/configuration/security/read-only.md",
+      "bytes": 10709,
+      "sha256": "80a5a92821d52af87538a53077a31c4a02f93f1af53147e05e3e740fc1f9432d",
+      "git_blob": "73550fe3502a58380f8054165876f98b04487992",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "docs/en/documentation/configuration/toolsets/_index.md",
+      "local_path": "sources/selected/docs/en/documentation/configuration/toolsets/_index.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/documentation/configuration/toolsets/_index.md",
+      "bytes": 2896,
+      "sha256": "eaca9e8f3333db5a96212e6f3755597d294f3b9bd92ef2f5d5a1b4dbdea26ea0",
+      "git_blob": "d4bdfe186a99e62e34c4e6e030dd172da100244d",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "docs/en/documentation/configuration/groups/_index.md",
+      "local_path": "sources/selected/docs/en/documentation/configuration/groups/_index.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/documentation/configuration/groups/_index.md",
+      "bytes": 6365,
+      "sha256": "493498605bc0fd96444dd365db9fd9a380aac27fab2058db801c30ee5f154f9b",
+      "git_blob": "407722565a8da9f82f90647f0dd0ac56a1acfd0c",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "docs/en/integrations/sqlite/source.md",
+      "local_path": "sources/selected/docs/en/integrations/sqlite/source.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/integrations/sqlite/source.md",
+      "bytes": 2429,
+      "sha256": "a392bec9f9b4383ff5b30c3d6c44fc37d8eaca57d871f0117cbfd72ab3c587a4",
+      "git_blob": "ab839f6ea16eaf05ab6e3de1a186e7e87f6f0541",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "docs/en/integrations/sqlite/prebuilt-configs/sqlite.md",
+      "local_path": "sources/selected/docs/en/integrations/sqlite/prebuilt-configs/sqlite.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/integrations/sqlite/prebuilt-configs/sqlite.md",
+      "bytes": 477,
+      "sha256": "32b7f6735104af873d920b50aebededde25e90803cb3c690435a1d945c86107d",
+      "git_blob": "4105a759ebb3fb979d841d1ab1e198b3634ecde2",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "docs/en/integrations/sqlite/tools/sqlite-sql.md",
+      "local_path": "sources/selected/docs/en/integrations/sqlite/tools/sqlite-sql.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/integrations/sqlite/tools/sqlite-sql.md",
+      "bytes": 3940,
+      "sha256": "6eb2eddbdde3354f076bb717383ac31f5f5f358809e6a572ad02d407506add07",
+      "git_blob": "9822c76f6dec90c4c6eb486c6f4513c455f7290d",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "docs/en/integrations/sqlite/tools/sqlite-execute-sql.md",
+      "local_path": "sources/selected/docs/en/integrations/sqlite/tools/sqlite-execute-sql.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/integrations/sqlite/tools/sqlite-execute-sql.md",
+      "bytes": 1269,
+      "sha256": "381390864877ca75fba0016afe5a05bc1605ef4945288feca2b66a5a0621c61e",
+      "git_blob": "b5f63d8f213a8a4778bb08648cadb80f0aabd5a8",
+      "equal_to_current_head": true
+    },
+    {
+      "path": "docs/en/integrations/bigquery/source.md",
+      "local_path": "sources/selected/docs/en/integrations/bigquery/source.md",
+      "pinned_commit": "e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f",
+      "canonical_url": "https://github.com/googleapis/mcp-toolbox/blob/e14cda6b4f483e6b5e5ec23e342f9f232a6ce60f/docs/en/integrations/bigquery/source.md",
+      "bytes": 16036,
+      "sha256": "db60be2d259e615e85fa5a837de4bc0734b530cc0bd337e80e276d8420af6ebe",
+      "git_blob": "0efb3354224e6c2419d6c806f6c18178af024aec",
+      "equal_to_current_head": true
+    }
+  ]
+}

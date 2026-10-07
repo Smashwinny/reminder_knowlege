@@ -1,0 +1,1435 @@
+最终阅读说明：summary.checks_count=11指11类校验，不是Python assert语句总数。以下保留逐次实际输出，早期“断言”措辞不回写历史；首轮收益栏分层缺陷已在随后复跑修正。最终实验代码及结果见练习包。
+
+HowToLiveBetter 真实只读主实验
+2026-10-05T03:34:41Z
+工作目录：/workspace/scratch/fb956861c0bf/how_to_live_better
+$ python3 author/run_experiment.py --source-root source_evidence/originals --manifest source_evidence/selected_source_manifest.json --output-dir author/lab_results
+
+## 1 固定真实输入
+{
+  "started_at_utc": "2026-10-05T03:34:41.792606+00:00",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "repository": "https://github.com/eternity4719/HowToLiveBetter",
+  "input_hashes": {
+    "README.md": "4450a3c055d1f3fee7f21e7eca5c4ea698a4f4889ee81de815eae9ec7242ad73",
+    "book/04-不要浪费时间.md": "f5c9ff7caf35ead52af847b42824165538a7d6edcb26db0562eab90de42a74bb",
+    "docs/核实记录/04-不要浪费时间.md": "a634678d1f9537cec321c1c2bc7bc823da4e3e895d21762e27ca942e6d8580a4"
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "writes": "only --output-dir",
+  "executed_upstream_scripts": false,
+  "network_used_by_this_script": false
+}
+
+## 2 从原始入口定位完整条目
+{
+  "readme_link_lines": [
+    71,
+    260
+  ],
+  "chapter_entries": 18,
+  "sample": [
+    {
+      "id": 3,
+      "title": "决定是否继续时，只看未来投入和未来回报，不看已投入多少",
+      "lines": [
+        25,
+        33
+      ],
+      "field_lines": {
+        "成本": 27,
+        "说人话": 28,
+        "收益": 29,
+        "证据等级": 30,
+        "来源": 31,
+        "备注": 32
+      }
+    },
+    {
+      "id": 6,
+      "title": "砍会议数量，能用文字异步解决的不开会",
+      "lines": [
+        52,
+        60
+      ],
+      "field_lines": {
+        "成本": 54,
+        "说人话": 55,
+        "收益": 56,
+        "证据等级": 57,
+        "来源": 58,
+        "备注": 59
+      }
+    },
+    {
+      "id": 7,
+      "title": "把大任务拆成子任务再估时、再开工",
+      "lines": [
+        61,
+        69
+      ],
+      "field_lines": {
+        "成本": 63,
+        "说人话": 64,
+        "收益": 65,
+        "证据等级": 66,
+        "来源": 67,
+        "备注": 68
+      }
+    }
+  ]
+}
+
+## 3 追到来源字段与核实记录
+{
+  "3": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1016/0749-5978(85)90049-4",
+        "url": "https://doi.org/10.1016/0749-5978(85)90049-4",
+        "record_lines": [
+          11
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1007/s40685-014-0014-8",
+        "url": "https://doi.org/10.1007/s40685-014-0014-8",
+        "record_lines": [
+          16
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "6": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1037/0021-9010.91.1.83",
+        "url": "https://doi.org/10.1037/0021-9010.91.1.83",
+        "record_lines": [
+          49
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1037/1089-2699.9.1.58",
+        "url": "https://doi.org/10.1037/1089-2699.9.1.58",
+        "record_lines": [
+          53
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "7": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1016/j.jesp.2003.11.001",
+        "url": "https://doi.org/10.1016/j.jesp.2003.11.001",
+        "record_lines": [
+          58
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1037/0033-2909.133.1.65",
+        "url": "https://doi.org/10.1037/0033-2909.133.1.65",
+        "record_lines": [
+          64
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  }
+}
+
+## 4 隔离事实断言和作者判断
+{
+  "repository_fact": {
+    "text": "第4节第6条存在，证据等级标为 B，来源字段有两个 DOI。",
+    "verification": "本次直接读取固定版本可验证"
+  },
+  "reported_empirical_claim": {
+    "text": "两项调查找的是每周工作 35 小时以上的员工，分别有 676 人和 304 人。开会占掉多少时间，对工作态度和幸福感的影响不是固定的，要看两件事：会开得好不好，这个岗位干活有多依赖别人。另一项研究让人连记一周日记，结果是当天开会次数越多，疲劳和自己感觉到的工作量越高。省下的时间，等于你砍掉的会议时长本身。",
+    "verification": "仓库转述研究，当前实验未独立验证原论文",
+    "line": 56
+  },
+  "author_judgment": {
+    "text": "将会议改为文字异步沟通的建议",
+    "explicit_label": "争议：Rogelberg 2006 发现，会议多少和幸福感之间不是一边倒。工作上高度依赖别人的岗位，会议多反而不算坏事。另外，没有研究把「改用文字异步沟通」和开会直接比过，这条是作者自己的推论。",
+    "line": 59
+  },
+  "reader_application": {
+    "text": "是否适合某个团队、节省多少时间",
+    "status": "NOT_ESTABLISHED"
+  }
+}
+
+## 5 未知弃权与失败对照
+{
+  "actual_entry_7_unknown_percentage": {
+    "status": "ABSTAIN",
+    "value": null,
+    "reason": "备注明确百分比未核到原文",
+    "source_line": 68
+  },
+  "absent_entry_999": {
+    "status": "UNKNOWN_ENTRY",
+    "number": null,
+    "reason": "固定样本没有该条目；不补写"
+  },
+  "removed_source_in_memory": {
+    "status": "UNKNOWN_SOURCE",
+    "sources": [],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "appended_bytes_mutation_detected": true,
+  "cross_file_discrepancy": {
+    "entry": 3,
+    "current_number": "4.11",
+    "record_note": "旧核实记录写具体场次未确认且未写数字；当前正文已出现该数值",
+    "status": "UNRESOLVED_PROVENANCE_GAP",
+    "number_correctness": "NOT_DECIDED"
+  },
+  "control_scope": "主样本都是真实文件；删来源和改字节仅为内存中的负向对照"
+}
+
+## 6 只读不变性与结论
+{
+  "started_at_utc": "2026-10-05T03:34:41.792606+00:00",
+  "ended_at_utc": "2026-10-05T03:34:41.794297+00:00",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "checks_passed": [
+    "fixed_commit_and_sha256",
+    "readme_to_real_entry",
+    "six_fields_present",
+    "six_dois_present_in_record",
+    "author_judgment_not_promoted_to_fact",
+    "unknown_percentage_abstention",
+    "absent_entry_abstention",
+    "missing_source_abstention",
+    "tampered_bytes_rejected",
+    "provenance_gap_exposed",
+    "source_unchanged"
+  ],
+  "checks_count": 11,
+  "scope": "repository traceability only",
+  "source_unchanged": true,
+  "new_medical_legal_financial_conclusions": false,
+  "external_papers_read_by_script": false,
+  "release_claim": "实验通过不表示仓库全部结论、外部论文或个人适用性通过"
+}
+EXIT_CODE=0
+
+修订复跑：收益栏也可能混合事实断言和作者算账。把最后一句时间等式独立标为作者假设；保留首次输出以供追溯。
+2026-10-05T03:34:58Z
+$ python3 author/run_experiment.py --source-root source_evidence/originals --manifest source_evidence/selected_source_manifest.json --output-dir author/lab_results
+
+## 1 固定真实输入
+{
+  "started_at_utc": "2026-10-05T03:34:58.445956+00:00",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "repository": "https://github.com/eternity4719/HowToLiveBetter",
+  "input_hashes": {
+    "README.md": "4450a3c055d1f3fee7f21e7eca5c4ea698a4f4889ee81de815eae9ec7242ad73",
+    "book/04-不要浪费时间.md": "f5c9ff7caf35ead52af847b42824165538a7d6edcb26db0562eab90de42a74bb",
+    "docs/核实记录/04-不要浪费时间.md": "a634678d1f9537cec321c1c2bc7bc823da4e3e895d21762e27ca942e6d8580a4"
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "writes": "only --output-dir",
+  "executed_upstream_scripts": false,
+  "network_used_by_this_script": false
+}
+
+## 2 从原始入口定位完整条目
+{
+  "readme_link_lines": [
+    71,
+    260
+  ],
+  "chapter_entries": 18,
+  "sample": [
+    {
+      "id": 3,
+      "title": "决定是否继续时，只看未来投入和未来回报，不看已投入多少",
+      "lines": [
+        25,
+        33
+      ],
+      "field_lines": {
+        "成本": 27,
+        "说人话": 28,
+        "收益": 29,
+        "证据等级": 30,
+        "来源": 31,
+        "备注": 32
+      }
+    },
+    {
+      "id": 6,
+      "title": "砍会议数量，能用文字异步解决的不开会",
+      "lines": [
+        52,
+        60
+      ],
+      "field_lines": {
+        "成本": 54,
+        "说人话": 55,
+        "收益": 56,
+        "证据等级": 57,
+        "来源": 58,
+        "备注": 59
+      }
+    },
+    {
+      "id": 7,
+      "title": "把大任务拆成子任务再估时、再开工",
+      "lines": [
+        61,
+        69
+      ],
+      "field_lines": {
+        "成本": 63,
+        "说人话": 64,
+        "收益": 65,
+        "证据等级": 66,
+        "来源": 67,
+        "备注": 68
+      }
+    }
+  ]
+}
+
+## 3 追到来源字段与核实记录
+{
+  "3": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1016/0749-5978(85)90049-4",
+        "url": "https://doi.org/10.1016/0749-5978(85)90049-4",
+        "record_lines": [
+          11
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1007/s40685-014-0014-8",
+        "url": "https://doi.org/10.1007/s40685-014-0014-8",
+        "record_lines": [
+          16
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "6": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1037/0021-9010.91.1.83",
+        "url": "https://doi.org/10.1037/0021-9010.91.1.83",
+        "record_lines": [
+          49
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1037/1089-2699.9.1.58",
+        "url": "https://doi.org/10.1037/1089-2699.9.1.58",
+        "record_lines": [
+          53
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "7": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1016/j.jesp.2003.11.001",
+        "url": "https://doi.org/10.1016/j.jesp.2003.11.001",
+        "record_lines": [
+          58
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1037/0033-2909.133.1.65",
+        "url": "https://doi.org/10.1037/0033-2909.133.1.65",
+        "record_lines": [
+          64
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  }
+}
+
+## 4 隔离事实断言和作者判断
+{
+  "repository_fact": {
+    "text": "第4节第6条存在，证据等级标为 B，来源字段有两个 DOI。",
+    "verification": "本次直接读取固定版本可验证"
+  },
+  "reported_empirical_claim": {
+    "text": "两项调查找的是每周工作 35 小时以上的员工，分别有 676 人和 304 人。开会占掉多少时间，对工作态度和幸福感的影响不是固定的，要看两件事：会开得好不好，这个岗位干活有多依赖别人。另一项研究让人连记一周日记，结果是当天开会次数越多，疲劳和自己感觉到的工作量越高。",
+    "verification": "仓库转述研究，当前实验未独立验证原论文",
+    "line": 56
+  },
+  "author_accounting_assumption": {
+    "text": "省下的时间，等于你砍掉的会议时长本身。",
+    "verification": "作者的时间账表述；不自动计入替代沟通耗时，不当作实测净收益",
+    "line": 56
+  },
+  "author_judgment": {
+    "text": "将会议改为文字异步沟通的建议",
+    "explicit_label": "争议：Rogelberg 2006 发现，会议多少和幸福感之间不是一边倒。工作上高度依赖别人的岗位，会议多反而不算坏事。另外，没有研究把「改用文字异步沟通」和开会直接比过，这条是作者自己的推论。",
+    "line": 59
+  },
+  "reader_application": {
+    "text": "是否适合某个团队、节省多少时间",
+    "status": "NOT_ESTABLISHED"
+  }
+}
+
+## 5 未知弃权与失败对照
+{
+  "actual_entry_7_unknown_percentage": {
+    "status": "ABSTAIN",
+    "value": null,
+    "reason": "备注明确百分比未核到原文",
+    "source_line": 68
+  },
+  "absent_entry_999": {
+    "status": "UNKNOWN_ENTRY",
+    "number": null,
+    "reason": "固定样本没有该条目；不补写"
+  },
+  "removed_source_in_memory": {
+    "status": "UNKNOWN_SOURCE",
+    "sources": [],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "appended_bytes_mutation_detected": true,
+  "cross_file_discrepancy": {
+    "entry": 3,
+    "current_number": "4.11",
+    "record_note": "旧核实记录写具体场次未确认且未写数字；当前正文已出现该数值",
+    "status": "UNRESOLVED_PROVENANCE_GAP",
+    "number_correctness": "NOT_DECIDED"
+  },
+  "control_scope": "主样本都是真实文件；删来源和改字节仅为内存中的负向对照"
+}
+
+## 6 只读不变性与结论
+{
+  "started_at_utc": "2026-10-05T03:34:58.445956+00:00",
+  "ended_at_utc": "2026-10-05T03:34:58.447767+00:00",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "checks_passed": [
+    "fixed_commit_and_sha256",
+    "readme_to_real_entry",
+    "six_fields_present",
+    "six_dois_present_in_record",
+    "author_judgment_not_promoted_to_fact",
+    "unknown_percentage_abstention",
+    "absent_entry_abstention",
+    "missing_source_abstention",
+    "tampered_bytes_rejected",
+    "provenance_gap_exposed",
+    "source_unchanged"
+  ],
+  "checks_count": 11,
+  "scope": "repository traceability only",
+  "source_unchanged": true,
+  "new_medical_legal_financial_conclusions": false,
+  "external_papers_read_by_script": false,
+  "release_claim": "实验通过不表示仓库全部结论、外部论文或个人适用性通过"
+}
+EXIT_CODE=0
+
+正式练习包六步逐项重跑；--show只筛选显示，所有断言每次都执行。
+/workspace/scratch/fb956861c0bf/how_to_live_better/exercise
+2026-10-05T03:40:58Z
+$ python3 run_experiment.py --show 1
+
+## 1 固定真实输入
+{
+  "started_at_utc": "2026-10-05T03:40:58.921965+00:00",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "repository": "https://github.com/eternity4719/HowToLiveBetter",
+  "input_hashes": {
+    "README.md": "4450a3c055d1f3fee7f21e7eca5c4ea698a4f4889ee81de815eae9ec7242ad73",
+    "book/04-不要浪费时间.md": "f5c9ff7caf35ead52af847b42824165538a7d6edcb26db0562eab90de42a74bb",
+    "docs/核实记录/04-不要浪费时间.md": "a634678d1f9537cec321c1c2bc7bc823da4e3e895d21762e27ca942e6d8580a4"
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "writes": "only --output-dir",
+  "executed_upstream_scripts": false,
+  "network_used_by_this_script": false
+}
+EXIT_CODE=0
+$ python3 run_experiment.py --show 2
+
+## 2 从原始入口定位完整条目
+{
+  "readme_link_lines": [
+    71,
+    260
+  ],
+  "chapter_entries": 18,
+  "sample": [
+    {
+      "id": 3,
+      "title": "决定是否继续时，只看未来投入和未来回报，不看已投入多少",
+      "lines": [
+        25,
+        33
+      ],
+      "field_lines": {
+        "成本": 27,
+        "说人话": 28,
+        "收益": 29,
+        "证据等级": 30,
+        "来源": 31,
+        "备注": 32
+      }
+    },
+    {
+      "id": 6,
+      "title": "砍会议数量，能用文字异步解决的不开会",
+      "lines": [
+        52,
+        60
+      ],
+      "field_lines": {
+        "成本": 54,
+        "说人话": 55,
+        "收益": 56,
+        "证据等级": 57,
+        "来源": 58,
+        "备注": 59
+      }
+    },
+    {
+      "id": 7,
+      "title": "把大任务拆成子任务再估时、再开工",
+      "lines": [
+        61,
+        69
+      ],
+      "field_lines": {
+        "成本": 63,
+        "说人话": 64,
+        "收益": 65,
+        "证据等级": 66,
+        "来源": 67,
+        "备注": 68
+      }
+    }
+  ]
+}
+EXIT_CODE=0
+$ python3 run_experiment.py --show 3
+
+## 3 追到来源字段与核实记录
+{
+  "3": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1016/0749-5978(85)90049-4",
+        "url": "https://doi.org/10.1016/0749-5978(85)90049-4",
+        "record_lines": [
+          11
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1007/s40685-014-0014-8",
+        "url": "https://doi.org/10.1007/s40685-014-0014-8",
+        "record_lines": [
+          16
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "6": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1037/0021-9010.91.1.83",
+        "url": "https://doi.org/10.1037/0021-9010.91.1.83",
+        "record_lines": [
+          49
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1037/1089-2699.9.1.58",
+        "url": "https://doi.org/10.1037/1089-2699.9.1.58",
+        "record_lines": [
+          53
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "7": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1016/j.jesp.2003.11.001",
+        "url": "https://doi.org/10.1016/j.jesp.2003.11.001",
+        "record_lines": [
+          58
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1037/0033-2909.133.1.65",
+        "url": "https://doi.org/10.1037/0033-2909.133.1.65",
+        "record_lines": [
+          64
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  }
+}
+EXIT_CODE=0
+$ python3 run_experiment.py --show 4
+
+## 4 隔离事实断言和作者判断
+{
+  "repository_fact": {
+    "text": "第4节第6条存在，证据等级标为 B，来源字段有两个 DOI。",
+    "verification": "本次直接读取固定版本可验证"
+  },
+  "reported_empirical_claim": {
+    "text": "两项调查找的是每周工作 35 小时以上的员工，分别有 676 人和 304 人。开会占掉多少时间，对工作态度和幸福感的影响不是固定的，要看两件事：会开得好不好，这个岗位干活有多依赖别人。另一项研究让人连记一周日记，结果是当天开会次数越多，疲劳和自己感觉到的工作量越高。",
+    "verification": "仓库转述研究，当前实验未独立验证原论文",
+    "line": 56
+  },
+  "author_accounting_assumption": {
+    "text": "省下的时间，等于你砍掉的会议时长本身。",
+    "verification": "作者的时间账表述；不自动计入替代沟通耗时，不当作实测净收益",
+    "line": 56
+  },
+  "author_judgment": {
+    "text": "将会议改为文字异步沟通的建议",
+    "explicit_label": "争议：Rogelberg 2006 发现，会议多少和幸福感之间不是一边倒。工作上高度依赖别人的岗位，会议多反而不算坏事。另外，没有研究把「改用文字异步沟通」和开会直接比过，这条是作者自己的推论。",
+    "line": 59
+  },
+  "reader_application": {
+    "text": "是否适合某个团队、节省多少时间",
+    "status": "NOT_ESTABLISHED"
+  }
+}
+EXIT_CODE=0
+$ python3 run_experiment.py --show 5
+
+## 5 未知弃权与失败对照
+{
+  "actual_entry_7_unknown_percentage": {
+    "status": "ABSTAIN",
+    "value": null,
+    "reason": "备注明确百分比未核到原文",
+    "source_line": 68
+  },
+  "absent_entry_999": {
+    "status": "UNKNOWN_ENTRY",
+    "number": null,
+    "reason": "固定样本没有该条目；不补写"
+  },
+  "removed_source_in_memory": {
+    "status": "UNKNOWN_SOURCE",
+    "sources": [],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "appended_bytes_mutation_detected": true,
+  "cross_file_discrepancy": {
+    "entry": 3,
+    "current_number": "4.11",
+    "record_note": "旧核实记录写具体场次未确认且未写数字；当前正文已出现该数值",
+    "status": "UNRESOLVED_PROVENANCE_GAP",
+    "number_correctness": "NOT_DECIDED"
+  },
+  "control_scope": "主样本都是真实文件；删来源和改字节仅为内存中的负向对照"
+}
+EXIT_CODE=0
+$ python3 run_experiment.py --show 6
+
+## 6 只读不变性与结论
+{
+  "started_at_utc": "2026-10-05T03:40:59.088247+00:00",
+  "ended_at_utc": "2026-10-05T03:40:59.090186+00:00",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "checks_passed": [
+    "fixed_commit_and_sha256",
+    "readme_to_real_entry",
+    "six_fields_present",
+    "six_dois_present_in_record",
+    "author_judgment_not_promoted_to_fact",
+    "unknown_percentage_abstention",
+    "absent_entry_abstention",
+    "missing_source_abstention",
+    "tampered_bytes_rejected",
+    "provenance_gap_exposed",
+    "source_unchanged"
+  ],
+  "checks_count": 11,
+  "scope": "repository traceability only",
+  "source_unchanged": true,
+  "new_medical_legal_financial_conclusions": false,
+  "external_papers_read_by_script": false,
+  "release_claim": "实验通过不表示仓库全部结论、外部论文或个人适用性通过"
+}
+EXIT_CODE=0
+$ python3 run_experiment.py
+
+## 1 固定真实输入
+{
+  "started_at_utc": "2026-10-05T03:40:59.126224+00:00",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "repository": "https://github.com/eternity4719/HowToLiveBetter",
+  "input_hashes": {
+    "README.md": "4450a3c055d1f3fee7f21e7eca5c4ea698a4f4889ee81de815eae9ec7242ad73",
+    "book/04-不要浪费时间.md": "f5c9ff7caf35ead52af847b42824165538a7d6edcb26db0562eab90de42a74bb",
+    "docs/核实记录/04-不要浪费时间.md": "a634678d1f9537cec321c1c2bc7bc823da4e3e895d21762e27ca942e6d8580a4"
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "writes": "only --output-dir",
+  "executed_upstream_scripts": false,
+  "network_used_by_this_script": false
+}
+
+## 2 从原始入口定位完整条目
+{
+  "readme_link_lines": [
+    71,
+    260
+  ],
+  "chapter_entries": 18,
+  "sample": [
+    {
+      "id": 3,
+      "title": "决定是否继续时，只看未来投入和未来回报，不看已投入多少",
+      "lines": [
+        25,
+        33
+      ],
+      "field_lines": {
+        "成本": 27,
+        "说人话": 28,
+        "收益": 29,
+        "证据等级": 30,
+        "来源": 31,
+        "备注": 32
+      }
+    },
+    {
+      "id": 6,
+      "title": "砍会议数量，能用文字异步解决的不开会",
+      "lines": [
+        52,
+        60
+      ],
+      "field_lines": {
+        "成本": 54,
+        "说人话": 55,
+        "收益": 56,
+        "证据等级": 57,
+        "来源": 58,
+        "备注": 59
+      }
+    },
+    {
+      "id": 7,
+      "title": "把大任务拆成子任务再估时、再开工",
+      "lines": [
+        61,
+        69
+      ],
+      "field_lines": {
+        "成本": 63,
+        "说人话": 64,
+        "收益": 65,
+        "证据等级": 66,
+        "来源": 67,
+        "备注": 68
+      }
+    }
+  ]
+}
+
+## 3 追到来源字段与核实记录
+{
+  "3": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1016/0749-5978(85)90049-4",
+        "url": "https://doi.org/10.1016/0749-5978(85)90049-4",
+        "record_lines": [
+          11
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1007/s40685-014-0014-8",
+        "url": "https://doi.org/10.1007/s40685-014-0014-8",
+        "record_lines": [
+          16
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "6": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1037/0021-9010.91.1.83",
+        "url": "https://doi.org/10.1037/0021-9010.91.1.83",
+        "record_lines": [
+          49
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1037/1089-2699.9.1.58",
+        "url": "https://doi.org/10.1037/1089-2699.9.1.58",
+        "record_lines": [
+          53
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "7": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1016/j.jesp.2003.11.001",
+        "url": "https://doi.org/10.1016/j.jesp.2003.11.001",
+        "record_lines": [
+          58
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1037/0033-2909.133.1.65",
+        "url": "https://doi.org/10.1037/0033-2909.133.1.65",
+        "record_lines": [
+          64
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  }
+}
+
+## 4 隔离事实断言和作者判断
+{
+  "repository_fact": {
+    "text": "第4节第6条存在，证据等级标为 B，来源字段有两个 DOI。",
+    "verification": "本次直接读取固定版本可验证"
+  },
+  "reported_empirical_claim": {
+    "text": "两项调查找的是每周工作 35 小时以上的员工，分别有 676 人和 304 人。开会占掉多少时间，对工作态度和幸福感的影响不是固定的，要看两件事：会开得好不好，这个岗位干活有多依赖别人。另一项研究让人连记一周日记，结果是当天开会次数越多，疲劳和自己感觉到的工作量越高。",
+    "verification": "仓库转述研究，当前实验未独立验证原论文",
+    "line": 56
+  },
+  "author_accounting_assumption": {
+    "text": "省下的时间，等于你砍掉的会议时长本身。",
+    "verification": "作者的时间账表述；不自动计入替代沟通耗时，不当作实测净收益",
+    "line": 56
+  },
+  "author_judgment": {
+    "text": "将会议改为文字异步沟通的建议",
+    "explicit_label": "争议：Rogelberg 2006 发现，会议多少和幸福感之间不是一边倒。工作上高度依赖别人的岗位，会议多反而不算坏事。另外，没有研究把「改用文字异步沟通」和开会直接比过，这条是作者自己的推论。",
+    "line": 59
+  },
+  "reader_application": {
+    "text": "是否适合某个团队、节省多少时间",
+    "status": "NOT_ESTABLISHED"
+  }
+}
+
+## 5 未知弃权与失败对照
+{
+  "actual_entry_7_unknown_percentage": {
+    "status": "ABSTAIN",
+    "value": null,
+    "reason": "备注明确百分比未核到原文",
+    "source_line": 68
+  },
+  "absent_entry_999": {
+    "status": "UNKNOWN_ENTRY",
+    "number": null,
+    "reason": "固定样本没有该条目；不补写"
+  },
+  "removed_source_in_memory": {
+    "status": "UNKNOWN_SOURCE",
+    "sources": [],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "appended_bytes_mutation_detected": true,
+  "cross_file_discrepancy": {
+    "entry": 3,
+    "current_number": "4.11",
+    "record_note": "旧核实记录写具体场次未确认且未写数字；当前正文已出现该数值",
+    "status": "UNRESOLVED_PROVENANCE_GAP",
+    "number_correctness": "NOT_DECIDED"
+  },
+  "control_scope": "主样本都是真实文件；删来源和改字节仅为内存中的负向对照"
+}
+
+## 6 只读不变性与结论
+{
+  "started_at_utc": "2026-10-05T03:40:59.126224+00:00",
+  "ended_at_utc": "2026-10-05T03:40:59.127955+00:00",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "checks_passed": [
+    "fixed_commit_and_sha256",
+    "readme_to_real_entry",
+    "six_fields_present",
+    "six_dois_present_in_record",
+    "author_judgment_not_promoted_to_fact",
+    "unknown_percentage_abstention",
+    "absent_entry_abstention",
+    "missing_source_abstention",
+    "tampered_bytes_rejected",
+    "provenance_gap_exposed",
+    "source_unchanged"
+  ],
+  "checks_count": 11,
+  "scope": "repository traceability only",
+  "source_unchanged": true,
+  "new_medical_legal_financial_conclusions": false,
+  "external_papers_read_by_script": false,
+  "release_claim": "实验通过不表示仓库全部结论、外部论文或个人适用性通过"
+}
+EXIT_CODE=0
+
+最终作者补充核验
+2026-10-05T03:41:52Z
+$ python3 exercise/run_experiment.py --source-root exercise/source --manifest exercise/manifest.json --output-dir qa/author_replay
+
+## 1 固定真实输入
+{
+  "started_at_utc": "2026-10-05T03:41:52.031144+00:00",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "repository": "https://github.com/eternity4719/HowToLiveBetter",
+  "input_hashes": {
+    "README.md": "4450a3c055d1f3fee7f21e7eca5c4ea698a4f4889ee81de815eae9ec7242ad73",
+    "book/04-不要浪费时间.md": "f5c9ff7caf35ead52af847b42824165538a7d6edcb26db0562eab90de42a74bb",
+    "docs/核实记录/04-不要浪费时间.md": "a634678d1f9537cec321c1c2bc7bc823da4e3e895d21762e27ca942e6d8580a4"
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "writes": "only --output-dir",
+  "executed_upstream_scripts": false,
+  "network_used_by_this_script": false
+}
+
+## 2 从原始入口定位完整条目
+{
+  "readme_link_lines": [
+    71,
+    260
+  ],
+  "chapter_entries": 18,
+  "sample": [
+    {
+      "id": 3,
+      "title": "决定是否继续时，只看未来投入和未来回报，不看已投入多少",
+      "lines": [
+        25,
+        33
+      ],
+      "field_lines": {
+        "成本": 27,
+        "说人话": 28,
+        "收益": 29,
+        "证据等级": 30,
+        "来源": 31,
+        "备注": 32
+      }
+    },
+    {
+      "id": 6,
+      "title": "砍会议数量，能用文字异步解决的不开会",
+      "lines": [
+        52,
+        60
+      ],
+      "field_lines": {
+        "成本": 54,
+        "说人话": 55,
+        "收益": 56,
+        "证据等级": 57,
+        "来源": 58,
+        "备注": 59
+      }
+    },
+    {
+      "id": 7,
+      "title": "把大任务拆成子任务再估时、再开工",
+      "lines": [
+        61,
+        69
+      ],
+      "field_lines": {
+        "成本": 63,
+        "说人话": 64,
+        "收益": 65,
+        "证据等级": 66,
+        "来源": 67,
+        "备注": 68
+      }
+    }
+  ]
+}
+
+## 3 追到来源字段与核实记录
+{
+  "3": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1016/0749-5978(85)90049-4",
+        "url": "https://doi.org/10.1016/0749-5978(85)90049-4",
+        "record_lines": [
+          11
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1007/s40685-014-0014-8",
+        "url": "https://doi.org/10.1007/s40685-014-0014-8",
+        "record_lines": [
+          16
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "6": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1037/0021-9010.91.1.83",
+        "url": "https://doi.org/10.1037/0021-9010.91.1.83",
+        "record_lines": [
+          49
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1037/1089-2699.9.1.58",
+        "url": "https://doi.org/10.1037/1089-2699.9.1.58",
+        "record_lines": [
+          53
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "7": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1016/j.jesp.2003.11.001",
+        "url": "https://doi.org/10.1016/j.jesp.2003.11.001",
+        "record_lines": [
+          58
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1037/0033-2909.133.1.65",
+        "url": "https://doi.org/10.1037/0033-2909.133.1.65",
+        "record_lines": [
+          64
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  }
+}
+
+## 4 隔离事实断言和作者判断
+{
+  "repository_fact": {
+    "text": "第4节第6条存在，证据等级标为 B，来源字段有两个 DOI。",
+    "verification": "本次直接读取固定版本可验证"
+  },
+  "reported_empirical_claim": {
+    "text": "两项调查找的是每周工作 35 小时以上的员工，分别有 676 人和 304 人。开会占掉多少时间，对工作态度和幸福感的影响不是固定的，要看两件事：会开得好不好，这个岗位干活有多依赖别人。另一项研究让人连记一周日记，结果是当天开会次数越多，疲劳和自己感觉到的工作量越高。",
+    "verification": "仓库转述研究，当前实验未独立验证原论文",
+    "line": 56
+  },
+  "author_accounting_assumption": {
+    "text": "省下的时间，等于你砍掉的会议时长本身。",
+    "verification": "作者的时间账表述；不自动计入替代沟通耗时，不当作实测净收益",
+    "line": 56
+  },
+  "author_judgment": {
+    "text": "将会议改为文字异步沟通的建议",
+    "explicit_label": "争议：Rogelberg 2006 发现，会议多少和幸福感之间不是一边倒。工作上高度依赖别人的岗位，会议多反而不算坏事。另外，没有研究把「改用文字异步沟通」和开会直接比过，这条是作者自己的推论。",
+    "line": 59
+  },
+  "reader_application": {
+    "text": "是否适合某个团队、节省多少时间",
+    "status": "NOT_ESTABLISHED"
+  }
+}
+
+## 5 未知弃权与失败对照
+{
+  "actual_entry_7_unknown_percentage": {
+    "status": "ABSTAIN",
+    "value": null,
+    "reason": "备注明确百分比未核到原文",
+    "source_line": 68
+  },
+  "absent_entry_999": {
+    "status": "UNKNOWN_ENTRY",
+    "number": null,
+    "reason": "固定样本没有该条目；不补写"
+  },
+  "removed_source_in_memory": {
+    "status": "UNKNOWN_SOURCE",
+    "sources": [],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "appended_bytes_mutation_detected": true,
+  "cross_file_discrepancy": {
+    "entry": 3,
+    "current_number": "4.11",
+    "record_note": "旧核实记录写具体场次未确认且未写数字；当前正文已出现该数值",
+    "status": "UNRESOLVED_PROVENANCE_GAP",
+    "number_correctness": "NOT_DECIDED"
+  },
+  "control_scope": "主样本都是真实文件；删来源和改字节仅为内存中的负向对照"
+}
+
+## 6 只读不变性与结论
+{
+  "started_at_utc": "2026-10-05T03:41:52.031144+00:00",
+  "ended_at_utc": "2026-10-05T03:41:52.032809+00:00",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "checks_passed": [
+    "fixed_commit_and_sha256",
+    "readme_to_real_entry",
+    "six_fields_present",
+    "six_dois_present_in_record",
+    "author_judgment_not_promoted_to_fact",
+    "unknown_percentage_abstention",
+    "absent_entry_abstention",
+    "missing_source_abstention",
+    "tampered_bytes_rejected",
+    "provenance_gap_exposed",
+    "source_unchanged"
+  ],
+  "checks_count": 11,
+  "scope": "repository traceability only",
+  "source_unchanged": true,
+  "new_medical_legal_financial_conclusions": false,
+  "external_papers_read_by_script": false,
+  "release_claim": "实验通过不表示仓库全部结论、外部论文或个人适用性通过"
+}
+EXIT_CODE=0
+$ pdftoppm -r 110 -png output/01-guide.pdf qa/author-page
+实际已执行；11页全部渲染为PNG，作者于2026-10-05T03:40:06Z至03:40:30Z逐页打开检查；无缺字、溢出、裁切或重叠。
+HTML浏览器预览与HTML转PDF均未声称成功；本轮没有重试已受阻路线。
+PDF直接生成命令：python3 author/build_lesson.py；ReportLab 4.4.9；Noto中文字体子集已嵌入。
+$ sha256sum exercise/run_experiment.py output/01-guide.pdf
+c9fcfba512f8a00dc9ad3ae7abbe8a45653c82112b1ac5bbb49167493f09f4d6  exercise/run_experiment.py
+f004a5123f00ac6d69cf32f700a38387b5be00d5cdad8745bfe8457bcaa5d822  output/01-guide.pdf
+
+最终断言加固：显式要求6个DOI、每样本2个，检查B级和算账句分离，重新执行。
+$ cd exercise && python3 run_experiment.py
+
+## 1 固定真实输入
+{
+  "started_at_utc": "2026-10-05T03:42:23.027399+00:00",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "repository": "https://github.com/eternity4719/HowToLiveBetter",
+  "input_hashes": {
+    "README.md": "4450a3c055d1f3fee7f21e7eca5c4ea698a4f4889ee81de815eae9ec7242ad73",
+    "book/04-不要浪费时间.md": "f5c9ff7caf35ead52af847b42824165538a7d6edcb26db0562eab90de42a74bb",
+    "docs/核实记录/04-不要浪费时间.md": "a634678d1f9537cec321c1c2bc7bc823da4e3e895d21762e27ca942e6d8580a4"
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "writes": "only --output-dir",
+  "executed_upstream_scripts": false,
+  "network_used_by_this_script": false
+}
+
+## 2 从原始入口定位完整条目
+{
+  "readme_link_lines": [
+    71,
+    260
+  ],
+  "chapter_entries": 18,
+  "sample": [
+    {
+      "id": 3,
+      "title": "决定是否继续时，只看未来投入和未来回报，不看已投入多少",
+      "lines": [
+        25,
+        33
+      ],
+      "field_lines": {
+        "成本": 27,
+        "说人话": 28,
+        "收益": 29,
+        "证据等级": 30,
+        "来源": 31,
+        "备注": 32
+      }
+    },
+    {
+      "id": 6,
+      "title": "砍会议数量，能用文字异步解决的不开会",
+      "lines": [
+        52,
+        60
+      ],
+      "field_lines": {
+        "成本": 54,
+        "说人话": 55,
+        "收益": 56,
+        "证据等级": 57,
+        "来源": 58,
+        "备注": 59
+      }
+    },
+    {
+      "id": 7,
+      "title": "把大任务拆成子任务再估时、再开工",
+      "lines": [
+        61,
+        69
+      ],
+      "field_lines": {
+        "成本": 63,
+        "说人话": 64,
+        "收益": 65,
+        "证据等级": 66,
+        "来源": 67,
+        "备注": 68
+      }
+    }
+  ]
+}
+
+## 3 追到来源字段与核实记录
+{
+  "3": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1016/0749-5978(85)90049-4",
+        "url": "https://doi.org/10.1016/0749-5978(85)90049-4",
+        "record_lines": [
+          11
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1007/s40685-014-0014-8",
+        "url": "https://doi.org/10.1007/s40685-014-0014-8",
+        "record_lines": [
+          16
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "6": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1037/0021-9010.91.1.83",
+        "url": "https://doi.org/10.1037/0021-9010.91.1.83",
+        "record_lines": [
+          49
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1037/1089-2699.9.1.58",
+        "url": "https://doi.org/10.1037/1089-2699.9.1.58",
+        "record_lines": [
+          53
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "7": {
+    "status": "TRACEABLE_REPOSITORY_CITATION",
+    "sources": [
+      {
+        "doi": "10.1016/j.jesp.2003.11.001",
+        "url": "https://doi.org/10.1016/j.jesp.2003.11.001",
+        "record_lines": [
+          58
+        ],
+        "external_read_this_experiment": false
+      },
+      {
+        "doi": "10.1037/0033-2909.133.1.65",
+        "url": "https://doi.org/10.1037/0033-2909.133.1.65",
+        "record_lines": [
+          64
+        ],
+        "external_read_this_experiment": false
+      }
+    ],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  }
+}
+
+## 4 隔离事实断言和作者判断
+{
+  "repository_fact": {
+    "text": "第4节第6条存在，证据等级标为 B，来源字段有两个 DOI。",
+    "verification": "本次直接读取固定版本可验证"
+  },
+  "reported_empirical_claim": {
+    "text": "两项调查找的是每周工作 35 小时以上的员工，分别有 676 人和 304 人。开会占掉多少时间，对工作态度和幸福感的影响不是固定的，要看两件事：会开得好不好，这个岗位干活有多依赖别人。另一项研究让人连记一周日记，结果是当天开会次数越多，疲劳和自己感觉到的工作量越高。",
+    "verification": "仓库转述研究，当前实验未独立验证原论文",
+    "line": 56
+  },
+  "author_accounting_assumption": {
+    "text": "省下的时间，等于你砍掉的会议时长本身。",
+    "verification": "作者的时间账表述；不自动计入替代沟通耗时，不当作实测净收益",
+    "line": 56
+  },
+  "author_judgment": {
+    "text": "将会议改为文字异步沟通的建议",
+    "explicit_label": "争议：Rogelberg 2006 发现，会议多少和幸福感之间不是一边倒。工作上高度依赖别人的岗位，会议多反而不算坏事。另外，没有研究把「改用文字异步沟通」和开会直接比过，这条是作者自己的推论。",
+    "line": 59
+  },
+  "reader_application": {
+    "text": "是否适合某个团队、节省多少时间",
+    "status": "NOT_ESTABLISHED"
+  }
+}
+
+## 5 未知弃权与失败对照
+{
+  "actual_entry_7_unknown_percentage": {
+    "status": "ABSTAIN",
+    "value": null,
+    "reason": "备注明确百分比未核到原文",
+    "source_line": 68
+  },
+  "absent_entry_999": {
+    "status": "UNKNOWN_ENTRY",
+    "number": null,
+    "reason": "固定样本没有该条目；不补写"
+  },
+  "removed_source_in_memory": {
+    "status": "UNKNOWN_SOURCE",
+    "sources": [],
+    "claim_verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "scope": "定位到仓库引用与核实记录；不等于重新核验论文结论"
+  },
+  "appended_bytes_mutation_detected": true,
+  "cross_file_discrepancy": {
+    "entry": 3,
+    "current_number": "4.11",
+    "record_note": "旧核实记录写具体场次未确认且未写数字；当前正文已出现该数值",
+    "status": "UNRESOLVED_PROVENANCE_GAP",
+    "number_correctness": "NOT_DECIDED"
+  },
+  "control_scope": "主样本都是真实文件；删来源和改字节仅为内存中的负向对照"
+}
+
+## 6 只读不变性与结论
+{
+  "started_at_utc": "2026-10-05T03:42:23.027399+00:00",
+  "ended_at_utc": "2026-10-05T03:42:23.028978+00:00",
+  "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+  "checks_passed": [
+    "fixed_commit_and_sha256",
+    "readme_to_real_entry",
+    "six_fields_present",
+    "six_dois_present_in_record",
+    "author_judgment_not_promoted_to_fact",
+    "unknown_percentage_abstention",
+    "absent_entry_abstention",
+    "missing_source_abstention",
+    "tampered_bytes_rejected",
+    "provenance_gap_exposed",
+    "source_unchanged"
+  ],
+  "checks_count": 11,
+  "scope": "repository traceability only",
+  "source_unchanged": true,
+  "new_medical_legal_financial_conclusions": false,
+  "external_papers_read_by_script": false,
+  "release_claim": "实验通过不表示仓库全部结论、外部论文或个人适用性通过"
+}
+EXIT_CODE=0
+
+第二轮交付修订 2026-10-05T03:46:27Z：补MIT版权与许可原文；补首次术语释义；Q4图示改为互不连接的双维度；全文统一11类校验。
+$ python3 author/build_lesson.py
+HTML, PDF, notes generated
+$ pdftoppm -r 110 -png output/01-guide.pdf qa/author-page
+退出0；11页。作者于03:46:03Z至03:46:20Z再次逐页打开全部PNG，未见缺字、溢出、重叠、裁切。
+LICENSE-CODE SHA256=b5637b996d72e74dac01e8799701ff6440b5a979cd15a29ac120e7ae57963c67
+最终PDF SHA256=c25329c677a90175a2db16e69dacad3e12390757eccb26d7090fafeb2a40f469

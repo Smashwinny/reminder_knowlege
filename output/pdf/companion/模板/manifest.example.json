@@ -1,0 +1,12 @@
+{
+  "topic": "真实项目主题",
+  "project_dir": "PROJECT",
+  "pdf": "PROJECT/guide.pdf",
+  "html": "PROJECT/guide.html",
+  "exercise_dir": "PROJECT/exercise",
+  "experiment_log": "PROJECT/experiment_log.txt",
+  "vault_note": "vault/项目笔记/PROJECT.md",
+  "source_urls": [
+    "https://AUTHOR_OR_OFFICIAL_SOURCE"
+  ]
+}

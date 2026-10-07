@@ -19,3 +19,18 @@ tags: [概念]
 - 缺密钥分片问题源于微信分片结构（见 [[项目笔记/wx_cli_again]]）
 
 **首次接触于**：[[项目笔记/wx_cli_again]]
+
+## Metrik：未知、陈旧与旧周期失效分开（2026-10-05）
+
+[[项目笔记/metrik]] 把“数值连同成色传递”的方法用于额度展示，但它的窗口 view 字段不是本文原项目的 meta 协议。读数至少需要分清：
+
+- available=false：没有可用读数；不能把占位 0 当成零余量
+- available=true 且数值为 0：有效的零余量，应与未知区分
+- stale=true、resetExpired=false：读数陈旧但仍属于未结束的周期；真实 JS 选择器保留它，调用方仍须带陈旧提示
+- resetExpired=true：记录的重置点已经过去；选择器排除旧周期读数，但不能据此宣称已查询到新周期的 100%
+
+托盘决策函数对 null 显示 `--`，对有效 0 显示 `0`；tooltip 与状态指纹保留 stale 位。另一个 `compactTokens(null)` 格式化器会返回字符串 `0`，所以不能拿格式化文本替代可用性证据；本轮未测试完整 UI，不能据此断言产品误报。字段契约关联 [[单一馈送与schema冻结]]，选择流程见 [[多窗口额度的展示选择规则]]。
+
+已有实验只执行“给定状态位进入 JavaScript 后”的逻辑；后端如何计算 age/stale/resetExpired、缓存 TTL、鉴权与刷新均只作源码审阅。[[缓存]] 与 [[缓存有效期与发布边界]] 提供相关时效思路，但旧项目 TTL 不迁移成 Metrik 刷新周期；[[双时钟模型]] 讨论回放内容与呈现时钟，也不与这里的采样时间、当前时间和重置点做同义合并。
+
+来源：[quotaWindows.js](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src/quotaWindows.js)、[trayBadge.js](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src/trayBadge.js)、[tokenFormat.js](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src/tokenFormat.js)、[后端时效派生](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src-tauri/src/engine.rs#L1343-L1372)。实测范围见 [实验日志](../../metrik/delivery/04-experiment-log.md)。

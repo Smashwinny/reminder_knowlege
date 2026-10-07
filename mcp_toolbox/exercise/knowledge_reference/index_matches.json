@@ -1,0 +1,130 @@
+{
+  "queries": [
+    "MCP",
+    "Toolbox",
+    "最小权限",
+    "只读",
+    "数据库",
+    "工具范围",
+    "权限",
+    "工具注解",
+    "ToolHint",
+    "提示词管",
+    "门控"
+  ],
+  "scanned": 394,
+  "matches": [
+    {
+      "path": "vault/概念/CleanRoom只读读取器.md",
+      "title": "CleanRoom只读读取器",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/CleanRoom%E5%8F%AA%E8%AF%BB%E8%AF%BB%E5%8F%96%E5%99%A8.md",
+      "bytes": 1665,
+      "sha256": "85b4478ce52d7519b31c462de2e7030a222662eaa3088ef82532c2a14184d33a"
+    },
+    {
+      "path": "vault/概念/MCP协议.md",
+      "title": "MCP协议",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/MCP%E5%8D%8F%E8%AE%AE.md",
+      "bytes": 1720,
+      "sha256": "f241531981004f1580b331a37b9e38ca96875e368ac03d687aab199daac284d6"
+    },
+    {
+      "path": "vault/概念/MCP服务器.md",
+      "title": "MCP服务器",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/MCP%E6%9C%8D%E5%8A%A1%E5%99%A8.md",
+      "bytes": 1669,
+      "sha256": "e41b9e8b84fd8aeaa3e72dca9f0236e6773f9ace716eb9a5eae3f71d2d5d142e"
+    },
+    {
+      "path": "vault/概念/MCP模型上下文协议.md",
+      "title": "MCP模型上下文协议",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/MCP%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE.md",
+      "bytes": 1683,
+      "sha256": "ae666167533a8ad49319a380b3b4fbcd54c7153c5f019b6eee275440f6809aef"
+    },
+    {
+      "path": "vault/概念/代码管边界提示词管判断.md",
+      "title": "代码管边界提示词管判断",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BB%A3%E7%A0%81%E7%AE%A1%E8%BE%B9%E7%95%8C%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%AE%A1%E5%88%A4%E6%96%AD.md",
+      "bytes": 1427,
+      "sha256": "82baf8f30c908b3ea424d15f82b6d3124e40b3c1b023961bfd0c8abd1eb8b86d"
+    },
+    {
+      "path": "vault/概念/关系型数据库与NoSQL.md",
+      "title": "关系型数据库与NoSQL",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8ENoSQL.md",
+      "bytes": 1085,
+      "sha256": "a1521ce3393b63310f6e22c9f20bc3eca593928dcb342b56e40f2b31991ccce9"
+    },
+    {
+      "path": "vault/概念/只读闸门三原则.md",
+      "title": "只读闸门三原则",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8F%AA%E8%AF%BB%E9%97%B8%E9%97%A8%E4%B8%89%E5%8E%9F%E5%88%99.md",
+      "bytes": 1994,
+      "sha256": "23952485062d0da330ebe343b0216eb755f8340c1290526c26001d8af760817a"
+    },
+    {
+      "path": "vault/概念/向量数据库.md",
+      "title": "向量数据库",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93.md",
+      "bytes": 1733,
+      "sha256": "623d2d1ddf227fac83ee081cfd9d00e10bcdd811caedd3a96c77cbc4cd737e52"
+    },
+    {
+      "path": "vault/概念/快照契约与不可变只读.md",
+      "title": "快照契约与不可变只读",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%BF%AB%E7%85%A7%E5%A5%91%E7%BA%A6%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%8F%AA%E8%AF%BB.md",
+      "bytes": 2431,
+      "sha256": "5620d770f858b5b6fabec0d48515713d555c05aeaa88d55836a22fc8d82260b0"
+    },
+    {
+      "path": "vault/概念/本地MCP端点安全四道门.md",
+      "title": "本地MCP端点安全四道门",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%9C%AC%E5%9C%B0MCP%E7%AB%AF%E7%82%B9%E5%AE%89%E5%85%A8%E5%9B%9B%E9%81%93%E9%97%A8.md",
+      "bytes": 2558,
+      "sha256": "1f7cfcb79846015e78c94fcb6391e09ffc9f4b1e236c29ac391dd20fda686cff"
+    },
+    {
+      "path": "vault/概念/置信度门控与弃权.md",
+      "title": "置信度门控与弃权",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%BD%AE%E4%BF%A1%E5%BA%A6%E9%97%A8%E6%8E%A7%E4%B8%8E%E5%BC%83%E6%9D%83.md",
+      "bytes": 1935,
+      "sha256": "33584b31890cf4ba595adf9715548089b637eb19cc02ba31af5b59f1acd05e03"
+    },
+    {
+      "path": "vault/项目笔记/awesome-mcp-servers.md",
+      "title": "awesome-mcp-servers",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/awesome-mcp-servers.md",
+      "bytes": 2044,
+      "sha256": "08d7b0fd4592214d0dd91f20310902e8361f20dccc29ee66d1dfd2f4ef28ee5b"
+    },
+    {
+      "path": "vault/项目笔记/codex_quota_mcp.md",
+      "title": "codex_quota_mcp",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/codex_quota_mcp.md",
+      "bytes": 2699,
+      "sha256": "664c96a58fcbd5e6f32a71ab98fa344c400f1e22ae11d85f67ea0af5f9225d74"
+    },
+    {
+      "path": "vault/项目笔记/mcp_servers.md",
+      "title": "mcp_servers",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/mcp_servers.md",
+      "bytes": 2050,
+      "sha256": "b954ec779a0c06b25769647e65226dfb51149be455d3f0881fbeccfdfe2dfba7"
+    }
+  ]
+}

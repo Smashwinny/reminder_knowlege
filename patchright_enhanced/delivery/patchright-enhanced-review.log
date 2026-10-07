@@ -1,0 +1,251 @@
+PATCHRIGHT ENHANCED 公开学习材料独立审核日志
+审核日期：2026-10-05 UTC
+来源：https://github.com/whaleyxbt/patchright-enhanced
+固定提交：e38ab7ab9448db6f093f72ee097c18ca9905e84c
+
+一 本次审核结论与证据时间
+本次独立审核检查公开学习材料的内容、文件完整性、打包范围、链接、知识增量和最终PDF版式。五项作者产物通过下面限定的内容审核；本日志为第六项文件。
+本次没有重新运行学习实验、上游模块、查看器测试或浏览器；以下实验结论引用2026-10-05的既有真实记录。重新排版、静态检查和计算散列不构成新的实验结果。
+20/20表示20个当前行为断言匹配，其中包括缺陷，不是项目健康评分或浏览器成功率。10/10查看器自测单独统计，不能计入上游测试数。
+本日志不宣称远端发布或其他后续操作已经完成。其自身散列由外部文件清单记录，不在正文自引用。
+
+二 已有实验的范围与主要发现
+首次真实模块运行：2026-10-05 08:13:42 UTC，20/20断言匹配。
+既有独立新目录复现：2026-10-05 08:28:54至08:29:05 UTC，完整六步、查看器自测及单独单元调用成功；同20个用例的重复运行不另计为40个。
+本次读取两份保存的结构化结果并比较，除耗时外观察结果一致；本材料不是性能基准。
+
+真实执行的上游模块只有：
+- src/config/browser.config.ts
+- src/config/index.ts
+- src/browser/browser-manager.ts
+Node v24.19.0的stripTypeScriptTypes只去除类型语法，不执行语义类型检查或完整构建。fs.existsSync/mkdirSync、代理标记、cleanupTempDir、context.close是明确的惰性替身；path.resolve仅作纯路径计算。白名单按来源模块限制导入，动态导入被拒绝。
+没有导入Patchright、真实工厂、真实代理配置模块、入口或SessionRunner；没有启动浏览器、导航或真实清理目录。VM只提供本次测试的上下文隔离，不是执行任意恶意代码的强安全沙箱。
+
+- A01/A09：MAX_PARALLEL未设置或为空字符串时为2；README/.env.example示例为1。两种输入路径不能混同
+- A04-A08：0、-1、oops、2junk、2.9分别得到0、-1、NaN、2、2，没有拒绝这些输入
+- L04/L05：关闭成功后再清理；成功后的顺序重复调用没有额外外部效果
+- L06：合成close拒绝向上传播，context引用保留，cleanup没有调用
+- L07：测试主动第二次调用关闭，且替身这次成功后才继续清理；这不是源码自动重试机制
+- START_PAGE_URL空回退、locale必填与实现不一致、package与lock依赖条目不一致都是静态源码观察，不写成实测编译或安装失败
+
+三 已有查看器缺陷和修正记录
+早期scope查看器只调用every()，空sourceChecks数组也可能通过，却打印“3 source hashes”。已有独立审核发现此问题后，作者要求恰好3个唯一预期路径、SHA-256格式和值与清单一致、matched严格为true、仓库与提交一致、执行模块列表一致。
+既有10个查看器自测为1个完整证据正例与9个合成错误记录负例；错误记录均退出1且不打印VERIFIED。修正后ZIP才接受既有的新目录获取与六步复现。本次仅检查保存的脚本与结果，没有重跑这些测试。
+记录一致性检查不能代替实际执行代码的独立证据。Node的ExperimentalWarning保留在既有输出中，没有隐藏或当成失败。
+
+四 来源和练习包检查
+本次以固定提交的本地Git对象逐项比对22个跟踪文件，所有SHA-256与包内source-manifest.json一致。该提交未找到跟踪LICENSE/COPYING文件；既有检查也未找到许可声明。因此不推断再分发许可或商业授权。
+公开ZIP与原练习ZIP逐字节相同，内有6个自建材料：harness.mjs、inspect.mjs、viewer-tests.mjs、reproduce.sh、source-manifest.json、README.md。
+成员路径没有绝对路径或上级穿越；没有上游.ts文件、node_modules、.git、浏览器或凭据。包内没有任何文件与上游22个文件的完整字节相同。本次检查ZIP完整性、成员和源码指纹，没有执行包内命令。
+reproduce.sh中的公共Git读取是读者主动复现时的来源获取步骤；已有历史记录包含这一步，本次审核没有重新获取仓库或安装依赖。
+
+五 最终PDF与HTML检查
+公开PDF经本次独立Poppler重新渲染，并逐页打开检查全部12页。PDF为ReportLab直接排版的A4，595.276 × 841.89 pt，没有经过HTML浏览器打印。
+01：封面、结论、实验边界与目录完整
+02：问题01-02的正文、图示和来源清晰
+03：问题03-04的调用图、默认值及来源清晰
+04：问题05-06的输入矩阵与Context/Page图清晰
+05：问题07-08的关闭顺序与拒绝分支可读
+06：问题09-10的重复调用与隔离边界可读
+07：问题11-12的静态/运行区分与验收条件清晰
+08：能力清单和用途完整，实测/仅源码范围区分准确
+09：步骤1-2的完整命令与预期结果可读
+10：步骤3-4的完整命令与输入矩阵可读
+11：步骤5-6的完整命令与故障边界可读
+12：固定来源、历史运行时间、未测项和检验方式完整
+未观察到文字裁切、缺字、图文重叠或页码异常。PDF没有JavaScript、表单、自动打开动作或嵌入文件。
+HTML包含12个问题区、12张原创内联SVG和6个实验步骤；ID唯一、页内链接有效，没有脚本、iframe或外部加载资源，保留A4打印样式。固定源码链接的提交、路径和行号在本次静态核对中有效。PDF与HTML的六步命令一致。
+HTML浏览器预览及HTML转PDF路径受阻，未完成HTML浏览器视觉验收；本次没有重试或绕过该限制。PDF直接生成后的逐页检查不能冒充HTML浏览器验收。
+
+六 公开知识内容与合并检查
+已有公开知识检索覆盖394条索引元数据，实际全文读取并核验20篇相关公开笔记，其余374篇只检索元数据。这是历史检索范围，不能写成最新知识库全库全文查重。
+本次知识整理以公开仓库主分支提交bcd08c5d817a348838f538e34d30e603c0c042f8为合并基线。新增项目笔记并在接缝与桩实现StubSeam、失败反馈具体化、开源验货三查中追加项目案例，更新总览入口；没有创建同义概念。
+本次逐文件检查所有已有文件的原字节按顺序完整保留，仅增加项目增量；总览中所有历史行、项目入口与原有短标签逐字节保留。新增内容和链接单独核对，不把历史文字的存在当作新结论。
+wrapper契约与真实后端集成分别验收；MCP工具调用生命周期与浏览器资源生命周期只作关联；确定性选择器模式与DOM selector不混合。Agent-Reach只作已公开知识衔接，没有重做其实验或替换其他项目地址。
+公开材料只保留可独立理解的学习内容、公开来源与实验边界。对全部新增文本、PDF提取文本与元数据、ZIP成员进行了定向路径、标识符和常见凭据模式检查；该检查不是通用秘密检测保证。
+
+七 五项作者公开文件指纹
+以下散列对应本次审核的公开字节；原学习文件与公开文件的映射由独立的发布清单保存。
+patchright-enhanced-exercise.zip
+  bytes=11635
+  sha256=5c0804961cf9ab13baca534363411c243ea79196cebddb0bb18e0f4b7c4b9ec9
+patchright-enhanced-experiment.log
+  bytes=19229
+  sha256=f1ead080465e371986b9b88b320410bd6b786af595d4d7903e418e7267c37bd5
+patchright-enhanced-guide.html
+  bytes=50021
+  sha256=2866945e22f79e1f8fb294c4a54c971a92154f259714a7be6f6618553ce05968
+patchright-enhanced-guide.pdf
+  bytes=53611
+  sha256=6c320c02d137b7d889e441da67813e9c28cd50cd6111451841ddc0998d5dacdb
+patchright-enhanced-knowledge-notes.md
+  bytes=17980
+  sha256=8464da47174f19af19b808ecd735729a484358225661db78c9db0578379635a9
+
+八 历史独立复现输出
+以下为2026-10-05既有独立复现记录，绝不是本次新执行。命令、时间、退出码、断言和警告保留；输出中3处实验目录前缀统一改成包内相对路径，其余本节运行输出逐字节不变。
+
+[step1-node] START 2026-10-05T08:28:54.970275+00:00
+$ node --version
+v24.19.0
+EXIT 0
+
+[step1-git] START 2026-10-05T08:28:54.979162+00:00
+$ git --version
+git version 2.52.0
+EXIT 0
+
+[step2-fetch-and-test] START 2026-10-05T08:28:54.984077+00:00
+$ bash reproduce.sh work
+START 2026-10-05T08:28:54Z
+Runtime: v24.19.0
+Cloning into 'work/repo'...
+PINNED_COMMIT e38ab7ab9448db6f093f72ee097c18ca9905e84c
+PASS B01: Unset browser env uses headed Chrome path and Berlin timezone | {"headless":false,"executablePath":"/usr/bin/google-chrome-stable","timezoneId":"Europe/Berlin"}
+PASS B02: Explicit browser path and timezone override defaults | {"headless":false,"executablePath":"/unit-fixture/chrome","timezoneId":"Etc/UTC"}
+PASS B03: Empty browser values fall back to defaults | {"headless":false,"executablePath":"/usr/bin/google-chrome-stable","timezoneId":"Europe/Berlin"}
+PASS B04: Unimplemented HEADLESS environment variable has no effect | {"suppliedHEADLESS":"true","actualHeadless":false}
+PASS A01: Unset app env produces MAX_PARALLEL 2 with inert proxy marker | {"maxParallel":2,"sessionsDir":"/unit-fixture/src/sessions","realProxyUsed":false}
+PASS A02: Missing custom sessions directory requests recursive mkdir only on inert fs | {"maxParallel":3,"mkdirRequests":[{"path":"/unit-fixture/custom","options":{"recursive":true}}],"realFilesystemChanged":false}
+PASS A03: Existing sessions directory does not request mkdir | {"mkdirRequests":0,"existsChecks":["/unit-fixture/existing"]}
+PASS A04: MAX_PARALLEL="0" is not rejected | {"input":"0","observed":0,"rejected":false}
+PASS A05: MAX_PARALLEL="-1" is not rejected | {"input":"-1","observed":-1,"rejected":false}
+PASS A06: MAX_PARALLEL="oops" is not rejected | {"input":"oops","observed":"NaN","rejected":false}
+PASS A07: MAX_PARALLEL="2junk" is not rejected | {"input":"2junk","observed":2,"rejected":false}
+PASS A08: MAX_PARALLEL="2.9" is not rejected | {"input":"2.9","observed":2,"rejected":false}
+PASS A09: Empty MAX_PARALLEL falls back to 2 | {"input":"","observed":2}
+PASS L01: Empty BrowserManager closes and cleans without work | {"context":null,"events":[]}
+PASS L02: setContext preserves the inert context without closing it | {"contextIdentityPreserved":true,"events":[]}
+PASS L03: close clears context but leaves cleanup until explicitly requested | {"events":["close","cleanup:/unit-fixture/temp"]}
+PASS L04: closeAndCleanup orders close before cleanup | {"events":["close","cleanup:/unit-fixture/temp"]}
+PASS L05: Repeated successful closeAndCleanup is idempotent | {"events":["close","cleanup:/unit-fixture/temp"]}
+PASS L06: Close rejection propagates, preserves context, and skips cleanup | {"error":"UNIT_CLOSE_FAILURE","contextRetained":true,"cleanupCalls":0,"events":["close:rejected"]}
+PASS L07: A later successful close retry then permits cleanup | {"attempts":2,"events":["close:1","close:2","cleanup:/unit-fixture/temp"]}
+SUMMARY 20/20 assertions matched; 0 failed; 76.717 ms
+RESULT work/results.json
+(node:27) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:27) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+END 2026-10-05T08:29:04Z
+EXIT 0
+
+[step3-defaults] START 2026-10-05T08:29:04.301904+00:00
+$ node inspect.mjs work/results.json defaults
+B01 {"headless":false,"executablePath":"/usr/bin/google-chrome-stable","timezoneId":"Europe/Berlin"}
+B02 {"headless":false,"executablePath":"/unit-fixture/chrome","timezoneId":"Etc/UTC"}
+B03 {"headless":false,"executablePath":"/usr/bin/google-chrome-stable","timezoneId":"Europe/Berlin"}
+B04 {"suppliedHEADLESS":"true","actualHeadless":false}
+A01 {"maxParallel":2,"sessionsDir":"/unit-fixture/src/sessions","realProxyUsed":false}
+A02 {"maxParallel":3,"mkdirRequests":[{"path":"/unit-fixture/custom","options":{"recursive":true}}],"realFilesystemChanged":false}
+A03 {"mkdirRequests":0,"existsChecks":["/unit-fixture/existing"]}
+A09 {"input":"","observed":2}
+EXIT 0
+
+[step4-counts] START 2026-10-05T08:29:04.368005+00:00
+$ node inspect.mjs work/results.json counts
+A01 {"maxParallel":2,"sessionsDir":"/unit-fixture/src/sessions","realProxyUsed":false}
+A02 {"maxParallel":3,"mkdirRequests":[{"path":"/unit-fixture/custom","options":{"recursive":true}}],"realFilesystemChanged":false}
+A03 {"mkdirRequests":0,"existsChecks":["/unit-fixture/existing"]}
+A04 {"input":"0","observed":0,"rejected":false}
+A05 {"input":"-1","observed":-1,"rejected":false}
+A06 {"input":"oops","observed":"NaN","rejected":false}
+A07 {"input":"2junk","observed":2,"rejected":false}
+A08 {"input":"2.9","observed":2,"rejected":false}
+A09 {"input":"","observed":2}
+EXIT 0
+
+[step5-lifecycle] START 2026-10-05T08:29:04.441451+00:00
+$ node inspect.mjs work/results.json lifecycle
+L01 {"context":null,"events":[]}
+L02 {"contextIdentityPreserved":true,"events":[]}
+L03 {"events":["close","cleanup:/unit-fixture/temp"]}
+L04 {"events":["close","cleanup:/unit-fixture/temp"]}
+L05 {"events":["close","cleanup:/unit-fixture/temp"]}
+L06 {"error":"UNIT_CLOSE_FAILURE","contextRetained":true,"cleanupCalls":0,"events":["close:rejected"]}
+L07 {"attempts":2,"events":["close:1","close:2","cleanup:/unit-fixture/temp"]}
+EXIT 0
+
+[step6-scope] START 2026-10-05T08:29:04.533443+00:00
+$ node inspect.mjs work/results.json scope
+VERIFIED 20/20; 3 source hashes; no browser/navigation/build
+{
+  "runtime": "v24.19.0",
+  "commit": "e38ab7ab9448db6f093f72ee097c18ca9905e84c",
+  "scope": {
+    "actualUpstreamModulesExecuted": [
+      "src/config/browser.config.ts",
+      "src/config/index.ts",
+      "src/browser/browser-manager.ts"
+    ],
+    "unitDoubles": [
+      "fs.existsSync/mkdirSync",
+      "proxy marker only",
+      "cleanupTempDir",
+      "context.close"
+    ],
+    "externalBrowserDependenciesImported": false,
+    "browserLaunched": false,
+    "navigationPerformed": false,
+    "stealthTested": false,
+    "proxyConfigured": false,
+    "networkRequestsFromTestedModules": false,
+    "semanticTypecheckPerformed": false,
+    "fullProjectBuildPerformed": false,
+    "upstreamTestsRun": false,
+    "note": "Passing assertions establish current unit behavior, including defects; they do not establish browser, integration, or security success."
+  }
+}
+EXIT 0
+
+[readme-viewer-tests] START 2026-10-05T08:29:04.590975+00:00
+$ node viewer-tests.mjs work/results.json
+PASS VIEWER valid-evidence: accepted; exit=0
+PASS VIEWER empty-source-checks: rejected; exit=1
+PASS VIEWER missing-source-check: rejected; exit=1
+PASS VIEWER duplicate-source-path: rejected; exit=1
+PASS VIEWER malformed-source-hash: rejected; exit=1
+PASS VIEWER mismatched-source-hash: rejected; exit=1
+PASS VIEWER wrong-commit: rejected; exit=1
+PASS VIEWER unexpected-source-path: rejected; exit=1
+PASS VIEWER match-flag-false: rejected; exit=1
+PASS VIEWER wrong-executed-module: rejected; exit=1
+VIEWER SUMMARY 10/10; 1 valid + 9 negative cases; separate from 20 upstream behavior assertions
+EXIT 0
+
+[readme-pinned-version] START 2026-10-05T08:29:05.279568+00:00
+$ git -C work/repo rev-parse 'e38ab7ab9448db6f093f72ee097c18ca9905e84c^{commit}'
+e38ab7ab9448db6f093f72ee097c18ca9905e84c
+EXIT 0
+
+[readme-standalone-harness] START 2026-10-05T08:29:05.283787+00:00
+$ node --experimental-vm-modules harness.mjs --repo work/repo --out work/results.json
+PASS B01: Unset browser env uses headed Chrome path and Berlin timezone | {"headless":false,"executablePath":"/usr/bin/google-chrome-stable","timezoneId":"Europe/Berlin"}
+PASS B02: Explicit browser path and timezone override defaults | {"headless":false,"executablePath":"/unit-fixture/chrome","timezoneId":"Etc/UTC"}
+PASS B03: Empty browser values fall back to defaults | {"headless":false,"executablePath":"/usr/bin/google-chrome-stable","timezoneId":"Europe/Berlin"}
+PASS B04: Unimplemented HEADLESS environment variable has no effect | {"suppliedHEADLESS":"true","actualHeadless":false}
+PASS A01: Unset app env produces MAX_PARALLEL 2 with inert proxy marker | {"maxParallel":2,"sessionsDir":"/unit-fixture/src/sessions","realProxyUsed":false}
+PASS A02: Missing custom sessions directory requests recursive mkdir only on inert fs | {"maxParallel":3,"mkdirRequests":[{"path":"/unit-fixture/custom","options":{"recursive":true}}],"realFilesystemChanged":false}
+PASS A03: Existing sessions directory does not request mkdir | {"mkdirRequests":0,"existsChecks":["/unit-fixture/existing"]}
+PASS A04: MAX_PARALLEL="0" is not rejected | {"input":"0","observed":0,"rejected":false}
+PASS A05: MAX_PARALLEL="-1" is not rejected | {"input":"-1","observed":-1,"rejected":false}
+PASS A06: MAX_PARALLEL="oops" is not rejected | {"input":"oops","observed":"NaN","rejected":false}
+PASS A07: MAX_PARALLEL="2junk" is not rejected | {"input":"2junk","observed":2,"rejected":false}
+PASS A08: MAX_PARALLEL="2.9" is not rejected | {"input":"2.9","observed":2,"rejected":false}
+PASS A09: Empty MAX_PARALLEL falls back to 2 | {"input":"","observed":2}
+PASS L01: Empty BrowserManager closes and cleans without work | {"context":null,"events":[]}
+PASS L02: setContext preserves the inert context without closing it | {"contextIdentityPreserved":true,"events":[]}
+PASS L03: close clears context but leaves cleanup until explicitly requested | {"events":["close","cleanup:/unit-fixture/temp"]}
+PASS L04: closeAndCleanup orders close before cleanup | {"events":["close","cleanup:/unit-fixture/temp"]}
+PASS L05: Repeated successful closeAndCleanup is idempotent | {"events":["close","cleanup:/unit-fixture/temp"]}
+PASS L06: Close rejection propagates, preserves context, and skips cleanup | {"error":"UNIT_CLOSE_FAILURE","contextRetained":true,"cleanupCalls":0,"events":["close:rejected"]}
+PASS L07: A later successful close retry then permits cleanup | {"attempts":2,"events":["close:1","close:2","cleanup:/unit-fixture/temp"]}
+SUMMARY 20/20 assertions matched; 0 failed; 74.226 ms
+RESULT work/results.json
+(node:181) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:181) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+EXIT 0
+
+九 未测范围
+没有测试上游完整安装或构建、实际浏览器启动、网页脚本/视觉/交互、真实代理、反自动化或WAF通行、挑战处理、真实资源崩溃恢复、业务任务或性能。
+cleanup自身抛错、创建中途资源遗留、SessionRunner finally完整传播路径仍未运行覆盖。20/20和本日志的“通过”不会扩大这些边界。

@@ -1,0 +1,182 @@
+{
+  "recorded_at_utc": "2026-10-05T03:38:51.606985+00:00",
+  "purpose": "Read-only original-source acquisition and provenance for evidence-organization learning. No personal medical, legal or financial advice; no life intervention.",
+  "acquisition": {
+    "repo_url": "https://github.com/eternity4719/HowToLiveBetter.git",
+    "commit": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+    "fetch_started_at_utc": "2026-10-05T03:31:38Z",
+    "fetch_completed_at_utc": "2026-10-05T03:31:44Z",
+    "commit_time_utc": "2026-10-05T02:17:46Z",
+    "method": "git clone --no-checkout --filter=blob:none, then git show fixed_commit:path for selected text blobs",
+    "initial_local_directory": "upstream",
+    "current_local_directory": "repo",
+    "rename_completed_at_utc": "2026-10-05T03:36:55Z",
+    "no_downloaded_repo_scripts_executed": true,
+    "no_commit_or_push": true,
+    "selected_files_manifest": "selected_source_manifest.json",
+    "scope": "11个原始文件按固定版本取得；本练习包附4个相关文件，主实验只读取其中README、第4节正文及其核实记录。"
+  },
+  "repo_findings": [
+    {
+      "finding": "README self-reports 658 entries across 34 chapter files; totals and A/B/C counts were not independently recounted across every chapter in this source task.",
+      "source": "https://github.com/eternity4719/HowToLiveBetter/blob/bc149af3a02e721f0e3d03a673a0ec64fca765c4/README.md#L8-L18",
+      "status": "repository_self_report"
+    },
+    {
+      "finding": "A is a project-specific provenance/evidence category and expressly does not establish causality. The author-defined cost-benefit category is a separate judgment, not research evidence.",
+      "source": "https://github.com/eternity4719/HowToLiveBetter/blob/bc149af3a02e721f0e3d03a673a0ec64fca765c4/README.md#L172-L200",
+      "status": "original_repository_text_read"
+    },
+    {
+      "finding": "The skill requires locating chapter entries, reading the entire entry including caveats, tracing numbers and conclusions to entries, and admitting when the book lacks an answer. It treats different outcome dimensions separately.",
+      "source": "https://github.com/eternity4719/HowToLiveBetter/blob/bc149af3a02e721f0e3d03a673a0ec64fca765c4/skills/life-decision-guide/SKILL.md",
+      "status": "original_repository_text_read"
+    },
+    {
+      "finding": "docs/引用对照.md describes internally generated entry-to-entry cross references; it is not a DOI bibliography. No supplied repository checker was executed.",
+      "source": "https://github.com/eternity4719/HowToLiveBetter/blob/bc149af3a02e721f0e3d03a673a0ec64fca765c4/docs/引用对照.md",
+      "status": "original_file_intro_read"
+    },
+    {
+      "finding": "Chapter-4 verification notes are dated 2026-09-07 and partly retain older numbering: Whillans is verification entry 9 but current book entry 14; Lane is verification entry 12 but current book entry 17. Join with DOI/title plus version, not entry number alone. Selected entries 6/7 are still aligned.",
+      "source": "https://github.com/eternity4719/HowToLiveBetter/blob/bc149af3a02e721f0e3d03a673a0ec64fca765c4/docs/核实记录/04-不要浪费时间.md",
+      "status": "observed_repository_internal_version_difference"
+    }
+  ],
+  "selected_samples": [
+    {
+      "entry": "4.6",
+      "book_path": "book/04-不要浪费时间.md",
+      "lines": [
+        52,
+        59
+      ],
+      "book_url": "https://github.com/eternity4719/HowToLiveBetter/blob/bc149af3a02e721f0e3d03a673a0ec64fca765c4/book/04-不要浪费时间.md#L52-L59",
+      "source_dois": [
+        "10.1037/0021-9010.91.1.83",
+        "10.1037/1089-2699.9.1.58"
+      ],
+      "verification_path": "docs/核实记录/04-不要浪费时间.md",
+      "verification_lines": [
+        47,
+        55
+      ],
+      "lesson": "Separate two observational meeting studies from the author's inference that writing asynchronously replaces meetings. The repository explicitly labels the latter as the author's inference. Do not claim an exhaustive literature search established absence of every direct comparison, and do not infer a universal net time saving."
+    },
+    {
+      "entry": "4.7",
+      "book_path": "book/04-不要浪费时间.md",
+      "lines": [
+        61,
+        68
+      ],
+      "book_url": "https://github.com/eternity4719/HowToLiveBetter/blob/bc149af3a02e721f0e3d03a673a0ec64fca765c4/book/04-不要浪费时间.md#L61-L68",
+      "source_dois": [
+        "10.1016/j.jesp.2003.11.001",
+        "10.1037/0033-2909.133.1.65"
+      ],
+      "verification_path": "docs/核实记录/04-不要浪费时间.md",
+      "verification_lines": [
+        57,
+        65
+      ],
+      "lesson": "The repository says Kruger/Evans was only abstract-checked for direction; no exact experimental percentage was established. An answer asking for a fixed percent must abstain. Reading an abstract establishes neither full-paper review nor universal effectiveness."
+    }
+  ],
+  "external_access": [
+    {
+      "url": "https://x.com/goan999999/status/2105580074678522325",
+      "attempt_window_utc": "2026-10-05T03:33:09Z to 2026-10-05T03:33:20Z",
+      "tool_operation": "web.open exact original URL once",
+      "outcome": "Failed to fetch: (403) Forbidden",
+      "content_read": "none",
+      "provenance_limit": "原始X链接在云端返回403，未读到正文。Windows侧此前的身份与外链核对是此前提供的背景，不能计为本轮云端核实。"
+    },
+    {
+      "url": "https://doi.org/10.1037/0021-9010.91.1.83",
+      "attempt_window_utc": "2026-10-05T03:33:27Z to 2026-10-05T03:33:34Z",
+      "tool_operation": "web.open",
+      "outcome": "URL is not accessible via this tool",
+      "content_read": "none"
+    },
+    {
+      "url": "https://doi.org/10.1016/j.jesp.2003.11.001",
+      "attempt_window_utc": "2026-10-05T03:33:27Z to 2026-10-05T03:33:34Z",
+      "tool_operation": "web.open",
+      "outcome": "URL is not accessible via this tool",
+      "content_read": "none"
+    },
+    {
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S002210310300177X",
+      "attempt_window_utc": "2026-10-05T03:34:10Z to 2026-10-05T03:34:38Z",
+      "tool_operation": "web.open",
+      "outcome": "Failed to fetch: (403) Forbidden",
+      "content_read": "none in direct open"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16435940/",
+      "attempt_window_utc": "2026-10-05T03:34:10Z to 2026-10-05T03:34:38Z",
+      "tool_operation": "web.open",
+      "outcome": "One-line HHS disclosure footer only",
+      "content_read": "no bibliographic or abstract text in direct open"
+    },
+    {
+      "url": "https://www.sciencedirect.com/science/article/pii/S002210310300177X",
+      "attempt_window_utc": "2026-10-05T03:34:38Z to 2026-10-05T03:34:51Z",
+      "tool_operation": "web.search_query targeted at original publisher",
+      "outcome": "Official publisher-indexed result returned metadata, complete abstract and section previews",
+      "content_read": "title, authors Justin Kruger and Matt Evans, journal 40(5) pages 586–598 September 2004, DOI; abstract plus partial section snippets",
+      "evidence_state": "official_source_search_abstract_read; full_text_not_read; direct_open_failed",
+      "paraphrase": "The abstract describes five experiments. Unpacking produced longer estimates; reduced bias is specifically reported for experiments 3–4. Experiment 5 reports moderation by task complexity. No universal percentage is supplied in the abstract.",
+      "not_established": [
+        "full-paper review",
+        "exact percent improvement",
+        "effect for every task",
+        "proof of reduced procrastination from this paper alone"
+      ]
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16435940/",
+      "attempt_window_utc": "2026-10-05T03:34:38Z to 2026-10-05T03:34:51Z",
+      "tool_operation": "web.search_query targeted at PubMed original indexed abstract",
+      "outcome": "Official PubMed-indexed result returned metadata and complete abstract",
+      "content_read": "title, authors, DOI, journal 91(1)83–96 January 2006 and abstract",
+      "evidence_state": "official_index_search_abstract_read; full_text_not_read; direct_open_thin",
+      "paraphrase": "Two Internet surveys covered employees working at least 35 hours/week, with samples of 676 and 304. Meeting-time relationships with attitudes/well-being were moderated by task interdependence, meeting quality, and accomplishment striving.",
+      "not_established": [
+        "full-paper review",
+        "causal benefit of removing a meeting",
+        "direct comparison of written asynchronous work with meetings"
+      ]
+    }
+  ],
+  "reference_acquisition": {
+    "repo_url": "https://github.com/Smashwinny/reminder_knowlege.git",
+    "fetch_started_at_utc": "2026-10-05T03:33:27Z",
+    "fetch_completed_at_utc": "2026-10-05T03:33:31Z",
+    "pinned_operating_reference": "1f61909da967cea8bc68dbfaffc642a4331b3352",
+    "pinned_original_skill": "1043e9d6080bff7af9724162e2c44559fab63e40",
+    "manifest": "reference_source_manifest.json",
+    "actual_reads": [
+      "RUNNING_IN_DOT.md",
+      "original learn-project SKILL.md"
+    ],
+    "knowledge_index_and_selected_notes": "公开索引与五篇实际读取笔记的核对见prior_knowledge_manifest.json；不代表本机最新知识库。"
+  },
+  "limitations": [
+    "No high-stakes personal advice",
+    "No downloaded repository scripts executed",
+    "README aggregate counts were source self-reports, not remeasured corpus-wide",
+    "Official web search content is distinguished from successful direct-page retrieval",
+    "Full papers were not read",
+    "Repository verification notes are author-provided historical evidence, not this run's network results"
+  ],
+  "attribution": {
+    "title": "高性价比人生指南",
+    "author_repository": "eternity4719/HowToLiveBetter",
+    "repository_url": "https://github.com/eternity4719/HowToLiveBetter",
+    "source_version": "bc149af3a02e721f0e3d03a673a0ec64fca765c4",
+    "text_license": "https://creativecommons.org/licenses/by/4.0/",
+    "modifications": "This audit is an original summary and provenance annotation; originals/ files are unmodified extracted source bytes."
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "reviewer": "review_mcp_toolbox_delivery",
+  "created_at": "2026-10-05T04:44:45.592587+00:00",
+  "binary_sha256": "d8e0df24b5ce9934c8f7ae8466f64ff5512857c5a7e47640301750ee82f92db3",
+  "fixture_before_sha256": "fcb87a73cc8c0c90fc9cec216c07f505ec451368fab215603fcf9d4043042982",
+  "fixture_after_ro_sha256": "fcb87a73cc8c0c90fc9cec216c07f505ec451368fab215603fcf9d4043042982",
+  "checks": {
+    "read_ok": true,
+    "ro_write_error": true,
+    "ro_hash_unchanged": true,
+    "unsupported_field_rejected": true,
+    "writable_control_ok": true
+  },
+  "records": [
+    {
+      "case": "read_on_native_ro",
+      "command": [
+        "/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/vendor/toolbox",
+        "invoke",
+        "review-sql",
+        "{\"sql\": \"SELECT item, stock FROM inventory;\"}",
+        "--config",
+        "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/independent_runtime/ro.yaml",
+        "--disable-version-check"
+      ],
+      "returncode": 0,
+      "stdout": "2026-10-04T21:44:45.465860617-07:00 INFO \"Starting MCP Toolbox for Databases version 1.13.1+binary.linux.amd64.e14cda6\" \n2026-10-04T21:44:45.467429219-07:00 INFO \"Initialized 1 sources: review-source\" \n2026-10-04T21:44:45.467455038-07:00 INFO \"Initialized 0 authServices: \" \n2026-10-04T21:44:45.467460416-07:00 INFO \"Initialized 0 embeddingModels: \" \n2026-10-04T21:44:45.467506445-07:00 INFO \"Initialized 1 tools: review-sql\" \n2026-10-04T21:44:45.467510461-07:00 INFO \"Initialized 0 prompts: \" \n2026-10-04T21:44:45.467513005-07:00 INFO \"Initialized 0 resources: \" \n2026-10-04T21:44:45.467515749-07:00 INFO \"Initialized 0 resource templates: \" \n2026-10-04T21:44:45.467524932-07:00 INFO \"Initialized 1 groups: default\" \n[\n  {\n    \"item\": \"test-widget\",\n    \"stock\": 5\n  }\n]\n",
+      "stderr": ""
+    },
+    {
+      "case": "write_rejected_native_ro",
+      "command": [
+        "/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/vendor/toolbox",
+        "invoke",
+        "review-sql",
+        "{\"sql\": \"UPDATE inventory SET stock=99 WHERE id=1;\"}",
+        "--config",
+        "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/independent_runtime/ro.yaml",
+        "--disable-version-check"
+      ],
+      "returncode": 1,
+      "stdout": "2026-10-04T21:44:45.495422577-07:00 INFO \"Starting MCP Toolbox for Databases version 1.13.1+binary.linux.amd64.e14cda6\" \n2026-10-04T21:44:45.496550608-07:00 INFO \"Initialized 1 sources: review-source\" \n2026-10-04T21:44:45.496570558-07:00 INFO \"Initialized 0 authServices: \" \n2026-10-04T21:44:45.496573993-07:00 INFO \"Initialized 0 embeddingModels: \" \n2026-10-04T21:44:45.496585411-07:00 INFO \"Initialized 1 tools: review-sql\" \n2026-10-04T21:44:45.496588085-07:00 INFO \"Initialized 0 prompts: \" \n2026-10-04T21:44:45.496590889-07:00 INFO \"Initialized 0 resources: \" \n2026-10-04T21:44:45.496593272-07:00 INFO \"Initialized 0 resource templates: \" \n2026-10-04T21:44:45.496600804-07:00 INFO \"Initialized 1 groups: default\" \n",
+      "stderr": "2026-10-04T21:44:45.496683097-07:00 ERROR \"tool execution failed: error processing request: unable to execute query: attempt to write a readonly database (8)\" \nError: tool execution failed: error processing request: unable to execute query: attempt to write a readonly database (8)\n"
+    },
+    {
+      "case": "unsupported_sqlite_readOnly_field",
+      "command": [
+        "/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/vendor/toolbox",
+        "invoke",
+        "review-sql",
+        "{\"sql\": \"SELECT 1;\"}",
+        "--config",
+        "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/independent_runtime/unsupported.yaml",
+        "--disable-version-check"
+      ],
+      "returncode": 1,
+      "stdout": "2026-10-04T21:44:45.527794025-07:00 INFO \"Starting MCP Toolbox for Databases version 1.13.1+binary.linux.amd64.e14cda6\" \n",
+      "stderr": "2026-10-04T21:44:45.528359523-07:00 ERROR \"unable to parse config file at \\\"/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/independent_runtime/unsupported.yaml\\\": document 1: error unmarshaling source \\\"review-source\\\": unable to parse source \\\"review-source\\\" as \\\"sqlite\\\": [3:1] unknown field \\\"readOnly\\\"\\n   1 | database: /workspace/scratch/fb956861c0bf/mcp_toolbox/qa/independent_runtime/reviewer_fixture.sqlite\\n   2 | name: review-source\\n>  3 | readOnly: true\\n       ^\\n   4 | type: sqlite\" \nError: unable to parse config file at \"/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/independent_runtime/unsupported.yaml\": document 1: error unmarshaling source \"review-source\": unable to parse source \"review-source\" as \"sqlite\": [3:1] unknown field \"readOnly\"\n   1 | database: /workspace/scratch/fb956861c0bf/mcp_toolbox/qa/independent_runtime/reviewer_fixture.sqlite\n   2 | name: review-source\n>  3 | readOnly: true\n       ^\n   4 | type: sqlite\n"
+    },
+    {
+      "case": "writable_control_same_update",
+      "command": [
+        "/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/vendor/toolbox",
+        "invoke",
+        "review-sql",
+        "{\"sql\": \"UPDATE inventory SET stock=99 WHERE id=1;\"}",
+        "--config",
+        "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/independent_runtime/rw.yaml",
+        "--disable-version-check"
+      ],
+      "returncode": 0,
+      "stdout": "2026-10-04T21:44:45.560170856-07:00 INFO \"Starting MCP Toolbox for Databases version 1.13.1+binary.linux.amd64.e14cda6\" \n2026-10-04T21:44:45.56128727-07:00 INFO \"Initialized 1 sources: review-source\" \n2026-10-04T21:44:45.56131358-07:00 INFO \"Initialized 0 authServices: \" \n2026-10-04T21:44:45.561316905-07:00 INFO \"Initialized 0 embeddingModels: \" \n2026-10-04T21:44:45.56133385-07:00 INFO \"Initialized 1 tools: review-sql\" \n2026-10-04T21:44:45.561336434-07:00 INFO \"Initialized 0 prompts: \" \n2026-10-04T21:44:45.561339278-07:00 INFO \"Initialized 0 resources: \" \n2026-10-04T21:44:45.561341432-07:00 INFO \"Initialized 0 resource templates: \" \n2026-10-04T21:44:45.561351166-07:00 INFO \"Initialized 1 groups: default\" \n[]\n",
+      "stderr": ""
+    },
+    {
+      "case": "read_confirms_writable_control",
+      "command": [
+        "/workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/vendor/toolbox",
+        "invoke",
+        "review-sql",
+        "{\"sql\": \"SELECT stock FROM inventory WHERE id=1;\"}",
+        "--config",
+        "/workspace/scratch/fb956861c0bf/mcp_toolbox/qa/independent_runtime/ro.yaml",
+        "--disable-version-check"
+      ],
+      "returncode": 0,
+      "stdout": "2026-10-04T21:44:45.590428279-07:00 INFO \"Starting MCP Toolbox for Databases version 1.13.1+binary.linux.amd64.e14cda6\" \n2026-10-04T21:44:45.591727337-07:00 INFO \"Initialized 1 sources: review-source\" \n2026-10-04T21:44:45.591746997-07:00 INFO \"Initialized 0 authServices: \" \n2026-10-04T21:44:45.591751784-07:00 INFO \"Initialized 0 embeddingModels: \" \n2026-10-04T21:44:45.591767177-07:00 INFO \"Initialized 1 tools: review-sql\" \n2026-10-04T21:44:45.591780497-07:00 INFO \"Initialized 0 prompts: \" \n2026-10-04T21:44:45.591783161-07:00 INFO \"Initialized 0 resources: \" \n2026-10-04T21:44:45.591785515-07:00 INFO \"Initialized 0 resource templates: \" \n2026-10-04T21:44:45.591811504-07:00 INFO \"Initialized 1 groups: default\" \n[\n  {\n    \"stock\": 99\n  }\n]\n",
+      "stderr": ""
+    }
+  ],
+  "limitations": [
+    "Direct Toolbox CLI invoke; does not independently test MCP transport",
+    "Native SQLite connection mode only; not Toolbox source readOnly support",
+    "No OAuth/authentication, real database, cloud engine, browser, or security certification claim"
+  ]
+}

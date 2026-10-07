@@ -1,0 +1,55 @@
+{
+  "allPassed": true,
+  "checks": [
+    {
+      "label": "fixed public index",
+      "bytes": 175888,
+      "sha256": "bc23c7b793f2ffc9db6bb7e9f0ad3678e5623a0850e84240cd3fa51e63a8919e",
+      "passed": true
+    },
+    {
+      "label": "MCP协议",
+      "bytes": 1720,
+      "sha256": "f241531981004f1580b331a37b9e38ca96875e368ac03d687aab199daac284d6",
+      "passed": true
+    },
+    {
+      "label": "只读闸门三原则",
+      "bytes": 1994,
+      "sha256": "23952485062d0da330ebe343b0216eb755f8340c1290526c26001d8af760817a",
+      "passed": true
+    },
+    {
+      "label": "本地MCP端点安全四道门",
+      "bytes": 2558,
+      "sha256": "1f7cfcb79846015e78c94fcb6391e09ffc9f4b1e236c29ac391dd20fda686cff",
+      "passed": true
+    },
+    {
+      "label": "代码管边界提示词管判断",
+      "bytes": 1427,
+      "sha256": "82baf8f30c908b3ea424d15f82b6d3124e40b3c1b023961bfd0c8abd1eb8b86d",
+      "passed": true
+    },
+    {
+      "label": "关系型数据库与NoSQL",
+      "bytes": 1085,
+      "sha256": "a1521ce3393b63310f6e22c9f20bc3eca593928dcb342b56e40f2b31991ccce9",
+      "passed": true
+    },
+    {
+      "label": "website ponytail",
+      "bytes": 8797,
+      "sha256": "2301ded97ac4d265103ce5c453ad58148453eac2bb292794c78da352ede73663",
+      "passed": true
+    },
+    {
+      "label": "website how_to_live_better",
+      "bytes": 6202,
+      "sha256": "12eb84e8e59202e18feb892416f4a345895b863ea5a9ce06c30d90ecbc86b3c9",
+      "passed": true
+    }
+  ],
+  "sanitizedWebsiteMetadata": true,
+  "scope": "Exact local copies and source-snapshot linkage only; not user mastery, latest vault scan, or Toolbox runtime validation"
+}

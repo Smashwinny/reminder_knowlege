@@ -1,0 +1,407 @@
+{
+  "schema": "reminder-guide-package-v1",
+  "privateRuntimeIncluded": false,
+  "publicReferenceCommit": "109ffa9763c24f6ff05d2b7f1b1d9ed14e7d79e0",
+  "files": [
+    {
+      "path": "diagrams/page_01.svg",
+      "bytes": 6714,
+      "sha256": "f1e630a7b1f5cd428fa1f7ad4378654fe943d88ccdf4ec846e2fe16c152ce7ac"
+    },
+    {
+      "path": "diagrams/page_02.svg",
+      "bytes": 6781,
+      "sha256": "c9cef8a3ef580364924eaddea9d6dc372631bb558304ac81f3dcf8eaa2be1f36"
+    },
+    {
+      "path": "diagrams/page_03.svg",
+      "bytes": 6010,
+      "sha256": "e5b858a22f3eb2fc881cfbcab4dc24e43e1c50d7479f97069f2ea800087be7fe"
+    },
+    {
+      "path": "diagrams/page_04.svg",
+      "bytes": 10640,
+      "sha256": "2a1d3660bad7f4f729e18c3ec2de013d9b44634a752968d940c63c6d821b05a2"
+    },
+    {
+      "path": "diagrams/page_05.svg",
+      "bytes": 7514,
+      "sha256": "5bc91cac3c13a810aae0b66fc0875e70b748e9c7befb3948c17de2245105995f"
+    },
+    {
+      "path": "diagrams/page_06.svg",
+      "bytes": 6745,
+      "sha256": "a565c428d91005f6e4661948810473f1bb908e5596da52621cefa727a216d803"
+    },
+    {
+      "path": "diagrams/page_07.svg",
+      "bytes": 7403,
+      "sha256": "d4f9a786f1c1330d9d30a8334a0d001ce6d0f4ea35c5c8a5ccfb1c1228875700"
+    },
+    {
+      "path": "diagrams/page_08.svg",
+      "bytes": 5824,
+      "sha256": "f4c89bb8ec49695c058b828ee7109d5c7ef9cac4b35e326d72f0a741f97079e0"
+    },
+    {
+      "path": "diagrams/page_09.svg",
+      "bytes": 6410,
+      "sha256": "a4141fa55e439a649c3a52e8601753658b2d9e7704dbcc2d6fca52efb3654628"
+    },
+    {
+      "path": "diagrams/page_10.svg",
+      "bytes": 7833,
+      "sha256": "095e2ea8ddd4e6ba0c9fdfda0f55e8d64b8366a09c20ed674faf3e68a1ac3f48"
+    },
+    {
+      "path": "diagrams/page_11.svg",
+      "bytes": 7225,
+      "sha256": "1c7eb3568638129f0030c9e3eca64079d53dd03e71a7a8a4aec8f60ddd13de04"
+    },
+    {
+      "path": "diagrams/page_12.svg",
+      "bytes": 6867,
+      "sha256": "7ad3ae131de0be74a0aeae0427170d18ba6bd9c3787b839409a5bd3086ee0eae"
+    },
+    {
+      "path": "diagrams/page_13.svg",
+      "bytes": 6784,
+      "sha256": "4767ea9a958fa54e41790e631058ae7528e03a326dba6312f25f05100771e599"
+    },
+    {
+      "path": "diagrams/page_14.svg",
+      "bytes": 7196,
+      "sha256": "47f3f1a94d05af8c5826ec87813c369a64efabf38e3500b5a7f3f34689f2ea33"
+    },
+    {
+      "path": "diagrams/page_15.svg",
+      "bytes": 6977,
+      "sha256": "472103d8dbf835be2ed188e2e55319cbeba37c69a0c6583271dad552a6ba0fac"
+    },
+    {
+      "path": "diagrams/page_16.svg",
+      "bytes": 7880,
+      "sha256": "3831079d4a993b36932932df04d6e2c1d84a8616ac7319645a708b778c632007"
+    },
+    {
+      "path": "diagrams/page_17.svg",
+      "bytes": 6715,
+      "sha256": "27b3f13988a4979461e13e045bd7a52a1895efac44be455eedd5508b5572ec68"
+    },
+    {
+      "path": "diagrams/page_18.svg",
+      "bytes": 6443,
+      "sha256": "16dbde09e4e2a397cc46bf2a2f09c821e68a9daf7285c2c6ded765ac5bcaf090"
+    },
+    {
+      "path": "diagrams/page_19.svg",
+      "bytes": 6065,
+      "sha256": "154c2ecf8f67e52246cea59ce77484dfa92bd3363e320915199c332e3855779d"
+    },
+    {
+      "path": "diagrams/page_20.svg",
+      "bytes": 5447,
+      "sha256": "ae0a0b39a7498fe87f5217e1fa3238a1ea2bc718f1af94924112bb5196722b7b"
+    },
+    {
+      "path": "diagrams/page_21.svg",
+      "bytes": 6654,
+      "sha256": "9f3cb2c101ac3b02c575dd8d0bc80e78d60462d8a2a40421c90fd1c5ffeb9d95"
+    },
+    {
+      "path": "diagrams/page_22.svg",
+      "bytes": 5625,
+      "sha256": "6f04988bbd26595ab4fe02b80174e877ec9c30278fea33102a98b600d1448991"
+    },
+    {
+      "path": "diagrams/page_23.svg",
+      "bytes": 7046,
+      "sha256": "6bebfdf9120fc18b700d9a57e5c11a5ef7d243f0fd9bf0bf6c090de194dee5d0"
+    },
+    {
+      "path": "diagrams/page_24.svg",
+      "bytes": 5001,
+      "sha256": "3438f2e3b7b84ec50144e37a4a64fb6f904fcd48a0e39722171e0c9bf64d9e55"
+    },
+    {
+      "path": "diagrams/page_25.svg",
+      "bytes": 6234,
+      "sha256": "03c83078bf293ac382994f95a5197f0c09d974451ee4f87c235ec24afd74791d"
+    },
+    {
+      "path": "diagrams/page_26.svg",
+      "bytes": 6438,
+      "sha256": "9b8b898b5a922263253ffcbe4bf58309d19c7ec1488f38258c0a09be86af527a"
+    },
+    {
+      "path": "diagrams/page_27.svg",
+      "bytes": 5746,
+      "sha256": "10be9f273138419db629a7008d152e79d83582172c6bbc43a227ded1a47d0e9a"
+    },
+    {
+      "path": "diagrams/page_28.svg",
+      "bytes": 5706,
+      "sha256": "4d06d35a2c8dada4644a757f02e1f124c475df3efc1ede3db1288f692b4e36e2"
+    },
+    {
+      "path": "diagrams/page_29.svg",
+      "bytes": 7381,
+      "sha256": "a577786b1223f38b5309eeaa8ca37d1281835b076cd96329f363cfe4b83f2121"
+    },
+    {
+      "path": "diagrams/page_30.svg",
+      "bytes": 5595,
+      "sha256": "ae8267199b5b119a26a75c93de476a22ff26250fcade77d6e530dbd85932f0fc"
+    },
+    {
+      "path": "diagrams/page_31.svg",
+      "bytes": 5927,
+      "sha256": "d3e259df1da87497a4649a32026c1913a15aec93050c6ce875b2ab5ac6afb364"
+    },
+    {
+      "path": "diagrams/page_32.svg",
+      "bytes": 6953,
+      "sha256": "dafd5e71f267069292c8edb7d82ccd781b7d04c7bed679004b14c8ccd7ca31d6"
+    },
+    {
+      "path": "diagrams/page_33.svg",
+      "bytes": 6722,
+      "sha256": "342469f67d8ceb9fbe72ffc584266dfe6874fa129df691f8963c48860b3b9aa3"
+    },
+    {
+      "path": "diagrams/page_34.svg",
+      "bytes": 7758,
+      "sha256": "a57449462bfdd1194d892c9be50396c705f26aacd7455386cd1becc50df68b04"
+    },
+    {
+      "path": "diagrams/page_35.svg",
+      "bytes": 6894,
+      "sha256": "91da374719adb22afa75ac0e71d01822090b37867b8f94fb3e9b7bb751ee5195"
+    },
+    {
+      "path": "diagrams/page_36.svg",
+      "bytes": 5788,
+      "sha256": "a0f9d12966b78b101c81498f3237e82fb320e71e8156c0cc3b79538be4299d30"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4121,
+      "sha256": "4bd1837b69f83314d2c81fc4b49054d2bb163cc30dbec1eebca3c7018c5ef1f3"
+    },
+    {
+      "path": "workflow_guide.html",
+      "bytes": 242927,
+      "sha256": "04a26b38f2d5a688fd99d64ae4eaa4e9470220a519a3d4684053ff555a75710e"
+    },
+    {
+      "path": "云端方法/knowledge-index.json",
+      "bytes": 182337,
+      "sha256": "a4081f6a429a4373b9db4243af115b972229a747787eab6e102b4f44f05d2cfe"
+    },
+    {
+      "path": "云端方法/knowledge-index.md",
+      "bytes": 86708,
+      "sha256": "bcca70e6388cce2eab078b57b6cf163ffbd28b14074d2e6de1ecfb71813431f8"
+    },
+    {
+      "path": "云端方法/RUNNING_IN_DOT.md",
+      "bytes": 3505,
+      "sha256": "14831be8714d1898af74e63900bd3362d2982619ebad9b0fc59194651ffa828a"
+    },
+    {
+      "path": "云端方法/原learn-project-SKILL.md",
+      "bytes": 10302,
+      "sha256": "2faa70bad578ffb221b273e90740c37e51b8a9d55be655465bb15e42801409bd"
+    },
+    {
+      "path": "拾遗到知识网络-架构与搭建指南.md",
+      "bytes": 42818,
+      "sha256": "e342648c07364eff7b2b5c72c08d0de8f3d389aebf091358d1839c3464ac8db9"
+    },
+    {
+      "path": "本机工具补齐/.claude/skills/learn-project/SKILL.md",
+      "bytes": 10302,
+      "sha256": "2faa70bad578ffb221b273e90740c37e51b8a9d55be655465bb15e42801409bd"
+    },
+    {
+      "path": "本机工具补齐/AGENTS.md",
+      "bytes": 4345,
+      "sha256": "356a464b50245b57ae7671a77cc851ef2e2f01ca347e065a671315aadfacd3a9"
+    },
+    {
+      "path": "本机工具补齐/CLAUDE.md",
+      "bytes": 2840,
+      "sha256": "3d1c668c899e3fa4d0cf4b6618e49ef8c4ada6b0a7d7be2f85f4edfa975510a3"
+    },
+    {
+      "path": "本机工具补齐/install-files.json",
+      "bytes": 885,
+      "sha256": "bfbdde7426dbbab1c2c310a3039178e26300249065598554b6f6bda830271a74"
+    },
+    {
+      "path": "本机工具补齐/README.md",
+      "bytes": 3822,
+      "sha256": "2d766d65378dff6e3aa151252f6654bd52877608326ba7de6732efe7cad3d6fd"
+    },
+    {
+      "path": "本机工具补齐/reminder-dot/cloud-reference/RUNNING_IN_DOT.md",
+      "bytes": 3505,
+      "sha256": "14831be8714d1898af74e63900bd3362d2982619ebad9b0fc59194651ffa828a"
+    },
+    {
+      "path": "本机工具补齐/reminder-dot/dot-backup-config.example.json",
+      "bytes": 121,
+      "sha256": "ed4ebdc2af66c5a2c7c3bf3029bf0edf567c05d02317e23108bc83b66f3b3704"
+    },
+    {
+      "path": "本机工具补齐/tools/install_reminder_dot_backup_trigger.ps1",
+      "bytes": 2515,
+      "sha256": "fd24c0db16b20b682a8ff9cfff1f22253143d8049736b89cec27a8295b249628"
+    },
+    {
+      "path": "本机工具补齐/tools/private_login_example.py",
+      "bytes": 4471,
+      "sha256": "db468ae51da312ebef70163465caaa27f5222aac4b6b134337ed8b601a99bfc5"
+    },
+    {
+      "path": "本机工具补齐/tools/reminder_coordinator.py",
+      "bytes": 3810,
+      "sha256": "f3c2460a2749eafc63e8dc7931b39a0487ea586146602ee825d9d3075b55ee68"
+    },
+    {
+      "path": "本机工具补齐/tools/reminder_dot_agent.py",
+      "bytes": 7446,
+      "sha256": "78be979102c374e403d415a18fe267698c75fae98ed199e190276971f3a5c4a1"
+    },
+    {
+      "path": "本机工具补齐/tools/reminder_dot_backup.py",
+      "bytes": 23101,
+      "sha256": "4c79691c80d5eda76676074d44f69455ffb20ee67180c68eaeffec37d9dbe0af"
+    },
+    {
+      "path": "本机工具补齐/tools/reminder_dot_backup_job.ps1",
+      "bytes": 1807,
+      "sha256": "f584dca9fa9bd76bddd598342f7bfbc8f08b370cda3be9410b2de554eff54556"
+    },
+    {
+      "path": "本机工具补齐/tools/reminder_dot_http.py",
+      "bytes": 2449,
+      "sha256": "621f45c06ff4ad77e75e4355db7195a40aa569e4383a2807ab5fe3cfb2ffe5d4"
+    },
+    {
+      "path": "本机工具补齐/tools/reminder_dot_on_login.ps1",
+      "bytes": 1811,
+      "sha256": "1ea6e891319aaa5dfa7adbc2aad8ffef5724f1fbadd5032202db32bff93c0d8a"
+    },
+    {
+      "path": "本机工具补齐/tools/reminder_dot_reference.py",
+      "bytes": 5071,
+      "sha256": "755409670127919adda6599595ffbe53e54600c1eb0bfbe1624668eb5aa6d413"
+    },
+    {
+      "path": "本机工具补齐/tools/reminder_history.py",
+      "bytes": 6498,
+      "sha256": "82dc65263db357e8a150fd0901c204829541ae1a189a774ad45834485fe497fa"
+    },
+    {
+      "path": "本机工具补齐/tools/reminder_pipeline.py",
+      "bytes": 97228,
+      "sha256": "40377e06ebce45128b1b71e17a98f1861b415638d9b355b35aaf6c00a76bf36a"
+    },
+    {
+      "path": "本机工具补齐/tools/reminder_workflow.md",
+      "bytes": 1836,
+      "sha256": "09fcbe48db0b1956d27ccd9078de2bad66aeaa6d9e90858d0ff5786195e9eddb"
+    },
+    {
+      "path": "本机工具补齐/tools/reminder_workflow_policy.json",
+      "bytes": 510,
+      "sha256": "ebdc048077e5d82d32edf43da15ea864fcd64da216609a2f01fd57970dcfa62f"
+    },
+    {
+      "path": "本机工具补齐/tools/shiyi_sync.py",
+      "bytes": 4362,
+      "sha256": "41138d23b72edfdcc764583faeae692a6212c826696acabb20484fa9857444e3"
+    },
+    {
+      "path": "本机工具补齐/tools/shiyi_worker_guide.md",
+      "bytes": 5512,
+      "sha256": "b82bf7228deea455631e68d9177492da9716051cd778c58c69deb272af67f2a9"
+    },
+    {
+      "path": "本机工具补齐/tools/test_reminder_coordinator.py",
+      "bytes": 2253,
+      "sha256": "f12e289e52b365ce4219ce870c3c79e608509e25060fe4d2940e50ced064c033"
+    },
+    {
+      "path": "本机工具补齐/tools/test_reminder_dot_agent.py",
+      "bytes": 5255,
+      "sha256": "1cc81928e935cfc308fdcd5d0a1c2366e3e7f9b5580e9d2444585d73e6a820a9"
+    },
+    {
+      "path": "本机工具补齐/tools/test_reminder_dot_backup.py",
+      "bytes": 11595,
+      "sha256": "c4692b112e2c48a3f44d4dd2bc385e71d1851825c38be1e5be92a12c1fae1804"
+    },
+    {
+      "path": "本机工具补齐/tools/test_reminder_pipeline.py",
+      "bytes": 56743,
+      "sha256": "d6d52f8799f67e36b5833b07c13af022e036a8c22c9bba70d5cd2859f4444479"
+    },
+    {
+      "path": "模板/manifest.example.json",
+      "bytes": 339,
+      "sha256": "c978e2e273b8b81885d40ef7a7d94696056446c7aa68ef88bcfb0a96cab41195"
+    },
+    {
+      "path": "模板/receipt.example.json",
+      "bytes": 415,
+      "sha256": "114a7709c877cf26b27f8b673031654790368f526aa2b985ca763d01b048dcb1"
+    },
+    {
+      "path": "模板/使用边界.md",
+      "bytes": 319,
+      "sha256": "6f9f72e29f526f306cdf9683c9e7f33b947d92119e31cc3609171197e27f9f6b"
+    },
+    {
+      "path": "模板/概念笔记.md",
+      "bytes": 845,
+      "sha256": "301a78b7d7c849f57a704ae6a2e9a4da652bc5075caef3d1f93acdd73a9d5998"
+    },
+    {
+      "path": "模板/每日复习.md",
+      "bytes": 826,
+      "sha256": "4830cdcf1d8f3f135b32c0897cc9129b1a3b1284a7e8c79069cca45db2a148e2"
+    },
+    {
+      "path": "模板/项目笔记.md",
+      "bytes": 724,
+      "sha256": "290f1a56b9008f48e621bd34d93f913e5e754d9698079b205b7bded41e324023"
+    },
+    {
+      "path": "讲解源码/build_workflow_guide.py",
+      "bytes": 64755,
+      "sha256": "e09463b3a02962f16ae7c0844a92080e4782a01c2188f9e31140c60d4814144f"
+    },
+    {
+      "path": "讲解源码/document_qa.json",
+      "bytes": 1381,
+      "sha256": "59c5d88d2a3ff8736ccf13bd08beb8926f4f2d3c92cb4734cb9048c1e67acfa5"
+    },
+    {
+      "path": "讲解源码/layout_qa.json",
+      "bytes": 97,
+      "sha256": "340959bfdcd2911cfca75c0171b0426dc1b10f4cda7f3313acf9224a8bc66fe8"
+    },
+    {
+      "path": "讲解源码/verify_workflow_guide.py",
+      "bytes": 1796,
+      "sha256": "c1246326b54c6118bcdc2ee1ee2fcf429dde16e6a2ee6b5783e0cb9c83f95263"
+    },
+    {
+      "path": "逐终端补充命令.md",
+      "bytes": 17719,
+      "sha256": "c1f9322f5bd93b2cb6e68f01e65872c09a9cd4bc39d6c5b4b2788abef72cc4aa"
+    }
+  ]
+}

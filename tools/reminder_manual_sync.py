@@ -494,6 +494,9 @@ def sync(root, config, local_only=False, cloud_only=True):
                 cloud = {"cloudPublished": 0, "localKnowledgeSynced": 0, "conflicts": []}
                 if cloud_only and not local_only:
                     cloud = apply_cloud_receipts(root, bundle, owner)
+                    # Cloud confirmations have no local ready/review manifest.
+                    # Render the existing queue so the human outline is not stale.
+                    Pipeline(root).render()
                     acknowledgement = acknowledge_local_backups(root,bundle,owner,result['archive'])
                     cloud.update(websiteBackupAcknowledged=acknowledgement['acknowledged'],websiteBackupAckPending=acknowledgement['pending'])
                 handoff = load(result["handoff"])
@@ -528,11 +531,14 @@ def sync(root, config, local_only=False, cloud_only=True):
             full = [item for item in handoff["reports"].values() if item["analysisStage"] == "full"]
             state.update(git="local_only" if local_only else "cloud_verified" if cloud_only and cloud['cloudPublished'] else "cloud_pending" if cloud_only else "pushed" if published else "no_ready_batch", publishedBatches=published,
                          **cloud, cloudOnly=cloud_only,
+                         knowledgeMergedByScript=bool(cloud.get("localNotesMerged")),
+                         knowledgeMergeMethod="verified_git_three_way_text" if cloud.get("localNotesMerged") else "verified_git_exact_copy" if cloud.get("localKnowledgeSynced") else "pending",
                          knowledgePending=sum(i["knowledge"].get("status") != "merged" for i in full),
                          gitPending=sum(i["git"].get("status") != "pushed" for i in full), finishedAt=now())
             rows = ["# 手动同步结果", "", "本次检查：" + state["finishedAt"], "",
                     f"网站报告 {state['reports']} 份，完整报告 {state['fullReports']} 份；本机原件校验通过。",
                     f"本次本机推送 {published} 批；核验云端 Git 交付 {cloud['cloudPublished']} 项，本机知识同步 {cloud['localKnowledgeSynced']} 项。",
+                    f"确认本机原 Dot 派发 {cloud.get('localClaimsConfirmed', 0)} 项；保留本地修改的知识笔记 {len(cloud.get('localNotesMerged', []))} 篇。",
                     f"待知识合并 {state['knowledgePending']} 项，待 Git 备份 {state['gitPending']} 项；本机笔记冲突 {len(cloud['conflicts'])} 项。",
                     "", f"[私有报告与产物入口]({Path(result['index']).as_posix()})", "",
                     f"[直接查看 PDF 与完整产物]({visible_index.as_posix()})", "",

@@ -13,7 +13,7 @@ import reminder_cloud_sync as cloud
 import reminder_manual_sync as manual
 from reminder_coordinator import acquire, release
 from reminder_dot_backup import restore
-from reminder_pipeline import PipelineError, task_hash
+from reminder_pipeline import Pipeline, PipelineError, task_hash
 from test_reminder_dot_backup import bundle
 
 TMP = Path(__file__).resolve().parents[1] / "完成/.pipeline"
@@ -93,6 +93,121 @@ class CloudSyncTests(unittest.TestCase):
         self.assertEqual(self.handoff()["knowledge"]["status"],"merged")
         self.assertEqual(self.handoff()["localKnowledge"]["status"],"conflict")
         self.assertFalse((self.root/"demo/guide.html").exists())
+
+    def test_disjoint_moc_changes_merge_repeat_and_next_publication_preserve_local_note(self):
+        base = b"# Base title\n\nbase concept\n\n## Projects\n\nold project\n"
+        local = base.replace(b"# Base title", b"# My corrected title")
+        remote = base.replace(b"old project", b"new cloud project\nold project")
+        (self.source / "vault/00-总览.md").write_bytes(base)
+        command(self.source, "add", "--", "vault/00-总览.md")
+        command(self.source, "commit", "-m", "Synthetic merge baseline")
+        baseline = command(self.source, "rev-parse", "HEAD")
+        (self.root / "vault/00-总览.md").write_bytes(local)
+        for next_remote in (remote, remote.replace(b"base concept", b"base concept\nnext cloud concept")):
+            (self.source / "vault/00-总览.md").write_bytes(next_remote)
+            command(self.source, "add", "--", "vault/00-总览.md")
+            command(self.source, "commit", "-m", "Synthetic next merge publication")
+            commit = command(self.source, "rev-parse", "HEAD")
+            command(self.source, "update-ref", "refs/remotes/origin/main", commit)
+            value = self.report["cloudDelivery"]["receipt"]
+            value.update(commit=commit, baseCommit=baseline)
+            for item in value["files"]:
+                data = self.mirror.file(commit, item["path"])
+                before = self.mirror.file_if_exists(baseline, item["path"])
+                item.update(sha256=cloud.sha(data), baseSha256=cloud.sha(before) if before is not None else None)
+            self.restore()
+            result = self.run_copy()
+            self.assertEqual(result["conflicts"], [])
+            self.assertEqual(result["localKnowledgeSynced"], 1)
+            self.assertEqual(result["localNotesMerged"], ["vault/00-总览.md"])
+            expected = next_remote.replace(b"# Base title", b"# My corrected title")
+            self.assertEqual((self.root / "vault/00-总览.md").read_bytes(), expected)
+            self.restore(); self.run_copy()
+            self.assertEqual((self.root / "vault/00-总览.md").read_bytes(), expected)
+            self.assertTrue((self.root / "完成/.pipeline/cloud-sync-history" / cloud.sha(local)).exists())
+            baseline = commit
+
+    def test_text_merge_preserves_bom_crlf_and_refuses_overlapping_edits(self):
+        base = b"# Base\n\nunchanged\n\nold\n"
+        local = b"\xef\xbb\xbf" + base.replace(b"Base", b"Local").replace(b"\n", b"\r\n")
+        remote = base.replace(b"old", b"cloud\nold")
+        expected = b"\xef\xbb\xbf" + remote.replace(b"Base", b"Local").replace(b"\n", b"\r\n")
+        self.assertEqual(cloud.merge_note(self.root, local, base, remote), expected)
+        self.assertIsNone(cloud.merge_note(self.root, local, base, base.replace(b"Base", b"Conflicting cloud")))
+
+    def delegated_fixture(self):
+        self.direct_fixture()
+        self.report["analysis"]["completion"]["reviewNotes"] = "Synthetic independent review fixture only."
+        self.restore()
+        report = self.report
+        class Site:
+            def download(self): return [report["record"]]
+            def read_analysis(self, *args):
+                current = copy.deepcopy(report)
+                for artifact in current["analysis"]["completion"]["artifacts"]:
+                    artifact.pop("base64", None)
+                record = {**report["record"], "sourceHash": report["sourceHash"]}
+                return {"report": current, "record": record}
+        pipeline = Pipeline(self.root, api=Site())
+        pipeline.sync([report["record"]])
+        original_owner = "synthetic-original-delegated-owner"
+        pipeline.claim(original_owner, report["taskId"])
+        pipeline.classify(report["taskId"], original_owner, "learning", "Synthetic verified fixture", ["https://example.com/a"])
+        pipeline.start(report["taskId"], original_owner, "demo")
+        ticket = {"taskId": report["taskId"], "project": "demo", "owner": original_owner, "sourceHash": report["sourceHash"], "localStart": True}
+        name = "完成/.pipeline/dot-collaboration/synthetic-dispatch.json"
+        raw = json.dumps({"type": "dispatch_receipts_from_existing_pipeline", "taskCompletion": "user_only", "receipts": [ticket]}).encode()
+        path = self.root / name; path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(raw)
+        manual.save(self.root / "完成/.pipeline/cloud-dispatch-authorization.json", {"schema": "reminder-cloud-dispatch-authorization-v1", "accepted": True,
+                    "accountId": self.bundle["accountId"], "listId": self.bundle["list"]["id"], "dispatchFile": name, "dispatchSha256": cloud.sha(raw)})
+        return pipeline, ticket, path
+
+    def test_acknowledged_original_delegation_is_closed_only_after_verified_import(self):
+        pipeline, ticket, _ = self.delegated_fixture()
+        with patch.object(cloud, "Pipeline", return_value=pipeline):
+            result = self.run_copy()
+        self.assertEqual(result["localKnowledgeSynced"], 1)
+        self.assertEqual(result["localClaimsConfirmed"], 1)
+        record = pipeline.status(self.report["taskId"])
+        self.assertEqual(record["status"], "analysis_confirmed")
+        self.assertIsNone(record["owner"])
+        self.assertIsNone(record["completed_at"])
+        self.assertEqual(record["website_state"], 0)
+        self.assertEqual(record["analysis_receipt"]["owner"], ticket["owner"])
+        self.assertEqual(record["analysis_receipt"]["cloud_reviewer"], "synthetic-reviewer")
+        self.assertEqual(pipeline.render()["confirmed_analysis"], 1)
+        outline = (self.root / "完成/流水线纲要.md").read_text(encoding="utf-8")
+        self.assertIn("内容分类计数（本机台账）", outline)
+        self.assertIn("已分类非学习项（初步判断）", outline)
+        self.assertIn("demo", outline)
+        with self.assertRaises(PipelineError): pipeline.start(self.report["taskId"], ticket["owner"], "demo")
+        self.assertEqual(self.run_copy()["localClaimsConfirmed"], 0)
+
+    def test_dispatch_mutation_does_not_release_owner_or_import_project(self):
+        pipeline, ticket, path = self.delegated_fixture()
+        path.write_bytes(path.read_bytes() + b" ")
+        self.assertEqual(self.run_copy()["conflicts"][0]["paths"], ["demo/"])
+        self.assertEqual(pipeline.status(self.report["taskId"])["owner"], ticket["owner"])
+        self.assertFalse((self.root / "demo/delivery/guide_pdf.pdf").exists())
+
+    def test_changed_owner_does_not_gain_dispatch_exemption(self):
+        pipeline, ticket, _ = self.delegated_fixture()
+        pipeline.release(self.report["taskId"], ticket["owner"])
+        pipeline.start(self.report["taskId"], "synthetic-new-worker", "demo")
+        self.assertEqual(self.run_copy()["conflicts"][0]["paths"], ["demo/"])
+        self.assertEqual(pipeline.status(self.report["taskId"])["owner"], "synthetic-new-worker")
+
+    def test_live_report_change_or_network_failure_keeps_original_delegation_and_files(self):
+        pipeline, ticket, _ = self.delegated_fixture()
+        for effect in (PipelineError("Synthetic network failure"), None):
+            if effect:
+                mocked = patch.object(pipeline.api, "read_analysis", side_effect=effect)
+            else:
+                mocked = patch.object(pipeline.api, "read_analysis", return_value={"record": {}, "report": {}})
+            with mocked, patch.object(cloud, "Pipeline", return_value=pipeline):
+                with self.assertRaises(PipelineError): self.run_copy()
+            self.assertEqual(pipeline.status(self.report["taskId"])["owner"], ticket["owner"])
+            self.assertFalse((self.root / "demo/delivery/guide_pdf.pdf").exists())
 
     def test_wrong_actual_hash_base_or_binding_cannot_copy(self):
         original=copy.deepcopy(self.report["cloudDelivery"])

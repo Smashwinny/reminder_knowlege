@@ -1,0 +1,184 @@
+UI UX Pro Max 单项目增量 历史实验日志
+公开副本：本次整理未重跑实验。保留2026-10-05的命令、参数、查询、开始/结束时间、耗时、退出码、检查和结果；历史argv中的解释器及脚本绝对路径改为可移植名称。原始记录与当前公开副本的指纹分别列出。
+范围：11项目录中的一个增量；其余项目未因此完成。
+来源：https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+固定提交：477bcb28c9812b385cb51a4605ddf30d7b2266e2
+实验材料仅普通合成 SaaS brief，无私人产品数据。
+依赖：Python标准库；无全局安装，无模型/付费服务；socket audit拒绝网络事件。
+下面为首轮真实执行；原始JSON与逐字段来源在练习包 results/。
+复跑会更新解压目录中的 results；原交付ZIP仍保留首轮证据。
+
+== 1. 固定环境和数据快照 ==
+可复制命令：python3 -B run_experiment.py snapshot
+历史argv（路径规范化）：["python3", "-B", "run_experiment.py", "snapshot"]
+开始UTC：2026-10-05T08:54:41.416153+00:00
+结束UTC：2026-10-05T08:54:41.428666+00:00
+耗时秒：0.012513537
+退出码：0
+目的：先知道自己实际跑了什么
+结果：Python 3.12.14；记录49个上游源文件哈希；产品、配色、规则各192行，风格表88个总记录，排版74行。总记录数不等于可检索或活跃风格数。
+验证：return_code=0；2/2检查通过；file_count=49。
+PASS pinned canonical source files present
+PASS MIT copyright and permission notice retained
+原始产物：results/snapshot.json
+
+== 2. 分别搜索五个问题 ==
+可复制命令：python3 -B run_experiment.py search
+历史argv（路径规范化）：["python3", "-B", "run_experiment.py", "search"]
+开始UTC：2026-10-05T08:54:41.549839+00:00
+结束UTC：2026-10-05T08:54:42.283510+00:00
+耗时秒：0.733676853
+退出码：0
+目的：看到正常命中与零命中的区别
+结果：product、style、color、ux 查询结果数依次为3、1、2、3；无关 ux 查询为0，原因 low-confidence。比较冷/热缓存、重复执行及新进程结果。
+验证：18/18检查通过；minimalism 走 exact-identity；无关词查询 abstained=true。
+PASS warm repeated search set 1 equals baseline
+PASS warm repeated search set 2 equals baseline
+PASS warm repeated search set 3 equals baseline
+PASS cold rebuilt search set equals baseline
+PASS fresh search process seed 0 equals baseline
+PASS fresh search process seed 1 equals baseline
+PASS fresh search process seed 8675309 equals baseline
+PASS product / SaaS dashboard result 1 has one exact source row
+PASS product / SaaS dashboard result 2 has one exact source row
+PASS product / SaaS dashboard result 3 has one exact source row
+PASS style / minimalism result 1 has one exact source row
+PASS color / SaaS result 1 has one exact source row
+PASS color / SaaS result 2 has one exact source row
+PASS ux / keyboard focus modal result 1 has one exact source row
+PASS ux / keyboard focus modal result 2 has one exact source row
+PASS ux / keyboard focus modal result 3 has one exact source row
+PASS nonsense direct UX search abstains
+PASS style alias is exact identity rather than zero-score failure
+原始产物：results/search.json
+
+== 3. 独立重算 BM25 排名 ==
+可复制命令：python3 -B run_experiment.py rank
+历史argv（路径规范化）：["python3", "-B", "run_experiment.py", "rank"]
+开始UTC：2026-10-05T08:54:42.406844+00:00
+结束UTC：2026-10-05T08:54:42.479898+00:00
+耗时秒：0.073031557
+退出码：0
+目的：不只相信上游函数自己的输出
+结果：在192条真实产品记录上独立重算；前三名为 SaaS (General)、Micro SaaS、Analytics Dashboard；对应分数约7.0313、6.2001、5.0556。
+验证：5/5检查通过；全部192条分数的最大绝对差为0；k1=1.5，b=0.75。
+PASS independent tokenization agrees on all 192 real product documents
+PASS independent scores agree for all product rows within 1e-12
+PASS full ranking including tied rows agrees
+PASS public search top three equals independently scored projections
+PASS diagnostic top score equals independent top score
+原始产物：results/rank.json
+
+== 4. 生成建议并对照来源 ==
+可复制命令：python3 -B run_experiment.py design
+历史argv（路径规范化）：["python3", "-B", "run_experiment.py", "design"]
+开始UTC：2026-10-05T08:54:42.606391+00:00
+结束UTC：2026-10-05T08:54:43.697403+00:00
+耗时秒：1.091016870
+退出码：0
+目的：用输入变化和原始行暴露边界
+结果：运行 SaaS dashboard accessible、追加 dark mode 的完整查询、无关 brief；逐一追踪产品/规则/风格/配色/字体/页面模式。另固定SaaS类别测试暗色派生函数。
+验证：32/32检查通过；查询加词会换类别；无关 brief 使用默认规则；固定类别暗色函数改变7个颜色字段，另附derived-dark标记。
+PASS repeated generator output equals baseline
+PASS cold generator output equals baseline
+PASS fresh generator process seed 0 equals baseline
+PASS fresh generator process seed 1 equals baseline
+PASS fresh generator process seed 8675309 equals baseline
+PASS base product identity maps to exactly one source row
+PASS base reasoning identity maps to exactly one source row
+PASS base style identity maps to exactly one source row
+PASS base color identity maps to exactly one source row
+PASS base typography identity maps to exactly one source row
+PASS base landing identity maps to exactly one source row
+PASS base all 20 color output fields literally trace to chosen palette
+PASS dark_words product identity maps to exactly one source row
+PASS dark_words reasoning identity maps to exactly one source row
+PASS dark_words style identity maps to exactly one source row
+PASS dark_words color identity maps to exactly one source row
+PASS dark_words typography identity maps to exactly one source row
+PASS dark_words landing identity maps to exactly one source row
+PASS dark_words all 20 color output fields literally trace to chosen palette
+PASS unknown style identity maps to exactly one source row
+PASS unknown color identity maps to exactly one source row
+PASS unknown typography identity maps to exactly one source row
+PASS unknown landing identity maps to exactly one source row
+PASS unknown all 20 color output fields literally trace to chosen palette
+PASS unknown brief explicitly flags default reasoning
+PASS unknown brief has no matched product or reasoning identity
+PASS base brief activates UX-focused rule
+PASS controlled light helper returns the exact fixed source palette
+PASS controlled dark helper preserves product identity
+PASS controlled dark helper declares derivation
+PASS controlled dark helper yields dark background
+PASS controlled dark focus ring contrast meets helper threshold
+原始产物：results/design.json
+
+== 5. 运行选定上游回归测试 ==
+可复制命令：python3 -B run_experiment.py tests
+历史argv（路径规范化）：["python3", "-B", "run_experiment.py", "tests"]
+开始UTC：2026-10-05T08:54:43.815127+00:00
+结束UTC：2026-10-05T08:54:47.305716+00:00
+耗时秒：3.490591885
+退出码：0
+目的：把实现检查与本次证据检查分开计数
+结果：执行13个选定测试类的73个方法，覆盖分词、BM25、域、诊断、规则与颜色模式；不运行持久化测试类及完整CI。
+验证：tests_run=73；failures=0；errors=0；skipped=0。此数与61项自建证据检查分开。
+原始产物：results/tests.json；results/upstream-tests.log
+
+== 6. 核对六步与快照未改变 ==
+可复制命令：python3 -B run_experiment.py verify
+历史argv（路径规范化）：["python3", "-B", "run_experiment.py", "verify"]
+开始UTC：2026-10-05T08:54:47.430343+00:00
+结束UTC：2026-10-05T08:54:47.438604+00:00
+耗时秒：0.008259645
+退出码：0
+目的：收束证据而不夸大完成范围
+结果：检查源文件未改、前五步退出码为0、此前57项证据检查通过、选定上游测试通过。本步再增加4项检查。
+验证：本轮自建61/61；上游73/73；六步return_code均为0。来源49文件还另有逐字节比对记录，不并入61项。
+PASS source snapshot unchanged after experiment
+PASS all five earlier step return codes are zero
+PASS all earlier custom evidence checks pass
+PASS selected upstream regression methods pass
+原始产物：results/verify.json；results/origin_verification.json
+
+== 计数 ==
+自建检查 snapshot2 + search18 + rank5 + design32 + tests0 + verify4 =61，全通过。
+上游选定unittest方法=73，失败0，错误0，跳过0；不把subTest循环另计。
+源49文件与固定checkout字节一致比对另存origin_verification.json，不计入61。
+
+== 明确未运行 ==
+test_core.TestPersistence (all 3 tests)
+test_design_system_mode.TestLightResultOutputCoherence (all 4 formatting tests)
+test_data_contracts.TestLandingAndStackContract
+test_data_contracts.TestGeneratedCatalogContract
+All other test modules; full aggregate CI; installers; gallery; external integrations
+持久化、force覆盖、安装器、全局技能、真实网站、模型/收费API、浏览器HTML视觉测试、HTML转PDF（原路线受环境限制，本次未重试）、部署与真实业务验收均未执行。
+
+== 结果解释 ==
+加词后换了产品类别：输入 SaaS dashboard accessible 命中 SaaS (General)；完整输入追加 dark mode 后命中 Smart Home/IoT Dashboard。这证明本版本此样例的查询敏感性，不是独立颜色参数的因果对照。
+空检索与默认推荐同时存在：无关 UX 检索返回0条；无关生成需求 zzqqxx flarble blorpt 的 reasoning_default=true，产品与规则来源为空，但仍有回退建议。不能把输出完整误当成资料命中。
+原值与派生都有可核对路径：三个生成样例的来源身份逐一解析；每个样例的20个颜色输出字段与所选配色原字段一致。另一个固定 SaaS 类别的暗色函数对照改变7个颜色字段并标记 derived-dark，焦点环/背景数值对比度约3.4541。这个数值不是页面无障碍合格证。
+本地实现是顺序检索与确定性规则：普通生成链实际顺序调用 product、product、style、color、landing、typography 共6次搜索；中间重复的产品结果之后被最初结果覆盖。README 的5路并行描述与这段代码不同。
+验证计数与覆盖范围分开：61项自建证据检查全过；选定上游73个测试方法全过。未运行全部测试模块、完整CI、持久化与覆盖测试。固定快照和样例可重现，不等于任意需求都能获得正确设计。
+
+== 历史原始结果文件指纹（清理路径前） ==
+design.json 67251 bytes SHA256 106f9ed8e8ac6abb4867fe1da3e2c37642bfdb43ab42bae2beb7a9182f77702a
+origin_verification.json 13081 bytes SHA256 497e8a0d171f09d7ce73c61f2a22bec05ed1c17c776ab3e2db69e4c1e3f581e2
+rank.json 39589 bytes SHA256 6f432809cdb5785491ba526f369488078cfcadf633f074ae083689521fe037e2
+search.json 29040 bytes SHA256 126851366ae07d52efe19f3ffdada456893b401ae5e81a4f7ae4a980cbfcae5d
+snapshot.json 7001 bytes SHA256 b9b037d9e7e4363a02b14483ea0b68f31ecb8557d3f4c0f3066a606c21100493
+tests.json 1632 bytes SHA256 ed1adb1ae03c952f9b1c198e0451e737adad35a73c48d954ddec3eb891d95968
+upstream-tests.log 10462 bytes SHA256 beaa424f670c23068b2ecf7de1e94f48e1d481a0af18e6fa58964315709ef45f
+verify.json 1842 bytes SHA256 cc4a75058221df6f1323c8c3848f1a96d7e0980cdd9977d9d6db258be497ab1d
+
+== 当前公开练习包结果文件指纹 ==
+路径清理不改变实验结果。以下指纹属于当前ZIP成员，用于核对公开副本；未改动文件会与历史指纹相同。
+design.json 66789 bytes SHA256 21a73e0fd9c5a52e78db1d1db11b79cf02fc3e1fe7b455c5348ddda124a4ac56
+origin_verification.json 13081 bytes SHA256 497e8a0d171f09d7ce73c61f2a22bec05ed1c17c776ab3e2db69e4c1e3f581e2
+rank.json 39523 bytes SHA256 04b11144ad2bade1edae6d210dec943255424ae7003faf6c966a28126ffab510
+search.json 28578 bytes SHA256 e90618b678d2146ba35541a0912e616392068fdf4be786a1a39d96b6bfc1a2db
+snapshot.json 6935 bytes SHA256 5d43c6b3230c2b04281ea823eede0d7e43e9588f83b82c7abad6d8e390503577
+tests.json 1566 bytes SHA256 e806594a6ae5c76c613f83b46968183e8d794f49c1554b9dc7151263b1664949
+upstream-tests.log 10462 bytes SHA256 beaa424f670c23068b2ecf7de1e94f48e1d481a0af18e6fa58964315709ef45f
+verify.json 1776 bytes SHA256 cb12935134157e9af0eaac8e2324cc744cc702cc8b95ca4cff3ea3e094dd41e9
+公开ZIP：616913 bytes SHA256 b8503f8d573379e4bc11a7158aabc621f7eb5135e2202265f67d094146217086

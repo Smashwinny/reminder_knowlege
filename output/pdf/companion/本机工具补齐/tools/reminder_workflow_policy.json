@@ -1,0 +1,14 @@
+{
+  "automatic_full_learning": true,
+  "primary_executor": "dot",
+  "backup_targets": ["local", "git"],
+  "git_executor": "sole_coordinator",
+  "git_requires_local_knowledge_merge": true,
+  "git_requires_explicit_file_list": true,
+  "git_repository": "https://github.com/Smashwinny/reminder_knowlege.git",
+  "git_scope": "learning_artifacts_only",
+  "private_records_targets": ["website", "local"],
+  "task_completion": "user_only",
+  "site_publication": "analysis_tags",
+  "authorized_on": "2026-10-04"
+}

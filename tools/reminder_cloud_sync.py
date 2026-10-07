@@ -10,14 +10,15 @@ import json
 import re
 import sqlite3
 import subprocess
+import tempfile
 import uuid
 from pathlib import Path
 
 if __package__:
-    from .reminder_pipeline import PipelineError, atomic_write
+    from .reminder_pipeline import Pipeline, PipelineError, atomic_write
     from .reminder_coordinator import require_owner
 else:
-    from reminder_pipeline import PipelineError, atomic_write
+    from reminder_pipeline import Pipeline, PipelineError, atomic_write
     from reminder_coordinator import require_owner
 
 REPOSITORY = "Smashwinny/reminder_knowlege"
@@ -102,6 +103,87 @@ def local_owner_held(root, report, project):
             connection.close()
     except sqlite3.Error:
         raise PipelineError("无法核对原共享队列 owner，原件已保留，未覆盖项目知识。") from None
+
+
+def delegated_ticket(root, bundle, report, publication):
+    """Only an explicitly acknowledged, hash-pinned original dispatch can close.
+
+    Neither an owner prefix nor an expired lease authorizes reconciliation.
+    Other owners, local work, and unpublished/stale reports remain protected.
+    The caller has already verified this publication against actual Git objects.
+    """
+    authorization = root / PRIVATE / "cloud-dispatch-authorization.json"
+    if not authorization.exists() or publication["schema"] != "reminder-dot-direct-git-v1":
+        return None
+    try:
+        approval = json.loads(authorization.read_text(encoding="utf-8"))
+        if (approval.get("schema") != "reminder-cloud-dispatch-authorization-v1" or
+                approval.get("accepted") is not True or approval.get("accountId") != bundle["accountId"] or
+                approval.get("listId") != bundle["list"]["id"]):
+            return None
+        name = approval["dispatchFile"]
+        path = (root / name).resolve()
+        if not path.is_relative_to((root / PRIVATE / "dot-collaboration").resolve()):
+            return None
+        raw = path.read_bytes()
+        if sha(raw) != approval.get("dispatchSha256"):
+            return None
+        dispatch = json.loads(raw)
+        if dispatch.get("type") != "dispatch_receipts_from_existing_pipeline" or dispatch.get("taskCompletion") != "user_only":
+            return None
+        matches = [v for v in dispatch["receipts"] if v.get("taskId") == report["taskId"]]
+        if len(matches) != 1:
+            return None
+        ticket = matches[0]
+        project = report["analysis"]["completion"]["project"]
+        if (not ticket.get("localStart") or ticket.get("project") != project or
+                ticket.get("sourceHash") != report["sourceHash"]):
+            return None
+        database = root / PRIVATE / "queue.sqlite3"
+        connection = sqlite3.connect(database.as_uri() + "?mode=ro", uri=True)
+        connection.row_factory = sqlite3.Row
+        try:
+            rows = connection.execute("SELECT * FROM tasks WHERE owner IS NOT NULL AND (task_id=? OR project_key=?)", (report["taskId"], project.casefold())).fetchall()
+        finally:
+            connection.close()
+        if len(rows) != 1:
+            return None
+        row = dict(rows[0])
+        if (row.get("task_id") != ticket["taskId"] or row.get("owner") != ticket["owner"] or
+                row.get("project_key") != project.casefold() or row.get("phase") != "learning" or
+                row.get("kind") != "learning" or not row.get("learning_started") or
+                row.get("content_hash") != ticket["sourceHash"] or row.get("claim_hash") != ticket["sourceHash"] or
+                row.get("classified_hash") != ticket["sourceHash"] or
+                any(row.get(k) for k in ("invalidated", "deleted", "missing", "manifest", "review", "publish_intent"))):
+            return None
+        return {**ticket, "dispatchFile": name, "dispatchSha256": approval["dispatchSha256"]}
+    except (OSError, ValueError, KeyError, TypeError, sqlite3.Error):
+        raise PipelineError("原云端派发授权无法核对；保留原 owner 和项目文件。") from None
+
+
+def merge_note(root, before, baseline, remote):
+    """Conservative textual three-way merge, never a model/semantic rewrite."""
+    if baseline is None or any(b"\0" in v for v in (before, baseline, remote)):
+        return None
+    try:
+        texts = [v.decode("utf-8-sig").replace("\r\n", "\n") for v in (before, baseline, remote)]
+    except UnicodeError:
+        return None
+    folder = root / PRIVATE / "cloud-sync-merge"
+    folder.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=folder) as temporary:
+        paths = [Path(temporary) / name for name in ("local.md", "base.md", "remote.md")]
+        for path, data in zip(paths, texts):
+            path.write_bytes(data.encode("utf-8"))
+        result = subprocess.run(["git", "merge-file", "-p", "--", *map(str, paths)], capture_output=True, timeout=30)
+    if result.returncode != 0:
+        return None  # Do not write conflict markers, choose a side, or change Git history.
+    data = result.stdout
+    if b"\r\n" in before:
+        data = data.replace(b"\n", b"\r\n")
+    if before.startswith(b"\xef\xbb\xbf"):
+        data = b"\xef\xbb\xbf" + data
+    return data
 
 
 class PublicMirror:
@@ -252,7 +334,7 @@ def apply_cloud_receipts(root, bundle, coordinator, mirror_factory=PublicMirror)
         raise PipelineError("本机交接账本不属于此账户/列表。")
     # Determine the newest reviewed version per path from actual Git ancestry.
     # Older receipts remain verified history and must not roll back newer knowledge.
-    winners, valid_baselines, verified_files = {}, {}, {}
+    winners, valid_baselines, verified_files, earliest_bases = {}, {}, {}, {}
     for report, value in candidates:
         mirror.verify_commit(value["commit"])
         mirror.verify_commit(value["baseCommit"])
@@ -274,18 +356,27 @@ def apply_cloud_receipts(root, bundle, coordinator, mirror_factory=PublicMirror)
                 raise PipelineError("云端回执哈希与实际 Git 文件或基线不符。")
             verified_files[(report["id"], name)] = data
             valid_baselines.setdefault(name, set()).update((base_hash, file["sha256"]))
+            old_base = earliest_bases.get(name)
+            if baseline is not None and (old_base is None or mirror.is_ancestor(value["baseCommit"], old_base[0])):
+                earliest_bases[name] = (value["baseCommit"], baseline)
             old = winners.get(name)
             if not old or mirror.is_ancestor(old, value["commit"]):
                 winners[name] = value["commit"]
             elif not mirror.is_ancestor(value["commit"], old):
                 raise PipelineError("云端提交历史分叉，保留本机知识。")
-    result = {"cloudPublished": len(candidates), "dotDirectGitPublished": sum(v["schema"] == "reminder-dot-direct-git-v1" for _, v in candidates), "localKnowledgeSynced": 0, "conflicts": []}
+    tracking_path = root / PRIVATE / "cloud-sync-knowledge.json"
+    tracking = json.loads(tracking_path.read_text(encoding="utf-8")) if tracking_path.exists() else {"schema": "reminder-cloud-local-knowledge-v1", "files": {}}
+    if tracking.get("schema") != "reminder-cloud-local-knowledge-v1" or not isinstance(tracking.get("files"), dict):
+        raise PipelineError("本机知识合入基线不可读取，保留原文件。")
+    result = {"cloudPublished": len(candidates), "dotDirectGitPublished": sum(v["schema"] == "reminder-dot-direct-git-v1" for _, v in candidates), "localKnowledgeSynced": 0, "localClaimsConfirmed": 0, "localNotesMerged": [], "conflicts": []}
     for report, value in sorted(candidates, key=lambda x: (x[1].get("pushedAt", ""), x[0]["id"])):
         project = report["analysis"]["completion"]["project"]
         valid_project(project)
         mirror.verify_commit(value["commit"])
-        writes, conflicts, seen = [], [], set()
-        if local_owner_held(root,report,project):
+        writes, conflicts, seen, path_states, merged_notes = [], [], set(), {}, []
+        ticket = delegated_ticket(root, bundle, report, value)
+        owner_held = local_owner_held(root,report,project)
+        if owner_held and ticket is None:
             conflicts.append(project+'/')
         for item in value["files"]:
             name = item.get("path")
@@ -297,18 +388,41 @@ def apply_cloud_receipts(root, bundle, coordinator, mirror_factory=PublicMirror)
             if winners[name] != value["commit"]:
                 continue
             before = destination.read_bytes() if destination.exists() else None
+            target = data
             if before == data:
-                continue
-            if before is not None and sha(before) not in valid_baselines[name]:
-                conflicts.append(name)
+                pass
+            elif before is not None and sha(before) not in valid_baselines[name]:
+                baseline = earliest_bases.get(name, (None, None))[1]
+                previous = tracking["files"].get(name)
+                if name.startswith("vault/") and name.endswith(".md"):
+                    if previous:
+                        commit = previous.get("remoteCommit", "")
+                        if not re.fullmatch(r"[a-f0-9]{40}", commit) or not mirror.is_ancestor(commit, value["commit"]):
+                            raise PipelineError("本机知识合入基线不是当前发布的祖先。")
+                        baseline = mirror.file(commit, name)
+                        if sha(baseline) != previous.get("remoteSha256"):
+                            raise PipelineError("本机知识合入基线与实际 Git 字节不符。")
+                    target = merge_note(root, before, baseline, data)
+                else:
+                    target = None
+                if target is None:
+                    conflicts.append(name)
+                    continue
+                if target != data:
+                    merged_notes.append(name)
+                if target != before:
+                    writes.append((destination, target, before))
             elif before is None:
                 tracked = subprocess.run(["git", "-C", str(root), "ls-files", "--error-unmatch", "--", name], capture_output=True, timeout=30)
                 if tracked.returncode == 0:
                     conflicts.append(name)
+                    continue
                 else:
                     writes.append((destination, data, before))
             else:
                 writes.append((destination, data, before))
+            path_states[name] = {"remoteCommit": value["commit"], "remoteSha256": sha(data),
+                                 "localSha256": sha(target), "preservedLocalChanges": target != data}
         # Server receipts require unchanged originals. Direct Git public copies may
         # redact private context; every role is instead bound to its original SHA.
         artifacts = {a["role"]: a for a in report["analysis"]["completion"]["artifacts"]}
@@ -333,6 +447,11 @@ def apply_cloud_receipts(root, bundle, coordinator, mirror_factory=PublicMirror)
             item["localKnowledge"] = {"status": "conflict", "paths": sorted(set(conflicts))}
             result["conflicts"].append({"reportId": report["id"], "paths": sorted(set(conflicts))})
         else:
+            # Read back the real scoped report before accepting our original
+            # delegation. The original owner remains held until the copy succeeds.
+            pipeline = Pipeline(root) if ticket else None
+            if ticket:
+                pipeline.check_cloud_handoff(report, value, ticket, coordinator)
             for destination, data, before in writes:
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 temporary = destination.with_name(destination.name + ".cloud-sync-" + uuid.uuid4().hex)
@@ -354,7 +473,15 @@ def apply_cloud_receipts(root, bundle, coordinator, mirror_factory=PublicMirror)
                     temporary.replace(destination)
                 finally:
                     temporary.unlink(missing_ok=True)
-            item["localKnowledge"] = {"status": "synced", "commit": value["commit"]}
+            tracking["files"].update(path_states)
+            atomic_write(tracking_path, json.dumps(tracking, ensure_ascii=False, indent=2) + "\n")
+            item["localKnowledge"] = {"status": "synced", "commit": value["commit"], "preservedLocalNotes": merged_notes}
+            if ticket:
+                confirmed = pipeline.confirm_cloud_handoff(report, value, ticket, coordinator)
+                item["localClaim"] = {"status": "analysis_confirmed", "owner": ticket["owner"],
+                                      "verifiedAt": confirmed["analysis_completed_at"], "dispatchSha256": ticket["dispatchSha256"]}
+                result["localClaimsConfirmed"] += 1
+            result["localNotesMerged"].extend(name for name in merged_notes if name not in result["localNotesMerged"])
             result["localKnowledgeSynced"] += 1
         atomic_write(handoff_path, json.dumps(handoff, ensure_ascii=False, indent=2) + "\n")
     return result

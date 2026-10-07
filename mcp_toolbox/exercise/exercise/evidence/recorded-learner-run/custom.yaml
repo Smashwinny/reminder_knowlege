@@ -1,0 +1,22 @@
+kind: source
+name: local
+type: sqlite
+database: "file:///workspace/scratch/fb956861c0bf/mcp_toolbox/exercise/evidence/learner-run/readonly.db?mode=ro"
+---
+kind: tool
+name: lookup_item
+type: sqlite-sql
+source: local
+description: Exact name lookup of synthetic inventory
+statement: SELECT id,name,qty FROM inventory WHERE name = ? ORDER BY id
+parameters:
+  - name: name
+    type: string
+    description: Exact item name
+annotations:
+  readOnlyHint: true
+---
+kind: toolset
+name: lookup_only
+tools:
+  - lookup_item

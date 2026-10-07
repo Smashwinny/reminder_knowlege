@@ -19,3 +19,45 @@ tags: [概念]
 - 依赖它的上层机制：[[工单任务图与前沿调度]] 的依赖校验（前置结果合格才算就绪）
 
 **首次接触于**：[[项目笔记/multi_agent_order]]（抖音技术视频还原；实验 protocol 子命令实测：缺字段/非 dict 2 条被拒，40 vs 42 冲突按置信度统一为 42）
+
+## Qwen-Image-2.1：解析成功、契约有效与任务正确分层（2026-10-05）
+
+[[项目笔记/qwen_image_2_1]] 给协议门补充一个反例：`parse_ok=true` 只表示固定改写器成功抽取非空提示字符串，不表示完整 schema 或领域约束已经通过。`wh_ratio` 表示指定画布比例，`ratio_follow` 表示继承某张参考图的比例；文档要求编辑任务恰好选择其一，但解析器并未强制执行这一互斥规则。
+
+已有离线实验直接执行未修改的 `pe_core.py`：任意比例字符串、编辑同时给两个比例字段、两者都缺失、越界 `<image99>` 四类合成回答仍返回 `parse_ok=true`。上游共 21 项预期行为检查通过，意为观察与预期一致，包含这些已观察的验证缺口，不是上游已修复或 21 项模型质量测试。
+
+练习另写 `local_policy`，对 6 个选定样本作消费者校验，得到 2 接受、4 拒绝。它检查给定比例集合、编辑选择互斥和假定两张图的引用范围；不是官方完整 schema，也不是通用安全验证器。实际图片是否符合“蓝色杯子”等意图，还需另取图像结果验收。
+
+因此依次保留三种证据：字段能否提取、消费者约束是否满足、真实任务结果是否正确。`parse_ok=false` 时原回答留在 `positive_prompt`，只说明未丢文本，不可当作规范改写成功。关联 [[代码管边界提示词管判断]]、[[证据优先质检ProofOverClaims]]；合成函数测试与模型端到端测试的边界见 [[接缝与桩实现StubSeam]]。
+
+来源：[解析与记录实现](https://github.com/QwenLM/Qwen-Image-2.1/blob/6627d87c6433151463ec4b48b8945a24fcf16a35/prompt_rewrite/pe_core.py)、[输出契约说明](https://github.com/QwenLM/Qwen-Image-2.1/blob/6627d87c6433151463ec4b48b8945a24fcf16a35/prompt_rewrite/README.md)、[已有实验日志](../../qwen_image_2_1/delivery/qwen_image_2_1_experiment_log.md)。
+
+## AI Native 手册：补充授权请求是独立状态（2026-10-05）
+
+[[项目笔记/ai_native_handbook]] 把协议纪律用于授权结果：除允许与拒绝，还可返回需要补充授权的 Challenge。它应说明待确认主体、目标资源、动作、确认方式和时效，由可信交互承接；模型收到的是等待或拒绝等高层状态，不能自行编造批准，也不应接触授权码与 Token。
+
+这是手册的参考设计，不是把任意 HTTP 403 自动转换成“模型继续尝试”的机会，也不是 schema 合法就代表授权真实。与 [[人机协同Interrupt]] 相关的是暂停等待这一过程；具体恢复机制、身份验证和批准证明需要另行实现。[[代码管边界提示词管判断]] 约束的是执行许可，输出协议只承载状态与必要信息。
+
+本次自编教学程序实际只有 allow/deny，没有实现 Challenge、真实审批界面或凭证交换；17 个用例不包含这些功能。前述 Qwen 案例的解析/语义分层仍独立成立，两者都是“格式成立不等于领域条件已成立”的具体例子。
+
+来源：[手册印刷 p54 / PDF 59](https://g.alistatic.com/s/v/ainativeinfra/ai-native-handbook/0.0.1/ai-native-handbook.pdf#page=59)；[已实现与未实现项](../../ai_native_handbook/delivery/ai_native_handbook-experiment-log.md)。
+
+## Codex advanced：解析、schema 与运行语义分别取证（2026-10-06）
+
+[[项目笔记/codex_advanced]] 的历史实验用独立 Python 验证器读取固定 ConfigToml / ClientRequest Draft-07 契约，执行 25 个合成样本：8 个结构接受、14 个 schema 拒绝、3 个解析错误。25/25 表示每个实际结果符合其预期，包括刻意反例被拒；不表示真实服务接受或成功率为 100%。
+
+缺 id、缺 clientInfo.version、turn/start 缺 threadId 及 text 类型错误在对应结构层被拒。合成模型字符串及所测请求形状却可以通过，仍没有证明模型可用、线程存在、握手/顺序正确、拥有权限或推理完成。JSON/TOML 语法错误发生在解析层，不能混记为协议拒绝。
+
+这个案例延续既有 Qwen 的解析/消费者约束分层和 AI Native 的领域授权边界；格式成立只覆盖目标契约的相应层。实际执行对象是 jsonschema 库，不是 Codex CLI、App Server 或桩模型服务，关联 [[接缝与桩实现StubSeam]]、[[证据优先质检ProofOverClaims]]。
+
+来源：[固定配置契约](https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/core/config.schema.json)、[固定请求契约](https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/app-server-protocol/schema/json/ClientRequest.json)；[历史实验日志](../../codex_advanced/delivery/codex-advanced-experiment-log.md)。
+
+## Route Studio：解析、有限值与路线前提分别校验（2026-10-06）
+
+[[项目笔记/route_studio]] 的历史 TEST_ONLY 实验直接运行真实 gpx.py / motion.py。load_points 能解析单个 trkpt，route_points 却拒绝单点路线；独立 GPX 入口的 6 个预期拒绝输入、路线入口的 8 个预期拒绝输入，说明两个入口的契约不能互换。Web 的 rtept 回退只读过源码，没有执行，不能推广为独立解析器也支持。
+
+GPX 用 lat/lon，路线对象用 lat/lng，Point 用 latitude/longitude；范围有效仍不保证分量顺序正确。GeoJSON 使用经度、纬度顺序是另一格式的约定，不可直接套入这些对象。NaN、无穷和超范围数仅作拒绝哨兵；被接受的路线固定为原点附近三点且无活动时间戳。
+
+Settings.parse 的 7 个反例来自上游测试向量，通过自写 harness 调用，没有运行其测试模块。Motion 构造与 advance 不承担全部前置校验；实验先检查路线/设置，只传有限非负 dt。未知类型、所有阈值边界与真实运行仍须独立证据，延续既有 Qwen/Codex 的分层纪律，关联 [[接缝与桩实现StubSeam]]。
+
+来源：[固定 GPX 入口](https://github.com/yinsuecci/mockrunning/blob/137297d7ca980f92a6a832708c9c61964bde7591/src/ios_location_controller/gpx.py)、[固定路线与设置校验](https://github.com/yinsuecci/mockrunning/blob/137297d7ca980f92a6a832708c9c61964bde7591/src/ios_location_controller/motion.py)、[反例来源](https://github.com/yinsuecci/mockrunning/blob/137297d7ca980f92a6a832708c9c61964bde7591/tests/test_motion.py)、[RFC 7946](https://www.rfc-editor.org/rfc/rfc7946)；[历史实验日志](../../route_studio/delivery/route-studio-experiment-log.md)。

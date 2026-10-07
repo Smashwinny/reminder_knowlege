@@ -1,0 +1,3173 @@
+{
+  "schema": "reminder-dot-public-reference-v1",
+  "repository": "Smashwinny/reminder_knowlege",
+  "sourceCommit": "1043e9d6080bff7af9724162e2c44559fab63e40",
+  "sourceRef": "origin/main",
+  "publishedSnapshotOnly": true,
+  "workingTreeIncluded": false,
+  "privateRecordsIncluded": false,
+  "knowledgeScope": [
+    "vault/概念/",
+    "vault/项目笔记/"
+  ],
+  "skill": {
+    "path": ".claude/skills/learn-project/SKILL.md",
+    "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/.claude/skills/learn-project/SKILL.md",
+    "sha256": "2faa70bad578ffb221b273e90740c37e51b8a9d55be655465bb15e42801409bd",
+    "bytes": 10302
+  },
+  "notes": [
+    {
+      "path": "vault/概念/A2A智能体互通信.md",
+      "title": "A2A智能体互通信",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/A2A%E6%99%BA%E8%83%BD%E4%BD%93%E4%BA%92%E9%80%9A%E4%BF%A1.md",
+      "bytes": 1316,
+      "sha256": "5bf266fe82e34c1b921df8e7efc3ce87fd39fa9d17dcffb28b6c817efdc53dac"
+    },
+    {
+      "path": "vault/概念/AI交易终端.md",
+      "title": "AI交易终端",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/AI%E4%BA%A4%E6%98%93%E7%BB%88%E7%AB%AF.md",
+      "bytes": 2301,
+      "sha256": "c9bc1ef1d3b37f91d4eda5b1cd3d8a86221f28de7edea0886f36e2a0749497aa"
+    },
+    {
+      "path": "vault/概念/AI味模式库与信号非证据.md",
+      "title": "AI味模式库与信号非证据",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/AI%E5%91%B3%E6%A8%A1%E5%BC%8F%E5%BA%93%E4%B8%8E%E4%BF%A1%E5%8F%B7%E9%9D%9E%E8%AF%81%E6%8D%AE.md",
+      "bytes": 2177,
+      "sha256": "294ec3ddd248e8db25c76f17c8747993b98a9a324f4a3b0502eb67c72bc352ef"
+    },
+    {
+      "path": "vault/概念/AI智能体Agent.md",
+      "title": "AI智能体Agent",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/AI%E6%99%BA%E8%83%BD%E4%BD%93Agent.md",
+      "bytes": 1411,
+      "sha256": "bc5358a4531c24f036137d2c564843b6a9fed1a6573252b5e5c366fcb98ff031"
+    },
+    {
+      "path": "vault/概念/AgentHarness智能体挽具.md",
+      "title": "AgentHarness智能体挽具",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/AgentHarness%E6%99%BA%E8%83%BD%E4%BD%93%E6%8C%BD%E5%85%B7.md",
+      "bytes": 2913,
+      "sha256": "6ea191b1ea84eb9ba3c53db9b02a55450af255775dc2006fc8cba7df72126014"
+    },
+    {
+      "path": "vault/概念/AgentSkills技能包.md",
+      "title": "AgentSkills技能包",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/AgentSkills%E6%8A%80%E8%83%BD%E5%8C%85.md",
+      "bytes": 1536,
+      "sha256": "bb055a1f106f721c5c71a3a2b359c16d11190fbc261c772d63a7bbc3782f011b"
+    },
+    {
+      "path": "vault/概念/Agent中间件.md",
+      "title": "Agent中间件",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Agent%E4%B8%AD%E9%97%B4%E4%BB%B6.md",
+      "bytes": 1085,
+      "sha256": "9c33574c23663fb66d31c0857fdf1216193d068b7da147a5ac5f0c92d483bca0"
+    },
+    {
+      "path": "vault/概念/Agent后训练SFT与RL.md",
+      "title": "Agent后训练SFT与RL",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Agent%E5%90%8E%E8%AE%AD%E7%BB%83SFT%E4%B8%8ERL.md",
+      "bytes": 2016,
+      "sha256": "469e56aec14af970e292a9207a37ee2c3c3a2580adbb55e68b603c5ce75e6fb5"
+    },
+    {
+      "path": "vault/概念/Agent循环.md",
+      "title": "Agent循环",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Agent%E5%BE%AA%E7%8E%AF.md",
+      "bytes": 1582,
+      "sha256": "87eadd28631546009c6c6aab17349e388fcf0888d40f64bd9a37d799ac026401"
+    },
+    {
+      "path": "vault/概念/Agent指令文件AgentMd.md",
+      "title": "Agent指令文件AgentMd",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Agent%E6%8C%87%E4%BB%A4%E6%96%87%E4%BB%B6AgentMd.md",
+      "bytes": 2952,
+      "sha256": "d301f65e52f62ebcf6066bf86fa6eadd34ee219b3549938c83738fe6ebb9fe90"
+    },
+    {
+      "path": "vault/概念/Agent网关与消息通道.md",
+      "title": "Agent网关与消息通道",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Agent%E7%BD%91%E5%85%B3%E4%B8%8E%E6%B6%88%E6%81%AF%E9%80%9A%E9%81%93.md",
+      "bytes": 2042,
+      "sha256": "5be74c6cf04bf34caf882f9cd48d516dacf621e715358fdae0f6becbc09e1cf1"
+    },
+    {
+      "path": "vault/概念/Agent设计模式目录.md",
+      "title": "Agent设计模式目录",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Agent%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%9B%AE%E5%BD%95.md",
+      "bytes": 2287,
+      "sha256": "6f2ab3db734346d9f9961a5bf15f9b82e30cda69a658ea0368ca92d5667e5929"
+    },
+    {
+      "path": "vault/概念/Agent评测框架八步法.md",
+      "title": "Agent评测框架八步法",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Agent%E8%AF%84%E6%B5%8B%E6%A1%86%E6%9E%B6%E5%85%AB%E6%AD%A5%E6%B3%95.md",
+      "bytes": 2287,
+      "sha256": "8ddaad1e7e9e0d1b3a49c5adb45ad3c438aa73a6d52cf7e2c108cde9f4ac77f5"
+    },
+    {
+      "path": "vault/概念/Agent输出协议契约.md",
+      "title": "Agent输出协议契约",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Agent%E8%BE%93%E5%87%BA%E5%8D%8F%E8%AE%AE%E5%A5%91%E7%BA%A6.md",
+      "bytes": 1742,
+      "sha256": "85b2ef5207651ba4807bd3da205a45c72c1fe38a5cb8ce91a052f66dea5bba4e"
+    },
+    {
+      "path": "vault/概念/BPE分词器.md",
+      "title": "BPE分词器",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/BPE%E5%88%86%E8%AF%8D%E5%99%A8.md",
+      "bytes": 1898,
+      "sha256": "356e4749618f7d4c1c6c4b790eee0f41e160c339d3947d8bde1264a2509b6363"
+    },
+    {
+      "path": "vault/概念/BYOK模型网关与用量归因.md",
+      "title": "BYOK模型网关与用量归因",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/BYOK%E6%A8%A1%E5%9E%8B%E7%BD%91%E5%85%B3%E4%B8%8E%E7%94%A8%E9%87%8F%E5%BD%92%E5%9B%A0.md",
+      "bytes": 1697,
+      "sha256": "27d76f60753171c92bdd2c12a8cb33e74dbe266bbd90537e716bdb760ef69dd3"
+    },
+    {
+      "path": "vault/概念/CAN总线与MIT电机帧.md",
+      "title": "CAN总线与MIT电机帧",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/CAN%E6%80%BB%E7%BA%BF%E4%B8%8EMIT%E7%94%B5%E6%9C%BA%E5%B8%A7.md",
+      "bytes": 1756,
+      "sha256": "899f27c41c3df457210fb0cde0891ce851fb39aa4fc67940034b689174d08996"
+    },
+    {
+      "path": "vault/概念/CAP理论.md",
+      "title": "CAP理论",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/CAP%E7%90%86%E8%AE%BA.md",
+      "bytes": 1175,
+      "sha256": "e28cb5a2cea5aa1e1b12a66860c1508b455249137d05d83fb2f898a76decb7c3"
+    },
+    {
+      "path": "vault/概念/CODEX_HOME多实例隔离.md",
+      "title": "CODEX_HOME多实例隔离",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/CODEX_HOME%E5%A4%9A%E5%AE%9E%E4%BE%8B%E9%9A%94%E7%A6%BB.md",
+      "bytes": 1795,
+      "sha256": "81725a3e1b2a365f520c0aca258dfb9dfd6d2ad7d8475a70320079f37244f4f1"
+    },
+    {
+      "path": "vault/概念/Cel量化着色与反转壳描边.md",
+      "title": "Cel量化着色与反转壳描边",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Cel%E9%87%8F%E5%8C%96%E7%9D%80%E8%89%B2%E4%B8%8E%E5%8F%8D%E8%BD%AC%E5%A3%B3%E6%8F%8F%E8%BE%B9.md",
+      "bytes": 1507,
+      "sha256": "50fe5ec245661cde946d878139730936232141908b355ae016c621af48379c7e"
+    },
+    {
+      "path": "vault/概念/ChatModel与消息类型.md",
+      "title": "ChatModel与消息类型",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/ChatModel%E4%B8%8E%E6%B6%88%E6%81%AF%E7%B1%BB%E5%9E%8B.md",
+      "bytes": 1308,
+      "sha256": "67dd1df66878458fa2a78913ece63f49c9e864dd8944cd3a1f9656bb8adc377d"
+    },
+    {
+      "path": "vault/概念/Checkpoint存档与持久执行.md",
+      "title": "Checkpoint存档与持久执行",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Checkpoint%E5%AD%98%E6%A1%A3%E4%B8%8E%E6%8C%81%E4%B9%85%E6%89%A7%E8%A1%8C.md",
+      "bytes": 1299,
+      "sha256": "8d66cdddee4f03ce3f19f0e76fab366a7ac8bc8f04c638d19005352e7c0cc37c"
+    },
+    {
+      "path": "vault/概念/ClaudeCodeHooks与fail-open.md",
+      "title": "ClaudeCodeHooks与fail-open",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/ClaudeCodeHooks%E4%B8%8Efail-open.md",
+      "bytes": 2285,
+      "sha256": "28350ebae877a0a28b36893ec3a353ae772ad15ca3a092f470b3de1ec937feb2"
+    },
+    {
+      "path": "vault/概念/CleanRoom只读读取器.md",
+      "title": "CleanRoom只读读取器",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/CleanRoom%E5%8F%AA%E8%AF%BB%E8%AF%BB%E5%8F%96%E5%99%A8.md",
+      "bytes": 1665,
+      "sha256": "85b4478ce52d7519b31c462de2e7030a222662eaa3088ef82532c2a14184d33a"
+    },
+    {
+      "path": "vault/概念/Compaction上下文压缩算法.md",
+      "title": "Compaction上下文压缩算法",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Compaction%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8E%8B%E7%BC%A9%E7%AE%97%E6%B3%95.md",
+      "bytes": 2924,
+      "sha256": "65343c4cd9aa2dc1e9e1b02c092223bfa6d884280ac95d4c183b09ed340cb8c6"
+    },
+    {
+      "path": "vault/概念/Critic泄漏审查.md",
+      "title": "Critic泄漏审查",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Critic%E6%B3%84%E6%BC%8F%E5%AE%A1%E6%9F%A5.md",
+      "bytes": 2421,
+      "sha256": "9ead1618a227e99f95838ead8ff2443e47c8e1221c4453da6c81ca7e92a70726"
+    },
+    {
+      "path": "vault/概念/DESIGN.md规范文档.md",
+      "title": "DESIGN.md规范文档",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/DESIGN.md%E8%A7%84%E8%8C%83%E6%96%87%E6%A1%A3.md",
+      "bytes": 1446,
+      "sha256": "a6cd9ef692f0b1e3bc38641db9ab5bc78c4a897b8d53652a71fa121b5ee72e4b"
+    },
+    {
+      "path": "vault/概念/FlyWire全脑连接组.md",
+      "title": "FlyWire全脑连接组",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/FlyWire%E5%85%A8%E8%84%91%E8%BF%9E%E6%8E%A5%E7%BB%84.md",
+      "bytes": 1754,
+      "sha256": "2fe02d4d4a29ae82efc1ffe6eb4441a27ff5dba37d82a442efbc70b2a6aad535"
+    },
+    {
+      "path": "vault/概念/GPS朝向融合.md",
+      "title": "GPS朝向融合",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/GPS%E6%9C%9D%E5%90%91%E8%9E%8D%E5%90%88.md",
+      "bytes": 1255,
+      "sha256": "dec7a4e24bdebcbf9d8d0d1b5abe097b2fd73dbeee7ac5eec525b85c1d200ba4"
+    },
+    {
+      "path": "vault/概念/GUIAgent与多模态定位.md",
+      "title": "GUIAgent与多模态定位",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/GUIAgent%E4%B8%8E%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AE%9A%E4%BD%8D.md",
+      "bytes": 2486,
+      "sha256": "c2a8b07c7947b571b7adb54e5d9a81bc73d2ce38001d4a32ed2d2871a4995378"
+    },
+    {
+      "path": "vault/概念/GUI自动化下单.md",
+      "title": "GUI自动化下单",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/GUI%E8%87%AA%E5%8A%A8%E5%8C%96%E4%B8%8B%E5%8D%95.md",
+      "bytes": 1447,
+      "sha256": "4b7d30ac99099e736412b09c87cf9973c4d376c276137e4d16fb072c2a144e78"
+    },
+    {
+      "path": "vault/概念/GitWorktree并行隔离.md",
+      "title": "GitWorktree并行隔离",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/GitWorktree%E5%B9%B6%E8%A1%8C%E9%9A%94%E7%A6%BB.md",
+      "bytes": 1150,
+      "sha256": "93bd251217e087eea579e3580d53e5bcff3cb9408a2f58204f262a291c0db942"
+    },
+    {
+      "path": "vault/概念/HNSW近似最近邻索引.md",
+      "title": "HNSW近似最近邻索引",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/HNSW%E8%BF%91%E4%BC%BC%E6%9C%80%E8%BF%91%E9%82%BB%E7%B4%A2%E5%BC%95.md",
+      "bytes": 1294,
+      "sha256": "13400c6e35e8ecf7440ed1485db2ecafdd56e8602d097ce2a0813300862ef074"
+    },
+    {
+      "path": "vault/概念/Handoff交接简报续跑.md",
+      "title": "Handoff交接简报续跑",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Handoff%E4%BA%A4%E6%8E%A5%E7%AE%80%E6%8A%A5%E7%BB%AD%E8%B7%91.md",
+      "bytes": 1953,
+      "sha256": "84336477b816bf25600bf4ad02278610a8131df9a7107e41fe06a8e16ce55581"
+    },
+    {
+      "path": "vault/概念/HardFailure一票否决与发布门禁.md",
+      "title": "HardFailure一票否决与发布门禁",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/HardFailure%E4%B8%80%E7%A5%A8%E5%90%A6%E5%86%B3%E4%B8%8E%E5%8F%91%E5%B8%83%E9%97%A8%E7%A6%81.md",
+      "bytes": 2164,
+      "sha256": "375fc7dc886059b726da96db8378d2866ee9b7c7aa8dc591b8f02cc1df2660d0"
+    },
+    {
+      "path": "vault/概念/HomeAssistant自动发现.md",
+      "title": "HomeAssistant自动发现",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/HomeAssistant%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0.md",
+      "bytes": 1216,
+      "sha256": "9ceeffd6e934e242cff4083dcb50617c5c41dfae9641ebf18e0ef9f7bc29fbd7"
+    },
+    {
+      "path": "vault/概念/JSON-IR类型化中间表示.md",
+      "title": "JSON-IR类型化中间表示",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/JSON-IR%E7%B1%BB%E5%9E%8B%E5%8C%96%E4%B8%AD%E9%97%B4%E8%A1%A8%E7%A4%BA.md",
+      "bytes": 1584,
+      "sha256": "27d0809ac29a51918ebcf0ead4065040a372c61684d1cd4c7cecb3239ee704a9"
+    },
+    {
+      "path": "vault/概念/JSON-RPC与stdio传输.md",
+      "title": "JSON-RPC与stdio传输",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/JSON-RPC%E4%B8%8Estdio%E4%BC%A0%E8%BE%93.md",
+      "bytes": 1426,
+      "sha256": "26d5818661eb765f9326c3ea633ff99c90a0f97fdeb19232afe1b249fae8cc1d"
+    },
+    {
+      "path": "vault/概念/JSONL事件日志与折叠模型.md",
+      "title": "JSONL事件日志与折叠模型",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/JSONL%E4%BA%8B%E4%BB%B6%E6%97%A5%E5%BF%97%E4%B8%8E%E6%8A%98%E5%8F%A0%E6%A8%A1%E5%9E%8B.md",
+      "bytes": 1776,
+      "sha256": "8346f3ddd229a2fb8fe929ee0a4916f44ecf17700818581ef3f57c4c7495a5ea"
+    },
+    {
+      "path": "vault/概念/KV剪枝与多样性保留.md",
+      "title": "KV剪枝与多样性保留",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/KV%E5%89%AA%E6%9E%9D%E4%B8%8E%E5%A4%9A%E6%A0%B7%E6%80%A7%E4%BF%9D%E7%95%99.md",
+      "bytes": 1675,
+      "sha256": "5ac4efa04fc3d490a01bea59d5c9ca6a8ac3c7f49a95533f375ea0c05e69bcc1"
+    },
+    {
+      "path": "vault/概念/KV缓存与上下文.md",
+      "title": "KV缓存与上下文",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/KV%E7%BC%93%E5%AD%98%E4%B8%8E%E4%B8%8A%E4%B8%8B%E6%96%87.md",
+      "bytes": 1187,
+      "sha256": "5e01883b295ce8e80f88f6ea4db81ce5b39790b4a40d79e1d3203c9581059192"
+    },
+    {
+      "path": "vault/概念/LIF全脑仿真.md",
+      "title": "LIF全脑仿真",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/LIF%E5%85%A8%E8%84%91%E4%BB%BF%E7%9C%9F.md",
+      "bytes": 1987,
+      "sha256": "44acbfebda3aea62e8ecbb61e0e280138f541511135d5c4126212d971f9351a7"
+    },
+    {
+      "path": "vault/概念/LLM工具调用.md",
+      "title": "LLM工具调用",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/LLM%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8.md",
+      "bytes": 2229,
+      "sha256": "4db3a2123f84c55bcfbddbfedd6cf578d6043e1a4cb09790c8b555f4a5a54269"
+    },
+    {
+      "path": "vault/概念/LLM裁判与自动评估.md",
+      "title": "LLM裁判与自动评估",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/LLM%E8%A3%81%E5%88%A4%E4%B8%8E%E8%87%AA%E5%8A%A8%E8%AF%84%E4%BC%B0.md",
+      "bytes": 1434,
+      "sha256": "cbc7a4252d341e81e51bb7359924770096b4c0bfa79164bf3ea677613484bdc2"
+    },
+    {
+      "path": "vault/概念/LLM采样与温度.md",
+      "title": "LLM采样与温度",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/LLM%E9%87%87%E6%A0%B7%E4%B8%8E%E6%B8%A9%E5%BA%A6.md",
+      "bytes": 1289,
+      "sha256": "ed0fe2bdef73405fbb2177b4193a20c627e4341acf544b3a06cde17695a45474"
+    },
+    {
+      "path": "vault/概念/LRM大型重建模型.md",
+      "title": "LRM大型重建模型",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/LRM%E5%A4%A7%E5%9E%8B%E9%87%8D%E5%BB%BA%E6%A8%A1%E5%9E%8B.md",
+      "bytes": 1780,
+      "sha256": "910c99ae64f37be511125f30a35f9acfefe41bc91dd8af56de1704a162ff64d7"
+    },
+    {
+      "path": "vault/概念/LangGraph与Agent编排.md",
+      "title": "LangGraph与Agent编排",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/LangGraph%E4%B8%8EAgent%E7%BC%96%E6%8E%92.md",
+      "bytes": 2210,
+      "sha256": "f05e60977bc37ba6230e9763b84a10385386b189c3f5057895fe8cc1d9484a24"
+    },
+    {
+      "path": "vault/概念/LiveCoding现场编程.md",
+      "title": "LiveCoding现场编程",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/LiveCoding%E7%8E%B0%E5%9C%BA%E7%BC%96%E7%A8%8B.md",
+      "bytes": 1258,
+      "sha256": "73a4c8dd2a79e3f7db53b19ffb7de634ff898a25e016c42d4c1a5552a9925d0c"
+    },
+    {
+      "path": "vault/概念/LoRA低秩适配微调.md",
+      "title": "LoRA低秩适配微调",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/LoRA%E4%BD%8E%E7%A7%A9%E9%80%82%E9%85%8D%E5%BE%AE%E8%B0%83.md",
+      "bytes": 1791,
+      "sha256": "464ec503fa4f548acd1ff994df040ae682ee05c2f5311af4b38778b97c2ae5df"
+    },
+    {
+      "path": "vault/概念/MCP协议.md",
+      "title": "MCP协议",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/MCP%E5%8D%8F%E8%AE%AE.md",
+      "bytes": 1720,
+      "sha256": "f241531981004f1580b331a37b9e38ca96875e368ac03d687aab199daac284d6"
+    },
+    {
+      "path": "vault/概念/MCP服务器.md",
+      "title": "MCP服务器",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/MCP%E6%9C%8D%E5%8A%A1%E5%99%A8.md",
+      "bytes": 1669,
+      "sha256": "e41b9e8b84fd8aeaa3e72dca9f0236e6773f9ace716eb9a5eae3f71d2d5d142e"
+    },
+    {
+      "path": "vault/概念/MCP模型上下文协议.md",
+      "title": "MCP模型上下文协议",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/MCP%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE.md",
+      "bytes": 1683,
+      "sha256": "ae666167533a8ad49319a380b3b4fbcd54c7153c5f019b6eee275440f6809aef"
+    },
+    {
+      "path": "vault/概念/MQTT协议与发布订阅.md",
+      "title": "MQTT协议与发布订阅",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/MQTT%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85.md",
+      "bytes": 1239,
+      "sha256": "23af580d17d661484db5b8a07578c54afafa700b0c1e86031bfbec944549d9e7"
+    },
+    {
+      "path": "vault/概念/Matryoshka套娃嵌入.md",
+      "title": "Matryoshka套娃嵌入",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Matryoshka%E5%A5%97%E5%A8%83%E5%B5%8C%E5%85%A5.md",
+      "bytes": 1519,
+      "sha256": "dcc98d6b39733e150636c71d53fa6a4122f9990715635d895dcc1b9cd9eb2127"
+    },
+    {
+      "path": "vault/概念/Mini-notation节奏语言.md",
+      "title": "Mini-notation节奏语言",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Mini-notation%E8%8A%82%E5%A5%8F%E8%AF%AD%E8%A8%80.md",
+      "bytes": 1306,
+      "sha256": "5d6f2684e0fec6f243dc3c89c2d66466c72bff53c321e4d1eef8c15b0a9e389c"
+    },
+    {
+      "path": "vault/概念/MoE混合专家.md",
+      "title": "MoE混合专家",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/MoE%E6%B7%B7%E5%90%88%E4%B8%93%E5%AE%B6.md",
+      "bytes": 1707,
+      "sha256": "bdcdc80c579741c685538ddfdba72c6b5375591ae3d9db7fba435477bdcd6851"
+    },
+    {
+      "path": "vault/概念/M×N集成问题.md",
+      "title": "M×N集成问题",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/M%C3%97N%E9%9B%86%E6%88%90%E9%97%AE%E9%A2%98.md",
+      "bytes": 1241,
+      "sha256": "949aa6b4c8bb03031892f103dbd7b6764ae76030a7da4ca93ac3f5107b61a141"
+    },
+    {
+      "path": "vault/概念/OAuth资源发现.md",
+      "title": "OAuth资源发现",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/OAuth%E8%B5%84%E6%BA%90%E5%8F%91%E7%8E%B0.md",
+      "bytes": 1438,
+      "sha256": "6f7d1027e1144482b6484afbad0834b13101e9ffa2299e9216d88a80863ca9fb"
+    },
+    {
+      "path": "vault/概念/Outcome与Trajectory双层评测.md",
+      "title": "Outcome与Trajectory双层评测",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Outcome%E4%B8%8ETrajectory%E5%8F%8C%E5%B1%82%E8%AF%84%E6%B5%8B.md",
+      "bytes": 2309,
+      "sha256": "10a5577cd8c44c7198ed08c323429f02136500d8246408f4ced6de86ac75f148"
+    },
+    {
+      "path": "vault/概念/Pattern时间函数与Hap事件.md",
+      "title": "Pattern时间函数与Hap事件",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Pattern%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0%E4%B8%8EHap%E4%BA%8B%E4%BB%B6.md",
+      "bytes": 1762,
+      "sha256": "6b400b1d9d511cf2acfa423607fa6e28d5be2b9b3de291501170b6f32912fb6f"
+    },
+    {
+      "path": "vault/概念/Postgres即平台.md",
+      "title": "Postgres即平台",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Postgres%E5%8D%B3%E5%B9%B3%E5%8F%B0.md",
+      "bytes": 1840,
+      "sha256": "3b9cc64e2e64bbda1b8ff76df865d5dacc32c78572c4ba9918fda1e02e6d1b4a"
+    },
+    {
+      "path": "vault/概念/PromptAsCode提示词即代码.md",
+      "title": "PromptAsCode提示词即代码",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/PromptAsCode%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%8D%B3%E4%BB%A3%E7%A0%81.md",
+      "bytes": 1971,
+      "sha256": "de8df816c830acb11ff89f89662f0468bbdb5ebbca67e4f07b6bf8ca94026d70"
+    },
+    {
+      "path": "vault/概念/Provider适配层与错误契约.md",
+      "title": "Provider适配层与错误契约",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Provider%E9%80%82%E9%85%8D%E5%B1%82%E4%B8%8E%E9%94%99%E8%AF%AF%E5%A5%91%E7%BA%A6.md",
+      "bytes": 3175,
+      "sha256": "6747c71d9ab9e007e5dd35330e4c733613e111498b987fdca973828259503986"
+    },
+    {
+      "path": "vault/概念/QDD准直驱与反驱力控.md",
+      "title": "QDD准直驱与反驱力控",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/QDD%E5%87%86%E7%9B%B4%E9%A9%B1%E4%B8%8E%E5%8F%8D%E9%A9%B1%E5%8A%9B%E6%8E%A7.md",
+      "bytes": 1828,
+      "sha256": "e03890f16c94fb2f04b522e558987495a28d42db0a80d6f978342f7ccb133de8"
+    },
+    {
+      "path": "vault/概念/QLoRA量化微调.md",
+      "title": "QLoRA量化微调",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/QLoRA%E9%87%8F%E5%8C%96%E5%BE%AE%E8%B0%83.md",
+      "bytes": 1532,
+      "sha256": "02d30abfb83825853e2db0527d518c8e59efcebab0973100911f5cfdeb541488"
+    },
+    {
+      "path": "vault/概念/RAG架构谱系.md",
+      "title": "RAG架构谱系",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/RAG%E6%9E%B6%E6%9E%84%E8%B0%B1%E7%B3%BB.md",
+      "bytes": 1543,
+      "sha256": "786a39c72a7a802adb0825ff988c916aa8ba76e5325132fb32aecdd7dbfac603"
+    },
+    {
+      "path": "vault/概念/RAG检索增强生成.md",
+      "title": "RAG检索增强生成",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/RAG%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90.md",
+      "bytes": 1846,
+      "sha256": "d647bda0a1f1d95136313716a10ca07653d90366aa7fdfcb0678eb77be2393e1"
+    },
+    {
+      "path": "vault/概念/RLCD与严格合规评分规则.md",
+      "title": "RLCD与严格合规评分规则",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/RLCD%E4%B8%8E%E4%B8%A5%E6%A0%BC%E5%90%88%E8%A7%84%E8%AF%84%E5%88%86%E8%A7%84%E5%88%99.md",
+      "bytes": 1744,
+      "sha256": "dbc28016aef1a198572d561b024174224abfa953c1a384392cdfd7fc00ed7a5a"
+    },
+    {
+      "path": "vault/概念/RLHF偏好对齐.md",
+      "title": "RLHF偏好对齐",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/RLHF%E5%81%8F%E5%A5%BD%E5%AF%B9%E9%BD%90.md",
+      "bytes": 2145,
+      "sha256": "8d29aaee7a9f0ef31b70f71903032c191ab4991ab2c1d6de63453bb5283463ca"
+    },
+    {
+      "path": "vault/概念/RRSI正则化递归自我改进.md",
+      "title": "RRSI正则化递归自我改进",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/RRSI%E6%AD%A3%E5%88%99%E5%8C%96%E9%80%92%E5%BD%92%E8%87%AA%E6%88%91%E6%94%B9%E8%BF%9B.md",
+      "bytes": 2928,
+      "sha256": "4e46845215f252a3ddd66d88c23a59699962ac09bc639109a10e21abf81356cd"
+    },
+    {
+      "path": "vault/概念/React逐帧视频渲染.md",
+      "title": "React逐帧视频渲染",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/React%E9%80%90%E5%B8%A7%E8%A7%86%E9%A2%91%E6%B8%B2%E6%9F%93.md",
+      "bytes": 1997,
+      "sha256": "c8f87b4b218b9910149ac18c5e8fa29ccedddc1265fb13d81c5a78b5ef0b0e29"
+    },
+    {
+      "path": "vault/概念/Realpath路径沙箱防逃逸.md",
+      "title": "Realpath路径沙箱防逃逸",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Realpath%E8%B7%AF%E5%BE%84%E6%B2%99%E7%AE%B1%E9%98%B2%E9%80%83%E9%80%B8.md",
+      "bytes": 2222,
+      "sha256": "27fa9c9b9398c58478f775b3ddd4d86fb1c653bae6c20896d8f083eac8640798"
+    },
+    {
+      "path": "vault/概念/Realtime协议兼容层.md",
+      "title": "Realtime协议兼容层",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Realtime%E5%8D%8F%E8%AE%AE%E5%85%BC%E5%AE%B9%E5%B1%82.md",
+      "bytes": 1877,
+      "sha256": "84b42249da2531024e0b4e8cb43e454f8b5fd98b257fcfa264b60457dcf678f1"
+    },
+    {
+      "path": "vault/概念/RoPE旋转位置编码.md",
+      "title": "RoPE旋转位置编码",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/RoPE%E6%97%8B%E8%BD%AC%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81.md",
+      "bytes": 1857,
+      "sha256": "e7d591115ad259ba5f9d91a564769f83ddbb8b66c78b5f921f567eefed0c2231"
+    },
+    {
+      "path": "vault/概念/SFT监督微调.md",
+      "title": "SFT监督微调",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/SFT%E7%9B%91%E7%9D%A3%E5%BE%AE%E8%B0%83.md",
+      "bytes": 1570,
+      "sha256": "96e34ed8fa6083ab383cde04497540aafe13771df7990095c406b86ef813de5b"
+    },
+    {
+      "path": "vault/概念/Serverless边缘函数.md",
+      "title": "Serverless边缘函数",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Serverless%E8%BE%B9%E7%BC%98%E5%87%BD%E6%95%B0.md",
+      "bytes": 1699,
+      "sha256": "d519f47815333a99588b787a1cee16a1ee0880caad87a4f4f4239791192822ff"
+    },
+    {
+      "path": "vault/概念/Sim2Real与MuJoCo仿真.md",
+      "title": "Sim2Real与MuJoCo仿真",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Sim2Real%E4%B8%8EMuJoCo%E4%BB%BF%E7%9C%9F.md",
+      "bytes": 1723,
+      "sha256": "f1e2d25684a03cf48638e3864452f462cd1418360158a2923a20ac01d59272e4"
+    },
+    {
+      "path": "vault/概念/Stewart并联平台.md",
+      "title": "Stewart并联平台",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Stewart%E5%B9%B6%E8%81%94%E5%B9%B3%E5%8F%B0.md",
+      "bytes": 1412,
+      "sha256": "9e8e205227ee99a43d97c8d32480cefcd4947731302633f4ed5eada932db3d8b"
+    },
+    {
+      "path": "vault/概念/SystemOne决策模型Jev.md",
+      "title": "SystemOne决策模型Jev",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/SystemOne%E5%86%B3%E7%AD%96%E6%A8%A1%E5%9E%8BJev.md",
+      "bytes": 2621,
+      "sha256": "4993af5f4c1b34cf64e6f3acb866b621779156fda232e1090cfa5af282f30a50"
+    },
+    {
+      "path": "vault/概念/Tauri桌面应用框架.md",
+      "title": "Tauri桌面应用框架",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Tauri%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8%E6%A1%86%E6%9E%B6.md",
+      "bytes": 1832,
+      "sha256": "2ddc620badf0aaa04ebdb10bc50f11e422939ffd2254cc082c20af4fea84b44f"
+    },
+    {
+      "path": "vault/概念/Three.js与场景图.md",
+      "title": "Three.js与场景图",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Three.js%E4%B8%8E%E5%9C%BA%E6%99%AF%E5%9B%BE.md",
+      "bytes": 2150,
+      "sha256": "b56cdddc1af5c8d104f574cc625a6e1752de433f1e2cbf0b2212265566d26cfe"
+    },
+    {
+      "path": "vault/概念/Triplane三平面表示.md",
+      "title": "Triplane三平面表示",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Triplane%E4%B8%89%E5%B9%B3%E9%9D%A2%E8%A1%A8%E7%A4%BA.md",
+      "bytes": 1578,
+      "sha256": "b29eea6e5d7e0999583f17d4b8b8609cfa28c9834cce88f3cba5968aa14d372b"
+    },
+    {
+      "path": "vault/概念/VAD与轮末判断.md",
+      "title": "VAD与轮末判断",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/VAD%E4%B8%8E%E8%BD%AE%E6%9C%AB%E5%88%A4%E6%96%AD.md",
+      "bytes": 1833,
+      "sha256": "994ff80f4d7686d3239e4ce13f5df665edab1636b49908abd1cd4e79d12b959d"
+    },
+    {
+      "path": "vault/概念/WebRTC机器人应用.md",
+      "title": "WebRTC机器人应用",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/WebRTC%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%BA%94%E7%94%A8.md",
+      "bytes": 1476,
+      "sha256": "e5f6323547a1e5285aeca5e958b7b891aad5d8f34b0af4b6ed347124c02cfc2c"
+    },
+    {
+      "path": "vault/概念/Web墨卡托与瓦片金字塔.md",
+      "title": "Web墨卡托与瓦片金字塔",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Web%E5%A2%A8%E5%8D%A1%E6%89%98%E4%B8%8E%E7%93%A6%E7%89%87%E9%87%91%E5%AD%97%E5%A1%94.md",
+      "bytes": 1342,
+      "sha256": "290923a4b61c519e793d6ededbbfdbee8c96b7f424d53ea5eec9f11e5619429d"
+    },
+    {
+      "path": "vault/概念/WikiSkill共演化循环.md",
+      "title": "WikiSkill共演化循环",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/WikiSkill%E5%85%B1%E6%BC%94%E5%8C%96%E5%BE%AA%E7%8E%AF.md",
+      "bytes": 2812,
+      "sha256": "d0024cc6888f816da51db07df204f56dc7061838f985dd7a36e700dcda488038"
+    },
+    {
+      "path": "vault/概念/Zigbee与网状网络.md",
+      "title": "Zigbee与网状网络",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/Zigbee%E4%B8%8E%E7%BD%91%E7%8A%B6%E7%BD%91%E7%BB%9C.md",
+      "bytes": 1299,
+      "sha256": "092fbf47262ccea7cf98ced439e3c49a40e02703ab9bc0ff9db8c88d592a7329"
+    },
+    {
+      "path": "vault/概念/daemon缓存与在线解密.md",
+      "title": "daemon缓存与在线解密",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/daemon%E7%BC%93%E5%AD%98%E4%B8%8E%E5%9C%A8%E7%BA%BF%E8%A7%A3%E5%AF%86.md",
+      "bytes": 1777,
+      "sha256": "5bb7a89ededb91fabd3f7e38efb737ebfb5fbadac0d0f31585050d6cfebd2ce7"
+    },
+    {
+      "path": "vault/概念/glTF与GLB资产管线.md",
+      "title": "glTF与GLB资产管线",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/glTF%E4%B8%8EGLB%E8%B5%84%E4%BA%A7%E7%AE%A1%E7%BA%BF.md",
+      "bytes": 1401,
+      "sha256": "b3fa7d8ffce2a9c0103af376887fc2ecc0cde761fc49b7df73a8581a44fd4e22"
+    },
+    {
+      "path": "vault/概念/meta新鲜度声明.md",
+      "title": "meta新鲜度声明",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/meta%E6%96%B0%E9%B2%9C%E5%BA%A6%E5%A3%B0%E6%98%8E.md",
+      "bytes": 1591,
+      "sha256": "09a94888f7296ecc39979fda2f685b96cbe64cd10b4d7379b429e1a8c74f4067"
+    },
+    {
+      "path": "vault/概念/npm包即CDN源.md",
+      "title": "npm包即CDN源",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/npm%E5%8C%85%E5%8D%B3CDN%E6%BA%90.md",
+      "bytes": 1928,
+      "sha256": "4606e7ee371afaee7d1841bd8cf0b2a4d7ad51bb70324b1c27d0d2d5680ce6c4"
+    },
+    {
+      "path": "vault/概念/pass^k可靠性法则.md",
+      "title": "pass^k可靠性法则",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/pass%5Ek%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%B3%95%E5%88%99.md",
+      "bytes": 2194,
+      "sha256": "f4cb93610e6f98e8e5c5cf7c58fe3d8750f7d764c70954bb2ff85cf66b7a72ed"
+    },
+    {
+      "path": "vault/概念/stdio与流式HTTP传输.md",
+      "title": "stdio与流式HTTP传输",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/stdio%E4%B8%8E%E6%B5%81%E5%BC%8FHTTP%E4%BC%A0%E8%BE%93.md",
+      "bytes": 1485,
+      "sha256": "faf9b6cfec4e2c44abefb241290194ed85450d2877e9c11cfc68d0daa514a99b"
+    },
+    {
+      "path": "vault/概念/一致性模式.md",
+      "title": "一致性模式",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%B8%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%BC%8F.md",
+      "bytes": 1115,
+      "sha256": "301b01dd60c904e0ee107f5c99147bfebf3513907c6a2e3c3f86a8520039dc1f"
+    },
+    {
+      "path": "vault/概念/三层记忆.md",
+      "title": "三层记忆",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%B8%89%E5%B1%82%E8%AE%B0%E5%BF%86.md",
+      "bytes": 1605,
+      "sha256": "431c72bac871b9c828572b280ce59bd7a6b2948c21c67a54c6f296efc2c896d8"
+    },
+    {
+      "path": "vault/概念/三帧关键帧插画法.md",
+      "title": "三帧关键帧插画法",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%B8%89%E5%B8%A7%E5%85%B3%E9%94%AE%E5%B8%A7%E6%8F%92%E7%94%BB%E6%B3%95.md",
+      "bytes": 1857,
+      "sha256": "f57ba90ce3291befc306e8d49adb0daf46db05ee6e6447823ffdb0dac9ebbde7"
+    },
+    {
+      "path": "vault/概念/三视角喂料.md",
+      "title": "三视角喂料",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%B8%89%E8%A7%86%E8%A7%92%E5%96%82%E6%96%99.md",
+      "bytes": 1766,
+      "sha256": "8b72f6feb4d882c0981fd28d6a7b1364645d06dacb82afffcc70f37bdc6486d5"
+    },
+    {
+      "path": "vault/概念/上下文工程四操作.md",
+      "title": "上下文工程四操作",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B%E5%9B%9B%E6%93%8D%E4%BD%9C.md",
+      "bytes": 1605,
+      "sha256": "a0a5bed834ebb909ad3893e26a88c2d990aa809ac38372cb8e3dba2af3d250a3"
+    },
+    {
+      "path": "vault/概念/上下文接力.md",
+      "title": "上下文接力",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%B8%8A%E4%B8%8B%E6%96%87%E6%8E%A5%E5%8A%9B.md",
+      "bytes": 1770,
+      "sha256": "7ab2e857b835ba0f5d0b30fd83c622675a1e1e6f67b1f5538892e15158cb0123"
+    },
+    {
+      "path": "vault/概念/上下文预算与战略压缩.md",
+      "title": "上下文预算与战略压缩",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%B8%8A%E4%B8%8B%E6%96%87%E9%A2%84%E7%AE%97%E4%B8%8E%E6%88%98%E7%95%A5%E5%8E%8B%E7%BC%A9.md",
+      "bytes": 1979,
+      "sha256": "1f822d44337ef36549f90bb19a5c6de9fbb22f8dccfdb7896b515519db7b03fd"
+    },
+    {
+      "path": "vault/概念/个人记忆流水线.md",
+      "title": "个人记忆流水线",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%B8%AA%E4%BA%BA%E8%AE%B0%E5%BF%86%E6%B5%81%E6%B0%B4%E7%BA%BF.md",
+      "bytes": 2688,
+      "sha256": "2917e778d2ef1f21280484ee0b1352231331230a993b45949d7a3b66fcc0f06d"
+    },
+    {
+      "path": "vault/概念/个人量化工具箱范式.md",
+      "title": "个人量化工具箱范式",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%B8%AA%E4%BA%BA%E9%87%8F%E5%8C%96%E5%B7%A5%E5%85%B7%E7%AE%B1%E8%8C%83%E5%BC%8F.md",
+      "bytes": 1720,
+      "sha256": "761810a5688467dd311adadd3d799899a44377803ced256291d8dcf13c35ef64"
+    },
+    {
+      "path": "vault/概念/中继交叉印证.md",
+      "title": "中继交叉印证",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%B8%AD%E7%BB%A7%E4%BA%A4%E5%8F%89%E5%8D%B0%E8%AF%81.md",
+      "bytes": 2212,
+      "sha256": "31fb9fbdebf70a5259cfcf704f658a47520b3f6ea53e18f35a7172c2c27fa41e"
+    },
+    {
+      "path": "vault/概念/主从遥操作与双边力反馈.md",
+      "title": "主从遥操作与双边力反馈",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%B8%BB%E4%BB%8E%E9%81%A5%E6%93%8D%E4%BD%9C%E4%B8%8E%E5%8F%8C%E8%BE%B9%E5%8A%9B%E5%8F%8D%E9%A6%88.md",
+      "bytes": 1662,
+      "sha256": "791a2e103c3febead49efe93ce962e05fae3105ca28ce60bb31369ee893ec754"
+    },
+    {
+      "path": "vault/概念/事件驱动回测.md",
+      "title": "事件驱动回测",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E5%9B%9E%E6%B5%8B.md",
+      "bytes": 1653,
+      "sha256": "24b853c9f1f1d6fe10321b826f92e5049c5571a7cd0c68afc336889622d4c966"
+    },
+    {
+      "path": "vault/概念/事实与判断分离.md",
+      "title": "事实与判断分离",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BA%8B%E5%AE%9E%E4%B8%8E%E5%88%A4%E6%96%AD%E5%88%86%E7%A6%BB.md",
+      "bytes": 1653,
+      "sha256": "53f5643580c0ab2e2860c6d2b25e3ea7eeb80cf806c1fdf4d989cab59319427b"
+    },
+    {
+      "path": "vault/概念/交易成本与鞭打效应.md",
+      "title": "交易成本与鞭打效应",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BA%A4%E6%98%93%E6%88%90%E6%9C%AC%E4%B8%8E%E9%9E%AD%E6%89%93%E6%95%88%E5%BA%94.md",
+      "bytes": 1332,
+      "sha256": "b7f4e21c0dce8ec14528fd6aefa52a78bb6284ece597b074271d518a1a0bc1d8"
+    },
+    {
+      "path": "vault/概念/产物留痕与状态外置.md",
+      "title": "产物留痕与状态外置",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BA%A7%E7%89%A9%E7%95%99%E7%97%95%E4%B8%8E%E7%8A%B6%E6%80%81%E5%A4%96%E7%BD%AE.md",
+      "bytes": 2389,
+      "sha256": "6aba36f09afc580c08a669663e1ddaef6fa2c99067fcfedb65f56ba81a5ecceb"
+    },
+    {
+      "path": "vault/概念/人机协同Interrupt.md",
+      "title": "人机协同Interrupt",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BA%BA%E6%9C%BA%E5%8D%8F%E5%90%8CInterrupt.md",
+      "bytes": 1436,
+      "sha256": "2546f041e8a61203d11d85adc1499bd79e80682445de722ec8f73505ea3e4263"
+    },
+    {
+      "path": "vault/概念/人脸识别流水线.md",
+      "title": "人脸识别流水线",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%B5%81%E6%B0%B4%E7%BA%BF.md",
+      "bytes": 1750,
+      "sha256": "cd375ceaf61fedeb2f44bdf9ef5f6b2575f078ca4e48bd1e957761fdd02f4e6b"
+    },
+    {
+      "path": "vault/概念/从零预训练CausalLM.md",
+      "title": "从零预训练CausalLM",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BB%8E%E9%9B%B6%E9%A2%84%E8%AE%AD%E7%BB%83CausalLM.md",
+      "bytes": 2497,
+      "sha256": "2cb33cc1744f7527628f34d8fbc7cdd79d1ae59d775bc34f2d4238e276f5600f"
+    },
+    {
+      "path": "vault/概念/付费调用回执与预算熔断.md",
+      "title": "付费调用回执与预算熔断",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BB%98%E8%B4%B9%E8%B0%83%E7%94%A8%E5%9B%9E%E6%89%A7%E4%B8%8E%E9%A2%84%E7%AE%97%E7%86%94%E6%96%AD.md",
+      "bytes": 1332,
+      "sha256": "b39da3ad301951246ab91c6100991097d7c7782cd04d1ae1b671958f930ae5a4"
+    },
+    {
+      "path": "vault/概念/代码管边界提示词管判断.md",
+      "title": "代码管边界提示词管判断",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BB%A3%E7%A0%81%E7%AE%A1%E8%BE%B9%E7%95%8C%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%AE%A1%E5%88%A4%E6%96%AD.md",
+      "bytes": 1427,
+      "sha256": "82baf8f30c908b3ea424d15f82b6d3124e40b3c1b023961bfd0c8abd1eb8b86d"
+    },
+    {
+      "path": "vault/概念/余弦相似度.md",
+      "title": "余弦相似度",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BD%99%E5%BC%A6%E7%9B%B8%E4%BC%BC%E5%BA%A6.md",
+      "bytes": 1175,
+      "sha256": "0da3ca05b808dfb2c1249273e6790b6b024b66bc4dd12c83ae55318df93da1f9"
+    },
+    {
+      "path": "vault/概念/修改与约束分离.md",
+      "title": "修改与约束分离",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E4%BF%AE%E6%94%B9%E4%B8%8E%E7%BA%A6%E6%9D%9F%E5%88%86%E7%A6%BB.md",
+      "bytes": 2625,
+      "sha256": "e4fcd8e5b32997c473240296081e74f1923cfbfa87cb0a4e5da3e37ea46d6494"
+    },
+    {
+      "path": "vault/概念/健康探测三态.md",
+      "title": "健康探测三态",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%81%A5%E5%BA%B7%E6%8E%A2%E6%B5%8B%E4%B8%89%E6%80%81.md",
+      "bytes": 1724,
+      "sha256": "e87a03d9cd6cf94292a456273b522baa891cb6e7121d65dfaa773726eeaf03bb"
+    },
+    {
+      "path": "vault/概念/像素化渲染管线.md",
+      "title": "像素化渲染管线",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%83%8F%E7%B4%A0%E5%8C%96%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF.md",
+      "bytes": 1581,
+      "sha256": "38b4e4c790534ff0225e156df21f933f84749d71f1d06e97d8fc3a01ee9efe10"
+    },
+    {
+      "path": "vault/概念/先量后优化性能法.md",
+      "title": "先量后优化性能法",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%85%88%E9%87%8F%E5%90%8E%E4%BC%98%E5%8C%96%E6%80%A7%E8%83%BD%E6%B3%95.md",
+      "bytes": 2850,
+      "sha256": "1ebb6764f25721294f19e21a2736bf6d3c938e1cc216a33ad018989f5f54887c"
+    },
+    {
+      "path": "vault/概念/共享状态与Reducer.md",
+      "title": "共享状态与Reducer",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%85%B1%E4%BA%AB%E7%8A%B6%E6%80%81%E4%B8%8EReducer.md",
+      "bytes": 1438,
+      "sha256": "a09fb5e07eba8ee88fe6c917c45cf04ecda284fb73cf0326a9b9233a8af79da9"
+    },
+    {
+      "path": "vault/概念/关系型数据库与NoSQL.md",
+      "title": "关系型数据库与NoSQL",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8ENoSQL.md",
+      "bytes": 1085,
+      "sha256": "a1521ce3393b63310f6e22c9f20bc3eca593928dcb342b56e40f2b31991ccce9"
+    },
+    {
+      "path": "vault/概念/内容型开源与双许可.md",
+      "title": "内容型开源与双许可",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%86%85%E5%AE%B9%E5%9E%8B%E5%BC%80%E6%BA%90%E4%B8%8E%E5%8F%8C%E8%AE%B8%E5%8F%AF.md",
+      "bytes": 1994,
+      "sha256": "37a76743f06d6bc1248c21d08a7e459b3cf588df93fc59db0f1db77ee54c27b2"
+    },
+    {
+      "path": "vault/概念/内容寻址与镜像分层.md",
+      "title": "内容寻址与镜像分层",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%86%85%E5%AE%B9%E5%AF%BB%E5%9D%80%E4%B8%8E%E9%95%9C%E5%83%8F%E5%88%86%E5%B1%82.md",
+      "bytes": 1237,
+      "sha256": "47253129f6e3b883b5e9b3df870513eddb78e51d87526292e21a4073236ecf2c"
+    },
+    {
+      "path": "vault/概念/内联样式与富文本转换.md",
+      "title": "内联样式与富文本转换",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%86%85%E8%81%94%E6%A0%B7%E5%BC%8F%E4%B8%8E%E5%AF%8C%E6%96%87%E6%9C%AC%E8%BD%AC%E6%8D%A2.md",
+      "bytes": 2083,
+      "sha256": "a1509a6cf25224e995f9744ad4d505f764e7fe6a16fad896b69b1fffb9edb851"
+    },
+    {
+      "path": "vault/概念/决策头与非生成式读出.md",
+      "title": "决策头与非生成式读出",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%86%B3%E7%AD%96%E5%A4%B4%E4%B8%8E%E9%9D%9E%E7%94%9F%E6%88%90%E5%BC%8F%E8%AF%BB%E5%87%BA.md",
+      "bytes": 2383,
+      "sha256": "db1faa28ddc88d7a3ff474ba75706f84cbbb9c0d87bcad8add4262a1fbf65096"
+    },
+    {
+      "path": "vault/概念/决策式无损压缩.md",
+      "title": "决策式无损压缩",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%86%B3%E7%AD%96%E5%BC%8F%E6%97%A0%E6%8D%9F%E5%8E%8B%E7%BC%A9.md",
+      "bytes": 3170,
+      "sha256": "aada8ff389252ad210636aade6d7b3e6fb7061fcd566c5c9b9695525ec8fa727"
+    },
+    {
+      "path": "vault/概念/决策记忆结算反思闭环.md",
+      "title": "决策记忆结算反思闭环",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%86%B3%E7%AD%96%E8%AE%B0%E5%BF%86%E7%BB%93%E7%AE%97%E5%8F%8D%E6%80%9D%E9%97%AD%E7%8E%AF.md",
+      "bytes": 2045,
+      "sha256": "3de0eac3f787e3562ae85641a8b25be72ab41abef94b179334106a89ffe0a3eb"
+    },
+    {
+      "path": "vault/概念/净边际与多跳套利环.md",
+      "title": "净边际与多跳套利环",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%87%80%E8%BE%B9%E9%99%85%E4%B8%8E%E5%A4%9A%E8%B7%B3%E5%A5%97%E5%88%A9%E7%8E%AF.md",
+      "bytes": 2320,
+      "sha256": "92d3a3aecdc196369ffb646d85482938db0ab0fe6a3d65912ff29d7f83cd1888"
+    },
+    {
+      "path": "vault/概念/分层UV视差公式.md",
+      "title": "分层UV视差公式",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B1%82UV%E8%A7%86%E5%B7%AE%E5%85%AC%E5%BC%8F.md",
+      "bytes": 1790,
+      "sha256": "2c3288b4073afe104b5c27eab5fd0c978624cdaf3d25da9645edc357bec6d1eb"
+    },
+    {
+      "path": "vault/概念/分层按需加载.md",
+      "title": "分层按需加载",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B1%82%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD.md",
+      "bytes": 1586,
+      "sha256": "835f5fd1ef083c5dae702918b5da3e33edca7105342b95e44c275701feff3d14"
+    },
+    {
+      "path": "vault/概念/分镜表驱动生成.md",
+      "title": "分镜表驱动生成",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%88%86%E9%95%9C%E8%A1%A8%E9%A9%B1%E5%8A%A8%E7%94%9F%E6%88%90.md",
+      "bytes": 1574,
+      "sha256": "2641bc7f44c9543b6084932b7716291a4e69fde074ac1d25fa313118d10240e5"
+    },
+    {
+      "path": "vault/概念/前向运动学FK与四元数链.md",
+      "title": "前向运动学FK与四元数链",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%89%8D%E5%90%91%E8%BF%90%E5%8A%A8%E5%AD%A6FK%E4%B8%8E%E5%9B%9B%E5%85%83%E6%95%B0%E9%93%BE.md",
+      "bytes": 1461,
+      "sha256": "d57327d6f10bd62d3fc374e3c7b804f9cd1d2c1cc5e7e6b20cd4701dc47f0741"
+    },
+    {
+      "path": "vault/概念/动态候选与集合敏感.md",
+      "title": "动态候选与集合敏感",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8A%A8%E6%80%81%E5%80%99%E9%80%89%E4%B8%8E%E9%9B%86%E5%90%88%E6%95%8F%E6%84%9F.md",
+      "bytes": 2145,
+      "sha256": "758a6dd54f2d1ebb07fd6ebe6e6378b0c1d79f9c885388e330e237cfa1f03a48"
+    },
+    {
+      "path": "vault/概念/动效描述词表.md",
+      "title": "动效描述词表",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8A%A8%E6%95%88%E6%8F%8F%E8%BF%B0%E8%AF%8D%E8%A1%A8.md",
+      "bytes": 2474,
+      "sha256": "4a617eae8cbb98da4c831a891c3904061467eb01b8905c22a09813f08a320c6c"
+    },
+    {
+      "path": "vault/概念/单一馈送与schema冻结.md",
+      "title": "单一馈送与schema冻结",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8D%95%E4%B8%80%E9%A6%88%E9%80%81%E4%B8%8Eschema%E5%86%BB%E7%BB%93.md",
+      "bytes": 2063,
+      "sha256": "f64efd7b90ed3b9ada3c19c50e350d1ef9676fb0229f254155a5f170eb854425"
+    },
+    {
+      "path": "vault/概念/单二进制自托管架构.md",
+      "title": "单二进制自托管架构",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8D%95%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%87%AA%E6%89%98%E7%AE%A1%E6%9E%B6%E6%9E%84.md",
+      "bytes": 1993,
+      "sha256": "5634a59e87d049be6633e84ae24d6f218116ba33fc3eafd8ee24a2968e87194a"
+    },
+    {
+      "path": "vault/概念/单源双宿主.md",
+      "title": "单源双宿主",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8D%95%E6%BA%90%E5%8F%8C%E5%AE%BF%E4%B8%BB.md",
+      "bytes": 1379,
+      "sha256": "0cb1c962f27767770fc8aeb0c07ed4812c117f3dfdffa607bb010f317577f35a"
+    },
+    {
+      "path": "vault/概念/原子笔记与双链.md",
+      "title": "原子笔记与双链",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8E%9F%E5%AD%90%E7%AC%94%E8%AE%B0%E4%B8%8E%E5%8F%8C%E9%93%BE.md",
+      "bytes": 1497,
+      "sha256": "d7e85690597f8bb3ac80132d614bad789eabb060907b4dbf6c22f236c5556355"
+    },
+    {
+      "path": "vault/概念/原样捕获与工序分离.md",
+      "title": "原样捕获与工序分离",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8E%9F%E6%A0%B7%E6%8D%95%E8%8E%B7%E4%B8%8E%E5%B7%A5%E5%BA%8F%E5%88%86%E7%A6%BB.md",
+      "bytes": 1809,
+      "sha256": "50816043072d208ebfae898f63adc220af986d63e5bb430330f609a0aa0db3b1"
+    },
+    {
+      "path": "vault/概念/参数曲面采样.md",
+      "title": "参数曲面采样",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8F%82%E6%95%B0%E6%9B%B2%E9%9D%A2%E9%87%87%E6%A0%B7.md",
+      "bytes": 1708,
+      "sha256": "e7c69fe754980d01823e92c30e186c8cbbae0d3db1d481b98a727a5a8f351da0"
+    },
+    {
+      "path": "vault/概念/双低因子与可转债轮动.md",
+      "title": "双低因子与可转债轮动",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8F%8C%E4%BD%8E%E5%9B%A0%E5%AD%90%E4%B8%8E%E5%8F%AF%E8%BD%AC%E5%80%BA%E8%BD%AE%E5%8A%A8.md",
+      "bytes": 1600,
+      "sha256": "560e0ed8d9b93796be826ba1e9aeb746fa6faf1f769036310a6dde8e8697b514"
+    },
+    {
+      "path": "vault/概念/双层调度架构.md",
+      "title": "双层调度架构",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8F%8C%E5%B1%82%E8%B0%83%E5%BA%A6%E6%9E%B6%E6%9E%84.md",
+      "bytes": 1770,
+      "sha256": "abea7353f90df8e5c8ff25942820f279ba767a69248ed1c03c432b39cc9f4747"
+    },
+    {
+      "path": "vault/概念/双数据源适配器隔离.md",
+      "title": "双数据源适配器隔离",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8F%8C%E6%95%B0%E6%8D%AE%E6%BA%90%E9%80%82%E9%85%8D%E5%99%A8%E9%9A%94%E7%A6%BB.md",
+      "bytes": 1907,
+      "sha256": "13a11174f17551914da7a5bb232dbc6099281b02ae57225a029bdeaa67cf5535"
+    },
+    {
+      "path": "vault/概念/双时钟模型.md",
+      "title": "双时钟模型",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8F%8C%E6%97%B6%E9%92%9F%E6%A8%A1%E5%9E%8B.md",
+      "bytes": 1677,
+      "sha256": "ab74a0126c149cad5251df1f8863882a0ff262b83472c37fc0c04b746e023b29"
+    },
+    {
+      "path": "vault/概念/双边缘上下文压缩.md",
+      "title": "双边缘上下文压缩",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8F%8C%E8%BE%B9%E7%BC%98%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8E%8B%E7%BC%A9.md",
+      "bytes": 2545,
+      "sha256": "4f416f24f6e9054c418b14374c98a829fcaa954459195272461a3d3de2deb149"
+    },
+    {
+      "path": "vault/概念/反思模式Reflection.md",
+      "title": "反思模式Reflection",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8F%8D%E6%80%9D%E6%A8%A1%E5%BC%8FReflection.md",
+      "bytes": 1550,
+      "sha256": "9afa2ef9047c0ec3276210ced52fe54e0994b07c58f04a9eea24a917b77d9a40"
+    },
+    {
+      "path": "vault/概念/发布交换与健康门回滚.md",
+      "title": "发布交换与健康门回滚",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8F%91%E5%B8%83%E4%BA%A4%E6%8D%A2%E4%B8%8E%E5%81%A5%E5%BA%B7%E9%97%A8%E5%9B%9E%E6%BB%9A.md",
+      "bytes": 1385,
+      "sha256": "a616a970a540987974a7623f47fd6735d9a239c1bbc0905f63d6a3e216c1c9b6"
+    },
+    {
+      "path": "vault/概念/只读闸门三原则.md",
+      "title": "只读闸门三原则",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8F%AA%E8%AF%BB%E9%97%B8%E9%97%A8%E4%B8%89%E5%8E%9F%E5%88%99.md",
+      "bytes": 1994,
+      "sha256": "23952485062d0da330ebe343b0216eb755f8340c1290526c26001d8af760817a"
+    },
+    {
+      "path": "vault/概念/可逆派生状态.md",
+      "title": "可逆派生状态",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%8F%AF%E9%80%86%E6%B4%BE%E7%94%9F%E7%8A%B6%E6%80%81.md",
+      "bytes": 2076,
+      "sha256": "f08c023413927f01deab7be39889ea0c8539f1f389b6f25506c9395f72430d37"
+    },
+    {
+      "path": "vault/概念/向量与Embedding.md",
+      "title": "向量与Embedding",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%90%91%E9%87%8F%E4%B8%8EEmbedding.md",
+      "bytes": 1319,
+      "sha256": "22328f509e22c187002f7bc9127f92e290e8fd9381c07366a9e0d2957b36871c"
+    },
+    {
+      "path": "vault/概念/向量数据库.md",
+      "title": "向量数据库",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93.md",
+      "bytes": 1733,
+      "sha256": "623d2d1ddf227fac83ee081cfd9d00e10bcdd811caedd3a96c77cbc4cd737e52"
+    },
+    {
+      "path": "vault/概念/向量量化.md",
+      "title": "向量量化",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%90%91%E9%87%8F%E9%87%8F%E5%8C%96.md",
+      "bytes": 1188,
+      "sha256": "eb2b13e017070f2825270918675d67f8e7777d1b5702b380c99e8c4e30472f05"
+    },
+    {
+      "path": "vault/概念/团队Harness的Git原生分发.md",
+      "title": "团队Harness的Git原生分发",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%9B%A2%E9%98%9FHarness%E7%9A%84Git%E5%8E%9F%E7%94%9F%E5%88%86%E5%8F%91.md",
+      "bytes": 2655,
+      "sha256": "6fc6dad23e13bc97fcbba9d6a1c8609032340e11102f3f1a7585c09a809b3a3a"
+    },
+    {
+      "path": "vault/概念/图像提示八要素.md",
+      "title": "图像提示八要素",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%9B%BE%E5%83%8F%E6%8F%90%E7%A4%BA%E5%85%AB%E8%A6%81%E7%B4%A0.md",
+      "bytes": 2408,
+      "sha256": "652f097bd319294e764558409bd2975d10fc4d94e251d9afe203eeb7e5bf12d1"
+    },
+    {
+      "path": "vault/概念/图环挽具三层工程.md",
+      "title": "图环挽具三层工程",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%9B%BE%E7%8E%AF%E6%8C%BD%E5%85%B7%E4%B8%89%E5%B1%82%E5%B7%A5%E7%A8%8B.md",
+      "bytes": 2188,
+      "sha256": "98589e10e74ed478b3ddd9058f5c5593c666d70b6c777318a338fb5c86c72acc"
+    },
+    {
+      "path": "vault/概念/图生3D资产管线.md",
+      "title": "图生3D资产管线",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%9B%BE%E7%94%9F3D%E8%B5%84%E4%BA%A7%E7%AE%A1%E7%BA%BF.md",
+      "bytes": 2656,
+      "sha256": "6ed7c5f1a56a5aac2204cc160a6bb0db2bc524ddc569f1a1793db87900a74f12"
+    },
+    {
+      "path": "vault/概念/型号指纹与转换器词典.md",
+      "title": "型号指纹与转换器词典",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%9E%8B%E5%8F%B7%E6%8C%87%E7%BA%B9%E4%B8%8E%E8%BD%AC%E6%8D%A2%E5%99%A8%E8%AF%8D%E5%85%B8.md",
+      "bytes": 1368,
+      "sha256": "ca01a417144eb215133d7fe96adbef859edb9c2ea0d2eeb749605c48a8a9bd3b"
+    },
+    {
+      "path": "vault/概念/声明式视频源语言.md",
+      "title": "声明式视频源语言",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%A3%B0%E6%98%8E%E5%BC%8F%E8%A7%86%E9%A2%91%E6%BA%90%E8%AF%AD%E8%A8%80.md",
+      "bytes": 2367,
+      "sha256": "f96518339a233d646cd0652b4e9e5b80872370a1c13c3d086f8c1f6a6ac985f0"
+    },
+    {
+      "path": "vault/概念/多Agent协作乱序竞态.md",
+      "title": "多Agent协作乱序竞态",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%A4%9AAgent%E5%8D%8F%E4%BD%9C%E4%B9%B1%E5%BA%8F%E7%AB%9E%E6%80%81.md",
+      "bytes": 2203,
+      "sha256": "f8ed4b2e6243d85e68bd930189ac0c7f954e040dce4787b6a694f817f12f7e52"
+    },
+    {
+      "path": "vault/概念/多智能体协作.md",
+      "title": "多智能体协作",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%E5%8D%8F%E4%BD%9C.md",
+      "bytes": 1852,
+      "sha256": "4fab7458831e68632ba21869d352f8764df27295f47d5f358419b2b4eae8db90"
+    },
+    {
+      "path": "vault/概念/多智能体架构谱系.md",
+      "title": "多智能体架构谱系",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%E6%9E%B6%E6%9E%84%E8%B0%B1%E7%B3%BB.md",
+      "bytes": 1541,
+      "sha256": "6a0b051867f5f888a6f527ca655122ef97a9a66d98be9922d67f67de37636db0"
+    },
+    {
+      "path": "vault/概念/多模态嵌入模型.md",
+      "title": "多模态嵌入模型",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%B5%8C%E5%85%A5%E6%A8%A1%E5%9E%8B.md",
+      "bytes": 1814,
+      "sha256": "0a1b4af5f532d359e0b208bd7f7381318b2dc26ec2342b57c926f68495ad2148"
+    },
+    {
+      "path": "vault/概念/失败反馈具体化.md",
+      "title": "失败反馈具体化",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%A4%B1%E8%B4%A5%E5%8F%8D%E9%A6%88%E5%85%B7%E4%BD%93%E5%8C%96.md",
+      "bytes": 1506,
+      "sha256": "2c74f5f7df56c688c8b338d5e4204deb5680f561babedee33e648edee00f6a6c"
+    },
+    {
+      "path": "vault/概念/子智能体咨询.md",
+      "title": "子智能体咨询",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%AD%90%E6%99%BA%E8%83%BD%E4%BD%93%E5%92%A8%E8%AF%A2.md",
+      "bytes": 1719,
+      "sha256": "e335e6e4ae07d6709b7ce8afa1e3ee5fd8f31e8da4b1f385a73a56fb4cdcc8eb"
+    },
+    {
+      "path": "vault/概念/对抗辩论式决策架构.md",
+      "title": "对抗辩论式决策架构",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%AF%B9%E6%8A%97%E8%BE%A9%E8%AE%BA%E5%BC%8F%E5%86%B3%E7%AD%96%E6%9E%B6%E6%9E%84.md",
+      "bytes": 2034,
+      "sha256": "8ba7d972c5bf1d10d6e9a3c7042147c26a587647151ec0ebba8132e9bfee803b"
+    },
+    {
+      "path": "vault/概念/对比学习.md",
+      "title": "对比学习",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0.md",
+      "bytes": 1335,
+      "sha256": "2d0d8947d643f726ad92581272999dd3918d4acea079926e8a293ae90e6ce93d"
+    },
+    {
+      "path": "vault/概念/工具暴露单调性.md",
+      "title": "工具暴露单调性",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%B7%A5%E5%85%B7%E6%9A%B4%E9%9C%B2%E5%8D%95%E8%B0%83%E6%80%A7.md",
+      "bytes": 1962,
+      "sha256": "3d1f9a9cf03ced75ffe37d005dc96bbfbf7b92117992e9ea75ac1a52c11151b2"
+    },
+    {
+      "path": "vault/概念/工具目录膨胀.md",
+      "title": "工具目录膨胀",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%B7%A5%E5%85%B7%E7%9B%AE%E5%BD%95%E8%86%A8%E8%83%80.md",
+      "bytes": 1486,
+      "sha256": "e50d628163a1ef8c94ef6e940742fbe16aca7852fcfd5571f9b467ed53932515"
+    },
+    {
+      "path": "vault/概念/工具调用三段式流水线.md",
+      "title": "工具调用三段式流水线",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8%E4%B8%89%E6%AE%B5%E5%BC%8F%E6%B5%81%E6%B0%B4%E7%BA%BF.md",
+      "bytes": 2723,
+      "sha256": "0a153b39360c2293562800a1ed5665790d3250172804c2cff405876d2101fb97"
+    },
+    {
+      "path": "vault/概念/工具调用生命周期.md",
+      "title": "工具调用生命周期",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.md",
+      "bytes": 1411,
+      "sha256": "9f8e203fdc45687ecf8625edc7fe4fc3c766850385879f97623333710d2c5481"
+    },
+    {
+      "path": "vault/概念/工单任务图与前沿调度.md",
+      "title": "工单任务图与前沿调度",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%B7%A5%E5%8D%95%E4%BB%BB%E5%8A%A1%E5%9B%BE%E4%B8%8E%E5%89%8D%E6%B2%BF%E8%B0%83%E5%BA%A6.md",
+      "bytes": 2024,
+      "sha256": "93d0aab1f3ac88e02b65a75a9f0ac23d1ed3aa6350846f468ff73e910aca3187"
+    },
+    {
+      "path": "vault/概念/布线特异性与零训练涌现.md",
+      "title": "布线特异性与零训练涌现",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%B8%83%E7%BA%BF%E7%89%B9%E5%BC%82%E6%80%A7%E4%B8%8E%E9%9B%B6%E8%AE%AD%E7%BB%83%E6%B6%8C%E7%8E%B0.md",
+      "bytes": 2130,
+      "sha256": "e30b84faf6f11964010115536811ff175e99e49a3f64c671ad34e3846719a225"
+    },
+    {
+      "path": "vault/概念/并行化编排Parallelization.md",
+      "title": "并行化编排Parallelization",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%B9%B6%E8%A1%8C%E5%8C%96%E7%BC%96%E6%8E%92Parallelization.md",
+      "bytes": 1477,
+      "sha256": "7a1e35c45bd548973a77e51390f85dcfddd4cafd78f59120d8c425e5ffa2c3fd"
+    },
+    {
+      "path": "vault/概念/底图复用与程序化叠加.md",
+      "title": "底图复用与程序化叠加",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%BA%95%E5%9B%BE%E5%A4%8D%E7%94%A8%E4%B8%8E%E7%A8%8B%E5%BA%8F%E5%8C%96%E5%8F%A0%E5%8A%A0.md",
+      "bytes": 2785,
+      "sha256": "493f98cb66edc0dddd61ab0a29da300ebd845075a5ab28ded681c2ebb02ba555"
+    },
+    {
+      "path": "vault/概念/延迟数与估算法.md",
+      "title": "延迟数与估算法",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%BB%B6%E8%BF%9F%E6%95%B0%E4%B8%8E%E4%BC%B0%E7%AE%97%E6%B3%95.md",
+      "bytes": 1174,
+      "sha256": "a7339f5933b71dba6937d17801a518716c639792aeacc84ec2ad85bc49c27e3e"
+    },
+    {
+      "path": "vault/概念/开源验货三查.md",
+      "title": "开源验货三查",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%BC%80%E6%BA%90%E9%AA%8C%E8%B4%A7%E4%B8%89%E6%9F%A5.md",
+      "bytes": 1815,
+      "sha256": "836585db83f85f393815551357aad9b894567c5e57bc7c4623e088040c50b0ce"
+    },
+    {
+      "path": "vault/概念/微信图片dat三档解码.md",
+      "title": "微信图片dat三档解码",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87dat%E4%B8%89%E6%A1%A3%E8%A7%A3%E7%A0%81.md",
+      "bytes": 2099,
+      "sha256": "9b12357b2278c8d258a5480c5be8967c98999396270be0d4765ddd3927188964"
+    },
+    {
+      "path": "vault/概念/快照契约与不可变只读.md",
+      "title": "快照契约与不可变只读",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E5%BF%AB%E7%85%A7%E5%A5%91%E7%BA%A6%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%8F%AA%E8%AF%BB.md",
+      "bytes": 2431,
+      "sha256": "5620d770f858b5b6fabec0d48515713d555c05aeaa88d55836a22fc8d82260b0"
+    },
+    {
+      "path": "vault/概念/情感运动序列.md",
+      "title": "情感运动序列",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%83%85%E6%84%9F%E8%BF%90%E5%8A%A8%E5%BA%8F%E5%88%97.md",
+      "bytes": 1437,
+      "sha256": "0e6bf23f40f926b341f4dc283fea2b8406b80e643bcb680bd63f36ed2f877ed2"
+    },
+    {
+      "path": "vault/概念/情绪脱水测试.md",
+      "title": "情绪脱水测试",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%83%85%E7%BB%AA%E8%84%B1%E6%B0%B4%E6%B5%8B%E8%AF%95.md",
+      "bytes": 2161,
+      "sha256": "9897a564252b1e48177c5630c283cf220e6297f6e68389ea2ba3cbac36ac852e"
+    },
+    {
+      "path": "vault/概念/托管Harness与会话即资源.md",
+      "title": "托管Harness与会话即资源",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%89%98%E7%AE%A1Harness%E4%B8%8E%E4%BC%9A%E8%AF%9D%E5%8D%B3%E8%B5%84%E6%BA%90.md",
+      "bytes": 2905,
+      "sha256": "596bf0d1e5d38c769bf4b5fd6baa8201a7c442bd23c237fc2338218bac8d49fa"
+    },
+    {
+      "path": "vault/概念/技术指标MA与MACD与RSI.md",
+      "title": "技术指标MA与MACD与RSI",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8A%80%E6%9C%AF%E6%8C%87%E6%A0%87MA%E4%B8%8EMACD%E4%B8%8ERSI.md",
+      "bytes": 1771,
+      "sha256": "81f7c8caa37ebb8d0f487edc7de62c6146ae405eeb35f69fa55676711a49679a"
+    },
+    {
+      "path": "vault/概念/技能路由器与授权硬门.md",
+      "title": "技能路由器与授权硬门",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8A%80%E8%83%BD%E8%B7%AF%E7%94%B1%E5%99%A8%E4%B8%8E%E6%8E%88%E6%9D%83%E7%A1%AC%E9%97%A8.md",
+      "bytes": 2140,
+      "sha256": "8e122f9a4d1cb581bbc11303a0952f46b81b8d8251c938067e38db926f90ff4e"
+    },
+    {
+      "path": "vault/概念/护栏模式Guardrails.md",
+      "title": "护栏模式Guardrails",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8A%A4%E6%A0%8F%E6%A8%A1%E5%BC%8FGuardrails.md",
+      "bytes": 1471,
+      "sha256": "6cc1ed6fb4465a4d64484f49e7e3bff9188923bec2719210a0805666bbdc05ac"
+    },
+    {
+      "path": "vault/概念/抽卡式与工业化生成.md",
+      "title": "抽卡式与工业化生成",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8A%BD%E5%8D%A1%E5%BC%8F%E4%B8%8E%E5%B7%A5%E4%B8%9A%E5%8C%96%E7%94%9F%E6%88%90.md",
+      "bytes": 1450,
+      "sha256": "002295b9ac567eaac0fef21ef9b91eb9450f5c055bbe0bd4dc9c388213c4e4f0"
+    },
+    {
+      "path": "vault/概念/指令优先级层级.md",
+      "title": "指令优先级层级",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8C%87%E4%BB%A4%E4%BC%98%E5%85%88%E7%BA%A7%E5%B1%82%E7%BA%A7.md",
+      "bytes": 2225,
+      "sha256": "0063eea24d75f5341836a8bc312819f8b80573fd0fa9b155eab470051371bc67"
+    },
+    {
+      "path": "vault/概念/接缝与桩实现StubSeam.md",
+      "title": "接缝与桩实现StubSeam",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8E%A5%E7%BC%9D%E4%B8%8E%E6%A1%A9%E5%AE%9E%E7%8E%B0StubSeam.md",
+      "bytes": 1752,
+      "sha256": "83decb2724ea3ac736e0f9c4c89e17e043504be4733162e6ee44d7988c976804"
+    },
+    {
+      "path": "vault/概念/控制面与数据面.md",
+      "title": "控制面与数据面",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8E%A7%E5%88%B6%E9%9D%A2%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%9D%A2.md",
+      "bytes": 1575,
+      "sha256": "90267f9bf8041185daf02ce384e1367c4c8e3ed32beccf4dc6ae7ae9c7ef7409"
+    },
+    {
+      "path": "vault/概念/推理反思架构族.md",
+      "title": "推理反思架构族",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8E%A8%E7%90%86%E5%8F%8D%E6%80%9D%E6%9E%B6%E6%9E%84%E6%97%8F.md",
+      "bytes": 1623,
+      "sha256": "7922ea4b234e0645af663cc6605ce2ae1499d7a1f957317cb686afd50684f58f"
+    },
+    {
+      "path": "vault/概念/提交即部署.md",
+      "title": "提交即部署",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8F%90%E4%BA%A4%E5%8D%B3%E9%83%A8%E7%BD%B2.md",
+      "bytes": 2153,
+      "sha256": "1a67f1e64f6b81ade56811971fc1d9cc8599b60060005c28816507df38018278"
+    },
+    {
+      "path": "vault/概念/提示注入.md",
+      "title": "提示注入",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5.md",
+      "bytes": 1201,
+      "sha256": "3ab16d4d46a9df5e0d31f3114abae23cbe184a2187720a2d73174bf76b778e0b"
+    },
+    {
+      "path": "vault/概念/提示词权威边界.md",
+      "title": "提示词权威边界",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%9D%83%E5%A8%81%E8%BE%B9%E7%95%8C.md",
+      "bytes": 1807,
+      "sha256": "f51e1a1b69e257f494a76b6ae0bab8e110f64913c402ca28e554ab3012ba5e16"
+    },
+    {
+      "path": "vault/概念/提示词模板.md",
+      "title": "提示词模板",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%A8%A1%E6%9D%BF.md",
+      "bytes": 1147,
+      "sha256": "96f7b18a973e2f4d5fd2a86ea967011c6e12ced0ab50ce8029232bdf8098ea21"
+    },
+    {
+      "path": "vault/概念/提示词爬山法PromptHillClimbing.md",
+      "title": "提示词爬山法PromptHillClimbing",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%88%AC%E5%B1%B1%E6%B3%95PromptHillClimbing.md",
+      "bytes": 2662,
+      "sha256": "7110554eb6b8788169a725ece0ec89a84867f77f05f30563401a17ea7c905fbe"
+    },
+    {
+      "path": "vault/概念/提示词逆向工程.md",
+      "title": "提示词逆向工程",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8F%90%E7%A4%BA%E8%AF%8D%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B.md",
+      "bytes": 1530,
+      "sha256": "36dd4bf54589e5dad46e535727e06c5cbca625c179eb2ab65bc830ed134772ae"
+    },
+    {
+      "path": "vault/概念/提示链PromptChaining.md",
+      "title": "提示链PromptChaining",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%8F%90%E7%A4%BA%E9%93%BEPromptChaining.md",
+      "bytes": 1434,
+      "sha256": "793a84713fd59c856f1e016fc2cb96d00c8d673d1a94ef5bf45a51337a99c5ec"
+    },
+    {
+      "path": "vault/概念/摩擦信号经验沉淀.md",
+      "title": "摩擦信号经验沉淀",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%91%A9%E6%93%A6%E4%BF%A1%E5%8F%B7%E7%BB%8F%E9%AA%8C%E6%B2%89%E6%B7%80.md",
+      "bytes": 2099,
+      "sha256": "d57202b043630a269204b9879aab7b7b33546d44fe008cbc19679e1c7d0296d9"
+    },
+    {
+      "path": "vault/概念/数据源降级链.md",
+      "title": "数据源降级链",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%95%B0%E6%8D%AE%E6%BA%90%E9%99%8D%E7%BA%A7%E9%93%BE.md",
+      "bytes": 1789,
+      "sha256": "7b4229977ca35e94e59a1547b3adc21ef9551be4fc6e96ee0e9a0ec5e403ed7f"
+    },
+    {
+      "path": "vault/概念/文档渲染与XSS净化.md",
+      "title": "文档渲染与XSS净化",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%96%87%E6%A1%A3%E6%B8%B2%E6%9F%93%E4%B8%8EXSS%E5%87%80%E5%8C%96.md",
+      "bytes": 1386,
+      "sha256": "c6386db4fd0d42c4ae0de236ffe1dc4367eb011e97f6a1a001968fc31c95a248"
+    },
+    {
+      "path": "vault/概念/新视角合成.md",
+      "title": "新视角合成",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%96%B0%E8%A7%86%E8%A7%92%E5%90%88%E6%88%90.md",
+      "bytes": 1500,
+      "sha256": "33aa7dcdcdb300b7554487fe71840a193bf0f2224cc0069fc65140282339344a"
+    },
+    {
+      "path": "vault/概念/无约束实验与经验格式化.md",
+      "title": "无约束实验与经验格式化",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%97%A0%E7%BA%A6%E6%9D%9F%E5%AE%9E%E9%AA%8C%E4%B8%8E%E7%BB%8F%E9%AA%8C%E6%A0%BC%E5%BC%8F%E5%8C%96.md",
+      "bytes": 1985,
+      "sha256": "24850cbbc64b7c769dd2d2e24951af58bdfbed372676dc0e14854c5716301220"
+    },
+    {
+      "path": "vault/概念/智能体框架.md",
+      "title": "智能体框架",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%99%BA%E8%83%BD%E4%BD%93%E6%A1%86%E6%9E%B6.md",
+      "bytes": 1322,
+      "sha256": "6c06036800cf050d46391fb7ab98cccf4ad29760f64fb63395a378fd86f3a990"
+    },
+    {
+      "path": "vault/概念/智能舵机与菊花链总线.md",
+      "title": "智能舵机与菊花链总线",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%99%BA%E8%83%BD%E8%88%B5%E6%9C%BA%E4%B8%8E%E8%8F%8A%E8%8A%B1%E9%93%BE%E6%80%BB%E7%BA%BF.md",
+      "bytes": 2373,
+      "sha256": "729c1eba119a6d380c6ccd7bf93fc3440753f6e138f70825a6ac19888d1dc659"
+    },
+    {
+      "path": "vault/概念/本地MCP端点安全四道门.md",
+      "title": "本地MCP端点安全四道门",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%9C%AC%E5%9C%B0MCP%E7%AB%AF%E7%82%B9%E5%AE%89%E5%85%A8%E5%9B%9B%E9%81%93%E9%97%A8.md",
+      "bytes": 2558,
+      "sha256": "1f7cfcb79846015e78c94fcb6391e09ffc9f4b1e236c29ac391dd20fda686cff"
+    },
+    {
+      "path": "vault/概念/本地优先与文件监听.md",
+      "title": "本地优先与文件监听",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%9C%AC%E5%9C%B0%E4%BC%98%E5%85%88%E4%B8%8E%E6%96%87%E4%BB%B6%E7%9B%91%E5%90%AC.md",
+      "bytes": 1824,
+      "sha256": "83b7595bbd0040ab9cd9e3b53778a4372540745072dbba18aa1f004af651d358"
+    },
+    {
+      "path": "vault/概念/本地推理引擎.md",
+      "title": "本地推理引擎",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E7%90%86%E5%BC%95%E6%93%8E.md",
+      "bytes": 1212,
+      "sha256": "9e505aef5f9caa9ccab79a31c3096a337f691af11d4c9f6666d8d91c74b1212e"
+    },
+    {
+      "path": "vault/概念/本能学习与置信度评分.md",
+      "title": "本能学习与置信度评分",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%9C%AC%E8%83%BD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%AE%E4%BF%A1%E5%BA%A6%E8%AF%84%E5%88%86.md",
+      "bytes": 2066,
+      "sha256": "b86a83ebec38339038ded6f2cc1654bb4cd6a7d7b8ca0c33eb3a950fe17d6ce4"
+    },
+    {
+      "path": "vault/概念/机制流与资产流隔离.md",
+      "title": "机制流与资产流隔离",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%9C%BA%E5%88%B6%E6%B5%81%E4%B8%8E%E8%B5%84%E4%BA%A7%E6%B5%81%E9%9A%94%E7%A6%BB.md",
+      "bytes": 1835,
+      "sha256": "13a17ddce3f4e7d15090b7b01bf6fbe1f7f7238c05c7bb51e49f8b73f2ee3315"
+    },
+    {
+      "path": "vault/概念/机器人守护进程架构.md",
+      "title": "机器人守护进程架构",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%9E%B6%E6%9E%84.md",
+      "bytes": 1375,
+      "sha256": "ff1d5477d7d65c47c079282b051055a987b629bc435cadae1fcec457cb7754ce"
+    },
+    {
+      "path": "vault/概念/机器人数字展台.md",
+      "title": "机器人数字展台",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%95%B0%E5%AD%97%E5%B1%95%E5%8F%B0.md",
+      "bytes": 2117,
+      "sha256": "31efdcf067315d8e1a49b42ab529cfb9214cc0f8e5cf66888e26d45cda8cd217"
+    },
+    {
+      "path": "vault/概念/材质名契约重建.md",
+      "title": "材质名契约重建",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%9D%90%E8%B4%A8%E5%90%8D%E5%A5%91%E7%BA%A6%E9%87%8D%E5%BB%BA.md",
+      "bytes": 1656,
+      "sha256": "edd656d227d71ec098f56d40a8e32035bbf00065c8c0f4a43e1eb910e6a44757"
+    },
+    {
+      "path": "vault/概念/构建流水线与Pass.md",
+      "title": "构建流水线与Pass",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%9E%84%E5%BB%BA%E6%B5%81%E6%B0%B4%E7%BA%BF%E4%B8%8EPass.md",
+      "bytes": 1174,
+      "sha256": "c2e44b1c6f5befeb58588eb97967c037dbc216d7805df3d3dfd085ddb569255d"
+    },
+    {
+      "path": "vault/概念/格式压力编因.md",
+      "title": "格式压力编因",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%A0%BC%E5%BC%8F%E5%8E%8B%E5%8A%9B%E7%BC%96%E5%9B%A0.md",
+      "bytes": 1493,
+      "sha256": "f042b34cae44856e7aef10ef32a685c891ea0852f0c31cb3cdc313ae2853c31a"
+    },
+    {
+      "path": "vault/概念/棋盘格假透明修复.md",
+      "title": "棋盘格假透明修复",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%A3%8B%E7%9B%98%E6%A0%BC%E5%81%87%E9%80%8F%E6%98%8E%E4%BF%AE%E5%A4%8D.md",
+      "bytes": 1752,
+      "sha256": "a8ad7a8842dfca4066b90cdcf0ff7af47d06cddc178f348e4d89fe831a8b6871"
+    },
+    {
+      "path": "vault/概念/概率校准与温度缩放.md",
+      "title": "概率校准与温度缩放",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%A6%82%E7%8E%87%E6%A0%A1%E5%87%86%E4%B8%8E%E6%B8%A9%E5%BA%A6%E7%BC%A9%E6%94%BE.md",
+      "bytes": 2036,
+      "sha256": "8491d37105731b5db80fc14f8679a258e63f3d5b7e86520d925da1c0d792edd3"
+    },
+    {
+      "path": "vault/概念/正运动学向量接力.md",
+      "title": "正运动学向量接力",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%AD%A3%E8%BF%90%E5%8A%A8%E5%AD%A6%E5%90%91%E9%87%8F%E6%8E%A5%E5%8A%9B.md",
+      "bytes": 1341,
+      "sha256": "89822cd21cc8fe814f039938cf467f4bc347b678f2a6e6fd73c4d41cd4f088d2"
+    },
+    {
+      "path": "vault/概念/比例量控制接口.md",
+      "title": "比例量控制接口",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%AF%94%E4%BE%8B%E9%87%8F%E6%8E%A7%E5%88%B6%E6%8E%A5%E5%8F%A3.md",
+      "bytes": 1271,
+      "sha256": "8c79844708efdf8380e6f9cd35004b0e7792ade3a7b09215c06ba9d0377837f3"
+    },
+    {
+      "path": "vault/概念/沙箱三态与Executor.md",
+      "title": "沙箱三态与Executor",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%B2%99%E7%AE%B1%E4%B8%89%E6%80%81%E4%B8%8EExecutor.md",
+      "bytes": 2157,
+      "sha256": "4d1113c17b1c8a8568ad3b44e73c7393ff7f7b4a6be44c3cd5bc3e620b1107a1"
+    },
+    {
+      "path": "vault/概念/沙箱与审批正交.md",
+      "title": "沙箱与审批正交",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%B2%99%E7%AE%B1%E4%B8%8E%E5%AE%A1%E6%89%B9%E6%AD%A3%E4%BA%A4.md",
+      "bytes": 3248,
+      "sha256": "a9e65c39d85a821884b50e6e2a4a1a1944cd18c4fd7961cb8a6c9f65cd645a41"
+    },
+    {
+      "path": "vault/概念/注意力即优化器.md",
+      "title": "注意力即优化器",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%8D%B3%E4%BC%98%E5%8C%96%E5%99%A8.md",
+      "bytes": 1655,
+      "sha256": "a9f622bb423779fe7c2dea5259e498defc96f3bb17dca4a56be948621b07e97b"
+    },
+    {
+      "path": "vault/概念/派生会话ID与结构脱敏.md",
+      "title": "派生会话ID与结构脱敏",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%B4%BE%E7%94%9F%E4%BC%9A%E8%AF%9DID%E4%B8%8E%E7%BB%93%E6%9E%84%E8%84%B1%E6%95%8F.md",
+      "bytes": 2355,
+      "sha256": "d6fded6e6d9805bddf64c847fa3872479d8c45be8ff5476f7491f71f8bc5490c"
+    },
+    {
+      "path": "vault/概念/流式滑窗与O(1)状态.md",
+      "title": "流式滑窗与O(1)状态",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%B5%81%E5%BC%8F%E6%BB%91%E7%AA%97%E4%B8%8EO%281%29%E7%8A%B6%E6%80%81.md",
+      "bytes": 1574,
+      "sha256": "c2e32fbcc4a12772415f3f79e71ee307037f318c356a9cbbf42e25a7c56c4573"
+    },
+    {
+      "path": "vault/概念/消息队列与异步削峰.md",
+      "title": "消息队列与异步削峰",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%8E%E5%BC%82%E6%AD%A5%E5%89%8A%E5%B3%B0.md",
+      "bytes": 1052,
+      "sha256": "1b2817b1abedf96daf08454e254329b75ad31700c665fd83539c9887c770791f"
+    },
+    {
+      "path": "vault/概念/混合检索与RRF融合.md",
+      "title": "混合检索与RRF融合",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%B7%B7%E5%90%88%E6%A3%80%E7%B4%A2%E4%B8%8ERRF%E8%9E%8D%E5%90%88.md",
+      "bytes": 1739,
+      "sha256": "2cdad497ae76c834be48f7104df5fd3c605b57785b0ff955c9c3bf1d8ef2d58c"
+    },
+    {
+      "path": "vault/概念/混合模型分工流水线.md",
+      "title": "混合模型分工流水线",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%B7%B7%E5%90%88%E6%A8%A1%E5%9E%8B%E5%88%86%E5%B7%A5%E6%B5%81%E6%B0%B4%E7%BA%BF.md",
+      "bytes": 1881,
+      "sha256": "b42d1d364fdb9375a76ccdc10e973646b4f32bd83f62cb2b971632aa57012f41"
+    },
+    {
+      "path": "vault/概念/混合线性注意力.md",
+      "title": "混合线性注意力",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%B7%B7%E5%90%88%E7%BA%BF%E6%80%A7%E6%B3%A8%E6%84%8F%E5%8A%9B.md",
+      "bytes": 1500,
+      "sha256": "05f5faed5d064cba443855ece472d5fbac249f315aea955815ca89ef19b3673b"
+    },
+    {
+      "path": "vault/概念/源码即Prompt.md",
+      "title": "源码即Prompt",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%BA%90%E7%A0%81%E5%8D%B3Prompt.md",
+      "bytes": 2296,
+      "sha256": "b5e3834606a13764dcf3d992b3ec15aee34aa987234402c4b84492d47434bdfd"
+    },
+    {
+      "path": "vault/概念/源码取证图.md",
+      "title": "源码取证图",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%BA%90%E7%A0%81%E5%8F%96%E8%AF%81%E5%9B%BE.md",
+      "bytes": 1529,
+      "sha256": "6ee5e93541998ff102231366c65c1d1b8fa7fbde5825cbb82fdd6d115124c018"
+    },
+    {
+      "path": "vault/概念/漂移与回环闭合.md",
+      "title": "漂移与回环闭合",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E6%BC%82%E7%A7%BB%E4%B8%8E%E5%9B%9E%E7%8E%AF%E9%97%AD%E5%90%88.md",
+      "bytes": 1885,
+      "sha256": "fc3a3710ac82e3aa3866436dc2d075431f4c4fa000d147b71e7ddfad6da8cf48"
+    },
+    {
+      "path": "vault/概念/点图与前馈重建.md",
+      "title": "点图与前馈重建",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%82%B9%E5%9B%BE%E4%B8%8E%E5%89%8D%E9%A6%88%E9%87%8D%E5%BB%BA.md",
+      "bytes": 1599,
+      "sha256": "391ebbddd9e9777fc1b74f524fc502cbf774b66de78aef3b0cb55f8103a468d8"
+    },
+    {
+      "path": "vault/概念/环境显示与触屏Agent面板.md",
+      "title": "环境显示与触屏Agent面板",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%8E%AF%E5%A2%83%E6%98%BE%E7%A4%BA%E4%B8%8E%E8%A7%A6%E5%B1%8FAgent%E9%9D%A2%E6%9D%BF.md",
+      "bytes": 2309,
+      "sha256": "4e35c8dccaf51deb2475e52f487345fa7062df8ccd0c077038eb5571780262de"
+    },
+    {
+      "path": "vault/概念/球面谐波视角色.md",
+      "title": "球面谐波视角色",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%90%83%E9%9D%A2%E8%B0%90%E6%B3%A2%E8%A7%86%E8%A7%92%E8%89%B2.md",
+      "bytes": 1247,
+      "sha256": "45bf21888a256d2a5a9a58a51b39ce3a7d201d18ad8405e2087a439af4b92c26"
+    },
+    {
+      "path": "vault/概念/相机死区跟随.md",
+      "title": "相机死区跟随",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%9B%B8%E6%9C%BA%E6%AD%BB%E5%8C%BA%E8%B7%9F%E9%9A%8F.md",
+      "bytes": 1196,
+      "sha256": "f871124f4bdfe9828ff80c85711f658e8b96f2beb5267c883a8584230b4e5b52"
+    },
+    {
+      "path": "vault/概念/知识层永不回滚原则.md",
+      "title": "知识层永不回滚原则",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%9F%A5%E8%AF%86%E5%B1%82%E6%B0%B8%E4%B8%8D%E5%9B%9E%E6%BB%9A%E5%8E%9F%E5%88%99.md",
+      "bytes": 2227,
+      "sha256": "2bf4e6b2201b68e057739e5a143cc8fe83a6e2a2e2e9695439095c1858a734cc"
+    },
+    {
+      "path": "vault/概念/知识蒸馏.md",
+      "title": "知识蒸馏",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F.md",
+      "bytes": 1715,
+      "sha256": "7a18a5f7ed2c51077ca8bc0a57cf2326d27d82a2fee3cd78f7947f8267ee8967"
+    },
+    {
+      "path": "vault/概念/确定性信号引擎.md",
+      "title": "确定性信号引擎",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%A1%AE%E5%AE%9A%E6%80%A7%E4%BF%A1%E5%8F%B7%E5%BC%95%E6%93%8E.md",
+      "bytes": 1780,
+      "sha256": "ff70e54e3a5edaf1f0ae50723ce4c311386ba7d7467ba39c56f9b72cca3953db"
+    },
+    {
+      "path": "vault/概念/确定性图布局.md",
+      "title": "确定性图布局",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%A1%AE%E5%AE%9A%E6%80%A7%E5%9B%BE%E5%B8%83%E5%B1%80.md",
+      "bytes": 1411,
+      "sha256": "437a715c4e45dad66579cd67dc4cf89281b79e218e74f1d2ff82eed81db16c14"
+    },
+    {
+      "path": "vault/概念/确定性快进与真渲染取证.md",
+      "title": "确定性快进与真渲染取证",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%A1%AE%E5%AE%9A%E6%80%A7%E5%BF%AB%E8%BF%9B%E4%B8%8E%E7%9C%9F%E6%B8%B2%E6%9F%93%E5%8F%96%E8%AF%81.md",
+      "bytes": 1902,
+      "sha256": "29854a02e9a9a472da6e921019fae7fbeccf6cb912cfbdb73392a742bb86fcf4"
+    },
+    {
+      "path": "vault/概念/确定性脚本.md",
+      "title": "确定性脚本",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%A1%AE%E5%AE%9A%E6%80%A7%E8%84%9A%E6%9C%AC.md",
+      "bytes": 976,
+      "sha256": "9c4ad9b95b3ffd67200ea11cd302678eb46057249027ce622bac0f0573cdebae"
+    },
+    {
+      "path": "vault/概念/确定性选择器模式.md",
+      "title": "确定性选择器模式",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%A1%AE%E5%AE%9A%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8%E6%A8%A1%E5%BC%8F.md",
+      "bytes": 1380,
+      "sha256": "dd94627a200fc3874f675869c31a6eded52fc4a732bedd7ddfb1ea8324881fcc"
+    },
+    {
+      "path": "vault/概念/私有子图输出隔离.md",
+      "title": "私有子图输出隔离",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%A7%81%E6%9C%89%E5%AD%90%E5%9B%BE%E8%BE%93%E5%87%BA%E9%9A%94%E7%A6%BB.md",
+      "bytes": 1837,
+      "sha256": "8ca1aca8445e6e10034975f28d263aa6923cc4178e6ff2007a9480ff4e3a5f63"
+    },
+    {
+      "path": "vault/概念/程序化工具调用.md",
+      "title": "程序化工具调用",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%A8%8B%E5%BA%8F%E5%8C%96%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8.md",
+      "bytes": 2125,
+      "sha256": "96c2cd4afb0dbc48ff6e77acf6170962e320b257e6321e5aa0ff8d32f49891b1"
+    },
+    {
+      "path": "vault/概念/程序化建模.md",
+      "title": "程序化建模",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%A8%8B%E5%BA%8F%E5%8C%96%E5%BB%BA%E6%A8%A1.md",
+      "bytes": 1077,
+      "sha256": "b07762f014cbedbfd5ec0411a2c40eeb77b0a582dbaececa96e21f5679b13e3d"
+    },
+    {
+      "path": "vault/概念/第二大脑LLMWiki.md",
+      "title": "第二大脑LLMWiki",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%AC%AC%E4%BA%8C%E5%A4%A7%E8%84%91LLMWiki.md",
+      "bytes": 2387,
+      "sha256": "2e309437f5acc33a8c76b7d89f967d06097dbca734624fee409d1dd50c76a20d"
+    },
+    {
+      "path": "vault/概念/答案埋葬与行动先行.md",
+      "title": "答案埋葬与行动先行",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%AD%94%E6%A1%88%E5%9F%8B%E8%91%AC%E4%B8%8E%E8%A1%8C%E5%8A%A8%E5%85%88%E8%A1%8C.md",
+      "bytes": 1813,
+      "sha256": "6eaa3013a1ae057563c74bd5e26580333b9170e8ff41b5aaf7ab108aac3c4060"
+    },
+    {
+      "path": "vault/概念/策略观测向量与动作契约.md",
+      "title": "策略观测向量与动作契约",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%AD%96%E7%95%A5%E8%A7%82%E6%B5%8B%E5%90%91%E9%87%8F%E4%B8%8E%E5%8A%A8%E4%BD%9C%E5%A5%91%E7%BA%A6.md",
+      "bytes": 3064,
+      "sha256": "c1fc025fc8a7a4c526083f1b1052c88a369f5c61f2a5a6c8a23d663e092f0942"
+    },
+    {
+      "path": "vault/概念/粒子系统.md",
+      "title": "粒子系统",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F.md",
+      "bytes": 2011,
+      "sha256": "08be5257dd0c7d4911286b1f8c7365b254b04815b829b1a0400f475ba8a6365e"
+    },
+    {
+      "path": "vault/概念/系统设计与可扩展性.md",
+      "title": "系统设计与可扩展性",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%8F%AF%E6%89%A9%E5%B1%95%E6%80%A7.md",
+      "bytes": 1387,
+      "sha256": "d6c68ef67950c2c8c993ad6ba1433c80dfb21f78157c5962ec9cb7a042905229"
+    },
+    {
+      "path": "vault/概念/级联语音管线.md",
+      "title": "级联语音管线",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%BA%A7%E8%81%94%E8%AF%AD%E9%9F%B3%E7%AE%A1%E7%BA%BF.md",
+      "bytes": 2150,
+      "sha256": "ed0a5bbe04edec02f60703a7800d9f9a20c382a5fd3435aa61ce6e6b1efe1dae"
+    },
+    {
+      "path": "vault/概念/纯函数游戏引擎与种子复放.md",
+      "title": "纯函数游戏引擎与种子复放",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%BA%AF%E5%87%BD%E6%95%B0%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E4%B8%8E%E7%A7%8D%E5%AD%90%E5%A4%8D%E6%94%BE.md",
+      "bytes": 1308,
+      "sha256": "6416e8d792850128e55cb060625d5ce2103870a74a5197993f74224a417aa4e6"
+    },
+    {
+      "path": "vault/概念/统一公开读取层.md",
+      "title": "统一公开读取层",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%BB%9F%E4%B8%80%E5%85%AC%E5%BC%80%E8%AF%BB%E5%8F%96%E5%B1%82.md",
+      "bytes": 1312,
+      "sha256": "a27a1e9423355e9ba5d882dce04ac6555933ad2bef4970a10d705623fc07c199"
+    },
+    {
+      "path": "vault/概念/统一数据网关.md",
+      "title": "统一数据网关",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%BB%9F%E4%B8%80%E6%95%B0%E6%8D%AE%E7%BD%91%E5%85%B3.md",
+      "bytes": 1424,
+      "sha256": "c85f3adc5ca8359ea0690bfe51695a8abc336dac0dfdbba7d39ba9381a6bee7c"
+    },
+    {
+      "path": "vault/概念/绳驱欠驱动.md",
+      "title": "绳驱欠驱动",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%BB%B3%E9%A9%B1%E6%AC%A0%E9%A9%B1%E5%8A%A8.md",
+      "bytes": 1533,
+      "sha256": "eab85ca1d5ec1b07866979bfcde5410ffe3af6ad01382f4b67d6c8b279a4b5ea"
+    },
+    {
+      "path": "vault/概念/缓存.md",
+      "title": "缓存",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%BC%93%E5%AD%98.md",
+      "bytes": 1116,
+      "sha256": "cdbb3ace706c0e5210ae08a4b85ddc4878ef3c9548c6f56ced46a0d9789d6fe0"
+    },
+    {
+      "path": "vault/概念/缓存有效期与发布边界.md",
+      "title": "缓存有效期与发布边界",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%BC%93%E5%AD%98%E6%9C%89%E6%95%88%E6%9C%9F%E4%B8%8E%E5%8F%91%E5%B8%83%E8%BE%B9%E7%95%8C.md",
+      "bytes": 1296,
+      "sha256": "b4a5b6b1f2d226f05cf58217743f221b1473cc445774ecf1941228f6d9cabf4a"
+    },
+    {
+      "path": "vault/概念/置信度门控与弃权.md",
+      "title": "置信度门控与弃权",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E7%BD%AE%E4%BF%A1%E5%BA%A6%E9%97%A8%E6%8E%A7%E4%B8%8E%E5%BC%83%E6%9D%83.md",
+      "bytes": 1935,
+      "sha256": "33584b31890cf4ba595adf9715548089b637eb19cc02ba31af5b59f1acd05e03"
+    },
+    {
+      "path": "vault/概念/能力地板选型.md",
+      "title": "能力地板选型",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%83%BD%E5%8A%9B%E5%9C%B0%E6%9D%BF%E9%80%89%E5%9E%8B.md",
+      "bytes": 1580,
+      "sha256": "04ae0bad7425fe6daa783116a2dac8c83e6db62be03d258db18e4e1009377d6c"
+    },
+    {
+      "path": "vault/概念/能力层与后端路由.md",
+      "title": "能力层与后端路由",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%83%BD%E5%8A%9B%E5%B1%82%E4%B8%8E%E5%90%8E%E7%AB%AF%E8%B7%AF%E7%94%B1.md",
+      "bytes": 2320,
+      "sha256": "8a1462b22f56cc8171ba017b5498ac501e8ed3dfade9291971371e7dfbcd0828"
+    },
+    {
+      "path": "vault/概念/能力运行时.md",
+      "title": "能力运行时",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%83%BD%E5%8A%9B%E8%BF%90%E8%A1%8C%E6%97%B6.md",
+      "bytes": 1411,
+      "sha256": "1341c5c402b01ed0cc6641b8b4ba4b9be0024c03ec443b2300e0453bbe121678"
+    },
+    {
+      "path": "vault/概念/脸向量与同人判定.md",
+      "title": "脸向量与同人判定",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%84%B8%E5%90%91%E9%87%8F%E4%B8%8E%E5%90%8C%E4%BA%BA%E5%88%A4%E5%AE%9A.md",
+      "bytes": 1621,
+      "sha256": "b15aff25210a4f442df6009c0e77d78965be98cb820dc8ca44ccda0b4105edf8"
+    },
+    {
+      "path": "vault/概念/舵机与PWM角度控制.md",
+      "title": "舵机与PWM角度控制",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%88%B5%E6%9C%BA%E4%B8%8EPWM%E8%A7%92%E5%BA%A6%E6%8E%A7%E5%88%B6.md",
+      "bytes": 1276,
+      "sha256": "e3ea67e844055a5dbdc0895c8e4db8e5d32e64c6e3341ff3c06a854bb4b87349"
+    },
+    {
+      "path": "vault/概念/补间动画与缓动函数.md",
+      "title": "补间动画与缓动函数",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%A1%A5%E9%97%B4%E5%8A%A8%E7%94%BB%E4%B8%8E%E7%BC%93%E5%8A%A8%E5%87%BD%E6%95%B0.md",
+      "bytes": 1782,
+      "sha256": "d2d4ed315b0aa085428de486d5978db9fda50102c9530644a221fdbb33bf4ba9"
+    },
+    {
+      "path": "vault/概念/规划执行分账.md",
+      "title": "规划执行分账",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%A7%84%E5%88%92%E6%89%A7%E8%A1%8C%E5%88%86%E8%B4%A6.md",
+      "bytes": 1862,
+      "sha256": "0173aafd60db7d2be2c4be99da544a7297eb31b11750131ce2c92f28e9070439"
+    },
+    {
+      "path": "vault/概念/规格书先行SpecDriven.md",
+      "title": "规格书先行SpecDriven",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%A7%84%E6%A0%BC%E4%B9%A6%E5%85%88%E8%A1%8CSpecDriven.md",
+      "bytes": 1675,
+      "sha256": "b96b05cdca166f90e6277d77c5582b4de6284e21086294f1d6001dcfc39de229"
+    },
+    {
+      "path": "vault/概念/规格收敛循环Converge.md",
+      "title": "规格收敛循环Converge",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%A7%84%E6%A0%BC%E6%94%B6%E6%95%9B%E5%BE%AA%E7%8E%AFConverge.md",
+      "bytes": 1820,
+      "sha256": "6ac9c9aadaee4f8710fe1b85c2fe8c2cc433dd15fdd95c7aaccb1a2c57655fc8"
+    },
+    {
+      "path": "vault/概念/角色一致性锚定.md",
+      "title": "角色一致性锚定",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%A7%92%E8%89%B2%E4%B8%80%E8%87%B4%E6%80%A7%E9%94%9A%E5%AE%9A.md",
+      "bytes": 1514,
+      "sha256": "72b2873b3439bbcda7855fa5209c6217aecb172ad6ce7acd0106fd9974fa7521"
+    },
+    {
+      "path": "vault/概念/角色提示.md",
+      "title": "角色提示",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%A7%92%E8%89%B2%E6%8F%90%E7%A4%BA.md",
+      "bytes": 1387,
+      "sha256": "fd54a2ec738817795fb19e69897c66e757c6d98704d390f7b85de1d7796b7b95"
+    },
+    {
+      "path": "vault/概念/记忆四层模型.md",
+      "title": "记忆四层模型",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%AE%B0%E5%BF%86%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B.md",
+      "bytes": 1978,
+      "sha256": "6ac98a0711bf36eab1064c94cc1e38447412f1a9d5b278b704fdc693345e27c7"
+    },
+    {
+      "path": "vault/概念/记忆架构谱系.md",
+      "title": "记忆架构谱系",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%AE%B0%E5%BF%86%E6%9E%B6%E6%9E%84%E8%B0%B1%E7%B3%BB.md",
+      "bytes": 1367,
+      "sha256": "84220127abcfffea6870ea91aedb3a45275885515c76511155fae0fc1a02c0c6"
+    },
+    {
+      "path": "vault/概念/设计令牌DesignToken.md",
+      "title": "设计令牌DesignToken",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%AE%BE%E8%AE%A1%E4%BB%A4%E7%89%8CDesignToken.md",
+      "bytes": 1236,
+      "sha256": "ab060471ced8e989239f2b3cea5515fbc2ecc7ea26f133e45b571214ef15f55d"
+    },
+    {
+      "path": "vault/概念/证据优先质检ProofOverClaims.md",
+      "title": "证据优先质检ProofOverClaims",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%AF%81%E6%8D%AE%E4%BC%98%E5%85%88%E8%B4%A8%E6%A3%80ProofOverClaims.md",
+      "bytes": 3593,
+      "sha256": "c54ea2f3bcfe830556942d04c502ba84472a7382c45b76dd07401861e44c2fac"
+    },
+    {
+      "path": "vault/概念/证据状态机.md",
+      "title": "证据状态机",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%AF%81%E6%8D%AE%E7%8A%B6%E6%80%81%E6%9C%BA.md",
+      "bytes": 2488,
+      "sha256": "4ac12b197891357591ebd092a9120bd67fa6fa1a09a407ed9c0fea3bc9b97328"
+    },
+    {
+      "path": "vault/概念/评估钻空子EvalGaming.md",
+      "title": "评估钻空子EvalGaming",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%AF%84%E4%BC%B0%E9%92%BB%E7%A9%BA%E5%AD%90EvalGaming.md",
+      "bytes": 1619,
+      "sha256": "a3566680f9771de9b3a8788c7fd51444bfc8a5cf0fce8858685b6cea323c827a"
+    },
+    {
+      "path": "vault/概念/评分契约与护栏.md",
+      "title": "评分契约与护栏",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%AF%84%E5%88%86%E5%A5%91%E7%BA%A6%E4%B8%8E%E6%8A%A4%E6%A0%8F.md",
+      "bytes": 1905,
+      "sha256": "8933eaa2c6c03a6404fb6333a06b73fd8ae8f35d094830a30dcabc98a940b576"
+    },
+    {
+      "path": "vault/概念/词锚定语义时间.md",
+      "title": "词锚定语义时间",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%AF%8D%E9%94%9A%E5%AE%9A%E8%AF%AD%E4%B9%89%E6%97%B6%E9%97%B4.md",
+      "bytes": 2101,
+      "sha256": "4e1028a2d41e0811ad7d2a1d46674399cfc8ef08539d3c04039ca7bee14069f4"
+    },
+    {
+      "path": "vault/概念/负载均衡与反向代理.md",
+      "title": "负载均衡与反向代理",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8E%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86.md",
+      "bytes": 1226,
+      "sha256": "54c0f0e262158eb8ab9e73dae71f56aef8da74b1ca72ad89ccf72ab4e973a2bd"
+    },
+    {
+      "path": "vault/概念/负风险套利.md",
+      "title": "负风险套利",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%B4%9F%E9%A3%8E%E9%99%A9%E5%A5%97%E5%88%A9.md",
+      "bytes": 1851,
+      "sha256": "12b15ff1eab8057ba3b2eedb04a54240c6d017cf687670344635b707f096f584"
+    },
+    {
+      "path": "vault/概念/质检Gate与自我纠错循环.md",
+      "title": "质检Gate与自我纠错循环",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%B4%A8%E6%A3%80Gate%E4%B8%8E%E8%87%AA%E6%88%91%E7%BA%A0%E9%94%99%E5%BE%AA%E7%8E%AF.md",
+      "bytes": 1361,
+      "sha256": "13b2fa71d6e6a3f2de26899141f254a8268f4b412123270674d1f705a80e5212"
+    },
+    {
+      "path": "vault/概念/质量标准死卡与执行手段放开.md",
+      "title": "质量标准死卡与执行手段放开",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%B4%A8%E9%87%8F%E6%A0%87%E5%87%86%E6%AD%BB%E5%8D%A1%E4%B8%8E%E6%89%A7%E8%A1%8C%E6%89%8B%E6%AE%B5%E6%94%BE%E5%BC%80.md",
+      "bytes": 1750,
+      "sha256": "431f054c9592da7ad7c58585756356f9ba746a60700b90721c8295692acf11d0"
+    },
+    {
+      "path": "vault/概念/资源命名空间分发.md",
+      "title": "资源命名空间分发",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E5%88%86%E5%8F%91.md",
+      "bytes": 2214,
+      "sha256": "622038810ca479e3c8b9a40c648dc78500e004e92afe8756c07590427e797fd1"
+    },
+    {
+      "path": "vault/概念/跨工具个人记忆层.md",
+      "title": "跨工具个人记忆层",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%B7%A8%E5%B7%A5%E5%85%B7%E4%B8%AA%E4%BA%BA%E8%AE%B0%E5%BF%86%E5%B1%82.md",
+      "bytes": 1942,
+      "sha256": "1371dcc5af21e1d24a030b0f89a16afdae406846e51353eb1f8c49701e949758"
+    },
+    {
+      "path": "vault/概念/跨源评分归一化.md",
+      "title": "跨源评分归一化",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%B7%A8%E6%BA%90%E8%AF%84%E5%88%86%E5%BD%92%E4%B8%80%E5%8C%96.md",
+      "bytes": 2004,
+      "sha256": "6aa5d15d8adda3b835417a186b3e12fe78864de1c4972a87bfb49aa3a9e9decc"
+    },
+    {
+      "path": "vault/概念/转绘.md",
+      "title": "转绘",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%BD%AC%E7%BB%98.md",
+      "bytes": 1397,
+      "sha256": "ff944227b847ad3cf510f7955ebbe4d03b0240f048a5ecdb2a89945e57d90cd9"
+    },
+    {
+      "path": "vault/概念/轴分离贴墙滑行碰撞.md",
+      "title": "轴分离贴墙滑行碰撞",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%BD%B4%E5%88%86%E7%A6%BB%E8%B4%B4%E5%A2%99%E6%BB%91%E8%A1%8C%E7%A2%B0%E6%92%9E.md",
+      "bytes": 1596,
+      "sha256": "201e8e3498677c458023683c20e0da3fe0642a8476ef04dbb2d5008dea84f9fb"
+    },
+    {
+      "path": "vault/概念/进程取钥与副本解密.md",
+      "title": "进程取钥与副本解密",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E8%BF%9B%E7%A8%8B%E5%8F%96%E9%92%A5%E4%B8%8E%E5%89%AF%E6%9C%AC%E8%A7%A3%E5%AF%86.md",
+      "bytes": 2087,
+      "sha256": "a5c846b8581d6e0afb0bee0c4e85e142225dbfd22fc68328243183980097d485"
+    },
+    {
+      "path": "vault/概念/逆运动学IK与CCD迭代.md",
+      "title": "逆运动学IK与CCD迭代",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%80%86%E8%BF%90%E5%8A%A8%E5%AD%A6IK%E4%B8%8ECCD%E8%BF%AD%E4%BB%A3.md",
+      "bytes": 1609,
+      "sha256": "41fa732f34ce72172ef31cdb2318fb91fdb42cc63aa2c8633838e04ddd426def"
+    },
+    {
+      "path": "vault/概念/逐轮模型路由与哨兵代理.md",
+      "title": "逐轮模型路由与哨兵代理",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%80%90%E8%BD%AE%E6%A8%A1%E5%9E%8B%E8%B7%AF%E7%94%B1%E4%B8%8E%E5%93%A8%E5%85%B5%E4%BB%A3%E7%90%86.md",
+      "bytes": 2524,
+      "sha256": "57cb511f58204f8b70492ae0ac889c11fb193338b5a883dc915f6e45676d5e26"
+    },
+    {
+      "path": "vault/概念/采样搜索架构族.md",
+      "title": "采样搜索架构族",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%87%87%E6%A0%B7%E6%90%9C%E7%B4%A2%E6%9E%B6%E6%9E%84%E6%97%8F.md",
+      "bytes": 1401,
+      "sha256": "91ced31479ccdb353ef14eb8f330c3b0411e3325cb4099e6b87ff9e6b351b030"
+    },
+    {
+      "path": "vault/概念/量化与GGUF.md",
+      "title": "量化与GGUF",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%87%8F%E5%8C%96%E4%B8%8EGGUF.md",
+      "bytes": 1205,
+      "sha256": "2b05b14f3b1512872f4a588179d3812d6df09e8ba16b3bbb2de44eb9a1c160d1"
+    },
+    {
+      "path": "vault/概念/阶梯降级与保险丝.md",
+      "title": "阶梯降级与保险丝",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%98%B6%E6%A2%AF%E9%99%8D%E7%BA%A7%E4%B8%8E%E4%BF%9D%E9%99%A9%E4%B8%9D.md",
+      "bytes": 2635,
+      "sha256": "98c295a47db9bc4fb29140e55699f6c3e25494778dafe4128b63e11cffc3ced9"
+    },
+    {
+      "path": "vault/概念/零依赖编程.md",
+      "title": "零依赖编程",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%9B%B6%E4%BE%9D%E8%B5%96%E7%BC%96%E7%A8%8B.md",
+      "bytes": 995,
+      "sha256": "d9f9e0573b244aa71337753d6410c92ffa9548e4f1835fe37dcc2a89b3fa8b91"
+    },
+    {
+      "path": "vault/概念/非自回归决策模型.md",
+      "title": "非自回归决策模型",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%9D%9E%E8%87%AA%E5%9B%9E%E5%BD%92%E5%86%B3%E7%AD%96%E6%A8%A1%E5%9E%8B.md",
+      "bytes": 2287,
+      "sha256": "4ca3a8e54b36cbe498b8f057de8c021133edbe7596cbe93ed85614b36a8ec621"
+    },
+    {
+      "path": "vault/概念/面数口径与减面下限.md",
+      "title": "面数口径与减面下限",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%9D%A2%E6%95%B0%E5%8F%A3%E5%BE%84%E4%B8%8E%E5%87%8F%E9%9D%A2%E4%B8%8B%E9%99%90.md",
+      "bytes": 2104,
+      "sha256": "28a4f4e89700fc11533067cabfae76c7619bdaea6d4b700c01757225f87cad3c"
+    },
+    {
+      "path": "vault/概念/项目宪法Constitution.md",
+      "title": "项目宪法Constitution",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%A1%B9%E7%9B%AE%E5%AE%AA%E6%B3%95Constitution.md",
+      "bytes": 1851,
+      "sha256": "1a7f639ac7ea1285c86d193a26f4124b6be2df8612d3ef18a00b8fae1a3566f5"
+    },
+    {
+      "path": "vault/概念/预执行安全网与执行事件.md",
+      "title": "预执行安全网与执行事件",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%A2%84%E6%89%A7%E8%A1%8C%E5%AE%89%E5%85%A8%E7%BD%91%E4%B8%8E%E6%89%A7%E8%A1%8C%E4%BA%8B%E4%BB%B6.md",
+      "bytes": 2542,
+      "sha256": "d35ddffcd836094286f12ae9dc8213ffbdbd4653daa527fe3658efdaa495ce3c"
+    },
+    {
+      "path": "vault/概念/预测市场与二元合约.md",
+      "title": "预测市场与二元合约",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%A2%84%E6%B5%8B%E5%B8%82%E5%9C%BA%E4%B8%8E%E4%BA%8C%E5%85%83%E5%90%88%E7%BA%A6.md",
+      "bytes": 1707,
+      "sha256": "2755b88a41340e732b73ccb585041aae5db6255c97ed84557aa02a3723cd8985"
+    },
+    {
+      "path": "vault/概念/风控链与Kelly仓位.md",
+      "title": "风控链与Kelly仓位",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%A3%8E%E6%8E%A7%E9%93%BE%E4%B8%8EKelly%E4%BB%93%E4%BD%8D.md",
+      "bytes": 2129,
+      "sha256": "0765e4090cf1d6b89d87b2f3db36dd01dc89e66bd611de6fbc873c78ac873ee3"
+    },
+    {
+      "path": "vault/概念/首帧锚定与内存条件坐标系.md",
+      "title": "首帧锚定与内存条件坐标系",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%A6%96%E5%B8%A7%E9%94%9A%E5%AE%9A%E4%B8%8E%E5%86%85%E5%AD%98%E6%9D%A1%E4%BB%B6%E5%9D%90%E6%A0%87%E7%B3%BB.md",
+      "bytes": 1813,
+      "sha256": "7bfd74f186132eaa742a7e2f46ef06b8157ebe703c17e51decfcc81c9db09410"
+    },
+    {
+      "path": "vault/概念/高斯泼溅3DGS.md",
+      "title": "高斯泼溅3DGS",
+      "category": "concept",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E6%A6%82%E5%BF%B5/%E9%AB%98%E6%96%AF%E6%B3%BC%E6%BA%853DGS.md",
+      "bytes": 2412,
+      "sha256": "570a2f014dae5d658e9ce778730ef52c6489b93d4f08119d76c893fdaeff8914"
+    },
+    {
+      "path": "vault/项目笔记/3d_vibe_coding.md",
+      "title": "3d_vibe_coding",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/3d_vibe_coding.md",
+      "bytes": 3846,
+      "sha256": "da86d6e9730918ce2ea5cc88ee3b40e7d5fe5d764c0fe281233646e74f15eb3f"
+    },
+    {
+      "path": "vault/项目笔记/TradingAgents.md",
+      "title": "TradingAgents",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/TradingAgents.md",
+      "bytes": 2334,
+      "sha256": "79ab6eb7a161cb38e944f54a55eb3a4d2e5f00a652ce7445d8167db459670817"
+    },
+    {
+      "path": "vault/项目笔记/abot-recon.md",
+      "title": "abot-recon",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/abot-recon.md",
+      "bytes": 3012,
+      "sha256": "583bbc70c64abf7234519247e2ecd833777c76ab8182b2c7f45bc33aeeba762f"
+    },
+    {
+      "path": "vault/项目笔记/agent-architectures.md",
+      "title": "agent-architectures",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/agent-architectures.md",
+      "bytes": 3467,
+      "sha256": "b3ca94b29f71e6fff8b7aaafb4e3179c965e72cc53c5a327c45a45d8584c045d"
+    },
+    {
+      "path": "vault/项目笔记/agent-engineering.md",
+      "title": "agent-engineering",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/agent-engineering.md",
+      "bytes": 2233,
+      "sha256": "76f1050411008b830f013f6a3d853c884b41b9c88d604727b7d91491fc6c256c"
+    },
+    {
+      "path": "vault/项目笔记/agent-eval.md",
+      "title": "agent-eval",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/agent-eval.md",
+      "bytes": 3725,
+      "sha256": "0d568c1c815234ba21d805b4c7dc57dfda0f0a3579a51181151dbd1a861aba6c"
+    },
+    {
+      "path": "vault/项目笔记/agent-harness.md",
+      "title": "agent-harness",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/agent-harness.md",
+      "bytes": 4013,
+      "sha256": "8264dcccd6f95ba233b84d80d3996326cca8f84d54477fd99dc6553c474e3856"
+    },
+    {
+      "path": "vault/项目笔记/agent-kernel.md",
+      "title": "agent-kernel",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/agent-kernel.md",
+      "bytes": 3536,
+      "sha256": "825d06b3df7fa95605e8743864b9ba9ef7b85a1ca053f8f40aa64ecfb6bf6da4"
+    },
+    {
+      "path": "vault/项目笔记/agent-reach.md",
+      "title": "agent-reach",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/agent-reach.md",
+      "bytes": 2831,
+      "sha256": "8e4b2ab724b77ccf948dd8e01b6d9274fa066639418cb38a79ccf2d37e13468f"
+    },
+    {
+      "path": "vault/项目笔记/agentic_design_patterns.md",
+      "title": "agentic_design_patterns",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/agentic_design_patterns.md",
+      "bytes": 2578,
+      "sha256": "a56c99daa1f34db0826033fdbbb1aa0854670974a69ce23c7353f49a0a3d9eb1"
+    },
+    {
+      "path": "vault/项目笔记/agentkey.md",
+      "title": "agentkey",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/agentkey.md",
+      "bytes": 2833,
+      "sha256": "be5ec243f045a464231a3059c764511269d3baa90b96a8647033c680195458d7"
+    },
+    {
+      "path": "vault/项目笔记/agentmd_template.md",
+      "title": "agentmd_template",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/agentmd_template.md",
+      "bytes": 2398,
+      "sha256": "efb75a4138d78106ff672376d9ac98c32a93fe7be08a56125c73db493a56dd83"
+    },
+    {
+      "path": "vault/项目笔记/ai-video-pipeline.md",
+      "title": "ai-video-pipeline",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/ai-video-pipeline.md",
+      "bytes": 3596,
+      "sha256": "511447ea68b28960a3af7efdaf38667d3a7bbd87f2f92eff9d3eab31933a1d7e"
+    },
+    {
+      "path": "vault/项目笔记/ai-website-cloner.md",
+      "title": "ai-website-cloner",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/ai-website-cloner.md",
+      "bytes": 2083,
+      "sha256": "9f3e60753e6c090b6d7b5ca0dda522df8ae674cbced759763a155b0ca374fd1d"
+    },
+    {
+      "path": "vault/项目笔记/ai_shortdrama_tools.md",
+      "title": "ai_shortdrama_tools",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/ai_shortdrama_tools.md",
+      "bytes": 2843,
+      "sha256": "0af1cab1cbacc00448e42665c7703ccf24b047abd99930323e3faf29a4326527"
+    },
+    {
+      "path": "vault/项目笔记/aihot.md",
+      "title": "aihot",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/aihot.md",
+      "bytes": 1937,
+      "sha256": "06a8656cbf857aca203901e6a47ea2ed28e32850f450cab5a914d4338c8534e8"
+    },
+    {
+      "path": "vault/项目笔记/archify.md",
+      "title": "archify",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/archify.md",
+      "bytes": 2504,
+      "sha256": "ef8bb1077867c603405823368668b8a7a5cf7072001f82b1553b2e7f41cb575c"
+    },
+    {
+      "path": "vault/项目笔记/artemis.md",
+      "title": "artemis",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/artemis.md",
+      "bytes": 4036,
+      "sha256": "84e99cac3c22dcd276659b0a88537c0893e3ce053e2442a410051ea8a1a435d9"
+    },
+    {
+      "path": "vault/项目笔记/assbench.md",
+      "title": "assbench",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/assbench.md",
+      "bytes": 3061,
+      "sha256": "7447587de992cd5eaaae1dd3e985a7525a7fb24ad64376f064e4ff3cb8384612"
+    },
+    {
+      "path": "vault/项目笔记/awesome-design-md.md",
+      "title": "awesome-design-md",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/awesome-design-md.md",
+      "bytes": 1947,
+      "sha256": "aac029cc22967244e2c24cecc8f10ee1dd7087dc308ee7a473070a05861e72c2"
+    },
+    {
+      "path": "vault/项目笔记/awesome-llm-apps.md",
+      "title": "awesome-llm-apps",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/awesome-llm-apps.md",
+      "bytes": 2464,
+      "sha256": "8bbf1cb0b6fc2abc3fa1a7910dc1238d78cad0682192441e4fb31573ac39b60f"
+    },
+    {
+      "path": "vault/项目笔记/awesome-mcp-servers.md",
+      "title": "awesome-mcp-servers",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/awesome-mcp-servers.md",
+      "bytes": 2044,
+      "sha256": "08d7b0fd4592214d0dd91f20310902e8361f20dccc29ee66d1dfd2f4ef28ee5b"
+    },
+    {
+      "path": "vault/项目笔记/awesome_gpt_image_2.md",
+      "title": "awesome_gpt_image_2",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/awesome_gpt_image_2.md",
+      "bytes": 2242,
+      "sha256": "f1e72ebd4437ef406afc437f00742394b4ea8425010cb2f0b8680ee63340e452"
+    },
+    {
+      "path": "vault/项目笔记/bionic_hand_diy.md",
+      "title": "bionic_hand_diy",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/bionic_hand_diy.md",
+      "bytes": 2280,
+      "sha256": "a7a6b1c4d65f18cc604e435077f8b61ec52f85a4b64eef532d941bf13dc4b778"
+    },
+    {
+      "path": "vault/项目笔记/blueprint_to_3d.md",
+      "title": "blueprint_to_3d",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/blueprint_to_3d.md",
+      "bytes": 2492,
+      "sha256": "14511fccbc371a6ddb8244a38bdb199e3b50239073f20445fe23358676c79bb6"
+    },
+    {
+      "path": "vault/项目笔记/chat-on-steroids.md",
+      "title": "chat-on-steroids",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/chat-on-steroids.md",
+      "bytes": 3422,
+      "sha256": "e3dc9b0d29917fd144e25a04e0b8d2a59809a211e38b8ba55a9157a0afe7f4a8"
+    },
+    {
+      "path": "vault/项目笔记/clawdeck.md",
+      "title": "clawdeck",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/clawdeck.md",
+      "bytes": 3325,
+      "sha256": "05f928a9b89f98282e622f2be653e85f4687d2389b38b370d6e249e740caa524"
+    },
+    {
+      "path": "vault/项目笔记/cloddsbot.md",
+      "title": "cloddsbot",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/cloddsbot.md",
+      "bytes": 3377,
+      "sha256": "7b1417319d63581eda03699b7bd0081e340d2a1240d0937b16d9df0723b41010"
+    },
+    {
+      "path": "vault/项目笔记/cmu-agents.md",
+      "title": "cmu-agents",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/cmu-agents.md",
+      "bytes": 2610,
+      "sha256": "1ff06313166859bf3e6c1d2e6e8fe443df69c35894e8736376781c1408d1b770"
+    },
+    {
+      "path": "vault/项目笔记/codex-claude-resets.md",
+      "title": "codex-claude-resets",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/codex-claude-resets.md",
+      "bytes": 3316,
+      "sha256": "515198a3054222a95894759eba570680f28a09d66442c7c866e9e20ff5169e22"
+    },
+    {
+      "path": "vault/项目笔记/codex-dual-home.md",
+      "title": "codex-dual-home",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/codex-dual-home.md",
+      "bytes": 2086,
+      "sha256": "cd09e5b3e63813c7fb6f532c6bd15a22e97213baa0cd7d441fd68c201eac504e"
+    },
+    {
+      "path": "vault/项目笔记/codex_quota_mcp.md",
+      "title": "codex_quota_mcp",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/codex_quota_mcp.md",
+      "bytes": 2699,
+      "sha256": "664c96a58fcbd5e6f32a71ab98fa344c400f1e22ae11d85f67ea0af5f9225d74"
+    },
+    {
+      "path": "vault/项目笔记/crewai.md",
+      "title": "crewai",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/crewai.md",
+      "bytes": 2432,
+      "sha256": "5436731b1a75152ecd1b4a47fb5b97a020003dbfbdb33f139dbefc7a32165d37"
+    },
+    {
+      "path": "vault/项目笔记/daily-stock-analysis.md",
+      "title": "daily-stock-analysis",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/daily-stock-analysis.md",
+      "bytes": 2788,
+      "sha256": "f12593cefa97a238c906ab92cec0ea6a73376303c05bb62fa64814f22034975b"
+    },
+    {
+      "path": "vault/项目笔记/deadrun.md",
+      "title": "deadrun",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/deadrun.md",
+      "bytes": 2253,
+      "sha256": "ba39104b2b6d502fee30f045525913cb4245686eea2c5542a749f8398e9c7c35"
+    },
+    {
+      "path": "vault/项目笔记/deeptutor.md",
+      "title": "deeptutor",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/deeptutor.md",
+      "bytes": 2526,
+      "sha256": "e5e5477e81712ead215b6ada117a7d679ce932f44262080445a96f5502ea5029"
+    },
+    {
+      "path": "vault/项目笔记/fast-jev-compaction.md",
+      "title": "fast-jev-compaction",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/fast-jev-compaction.md",
+      "bytes": 3064,
+      "sha256": "9382b79736187659306dcd6b86e438b4f3fa9932cd114f57c44c2e5c8d45b48b"
+    },
+    {
+      "path": "vault/项目笔记/fly-brain-drone.md",
+      "title": "fly-brain-drone",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/fly-brain-drone.md",
+      "bytes": 2203,
+      "sha256": "8f81717f9a69c781be879a203e99783515ab7ff11e2dbddf5bd59cb78a17f567"
+    },
+    {
+      "path": "vault/项目笔记/gaussian-splatting.md",
+      "title": "gaussian-splatting",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/gaussian-splatting.md",
+      "bytes": 2738,
+      "sha256": "f79f875df37e4ac75395f6fcb3c6507e0bf715e3aad01618c98521a4e62f1e01"
+    },
+    {
+      "path": "vault/项目笔记/godogen.md",
+      "title": "godogen",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/godogen.md",
+      "bytes": 2668,
+      "sha256": "b47cc5ac7b394d5b1758a43b8dc97eacaba786bb290503ba6b35d2fd3018f2b6"
+    },
+    {
+      "path": "vault/项目笔记/gpt_image_prompting.md",
+      "title": "gpt_image_prompting",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/gpt_image_prompting.md",
+      "bytes": 5392,
+      "sha256": "ff9cd7c86487e45dc3467de0d55113c0a8285e48e9061c59f613b63e543edae6"
+    },
+    {
+      "path": "vault/项目笔记/hypit.md",
+      "title": "hypit",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/hypit.md",
+      "bytes": 3959,
+      "sha256": "954994020f39c1f088c74b16c4544e8d6d5061f12431815aac867285c1bf142e"
+    },
+    {
+      "path": "vault/项目笔记/i-have-adhd.md",
+      "title": "i-have-adhd",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/i-have-adhd.md",
+      "bytes": 2727,
+      "sha256": "5e4be69a73f423922f2d268f6b7b436cb2b04d77171275729f27ea087020131b"
+    },
+    {
+      "path": "vault/项目笔记/img2threejs.md",
+      "title": "img2threejs",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/img2threejs.md",
+      "bytes": 1761,
+      "sha256": "0f6edccb3ac756fc7d4051adf8262492ca8a95273d18fc565dee23b67703c339"
+    },
+    {
+      "path": "vault/项目笔记/jev-router.md",
+      "title": "jev-router",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/jev-router.md",
+      "bytes": 2809,
+      "sha256": "7d2a8ba8ee80b49e4e2c92e6bb1b2ad6e8af509cd65f4f39d574fbb517071eec"
+    },
+    {
+      "path": "vault/项目笔记/karpathy_second_brain.md",
+      "title": "karpathy_second_brain",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/karpathy_second_brain.md",
+      "bytes": 2182,
+      "sha256": "a3d325455f2c18c0171c98a3340a105c95d89b46c7e094ca30cb33e074911869"
+    },
+    {
+      "path": "vault/项目笔记/langchain.md",
+      "title": "langchain",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/langchain.md",
+      "bytes": 2454,
+      "sha256": "0aadeb0699736e972d4912a30f5da4d8decc407f452e18cb8f9b4c1f35140679"
+    },
+    {
+      "path": "vault/项目笔记/langgraph.md",
+      "title": "langgraph",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/langgraph.md",
+      "bytes": 2215,
+      "sha256": "aed440dce7f0d1a6f5552c8b78ccb5c0f2d6f0de9289c46dd8b10418dbe15003"
+    },
+    {
+      "path": "vault/项目笔记/laya-decision-model.md",
+      "title": "laya-decision-model",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/laya-decision-model.md",
+      "bytes": 3885,
+      "sha256": "f44e91f9de164023070dbf9c1f1668b8a77d15e1bf1919059e8b718dfaafefff"
+    },
+    {
+      "path": "vault/项目笔记/llamafactory-ft.md",
+      "title": "llamafactory-ft",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/llamafactory-ft.md",
+      "bytes": 3327,
+      "sha256": "36f296f962efacceea021a0d962812e15a5cf2a1fcdfc2d7fed1dbcff4b45df0"
+    },
+    {
+      "path": "vault/项目笔记/mars-editor.md",
+      "title": "mars-editor",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/mars-editor.md",
+      "bytes": 2384,
+      "sha256": "a72e8d6050373c6624af2ded9e1a4a87e35d66bf1ee20ba6c395f5778df7a149"
+    },
+    {
+      "path": "vault/项目笔记/mcp_servers.md",
+      "title": "mcp_servers",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/mcp_servers.md",
+      "bytes": 2050,
+      "sha256": "b954ec779a0c06b25769647e65226dfb51149be455d3f0881fbeccfdfe2dfba7"
+    },
+    {
+      "path": "vault/项目笔记/memmy.md",
+      "title": "memmy",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/memmy.md",
+      "bytes": 2470,
+      "sha256": "05bb73e4b8597e8d9218155b24998c1a7d4e54f7a7b70196590b8cd15ac1ddf4"
+    },
+    {
+      "path": "vault/项目笔记/microduck.md",
+      "title": "microduck",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/microduck.md",
+      "bytes": 5640,
+      "sha256": "5146cd83e9fa34b81f769ac177c75a802eea937510baa80d394f3bfd810ad958"
+    },
+    {
+      "path": "vault/项目笔记/minimind.md",
+      "title": "minimind",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/minimind.md",
+      "bytes": 2877,
+      "sha256": "f6be8dfec72287f1f59a9934a2752c4c44872e0523080850e77573db8da8e8ce"
+    },
+    {
+      "path": "vault/项目笔记/multi_agent_order.md",
+      "title": "multi_agent_order",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/multi_agent_order.md",
+      "bytes": 2247,
+      "sha256": "12be60a0e68258e3f3847665a1e26578d1b14ed9d76aeb7d9db25167d1f32dea"
+    },
+    {
+      "path": "vault/项目笔记/nanojev.md",
+      "title": "nanojev",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/nanojev.md",
+      "bytes": 3652,
+      "sha256": "0285e660a8c4f48867179c0574242b9d916ccad7a0387ad79ca288b51f1eb620"
+    },
+    {
+      "path": "vault/项目笔记/nautilus_trader.md",
+      "title": "nautilus_trader",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/nautilus_trader.md",
+      "bytes": 2357,
+      "sha256": "427c3b40d5a7cf30931f3b61c4925cd05cd44e1a1701d73983395f9e2df58ef0"
+    },
+    {
+      "path": "vault/项目笔记/nihaixia_tcm_skill.md",
+      "title": "nihaixia_tcm_skill",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/nihaixia_tcm_skill.md",
+      "bytes": 2453,
+      "sha256": "1b7df5b27450952db33d24e428b3ee5420ca33274765ce79aae9f41df3213324"
+    },
+    {
+      "path": "vault/项目笔记/offline_face_sdk.md",
+      "title": "offline_face_sdk",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/offline_face_sdk.md",
+      "bytes": 2518,
+      "sha256": "d43a2ab0c11445725ad3c5981f8113399d9d50763e861c8a6871d5094cea923a"
+    },
+    {
+      "path": "vault/项目笔记/ollama.md",
+      "title": "ollama",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/ollama.md",
+      "bytes": 2619,
+      "sha256": "c8373b36ef5d662194afd08d21f0d8f05398ce198982be8ac904c0c67f48208c"
+    },
+    {
+      "path": "vault/项目笔记/openai-agents-api.md",
+      "title": "openai-agents-api",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/openai-agents-api.md",
+      "bytes": 5012,
+      "sha256": "c80e7aabc79f801648b54771f77ea335a35e8201defd7d9ba80b2b6a90007ba9"
+    },
+    {
+      "path": "vault/项目笔记/openarm.md",
+      "title": "openarm",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/openarm.md",
+      "bytes": 2793,
+      "sha256": "434daa5c9b216d8909a9d49810bcdedcf85414006fd46771d3de0a89ed23add3"
+    },
+    {
+      "path": "vault/项目笔记/paperroute.md",
+      "title": "paperroute",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/paperroute.md",
+      "bytes": 2820,
+      "sha256": "12faa0aafe1e2af77d591984b54625f7a7b6e209f654990ec075bb33d044fa83"
+    },
+    {
+      "path": "vault/项目笔记/particle-rose.md",
+      "title": "particle-rose",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/particle-rose.md",
+      "bytes": 2252,
+      "sha256": "90f4e4617d223ba93ff1d31881768a6a6f86b084abb8790e516c65a6428767a9"
+    },
+    {
+      "path": "vault/项目笔记/pixel3dworld.md",
+      "title": "pixel3dworld",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/pixel3dworld.md",
+      "bytes": 3460,
+      "sha256": "63cb36da2bafb83011a2aa925036cd06e0c5c6db11a018866be84c99d6b076f9"
+    },
+    {
+      "path": "vault/项目笔记/reachy-mini.md",
+      "title": "reachy-mini",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/reachy-mini.md",
+      "bytes": 2503,
+      "sha256": "e472ce6198947716b6684790fab21578697122e8d49857f728cabafe4cc4d729"
+    },
+    {
+      "path": "vault/项目笔记/replicate-hype.md",
+      "title": "replicate-hype",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/replicate-hype.md",
+      "bytes": 2276,
+      "sha256": "53caf8d9fb548de52235dabac238d7ee9dffe24ffe0289dca0e12071f4590543"
+    },
+    {
+      "path": "vault/项目笔记/robot-web-anatomy.md",
+      "title": "robot-web-anatomy",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/robot-web-anatomy.md",
+      "bytes": 1714,
+      "sha256": "db1b03cb88a99b823ce8646ac3e417ba51512c14bca0708ab339d1762d9d65eb"
+    },
+    {
+      "path": "vault/项目笔记/rrsi.md",
+      "title": "rrsi",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/rrsi.md",
+      "bytes": 2803,
+      "sha256": "0f1991e90e7b8a46ee94cd53cf83a6017c3a7e6784844df3722740f96e272a54"
+    },
+    {
+      "path": "vault/项目笔记/ruic-card-skill.md",
+      "title": "ruic-card-skill",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/ruic-card-skill.md",
+      "bytes": 3750,
+      "sha256": "03d3b00b103dcc3388942063e67c5cc4d36b35bbcc97ac9ff8394f3144891acf"
+    },
+    {
+      "path": "vault/项目笔记/s2s-voice-agent.md",
+      "title": "s2s-voice-agent",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/s2s-voice-agent.md",
+      "bytes": 3230,
+      "sha256": "d6b0dfce5fbf812f48999e16d1b00849a93324b5330f21bbc7557e0d86daf9c8"
+    },
+    {
+      "path": "vault/项目笔记/six_skills.md",
+      "title": "six_skills",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/six_skills.md",
+      "bytes": 3368,
+      "sha256": "04d4b2eb80d9fb1fb82e7c88ad465850045395f2d9112938d85b2d55e5670ecf"
+    },
+    {
+      "path": "vault/项目笔记/slamformer.md",
+      "title": "slamformer",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/slamformer.md",
+      "bytes": 2703,
+      "sha256": "8dadbe40964c85152356cdd66b0dd0f648abe9aa5af96e9fc4b95ba750540951"
+    },
+    {
+      "path": "vault/项目笔记/speckit.md",
+      "title": "speckit",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/speckit.md",
+      "bytes": 2872,
+      "sha256": "52935687f46287b923317f67ddab973431d1181a44cb130414e0e46ddc2648e1"
+    },
+    {
+      "path": "vault/项目笔记/stock-rockyzsu.md",
+      "title": "stock-rockyzsu",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/stock-rockyzsu.md",
+      "bytes": 3075,
+      "sha256": "5dfa22f5aedd7f16cc7c8191161a12b21931298f5c126dd6566f9f66d81a6137"
+    },
+    {
+      "path": "vault/项目笔记/strudel.md",
+      "title": "strudel",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/strudel.md",
+      "bytes": 2410,
+      "sha256": "cb2f4ca1d6c5d7add8fbc7b7c98e5ba7ecb662b8c6d14da9a96a07328a27de0b"
+    },
+    {
+      "path": "vault/项目笔记/system_design_primer.md",
+      "title": "system_design_primer",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/system_design_primer.md",
+      "bytes": 2187,
+      "sha256": "ffda8b1590ed8e6b161858670adf258870addb638f770b543f83a844a15d108d"
+    },
+    {
+      "path": "vault/项目笔记/teamai-cli.md",
+      "title": "teamai-cli",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/teamai-cli.md",
+      "bytes": 2796,
+      "sha256": "90ebb1acb3bb8ca58ba789b660ef4d870adf1a090d2bf68acd2e4d67162eb6c9"
+    },
+    {
+      "path": "vault/项目笔记/temps.md",
+      "title": "temps",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/temps.md",
+      "bytes": 2632,
+      "sha256": "795e00c12a33349147e7928e07ee8fe4244ddc253e81440b4e3c1e135f00f9a1"
+    },
+    {
+      "path": "vault/项目笔记/tikhub.md",
+      "title": "tikhub",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/tikhub.md",
+      "bytes": 3250,
+      "sha256": "d93ad94a4200a749c62aeded02ca3a041dc2b273a6380bcc3079e9c053f3a59f"
+    },
+    {
+      "path": "vault/项目笔记/triposr.md",
+      "title": "triposr",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/triposr.md",
+      "bytes": 2207,
+      "sha256": "5c1fafb6d891885f5d2b6374075e67277590d66fcd63adfb7e38ea4279d20084"
+    },
+    {
+      "path": "vault/项目笔记/vault-graph.md",
+      "title": "vault-graph",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/vault-graph.md",
+      "bytes": 2638,
+      "sha256": "3be1b6b32dec6297e855af79c91862f413594b17339b68ead5cfefbe57b4b3a4"
+    },
+    {
+      "path": "vault/项目笔记/vector_database_qdrant.md",
+      "title": "vector_database_qdrant",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/vector_database_qdrant.md",
+      "bytes": 2274,
+      "sha256": "64ea3482febd92c8353fda69965870fd90d9ff5105a60ed8cb113c658e39c82e"
+    },
+    {
+      "path": "vault/项目笔记/vibecoding_motion.md",
+      "title": "vibecoding_motion",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/vibecoding_motion.md",
+      "bytes": 2380,
+      "sha256": "cb4986d5c89a067d004b5f5e6d15c5c2d51fad86563d923b7a745e0b8fad698c"
+    },
+    {
+      "path": "vault/项目笔记/wechat-ai-memory.md",
+      "title": "wechat-ai-memory",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/wechat-ai-memory.md",
+      "bytes": 3134,
+      "sha256": "db694c59616b81b369fdd653f451ce8adb90165924a066f871483112090f3979"
+    },
+    {
+      "path": "vault/项目笔记/wechat-intelligence-hub.md",
+      "title": "wechat-intelligence-hub",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/wechat-intelligence-hub.md",
+      "bytes": 2372,
+      "sha256": "d013574a0ab03bd9c973d4ec9564b0500ed531b36ac578efd7e00c5175091217"
+    },
+    {
+      "path": "vault/项目笔记/wechat_hermes_notebot.md",
+      "title": "wechat_hermes_notebot",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/wechat_hermes_notebot.md",
+      "bytes": 2354,
+      "sha256": "c255ec1a45fd20876059fb24cf9c76e5cbe1448a27561d203db28d5ecae1d7da"
+    },
+    {
+      "path": "vault/项目笔记/wemm_embedding.md",
+      "title": "wemm_embedding",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/wemm_embedding.md",
+      "bytes": 2443,
+      "sha256": "327dad251bf71dd7c3920500beb8106bf33a8333aa0e39aeeca9215177b7f90d"
+    },
+    {
+      "path": "vault/项目笔记/wikiskill.md",
+      "title": "wikiskill",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/wikiskill.md",
+      "bytes": 2473,
+      "sha256": "a50eee2691db8df87b2b20505791a1c0e8cab2bc52ea3997fb0737821c943cf6"
+    },
+    {
+      "path": "vault/项目笔记/workout-guide.md",
+      "title": "workout-guide",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/workout-guide.md",
+      "bytes": 2867,
+      "sha256": "03ec487d6c50fe8b3c8e268432abcbb723c4adbad50f98ad25415e8e0ee1e1f5"
+    },
+    {
+      "path": "vault/项目笔记/wx_cli_again.md",
+      "title": "wx_cli_again",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/wx_cli_again.md",
+      "bytes": 3269,
+      "sha256": "f26dff35423c7d680efcb37cbb64f8edf09972887d63c302718bd4e3ad0972de"
+    },
+    {
+      "path": "vault/项目笔记/xxd_panels.md",
+      "title": "xxd_panels",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/xxd_panels.md",
+      "bytes": 2470,
+      "sha256": "791baadb000286e1ca36a38ed27b87d2f05df7b2bc0023de1866f816ef26a4c3"
+    },
+    {
+      "path": "vault/项目笔记/yichen-skills.md",
+      "title": "yichen-skills",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/yichen-skills.md",
+      "bytes": 4049,
+      "sha256": "0d06fa2801f56d0106106932bda1414d310be48db90e18fe299adc052e4ab331"
+    },
+    {
+      "path": "vault/项目笔记/zigbee2mqtt.md",
+      "title": "zigbee2mqtt",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/zigbee2mqtt.md",
+      "bytes": 2883,
+      "sha256": "1934ae1a9da8609868efb670e8aa893aae9ab4ac96ecee27acd53eb53471bb3f"
+    },
+    {
+      "path": "vault/项目笔记/zoetrope.md",
+      "title": "zoetrope",
+      "category": "project",
+      "url": "https://raw.githubusercontent.com/Smashwinny/reminder_knowlege/1043e9d6080bff7af9724162e2c44559fab63e40/vault/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/zoetrope.md",
+      "bytes": 2308,
+      "sha256": "f3d0d6f99289863f3bea6e7c56fec396695e5c02d3e4c3716e430529f97febde"
+    }
+  ]
+}

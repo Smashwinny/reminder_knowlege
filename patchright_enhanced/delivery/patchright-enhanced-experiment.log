@@ -1,0 +1,479 @@
+PATCHRIGHT ENHANCED 实验与产物证据日志
+历史实验日期：2026-10-05 UTC
+
+公开整理说明：本次仅核对、清理并发布已有学习成果，没有重跑学习实验、源码获取或查看器测试。下述命令、时间、输入、断言和警告保留历史含义；仅将一处绝对输出路径改为项目相对路径。练习 ZIP 的六个自建文件保持原字节。
+
+结论：20/20 当前行为断言匹配。这包含缺陷，不是20项健康验收。
+来源：https://github.com/whaleyxbt/patchright-enhanced
+提交：e38ab7ab9448db6f093f72ee097c18ca9905e84c
+
+执行范围与责任
+1. 首次实验运行者执行自建 harness，读取固定提交的3个真实源码模块，保留如下原始运行输出及JSON结果
+2. 教材作者实际运行版本检查、四种结果查看器；具体命令/返回值见本日志。作者没有执行新的外网获取
+3. 原学习独立审核已记录最终 ZIP 新目录解压、正常 Git 获取及六步命令重放；本次没有再执行。当前第六份审核日志将历史实验记录与公开副本检查分别说明。
+
+实际测试范围
+- 真实：browser.config.ts、config/index.ts、browser-manager.ts
+- 惰性替身：fs.existsSync/mkdirSync、proxy marker、cleanupTempDir、context.close
+- 纯计算适配：path.posix.resolve
+- 不执行真实代理、真实清理、浏览器或导航；未导入Patchright
+- Node stripTypeScriptTypes只是去除类型，未执行tsc、完整构建或上游测试
+- VM不是对任意恶意代码的强安全沙箱；仅执行已审阅、指纹一致的白名单模块
+
+证据等级
+A01/A09实测MAX_PARALLEL默认2；A04-A08实测非法/边界字符串未被拒绝；L06实测关闭拒绝后清理跳过；L07为测试主动发起的第二次关闭，不是自动重试实现。
+START_PAGE_URL空回退、locale必填与实现矛盾、package与lock不一致，均仅源码观察。
+固定提交未发现跟踪许可证文件，不推断任何再分发或商用授权；ZIP未包含上游模块。
+
+主要执行命令（首次真实模块运行）
+node --experimental-vm-modules package/harness.mjs --repo repo --out evidence/initial-results.json
+上述为以项目目录为基准的同一调用；下方 RESULT 行的绝对路径已改为同一项目相对路径，命令与测试结果未改。
+
+=== 首次实际运行原始输出 ===
+COMMAND node --experimental-vm-modules package/harness.mjs --repo repo --out evidence/initial-results.json
+START 2026-10-05T08:13:42Z
+PASS B01: Unset browser env uses headed Chrome path and Berlin timezone | {"headless":false,"executablePath":"/usr/bin/google-chrome-stable","timezoneId":"Europe/Berlin"}
+PASS B02: Explicit browser path and timezone override defaults | {"headless":false,"executablePath":"/unit-fixture/chrome","timezoneId":"Etc/UTC"}
+PASS B03: Empty browser values fall back to defaults | {"headless":false,"executablePath":"/usr/bin/google-chrome-stable","timezoneId":"Europe/Berlin"}
+PASS B04: Unimplemented HEADLESS environment variable has no effect | {"suppliedHEADLESS":"true","actualHeadless":false}
+PASS A01: Unset app env produces MAX_PARALLEL 2 with inert proxy marker | {"maxParallel":2,"sessionsDir":"/unit-fixture/src/sessions","realProxyUsed":false}
+PASS A02: Missing custom sessions directory requests recursive mkdir only on inert fs | {"maxParallel":3,"mkdirRequests":[{"path":"/unit-fixture/custom","options":{"recursive":true}}],"realFilesystemChanged":false}
+PASS A03: Existing sessions directory does not request mkdir | {"mkdirRequests":0,"existsChecks":["/unit-fixture/existing"]}
+PASS A04: MAX_PARALLEL="0" is not rejected | {"input":"0","observed":0,"rejected":false}
+PASS A05: MAX_PARALLEL="-1" is not rejected | {"input":"-1","observed":-1,"rejected":false}
+PASS A06: MAX_PARALLEL="oops" is not rejected | {"input":"oops","observed":"NaN","rejected":false}
+PASS A07: MAX_PARALLEL="2junk" is not rejected | {"input":"2junk","observed":2,"rejected":false}
+PASS A08: MAX_PARALLEL="2.9" is not rejected | {"input":"2.9","observed":2,"rejected":false}
+PASS A09: Empty MAX_PARALLEL falls back to 2 | {"input":"","observed":2}
+PASS L01: Empty BrowserManager closes and cleans without work | {"context":null,"events":[]}
+PASS L02: setContext preserves the inert context without closing it | {"contextIdentityPreserved":true,"events":[]}
+PASS L03: close clears context but leaves cleanup until explicitly requested | {"events":["close","cleanup:/unit-fixture/temp"]}
+PASS L04: closeAndCleanup orders close before cleanup | {"events":["close","cleanup:/unit-fixture/temp"]}
+PASS L05: Repeated successful closeAndCleanup is idempotent | {"events":["close","cleanup:/unit-fixture/temp"]}
+PASS L06: Close rejection propagates, preserves context, and skips cleanup | {"error":"UNIT_CLOSE_FAILURE","contextRetained":true,"cleanupCalls":0,"events":["close:rejected"]}
+PASS L07: A later successful close retry then permits cleanup | {"attempts":2,"events":["close:1","close:2","cleanup:/unit-fixture/temp"]}
+SUMMARY 20/20 assertions matched; 0 failed; 103.704 ms
+RESULT evidence/initial-results.json
+(node:8) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+END 2026-10-05T08:13:42Z
+EXIT_STATUS 0
+
+=== 首次实际运行结构化结果 原样 ===
+{
+  "study": "patchright-enhanced configuration/lifecycle unit study",
+  "repository": "https://github.com/whaleyxbt/patchright-enhanced",
+  "commit": "e38ab7ab9448db6f093f72ee097c18ca9905e84c",
+  "startedAt": "2026-10-05T08:13:42.071Z",
+  "finishedAt": "2026-10-05T08:13:42.176Z",
+  "elapsedMs": 103.704,
+  "runtime": "v24.19.0",
+  "scope": {
+    "actualUpstreamModulesExecuted": [
+      "src/config/browser.config.ts",
+      "src/config/index.ts",
+      "src/browser/browser-manager.ts"
+    ],
+    "unitDoubles": [
+      "fs.existsSync/mkdirSync",
+      "proxy marker only",
+      "cleanupTempDir",
+      "context.close"
+    ],
+    "externalBrowserDependenciesImported": false,
+    "browserLaunched": false,
+    "navigationPerformed": false,
+    "stealthTested": false,
+    "proxyConfigured": false,
+    "networkRequestsFromTestedModules": false,
+    "semanticTypecheckPerformed": false,
+    "fullProjectBuildPerformed": false,
+    "upstreamTestsRun": false,
+    "note": "Passing assertions establish current unit behavior, including defects; they do not establish browser, integration, or security success."
+  },
+  "sourceChecks": [
+    {
+      "filename": "src/config/browser.config.ts",
+      "sha256": "24529415011664ab4684d88b6d6a579450dfb51e86742256bd93d15dcf0e4a10",
+      "matched": true
+    },
+    {
+      "filename": "src/config/index.ts",
+      "sha256": "c004dff4d86f56260ffaf0bdec233ac225f618c437d5b6c49f2cd5c94fe15d52",
+      "matched": true
+    },
+    {
+      "filename": "src/browser/browser-manager.ts",
+      "sha256": "c3ec207021b91fd84c0768537305bc3b90e5a613f884e55305acde42db390572",
+      "matched": true
+    }
+  ],
+  "summary": {
+    "tests": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "results": [
+    {
+      "id": "B01",
+      "category": "config",
+      "description": "Unset browser env uses headed Chrome path and Berlin timezone",
+      "passed": true,
+      "observed": {
+        "headless": false,
+        "executablePath": "/usr/bin/google-chrome-stable",
+        "timezoneId": "Europe/Berlin"
+      },
+      "durationMs": 60.095
+    },
+    {
+      "id": "B02",
+      "category": "config",
+      "description": "Explicit browser path and timezone override defaults",
+      "passed": true,
+      "observed": {
+        "headless": false,
+        "executablePath": "/unit-fixture/chrome",
+        "timezoneId": "Etc/UTC"
+      },
+      "durationMs": 1.412
+    },
+    {
+      "id": "B03",
+      "category": "config",
+      "description": "Empty browser values fall back to defaults",
+      "passed": true,
+      "observed": {
+        "headless": false,
+        "executablePath": "/usr/bin/google-chrome-stable",
+        "timezoneId": "Europe/Berlin"
+      },
+      "durationMs": 0.989
+    },
+    {
+      "id": "B04",
+      "category": "config",
+      "description": "Unimplemented HEADLESS environment variable has no effect",
+      "passed": true,
+      "observed": {
+        "suppliedHEADLESS": "true",
+        "actualHeadless": false
+      },
+      "durationMs": 0.872
+    },
+    {
+      "id": "A01",
+      "category": "config",
+      "description": "Unset app env produces MAX_PARALLEL 2 with inert proxy marker",
+      "passed": true,
+      "observed": {
+        "maxParallel": 2,
+        "sessionsDir": "/unit-fixture/src/sessions",
+        "realProxyUsed": false
+      },
+      "durationMs": 3.012
+    },
+    {
+      "id": "A02",
+      "category": "config",
+      "description": "Missing custom sessions directory requests recursive mkdir only on inert fs",
+      "passed": true,
+      "observed": {
+        "maxParallel": 3,
+        "mkdirRequests": [
+          {
+            "path": "/unit-fixture/custom",
+            "options": {
+              "recursive": true
+            }
+          }
+        ],
+        "realFilesystemChanged": false
+      },
+      "durationMs": 1.482
+    },
+    {
+      "id": "A03",
+      "category": "config",
+      "description": "Existing sessions directory does not request mkdir",
+      "passed": true,
+      "observed": {
+        "mkdirRequests": 0,
+        "existsChecks": [
+          "/unit-fixture/existing"
+        ]
+      },
+      "durationMs": 1.852
+    },
+    {
+      "id": "A04",
+      "category": "negative-config",
+      "description": "MAX_PARALLEL=\"0\" is not rejected",
+      "passed": true,
+      "observed": {
+        "input": "0",
+        "observed": 0,
+        "rejected": false
+      },
+      "durationMs": 1.502
+    },
+    {
+      "id": "A05",
+      "category": "negative-config",
+      "description": "MAX_PARALLEL=\"-1\" is not rejected",
+      "passed": true,
+      "observed": {
+        "input": "-1",
+        "observed": -1,
+        "rejected": false
+      },
+      "durationMs": 2.036
+    },
+    {
+      "id": "A06",
+      "category": "negative-config",
+      "description": "MAX_PARALLEL=\"oops\" is not rejected",
+      "passed": true,
+      "observed": {
+        "input": "oops",
+        "observed": "NaN",
+        "rejected": false
+      },
+      "durationMs": 1.451
+    },
+    {
+      "id": "A07",
+      "category": "negative-config",
+      "description": "MAX_PARALLEL=\"2junk\" is not rejected",
+      "passed": true,
+      "observed": {
+        "input": "2junk",
+        "observed": 2,
+        "rejected": false
+      },
+      "durationMs": 1.101
+    },
+    {
+      "id": "A08",
+      "category": "negative-config",
+      "description": "MAX_PARALLEL=\"2.9\" is not rejected",
+      "passed": true,
+      "observed": {
+        "input": "2.9",
+        "observed": 2,
+        "rejected": false
+      },
+      "durationMs": 1.478
+    },
+    {
+      "id": "A09",
+      "category": "config",
+      "description": "Empty MAX_PARALLEL falls back to 2",
+      "passed": true,
+      "observed": {
+        "input": "",
+        "observed": 2
+      },
+      "durationMs": 1.538
+    },
+    {
+      "id": "L01",
+      "category": "lifecycle",
+      "description": "Empty BrowserManager closes and cleans without work",
+      "passed": true,
+      "observed": {
+        "context": null,
+        "events": []
+      },
+      "durationMs": 2.92
+    },
+    {
+      "id": "L02",
+      "category": "lifecycle",
+      "description": "setContext preserves the inert context without closing it",
+      "passed": true,
+      "observed": {
+        "contextIdentityPreserved": true,
+        "events": []
+      },
+      "durationMs": 1.297
+    },
+    {
+      "id": "L03",
+      "category": "lifecycle",
+      "description": "close clears context but leaves cleanup until explicitly requested",
+      "passed": true,
+      "observed": {
+        "events": [
+          "close",
+          "cleanup:/unit-fixture/temp"
+        ]
+      },
+      "durationMs": 1.176
+    },
+    {
+      "id": "L04",
+      "category": "lifecycle",
+      "description": "closeAndCleanup orders close before cleanup",
+      "passed": true,
+      "observed": {
+        "events": [
+          "close",
+          "cleanup:/unit-fixture/temp"
+        ]
+      },
+      "durationMs": 0.856
+    },
+    {
+      "id": "L05",
+      "category": "lifecycle",
+      "description": "Repeated successful closeAndCleanup is idempotent",
+      "passed": true,
+      "observed": {
+        "events": [
+          "close",
+          "cleanup:/unit-fixture/temp"
+        ]
+      },
+      "durationMs": 0.846
+    },
+    {
+      "id": "L06",
+      "category": "negative-lifecycle",
+      "description": "Close rejection propagates, preserves context, and skips cleanup",
+      "passed": true,
+      "observed": {
+        "error": "UNIT_CLOSE_FAILURE",
+        "contextRetained": true,
+        "cleanupCalls": 0,
+        "events": [
+          "close:rejected"
+        ]
+      },
+      "durationMs": 1.596
+    },
+    {
+      "id": "L07",
+      "category": "negative-lifecycle",
+      "description": "A later successful close retry then permits cleanup",
+      "passed": true,
+      "observed": {
+        "attempts": 2,
+        "events": [
+          "close:1",
+          "close:2",
+          "cleanup:/unit-fixture/temp"
+        ]
+      },
+      "durationMs": 1.191
+    }
+  ]
+}
+
+=== 教材作者查看器实际执行 ===
+AUTHOR VIEWER VERIFICATION (exact commands, UTC)
+2026-10-05T08:22:56Z
+
+$ node --version
+v24.19.0
+EXIT 0
+
+$ git --version
+git version 2.52.0
+EXIT 0
+
+$ node inspect.mjs ../evidence/initial-results.json defaults
+B01 {"headless":false,"executablePath":"/usr/bin/google-chrome-stable","timezoneId":"Europe/Berlin"}
+B02 {"headless":false,"executablePath":"/unit-fixture/chrome","timezoneId":"Etc/UTC"}
+B03 {"headless":false,"executablePath":"/usr/bin/google-chrome-stable","timezoneId":"Europe/Berlin"}
+B04 {"suppliedHEADLESS":"true","actualHeadless":false}
+A01 {"maxParallel":2,"sessionsDir":"/unit-fixture/src/sessions","realProxyUsed":false}
+A02 {"maxParallel":3,"mkdirRequests":[{"path":"/unit-fixture/custom","options":{"recursive":true}}],"realFilesystemChanged":false}
+A03 {"mkdirRequests":0,"existsChecks":["/unit-fixture/existing"]}
+A09 {"input":"","observed":2}
+EXIT 0
+
+$ node inspect.mjs ../evidence/initial-results.json counts
+A01 {"maxParallel":2,"sessionsDir":"/unit-fixture/src/sessions","realProxyUsed":false}
+A02 {"maxParallel":3,"mkdirRequests":[{"path":"/unit-fixture/custom","options":{"recursive":true}}],"realFilesystemChanged":false}
+A03 {"mkdirRequests":0,"existsChecks":["/unit-fixture/existing"]}
+A04 {"input":"0","observed":0,"rejected":false}
+A05 {"input":"-1","observed":-1,"rejected":false}
+A06 {"input":"oops","observed":"NaN","rejected":false}
+A07 {"input":"2junk","observed":2,"rejected":false}
+A08 {"input":"2.9","observed":2,"rejected":false}
+A09 {"input":"","observed":2}
+EXIT 0
+
+$ node inspect.mjs ../evidence/initial-results.json lifecycle
+L01 {"context":null,"events":[]}
+L02 {"contextIdentityPreserved":true,"events":[]}
+L03 {"events":["close","cleanup:/unit-fixture/temp"]}
+L04 {"events":["close","cleanup:/unit-fixture/temp"]}
+L05 {"events":["close","cleanup:/unit-fixture/temp"]}
+L06 {"error":"UNIT_CLOSE_FAILURE","contextRetained":true,"cleanupCalls":0,"events":["close:rejected"]}
+L07 {"attempts":2,"events":["close:1","close:2","cleanup:/unit-fixture/temp"]}
+EXIT 0
+
+$ node inspect.mjs ../evidence/initial-results.json scope
+VERIFIED 20/20; 3 source hashes; no browser/navigation/build
+{
+  "runtime": "v24.19.0",
+  "commit": "e38ab7ab9448db6f093f72ee097c18ca9905e84c",
+  "scope": {
+    "actualUpstreamModulesExecuted": [
+      "src/config/browser.config.ts",
+      "src/config/index.ts",
+      "src/browser/browser-manager.ts"
+    ],
+    "unitDoubles": [
+      "fs.existsSync/mkdirSync",
+      "proxy marker only",
+      "cleanupTempDir",
+      "context.close"
+    ],
+    "externalBrowserDependenciesImported": false,
+    "browserLaunched": false,
+    "navigationPerformed": false,
+    "stealthTested": false,
+    "proxyConfigured": false,
+    "networkRequestsFromTestedModules": false,
+    "semanticTypecheckPerformed": false,
+    "fullProjectBuildPerformed": false,
+    "upstreamTestsRun": false,
+    "note": "Passing assertions establish current unit behavior, including defects; they do not establish browser, integration, or security success."
+  }
+}
+EXIT 0
+
+=== PDF/HTML产物检查记录 ===
+生成方式：ReportLab直接A4排版；Poppler pdftoppm -scale-to 1300 -png 渲染12页
+PDF 12页，每页595.276 x 841.89 pt；每页图像逐一打开检查
+首次检查发现来源分隔符显示缺字及封面中文标签误用西文字体，已改为ASCII分隔符和中文字体后重新渲染
+2026-10-05 08:24 UTC 作者完成最新PDF全部12页逐页视觉检查：无裁切、重叠或缺字；独立视觉验收另见审核日志。问题标题绘制方式也已修正并全页复看。
+HTML包含12张原创内联SVG，无外部图片、外部脚本或浏览器执行。原 HTML 浏览器视觉预览及 HTML 转 PDF 路线受环境限制未完成，本次未重试；直接生成 PDF 的渲染通过不代表 HTML 浏览器验收通过。
+原学习公开知识范围：394条元数据；实际全文核对20篇相关公开正文，其余374篇仅元数据检索。此范围不代表全库全文阅读或读者的掌握程度。
+
+
+=== 查看器独立审核修正与实际负例验证 ===
+时间：2026-10-05 08:27 UTC
+发现：旧查看器仅对sourceChecks调用every()，空数组会真值通过，不能支持“3 source hashes”的精确声明。
+修正：恰好3项、路径唯一且等于预期3模块、散列为64位小写十六进制并逐项匹配来源清单、matched严格为true、仓库及提交一致、执行模块列表一致。
+作者实际运行命令：
+node patchright_enhanced/package/viewer-tests.mjs patchright_enhanced/evidence/initial-results.json
+node patchright_enhanced/package/inspect.mjs patchright_enhanced/evidence/initial-results.json scope
+真实输出如下；这10个查看器自测独立统计，不并入20个上游行为断言：
+PASS VIEWER valid-evidence: accepted; exit=0
+PASS VIEWER empty-source-checks: rejected; exit=1
+PASS VIEWER missing-source-check: rejected; exit=1
+PASS VIEWER duplicate-source-path: rejected; exit=1
+PASS VIEWER malformed-source-hash: rejected; exit=1
+PASS VIEWER mismatched-source-hash: rejected; exit=1
+PASS VIEWER wrong-commit: rejected; exit=1
+PASS VIEWER unexpected-source-path: rejected; exit=1
+PASS VIEWER match-flag-false: rejected; exit=1
+PASS VIEWER wrong-executed-module: rejected; exit=1
+VIEWER SUMMARY 10/10; 1 valid + 9 negative cases; separate from 20 upstream behavior assertions
+修正后的正常scope命令退出码0，仍输出VERIFIED 20/20; 3 source hashes; no browser/navigation/build。
+上述是原学习版本修正历史。最终原 ZIP 经独立新目录解压、固定源码获取和六步重放，历史结果见配套审核日志。本次公开 ZIP 保持该最终版本原字节：11635 字节，SHA-256 5c0804961cf9ab13baca534363411c243ea79196cebddb0bb18e0f4b7c4b9ec9。
