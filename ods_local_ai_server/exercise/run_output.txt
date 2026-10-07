@@ -1,0 +1,30 @@
+== ODS 实验运行记录 ==
+环境：Windows 11, Python 3.14.7
+仓库：Osmantic/ODS 浅克隆 ac1fd24（5460 文件，Apache-2.0，7107 stars，V3 预发布）
+
+1. 核心测试套件（ods/tests，1046 collected）：
+   python -m pytest ods/tests -q --continue-on-collection-errors \
+     --basetemp=<干净临时目录>
+   → 2500 passed, 187 failed, 627 skipped, 1018 errors in 189s
+
+2. 归因（--tb=line 异常类型统计）：
+   - 1018 errors 中 ≈980 FileNotFoundError/WinError（缺 docker/ollama 二进制、
+     Unix 路径假设）+ 35 ModuleNotFoundError（pwd 等 Unix-only 模块）
+   - 187 failed 集中在 bats/docker/launchd 集成语义——ODS 是 macOS/Linux-first
+     项目（install.ps1 存在但核心测试与文档以 WSL/Unix 为前提）
+   - 纯逻辑单测大量通过（2500 passed 覆盖 model-router/dashboard-api 等）
+
+3. 模型选择/硬件探测专项（dashboard-api，-k "model or select or hardware"）：
+   437 passed / 77 failed / 929 errors——同平台归因；硬件探测→模型推荐
+   的纯函数逻辑在 Windows 可跑部分真实通过。
+
+4. 结构阅读实证（纯读取）：
+   - ods/extensions/services/：dashboard-api(203 tests)/model-router/
+     token-spy/pixel-agent/pixel-edge/ape 等服务化组件
+   - 硬件探测：ods/extensions/services/dashboard-api/model_selection.py
+   - 安装双入口 install.sh / install.ps1；ARCHITECTURE.md + CLAUDE.md（项目
+     自带的 agent 指南）齐全
+
+5. 未执行（如实声明）：真实 install.sh/install.ps1 安装（会拉 Docker 全家桶
+   并改系统服务，过重且属系统级变更，超出 worker 实验范围）；macOS/Linux
+   环境下的完整体验。

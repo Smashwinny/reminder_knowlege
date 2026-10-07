@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>ODS 私有 AI 服务器 · 小白指南</title>
+<style>
+:root{
+  --c-main:#2563eb; --c-main-dark:#1d4ed8; --c-blue:#2563eb; --c-green:#16a34a;
+  --c-purple:#7c3aed; --c-yellow:#f59e0b; --c-red:#dc2626; --c-pink:#db2777; --c-orange:#ea580c; --c-teal:#0d9488;
+  --bg:#eff6ff; --card:#ffffff; --ink:#1f2937; --soft:#dbeafe;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#2563eb 0%,#0d9488 55%,#16a34a 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(37,99,235,.35)}
+.hero h1{font-size:2.05em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(13,148,136,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.q.orange{border-left-color:var(--c-orange)} .q.orange h2{color:var(--c-orange)} .q.orange .num{background:var(--c-orange)}
+.q.teal{border-left-color:var(--c-teal)} .q.teal h2{color:var(--c-teal)} .q.teal .num{background:var(--c-teal)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#f0f9ff;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #bfdbfe;padding:7px 12px}
+tr:nth-child(even){background:#eff6ff}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>ODS：一行命令的私有 AI 服务器 · 小白指南</h1>
+  <div class="sub">原帖：@Gk「自己搭本地 AI 服务器以前多折腾……如今 ODS 一行命令全装妥」（184 赞）。<br>学习对象：Osmantic/ODS（7107 stars，Apache-2.0，快照 ac1fd24，5460 文件，V3 预发布；<b>核心测试 2500 项真实通过</b>）。</div>
+  <div class="tags">
+    <span class="tag">开源项目类</span><span class="tag">服务编排</span><span class="tag">本地AI</span><span class="tag">集成范式</span><span class="tag">测试实测</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 架构分层</a><a href="#q3">Q3 硬件→模型推荐</a>
+  <a href="#q4">Q4 服务组件群</a><a href="#q5">Q5 一行命令的隐藏成本</a><a href="#q6">Q6 云端回退模式</a>
+  <a href="#q7">Q7 与 Ollama 关系</a><a href="#q8">Q8 祛魅与风险</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>ODS 是什么？</h2>
+  <p>一句话：<span class="hl">把你的电脑变成私有 AI 服务器的集成编排层</span>——一行命令装好 Ollama（跑模型）+ Open WebUI（聊天面板）+ n8n（工作流）+ ComfyUI（出图）并互相接好，按你的硬件自动推荐模型，打开 localhost:3000 即用；没显卡可切云端 API 模式。不用订阅，数据不出本机。</p>
+  <table>
+    <tr><th>事实项</th><th>核实值（本机实测）</th></tr>
+    <tr><td>仓库</td><td>Osmantic/ODS，7107 stars，Apache-2.0，Python，V3 预发布公开测试期</td></tr>
+    <tr><td>规模</td><td>5460 文件；ods/extensions/services/ 下 7+ 个服务组件（dashboard-api 203 项测试/model-router/token-spy/pixel-agent 等）</td></tr>
+    <tr><td>安装</td><td>install.sh（macOS/Linux）+ install.ps1（Windows，WSL 前提）</td></tr>
+    <tr><td>平台真实</td><td><b>macOS/Linux-first</b>：核心测试在 Windows 裸跑 1018 个环境错误（pwd/docker/launchd），作者明示 Windows 走 WSL</td></tr>
+  </table>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>架构分层：它不是又一个组件，是组件的编排</h2>
+  <div class="svgbox">
+  <svg width="640" height="180" viewBox="0 0 640 180">
+    <text x="320" y="20" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">ODS 编排层</text>
+    <rect x="230" y="30" width="180" height="36" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="320" y="47" text-anchor="middle" font-size="11" fill="#1e40af" font-weight="bold">dashboard-api（面板/API）</text>
+    <text x="320" y="60" text-anchor="middle" font-size="9.5" fill="#1e40af">model_selection 硬件→模型推荐</text>
+    <rect x="40" y="95" width="120" height="34" rx="9" fill="#dcfce7" stroke="#16a34a"/><text x="100" y="116" text-anchor="middle" font-size="10.5" fill="#166534">Ollama（推理）</text>
+    <rect x="185" y="95" width="120" height="34" rx="9" fill="#dcfce7" stroke="#16a34a"/><text x="245" y="116" text-anchor="middle" font-size="10.5" fill="#166534">Open WebUI（聊天）</text>
+    <rect x="330" y="95" width="120" height="34" rx="9" fill="#dcfce7" stroke="#16a34a"/><text x="390" y="116" text-anchor="middle" font-size="10.5" fill="#166534">n8n（工作流）</text>
+    <rect x="475" y="95" width="120" height="34" rx="9" fill="#dcfce7" stroke="#16a34a"/><text x="535" y="116" text-anchor="middle" font-size="10.5" fill="#166534">ComfyUI（出图）</text>
+    <g stroke="#2563eb" stroke-width="1.8"><path d="M320 66 L 100 95"/><path d="M320 66 L 245 95"/><path d="M320 66 L 390 95"/><path d="M320 66 L 535 95"/></g>
+    <text x="320" y="160" text-anchor="middle" font-size="11" fill="#6b7280">编排层的活：装什么版本、谁先起、端口怎么分、坏了怎么重启、GPU 够不够该下哪个模型</text>
+  </svg>
+  </div>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>硬件探测 → 模型推荐（最有技术含量的部分）</h2>
+  <p><code>ods/extensions/services/dashboard-api/model_selection.py</code> 是推文"自动按硬件挑模型"的实现处：探测 GPU 显存/内存/CPU 档位 → 映射到模型档（能跑 7B 还是 70B、量化到哪级）。这套"硬件档位→能力档位→组件档位"的三段映射是本地 AI 落地的核心know-how——比"装上一堆工具"值钱得多。模型路由器（model-router 服务）则在本地不足时做云端回退调度。</p>
+</div>
+
+<div class="q purple" id="q4">
+  <h2><span class="num">Q4</span>服务组件群：7+ 个微服务各自有测试</h2>
+  <p>dashboard-api（203 项测试，面板后端）/ model-router（模型路由）/ token-spy（token 用量监控）/ pixel-agent、pixel-edge（图像 agent 服务）/ ape（扩展）。每个组件带独立 tests/ 目录——这是"集成项目"而非"脚本合集"的分水岭。项目自带 CLAUDE.md（给 coding agent 的仓库指南）与 ARCHITECTURE.md。</p>
+</div>
+
+<div class="q red" id="q5">
+  <h2><span class="num">Q5</span>"一行命令"的隐藏成本（祛魅）</h2>
+  <p>① <b>Docker 全家桶</b>：实际拉起的是一堆容器，磁盘/内存/GPU 驱动先决条件不会消失，只是被脚本吸收了；② <b>预发布期</b>：V3 是公开测试版，README 自己标 "Public testing and refinement"——生产环境慎用；③ <b>Windows 二等公民</b>：install.ps1 存在但测试与文档以 macOS/Linux（Windows 需 WSL）为准，本机实测 1018 个环境错误可证；④ <b>集成层的锁定风险</b>：版本组合由 ODS 决定，个别组件想单独升级会被编排约束。</p>
+</div>
+
+<div class="q yellow" id="q6">
+  <h2><span class="num">Q6</span>云端回退模式：没显卡的体面</h2>
+  <p>无 GPU 时切云端 API 模式——数据仍走面板统一入口（不上云指的是模型权重与推理，云端模式下 prompt 还是要出机的，README 的"不上云"按模式区分读）。与 vault [[BYOK模型网关与用量归因]] 同域：token-spy 组件就是用量归因的实现。</p>
+</div>
+
+<div class="q teal" id="q7">
+  <h2><span class="num">Q7</span>与 vault [[ollama]] 的关系：编排 vs 被编排</h2>
+  <p>ollama 笔记学的是"本地推理组件"本体；ODS 是把它和 WebUI/n8n/ComfyUI 组装成"私有 AI 服务器"的<b>编排层</b>。类比：ollama 是发动机，ODS 是整车装配线。学 ODS 的增量 = 组件集成/服务发现/健康检查/硬件-模型映射的编排 know-how。</p>
+</div>
+
+<div class="q pink" id="q8">
+  <h2><span class="num">Q8</span>祛魅汇总</h2>
+  <p>推文四条爽点全部属实（本机核实架构与代码存在），但"省事"的对象是<b>集成工序</b>不是运维本身——容器起来之后的模型下载（几十 GB）、GPU 驱动、磁盘占用、升级兼容性，一行命令替你做不了。正确预期：装 1 小时 vs 自己折腾 2-3 天，装完维护自理。</p>
+</div>
+
+<div class="q" id="q9">
+  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
+  <div class="ability">
+    <div class="a"><b>① 编排层定位</b>：识别"组件"与"编排"的层次，集成 know-how 是被低估的资产。</div>
+    <div class="a"><b>② 硬件→模型映射</b>：显存档位→模型档位→量化档位三段映射是本地 AI 落地核心。</div>
+    <div class="a"><b>③ 微服务化集成</b>：7 组件各自带测试，集成项目≠脚本合集。</div>
+    <div class="a"><b>④ 预发布识别</b>：V3 Pre-Release 标签=公开测试期，生产慎用。</div>
+    <div class="a"><b>⑤ 平台真实预期</b>：macOS/Linux-first 项目的 Windows 支持要查证测试。</div>
+    <div class="a"><b>⑥ 回退模式设计</b>：无 GPU→云端 API，统一面板入口保住体验一致性。</div>
+  </div>
+</div>
+
+<div class="q orange" id="q10">
+  <h2><span class="num">Q10</span>动手实验：2500 项真实通过 + 环境归因</h2>
+  <p>实验环境：Windows 11 裸机（无 Docker/Ollama）。真实运行（exercise/run_output.txt）：</p>
+  <div class="cmd">git clone --depth 1 https://github.com/Osmantic/ODS
+cd ODS
+python -m pytest ods/tests -q --continue-on-collection-errors \
+  --basetemp=&lt;干净临时目录&gt;
+# 1046 collected → 2500 passed, 187 failed, 627 skipped, 1018 errors in 189s</div>
+  <div class="real">归因（--tb=line 异常类型统计）：
+· 1018 errors：≈980 FileNotFoundError/WinError（缺 docker/ollama 二进制、
+  Unix 路径）+ 35 ModuleNotFoundError（pwd 等 Unix-only 模块）
+· 187 failed：bats/docker/launchd 集成语义——macOS/Linux-first 实证
+· 模型选择/硬件探测专项（dashboard-api -k 过滤）：437 passed，
+  硬件→模型推荐纯函数逻辑可跑部分真实通过</real>
+  <div class="key"><b>诚实声明：</b>未执行 install.ps1/install.sh（会拉 Docker 全家桶+改系统服务，系统级变更超出 worker 实验范围）；Windows 下完整体验需 WSL（作者口径），未验证；2500 passed 为裸机 Windows 口径，macOS/Linux 会显著更高。</div>
+</div>
+
+<div class="footer">
+  <b>学习来源</b>：@Gk 推文（https://x.com/0xGky/status/2106681985502744777）+ 仓库 Osmantic/ODS（快照 ac1fd24）。<br>
+  <b>产物</b>：本指南 + exercise/run_output.txt + 实验日志 + 知识提案。生成：2026-10-07，worker kimi-pool-20261007-w1。
+</div>
+
+</div>
+</body>
+</html>

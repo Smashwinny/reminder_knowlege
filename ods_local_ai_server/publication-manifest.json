@@ -1,0 +1,29 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "ODS：一行命令把 Ollama+Open WebUI+n8n+ComfyUI 组装成私有 AI 服务器的集成编排层（开源项目类）",
+  "project_dir": "ods_local_ai_server",
+  "pdf": "ods_local_ai_server/ODS私有AI服务器-小白指南.pdf",
+  "html": "ods_local_ai_server/ods_local_ai_server-guide.html",
+  "exercise_dir": "ods_local_ai_server/exercise",
+  "experiment_log": "ods_local_ai_server/ods_local_ai_server-experiment-log.md",
+  "vault_note": "vault/项目笔记/ods_local_ai_server.md",
+  "report_path": "完成/分析报告/71a6fc99-229b-4299-acd2-7ccb36fd2b06.md",
+  "source_urls": [
+    "https://x.com/0xGky/status/2106681985502744777",
+    "https://github.com/Osmantic/ODS"
+  ],
+  "experiment_files": [
+    "ods_local_ai_server/exercise/run_output.txt"
+  ],
+  "upstream": {
+    "repo": "https://github.com/Osmantic/ODS",
+    "commit": "ac1fd24",
+    "note": "repo/ 浅克隆（5460 文件）；未真实安装（Docker 全家桶+系统服务变更超出 worker 范围）；测试为 Windows 裸机口径"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/ods_local_ai_server.md；新概念提案「集成编排层」在 ods_local_ai_server-knowledge-proposal.md，由协调者终审合并；与 [[ollama]] 为编排/被编排关系",
+    "pdf_pages": 6,
+    "experiment_verified": "ods/tests 1046 collected → 2500 passed / 187 failed / 1018 errors in 189s（--continue-on-collection-errors+干净 basetemp）；归因 ≈980 FileNotFoundError/WinError + 35 ModuleNotFoundError(pwd)=macOS/Linux-first 实证；模型选择专项 437 passed",
+    "pdf_verified": "结构校验通过（6 页、字体嵌入、737KB），渲染抽查由协调者 review 执行"
+  }
+}
