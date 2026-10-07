@@ -1,0 +1,20 @@
+== 环境：Windows 11, Python 3.14.7, pytest 9.1.1
+== 第一轮：直接运行（未安装包）
+ERROR tests/test_service.py
+!!!!!!!!!!!!!!!!!! Interrupted: 10 errors during collection !!!!!!!!!!!!!!!!!!!
+10 errors in 0.29s
+
+== 第二轮：PYTHONPATH=src（补齐包路径）
+ERROR tests/test_service.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!
+2 errors in 0.30s
+
+== 第三轮：排除 Unix-only 模块后全量
+ERROR tests/test_network.py::test_reports_the_ssid_on_a_host_networkmanager_does_not_manage
+ERROR tests/test_network.py::test_wireless_interfaces_reads_sysfs - Permissio...
+132 passed, 1 skipped, 11 errors in 4.96s
+
+== 错误归因抽查（前 3 个 ERROR 的异常类型）
+     11 C:\Users\Windows\AppData\Roaming\Python\Python314\site-packages\_pytest\pathlib.py:175: PermissionError
+     11 E       PermissionError: [WinError 5] 拒绝访问。: 'C:\\Users\\Windows\\AppData\\Local\\Temp\\pytest-of-Windows'
+      1 ERROR tests/test_identity.py::test_identity_persists - PermissionError: [WinE...

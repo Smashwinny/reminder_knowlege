@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>闲鱼自动化脚本副业工作流 · 小白指南</title>
+<style>
+:root{
+  --c-main:#ea580c; --c-main-dark:#c2410c; --c-blue:#2563eb; --c-green:#16a34a;
+  --c-purple:#7c3aed; --c-yellow:#f59e0b; --c-red:#dc2626; --c-pink:#db2777; --c-teal:#0d9488;
+  --bg:#fff7ed; --card:#ffffff; --ink:#1f2937; --soft:#ffedd5;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#ea580c 0%,#db2777 55%,#7c3aed 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(234,88,12,.35)}
+.hero h1{font-size:2.05em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(219,39,119,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.q.teal{border-left-color:var(--c-teal)} .q.teal h2{color:var(--c-teal)} .q.teal .num{background:var(--c-teal)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#fdf4ff;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #fed7aa;padding:7px 12px}
+tr:nth-child(even){background:#fff7ed}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>闲鱼自动化脚本副业工作流 · 小白指南</h1>
+  <div class="sub">原帖：@火山哥 huoshan007「哥们用闲鱼+Codex+Claude 搞全自动脚本，三个月赚了 11 万」（469 赞，896 字完整可读）。<br>学习对象：文中六步工作流本身。本指南含<b>全流程真实实验</b>：按工作流实际交付了一个"订单利润日报"工具模板（可运行+故障注入测试+打包交付物）。</div>
+  <div class="tags">
+    <span class="tag">知识学习类</span><span class="tag">AI Coding 工作流</span><span class="tag">副业方法论</span><span class="tag">真实交付实验</span><span class="tag">祛魅</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这个方法是什么</a><a href="#q2">Q2 六步拆解</a><a href="#q3">Q3 Claude/Codex 分工</a>
+  <a href="#q4">Q4 选品逻辑</a><a href="#q5">Q5 收入宣称祛魅</a><a href="#q6">Q6 模板复用心法</a>
+  <a href="#q7">Q7 风险与边界</a><a href="#q8">Q8 和拼豆项目互参</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>这个方法一句话是什么？</h2>
+  <p><span class="hl">在闲鱼卖"自动化脚本模板"，用 AI Coding 工具（Claude 出架构 + Codex 出代码）把交付成本压到十分之一</span>，卖的不是代码而是"弄好之后你就不用再动手"。客户为省时间付钱，你靠模板复用吃规模。</p>
+  <p>文中关键洞察：闲鱼上真正好卖的不是高大上的 AI 工具，而是"土得掉渣、天天折磨人"的重复破事——抓数据导 Excel、订单算利润、图片批量改名加水印、多表合并做周报。</p>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>六步工作流拆解</h2>
+  <div class="step"><h3>① 选品：闲鱼搜高频词</h3><p>专挑收藏和咨询多的帖子——那是已被验证的需求。文中六类：网页抓取清洗推送 / 订单利润日报 / 图片批处理 / 小红书文案库 / Excel 周报 / 定时任务。</p></div>
+  <div class="step"><h3>② 把客户原话翻译成一句 spec</h3><p>"客户原话"是模糊的，<b>一句明确的需求描述</b>是后面所有 AI 工作的锚——这步省 5 分钟，后面省 5 小时。</p></div>
+  <div class="step"><h3>③ Claude 角色：架构与异常处理</h3><p>让 Claude 出完整架构、异常处理、定时逻辑、操作说明。<b>异常处理先行</b>：字段缺失怎么办、平台扣点怎么算，全在设计阶段定死。</p></div>
+  <div class="step"><h3>④ Codex 角色：可运行代码 + 界面 + 安装包</h3><p>生成 Python 脚本+简单 GUI+一键安装包。分工的本质：架构决策与代码实现分离，各自校对。</p></div>
+  <div class="step"><h3>⑤ 本地跑通 + 30 秒演示视频</h3><p>演示视频是成交开关——客户先看到"它真的在跑"，才愿意拍。</p></div>
+  <div class="step"><h3>⑥ 模板复用：改三个参数十分钟出货</h3><p>改数据源、改推送方式、改字段名——文中称三个月后真正从零写的单子不到三分之一。</p></div>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>为什么 Claude 和 Codex 要分开用？</h2>
+  <p>这是本工作流最有技术含量的决策：<b>架构/异常处理与代码实现由不同模型生成，互相校验</b>。Claude 出架构时被迫把边界情况想清楚（"扣点怎么算"不写明白，Codex 就会静默算错）；Codex 照架构实现时，架构的漏洞会立刻暴露为跑不通。单次"一句话需求直接生成"省的是分工时间，赔的是返工时间。</p>
+  <p>对应 vault 的 [[规划执行分账]]：规划与执行分开核对，AI 时代这个原则从"团队协作"变成"同一个人按两次 enter"。</p>
+</div>
+
+<div class="q purple" id="q4">
+  <h2><span class="num">Q4</span>选品：为什么是"土需求"而不是"AI 工具"？</h2>
+  <p>需求公式：<span class="hl">高频 × 痛（天天折磨）× 可自动化 × 客户自己不会写</span>。"解压玩具"式的一锤子买卖没有复购，而"每天睁眼就要算的订单利润"天天折磨人。闲鱼搜索量验证需求存在（收藏咨询多=预付意愿强），6 类清单全是"数据进、报告出"的形状——恰好是脚本最擅长的事。</p>
+</div>
+
+<div class="q red" id="q5">
+  <h2><span class="num">Q5</span>收入宣称祛魅：11 万/三个月可信吗？</h2>
+  <p>按证据算账：文中称"成交记录、聊天记录、脚本日志甩脸上"，但这是叙述者转述、无可独立核实数字。即便属实，三个隐含成本被淡化：①<b>获客成本</b>——闲鱼咨询转化、同行抄袭定价内卷；②<b>售后成本</b>——客户环境千差万别，"一键安装包"在别人的 Windows 7/Excel 2010 上必然翻车；③<b>平台风险</b>——虚拟商品交易纠纷、10 账号矩阵式运营触碰平台规则。收入数字按"单方案例主张"处理（[[证据优先质检ProofOverClaims]]），方法可信度与收入可信度分开评。</p>
+</div>
+
+<div class="q yellow" id="q6">
+  <h2><span class="num">Q6</span>模板复用为什么能把成本压到 1/10？</h2>
+  <p>软件复用的经典规律在副业场景的兑现：第一单把"加载→计算→渲染→推送"的骨架做出来，后面每单只改配置（数据源/推送/字段）。文中"从零写的不到三分之一"就是复用率的直接度量。本指南实验的"订单利润日报"模板正是这个骨架的最小实例（见 Q10）。</p>
+</div>
+
+<div class="q pink" id="q7">
+  <h2><span class="num">Q7</span>风险与边界（诚实清单）</h2>
+  <table>
+    <tr><th>风险</th><th>说明</th></tr>
+    <tr><td>收入不可复制</td><td>11 万是个体案例，时机会、账号权重、城市客群都是不可控变量</td></tr>
+    <tr><td>售后泥潭</td><td>客户环境差异 = 无限技术支持；定价 198 元的单子可能吃掉 3 小时售后</td></tr>
+    <tr><td>平台规则</td><td>多账号矩阵/虚拟商品在闲鱼规则下属于灰区，封号风险自担</td></tr>
+    <tr><td>AI 算账死穴</td><td>算利润的脚本若漏掉一个平台扣点，就会"极度自信地算出假利润"（虹安文章的同一警告，见 needs_review 池 d31a20a2 的关联）</td></tr>
+    <tr><td>需求伦理</td><td>小红书采集类需求注意平台条款与个人信息边界</td></tr>
+  </table>
+</div>
+
+<div class="q teal" id="q8">
+  <h2><span class="num">Q8</span>和本批 bead_pattern 项目互参</h2>
+  <p>两条记录都是"AI 接单赚钱"叙事：[[bead_pattern]]（拼豆图纸）是<b>实物手工+图纸</b>，产能被熨烫工时封顶；本条是<b>纯软件模板</b>，产能被售后工时封顶。共同点：图纸/模板边际成本近零，但<b>都没有无壁垒护城河</b>——方法一公开就内卷。当练手+赚零花钱可行，当稳定收入指望它 = 把命运交给平台算法。</p>
+</div>
+
+<div class="q" id="q9">
+  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
+  <div class="ability">
+    <div class="a"><b>① AI 分工工作流</b>：架构模型与代码模型分离互校，单次提示词时代终结。</div>
+    <div class="a"><b>② spec 前置</b>：客户原话→一句明确需求，是所有 AI 交付的第一道工序。</div>
+    <div class="a"><b>③ 异常设计先行</b>：把"会怎么坏"写在架构里，比写功能更值钱。</div>
+    <div class="a"><b>④ 需求四要素</b>：高频×痛×可自动化×客户不会写 = 可卖脚本。</div>
+    <div class="a"><b>⑤ 模板骨架思维</b>：加载→计算→渲染→推送，改配置即新单。</div>
+    <div class="a"><b>⑥ 祛魅双标</b>：方法可信度与收入可信度分开评分。</div>
+  </div>
+</div>
+
+<div class="q blue" id="q10">
+  <h2><span class="num">Q10</span>动手实验：按工作流真实交付一个工具模板</h2>
+  <p>实验目标：严格按文中六步工作流，真实做一个"订单利润日报"工具并跑通全流程。产物在 <code>exercise/template_order_daily/</code>（主程序 131 行纯标准库 + ARCHITECTURE.md + README + 示例数据 + 生成的日报.html）。</p>
+  <div class="real">主流程真实运行：
+$ python order_profit_daily.py 示例数据 --out 日报.html
+订单 5 笔 | 实收 826.80 | 利润 167.17 | 异常 1 笔
+日报已生成：日报.html
+（截图目检：KPI/平台汇总/明细三区块渲染正确，负毛利单 B2002
+  -4.0% 红色标出；抽查 A1001 利润 129-62-6-6.45=54.55 ✓）
+
+故障注入（对应"异常处理先行"两道防线）：
+--- 缺成本列 → 显式报错 exit=1（指明文件名与缺失字段）
+--- 未知平台'快手' → 显式报错 exit=1（要求先配置扣点，禁止静默按0算）
+（注入用 CSV 已删除，run_output.txt 完整保留过程）</div>
+  <div class="key"><b>工作流对照：</b>② spec=一句话（目录 CSV→利润日报 HTML）；③ 架构+异常处理=ARCHITECTURE.md（含定时 schtasks 配置建议）；④ 代码=order_profit_daily.py（零依赖可打包）；⑤ 跑通=主流程+故障注入+截图目检；⑥ 模板复用点已在 README 列出（改数据源/推送/扣点/阈值四处）。</div>
+  <div class="key"><b>诚实声明：</b>未在闲鱼真实上架/成交（需真实账号与交易）；30 秒演示视频未录（工具真实可运行，check_report.png 可代替演示）；收入数字未经核实按单方案例主张处理。</div>
+</div>
+
+<div class="footer">
+  <b>学习来源</b>：@火山哥 推文（https://x.com/huoshan007/status/2107005114687037488，正文完整可读）。<br>
+  <b>产物</b>：本指南 + exercise/template_order_daily/（真实交付物）+ 实验日志 + 知识提案。生成：2026-10-07，worker kimi-pool-20261007-w1。
+</div>
+
+</div>
+</body>
+</html>

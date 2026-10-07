@@ -1,0 +1,32 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "闲鱼自动化脚本副业工作流：Claude 架构 + Codex 代码分工的 AI Coding 接单方法（知识学习类）",
+  "project_dir": "xianyu_automation_workflow",
+  "pdf": "xianyu_automation_workflow/闲鱼自动化脚本副业工作流-小白指南.pdf",
+  "html": "xianyu_automation_workflow/xianyu_automation_workflow-guide.html",
+  "exercise_dir": "xianyu_automation_workflow/exercise",
+  "experiment_log": "xianyu_automation_workflow/xianyu_automation_workflow-experiment-log.md",
+  "vault_note": "vault/项目笔记/xianyu_automation_workflow.md",
+  "report_path": "完成/分析报告/fda8937c-0933-4184-9b4d-bcf71247bb69.md",
+  "source_urls": [
+    "https://x.com/huoshan007/status/2107005114687037488"
+  ],
+  "experiment_files": [
+    "xianyu_automation_workflow/exercise/template_order_daily/order_profit_daily.py",
+    "xianyu_automation_workflow/exercise/template_order_daily/ARCHITECTURE.md",
+    "xianyu_automation_workflow/exercise/template_order_daily/README.md",
+    "xianyu_automation_workflow/exercise/run_output.txt",
+    "xianyu_automation_workflow/exercise/check_report.png"
+  ],
+  "upstream": {
+    "repo": "N/A（单条推文方法论，无代码仓库）",
+    "commit": "N/A",
+    "note": "实验=严格按文中六步工作流真实交付订单利润日报工具模板（真实可运行+故障注入+截图目检）"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/xianyu_automation_workflow.md；新概念提案「AI分工编码工作流」在 xianyu_automation_workflow-knowledge-proposal.md，含查重提示，由协调者终审合并；与 bead_pattern 互参",
+    "pdf_pages": 7,
+    "experiment_verified": "六步工作流真实走通：spec→ARCHITECTURE.md（三道异常防线）→order_profit_daily.py（131行纯标准库）→主流程真实运行（5单/利润167.17/异常1笔正确标红，手算抽查通过）→两道故障注入显式报错exit=1（缺字段/未知平台拒静默）→README复用点",
+    "pdf_verified": "结构校验通过（7 页、字体嵌入、859KB），渲染抽查由协调者 review 执行"
+  }
+}

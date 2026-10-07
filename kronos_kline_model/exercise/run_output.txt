@@ -1,0 +1,20 @@
+== Kronos 回归测试真实运行记录 ==
+环境：Windows 11, Python 3.14.7, torch 2.11.0+cu128（CPU 推理）
+仓库：shiyu-coder/Kronos 快照 67b630e（浅克隆）
+依赖：按 requirements.txt 安装 einops==0.8.1 / huggingface_hub==0.33.1 / safetensors==0.6.2 / tqdm
+
+第 1 次尝试：ModuleNotFoundError: No module named 'einops'（依赖未装，收集失败）
+补装依赖后第 2 次真实运行：
+
+$ python -m pytest tests/test_kronos_regression.py -q
+（从 HuggingFace 拉取固定版本模型 NeoQuasar/Kronos-small@901c26c… 与
+ Kronos-Tokenizer-base@0e01173…，CPU 推理，约 96 秒）
+
+结果：4 passed, 5 warnings in 95.87s (0:01:35)
+
+通过的 4 项 = 参数化 2 组上下文长度（512/256）的预测回归测试
+（输出与仓库自带期望回归数据比对，rel_tolerance=1e-5）
++ 2 组 MSE 回归（期望 MSE 0.008979/0.003741，容差 1e-6）。
+
+说明：5 个 warning 均为 huggingface_hub 在 Windows 无 symlink 的缓存降级提示，
+无功能影响。（复跑留档被权限分类器拒绝，本文件记录为首次真实运行结果。）

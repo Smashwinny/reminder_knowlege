@@ -1,0 +1,29 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "sprite-gen：一张立绘进、游戏可用精灵图集出的程序化 2D 精灵生成管线（开源项目类）",
+  "project_dir": "sprite_gen",
+  "pdf": "sprite_gen/sprite-gen程序化精灵生成-小白指南.pdf",
+  "html": "sprite_gen/sprite_gen-guide.html",
+  "exercise_dir": "sprite_gen/exercise",
+  "experiment_log": "sprite_gen/sprite_gen-experiment-log.md",
+  "vault_note": "vault/项目笔记/sprite_gen.md",
+  "report_path": "完成/分析报告/24190ae4-948d-4d21-94d4-2e2a5cfa21ec.md",
+  "source_urls": [
+    "https://x.com/AldegadWildKim/status/2106805154788090010",
+    "https://github.com/aldegad/sprite-gen"
+  ],
+  "experiment_files": [
+    "sprite_gen/exercise/run_output.txt"
+  ],
+  "upstream": {
+    "repo": "https://github.com/aldegad/sprite-gen",
+    "commit": "ece1ac8",
+    "note": "repo/ 浅克隆（包版本 2.39.0）；pytest 全量真实运行 9741 collected → 8210 passed（6 failed 平台相关/1507 error 本机临时目录权限）；compose-atlas 实跑被权限分类器拒绝未绕过"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/sprite_gen.md；新概念提案「生成后处理管线」在 sprite_gen-knowledge-proposal.md，含查重提示，由协调者终审合并；与 bead_pattern/huashu_art_motion 组成像素艺术族谱互链",
+    "pdf_pages": 7,
+    "experiment_verified": "pytest 全量 9741 collected → 8210 passed / 6 failed / 1507 errors in 426s，--tb=line 逐条归因（1507=pytest临时目录PermissionError本机环境；6 failed=POSIX路径/字节冻结平台相关），有效通过率 99.93%",
+    "pdf_verified": "结构校验通过（7 页、字体嵌入、808KB），渲染抽查由协调者 review 执行"
+  }
+}

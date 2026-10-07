@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>上海交通大学生存手册 · 小白指南</title>
+<style>
+:root{
+  --c-main:#ea580c; --c-main-dark:#c2410c; --c-blue:#2563eb; --c-green:#16a34a;
+  --c-purple:#7c3aed; --c-yellow:#f59e0b; --c-red:#dc2626; --c-pink:#db2777;
+  --bg:#fff7ed; --card:#ffffff; --ink:#1f2937; --soft:#ffedd5;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#ea580c 0%,#db2777 55%,#7c3aed 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(234,88,12,.35)}
+.hero h1{font-size:2.1em;margin:0 0 8px}
+.hero .sub{font-size:1.05em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(124,58,237,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.35em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#fffbeb;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #fdba74;padding:7px 12px}
+tr:nth-child(even){background:#fff7ed}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.step{background:var(--card);border:3px solid var(--c-green);border-radius:16px;padding:18px 20px;margin:16px 0;break-inside:avoid}
+.step h3{margin:0 0 8px;color:var(--c-green);font-size:1.12em}
+.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.92em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>《上海交通大学生存手册》小白指南</h1>
+  <div class="sub">一本 5890+ Star 的开源人生方法论手册：写给被应试教育"卷"出来、面对选择不知所措的人。<br>学习来源：开源仓库 SurviveSJTU/SurviveSJTUManual（GitBook 公开版） · 本指南基于 2026-10-07 仓库快照（commit fd64d6c）</div>
+  <div class="tags">
+    <span class="tag">知识学习类</span><span class="tag">开源书籍</span><span class="tag">疑问式目录</span><span class="tag">含动手实验</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么书</a><a href="#q2">Q2 为什么说教学崩溃</a><a href="#q3">Q3 高考思维与被动思维</a>
+  <a href="#q4">Q4 大学 PUA</a><a href="#q5">Q5 悲壮的学习</a><a href="#q6">Q6 正确浪费时间</a>
+  <a href="#q7">Q7 你的身价</a><a href="#q8">Q8 信息素养</a><a href="#q9">Q9 中介与研究</a><a href="#q10">Q10 全书地图与用法</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>这是什么书？谁写的？和我有什么关系？</h2>
+  <p><span class="hl">它不是交大招生宣传品，而是一群交大学生写的"大学反说明书"。</span>2008 年，交大毕业生（之一为后来成为自动驾驶公司图森未来联创的 AI 专家侯晓迪）写下初版，吐槽流水线式本科教学，劝学弟学妹"看见人生道路上不同的风景"。2022 年起，新一代作者把 2008 版翻新为 GitBook 开源仓库（5890+ Star），增补了大量学长学姐访谈。</p>
+  <div class="key"><b>一句话：</b>这是一本教你<span class="hl">"怎么选"而不是"怎么考"</span>的书——人生里大部分题没有标准答案，它教你碰上这种题时该怎么选。</div>
+  <div class="svgbox">
+  <svg width="640" height="150" viewBox="0 0 640 150">
+    <line x1="30" y1="90" x2="610" y2="90" stroke="#ea580c" stroke-width="4"/>
+    <circle cx="90" cy="90" r="9" fill="#ea580c"/>
+    <text x="90" y="60" text-anchor="middle" font-size="14" fill="#c2410c" font-weight="bold">2008</text>
+    <text x="90" y="120" text-anchor="middle" font-size="12">初版手册</text>
+    <text x="90" y="136" text-anchor="middle" font-size="11" fill="#6b7280">侯晓迪等校友</text>
+    <circle cx="320" cy="90" r="9" fill="#db2777"/>
+    <text x="320" y="60" text-anchor="middle" font-size="14" fill="#db2777" font-weight="bold">2022</text>
+    <text x="320" y="120" text-anchor="middle" font-size="12">GitBook 开源新版</text>
+    <text x="320" y="136" text-anchor="middle" font-size="11" fill="#6b7280">新增访谈集·持续更新</text>
+    <circle cx="560" cy="90" r="9" fill="#7c3aed"/>
+    <text x="560" y="60" text-anchor="middle" font-size="14" fill="#7c3aed" font-weight="bold">今天</text>
+    <text x="560" y="120" text-anchor="middle" font-size="12">本指南</text>
+    <text x="560" y="136" text-anchor="middle" font-size="11" fill="#6b7280">含实验+知识库沉淀</text>
+  </svg>
+  </div>
+  <p>和你（终身学习者）的关系：手册第一章的核心问题——"你想要做什么"——和你面前 400+ 个待学习项目的选择问题<span class="hl">是同一道题</span>。</p>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>它为什么一开头就说"大学教学早已崩溃"？</h2>
+  <p>作者的判断很直白：在流水线式教育体制下，学生像廉价零件一样被生产出来，<span class="hl">没人对每一个人的教学质量负责</span>——领导忙科研指标、教授忙经费论文、任课老师照本宣科，教学评估只看实验报告格式和出勤率，不看"班上到底几个人听懂了"。</p>
+  <div class="key"><b>推论：</b>既然系统不为你负责，<span class="hl">为你负责的人只能是你自己</span>。手册全书的方法论都从这个前提长出来。</div>
+  <div class="svgbox">
+  <svg width="640" height="170" viewBox="0 0 640 170">
+    <rect x="30" y="20" width="130" height="46" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="95" y="48" text-anchor="middle" font-size="13" fill="#1e40af">领导：科研指标</text>
+    <rect x="200" y="20" width="130" height="46" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="265" y="48" text-anchor="middle" font-size="13" fill="#1e40af">教授：经费论文</text>
+    <rect x="370" y="20" width="130" height="46" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="435" y="48" text-anchor="middle" font-size="13" fill="#1e40af">老师：讲完就走</text>
+    <rect x="540" y="20" width="70" height="46" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+    <text x="575" y="48" text-anchor="middle" font-size="13" fill="#b91c1c">你？</text>
+    <path d="M95 66 L95 100 L575 100 L575 66" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 4"/>
+    <text x="335" y="128" text-anchor="middle" font-size="14" fill="#334155">评估只看：格式 ✓ 出勤 ✓ —— 听懂 ✗ 没人问</text>
+    <text x="335" y="152" text-anchor="middle" font-size="15" font-weight="bold" fill="#dc2626">唯一为你的成长负责的人：你自己</text>
+  </svg>
+  </div>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>什么是"高考思维"和"被动思维"？</h2>
+  <p><b>高考思维</b>：体制总倾向于用一个量化分数概括一个人（高考登峰造极）。大学里有无数评分机制：各科考试、综合测评、保研、出国、留沪……面对它们必须保持头脑清醒——<span class="hl">"如果一个人把政策评分作为自己的至高追求，那么他就是这个政策的牺牲品。"</span></p>
+  <p><b>被动思维</b>：做什么事都需要"别人给的理由"。"怕点名""抄作业""记考点"都只是被迫上课的借口，而不是心悦诚服的理由。真正能成为理由的，只有你对知识的渴望。如果自学效率更高，你还必须去上课吗？</p>
+  <div class="svgbox">
+  <svg width="640" height="200" viewBox="0 0 640 200">
+    <text x="160" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">高考思维：一条赛道，一个分数</text>
+    <path d="M40 50 L280 50 L280 80 L40 80 Z" fill="#fecaca"/>
+    <text x="160" y="72" text-anchor="middle" font-size="12">所有人挤同一根管道</text>
+    <rect x="120" y="110" width="80" height="34" rx="8" fill="#dc2626"/>
+    <text x="160" y="132" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">分数 = 全部</text>
+    <line x1="160" y1="84" x2="160" y2="106" stroke="#dc2626" stroke-width="3"/>
+    <text x="480" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#16a34a">多元评价：出路方差极大</text>
+    <path d="M360 50 L400 90 L440 55 L480 100 L520 60 L560 95 L600 65" fill="none" stroke="#16a34a" stroke-width="3"/>
+    <circle cx="400" cy="90" r="5" fill="#16a34a"/><circle cx="480" cy="100" r="5" fill="#16a34a"/>
+    <circle cx="520" cy="60" r="5" fill="#16a34a"/><circle cx="600" cy="65" r="5" fill="#16a34a"/>
+    <text x="480" y="150" text-anchor="middle" font-size="12" fill="#166534">读研 / 创业 / 实习 / 竞赛 / 出国…</text>
+    <text x="480" y="172" text-anchor="middle" font-size="12" fill="#166534">毕业成就与入学高考分数关系不大</text>
+  </svg>
+  </div>
+  <div class="key"><b>关联你的知识库：</b>这个概念和 vault 中"证据优先质检"精神相通——<span class="hl">分数是指标，不是证据</span>；真正的能力要靠可验证的产出证明。</div>
+</div>
+
+<div class="q red" id="q4">
+  <h2><span class="num">Q4</span>手册说的大学 PUA 是什么？</h2>
+  <p>《反对 PUA》一章（新版新增）作者自述：开学典礼上"起点高、基础厚、要求严"的传统听起来是期许，实际效果是把排名后 50% 的同学变成<span class="hl">"习惯了自己是人下人"</span>——各类"计划""试点班"只照到前 X%，灯光外的学生逐渐丧失自信和争取资源的主动性。直到毕业后进入研究生、职场，外部反馈"能力很强、潜力很大"，才意识到本科评价体系把自己的自我评价压得太低。</p>
+  <div class="svgbox">
+  <svg width="640" height="180" viewBox="0 0 640 180">
+    <rect x="40" y="30" width="560" height="110" rx="12" fill="#1f2937"/>
+    <ellipse cx="200" cy="70" rx="120" ry="45" fill="#fde047" opacity="0.9"/>
+    <text x="200" y="66" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">前 X%：各种"计划"</text>
+    <text x="200" y="86" text-anchor="middle" font-size="12" fill="#92400e">灯光 / 宣传 / 资源</text>
+    <text x="460" y="66" text-anchor="middle" font-size="14" fill="#9ca3af">后 50%</text>
+    <text x="460" y="88" text-anchor="middle" font-size="12" fill="#9ca3af">"是不是自己菜？"</text>
+    <text x="320" y="164" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">在那些最亮的星光外，亦有群星闪烁，相映成趣</text>
+  </svg>
+  </div>
+  <div class="key"><b>行动建议：</b>跳出单一排名圈，去收集外部真实反馈；不为没入选某计划而沮丧，把精力投到实践能力的锻炼上。</div>
+</div>
+
+<div class="q purple" id="q5">
+  <h2><span class="num">Q5</span>什么是"悲壮的学习方式"？错在哪？</h2>
+  <p>每天几千人在自习室趴在山一样高的习题集上苦苦奋斗——作者说这精神"充其量只能称为悲壮"：挖空心思研究解题技巧的学生，和挖空心思研究出题技巧的老师，构成一个完美的圆环，<span class="hl">日复一日只见纸张、电力、粮食被浪费</span>。一本 1300 页的数学手册涵盖人类文明主要数学成果，而高数教材内容不超过其中 130 页——真正有志于建造科学大厦的人，不应抱着一块砖头精雕细琢。</p>
+  <div class="key"><b>核心论断：</b><span class="hl">学习最需要的不是悲壮的毅力，而是对无限未知的渴求。</span>有效学习=以最高效率获取知识，服务"为后继知识铺垫"和"创造性思维"两个目标。</div>
+  <div class="svgbox">
+  <svg width="640" height="170" viewBox="0 0 640 170">
+    <circle cx="200" cy="85" r="62" fill="none" stroke="#7c3aed" stroke-width="3" stroke-dasharray="8 5"/>
+    <text x="200" y="78" text-anchor="middle" font-size="13" fill="#5b21b6">学生钻研解题技巧</text>
+    <text x="200" y="100" text-anchor="middle" font-size="13" fill="#5b21b6">老师钻研出题技巧</text>
+    <text x="200" y="132" text-anchor="middle" font-size="12" fill="#9ca3af">完美圆环：原地空转</text>
+    <path d="M380 120 L620 45" stroke="#16a34a" stroke-width="4" marker-end="url(#arr)"/>
+    <defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#16a34a"/></marker></defs>
+    <text x="500" y="70" text-anchor="middle" font-size="13" fill="#166534" font-weight="bold">直奔知识殿堂</text>
+    <text x="500" y="92" text-anchor="middle" font-size="12" fill="#166534">效率优先 · 渴求驱动</text>
+    <text x="500" y="145" text-anchor="middle" font-size="12" fill="#6b7280">砖头 → 大厦</text>
+  </svg>
+  </div>
+</div>
+
+<div class="q yellow" id="q6">
+  <h2><span class="num">Q6</span>什么叫"正确地浪费剩下的时间"？</h2>
+  <p>把大学看作一笔投资：真正的筹码不是学费，而是<span class="hl">时间</span>。作者给出黄金规则：<span class="hl">平庸的生活方式是麻醉药</span>——它只会束缚你，让你没有作为地度过四年。任务的价值取决于它在时间尺度上的作用效率：</p>
+  <table>
+    <tr><th>档位</th><th>含义</th><th>手册的建议</th><th>例子</th></tr>
+    <tr><td style="color:var(--c-green);font-weight:bold">终身受益</td><td>对整个人生产生正面影响</td><td>尽量多做</td><td>锻炼身体、专业素养、表达能力</td></tr>
+    <tr><td style="color:var(--c-blue);font-weight:bold">中期影响</td><td>对中期未来产生影响</td><td>适度做</td><td>GPA（保研/转专业需要时）、证书</td></tr>
+    <tr><td style="color:#b45309;font-weight:bold">短期满足</td><td>只获得转瞬即逝的愉悦</td><td>少做</td><td>无目的刷题、形式主义的会议</td></tr>
+    <tr><td style="color:var(--c-red);font-weight:bold">负向消耗</td><td>负面影响</td><td>不做</td><td>熬夜、被当壮丁使唤</td></tr>
+  </table>
+  <div class="key"><b>金句：</b>"成功人士会津津乐道于在校期间锻炼出的专业素养，但几乎没有成熟的人喜欢炫耀自己当年高数考了年级第一。"</div>
+  <p>注意手册也提醒：GPA 短期重要（保研、转专业需要），但"把目光放到毕业后一两年，GPA 就会贬得一文不值"；为出国申请时成绩的作用也被过分夸大。同样时间，自学常常回报更大——例如一学期 48 小时英语课，远不如自己背 2000 个单词。</p>
+</div>
+
+<div class="q pink" id="q7">
+  <h2><span class="num">Q7</span>"你的身价是多少"在讲什么？</h2>
+  <p>这章用一杆"明码标价"的秤回答"要不要去兼职"：劳动创造的价值从不均等。面对兼职先说服自己的自尊——<span class="hl">"我是不是在以过于低廉的价格出卖自己的劳动力？"</span>对生计无虞的人，正确做法不是为蝇头小利在最底层劳动中挣扎，而是用这份时间提高身价，为今后出卖高价值劳动创造机会。</p>
+  <table>
+    <tr><th>劳动形式（手册数据，2024）</th><th>价格</th></tr>
+    <tr><td>跨国投资银行分析师首年月薪</td><td>约 70000 元/月</td></tr>
+    <tr><td>交大应届毕业生平均月薪（含本研）</td><td>约 12000 元/月</td></tr>
+    <tr><td>高中生家教市价</td><td>约 100~300 元/小时</td></tr>
+    <tr><td>上海小时最低工资 / 校内勤工助学</td><td>24 元/小时 / 20~25 元/小时</td></tr>
+  </table>
+  <div class="svgbox">
+  <svg width="640" height="160" viewBox="0 0 640 160">
+    <rect x="40" y="110" width="90" height="30" fill="#f9a8d4"/><text x="85" y="130" text-anchor="middle" font-size="11">勤工助学 20+</text>
+    <rect x="160" y="90" width="90" height="50" fill="#f472b6"/><text x="205" y="120" text-anchor="middle" font-size="11">家教 100-300</text>
+    <rect x="280" y="60" width="90" height="80" fill="#db2777"/><text x="325" y="105" text-anchor="middle" font-size="11" fill="#fff">应届 1.2万/月</text>
+    <rect x="400" y="30" width="90" height="110" fill="#9d174d"/><text x="445" y="90" text-anchor="middle" font-size="11" fill="#fff">投行 7万/月</text>
+    <text x="530" y="90" font-size="13" fill="#831843" font-weight="bold">时间该投向</text>
+    <text x="530" y="112" font-size="13" fill="#831843" font-weight="bold">"涨身价"</text>
+    <line x1="30" y1="140" x2="620" y2="140" stroke="#374151" stroke-width="2"/>
+  </svg>
+  </div>
+</div>
+
+<div class="q blue" id="q8">
+  <h2><span class="num">Q8</span>信息素养是什么？为什么重要？</h2>
+  <p>信息素养 = 信息的查找获取、理解吸收、评价、使用、加工、呈现与信息安全。手册用真实教训说明后果：老师让装 VSCode，百度第一条是广告，下载"VSCode 下载助手"还扫码付了 69 元会员费——<span class="hl">信息差就是信息素养的差距，而信息差意味着价值。</span></p>
+  <div class="key"><b>实用清单（直接来自手册）：</b>提问前先自己搜；政策事项看官网原文；学会截图而不是拍屏；二维码打码要全部码掉；发文档前删除作者信息；群发邮件用密送；善用 Tampermonkey 脚本；读《提问的智慧》和 MIT《计算机教育中缺失的一课》。</div>
+  <div class="svgbox">
+  <svg width="640" height="140" viewBox="0 0 640 140">
+    <rect x="30" y="45" width="110" height="44" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/><text x="85" y="72" text-anchor="middle" font-size="13" fill="#1e40af">搜索获取</text>
+    <path d="M140 67 L180 67" stroke="#2563eb" stroke-width="3" marker-end="url(#a2)"/>
+    <rect x="185" y="45" width="110" height="44" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text x="240" y="72" text-anchor="middle" font-size="13" fill="#b45309">辨别评价</text>
+    <path d="M295 67 L335 67" stroke="#f59e0b" stroke-width="3" marker-end="url(#a2)"/>
+    <rect x="340" y="45" width="110" height="44" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/><text x="395" y="72" text-anchor="middle" font-size="13" fill="#166534">吸收使用</text>
+    <path d="M450 67 L490 67" stroke="#16a34a" stroke-width="3" marker-end="url(#a2)"/>
+    <rect x="495" y="45" width="120" height="44" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/><text x="555" y="65" text-anchor="middle" font-size="13" fill="#b91c1c">安全呈现</text>
+    <text x="555" y="83" text-anchor="middle" font-size="11" fill="#b91c1c">防钓鱼·防泄露</text>
+    <defs><marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/></marker></defs>
+    <text x="320" y="125" text-anchor="middle" font-size="13" fill="#334155">跳过了"辨别评价"这一步，就会为"下载助手"付 69 元</text>
+  </svg>
+  </div>
+</div>
+
+<div class="q purple" id="q9">
+  <h2><span class="num">Q9</span>留学中介的坑和"上学 vs 研究"有什么区别？</h2>
+  <p><b>警惕出国中介</b>（访谈集）：中介 90% 以上做的是 application filling-in——填表 + 模板凑文书，毫无技术含量且材料作假风险巨大。"成功案例"只有两种可能：撒谎，或客户是中介倒贴钱聘来的实力派。想省钱与凭实力申请，就要<span class="hl">用自己的勇气和正直，远离中介圈套</span>。</p>
+  <p><b>区分上学与研究</b>：上学像挤独木桥——考点有限、投入时间就能高分过关；研究是汪洋大海——没有辅导书和大纲，<span class="hl">知道做什么比知道怎么做更重要</span>。研究人员必须能把自己的工作放在一年、五年、十年的时间尺度上定位；必须习惯长期无效、失败压抑，以及攻克难关瞬间无可比拟的快乐。</p>
+  <div class="svgbox">
+  <svg width="640" height="170" viewBox="0 0 640 170">
+    <text x="160" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#7c3aed">上学：独木桥</text>
+    <rect x="60" y="120" width="200" height="16" rx="6" fill="#a78bfa"/>
+    <circle cx="120" cy="105" r="9" fill="#7c3aed"/><circle cx="170" cy="98" r="9" fill="#7c3aed"/><circle cx="220" cy="108" r="9" fill="#7c3aed"/>
+    <text x="160" y="160" text-anchor="middle" font-size="12" fill="#6d28d9">闷头冲 → 高分过关（平淡无奇）</text>
+    <text x="480" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#0891b2">研究：汪洋大海</text>
+    <path d="M340 90 Q380 70 420 92 T500 90 T620 95" fill="none" stroke="#06b6d4" stroke-width="3"/>
+    <path d="M340 110 Q390 92 440 112 T540 108 T640 115" fill="none" stroke="#0891b2" stroke-width="2" opacity=".6"/>
+    <circle cx="430" cy="70" r="7" fill="#f59e0b"/>
+    <text x="430" y="55" text-anchor="middle" font-size="11" fill="#b45309">新大陆</text>
+    <text x="490" y="150" text-anchor="middle" font-size="12" fill="#0e7490">方向感 &gt; 基础知识 · 习惯失败</text>
+  </svg>
+  </div>
+</div>
+
+<div class="q green" id="q10">
+  <h2><span class="num">Q10</span>全书地图长什么样？我该怎么用这本书？</h2>
+  <div class="svgbox">
+  <svg width="640" height="240" viewBox="0 0 640 240">
+    <rect x="230" y="10" width="180" height="34" rx="10" fill="#ea580c"/><text x="320" y="33" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">生存手册（GitBook）</text>
+    <line x1="120" y1="44" x2="120" y2="70" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="320" y1="44" x2="320" y2="70" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="520" y1="44" x2="520" y2="70" stroke="#94a3b8" stroke-width="2"/>
+    <rect x="30" y="70" width="180" height="40" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+    <text x="120" y="88" text-anchor="middle" font-size="13" fill="#b91c1c" font-weight="bold">立志篇 ★核心</text>
+    <text x="120" y="104" text-anchor="middle" font-size="10" fill="#b91c1c">你想要做什么/失败思维/PUA/时间/身价</text>
+    <rect x="230" y="70" width="180" height="40" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="320" y="88" text-anchor="middle" font-size="13" fill="#1e40af" font-weight="bold">访谈集</text>
+    <text x="320" y="104" text-anchor="middle" font-size="10" fill="#1e40af">留学/做真正的研究/管理者/保研</text>
+    <rect x="430" y="70" width="180" height="40" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <text x="520" y="88" text-anchor="middle" font-size="13" fill="#166534" font-weight="bold">生存技巧</text>
+    <text x="520" y="104" text-anchor="middle" font-size="10" fill="#166534">选课/GPA 算法/突击备考/旁门左道</text>
+    <rect x="130" y="130" width="180" height="40" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text x="220" y="148" text-anchor="middle" font-size="13" fill="#b45309" font-weight="bold">附录（TODO 持续更新）</text>
+    <text x="220" y="164" text-anchor="middle" font-size="10" fill="#b45309">各专业学长分享·工作学长经验</text>
+    <rect x="330" y="130" width="180" height="40" rx="10" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="420" y="148" text-anchor="middle" font-size="13" fill="#6d28d9" font-weight="bold">序（旧版+新版）</text>
+    <text x="420" y="164" text-anchor="middle" font-size="10" fill="#6d28d9">为什么写这本书</text>
+    <text x="320" y="212" text-anchor="middle" font-size="13" fill="#334155">推荐阅读顺序：序 → 立志篇（全读）→ 按需要选读访谈集/生存技巧</text>
+  </svg>
+  </div>
+  <p><b>用法建议：</b>① 把它当"思维方式读物"而非操作手册——新版序言提醒：不要只收获套路技巧，要思考作者想传递的思想；② 两版同看——2008 版文字更锋利，新版实例更多；③ 遇到具体人生岔路（出国/保研/选导师）时回来查对应访谈；④ 部分篇章（考研、转专业等）还是 TODO 占位，注意甄别信息时效。</p>
+</div>
+
+<h2 style="color:var(--c-blue)">🧰 这本书给我什么（能力清单）</h2>
+<div class="ability">
+  <div class="a"><b>① 评价免疫能力</b><br>识别高考思维、排名 PUA，把"分数指标"和"真实能力证据"分开，主动收集圈外反馈校准自我评价。</div>
+  <div class="a"><b>② 时间投资决策</b><br>用"终身/中期/短期/负向"四档给任务定价，每周审计时间流向（见下方实验）。</div>
+  <div class="a"><b>③ 信息素养清单</b><br>搜索→辨别→使用的完整链路，附防钓鱼、防泄露、去元数据等可直接照做的操作项。</div>
+  <div class="a"><b>④ 身价锚定</b><br>用市场价格表判断兼职/时间出卖是否划算，把时间投到"涨身价"的技能上。</div>
+  <div class="a"><b>⑤ 研究入门判断</b><br>区分上学与研究，评估自己是否适合科研，了解中介套路与申请真相。</div>
+  <div class="a"><b>⑥ 对你（400+ 项目学习者）</b><br>"总有更值得做的事情"直接适用于学习队列排序：用四档价值给待学项目分级，优先学终身受益的。</div>
+</div>
+
+<h2 style="color:var(--c-green)">🔬 动手实验：一周时间投资审计器</h2>
+<p>把 Q6 的"时间价值四档"变成可运行的小工具：<code>exercise/time_invest_audit.py</code> 读取你的时间日志 CSV，自动分类统计并生成彩色 HTML 报告。以下每步命令均已在本机真实执行验证（Windows 11 + Python 3.14，设 <code>PYTHONUTF8=1</code>）。</p>
+
+<div class="step">
+  <h3>第 1 步 · 准备时间日志</h3>
+  <p><b>目的：</b>把一周的时间花销落成结构化数据。<b>实现：</b>项目 <code>exercise\week_log.csv</code> 已带 16 条示例记录（三列：<code>date,activity,hours</code>）。</p>
+  <div class="expect">✅ 预期结果：文件存在且首行为 <code>date,activity,hours</code>。</div>
+</div>
+
+<div class="step">
+  <h3>第 2 步 · 首次运行审计</h3>
+  <div class="cmd">cd sjtu_survival_manual\exercise
+set PYTHONUTF8=1 &amp;&amp; python time_invest_audit.py</div>
+  <p><b>目的：</b>看一周时间的四档分布与"时间投资评分"。<b>实现：</b>脚本按内置 CATEGORY_MAP 把活动映射到四档，终端输出分布条形图 + 明细，并生成 <code>report.html</code>。</p>
+  <div class="expect">✅ 预期结果（实测）：总时长 26.0h；终身 42.3% / 中期 11.5% / 短期 15.4% / 负向 30.8%；评分 34.2/100——负向时间太多，下周要砍。</div>
+</div>
+
+<div class="step">
+  <h3>第 3 步 · 改一个分类，看评分变化</h3>
+  <div class="cmd">:: 用文本编辑器把 CATEGORY_MAP 里 "学校英语课" 从 shortterm 改为 lifelong
+:: 并把 "帮同学调试代码并写复盘": "lifelong" 加进映射表
+:: 同时往 week_log.csv 追加一行：2026-10-04,帮同学调试代码并写复盘,1.5
+python time_invest_audit.py</div>
+  <p><b>目的：</b>验证"参数确实驱动结果"。<b>实现：</b>改映射 + 加记录后重跑。</p>
+  <div class="expect">✅ 预期结果（实测）：总时长 27.5h；终身占比升到 52.7%；评分 34.2 → 44.4；report.html 同步更新。</div>
+</div>
+
+<div class="step">
+  <h3>第 4 步 · 用自己的真实数据替换</h3>
+  <div class="cmd">:: 用记事本打开 week_log.csv，把示例记录换成你自己的一周记录
+:: 遇到 CATEGORY_MAP 没有的活动：先登记进映射表再跑，避免落入默认档
+python time_invest_audit.py</div>
+  <p><b>目的：</b>把手册的方法变成你的每周习惯。<b>实现：</b>连续记 4 周，对比每周评分趋势。</p>
+  <div class="expect">✅ 预期结果：连续四周评分逐周上升；负向档占比降到 10% 以下。</div>
+</div>
+
+<div class="footer">
+  <p><b>来源与核实：</b>本指南基于开源仓库 <code>SurviveSJTU/SurviveSJTUManual</code>（GitHub 5890+ Star，快照 commit fd64d6c，2026-10-07 克隆），官方阅读地址 survivesjtu.gitbook.io。原触发记录为 X 用户 @NFTCPS 的推荐帖（pan.quark.cn 网盘链接未采用，以开源仓库为准）。</p>
+  <p><b>与已有知识库的关联：</b>"高考思维"与 vault 中"证据优先质检"互补——指标≠证据；"正确浪费时间"四档可复用于学习队列（400+ 项目）的优先级排序。详见项目知识提案文件。</p>
+  <p><b>局限：</b>手册部分章节为 TODO 占位（考研、转专业等）；身价数据更新于 2024 年，仅作量级参照；个别表述（如对教学的全盘否定）是作者观点而非实证结论，请批判阅读——这本身就是手册倡导的独立思考。</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+  ✅ T2 试用号不可自选: [fail] 试用号不可自选：必须从产品 Try out 流程分配
+  ✅ T3 未验证 recipient 拒发: [reject] +8613800000001 不是已验证 recipient（试用只能发给已验证号码）
+  ✅ T4 验证后可发: [sent] sms 发送成功（已用 1/100）
+  ✅ T5 自定义正文拒发: [reject] 试用必须使用 Twilio 提供的模板，自定义正文不可用
+  ✅ T6 试用 SMS 限注册国: [reject] 试用 sms 限注册国（US），目标 GB 超出
+  ✅ T7 验证上限5: [fail] 已验证 recipient 已达上限 5，需升级付费账户
+  ✅ T8 30天过期拒发: [reject] 试用账户已过期（30 天周期）
+  ✅ T9 额度用尽拒发: [reject] sms 免费额度用尽（100），需升级付费账户
+  ✅ T10 邮件无需试用号: [sent] email 发送成功（已用 1/3000）
+
+测试结果：9/9 通过
+
+演示：试用账户生命周期（额度数字 = 官方文档值）
+  send sms       -> ('sent', 'sms 发送成功（已用 1/100）')
+  send whatsapp  -> ('sent', 'whatsapp 发送成功（已用 1/100）')
+  send email     -> ('sent', 'email 发送成功（已用 1/3000）')
+  额度： {'sms': '1/100', 'whatsapp': '1/100', 'email': '1/3000', 'voice_seconds': '0/4500'}

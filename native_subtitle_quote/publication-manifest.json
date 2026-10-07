@@ -1,0 +1,30 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "native-subtitle-quote-image：视频金句取帧+字幕保留生成 3:4 社交长图的 Agent Skill（开源项目类）",
+  "project_dir": "native_subtitle_quote",
+  "pdf": "native_subtitle_quote/视频字幕长图Skill-小白指南.pdf",
+  "html": "native_subtitle_quote/native_subtitle_quote-guide.html",
+  "exercise_dir": "native_subtitle_quote/exercise",
+  "experiment_log": "native_subtitle_quote/native_subtitle_quote-experiment-log.md",
+  "vault_note": "vault/项目笔记/native_subtitle_quote.md",
+  "report_path": "完成/分析报告/1b82f918-879f-4579-856d-c33c819488fd.md",
+  "source_urls": [
+    "https://x.com/ChengYi3629/status/2107427874731155490",
+    "https://github.com/chengyi-ai/native-subtitle-quote-image"
+  ],
+  "experiment_files": [
+    "native_subtitle_quote/exercise/run_output.txt",
+    "native_subtitle_quote/exercise/example_output.jpg"
+  ],
+  "upstream": {
+    "repo": "https://github.com/chengyi-ai/native-subtitle-quote-image",
+    "commit": "08d6990",
+    "note": "repo/ 浅克隆；39 项测试全绿含合成视频端到端渲染（ffmpeg 经 imageio-ffmpeg 捆绑二进制，本机无系统 ffmpeg）"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/native_subtitle_quote.md；新概念提案「内容工厂管线」（与 sprite_gen 生成后处理管线互链）在 native_subtitle_quote-knowledge-proposal.md，由协调者终审合并",
+    "pdf_pages": 6,
+    "experiment_verified": "pytest 39 passed + 17 subtests in 9.12s 全绿（干净 basetemp）；端到端用例 ffmpeg lavfi 合成视频→sample 取帧→stitch 渲染真实跑通；成品目检版式承诺兑现",
+    "pdf_verified": "结构校验通过（6 页、字体嵌入、783KB），渲染抽查由协调者 review 执行"
+  }
+}

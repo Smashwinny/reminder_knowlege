@@ -1,0 +1,10 @@
+{
+  "name": "12306-mcp-experiment",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "12306-mcp 学习实验：MCP stdio 客户端，真实调用 12306 查询工具链",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0"
+  }
+}

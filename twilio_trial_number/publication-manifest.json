@@ -1,0 +1,30 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "Twilio 试用号：免费 +1 美国手机号的机制、额度与五条隐藏条款（知识学习类）",
+  "project_dir": "twilio_trial_number",
+  "pdf": "twilio_trial_number/Twilio试用号-小白指南.pdf",
+  "html": "twilio_trial_number/twilio_trial_number-guide.html",
+  "exercise_dir": "twilio_trial_number/exercise",
+  "experiment_log": "twilio_trial_number/twilio_trial_number-experiment-log.md",
+  "vault_note": "vault/项目笔记/twilio_trial_number.md",
+  "report_path": "完成/分析报告/df222942-997b-4ebc-be4a-952cc5535c79.md",
+  "source_urls": [
+    "https://x.com/taiyanghere/status/2107100030687686680",
+    "https://www.twilio.com/docs/usage/tutorials/how-to-use-your-free-trial-account"
+  ],
+  "experiment_files": [
+    "twilio_trial_number/exercise/trial_simulator.py",
+    "twilio_trial_number/exercise/run_output.txt"
+  ],
+  "upstream": {
+    "repo": "N/A（托管服务，无代码仓库可克隆）",
+    "commit": "N/A",
+    "note": "核实依据为 Twilio 官方文档（2026-10-07 WebFetch 逐条提取）+ 本地机制模拟器"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/twilio_trial_number.md；新概念提案「免费层额度墙设计」在 twilio_trial_number-knowledge-proposal.md，含查重提示，由协调者终审合并；与 cloudflare_email_routing 姊妹篇互链",
+    "pdf_pages": 8,
+    "experiment_verified": "trial_simulator.py 按官方文档建模试用机制，9/9 断言通过 exit=0（额度数字与官方一致/试用号不可自选/验证 recipient 上限5/模板限制/地理限制/30天过期/额度用尽），run_output.txt 完整",
+    "pdf_verified": "结构校验通过（8 页、字体嵌入、848KB），渲染抽查由协调者 review 执行"
+  }
+}

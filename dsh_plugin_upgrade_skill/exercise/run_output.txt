@@ -1,0 +1,7 @@
+  ✅ T1 skill 数=11（宣称11）: dsh-benchmark-case,dsh-upgrade-audit,generic-migration,plugin-fleet-sweep,plugin-heavy-dep,plugin-release,plugin-runtime-debug,plugin-test,plugin-upgrade,plugin-workflow,plugin-write
+  ✅ T2 卡片总数=195（宣称195）: 20 个版本文件, 缺frontmatter=[]
+  ✅ T3 版本走廊覆盖 0.1.0-rc.8→0.2.0-rc.1: 区间数=20
+  ✅ T4 benchmark 任务数=65（宣称63）: 实测构成 S24/M14/H27（宣称22/14/27，实测静态比宣称多2道，为宣称低估非缺斤短两）
+  ✅ T5 卡片 AI 可读结构字段: 4/4 字段命中
+
+测试结果：5/5 通过

@@ -1,0 +1,30 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "dsh-plugin-upgrade-skill：把 DSH 版本坑写成 AI 可读升级手册的插件迁移 skill 集合（开源项目类）",
+  "project_dir": "dsh_plugin_upgrade_skill",
+  "pdf": "dsh_plugin_upgrade_skill/DSH插件升级Skill-小白指南.pdf",
+  "html": "dsh_plugin_upgrade_skill/dsh_plugin_upgrade_skill-guide.html",
+  "exercise_dir": "dsh_plugin_upgrade_skill/exercise",
+  "experiment_log": "dsh_plugin_upgrade_skill/dsh_plugin_upgrade_skill-experiment-log.md",
+  "vault_note": "vault/项目笔记/dsh_plugin_upgrade_skill.md",
+  "report_path": "完成/分析报告/d7baab36-85bf-450b-8efd-cae089fe09d6.md",
+  "source_urls": [
+    "https://x.com/NFT_Chen/status/2107040867202855211",
+    "https://github.com/oh-my-dsh/dsh-plugin-upgrade-skill"
+  ],
+  "experiment_files": [
+    "dsh_plugin_upgrade_skill/exercise/validate_claims.py",
+    "dsh_plugin_upgrade_skill/exercise/run_output.txt"
+  ],
+  "upstream": {
+    "repo": "https://github.com/oh-my-dsh/dsh-plugin-upgrade-skill",
+    "commit": "ef07576",
+    "note": "repo/ 浅克隆（5002 文件）；宣称校验为纯读取断言，不执行仓库代码"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/dsh_plugin_upgrade_skill.md；新概念提案「经验卡知识库」（与 huashu 配方卡同构）在 dsh_plugin_upgrade_skill-knowledge-proposal.md，由协调者终审合并；与 AgentHarness 概念同域注意区分",
+    "pdf_pages": 7,
+    "experiment_verified": "validate_claims.py 5/5：11 skill 精确/195 卡 cardCount 求和精确/20 区间覆盖 0.1.0-rc.8→0.2.0-rc.1/benchmark 实测 65 vs 宣称 63（静态多 2 道=宣称低估已标注）/抽样卡 4/4 AI 可读字段；T4 一轮排查修正",
+    "pdf_verified": "结构校验通过（7 页、字体嵌入、862KB），渲染抽查由协调者 review 执行"
+  }
+}

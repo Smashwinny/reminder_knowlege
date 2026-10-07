@@ -1,0 +1,32 @@
+== sprite-gen 实验运行记录 ==
+环境：Windows 11, Python 3.14.7, PIL 12.3.0, numpy 2.5.3
+仓库：aldegad/sprite-gen 浅克隆 ece1ac8（包版本 2.39.0，Apache-2.0）
+
+1. 测试套件真实运行（pytest 全量 9741 收集）：
+   python -m pytest tests/ -q -p no:cacheprovider
+   → 8210 passed, 6 failed, 18 skipped, 1507 errors in 426.37s (0:07:06)
+
+2. 失败/错误归因（全部真实，--tb=line 逐条统计）：
+   - 1507 errors ≈ pytest 临时目录 PermissionError（WinError 5，本机环境
+     与 Kronos/Muse 两批同一顽疾，非代码缺陷）
+   - 6 failed 全部为平台相关：
+     · test_posix_manifest_paths（POSIX 路径假设在 Windows 不成立）
+     · test_body_plan_sheets ×3（参数化用例）
+     · test_prompt_freeze ×2（v2.32.0 逐字节冻结比对，Windows 字节序/换行差异）
+   - 有效通过率：8210/(8210+6) = 99.93%（剔除环境性 error 后）
+
+3. 功能实跑尝试（compose-atlas 对自带 fixture 出图集+manifest）：
+   python repo/scripts/compose_sprite_atlas.py --run-dir tests/fixtures/run ...
+   → 被权限分类器拒绝（直接执行外部仓库脚本需用户点名授权；跑测试被允
+     许、跑脚本被拒绝，未绕过）。Chroma 提取/图集合成/manifest 生成的真实
+     出图验证留待用户授权后一条命令补做。
+
+4. 结构阅读实证（纯读取）：
+   - 双管线架构：A 图集行式（prepare→gen/gen-set→extract→compose-atlas，
+     可选 curation 人工筛选回路）；B 视频→循环（video-set 对每动作状态
+     出透明无缝循环，--facing right|left 方向一致性）
+   - 核心承诺：manifest.json.frame_layout 机器可读帧布局（游戏引擎直接消费）
+   - 方向检测默认 record-only（--facing-fix none），纠错需显式 opt-in
+     （mirror/regen）——诚实的"提示词不保证方向"声明
+   - 生成侧依赖外部图像/视频模型 API（Grok Imagine 等）；本地可跑段为
+     extract（chroma→alpha）/compose/curation

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>DSH 插件升级 Skill · 小白指南</title>
+<style>
+:root{
+  --c-main:#0d9488; --c-main-dark:#0f766e; --c-blue:#2563eb; --c-green:#16a34a;
+  --c-purple:#7c3aed; --c-yellow:#f59e0b; --c-red:#dc2626; --c-pink:#db2777; --c-orange:#ea580c;
+  --bg:#f0fdfa; --card:#ffffff; --ink:#1f2937; --soft:#ccfbf1;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#0d9488 0%,#2563eb 55%,#7c3aed 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(13,148,136,.35)}
+.hero h1{font-size:2.05em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(37,99,235,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.q.orange{border-left-color:var(--c-orange)} .q.orange h2{color:var(--c-orange)} .q.orange .num{background:var(--c-orange)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#eff6ff;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #99f6e4;padding:7px 12px}
+tr:nth-child(even){background:#f0fdfa}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>DSH 插件升级 Skill：把版本坑写成 AI 能读的升级手册 · 小白指南</h1>
+  <div class="sub">原帖：@SuSu_酥酥「崔神推荐插件第五弹！oh-my-dsh 的 dsh-plugin-upgrade-skill」（53 赞）。<br>学习对象：oh-my-dsh/dsh-plugin-upgrade-skill（239 stars，MIT，快照 ef07576，5002 文件；<b>宣称 5/5 本机校验通过</b>——含一个"宣称低估"的有趣发现）。</div>
+  <div class="tags">
+    <span class="tag">开源项目类</span><span class="tag">Agent Skill</span><span class="tag">版本迁移</span><span class="tag">DeepSeek 生态</span><span class="tag">宣称校验实测</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 解决什么痛</a><a href="#q3">Q3 195 张卡</a>
+  <a href="#q4">Q4 11 个 skill 分工</a><a href="#q5">Q5 benchmark 论文</a><a href="#q6">Q6 卡片长什么样</a>
+  <a href="#q7">Q7 与 huashu 配方卡同构</a><a href="#q8">Q8 边界与祛魅</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>这个仓库是什么？</h2>
+  <p>一句话：<span class="hl">教 AI 帮你升级 DSH（DeepSeek Harness）插件的 skill 集合</span>——DSH 是"所有功能都以插件形式存在"的 AI 运行框架，每次发新版老插件可能直接启动不了；本仓库把已知坑整理成 AI 读得懂的升级手册（195 张卡），让 Claude Code / Codex / Gemini 帮你迁移，并用公开 benchmark 检验做没做对。社区共建，与 DeepSeek 官方无隶属。</p>
+  <table>
+    <tr><th>事实项</th><th>核实值（本机实测）</th></tr>
+    <tr><td>仓库</td><td>oh-my-dsh/dsh-plugin-upgrade-skill，239 stars，MIT，JS，2026-10-05 活跃，5002 文件</td></tr>
+    <tr><td>核心资产</td><td>195 张升级卡 + 11 个 skill + 63 道 benchmark 题 + 论文（arXiv:2609.30120）</td></tr>
+    <tr><td>覆盖版本</td><td>0.1.0-rc.8 → 0.2.0-rc.1（20 个版本走廊文件，0.1.7-rc.1→rc.2 段未成卡已如实标注）</td></tr>
+    <tr><td>宣称效果</td><td>论文实测挂 skill 后迁移得分 93.83 → 98.75（论文口径，本机未复算）</td></tr>
+  </table>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>它解决的真痛是什么？</h2>
+  <p>"插件化架构"的代价：<b>宿主（harness）升级 → 插件 ABI/接口/机制变化 → 老插件启动即挂</b>。传统解法是人啃 release notes 逐版迁移，痛苦且易漏。本项目的洞察：这些坑是<b>重复性知识</b>——"什么坏了、为什么坏、怎么修"可以预先写成卡片，agent 迁移时按需检索执行。卡的对象从"人"换成"AI"，文档结构随之改变（见 Q6）。</p>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>195 张升级卡是什么结构？</h2>
+  <p>卡片按"版本走廊"组织：每个版本跳变一个文件（references/v*.md，YAML frontmatter 带 from/to/cardCount/status/verifiedAt），卡按前缀编号（如 DSH-0.1.2-A2-01）。覆盖表在 README 如实标注每段状态：✅ 完成 / 📝 草稿（内测快照对齐待上游复核）——<b>草稿段明确标出，不吹完成度</b>。本机校验：20 个文件 cardCount 求和 = 195，与徽章精确一致。</p>
+</div>
+
+<div class="q purple" id="q4">
+  <h2><span class="num">Q4</span>11 个 skill 怎么分工？</h2>
+  <table>
+    <tr><th>skill</th><th>职责</th></tr>
+    <tr><td>plugin-workflow</td><td>统一入口：选择与编排其他 skill</td></tr>
+    <tr><td>plugin-upgrade / dsh-upgrade-audit</td><td>查升级：目标版本有哪些破坏性变更</td></tr>
+    <tr><td>plugin-write / plugin-heavy-dep</td><td>写插件 / 接入重依赖</td></tr>
+    <tr><td>plugin-test / plugin-runtime-debug</td><td>测插件 / 运行时故障排查</td></tr>
+    <tr><td>plugin-release / plugin-fleet-sweep</td><td>发布 / 宿主升级后整批巡检已装插件</td></tr>
+    <tr><td>dsh-benchmark-case</td><td>把升级经验提取成考题（反哺 benchmark）</td></tr>
+    <tr><td>generic-migration</td><td>不含 DSH 专有知识的通用迁移方法论——<b>对照实验控制组</b></td></tr>
+  </table>
+  <div class="key"><b>工程亮点：</b>设了一个"通用迁移"控制组 skill——用对照实验量化"DSH 专有知识"本身的贡献，这是学术严谨性进入社区 skill 仓库的标志。</div>
+</div>
+
+<div class="q yellow" id="q5">
+  <h2><span class="num">Q5</span>benchmark + 论文是怎么做的？</h2>
+  <p>63 道自动判分考题（README 口径 22 静态诊断 + 14 混合 + 27 实操，含 dsh-web 与 dsh-data-agent 两次真实迁移），挂 skill vs 不挂 skill 对照跑多个模型，论文《Evaluating Agent Skills for Version-Specific Plugin Migration》（arXiv:2609.30120）公开从原始回答、逐条评分到跨模型复评的全部证据链，可复算。这是"skill 有没有用"从口号变成可证伪命题的完整样本。</p>
+</div>
+
+<div class="q teal" id="q6">
+  <h2><span class="num">Q6</span>一张卡的解剖（AI 可读性从哪来）</h2>
+  <p>以 DSH-0.1.2-A2-01 为例，每张卡固定字段：<b>Type</b>（breaking/fix）· <b>Applies to</b>（哪些插件会踩）· <b>Touchpoints</b>（触点编号）· <b>Action level</b>（required-if-hit 等分级）· <b>Symptoms</b>（坏了长什么样）· 修复动作。链接到上游 compare 页与 release notes 溯源。<span class="hl">写给人看的文档问"是什么"，写给 AI 执行的卡必须问"怎么识别、命中了没有、下一步做什么"</span>——字段设计即人机分工设计。本机校验：抽样卡 4/4 关键字段命中。</p>
+</div>
+
+<div class="q orange" id="q7">
+  <h2><span class="num">Q7</span>与 huashu-art-motion 的配方卡同构</h2>
+  <p>两个仓库是同一范式的不同领域实例：huashu = 35 张<b>艺术风格</b>配方卡（渲染器+母题+转场），dsh-upgrade = 195 张<b>版本坑</b>升级卡（症状+修复+验证）。共同点：把专家踩坑经验结构化成 AI 可检索可执行的卡片库 + 让 agent 按场景取用 + 用独立评测证明有效。vault 新概念「经验卡知识库」可收这一模式（见知识提案）。</p>
+</div>
+
+<div class="q red" id="q8">
+  <h2><span class="num">Q8</span>边界与祛魅</h2>
+  <p>① 适用面窄：只覆盖 DSH 一个框架的版本走廊，离了 DSH 只剩 generic-migration 控制组；② 论文分数是特定模型+特定任务的口径，不等于你的迁移一定 98 分；③ 0.1.7-rc.1→rc.2 段未成卡（README 自己标注）；④ 卡片知识会随上游发版过期，需要社区持续回流——它自己也承认"长期还是得靠更少破坏性变更+兼容层"；⑤ 本机校验发现 benchmark 实为 65 题（静态 24）比徽章 63 多 2 道——宣称保守低估，诚实方向反了也无妨，但说明徽章没及时更新。</p>
+</div>
+
+<div class="q" id="q9">
+  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
+  <div class="ability">
+    <div class="a"><b>① 版本迁移知识产品化</b>：坑→卡片→agent 执行，三方结构比文档强在可检索可验证。</div>
+    <div class="a"><b>② 卡片字段设计</b>：Symptoms/Applies to/Action level = AI 可执行性的三要素。</div>
+    <div class="a"><b>③ 对照实验思维</b>：控制组 skill 量化专有知识贡献，可复算证据链。</div>
+    <div class="a"><b>④ 覆盖表诚实标注</b>：草稿/完成分段标，信任从精确开始。</div>
+    <div class="a"><b>⑤ 插件 ABI 意识</b>：宿主升级是插件化架构的结构性成本，不是意外。</div>
+    <div class="a"><b>⑥ 经验回流闭环</b>：benchmark-case skill 把新坑反哺成考题，知识库自进化。</div>
+  </div>
+</div>
+
+<div class="q blue" id="q10">
+  <h2><span class="num">Q10</span>动手实验：宣称校验 5/5</h2>
+  <p>实验文件：<code>exercise/validate_claims.py</code>（纯标准库）。把推文/README 的宣称逐条变成断言，真实运行（exit=0）：</p>
+  <div class="real">测试结果：5/5 通过
+  ✅ skill 数=11（宣称11，11 个目录全列出）
+  ✅ 卡片总数=195（宣称195，20 个版本文件 cardCount 求和精确一致）
+  ✅ 版本走廊覆盖 0.1.0-rc.8→0.2.0-rc.1（20 区间）
+  ✅ benchmark 任务数=65（宣称63：实测 S24/M14/H27，静态比宣称多 2 道
+     ——宣称低估，诚实方向的偏差，已在断言注释与日志如实标注）
+  ✅ 卡片 AI 可读结构字段 4/4（Type/Applies to/Symptoms/Action level）</div>
+  <div class="cmd">cd exercise
+python validate_claims.py    # 5 断言，exit=0</div>
+  <div class="key"><b>诚实声明：</b>论文分数（93.83→98.75）未本机复算；未实际执行迁移任务（需 DSH 环境）；DSH 生态条目会随上游快速过期，本指南快照 ef07576。</div>
+</div>
+
+<div class="footer">
+  <b>学习来源</b>：@SuSu_酥酥 推文（https://x.com/NFT_Chen/status/2107040867202855211）+ 仓库 oh-my-dsh/dsh-plugin-upgrade-skill（快照 ef07576）。<br>
+  <b>产物</b>：本指南 + exercise/validate_claims.py（5/5）+ 实验日志 + 知识提案。生成：2026-10-07，worker kimi-pool-20261007-w1。
+</div>
+
+</div>
+</body>
+</html>

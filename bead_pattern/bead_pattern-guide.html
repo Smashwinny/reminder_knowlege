@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>拼豆图纸生成 · 照片转像素图纸小白指南</title>
+<style>
+:root{
+  --c-main:#ea580c; --c-main-dark:#c2410c; --c-blue:#2563eb; --c-green:#16a34a;
+  --c-purple:#7c3aed; --c-yellow:#f59e0b; --c-red:#dc2626; --c-pink:#db2777; --c-orange:#ea580c;
+  --c-teal:#0d9488;
+  --bg:#fff7ed; --card:#ffffff; --ink:#1f2937; --soft:#ffedd5;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#ea580c 0%,#db2777 55%,#7c3aed 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(234,88,12,.35)}
+.hero h1{font-size:2.05em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(219,39,119,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.q.teal{border-left-color:var(--c-teal)} .q.teal h2{color:var(--c-teal)} .q.teal .num{background:var(--c-teal)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#fdf4ff;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #fed7aa;padding:7px 12px}
+tr:nth-child(even){background:#fff7ed}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.step{background:var(--card);border:3px solid var(--c-green);border-radius:16px;padding:18px 20px;margin:16px 0;break-inside:avoid}
+.step h3{margin:0 0 8px;color:var(--c-green);font-size:1.12em}
+.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>拼豆图纸生成：照片 → 像素拼豆图纸 · 小白指南</h1>
+  <div class="sub">原帖：@红鱼「这玩意怎么赚钱不用教了吧？用上你的 Claude Code 和 Codex！」配图 = 闲鱼"拼豆图纸定制"商品（¥49–99）。<br>本指南学习对象：照片自动转拼豆图纸的算法管线 + 本机实测（标准库 231 行，真实照片端到端跑通）。</div>
+  <div class="tags">
+    <span class="tag">知识学习类</span><span class="tag">图像处理</span><span class="tag">疑问式目录</span><span class="tag">真实照片实测</span><span class="tag">零依赖</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 拼豆是什么</a><a href="#q3">Q3 核心算法</a>
+  <a href="#q4">Q4 算法管线</a><a href="#q5">Q5 格子多大合适</a><a href="#q6">Q6 颜色怎么选</a>
+  <a href="#q7">Q7 能赚钱吗</a><a href="#q8">Q8 怎么改进</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>这条记录到底在说什么？</h2>
+  <p>帖子配图为闲鱼截图：搜"拼豆图纸定制"，一屏商品全是<b>明星照片定制的拼豆像素图纸</b>（¥49、¥61、¥99），卖点是"照片→可制作的像素图纸"。帖子意思是：这种图纸用 Claude Code / Codex 写个脚本就能自动生成，拿去接单赚钱。<span class="hl">本指南学的是"照片转图纸"这个技术内核本身</span>，卖钱是应用场景（Q7 单独评估）。</p>
+  <div class="key"><b>核实声明：</b>帖子没给任何方法，图纸生成算法是本指南自建并用真实照片实测的（Q10）；闲鱼定价截图属实（已读取原图）。</div>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>拼豆（perler beads）是什么？图纸长什么样？</h2>
+  <p>拼豆 = 彩色塑料小管豆，排在带钉齿的豆板上组成像素画，覆烘焙纸用熨斗加热使豆面半熔粘连，就是一幅实体像素画。常见规格：豆板 <code>29×29</code> 钉（大图多块拼接）、常规豆径 5mm、全色卡 60+ 色。图纸 = 一张网格表：每格一个色块 + 色号符号 + 用量清单，玩家照格铺豆。</p>
+  <div class="svgbox">
+  <svg width="620" height="170" viewBox="0 0 620 170">
+    <text x="90" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">原始照片</text>
+    <circle cx="90" cy="85" r="52" fill="#f0c8a0"/>
+    <circle cx="70" cy="75" r="8" fill="#402818"/><circle cx="110" cy="75" r="8" fill="#402818"/>
+    <path d="M65 105 Q90 122 115 105" stroke="#a04a3a" stroke-width="5" fill="none"/>
+    <path d="M170 85 L 225 85" stroke="#2563eb" stroke-width="3" marker-end="url(#a1)"/>
+    <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#2563eb"/></marker></defs>
+    <text x="300" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#16a34a">图纸（网格+色号）</text>
+    <g id="g1">
+      <rect x="245" y="40" width="15" height="15" fill="#e8c0a0"/><rect x="260" y="40" width="15" height="15" fill="#e8c0a0"/><rect x="275" y="40" width="15" height="15" fill="#f0c8a0"/><rect x="290" y="40" width="15" height="15" fill="#e8c0a0"/><rect x="305" y="40" width="15" height="15" fill="#e8c0a0"/><rect x="320" y="40" width="15" height="15" fill="#e8c0a0"/>
+      <rect x="245" y="55" width="15" height="15" fill="#402818"/><rect x="260" y="55" width="15" height="15" fill="#e8c0a0"/><rect x="275" y="55" width="15" height="15" fill="#e8c0a0"/><rect x="290" y="55" width="15" height="15" fill="#e8c0a0"/><rect x="305" y="55" width="15" height="15" fill="#402818"/><rect x="320" y="55" width="15" height="15" fill="#e8c0a0"/>
+      <rect x="245" y="70" width="15" height="15" fill="#e8c0a0"/><rect x="260" y="70" width="15" height="15" fill="#402818"/><rect x="275" y="70" width="15" height="15" fill="#e8c0a0"/><rect x="290" y="70" width="15" height="15" fill="#402818"/><rect x="305" y="70" width="15" height="15" fill="#e8c0a0"/><rect x="320" y="70" width="15" height="15" fill="#e8c0a0"/>
+      <rect x="245" y="85" width="15" height="15" fill="#e8c0a0"/><rect x="260" y="85" width="15" height="15" fill="#e8c0a0"/><rect x="275" y="85" width="15" height="15" fill="#a04a3a"/><rect x="290" y="85" width="15" height="15" fill="#a04a3a"/><rect x="305" y="85" width="15" height="15" fill="#e8c0a0"/><rect x="320" y="85" width="15" height="15" fill="#e8c0a0"/>
+    </g>
+    <path d="M365 85 L 420 85" stroke="#16a34a" stroke-width="3" marker-end="url(#a2)"/>
+    <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#16a34a"/></marker></defs>
+    <text x="510" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#ea580c">实体拼豆画</text>
+    <g>
+      <circle cx="465" cy="55" r="7" fill="#f0c8a0"/><circle cx="483" cy="55" r="7" fill="#f0c8a0"/><circle cx="501" cy="55" r="7" fill="#f0c8a0"/><circle cx="519" cy="55" r="7" fill="#f0c8a0"/><circle cx="537" cy="55" r="7" fill="#f0c8a0"/><circle cx="555" cy="55" r="7" fill="#f0c8a0"/>
+      <circle cx="465" cy="73" r="7" fill="#402818"/><circle cx="483" cy="73" r="7" fill="#e8c0a0"/><circle cx="501" cy="73" r="7" fill="#e8c0a0"/><circle cx="519" cy="73" r="7" fill="#e8c0a0"/><circle cx="537" cy="73" r="7" fill="#402818"/><circle cx="555" cy="73" r="7" fill="#e8c0a0"/>
+      <circle cx="465" cy="91" r="7" fill="#e8c0a0"/><circle cx="483" cy="91" r="7" fill="#402818"/><circle cx="501" cy="91" r="7" fill="#e8c0a0"/><circle cx="519" cy="91" r="7" fill="#402818"/><circle cx="537" cy="91" r="7" fill="#e8c0a0"/><circle cx="555" cy="91" r="7" fill="#e8c0a0"/>
+      <circle cx="465" cy="109" r="7" fill="#e8c0a0"/><circle cx="483" cy="109" r="7" fill="#e8c0a0"/><circle cx="501" cy="109" r="7" fill="#a04a3a"/><circle cx="519" cy="109" r="7" fill="#a04a3a"/><circle cx="537" cy="109" r="7" fill="#e8c0a0"/><circle cx="555" cy="109" r="7" fill="#e8c0a0"/>
+    </g>
+  </svg>
+  </div>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>核心算法是什么？一句话说清。</h2>
+  <p><span class="hl">调色板量化（palette quantization）</span>：把任意照片压到"少量固定颜色 + 低分辨率网格"，使每个格子都能用一颗实体豆子复现。三个子问题：① 压到多少格（降采样）；② 每格用哪个豆色（最近色匹配）；③ 怎么输出成人能照着做的图纸（网格 + 色号 + 用量）。</p>
+  <p>这和图像处理经典问题"GIF 时代 256 色量化"同源，只不过目标色板是豆子的实体颜色，且格子数极少（几百到几千，而不是几万像素），所以用最朴素的"逐格平均 + 最近色"就够好看。</p>
+</div>
+
+<div class="q purple" id="q4">
+  <h2><span class="num">Q4</span>完整算法管线（本指南实测版）</h2>
+  <table>
+    <tr><th>步骤</th><th>操作</th><th>本实验实现</th></tr>
+    <tr><td>1. 解码</td><td>读图像素。JPEG/PNG 需库；为了零依赖，实验用 PowerShell 把照片转 24 位 BMP 再解析</td><td><code>read_bmp24()</code> 131 行内手写 BMP 头解析</td></tr>
+    <tr><td>2. 降采样</td><td>把照片切成 W×H 个格，每格取平均色（盒式滤波）</td><td><code>downsample()</code> 区域均值</td></tr>
+    <tr><td>3. 量化</td><td>每格平均色映射到调色板中距离最近的豆色（RGB 欧氏距离）</td><td><code>nearest_bead()</code> 24 色入门板</td></tr>
+    <tr><td>4. 出图</td><td>网格图纸：色块 + 符号 + 图例 + 用量统计</td><td><code>render_html()</code> + CSV 用量表</td></tr>
+  </table>
+  <div class="key"><b>为什么够快：</b>几千格 × 24 色 = 十万级距离计算，纯 Python 毫秒级；照片 945×2048 端到端 &lt;1 秒。</div>
+</div>
+
+<div class="q yellow" id="q5">
+  <h2><span class="num">Q5</span>格子定多大？尺寸怎么选？</h2>
+  <table>
+    <tr><th>用途</th><th>网格</th><th>豆数/耗时</th><th>效果</th></tr>
+    <tr><td>豆板小幅（钥匙扣）</td><td>29×29（单块豆板）</td><td>841 颗 / 1–2 小时</td><td>大头照可辨认，细节全丢</td></tr>
+    <tr><td>挂墙中幅（原帖商品主流）</td><td>48×48 ~ 60×80</td><td>2.3k–4.8k 颗 / 半天</td><td>五官可辨，商品截图多在此区间</td></tr>
+    <tr><td>大图拼接</td><td>87×93（原帖商品标注）</td><td>8k+ 颗 / 多天</td><td>接近写真，定制高价区</td></tr>
+  </table>
+  <p>宽度选择经验：<span class="hl">人脸想辨认，脸部区域至少 20 格宽</span>。算法上高度按比例自动算（<code>H = W × 照片高宽比</code>），否则人会变形。</p>
+</div>
+
+<div class="q red" id="q6">
+  <h2><span class="num">Q6</span>颜色怎么选？为什么图纸和照片有色差？</h2>
+  <p>实体豆色是离散且有限的（常见全色卡 60+ 色），照片颜色是连续的百万色——<b>量化必然有损</b>。最近色匹配在 RGB 空间用欧氏距离，有两个已知偏差：① RGB 空间不符合人眼感知（人对绿色敏感、对蓝色迟钝），同距离下蓝色误差更显眼；② 暗部容易一团黑、亮部容易一片白（调色板覆盖不到）。</p>
+  <p>实践对策：肤色/发色区人工换色（图纸生成后肉眼校对几格）、深色照片先提亮（gamma 校正）、颜色紧张时减少网格尺寸反而比硬凑颜色更保真。</p>
+</div>
+
+<div class="q pink" id="q7">
+  <h2><span class="num">Q7</span>"接单赚钱"现实吗？</h2>
+  <p>按证据算账（截图属实，市场判断为推测）：闲鱼在售价 ¥49–99/单 = 图纸文件本身；成本侧豆子+豆板+熨制材料约 ¥20–40、工时 1–数天（视尺寸）。<b>图纸自动生成后边际成本近零，真正成本是熨制人工</b>。竞争侧：该关键词已有多个在售商品，入场门槛只是"会生成图纸"——本指南的算法公开且无壁垒。</p>
+  <div class="key"><b>结论：</b>作为练手项目 + 赚点材料费可行；作为稳定收入不现实（无壁垒、平台压价、手工作品产能封顶）。帖子"怎么赚钱不用教了"是 hype，按 [[证据优先质检ProofOverClaims]] 处理。</div>
+</div>
+
+<div class="q orange" id="q8">
+  <h2><span class="num">Q8</span>这个朴素版还能怎么改进？</h2>
+  <table>
+    <tr><th>改进</th><th>收益</th><th>成本</th></tr>
+    <tr><td>CIEDE2000 / Lab 空间感知距离</td><td>肤色过渡更自然</td><td>几十行数学</td></tr>
+    <tr><td>抖动（Floyd–Steinberg）</td><td>渐变区用豆点混合模拟中间色</td><td>中等</td></tr>
+    <tr><td>真实品牌色卡（Perler/Hama 官方 RGB）</td><td>图纸颜色=实豆颜色</td><td>抄一张色卡表</td></tr>
+    <tr><td>人脸优先构图（自动裁剪到人脸框）</td><td>小尺寸下更像</td><td>需人脸检测库</td></tr>
+    <tr><td>直接输出 PNG 像素图 + 分板切割（29×29 拼块线）</td><td>多块拼接大图可施工</td><td>低</td></tr>
+  </table>
+</div>
+
+<div class="q teal" id="q9">
+  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
+  <div class="ability">
+    <div class="a"><b>① 调色板量化</b>：把连续颜色映射到离散色板，GIF 时代老手艺的新场景。</div>
+    <div class="a"><b>② 零依赖图像处理</b>：手写 BMP 解码 + 盒式滤波，不装一个 pip 包。</div>
+    <div class="a"><b>③ 尺寸/保真权衡</b>：格数、色数、可施工性三者的工程折中。</div>
+    <div class="a"><b>④ 图纸即 API</b>：输出格式服务于"人照着施工"，图例和用量表与网格同重要。</div>
+    <div class="a"><b>⑤ 副业祛魅</b>：看到"AI 接单赚钱"帖会先算壁垒和产能，而非热血沸腾。</div>
+    <div class="a"><b>⑥ 像素化思维</b>：与 [[像素化渲染管线]] 互证——降采样+硬边在不同领域的同一招。</div>
+  </div>
+</div>
+
+<div class="q blue" id="q10">
+  <h2><span class="num">Q10</span>动手实验：beadify.py（真实照片实测）</h2>
+  <p>实验文件：<code>exercise/beadify.py</code>（231 行纯标准库）+ 测试素材 <code>test_photo.bmp</code>（推文配图经 PowerShell 转 24 位 BMP，945×2048）。真实运行输出：</p>
+  <div class="real">self-test: 4/4 通过（最近色×2、盒式均值、尺寸保持）
+源图：945×2048 → 豆格：48×104（共 4992 颗）
+用色 21 种，前 5：W白 1697 / LG浅灰 745 / GY中灰 610 / CR米白 576 / DGY深灰 308
+源图：945×2048 → 豆格：29×29（共 841 颗）
+用色 17 种，前 5：W 214 / LG 169 / CR 147 / GY 120 / DGY 54</div>
+  <p>29×29 图纸已截图目检（check29.png）：网格、符号、图例、用量表全部正确，色块结构与原图区域吻合（黑发区 K、蓝衣区 B/DB、粉区 HP 均可指认）。修复记录：首版图例调色板索引 bug（p[2] 取成 int）→ 真实报错 → 修复后重跑通过，过程如实保留在 run_output.txt。</p>
+  <p>复现命令：</p>
+  <div class="cmd">cd exercise
+python beadify.py self-test
+python beadify.py convert test_photo.bmp --width 29 --height 29 --out pattern29.html
+python beadify.py convert test_photo.bmp --width 48 --out pattern48.html</div>
+  <div class="key"><b>诚实声明：</b>实验验证到"图纸文件正确生成"为止；未做实体铺豆熨制（需购买材料）。手工环节的常见问题（豆子色差、熨烫火候）不在本实验范围。</div>
+</div>
+
+<div class="footer">
+  <b>学习来源</b>：@红鱼 HYhongyu8 推文（https://x.com/HYhongyu8/status/2107169090737770771）及配图（闲鱼"拼豆图纸定制"商品截图）。算法与实现为本指南自建实测。<br>
+  <b>产物</b>：本指南 + exercise/beadify.py（self-test 4/4 + 两档尺寸真实转换）+ 实验日志 + 知识提案。生成：2026-10-07，worker kimi-pool-20261007-w1。
+</div>
+
+</div>
+</body>
+</html>

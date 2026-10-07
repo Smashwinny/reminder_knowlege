@@ -1,0 +1,31 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "《上海交通大学生存手册》(SurviveSJTU Manual) 开源人生方法论手册学习",
+  "project_dir": "sjtu_survival_manual",
+  "pdf": "sjtu_survival_manual/上海交通大学生存手册-小白指南.pdf",
+  "html": "sjtu_survival_manual/sjtu_survival_manual-guide.html",
+  "exercise_dir": "sjtu_survival_manual/exercise",
+  "experiment_log": "sjtu_survival_manual/sjtu_survival_manual-experiment-log.md",
+  "vault_note": "vault/项目笔记/sjtu_survival_manual.md",
+  "report_path": "完成/分析报告/327aa7d1-1301-4062-8a95-218024e2e967.md",
+  "source_urls": [
+    "https://x.com/NFTCPS/status/2107396492721897729",
+    "https://github.com/SurviveSJTU/SurviveSJTUManual",
+    "https://survivesjtu.gitbook.io/survivesjtumanual/"
+  ],
+  "experiment_files": [
+    "sjtu_survival_manual/exercise/time_invest_audit.py",
+    "sjtu_survival_manual/exercise/week_log.csv",
+    "sjtu_survival_manual/exercise/report.html"
+  ],
+  "upstream": {
+    "repo": "https://github.com/SurviveSJTU/SurviveSJTUManual",
+    "commit": "fd64d6c",
+    "note": "repo/ 为浅克隆（--depth 1），.gitignore 排除不提交"
+  },
+  "notes": {
+    "vault_note": "按协调者 2026-10-07 裁定新建 vault/项目笔记/sjtu_survival_manual.md 提案笔记；概念提案在 sjtu_survival_manual/sjtu_survival_manual-knowledge-proposal.md，由协调者查重合并",
+    "pdf_pages": 14,
+    "pdf_verified": "文件结构校验通过（14 页、字体嵌入），渲染抽查由协调者 review 执行"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "12306-mcp：基于 MCP 协议的 12306 车票查询服务器（开源项目）",
+  "project_dir": "12306_mcp",
+  "pdf": "12306_mcp/12306-mcp小白指南.pdf",
+  "html": "12306_mcp/12306_mcp-guide.html",
+  "exercise_dir": "12306_mcp/exercise",
+  "experiment_log": "12306_mcp/12306_mcp-experiment-log.md",
+  "vault_note": "vault/项目笔记/12306_mcp.md",
+  "report_path": "完成/分析报告/ca5f6bb2-938c-458d-aca8-0b60fe685a6b.md",
+  "source_urls": [
+    "https://x.com/ai_fengshou/status/2106999577987654084",
+    "https://github.com/Joooook/12306-mcp"
+  ],
+  "experiment_files": [
+    "12306_mcp/exercise/mcp_client.mjs",
+    "12306_mcp/exercise/package.json",
+    "12306_mcp/exercise/run_output.txt"
+  ],
+  "upstream": {
+    "repo": "https://github.com/Joooook/12306-mcp",
+    "commit": "ff6439d",
+    "note": "repo/ 浅克隆，npm i 用 --ignore-scripts + 手动 npx tsc 编译；.gitignore 排除不提交"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/12306_mcp.md；概念提案（MCP/网页接口包装/工具分层）在 12306_mcp-knowledge-proposal.md，含查重提示，由协调者合并",
+    "pdf_pages": 12,
+    "experiment_verified": "mcp_client.mjs 真实运行 exit=0，查到 2026-10-08 北京→上海真实余票与 G531 经停时刻"
+  }
+}

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>12306-mcp · 小白指南</title>
+<style>
+:root{
+  --c-main:#0891b2; --c-main-dark:#0e7490; --c-blue:#2563eb; --c-green:#16a34a;
+  --c-purple:#7c3aed; --c-yellow:#f59e0b; --c-red:#dc2626; --c-pink:#db2777; --c-orange:#ea580c;
+  --bg:#ecfeff; --card:#ffffff; --ink:#1f2937; --soft:#cffafe;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#0891b2 0%,#2563eb 55%,#7c3aed 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(8,145,178,.35)}
+.hero h1{font-size:2.1em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(37,99,235,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.q.orange{border-left-color:var(--c-orange)} .q.orange h2{color:var(--c-orange)} .q.orange .num{background:var(--c-orange)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#f0f9ff;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #67e8f9;padding:7px 12px}
+tr:nth-child(even){background:#ecfeff}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.step{background:var(--card);border:3px solid var(--c-green);border-radius:16px;padding:18px 20px;margin:16px 0;break-inside:avoid}
+.step h3{margin:0 0 8px;color:var(--c-green);font-size:1.12em}
+.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#0c4a6e;color:#e0f2fe;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>12306-mcp 小白指南</h1>
+  <div class="sub">一个 2200+ Star 的开源 MCP 服务器：让 Claude 等大模型直接用自然语言查 12306 车票、中转和经停站。<br>学习来源：github.com/Joooook/12306-mcp（MIT，快照 commit ff6439d，2026-10-07 克隆实测）</div>
+  <div class="tags">
+    <span class="tag">开源项目类</span><span class="tag">MCP 工具链</span><span class="tag">疑问式目录</span><span class="tag">真实查询实验</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 什么是 MCP</a><a href="#q3">Q3 整体架构</a>
+  <a href="#q4">Q4 启动时做什么</a><a href="#q5">Q5 八个工具</a><a href="#q6">Q6 怎么调 12306</a>
+  <a href="#q7">Q7 中转与经停</a><a href="#q8">Q8 怎么装</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>这个项目是什么？解决什么问题？</h2>
+  <p>12306-mcp 是作者 Joooook 用 TypeScript 写的一个<strong>车票查询服务器</strong>。矛盾在于：12306 官方只给人看的网页/App，<span class="hl">没有给大模型用的 API</span>；而大模型想帮你"查后天去北京的高铁"，必须有人替它去网页背后抓数据。这个项目就是那个"替身"——它把 12306 的网页接口包装成 8 个标准工具，任何支持 MCP 的 AI 客户端（Claude Desktop、Claude Code、Codex 等）配一行就能用。</p>
+  <div class="key"><b>一句话：</b>12306-mcp = 12306 网页接口 → MCP 标准工具 的<span class="hl">翻译器</span>。它只查票不买票（订票要登录、验证码、支付，属于另一个世界）。</div>
+  <table>
+    <tr><th>功能</th><th>状态</th><th>对应工具</th></tr>
+    <tr><td>查余票（车次/时间/价格/余票）</td><td>✅</td><td><code>get-tickets</code></td></tr>
+    <tr><td>中转查询（指定中转站）</td><td>✅</td><td><code>get-interline-tickets</code></td></tr>
+    <tr><td>经停站查询</td><td>✅</td><td><code>get-train-route-stations</code></td></tr>
+    <tr><td>城市↔车站代码换算</td><td>✅</td><td>4 个基础工具</td></tr>
+  </table>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>什么是 MCP？为什么需要它？</h2>
+  <p><b>MCP（Model Context Protocol，模型上下文协议）</b>是 Anthropic 2024 年提出的开放协议：规定"AI 应用如何发现和调用外部工具/数据源"。可以类比<span class="hl">USB-C 接口</span>：以前每个外设一种插头（每个插件写一套自定义接入），现在统一一个口，键盘、显示器、硬盘插上就能用。</p>
+  <div class="svgbox">
+  <svg width="640" height="190" viewBox="0 0 640 190">
+    <text x="160" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">没有 MCP：N×M 适配噩梦</text>
+    <circle cx="70" cy="70" r="26" fill="#fecaca" stroke="#dc2626"/><text x="70" y="75" text-anchor="middle" font-size="11">Claude</text>
+    <circle cx="70" cy="140" r="26" fill="#fecaca" stroke="#dc2626"/><text x="70" y="145" text-anchor="middle" font-size="11">Codex</text>
+    <rect x="200" y="45" width="90" height="30" rx="8" fill="#fee2e2" stroke="#dc2626"/><text x="245" y="65" text-anchor="middle" font-size="11">12306 适配</text>
+    <rect x="200" y="90" width="90" height="30" rx="8" fill="#fee2e2" stroke="#dc2626"/><text x="245" y="110" text-anchor="middle" font-size="11">数据库适配</text>
+    <rect x="200" y="135" width="90" height="30" rx="8" fill="#fee2e2" stroke="#dc2626"/><text x="245" y="155" text-anchor="middle" font-size="11">文件适配</text>
+    <path d="M96 70 L200 58 M96 70 L200 103 M96 140 L200 103 M96 140 L200 148" stroke="#f87171" stroke-width="1.5"/>
+    <text x="480" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#16a34a">有了 MCP：统一插座</text>
+    <circle cx="380" cy="105" r="26" fill="#dcfce7" stroke="#16a34a"/><text x="380" y="110" text-anchor="middle" font-size="11">Claude</text>
+    <circle cx="450" cy="105" r="26" fill="#dcfce7" stroke="#16a34a"/><text x="450" y="110" text-anchor="middle" font-size="11">Codex</text>
+    <rect x="495" y="85" width="40" height="40" rx="8" fill="#16a34a"/>
+    <text x="515" y="110" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">MCP</text>
+    <rect x="555" y="45" width="70" height="26" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="590" y="63" text-anchor="middle" font-size="10">12306</text>
+    <rect x="555" y="92" width="70" height="26" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="590" y="110" text-anchor="middle" font-size="10">数据库</text>
+    <rect x="555" y="139" width="70" height="26" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="590" y="157" text-anchor="middle" font-size="10">文件</text>
+    <path d="M535 95 L555 58 M535 105 L555 105 M535 115 L555 152" stroke="#16a34a" stroke-width="2"/>
+  </svg>
+  </div>
+  <p>一次 MCP 会话分三步：<b>① 握手</b>（客户端问"你是谁、有哪些工具"）→<b>② 看菜单</b>（服务器返回工具清单，每个工具附名字、说明、参数 schema）→<b>③ 点菜</b>（客户端以 JSON 调用工具，拿回文本/数据结构）。12306-mcp 是<span class="hl">工具提供方（server）</span>，Claude Desktop 这类是<span class="hl">调用方（client）</span>。</p>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>整体架构长什么样？</h2>
+  <div class="svgbox">
+  <svg width="660" height="240" viewBox="0 0 660 240">
+    <rect x="20" y="30" width="120" height="52" rx="12" fill="#cffafe" stroke="#0891b2" stroke-width="2"/>
+    <text x="80" y="52" text-anchor="middle" font-size="13" fill="#0e7490" font-weight="bold">你</text>
+    <text x="80" y="70" text-anchor="middle" font-size="11" fill="#0e7490">"后天去北京的高铁"</text>
+    <rect x="190" y="30" width="130" height="52" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="255" y="52" text-anchor="middle" font-size="13" fill="#1e40af" font-weight="bold">AI 客户端</text>
+    <text x="255" y="70" text-anchor="middle" font-size="11" fill="#1e40af">Claude Desktop / Code</text>
+    <rect x="370" y="18" width="130" height="76" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2.5"/>
+    <text x="435" y="42" text-anchor="middle" font-size="13" fill="#166534" font-weight="bold">12306-mcp 服务器</text>
+    <text x="435" y="60" text-anchor="middle" font-size="10.5" fill="#166534">启动: 抓站名建索引</text>
+    <text x="435" y="76" text-anchor="middle" font-size="10.5" fill="#166534">8 个工具 + zod 校验</text>
+    <rect x="540" y="18" width="100" height="30" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
+    <text x="590" y="37" text-anchor="middle" font-size="11" fill="#b45309">kyfw.12306.cn</text>
+    <rect x="540" y="52" width="100" height="30" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
+    <text x="590" y="71" text-anchor="middle" font-size="11" fill="#b45309">search.12306.cn</text>
+    <path d="M140 56 L190 56" stroke="#334155" stroke-width="2.5" marker-end="url(#ar)"/>
+    <path d="M320 56 L370 56" stroke="#334155" stroke-width="2.5" marker-end="url(#ar)"/>
+    <path d="M500 44 L540 33" stroke="#334155" stroke-width="2"/>
+    <path d="M500 66 L540 67" stroke="#334155" stroke-width="2"/>
+    <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#334155"/></marker></defs>
+    <rect x="190" y="130" width="130" height="62" rx="12" fill:#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="255" y="152" text-anchor="middle" font-size="12" fill="#6d28d9" font-weight="bold">传输层（二选一）</text>
+    <text x="255" y="170" text-anchor="middle" font-size="10.5" fill="#6d28d9">stdio：本地子进程管道</text>
+    <text x="255" y="185" text-anchor="middle" font-size="10.5" fill="#6d28d9">HTTP/SSE：--port 起服务</text>
+    <path d="M255 92 L255 130" stroke="#7c3aed" stroke-width="2" stroke-dasharray="5 4"/>
+    <text x="480" y="140" font-size="11.5" fill="#334155">本项目用官方 TS SDK：</text>
+    <text x="480" y="158" font-size="11.5" fill="#334155">@modelcontextprotocol/sdk</text>
+    <text x="480" y="176" font-size="11.5" fill="#334155">+ mcp-http-server 封装</text>
+    <text x="330" y="225" text-anchor="middle" font-size="12" fill="#334155">数据流向：你 → AI 客户端 → MCP 工具调用 → 12306 网页接口 → 原路返回格式化结果</text>
+  </svg>
+  </div>
+  <p>源码极精简：核心就 <code>src/index.ts</code>（1633 行）+ <code>src/types.ts</code>（315 行）。两种运行形态：<span class="hl">stdio</span>（客户端把服务器当本地子进程拉起，用标准输入输出传 JSON，适合桌面客户端）和 <span class="hl">HTTP</span>（<code>--port</code> 起 SSE/Streamable HTTP 服务，适合远程或多客户端共享）。</p>
+</div>
+
+<div class="q yellow" id="q4">
+  <h2><span class="num">Q4</span>服务器启动时偷偷做了什么？</h2>
+  <p>启动不是"监听端口就完事"，它先做三件准备工作（实测启动到就绪约几秒，取决于网络）：</p>
+  <div class="svgbox">
+  <svg width="640" height="150" viewBox="0 0 640 150">
+    <rect x="20" y="45" width="130" height="58" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text x="85" y="68" text-anchor="middle" font-size="12" fill="#b45309" font-weight="bold">① 抓全国站名表</text>
+    <text x="85" y="86" text-anchor="middle" font-size="10" fill="#b45309">访问 12306 首页</text>
+    <path d="M150 74 L185 74" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#a4)"/>
+    <rect x="188" y="45" width="140" height="58" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="258" y="68" text-anchor="middle" font-size="12" fill="#1e40af" font-weight="bold">② 建四张索引</text>
+    <text x="258" y="86" text-anchor="middle" font-size="10" fill="#1e40af">按码/城市/站名互查</text>
+    <path d="M328 74 L363 74" stroke="#2563eb" stroke-width="2.5" marker-end="url(#a4)"/>
+    <rect x="366" y="45" width="130" height="58" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <text x="431" y="68" text-anchor="middle" font-size="12" fill="#166534" font-weight="bold">③ 探测查询路径</text>
+    <text x="431" y="86" text-anchor="middle" font-size="10" fill="#166534">leftTicket 与 lcQuery</text>
+    <path d="M496 74 L531 74" stroke="#16a34a" stroke-width="2.5" marker-end="url(#a4)"/>
+    <rect x="534" y="45" width="90" height="58" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2.5"/>
+    <text x="579" y="72" text-anchor="middle" font-size="12" fill="#166534" font-weight="bold">就绪</text>
+    <text x="579" y="88" text-anchor="middle" font-size="10" fill="#166534">注册 8 工具</text>
+    <defs><marker id="a4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/></marker></defs>
+    <text x="320" y="130" text-anchor="middle" font-size="11.5" fill="#64748b">含义：车站代码（如北京=BJP）是 12306 接口的"护照"，LLM 只会说"北京"，索引表负责翻译</text>
+  </svg>
+  </div>
+  <ul>
+    <li><b>站名数据</b>：从 12306 首页 HTML 里找到站名 JS 文件路径，下载解析出全国几千个车站，再手工补充缺失站（如"成都东"）。</li>
+    <li><b>四张索引表</b>：<code>STATIONS</code>（代码→车站全信息）、<code>CITY_STATIONS</code>（城市→市内所有站）、<code>CITY_CODES</code>（城市→同名代表站）、<code>NAME_STATIONS</code>（站名→代码）。</li>
+    <li><b>路径探测</b>：12306 的余票查询路径会不定期变化（如 <code>leftTicket/queryA</code> ↔ <code>queryG</code>），启动时先请求 init 页探测当前有效路径，<span class="hl">这是项目能"活得久"的关键设计</span>。</li>
+  </ul>
+</div>
+
+<div class="q purple" id="q5">
+  <h2><span class="num">Q5</span>八个工具怎么分工？为什么要分层？</h2>
+  <div class="svgbox">
+  <svg width="640" height="215" viewBox="0 0 640 215">
+    <text x="160" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">基础层（查"地址"）</text>
+    <rect x="20" y="34" width="280" height="30" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="160" y="54" text-anchor="middle" font-size="11.5" fill="#1e40af">get-current-date — 今天几号（上海时区）</text>
+    <rect x="20" y="70" width="280" height="30" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="160" y="90" text-anchor="middle" font-size="11.5" fill="#1e40af">get-station-code-of-citys — 城市→代表站代码</text>
+    <rect x="20" y="106" width="280" height="30" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="160" y="126" text-anchor="middle" font-size="11.5" fill="#1e40af">get-stations-code-in-city — 城市→全部车站</text>
+    <rect x="20" y="142" width="280" height="30" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="160" y="162" text-anchor="middle" font-size="11.5" fill="#1e40af">get-station-code-by-names — 具体站名→代码</text>
+    <rect x="20" y="178" width="280" height="30" rx="8" fill="#dbeafe" stroke="#256eb"/><text x="160" y="198" text-anchor="middle" font-size="11.5" fill="#1e40af">get-station-by-telecode — 代码→站详情（反查）</text>
+    <path d="M300 106 L360 106" stroke="#7c3aed" stroke-width="3" marker-end="url(#a5)"/>
+    <text x="330" y="96" text-anchor="middle" font-size="11" fill="#7c3aed">供给</text>
+    <text x="500" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#7c3aed">核心层（办"正事"）</text>
+    <rect x="365" y="40" width="260" height="44" rx="10" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="495" y="60" text-anchor="middle" font-size="12.5" fill="#6d28d9" font-weight="bold">get-tickets 查余票</text>
+    <text x="495" y="76" text-anchor="middle" font-size="10.5" fill="#6d28d9">日期+出发站+到达站+车型筛选</text>
+    <rect x="365" y="96" width="260" height="44" rx="10" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="495" y="116" text-anchor="middle" font-size="12.5" fill="#6d28d9" font-weight="bold">get-interline-tickets 中转查询</text>
+    <text x="495" y="132" text-anchor="middle" font-size="10.5" fill="#6d28d9">两段行程拼接，暂只返回前 10 条</text>
+    <rect x="365" y="152" width="260" height="44" rx="10" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="495" y="172" text-anchor="middle" font-size="12.5" fill="#6d28d9" font-weight="bold">get-train-route-stations 经停站</text>
+    <text x="495" y="188" text-anchor="middle" font-size="10.5" fill="#6d28d9">车次+日期 → 全程停靠时刻表</text>
+    <defs><marker id="a5" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#7c3aed"/></marker></defs>
+  </svg>
+  </div>
+  <p>分层是刻意的：<span class="hl">大模型不会背车站代码</span>。查票前它必须先调基础工具把"北京"翻译成 BJP、"上海"翻译成 SHH，再拿代码去调核心工具。这种"先查字典再办事"的模式，是所有数据查询类 MCP 服务器的通用套路（你的 agent 知识库里多处可见同类设计）。</p>
+</div>
+
+<div class="q pink" id="q6">
+  <h2><span class="num">Q6</span>它具体怎么把 12306 网页接口"骗"成 API 的？</h2>
+  <p>12306 网页自己也要调后端 JSON 接口（如 <code>/otn/leftTicket/query</code>），只是这些接口<span class="hl">不公开、要带 Cookie、路径还会变</span>。12306-mcp 的做法：</p>
+  <ol>
+    <li><b>参数校验</b>：每个工具用 <code>zod</code> 声明 schema（如日期必须 10 位 <code>yyyy-MM-dd</code>、车站代码必须存在、筛选标志只能是 GDZTKOFS 中的字母），非法输入在进 12306 之前就被打回——<span class="hl">这是 LLM 工具的守门员</span>。</li>
+    <li><b>Cookie 预处理</b>：先访问 init 页拿到会话 Cookie，再带 Cookie 请求查询接口（12306 对裸请求会拒绝）。</li>
+    <li><b>中文名自动翻译</b>：<code>get-tickets</code> 的出发/到达参数直接收"北京"这种中文，内部查索引表转代码；实验实测传中文名成功。</li>
+    <li><b>结果格式化</b>：把 12306 返回的密麻字段（<code>secretStr</code>、<code>yz_num</code> 等）翻译成"G1 北京南→上海虹桥 06:30→11:24 二等座 剩余1张票 661元"这种人话，再喂回大模型。</li>
+  </ol>
+  <div class="key"><b>值得偷的设计：</b>查询路径启动时动态探测（Q4 ③）+ 输入输出双层翻译 + zod 守门。写任何"包装网页服务"的工具都适用。</div>
+</div>
+
+<div class="q orange" id="q7">
+  <h2><span class="num">Q7</span>中转查询和经停查询有什么特别的？</h2>
+  <p><b>中转（get-interline-tickets）</b>：走 12306 的 <code>/lcquery/queryU</code> 接口（网页版"中转换乘"页背后的接口），可指定中转站，结果只取前 10 条——作者在文档里明确写了这个限制，<span class="hl">诚实的边界标注是开源项目的好品味</span>。</p>
+  <p><b>经停（get-train-route-stations）</b>：先从 <code>search.12306.cn</code> 按车次号+日期查到列车完整编码，再格式化全程停靠表。实验实测 G531 次返回 13 个经停站的到发时刻（见 Q10）。</p>
+</div>
+
+<div class="q red" id="q8">
+  <h2><span class="num">Q8</span>怎么把它装进自己的环境？</h2>
+  <div class="cmd"># 方式一：一行 npx（stdio，适合 Claude Desktop / Claude Code）
+npx -y 12306-mcp
+
+# 方式二：HTTP 服务模式（远程或多客户端）
+npx -y 12306-mcp --port 8080
+
+# 方式三：Docker
+docker build . -t 12306-mcp &amp;&amp; docker run -p 8080:8080 -d 12306-mcp npx 12306-mcp --port 8080</div>
+  <p>Claude Desktop 配置（<code>claude_desktop_config.json</code> 里加）：</p>
+  <div class="cmd">"mcpServers": {
+  "12306-mcp": { "command": "npx", "args": ["-y", "12306-mcp"] }
+}</div>
+  <div class="key"><b>环境要求：</b>Node.js ≥ 18；开发调试用的 MCP Inspector 2.0 要 Node ≥ 22.19。本机实测 Node v24.21.0 通过。</div>
+</div>
+
+<h2 id="q9" style="color:var(--c-blue)">🧰 这个项目给我什么（能力清单）</h2>
+<div class="ability">
+  <div class="a"><b>① 一句话查票</b><br>在 Claude Desktop 里说"后天上午北京到上海的高铁，二等座有票的"，AI 自动完成日期计算、站名翻译、查票、汇总。</div>
+  <div class="a"><b>② 自己写 MCP 服务器的范本</b><br>1600 行 TypeScript 展示了 MCP 工具注册、zod 校验、双传输模式（stdio/HTTP）的完整写法，可复制为模板。</div>
+  <div class="a"><b>③ "包装网页接口"方法论</b><br>动态路径探测 + Cookie 预处理 + 输入输出翻译，适用于任何没有公开 API 但要被 AI 使用的网站。</div>
+  <div class="a"><b>④ 与你的 agent 知识库互相印证</b><br>工具分层、依赖注入、边界标注等设计在 agent-harness 等已学项目中同构，可互相类比巩固。</div>
+  <div class="a"><b>⑤ 出行规划自动化素材</b><br>中转查询 + 经停查询组合，可做成"每周五自动查回家车票"类的定时 agent 工具。</div>
+  <div class="a"><b>⑥ 边界清醒</b><br>只查不买；中转只回前 10 条；余票数据以 12306 实时为准但官方随时可能改接口——本项目可能哪天就失效，这是这类工具的宿命。</div>
+</div>
+
+<div class="q green" id="q10">
+  <h2><span class="num">Q10</span>动手实验：五步真实查询（全部实测）</h2>
+  <p>实验材料在 <code>12306_mcp/exercise/</code>：<code>mcp_client.mjs</code> 是一个最小 MCP 客户端，通过 stdio 启动 <code>repo/build/index.js</code> 并连续调用 5 个工具。以下输出为本机 2026-10-07 真实运行结果（完整记录见 exercise/run_output.txt）。</p>
+
+  <div class="step">
+    <h3>第 1 步 · 编译项目</h3>
+    <div class="cmd">cd 12306_mcp\repo
+npm i --ignore-scripts    :: 跳过生命周期脚本，依赖装完
+npx tsc                   :: 手动编译，生成 build\index.js</div>
+    <div class="expect">✅ 预期结果（实测）：build\index.js 生成，无编译错误。</div>
+  </div>
+
+  <div class="step">
+    <h3>第 2 步 · 启动客户端看工具菜单</h3>
+    <div class="cmd">cd 12306_mcp\exercise
+npm i --ignore-scripts
+node mcp_client.mjs</div>
+    <p><b>目的：</b>验证 MCP 握手与工具发现。服务器启动时会实时抓取 12306 全国站名（几秒）。</p>
+    <div class="expect">✅ 预期结果（实测）：打印 8 个工具（get-current-date / get-station-code-* / get-tickets / get-interline-tickets / get-train-route-stations）。</div>
+  </div>
+
+  <div class="step">
+    <h3>第 3 步 · 城市名翻译 + 查明天高铁票</h3>
+    <p>客户端依次调用 <code>get-current-date</code> → <code>get-station-code-of-citys("北京|上海")</code> → <code>get-tickets(明天, 北京, 上海, G)</code>。</p>
+    <div class="real">实测输出（节选）：
+{"北京":{"station_code":"BJP"},"上海":{"station_code":"SHH"}}
+
+G1 北京南 -> 上海虹桥 06:30 -> 11:24 历时：04:54
+- 商务座: 剩余8张票 2315元
+- 一等座: 剩余2张票 1058元
+- 二等座: 剩余1张票 661元
+（共 6521 字符的完整车次表）</div>
+    <div class="expect">✅ 预期结果：返回真实余票（G1 二等座仅剩 1 张）。传中文城市名直接被接受。</div>
+  </div>
+
+  <div class="step">
+    <h3>第 4 步 · 查经停站</h3>
+    <div class="real">实测输出（G531 次，节选）：
+1|北京南|----|06:08
+2|天津南|06:39|06:41
+...
+10|南京南|10:42|10:45
+...
+13|上海虹桥|12:04|12:04</div>
+    <div class="expect">✅ 预期结果：13 个经停站到发时刻完整返回。</div>
+  </div>
+
+  <div class="step">
+    <h3>第 5 步 · 改参数再玩（自主探索）</h3>
+    <div class="cmd">:: 把 mcp_client.mjs 里的 trainFilterFlags 改成 'D'（动车）
+:: 或把 fromStation/toStation 改成你自己的常用路线，重跑
+node mcp_client.mjs</div>
+    <div class="expect">✅ 预期结果：车型筛选生效，只返回 D 字头车次；换城市同样成立。</div>
+  </div>
+
+  <p><b>实验中踩到的两个真实坑（写进了代码注释）：</b>① Windows 下 <code>import.meta.url.pathname</code> 会得到 <code>/F:/...</code> 造成路径重复，必须用 <code>fileURLToPath</code>；② 工具参数名以 zod schema 为准（<code>citys</code>、<code>trainCode</code>、<code>departDate</code>），文档与 schema 不一致时以 schema 为准。</p>
+</div>
+
+<div class="footer">
+  <p><b>来源与核实：</b>触发记录为 @ai_fengshou 的 X 推荐帖（帖称 1.8k star，实测 2258 仍在涨）；上游 github.com/Joooook/12306-mcp，MIT 许可，快照 commit ff6439d（2026-10-07 浅克隆）。全部实验命令在本机 Windows 11 + Node v24.21.0 真实执行，输出存于 exercise/run_output.txt。</p>
+  <p><b>与已有知识库的关联：</b>MCP 协议与 agent-harness / agent-engineering 等项目的工具接入同构；zod 参数守门对应"证据优先质检"的输入侧思维；工具分层模式可与已学概念互相 [[链接]]（详见知识提案）。</p>
+  <p><b>局限：</b>只读查询、不含订票；依赖 12306 网页接口的现行结构，官方改版即可能失效；中转结果只回前 10 条；余票为查询时刻快照。</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "拼豆图纸生成：照片经调色板量化自动转拼豆像素图纸的算法管线（知识学习类）",
+  "project_dir": "bead_pattern",
+  "pdf": "bead_pattern/拼豆图纸生成-小白指南.pdf",
+  "html": "bead_pattern/bead_pattern-guide.html",
+  "exercise_dir": "bead_pattern/exercise",
+  "experiment_log": "bead_pattern/bead_pattern-experiment-log.md",
+  "vault_note": "vault/项目笔记/bead_pattern.md",
+  "report_path": "完成/分析报告/9574dd67-500c-4867-b781-44349665f22e.md",
+  "source_urls": [
+    "https://x.com/HYhongyu8/status/2107169090737770771",
+    "https://pbs.twimg.com/media/HT4rHTfaEAANxhO.jpg"
+  ],
+  "experiment_files": [
+    "bead_pattern/exercise/beadify.py",
+    "bead_pattern/exercise/run_output.txt",
+    "bead_pattern/exercise/pattern29.html",
+    "bead_pattern/exercise/pattern29.csv",
+    "bead_pattern/exercise/pattern48.html",
+    "bead_pattern/exercise/check29.png"
+  ],
+  "upstream": {
+    "repo": "N/A（原帖无方法，算法为本项目自建实测）",
+    "commit": "N/A",
+    "note": "测试素材 test_photo.bmp 由推文原图经 PowerShell System.Drawing 转 24 位 BMP"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/bead_pattern.md；新概念提案「调色板量化与拼豆图纸」在 bead_pattern-knowledge-proposal.md，含查重提示，由协调者终审合并",
+    "pdf_pages": 8,
+    "experiment_verified": "beadify.py self-test 4/4；真实照片 945×2048 端到端两档转换（48×104/21色、29×29/17色）；29×29 图纸截图目检通过；图例索引 bug 真实修复记录",
+    "pdf_verified": "结构校验通过（8 页、字体嵌入、892KB），渲染抽查由协调者 review 执行"
+  }
+}

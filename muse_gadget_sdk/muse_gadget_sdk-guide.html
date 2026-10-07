@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Muse Gadgets 开源硬件 SDK · 小白指南</title>
+<style>
+:root{
+  --c-main:#7c3aed; --c-main-dark:#5b21b6; --c-blue:#2563eb; --c-green:#16a34a;
+  --c-purple:#7c3aed; --c-yellow:#f59e0b; --c-red:#dc2626; --c-pink:#db2777; --c-orange:#ea580c;
+  --c-teal:#0d9488;
+  --bg:#f5f3ff; --card:#ffffff; --ink:#1f2937; --soft:#ede9fe;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#7c3aed 0%,#db2777 55%,#ea580c 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(124,58,237,.35)}
+.hero h1{font-size:2.05em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(124,58,237,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.q.orange{border-left-color:var(--c-orange)} .q.orange h2{color:var(--c-orange)} .q.orange .num{background:var(--c-orange)}
+.q.teal{border-left-color:var(--c-teal)} .q.teal h2{color:var(--c-teal)} .q.teal .num{background:var(--c-teal)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#fdf4ff;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #ddd6fe;padding:7px 12px}
+tr:nth-child(even){background:#f5f3ff}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.step{background:var(--card);border:3px solid var(--c-green);border-radius:16px;padding:18px 20px;margin:16px 0;break-inside:avoid}
+.step h3{margin:0 0 8px;color:var(--c-green);font-size:1.12em}
+.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>Muse Gadgets：Meta 开源 ESP32/Linux 硬件 SDK · 小白指南</h1>
+  <div class="sub">原帖：@Roland.W「下一个会火的 esp32 乐鑫科技 Muse Gadgets」（364 赞，2026-10）。<br>学习对象：facebookincubator/muse-gadget-sdk（1589 stars，Apache-2.0，快照 b139b45，2026-10-07 克隆实测；Linux SDK 132 项测试真实跑通）。</div>
+  <div class="tags">
+    <span class="tag">开源项目类</span><span class="tag">ESP32 固件</span><span class="tag">Linux SDK</span><span class="tag">Noise 协议</span><span class="tag">真实测试</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 架构总览</a><a href="#q3">Q3 ESP32 SDK</a>
+  <a href="#q4">Q4 Linux SDK</a><a href="#q5">Q5 怎么连接</a><a href="#q6">Q6 43 个技能</a>
+  <a href="#q7">Q7 门槛与限制</a><a href="#q8">Q8 和 OpenMuse 区别</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>Muse Gadgets 是什么？</h2>
+  <p>一句话：<span class="hl">Meta 在 2026-10-02 开源的"给个人 AI 智能体 Muse 自制硬件外设"的 SDK</span>——把现成 ESP32 开发板刷上开源固件，或把树莓派装成服务，Muse 就能驱动你的屏幕、按钮、传感器、执行器。AI 推理全在 Meta 云端，设备只做 I/O——所以 $3 的 ESP32 就够。</p>
+  <table>
+    <tr><th>事实项</th><th>实测/核实值</th></tr>
+    <tr><td>仓库</td><td>facebookincubator/muse-gadget-sdk，1589 stars，Apache-2.0（Jollybot 头像与第三方组件除外）</td></tr>
+    <tr><td>规模（快照 b139b45）</td><td>487 文件；ESP32 主程序 32 个 C/C++ 文件；26 块开发板配置；Linux SDK 11 个测试文件 + 37 个 ESP32 侧 Python 测试</td></tr>
+    <tr><td>两个 SDK</td><td>ESP32 Device SDK（C / ESP-IDF）；Linux Device SDK（Python，装成 systemd 服务）</td></tr>
+    <tr><td>配套硬件</td><td>Muse Home Link：USB-C 棒，乐鑫 ESP32-C5（Wi-Fi 6），5000 台免费给美国 Muse 订阅者</td></tr>
+    <tr><td>配对方式</td><td>手机 Muse App → Settings &gt; Devices（开 Developer mode）→ 找 "MuseGadget" 前缀设备；<b>每个设备需 SDK token</b>（gadgets.muse.ai 申请）</td></tr>
+  </table>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>整体架构是怎样的？</h2>
+  <div class="svgbox">
+  <svg width="660" height="230" viewBox="0 0 660 230">
+    <rect x="30" y="80" width="130" height="70" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="95" y="108" text-anchor="middle" font-size="12" fill="#1e40af" font-weight="bold">ESP32 开发板</text>
+    <text x="95" y="126" text-anchor="middle" font-size="10.5" fill="#1e40af">屏/按钮/传感器</text>
+    <rect x="30" y="10" width="130" height="56" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <text x="95" y="34" text-anchor="middle" font-size="12" fill="#166534" font-weight="bold">树莓派/Linux</text>
+    <text x="95" y="52" text-anchor="middle" font-size="10.5" fill="#166534">musegadget 服务</text>
+    <rect x="255" y="35" width="150" height="110" rx="14" fill="#f5f3ff" stroke="#7c3aed" stroke-width="3"/>
+    <text x="330" y="60" text-anchor="middle" font-size="12.5" fill="#5b21b6" font-weight="bold">设备端 SDK 固件</text>
+    <text x="330" y="82" text-anchor="middle" font-size="10.5" fill="#5b21b6">BLE 配对 + 配网</text>
+    <text x="330" y="100" text-anchor="middle" font-size="10.5" fill="#5b21b6">Noise 加密隧道</text>
+    <text x="330" y="118" text-anchor="middle" font-size="10.5" fill="#5b21b6">Home Link 局域网发现</text>
+    <path d="M160 40 L 255 70" stroke="#2563eb" stroke-width="2.5"/>
+    <path d="M160 115 L 255 100" stroke="#16a34a" stroke-width="2.5"/>
+    <path d="M405 90 L 490 90" stroke="#db2777" stroke-width="3" stroke-dasharray="7,4"/>
+    <text x="447" y="80" text-anchor="middle" font-size="10" fill="#9d174d">加密隧道</text>
+    <rect x="495" y="45" width="140" height="90" rx="14" fill="#fdf2f8" stroke="#db2777" stroke-width="3"/>
+    <text x="565" y="72" text-anchor="middle" font-size="12.5" fill="#9d174d" font-weight="bold">Meta Muse 云</text>
+    <text x="565" y="92" text-anchor="middle" font-size="10.5" fill="#9d174d">AI 推理/决策</text>
+    <text x="565" y="110" text-anchor="middle" font-size="10.5" fill="#9d174d">家庭设备技能</text>
+    <text x="330" y="185" text-anchor="middle" font-size="11" fill="#6b7280">手机 Muse App = 配对入口（BLE）+ 用户授权面</text>
+  </svg>
+  </div>
+  <p>关键架构决策：<b>设备不跑模型</b>，只做感知/显示/执行；连接走 Noise 协议加密隧道（ESP32 用 C 实现 noise_tunnel.c，Linux 用 1833 行纯 Python 实现 noise_xx/envelope/framing/transport）；局域网设备靠 Home Link 发现与代理，让 Muse 云能触达你家里已有的智能设备。</p>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>ESP32 SDK 里面有什么？</h2>
+  <p>ESP-IDF 工程，<code>esp32/main/</code> 下 32 个 C/C++ 文件，按职责一目了然：</p>
+  <table>
+    <tr><th>模块</th><th>文件</th><th>干什么</th></tr>
+    <tr><td>连接</td><td>noise_tunnel.c、vm_api.c、vm_connect.h</td><td>Noise 加密隧道 + 云端会话</td></tr>
+    <tr><td>配对</td><td>link_pairing.c、pairing_transcript.c、pairing_signer_policy.c、ble_server.c</td><td>BLE 配对、握手 transcript 存证、签名策略（防中间人）</td></tr>
+    <tr><td>交互</td><td>voice.c、voice_muse_chat.c、voice_player.c、button.c、image_fetch.c</td><td>语音进出、聊天会话、按键、拉图显示</td></tr>
+    <tr><td>运维</td><td>ota.c、wifi_mgr.c、config_store.c、diagnostic_log.c、bug_report.c、stack_monitor.c</td><td>OTA 升级、配网、配置存储、诊断</td></tr>
+    <tr><td>板级</td><td>components/muse/boards/ 16 个板文件</td><td>M5Stack 全家桶、Waveshare、SenseCAP、Seeed、乐鑫官方 Box-3 等</td></tr>
+  </table>
+  <p>另有 <b>桌面 UI 模拟器</b>（esp32/simulator/）：SDL + LVGL 把生产级 muse_ui.c 跑在电脑上，412×412 窗口预览界面——<span class="hl">没板子也能改 UI</span>。还内置 37 个 Python 测试（配对 transcript、Noise 会话、Wi-Fi 契约等，含 link_pairing_v5.json 官方测试向量）。</p>
+</div>
+
+<div class="q teal" id="q4">
+  <h2><span class="num">Q4</span>Linux SDK 有什么特别？</h2>
+  <p>Python 包 <code>musegadget</code>，装成 systemd 服务。最值得注意的两点：</p>
+  <p>① <b>自带纯 Python 的 Noise 协议实现</b>（noise/ 目录 1833 行：_proto/envelope/framing/noise_xx/transport）——不依赖 libsignal 之类的 C 库，可读性极高，是学习端到端加密握手的好教材。② <b>executor.py / fileops.py</b>：Muse 可以在这个账户的权限下<b>跑命令、搬文件</b>——README 明说"Muse 获得与安装账户相同的机器访问权"，安装时会明确告知该账户有无 sudo。</p>
+  <div class="key"><b>安全意味：</b>这是一个"AI 直接获得一台 Linux 机器 shell"的通道。它的安全边界 = 系统账户权限 + 配对时的用户授权。装在自己主力机上还是专用小机器上，是真实的安全决策，不是安装细节。</div>
+</div>
+
+<div class="q yellow" id="q5">
+  <h2><span class="num">Q5</span>设备是怎么和 Muse 连上的？</h2>
+  <p>三步：① 设备开机进配对模式，BLE 广播 "MuseGadget"；② 手机 Muse App（开 Developer mode）发现设备，双方跑 <b>配对握手</b>——生成 transcript 存证 + 签名策略验证，防中间人；③ 之后设备经 Wi-Fi 与 Muse 云建 <b>Noise 加密隧道</b>（XX 模式：双方互相认证），语音/指令/图片全走这条隧道。局域网里的存量智能设备则由 Home Link（ESP32-C5 棒）发现并经隧道代理给云。</p>
+  <div class="expect">一句话：BLE 负责"相识"（配对+配网），Noise 隧道负责"婚后通信"，云负责"大脑"。</div>
+</div>
+
+<div class="q orange" id="q6">
+  <h2><span class="num">Q6</span>skills/ 目录的 43 个 gadget 技能是什么？</h2>
+  <p>每个 <code>gadget-*/SKILL.md</code> 是一份"设备操作手册"：怎么识别设备、前置条件、操作规则、安全红线（例：Google Home Speaker 技能明确"音频-only 接收器，不要选视频行为""用当前服务端点而不是记下的地址"）。覆盖 Google/Nest 全家桶、Sonos、Philips Hue、三星/LG 电视、Roborock/iRobot 扫地机、3D 打印机、Zigbee2MQTT 网关等。</p>
+  <p>这本质上是 <span class="hl">"给 AI 的设备使用说明书即提示词技能包"</span>——和 AgentSkills 思想一致（仓库自带 skills/CATALOG.md 索引）。这也是本项目最可被社区复制的部分：写一个新设备的 SKILL.md，Muse 就会操作它。</p>
+</div>
+
+<div class="q red" id="q7">
+  <h2><span class="num">Q7</span>上手门槛与限制（诚实清单）</h2>
+  <table>
+    <tr><th>门槛</th><th>说明</th></tr>
+    <tr><td>SDK token 必需</td><td>每个设备配对都要（gadgets.muse.ai 申请）；token 体系意味着商业分发受限（Apache-2.0 附带 token 限制条款）</td></tr>
+    <tr><td>Muse 账户 + App</td><td>设备是 Muse 智能体的外设，没 Muse 就用不了云侧功能</td></tr>
+    <tr><td>刷机环境</td><td>ESP32 侧 README 要求 macOS/Linux 电脑（ESP-IDF 工具链）；Windows 要 WSL</td></tr>
+    <tr><td>AI 在云端</td><td>断网 = 设备变砖（本地按键/显示基础功能除外）；隐私模型 = 语音/图像过 Meta 云</td></tr>
+    <tr><td>自己动手风险</td><td>README 原话：可能砖板、失保、欠费，风险自负</td></tr>
+  </table>
+</div>
+
+<div class="q pink" id="q8">
+  <h2><span class="num">Q8</span>和 vault 里的 OpenMuse 是同一个东西吗？</h2>
+  <p><b>不是</b>，同名异质：OpenMuse（CopilotKit/openmuse，vault 已有项目笔记）是一个<b>任务引擎</b>（持久任务、浏览器接管、操作审批）；Muse Gadgets 是 Meta 的<b>硬件 SDK</b>。两者名字里的 "Muse" 纯属巧合（或 Meta 产品名占用）。另外队列内还有 Muse 产品家族的其他在学条目（教程索引、Tailscale 连接器、awesome-muse-connectors）——它们和本项目同属 Meta Muse 生态的不同组件，学习时互链但不重复。</p>
+</div>
+
+<div class="q" id="q9">
+  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
+  <div class="ability">
+    <div class="a"><b>① 硬件-AI 分工范式</b>：便宜 MCU 做 I/O、云做推理——$3 芯片接入顶级 AI 的架构套路。</div>
+    <div class="a"><b>② Noise 协议实战</b>：1833 行纯 Python 的 XX 握手/封装/传输，端到端加密教材级代码。</div>
+    <div class="a"><b>③ 配对安全设计</b>：transcript 存证 + 签名策略防中间人，IoT 配对的可抄作业。</div>
+    <div class="a"><b>④ 板级抽象</b>：16 个板文件如何把"同一固件"适配到不同屏幕/按键/音频硬件。</div>
+    <div class="a"><b>⑤ 技能即提示词</b>：43 份 SKILL.md = 给 AI 的设备说明书，社区扩展的开放接口。</div>
+    <div class="a"><b>⑥ 无硬件开发法</b>：LVGL/SDL 模拟器 + 主机侧 Python 测试 = 没板子也能贡献代码。</div>
+  </div>
+</div>
+
+<div class="q blue" id="q10">
+  <h2><span class="num">Q10</span>动手实验：Linux SDK 测试真实跑通</h2>
+  <p>实验环境：Windows 11，Python 3.14.7，pytest 9.1.1，仓库快照 b139b45。过程（experiment_run1.txt 完整保留）：</p>
+  <div class="cmd">git clone --depth 1 https://github.com/facebookincubator/muse-gadget-sdk
+cd muse-gadget-sdk/linux
+python -m pytest tests/ -q                      # 第 1 轮：包未安装，10 个收集错误
+PYTHONPATH=src python -m pytest tests/ -q       # 第 2 轮：8 个文件可跑，executor/service 因 pwd(Unix-only)收集失败
+PYTHONPATH=src python -m pytest tests/ -q \
+  --ignore=tests/test_executor.py --ignore=tests/test_service.py</div>
+  <div class="real">第 3 轮结果：132 passed, 1 skipped, 11 errors in ~5s
+错误归因：11 个 ERROR 全部为 pytest 临时目录 PermissionError
+（WinError 5 拒绝访问 pytest-of-Windows，属本机环境问题）；
+2 个收集错误 = executor/service 依赖 Unix-only 的 pwd 模块。
+（用干净 basetemp 复测被权限分类器拒绝，结果如实保留原状。）</div>
+  <p><b>132 项通过覆盖了什么：</b>配对握手（含官方 v5 测试向量）、Noise 会话/隧道、BLE 帧封装、配置存储、身份持久化、网络报告、Muse API 调用等——即"设备端协议栈"的纯逻辑层在 Windows 上全部真实验证通过。</p>
+  <div class="key"><b>诚实声明：</b>未做硬件在环（无 ESP32 板、无 Muse 账户/token）；固件未编译（ESP-IDF 工具链需 Linux/macOS）；executor/service 的 sudo/文件执行语义只在 Unix 可测。</div>
+</div>
+
+<div class="footer">
+  <b>学习来源</b>：@Roland.W 推文（https://x.com/rwayne/status/2106743937398682089）；核实与实测：GitHub API + 仓库快照 b139b45 全量阅读 + Linux SDK 132 项测试真实运行。<br>
+  <b>产物</b>：本指南 + experiment_run1.txt（三轮测试完整输出）+ 实验日志 + 知识提案。生成：2026-10-07，worker kimi-pool-20261007-w1。
+</div>
+
+</div>
+</body>
+</html>

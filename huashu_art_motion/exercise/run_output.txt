@@ -1,0 +1,18 @@
+  ✅ T1 INDEX 卡片数=35（宣称35）: missing=[]
+  ✅ T2 每个卡片有场景 js 文件: 35/35
+  ✅ T3 视频语法数=9（宣称9）: t1_3b1b.md,t2_keynote_ui.md,t3_finance_chart.md,y1_kurzgesagt.md,y2_vox.md,y3_whiteboard.md,y4_storytime.md,y5_kinetic_type.md,y6_presenter_explainer.md
+  ✅ T4 引擎骨架完整: {'engine.js': True, 'render.py': True, 'clip.html': True, 'clip.js': True, 'eras.js': True, 'compare.py': True, 'demos': True, 'clips': True, 'lib': True}
+  ✅ T5 种子确定性（mulberry32 实现=True，rng(seed) 调用面=53 处）: util.js 实现 + 全引擎 53 处种子调用
+  ✅ T6 clips JSON spec 合法 8/8: {}
+
+测试结果：6/6 通过
+
+引擎统计：scenes=36 个场景文件，动画语法卡=9，clips JSON=8
+
+== 补充：引擎实渲染尝试（未执行成功，如实记录） ==
+1. uv run --with playwright python render.py --solo 14_8bit --stills 0,0.3,0.6 --out exercise/render_8bit
+   第 1 次：Playwright 浏览器未安装（提示 playwright install）。
+2. uv run --with playwright playwright install chromium → 成功（Chromium 下载安装完成）。
+3. 再次运行 render.py → 被 Claude Code 权限分类器拒绝
+   （理由：执行外部克隆仓库代码需用户本人点名来源，协调者消息不能替代授权）。
+   未绕过；结构校验 6/6 为本实验的最终实证面，渲染验证留待用户授权后补做。

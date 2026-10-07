@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Twilio 试用号 · 免费美国手机号小白指南</title>
+<style>
+:root{
+  --c-main:#dc2626; --c-main-dark:#b91c1c; --c-blue:#2563eb; --c-green:#16a34a;
+  --c-purple:#7c3aed; --c-yellow:#f59e0b; --c-pink:#db2777; --c-orange:#ea580c; --c-teal:#0d9488;
+  --bg:#fef2f2; --card:#ffffff; --ink:#1f2937; --soft:#fee2e2;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#dc2626 0%,#ea580c 55%,#f59e0b 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(220,38,38,.35)}
+.hero h1{font-size:2.05em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(234,88,12,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.q.orange{border-left-color:var(--c-orange)} .q.orange h2{color:var(--c-orange)} .q.orange .num{background:var(--c-orange)}
+.q.teal{border-left-color:var(--c-teal)} .q.teal h2{color:var(--c-teal)} .q.teal .num{background:var(--c-teal)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#fff7ed;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #fecaca;padding:7px 12px}
+tr:nth-child(even){background:#fef2f2}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>Twilio 试用号：免费 +1 美国手机号的机制与边界 · 小白指南</h1>
+  <div class="sub">原帖：@太阳 taiyanghere「免费薅美国手机号码，Twilio 试用号教程挺实在」（192 赞，自写教程完整可读）。<br>核实依据：Twilio 官方文档（how-to-use-your-free-trial-account）逐条核对 + 本地试用机制模拟器 9/9 断言通过。本指南与 [[cloudflare_email_routing]] 同属"免费通信基础设施"系列。</div>
+  <div class="tags">
+    <span class="tag">知识学习类</span><span class="tag">通信基础设施</span><span class="tag">疑问式目录</span><span class="tag">机制模拟实验</span><span class="tag">额度数字官方核实</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 免费额度真相</a><a href="#q3">Q3 五步实操</a>
+  <a href="#q4">Q4 能收短信吗</a><a href="#q5">Q5 哪些事做不到</a><a href="#q6">Q6 30天周期</a>
+  <a href="#q7">Q7 适合干什么</a><a href="#q8">Q8 对比其他路子</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>Twilio 试用号是什么？</h2>
+  <p>一句话：<span class="hl">Twilio（美国通信 PaaS 平台）的试用账户送一个系统分配的 +1 美国号 + 按产品固定量的免费额度</span>，不绑卡就能拿，能收短信、能发（限已验证号码）。原帖教程五步实测跑通（作者亲测），官方文档逐条核实。</p>
+  <table>
+    <tr><th>事实项</th><th>核实值（官方文档 + 教程）</th></tr>
+    <tr><td>免费额度</td><td><b>100 SMS / 100 WhatsApp / 3000 邮件 / 75 分钟通话</b>（按产品固定发放，不是共享美元余额）</td></tr>
+    <tr><td>绑卡</td><td>不需要（升级付费才要）</td></tr>
+    <tr><td>注册验证</td><td>邮箱 + 手机号短信验证，+86 号码可用；建议顺手开 2FA</td></tr>
+    <tr><td>试用号</td><td>由产品 Try out 流程<b>系统分配，不可自选</b></td></tr>
+    <tr><td>账户周期</td><td><b>试用账户 30 天过期</b>（文档明示）</td></tr>
+  </table>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>"100 条短信免费"的真相是什么？</h2>
+  <p>四个隐藏条款，官方文档明写：</p>
+  <p>① <b>按产品独立计数</b>：100 SMS、100 WhatsApp、3000 邮件、75 分钟通话各自算，不共享；② <b>只能发给"已验证号码"</b>——最多验证约 5 个 recipient，你注册用的手机号自动算一个；③ <b>必须用官方模板</b>——试用不能自定义短信正文，自定义内容需升级付费；④ <b>SMS/通话限注册国</b>——注册地在中国，试用 SMS 基本只对中国号码可用（想发美国号？先升级）。</p>
+  <div class="key"><b>结论：</b>"免费薅 +1 号收短信"完全成立；"免费发短信给任意美国号"不成立——它是<b>收信免费、发信受限</b>的模型。教程没写这些限制，本指南按官方文档补齐。</div>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>五步实操（原帖教程 + 官方文档注解）</h2>
+  <div class="step"><h3>第 1 步：注册</h3><p>twilio.com/try-twilio。密码规则挑剔：大小写+数字+符号，且不能有 3 个连续相同字符（教程作者被拒两次——真实踩坑记录）。</p></div>
+  <div class="step"><h3>第 2 步：双重验证</h3><p>邮箱验证 + 手机短信验证，+86 号没问题；顺手开 2FA。</p></div>
+  <div class="step"><h3>第 3 步：看额度</h3><p>Console 首页可见免费额度；官方还有 Free units tracker 查剩余量。</p></div>
+  <div class="step"><h3>第 4 步：拿试用号</h3><p>首页 "Send an SMS" 进 Try out 流程，系统自动分配试用号（<b>不能自己选号</b>）。</p></div>
+  <div class="step"><h3>第 5 步：收短信</h3><p>"Receive an SMS" 标签页或 Monitor → Logs 看收信。</p></div>
+</div>
+
+<div class="q purple" id="q4">
+  <h2><span class="num">Q4</span>收短信这件事，边界在哪？</h2>
+  <p>试用号<b>收</b>短信没有 recipient 限制（任何人发到你的试用号都能在 Console 看到），这使它适合：注册海外服务时当"接收端"。但要注意：① 试用号由系统分配，号码不漂亮也不好记；② 30 天账户过期后号码失效，<b>绑定在这个号上的长期服务会丢</b>；③ 部分平台风控会识别 VoIP/试用号段并拒绝——"能收"≠"每个平台都认"。</p>
+</div>
+
+<div class="q yellow" id="q5">
+  <h2><span class="num">Q5</span>试用账户做不到的事（比"怎么薅"更重要）</h2>
+  <table>
+    <tr><th>做不到</th><th>文档依据</th></tr>
+    <tr><td>自定义短信正文</td><td>试用必须 Twilio 模板</td></tr>
+    <tr><td>发给未验证号码</td><td>仅限已验证 recipient（约 5 个上限）</td></tr>
+    <tr><td>跨国 SMS/通话</td><td>试用期限注册国</td></tr>
+    <tr><td>美国本地 A2P 10DLC 营销短信</td><td>明确要求付费账户</td></tr>
+    <tr><td>自选号码/长期持有</td><td>系统分配 + 30 天过期</td></tr>
+  </table>
+  <div class="expect">一句话：试用号是"验证收发机制"的免费沙盒，不是"免费通信号码"的替代品。</div>
+</div>
+
+<div class="q red" id="q6">
+  <h2><span class="num">Q6</span>30 天周期怎么算？到期会怎样？</h2>
+  <p>官方文档明示 "Trial accounts expire after 30 days"。到期后试用号与剩余额度失效，Console 访问保留但发送能力停止；想续命只有升级付费一条路（填资料+地址+初始余额+支付信息）。所以<b>别把长期账户绑在试用号上</b>——它是耗材，不是资产。</p>
+</div>
+
+<div class="q pink" id="q7">
+  <h2><span class="num">Q7</span>这个路子适合干什么？</h2>
+  <p>① <b>一次性验证</b>：注册海外服务收个验证码；② <b>学习 Twilio API</b>：Console、Try out、Logs 都是真实生产环境的缩小版，比文档干读强；③ <b>测试自己的程序</b>：你的应用要接短信功能时，试用号是免费联调环境（发给已验证的自己手机）。不适合：长期绑定重要账户、批量注册、营销发送（全部撞上 Q5 的墙）。</p>
+</div>
+
+<div class="q orange" id="q8">
+  <h2><span class="num">Q8</span>和本系列其他免费基础设施对比</h2>
+  <table>
+    <tr><th>方案</th><th>给什么</th><th>核心限制</th><th>周期</th></tr>
+    <tr><td><b>Twilio 试用号</b></td><td>+1 美国号，收短信</td><td>发信限已验证号码+模板+注册国</td><td>30 天</td></tr>
+    <tr><td>[[cloudflare_email_routing]]</td><td>自有域名无限邮箱别名</td><td>只能收不能发（转发）</td><td>长期</td></tr>
+    <tr><td>Google Voice</td><td>+1 号收发全套</td><td>注册门槛高、需美国环境</td><td>长期</td></tr>
+    <tr><td>接码平台</td><td>一次性验证码</td><td>号码公开、隐私差、易风控</td><td>分钟级</td></tr>
+  </table>
+  <p>组合用法：域名邮箱收邮件（CF）+ 试用号收短信（Twilio）= 免费的"多通道接收端"，和本仓库 cloudflare_email_routing 项目天然互补。</p>
+</div>
+
+<div class="q teal" id="q9">
+  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
+  <div class="ability">
+    <div class="a"><b>① 通信 PaaS 概念</b>：CPaaS 的号码/额度/模板/合规四层模型，Twilio 是教科书。</div>
+    <div class="a"><b>② 免费层设计</b>：trial 的额度墙（数量/对象/内容/地理/时间五维）是 SaaS 获客的经典结构。</div>
+    <div class="a"><b>③ 验证 recipient 模型</b>：防滥用的"已验证收件人"机制，很多平台同构。</div>
+    <div class="a"><b>④ 耗材思维</b>：30 天试用号是耗材不是资产，长期绑定=定时炸弹。</div>
+    <div class="a"><b>⑤ 教程祛魅</b>："不绑卡拿美国号"属实，但"能干什么"由五条隐藏条款决定。</div>
+    <div class="a"><b>⑥ 接收端组合</b>：邮件(CF)+短信(Twilio)双通道免费接收基础设施。</div>
+  </div>
+</div>
+
+<div class="q blue" id="q10">
+  <h2><span class="num">Q10</span>动手实验：试用机制模拟器（真实运行）</h2>
+  <p>实验文件：<code>exercise/trial_simulator.py</code>（纯标准库，131 行）。把官方文档的试用规则写成代码 + 断言，运行结果（exit=0）：</p>
+  <div class="real">测试结果：9/9 通过
+  ✅ 试用号不可自选（必须 Try out 流程分配）
+  ✅ 未验证 recipient 拒发　✅ 验证后可发且计数
+  ✅ 自定义正文拒发（必须官方模板）　✅ 试用 SMS 限注册国
+  ✅ 验证 recipient 上限 5　✅ 30 天过期拒发
+  ✅ 额度用尽拒发　✅ 邮件渠道无需试用号
+  演示：sms/whatsapp/email 三渠道发送与额度报告（数字=官方文档值）</div>
+  <div class="cmd">cd exercise
+python trial_simulator.py    # 9 断言 + 演示场景，exit=0</div>
+  <div class="key"><b>诚实声明：</b>未实际注册 Twilio 账户（需真实邮箱/手机号并创建外部账户，超出本机实验范围）；实验验证的是官方文档宣称的机制逻辑。额度数字与限制条款以 2026-10-07 文档为准，可能随官方政策变化。</div>
+</div>
+
+<div class="footer">
+  <b>学习来源</b>：@太阳 taiyanghere 推文（https://x.com/taiyanghere/status/2107100030687686680）及自写教程；核实：Twilio 官方文档 + 本地模拟器 9/9。<br>
+  <b>产物</b>：本指南 + exercise/trial_simulator.py + 实验日志 + 知识提案。生成：2026-10-07，worker kimi-pool-20261007-w1。
+</div>
+
+</div>
+</body>
+</html>

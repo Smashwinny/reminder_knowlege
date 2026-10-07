@@ -1,0 +1,92 @@
+============================================================
+AI 工程面试题库 · 统计报告
+源文件: F:\reminder\ai_engineering_interview_questions\repo\README.md
+============================================================
+题目总数：598
+带答案链接：232（38.8%）
+被标注'哪些公司问过'的题目：97
+
+按大类（## 分区）题目分布：
+  Frontier AI Labs                                    197 题
+  Common Questions Asked Across Companies             119 题
+  AI-Native Product Companies                         114 题
+  Big Tech AI Organizations                            82 题
+  AI Infrastructure and Platform Companies             66 题
+  Forward-Deployed and Enterprise AI                   20 题
+
+公司提及榜（Asked at 次数 Top 12）：
+  Anthropic                     13  █████████████
+  OpenAI                        12  ████████████
+  NVIDIA                        11  ███████████
+  Perplexity                    11  ███████████
+  Microsoft                     11  ███████████
+  Mistral AI                    10  ██████████
+  Together AI                    9  █████████
+  Meta                           9  █████████
+  Moonshot AI                    9  █████████
+  Alibaba                        9  █████████
+  Cohere                         8  ████████
+  Apple                          7  ███████
+
+抽题 5/12 完成：
+  1. How do you keep an index fresh when the underlying corpus ch…
+  2. How do you choose between a sparse retriever (BM25) and a de…
+  3. What chunking strategy would you use for a large technical d…
+  4. What is HyDE (hypothetical document embeddings) and when doe…
+  5. How would you evaluate the quality of a RAG pipeline: retrie…
+
+已生成：quiz_RAG.md / quiz_RAG.html
+
+主题 'KV Cache' 无匹配题目。可选主题：
+  - AI System Design
+  - Abridge
+  - Agents and Tool Use
+  - Alibaba (Qwen)
+  - Amazon (AWS)
+  - Anthropic
+  - Apple
+  - Character.AI
+  - Coding and Data Structures
+  - Cognition (Devin, Windsurf)
+  - Cohere
+  - Consumer-Scale ML Companies (Uber, Netflix, LinkedIn, Airbnb, Pinterest, Spotify)
+  - Cursor (Anysphere)
+  - Databricks
+  - DeepSeek
+  - ElevenLabs
+  - Evaluation and Observability
+  - Figure AI
+  - Fine-Tuning, Post-Training and Alignment
+  - Glean
+  - Google DeepMind and Google AI
+  - Groq
+  - Harvey
+  - Hugging Face
+  - Inference, Serving and GPU Performance
+  - LLM Internals and Architecture
+  - Meta (Superintelligence Labs, FAIR, Llama)
+  - Microsoft
+  - Mistral AI
+  - Moonshot AI (Kimi)
+  - Multimodal, Speech and Voice AI
+  - NVIDIA
+  - OpenAI
+  - Palantir
+  - Perplexity
+  - RAG and Retrieval
+  - Safety, Security and Responsible AI
+  - Sarvam AI
+  - Scale AI
+  - Sierra
+  - Tesla
+  - Together AI
+  - Waymo
+  - Zhipu AI (GLM)
+  - xAI
+抽题 4/15 完成：
+  1. Compare FP16, BF16, FP8, INT8, INT4 and FP4 for serving. Wha…
+  2. How does PagedAttention work, and what problem of KV-cache f…
+  3. Compare tensor, pipeline, data, sequence and expert parallel…
+  4. When would you choose vLLM vs SGLang vs TensorRT-LLM vs a cu…
+
+已生成：quiz_Inference.md / quiz_Inference.html

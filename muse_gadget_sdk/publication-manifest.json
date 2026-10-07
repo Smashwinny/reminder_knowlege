@@ -1,0 +1,29 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "Muse Gadgets：Meta 开源 ESP32/Linux 硬件 SDK（Muse 个人 AI 智能体外设，开源项目类）",
+  "project_dir": "muse_gadget_sdk",
+  "pdf": "muse_gadget_sdk/MuseGadgets开源硬件SDK-小白指南.pdf",
+  "html": "muse_gadget_sdk/muse_gadget_sdk-guide.html",
+  "exercise_dir": "muse_gadget_sdk/exercise",
+  "experiment_log": "muse_gadget_sdk/muse_gadget_sdk-experiment-log.md",
+  "vault_note": "vault/项目笔记/muse_gadget_sdk.md",
+  "report_path": "完成/分析报告/92100bf6-10ff-4494-9625-4538006a1739.md",
+  "source_urls": [
+    "https://x.com/rwayne/status/2106743937398682089",
+    "https://github.com/facebookincubator/muse-gadget-sdk"
+  ],
+  "experiment_files": [
+    "muse_gadget_sdk/exercise/experiment_run1.txt"
+  ],
+  "upstream": {
+    "repo": "https://github.com/facebookincubator/muse-gadget-sdk",
+    "commit": "b139b45",
+    "note": "repo/ 浅克隆；Linux SDK 测试 132 passed/1 skipped/11 errors（错误均归因：pytest 临时目录 PermissionError 本机环境问题 ×11 + Unix-only pwd 模块 ×2 收集失败），完整输出在 exercise/experiment_run1.txt"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/muse_gadget_sdk.md；新概念提案 2 条（硬件AI分工范式/设备技能即提示词）在 muse_gadget_sdk-knowledge-proposal.md；与 vault openmuse（CopilotKit 任务引擎）同名异质已写明，总览补行留协调者",
+    "pdf_pages": 9,
+    "experiment_verified": "Linux SDK pytest 三轮真实运行：132 passed 覆盖配对握手(官方向量v5)/Noise会话隧道/BLE帧/配置/身份/网络；11 个 ERROR 全部为 pytest 临时目录 PermissionError（本机环境），2 个文件 Unix-only pwd 未收集；干净 basetemp 复测被权限分类器拒绝如实声明",
+    "pdf_verified": "结构校验通过（9 页、字体嵌入、924KB），渲染抽查由协调者 review 执行"
+  }
+}

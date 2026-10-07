@@ -1,0 +1,30 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "huashu-art-motion：代码画 35 种艺术风格并让画活过来的 Agent Skill（开源项目类）",
+  "project_dir": "huashu_art_motion",
+  "pdf": "huashu_art_motion/huashu-art-motion艺术动画Skill-小白指南.pdf",
+  "html": "huashu_art_motion/huashu_art_motion-guide.html",
+  "exercise_dir": "huashu_art_motion/exercise",
+  "experiment_log": "huashu_art_motion/huashu_art_motion-experiment-log.md",
+  "vault_note": "vault/项目笔记/huashu_art_motion.md",
+  "report_path": "完成/分析报告/696fa77d-a8c3-4066-89d6-1ead1d8a63a9.md",
+  "source_urls": [
+    "https://x.com/AlchainHust/status/2107018546194882678",
+    "https://github.com/alchaincyf/huashu-art-motion"
+  ],
+  "experiment_files": [
+    "huashu_art_motion/exercise/validate_structure.py",
+    "huashu_art_motion/exercise/run_output.txt"
+  ],
+  "upstream": {
+    "repo": "https://github.com/alchaincyf/huashu-art-motion",
+    "commit": "26dba25",
+    "note": "repo/ 浅克隆；结构校验不执行仓库代码（纯读取断言）；实渲染 render.py 被权限分类器拒绝（Chromium 已装，授权后可补）"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/huashu_art_motion.md；新概念提案「风格即渲染器」在 huashu_art_motion-knowledge-proposal.md，含查重提示，由协调者终审合并",
+    "pdf_pages": 8,
+    "experiment_verified": "validate_structure.py 6/6 通过（INDEX 35 卡 35 场景/9 视频语法/引擎骨架 9 项/mulberry32+53 处 rng(seed)/8 JSON spec 合法）；T5 T6 两轮排查修正如实记录；实渲染被权限拦截未绕过已声明",
+    "pdf_verified": "结构校验通过（8 页、字体嵌入、910KB），渲染抽查由协调者 review 执行"
+  }
+}

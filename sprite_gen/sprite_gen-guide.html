@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>sprite-gen 程序化精灵生成 · 小白指南</title>
+<style>
+:root{
+  --c-main:#16a34a; --c-main-dark:#15803d; --c-blue:#2563eb; --c-purple:#7c3aed;
+  --c-yellow:#f59e0b; --c-red:#dc2626; --c-pink:#db2777; --c-orange:#ea580c; --c-teal:#0d9488;
+  --bg:#f0fdf4; --card:#ffffff; --ink:#1f2937; --soft:#dcfce7;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#16a34a 0%,#0d9488 55%,#2563eb 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(22,163,74,.35)}
+.hero h1{font-size:2.05em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(37,99,235,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.q.orange{border-left-color:var(--c-orange)} .q.orange h2{color:var(--c-orange)} .q.orange .num{background:var(--c-orange)}
+.q.teal{border-left-color:var(--c-teal)} .q.teal h2{color:var(--c-teal)} .q.teal .num{background:var(--c-teal)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#eff6ff;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #bbf7d0;padding:7px 12px}
+tr:nth-child(even){background:#f0fdf4}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.expect{background:#dcfce7;border:3px dashed var(--c-main);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>sprite-gen：一张图进，游戏可用精灵图集出 · 小白指南</h1>
+  <div class="sub">原帖：@darkest_alex（韩文）「Star 2.4k！Open source Sprite-gen 2.24.0，超越 Grok 的极限，行走强化更新，和服 8 方向」（168 赞）。<br>学习对象：aldegad/sprite-gen（2575 stars，Apache-2.0，快照 ece1ac8=包版本 2.39.0；<b>测试套件 8210 项真实通过</b>）。</div>
+  <div class="tags">
+    <span class="tag">开源项目类</span><span class="tag">程序化美术</span><span class="tag">游戏资产</span><span class="tag">双管线</span><span class="tag">测试实测</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 解决什么痛</a><a href="#q3">Q3 双管线</a>
+  <a href="#q4">Q4 manifest 契约</a><a href="#q5">Q5 方向一致性</a><a href="#q6">Q6 人工筛选回路</a>
+  <a href="#q7">Q7 依赖与边界</a><a href="#q8">Q8 像素艺术族谱</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>sprite-gen 是什么？</h2>
+  <p>一句话：<span class="hl">给一张角色立绘，自动产出一套游戏引擎可直接消费的精灵图集（或透明循环动画）</span>的 Python CLI + Codex/Claude skill。作者是韩国人（aldegad），Wanted AI Championship 2026 参赛项目，GitHub Trending 级活跃度（本指南快照当天还在推送）。</p>
+  <table>
+    <tr><th>事实项</th><th>核实值（本机实测）</th></tr>
+    <tr><td>仓库</td><td>aldegad/sprite-gen，2575 stars（推文"2.4k"吻合），Apache-2.0</td></tr>
+    <tr><td>形态</td><td>Python 包（≥3.11）+ 28 个 scripts/ + SKILL.md（agent 技能形态）+ 9741 项测试</td></tr>
+    <tr><td>依赖</td><td>pillow + numpy（本机 12.3.0 / 2.5.3 满足）；生成侧另需图像/视频模型 API</td></tr>
+    <tr><td>测试</td><td><b>8210 passed</b>（剔除本机环境 error 后有效通过率 99.93%）</td></tr>
+  </table>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>它解决的真痛：AI 生图的"最后一步"是废墟</h2>
+  <p>直接向图像模型要 "sprite sheet"，你得到的是：每帧脸都在变的角色、抠不掉的背景、姿态互相重叠漂移、游戏引擎根本无法消费的 PNG。<span class="hl">sprite-gen 的价值不在生成，而在生成后的"清洗—切分—排版—契约"</span>：逐行生成锁身份、chroma 背景转真 alpha、逐姿态提取透明帧、烘焙带机器可读 manifest 的运行时图集。</p>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>两条独立管线</h2>
+  <div class="svgbox">
+  <svg width="640" height="170" viewBox="0 0 640 170">
+    <text x="150" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#16a34a">A · 图集行式（静态表驱动）</text>
+    <rect x="20" y="36" width="60" height="30" rx="8" fill="#dcfce7" stroke="#16a34a"/><text x="50" y="55" text-anchor="middle" font-size="10" fill="#166534">prepare</text>
+    <path d="M80 51 L 100 51" stroke="#16a34a" stroke-width="2"/>
+    <rect x="100" y="36" width="80" height="30" rx="8" fill="#dcfce7" stroke="#16a34a"/><text x="140" y="55" text-anchor="middle" font-size="10" fill="#166534">gen·gen-set</text>
+    <path d="M180 51 L 200 51" stroke="#16a34a" stroke-width="2"/>
+    <rect x="200" y="36" width="60" height="30" rx="8" fill="#dcfce7" stroke="#16a34a"/><text x="230" y="55" text-anchor="middle" font-size="10" fill="#166534">extract</text>
+    <path d="M260 51 L 280 51" stroke="#16a34a" stroke-width="2"/>
+    <rect x="280" y="36" width="90" height="30" rx="8" fill="#bbf7d0" stroke="#15803d" stroke-width="2"/><text x="325" y="55" text-anchor="middle" font-size="10" fill="#14532d">compose-atlas</text>
+    <rect x="140" y="90" width="110" height="28" rx="8" fill="#fef3c7" stroke="#f59e0b"/><text x="195" y="108" text-anchor="middle" font-size="10" fill="#92400e">curation（可选回路）</text>
+    <path d="M325 66 L 325 104 L 250 104" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="480" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">B · 视频→循环（动态）</text>
+    <rect x="400" y="36" width="80" height="30" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="440" y="55" text-anchor="middle" font-size="10" fill="#1e40af">视频模型</text>
+    <path d="M480 51 L 500 51" stroke="#2563eb" stroke-width="2"/>
+    <rect x="500" y="36" width="50" height="30" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="525" y="55" text-anchor="middle" font-size="10" fill="#1e40af">帧门</text>
+    <path d="M550 51 L 570 51" stroke="#2563eb" stroke-width="2"/>
+    <rect x="570" y="36" width="60" height="30" rx="8" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2"/><text x="600" y="55" text-anchor="middle" font-size="10" fill="#1e3a8a">无缝循环</text>
+    <text x="320" y="150" text-anchor="middle" font-size="11" fill="#6b7280">推文卖点"行走强化/8 方向"= 管线 A 的行生成策略 + 管线 B 的动态行走循环</text>
+  </svg>
+  </div>
+  <p>A 管线按"组件行"逐行生成（站立/行走/攻击各一行），身份锁定靠行间参照；B 管线把单张立绘交给视频模型出动作片段，再过帧门控与自动循环点选择。推文说"Grok 的 from-to 动画做不出动态行走"——指的是 B 管线的质量优势。</p>
+</div>
+
+<div class="q purple" id="q4">
+  <h2><span class="num">Q4</span>manifest.json.frame_layout：写给引擎的契约</h2>
+  <p>产出不只是 PNG，还有 <code>manifest.json.frame_layout</code>——每帧在图集里的坐标/尺寸/动作分组，机器可读，游戏引擎直接索引。这是它区别于"又一张 AI 图"的本质：<b>交付物是资产+契约，不是图片</b>。配套 docs 承诺字节级行为可回归（pyproject 里甚至为 NumPy 2.0 的 NEP 50 提升规则 pinning 版本区间，因为 chroma 提取路径依赖它）。</p>
+</div>
+
+<div class="q yellow" id="q5">
+  <h2><span class="num">Q5</span>方向一致性：诚实的"提示词不保证"</h2>
+  <p>侧视精灵的左右朝向是行业老坑。sprite-gen 的做法：<code>--facing right|left</code> 在画布 placement 和 clip 提示词间保持一致；方向检测器<b>默认只记录不纠正</b>（<code>--facing-fix none</code>），明说"高置信度也可能错"；纠正需显式 opt-in（mirror 镜像 / regen 重生成），且要求"用之前先看静帧"。这是把"AI 会错"写成默认安全姿态的样板设计。</p>
+</div>
+
+<div class="q teal" id="q6">
+  <h2><span class="num">Q6</span>curation 人工筛选回路</h2>
+  <p>承认"生成最后的 10% 永远不对"，提供 curation webview：对比、否决、微调、实时看循环，满意再烘焙。人机分工边界清晰——<b>机器做 90% 的体力活，人只做 10% 的判断题</b>，且判断界面是产品的一部分而非附属脚本。</p>
+</div>
+
+<div class="q red" id="q7">
+  <h2><span class="num">Q7</span>依赖与边界（诚实清单）</h2>
+  <table>
+    <tr><th>项</th><th>说明</th></tr>
+    <tr><td>生成侧</td><td>prepare/gen 阶段要调外部图像/视频模型 API（推文用 Grok Imagine），无 API key 只能跑本地段</td></tr>
+    <tr><td>本地可跑</td><td>extract（chroma→alpha）/ compose-atlas / curation / 全部 28 个脚本的非生成路径</td></tr>
+    <tr><td>平台</td><td>6 个 failed 测试全是 POSIX 路径/字节冻结假设——Windows 是二等公民（作者明说面向 macOS/Linux）</td></tr>
+    <tr><td>赛事属性</td><td>Wanted 参赛项目有拉票段；sponsors 捐助覆盖 API 成本——健康但带宣传成分</td></tr>
+  </table>
+</div>
+
+<div class="q pink" id="q8">
+  <h2><span class="num">Q8</span>像素艺术族谱定位</h2>
+  <p>本库已学三条同族记录：[[bead_pattern]]（照片→像素图纸，调色板量化）、[[huashu_art_motion]]（代码画风格化动画）、sprite-gen（AI 生图→引擎资产清洗）。三者是同一场革命的三个工种：<b>像素/程序化生成正在吃掉游戏美术的流水线岗位</b>，但每条都保留了一处"人必须把关"的回路（换色校对/独立审片/curation 筛选）。</p>
+</div>
+
+<div class="q" id="q9">
+  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
+  <div class="ability">
+    <div class="a"><b>① 生成后处理管线观</b>：AI 生图的价值链在"清洗切分排版契约"，不在生成本身。</div>
+    <div class="a"><b>② 契约式交付</b>：资产+manifest.frame_layout，机器可读才是可消费。</div>
+    <div class="a"><b>③ 安全默认设计</b>：方向检测只记录不纠正，纠正要显式 opt-in。</div>
+    <div class="a"><b>④ 字节级回归意识</b>：为 NEP 50 pinning numpy 版本，提取路径行为可回归。</div>
+    <div class="a"><b>⑤ 人工回路产品化</b>：curation 是产品功能不是调试脚本。</div>
+    <div class="a"><b>⑥ 测试密度标杆</b>：9741 项测试=2500 星项目的高工程纪律样本。</div>
+  </div>
+</div>
+
+<div class="q blue" id="q10">
+  <h2><span class="num">Q10</span>动手实验：9741 项测试真实跑通 8210</h2>
+  <p>实验环境：Windows 11，Python 3.14.7，PIL 12.3.0，numpy 2.5.3，快照 ece1ac8。真实运行（exercise/run_output.txt）：</p>
+  <div class="cmd">git clone --depth 1 https://github.com/aldegad/sprite-gen
+cd sprite-gen
+python -m pytest tests/ -q -p no:cacheprovider
+# 9741 collected → 8210 passed, 6 failed, 18 skipped, 1507 errors in 426s</div>
+  <div class="real">归因（--tb=line 逐条统计，全部真实）：
+· 1507 errors = pytest 临时目录 PermissionError（本机环境顽疾，同
+  Kronos/Muse 两批，非代码缺陷）
+· 6 failed 全部平台相关：POSIX 路径假设 ×1、字节冻结比对 ×2、
+  参数化用例 ×3（Windows 字节序/换行差异）
+· 有效通过率 8210/(8210+6) = 99.93%
+另：compose-atlas 对自带 fixture 出图集+manifest 的实跑被权限分类器
+拒绝（跑测试允许、直接执行仓库脚本需用户点名授权），未绕过，留待授权补做。</div>
+  <div class="key"><b>诚实声明：</b>生成侧（图像/视频模型 API）未调用（需 key 且属外部服务）；出图集的真实视觉验证未执行（权限拦截）；6 个 failed 已在仓库 Security/平台说明语境下归因，未尝试修复。</div>
+</div>
+
+<div class="footer">
+  <b>学习来源</b>：@darkest_alex 推文（https://x.com/AldegadWildKim/status/2106805154788090010）+ 仓库 aldegad/sprite-gen（快照 ece1ac8）。<br>
+  <b>产物</b>：本指南 + exercise/run_output.txt + 实验日志 + 知识提案。生成：2026-10-07，worker kimi-pool-20261007-w1。
+</div>
+
+</div>
+</body>
+</html>

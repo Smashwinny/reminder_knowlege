@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Cloudflare 邮件路由 · 无限别名邮箱小白指南</title>
+<style>
+:root{
+  --c-main:#0891b2; --c-main-dark:#0e7490; --c-blue:#2563eb; --c-green:#16a34a;
+  --c-purple:#7c3aed; --c-yellow:#f59e0b; --c-red:#dc2626; --c-pink:#db2777; --c-orange:#ea580c;
+  --bg:#ecfeff; --card:#ffffff; --ink:#1f2937; --soft:#cffafe;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#0891b2 0%,#2563eb 55%,#7c3aed 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(8,145,178,.35)}
+.hero h1{font-size:2.05em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(37,99,235,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.q.orange{border-left-color:var(--c-orange)} .q.orange h2{color:var(--c-orange)} .q.orange .num{background:var(--c-orange)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+pre{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;overflow-x:auto}
+.svgbox{background:#f0f9ff;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #a5f3fc;padding:7px 12px}
+tr:nth-child(even){background:#ecfeff}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.step{background:var(--card);border:3px solid var(--c-green);border-radius:16px;padding:18px 20px;margin:16px 0;break-inside:avoid}
+.step h3{margin:0 0 8px;color:var(--c-green);font-size:1.12em}
+.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>Cloudflare 邮件路由：自有域名无限别名邮箱 · 小白指南</h1>
+  <div class="sub">原帖：@太阳 taiyanghere「薅完 .com 域名别浪费，接入 Cloudflare 实现无限邮箱」（466 赞）。<br>本指南核实对象：Cloudflare Email Routing 官方文档（email-service 文档体系，2026-10-07 逐页读取实测）+ 本地路由规则模拟器实验。</div>
+  <div class="tags">
+    <span class="tag">知识学习类</span><span class="tag">基础设施</span><span class="tag">疑问式目录</span><span class="tag">含模拟器实验</span><span class="tag">全部免费</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 免费吗</a><a href="#q3">Q3 前置条件</a>
+  <a href="#q4">Q4 匹配逻辑</a><a href="#q5">Q5 三种动作</a><a href="#q6">Q6 数量上限</a>
+  <a href="#q7">Q7 原帖说法核实</a><a href="#q8">Q8 对比方案</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>Cloudflare 邮件路由到底是什么？</h2>
+  <p>一句话：<span class="hl">Cloudflare 免费帮你接住发往自有域名的所有邮件，按你定的规则转发到已验证的常用邮箱（或交给代码处理）</span>。你不需要买邮件服务器、不需要企业邮服务，只要域名接在 Cloudflare 上。</p>
+  <div class="svgbox">
+  <svg width="660" height="200" viewBox="0 0 660 200">
+    <rect x="10" y="70" width="150" height="56" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="85" y="94" text-anchor="middle" font-size="12.5" fill="#1e40af" font-weight="bold">发件人</text>
+    <text x="85" y="112" text-anchor="middle" font-size="11" fill="#1e40af">发到任何别名</text>
+    <path d="M160 98 L 250 98" stroke="#2563eb" stroke-width="3" marker-end="url(#arr)"/>
+    <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#2563eb"/></marker></defs>
+    <rect x="255" y="30" width="170" height="140" rx="14" fill="#ecfeff" stroke="#0891b2" stroke-width="3"/>
+    <text x="340" y="55" text-anchor="middle" font-size="13" fill="#0e7490" font-weight="bold">Cloudflare</text>
+    <text x="340" y="76" text-anchor="middle" font-size="11.5" fill="#155e75">MX 接收入站邮件</text>
+    <rect x="268" y="88" width="144" height="28" rx="8" fill="#fff" stroke="#0891b2"/>
+    <text x="340" y="106" text-anchor="middle" font-size="10.5" fill="#155e75">规则匹配：别名→动作</text>
+    <rect x="268" y="122" width="144" height="28" rx="8" fill="#fff" stroke="#0891b2"/>
+    <text x="340" y="140" text-anchor="middle" font-size="10.5" fill="#155e75">catch-all 兜底拼错地址</text>
+    <path d="M425 98 L 505 98" stroke="#16a34a" stroke-width="3" marker-end="url(#arr2)"/>
+    <defs><marker id="arr2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#16a34a"/></marker></defs>
+    <rect x="510" y="70" width="140" height="56" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <text x="580" y="94" text-anchor="middle" font-size="12.5" fill="#166534" font-weight="bold">你的真实邮箱</text>
+    <text x="580" y="112" text-anchor="middle" font-size="11" fill="#166534">gmail/outlook/qq…</text>
+  </svg>
+  </div>
+  <p>效果：注册网站用 <code>github@你的域名.com</code>，购物用 <code>taobao@你的域名.com</code>，全部汇入同一个真实邮箱；泄露了就把那个别名 drop 掉。这就是原帖说的"无限邮箱"。</p>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>真的全免费吗？有没有隐藏坑？</h2>
+  <table>
+    <tr><th>项目</th><th>官方口径（2026-10-07 文档）</th></tr>
+    <tr><td>Email Routing（接收+转发）</td><td><b>免费版与付费版均可用</b>；向账户内已验证目标地址发送免费</td></tr>
+    <tr><td>destination addresses</td><td>每账户 200 个，全域名共享复用</td></tr>
+    <tr><td>routing rules</td><td>每域名 200 条</td></tr>
+    <tr><td>入站邮件大小</td><td>25 MiB（超限拒收）</td></tr>
+    <tr><td>Email Sending（出站）</td><td>另一项能力，Beta，仅 Workers 付费计划——<b>回复别人用的不是你的域名邮箱</b>，是转发，不是托管</td></tr>
+  </table>
+  <div class="key"><b>关键边界：</b>这是<span class="hl">入站转发器，不是邮箱托管</span>。你只能"收"（转发到别处收），不能"发"（不能以 your@domain 作为发件人直接发信）。要对外发信需借助 Gmail 的"用其他地址发送"或其他 SMTP 服务。</div>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>上手需要什么前置条件？配哪些 DNS 记录？</h2>
+  <p>三个条件：① 一个接入 Cloudflare 的域名（NS 托管在 CF）；② 一个用来收信的常用邮箱；③ 十分钟。</p>
+  <p>开通后 Cloudflare 要求三条 DNS 记录（Dashboard: Compute &gt; Email Service &gt; Email Routing &gt; Settings 可查看状态）：</p>
+  <pre>MX  @  route1.mx.cloudflare.net   （优先级自动分配）
+MX  @  route2.mx.cloudflare.net
+MX  @  route3.mx.cloudflare.net
+TXT @  "v=spf1 include:_spf.mx.cloudflare.net ~all"
+TXT cf2024-1._domainkey  &lt;DKIM 值&gt;</pre>
+  <div class="key"><b>两个坑（官方文档明写）：</b>① <span class="hl">不能与外部邮件服务器共存</span>——MX 必须指向 Cloudflare，想同时用 Google Workspace 收同一个域的邮件是不行的；已有 SPF 要合并（<code>v=spf1 include:_spf.mx.cloudflare.net include:_spf.google.com ~all</code>），且 SPF 总 DNS 查询 ≤10 次。② 迁移走时要先解锁路由记录、并行加新服务商记录，验证后再停用，否则断邮。</div>
+</div>
+
+<div class="q purple" id="q4">
+  <h2><span class="num">Q4</span>一封邮件进来，到底按什么顺序匹配规则？</h2>
+  <p>这是整套系统最容易配错的地方。官方匹配逻辑（本指南实验逐条建模验证，13/13 通过）：</p>
+  <table>
+    <tr><th>优先级</th><th>规则</th><th>例子</th></tr>
+    <tr><td>1</td><td>完整 local part <b>精确匹配</b>（含 +tag 字面规则）</td><td>有 <code>me+shop@</code> 规则，来信 <code>me+shop@</code> 命中它</td></tr>
+    <tr><td>2</td><td><b>Subaddressing 回退</b>（RFC 5233）：<code>user+tag@</code> 回退匹配 <code>user@</code> 规则，+tag 保留在 message.to 里供 Worker 检查</td><td>只有 <code>me@</code> 规则时，<code>me+shop@</code> 也命中</td></tr>
+    <tr><td>3</td><td><b>catch-all</b>（local=*）兜底，接住拼错的地址</td><td><code>ifno@</code>（ifno 拼错）也收得到</td></tr>
+    <tr><td>—</td><td>相同 pattern 建了多条：<b>仅列表第一条生效</b></td><td>两条 <code>a@</code> 规则只有先建的那条工作</td></tr>
+    <tr><td>—</td><td>目标地址<b>未验证</b>：使用该地址的规则全部禁用</td><td>验证邮件没点，规则静默不工作</td></tr>
+  </table>
+  <div class="expect">一句话记忆：精确 → +tag 回退 → 兜底；同名首条赢；没验证等于没配。</div>
+</div>
+
+<div class="q yellow" id="q5">
+  <h2><span class="num">Q5</span>每条规则能做什么动作？</h2>
+  <p>三种，每规则<b>只能选一个</b>（多目标转发要用 Worker 写代码循环 forward）：</p>
+  <table>
+    <tr><th>动作</th><th>行为</th><th>典型用法</th></tr>
+    <tr><td><b>Send to an email</b></td><td>转发到已验证的目标地址</td><td>support@ 转进主邮箱</td></tr>
+    <tr><td><b>Send to a Worker</b></td><td>交给 Workers 的 <code>email()</code> 函数编程处理（可自动回复、按内容分发、存数据库）</td><td>webhook 收件箱、自动工单</td></tr>
+    <tr><td><b>Drop</b></td><td>删除，不路由（官方明确说可用于隐私场景）</td><td>被垃圾邮件盯上的别名直接掐死</td></tr>
+  </table>
+  <div class="key"><b>官方限制数字：</b>每规则仅 1 个 action；每收件人邮件最多 50 个 to/cc/bcc 收件人；主题最长 998 字符；头部合计 16 KB；出站 5 MiB、发往已验证目标 25 MiB、入站 25 MiB。</div>
+</div>
+
+<div class="q red" id="q6">
+  <h2><span class="num">Q6</span>"无限邮箱"到底有没有上限？</h2>
+  <p>"无限"是<b>用法上的无限</b>（别名不用预建也能靠 catch-all 收），硬上限是：<span class="hl">每域名 200 条路由规则、每账户 200 个目标地址、入站 25 MiB/封</span>。对个人信息管理场景（几十个别名）绰绰有余。</p>
+  <p>想突破 200 条也简单：catch-all 进 Worker，用代码按 local part 任意分发——200 是"免代码上限"，不是架构上限。</p>
+</div>
+
+<div class="q pink" id="q7">
+  <h2><span class="num">Q7</span>原帖的两个说法，核实结果如何？</h2>
+  <table>
+    <tr><th>原帖说法</th><th>核实结果</th></tr>
+    <tr><td>"接入 Cloudflare 实现无限邮箱"</td><td>✅ 属实，机制即 Q1/Q6；免费档即可</td></tr>
+    <tr><td>".com 结尾邮箱权重比其他杂七杂八邮箱高"</td><td>⚠️ <b>经验主张，未找到可核对证据</b>。合理推测：自有域名邮箱在注册风控中比临时邮箱（10分钟邮箱）可信，但".com 比 .xyz 权重高"无公开依据——注册同一网站，github@yourdomain.com 和 github@yourdomain.xyz 大概率同权。按"证据优先"原则标注为待证。</td></tr>
+    <tr><td>引用推文："Northwest .com 首年免费且官方承诺续费也承担"</td><td>⚠️ 时效性促销信息（2026-10 快照，作者 8 天实测有效），非持久知识；且任何"永久免费"承诺都可能随时变。薅可以，别把关键资产只押在它上面。</td></tr>
+  </table>
+</div>
+
+<div class="q orange" id="q8">
+  <h2><span class="num">Q8</span>和其他"无限别名"方案比，选哪个？</h2>
+  <table>
+    <tr><th>方案</th><th>成本</th><th>发信</th><th>适合</th></tr>
+    <tr><td><b>CF Email Routing</b></td><td>免费</td><td>❌ 只能收/转发</td><td>已有 CF 域名、想要别名收纳+drop 权限</td></tr>
+    <tr><td>Gmail + 加号 <code>me+tag@gmail.com</code></td><td>免费</td><td>✅</td><td>零配置；但很多网站拒绝 + 号，且暴露主地址</td></tr>
+    <tr><td>SimpleLogin / DuckDuckGo 转发</td><td>免费档</td><td>部分支持回复改写</td><td>不想动 DNS、要浏览器一键生成别名</td></tr>
+    <tr><td>企业邮（Google Workspace/Zoho）</td><td>付费/有限免费</td><td>✅ 完整</td><td>团队、正式商务往来</td></tr>
+  </table>
+  <p>本指南主角的最独特价值：<b>规则掌控感</b>——每条别名可单独 drop、可交给代码处理、拼错也能兜底收到，且整个匹配逻辑有官方文档可核对（本仓库实验即用代码复刻了它）。</p>
+</div>
+
+<div class="q" id="q9">
+  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
+  <div class="ability">
+    <div class="a"><b>① 别名收纳术</b>：每个网站一个别名，溯源泄露 + 一键 drop。</div>
+    <div class="a"><b>② catch-all 心法</b>：不预建别名也能收信，拼错地址不丢邮件。</div>
+    <div class="a"><b>③ 邮件路由匹配逻辑</b>：精确→+tag回退→兜底的优先级，能预判任意配置行为。</div>
+    <div class="a"><b>④ 边界判断力</b>：转发≠托管、不能与外部 MX 共存、200 条上限是什么口径。</div>
+    <div class="a"><b>⑤ Worker 收件编程</b>：email() 函数把邮箱变成 webhook，自动回复/分发/入库。</div>
+    <div class="a"><b>⑥ 证据品味</b>："权重高"这类口号，先找证据再引用。</div>
+  </div>
+</div>
+
+<div class="q blue" id="q10">
+  <h2><span class="num">Q10</span>动手实验：路由规则模拟器（真实运行）</h2>
+  <p>实验文件：<code>exercise/routing_simulator.py</code>（纯标准库，131 行）。把官方文档的匹配逻辑写成代码 + 13 个断言测试，运行结果（exit=0）：</p>
+  <div class="real">测试结果：13/13 通过
+  ✅ 精确规则优先于 catch-all　✅ 无匹配拒收　✅ catch-all 接拼错地址
+  ✅ subaddressing 回退（+shopping 保留）　✅ +tag 字面规则优先于回退
+  ✅ 同 pattern 首条生效　✅ 未验证目标规则禁用　✅ 禁用后 catch-all 兜底
+  ✅ drop 优先于 catch-all　✅ 26MiB 拒收 / 25MiB 边界放行
+  ✅ worker 接管　✅ 非本域名拒收
+  演示场景：mydomain.com 5 条规则
+  support@ -&gt; 主邮箱　anything+tag123@ -&gt; catch-all 归档　hi@ -&gt; drop</div>
+  <p>复现命令：</p>
+  <div class="cmd">cd exercise
+python routing_simulator.py    # 13 断言 + 演示场景，exit=0</div>
+  <div class="key"><b>实验诚实声明：</b>未用真实域名端到端发信（那需要接管 DNS 与你的 Cloudflare 账户）；实验验证的是<b>文档宣称的行为逻辑</b>本身。真实开通时以 Dashboard 实际表现为准。</div>
+</div>
+
+<div class="footer">
+  <b>学习来源</b>：@太阳 taiyanghere 推文（https://x.com/taiyanghere/status/2107119143577436176）及其引用推文；核实依据：Cloudflare 官方文档 email-service 文档体系（configuration/email-routing-addresses、configuration/domains、platform/limits、get-started/route-emails，2026-10-07 逐页读取）。<br>
+  <b>产物</b>：本指南 + exercise/routing_simulator.py（13 断言全过）+ 实验日志 + 知识提案。生成：2026-10-07，worker kimi-pool-20261007-w1。
+</div>
+
+</div>
+</body>
+</html>

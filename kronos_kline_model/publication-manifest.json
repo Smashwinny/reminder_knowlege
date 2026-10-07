@@ -1,0 +1,30 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "Kronos：首个开源 K 线（金融蜡烛图）基础模型，分层离散 token + 自回归 Transformer 两阶段框架（开源项目类）",
+  "project_dir": "kronos_kline_model",
+  "pdf": "kronos_kline_model/KronosK线基础模型-小白指南.pdf",
+  "html": "kronos_kline_model/kronos_kline_model-guide.html",
+  "exercise_dir": "kronos_kline_model/exercise",
+  "experiment_log": "kronos_kline_model/kronos_kline_model-experiment-log.md",
+  "vault_note": "vault/项目笔记/kronos_kline_model.md",
+  "report_path": "完成/分析报告/c5310fbd-13d8-4972-8870-41104ab1e877.md",
+  "source_urls": [
+    "https://x.com/0xGky/status/2106826437453861101",
+    "https://github.com/shiyu-coder/Kronos",
+    "https://arxiv.org/abs/2508.02739"
+  ],
+  "experiment_files": [
+    "kronos_kline_model/exercise/run_output.txt"
+  ],
+  "upstream": {
+    "repo": "https://github.com/shiyu-coder/Kronos",
+    "commit": "67b630e",
+    "note": "repo/ 浅克隆；回归测试从 HuggingFace 拉固定版本 Kronos-small(24.7M)+Tokenizer-base 实测"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/kronos_kline_model.md；新概念提案「时序分词与行情基础模型」在 kronos_kline_model-knowledge-proposal.md，含查重提示，由协调者终审合并",
+    "pdf_pages": 9,
+    "experiment_verified": "官方回归测试 4/4 真实通过（CPU 95.87s）：HF 固定版本权重推理，预测输出与官方期望逐点一致(rel 1e-5)，MSE 回归 0.008979/0.003741(±1e-6)；首跑缺 einops 失败补装后通过；复跑留档被权限分类器拒绝如实声明",
+    "pdf_verified": "结构校验通过（9 页、字体嵌入、937KB），渲染抽查由协调者 review 执行"
+  }
+}

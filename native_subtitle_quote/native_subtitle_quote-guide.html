@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>native-subtitle-quote-image 视频字幕长图 · 小白指南</title>
+<style>
+:root{
+  --c-main:#f59e0b; --c-main-dark:#b45309; --c-blue:#2563eb; --c-green:#16a34a;
+  --c-purple:#7c3aed; --c-red:#dc2626; --c-pink:#db2777; --c-orange:#ea580c; --c-teal:#0d9488;
+  --bg:#fffbeb; --card:#ffffff; --ink:#1f2937; --soft:#fef3c7;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#f59e0b 0%,#ea580c 55%,#dc2626 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(245,158,11,.35)}
+.hero h1{font-size:2.05em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(234,88,12,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.q.teal{border-left-color:var(--c-teal)} .q.teal h2{color:var(--c-teal)} .q.teal .num{background:var(--c-teal)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#fff7ed;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #fde68a;padding:7px 12px}
+tr:nth-child(even){background:#fffbeb}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>native-subtitle-quote-image：视频帧 + 字幕 → 社交长图 · 小白指南</h1>
+  <div class="sub">原帖：@ChengYi3629「朋友用我的 skill 12 天 0→3000 粉，项目破 1000 star」（2136 赞）。<br>学习对象：chengyi-ai/native-subtitle-quote-image（1832 stars，MIT，快照 08d6990，2026-10-07 当天推送；<b>测试 39/39 真实通过，含合成视频端到端渲染</b>）。</div>
+  <div class="tags">
+    <span class="tag">开源项目类</span><span class="tag">Agent Skill</span><span class="tag">视频取帧</span><span class="tag">社交长图</span><span class="tag">测试实测</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 两种字幕模式</a><a href="#q3">Q3 管线五步</a>
+  <a href="#q4">Q4 版式工程学</a><a href="#q5">Q5 质量内建</a><a href="#q6">Q6 Agent 集成</a>
+  <a href="#q7">Q7 祛魅</a><a href="#q8">Q8 与生成后处理管线互链</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>它做什么？</h2>
+  <p>一句话：<span class="hl">本地视频或 YouTube 链接进来，自动找出金句、精确取帧、拼成带字幕的 3:4 社交长图</span>（小红书/公众号标准格式），供"日更三条"类账号量产。两种用法：在 Codex/Claude Code 里一句话调用（SKILL.md 形态），或 Python 脚本独立跑。</p>
+  <table>
+    <tr><th>事实项</th><th>核实值（本机实测）</th></tr>
+    <tr><td>仓库</td><td>chengyi-ai/native-subtitle-quote-image，1832 stars，MIT，Python</td></tr>
+    <tr><td>活跃度</td><td>2026-10-07 当天推送（12:35Z），GitHub Actions 测试徽章在线</td></tr>
+    <tr><td>结构</td><td>SKILL.md（agent 路由）+ references/（3 篇工作流文档）+ scripts/（环境检查/更新检查/核心拼接）+ 39 项测试</td></tr>
+    <tr><td>依赖</td><td>Pillow + imageio-ffmpeg（自带 ffmpeg 二进制，无需系统安装——本机验证通过）</td></tr>
+  </table>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>两种字幕模式，从不混用</h2>
+  <p>① <b>原生模式</b>：只裁切画面里本来就有的字幕区域（硬字幕视频，如访谈带内嵌字幕）——拼的是源像素，不重绘一个字；② <b>脚本模式</b>：把你审核过的台词文本画到真实画面上，<b>并明确标明是后期字幕</b>。README 的原话红线："原生字幕不重绘 · 脚本字幕不冒充原字幕"——这是对抗"AI 伪造截图"信任危机的伦理设计。</p>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>管线五步</h2>
+  <div class="svgbox">
+  <svg width="640" height="110" viewBox="0 0 640 110">
+    <g font-size="11" text-anchor="middle">
+    <rect x="10" y="30" width="90" height="40" rx="10" fill="#dcfce7" stroke="#16a34a"/><text x="55" y="48" fill="#166534" font-weight="bold">找句子</text><text x="55" y="62" fill="#166534">字幕时间轴</text>
+    <path d="M100 50 L 125 50" stroke="#16a34a" stroke-width="2.5"/>
+    <rect x="125" y="30" width="90" height="40" rx="10" fill="#dbeafe" stroke="#2563eb"/><text x="170" y="48" fill="#1e40af" font-weight="bold">精确取帧</text><text x="170" y="62" fill="#1e40af">句子时间点±窗口</text>
+    <path d="M215 50 L 240 50" stroke="#2563eb" stroke-width="2.5"/>
+    <rect x="240" y="30" width="90" height="40" rx="10" fill="#ede9fe" stroke="#7c3aed"/><text x="285" y="48" fill="#5b21b6" font-weight="bold">字幕条裁剪</text><text x="285" y="62" fill="#5b21b6">extent 检测</text>
+    <path d="M330 50 L 355 50" stroke="#7c3aed" stroke-width="2.5"/>
+    <rect x="355" y="30" width="90" height="40" rx="10" fill="#fef3c7" stroke="#f59e0b"/><text x="400" y="48" fill="#92400e" font-weight="bold">紧凑拼图</text><text x="400" y="62" fill="#92400e">主图+条带</text>
+    <path d="M445 50 L 470 50" stroke="#f59e0b" stroke-width="2.5"/>
+    <rect x="470" y="30" width="90" height="40" rx="10" fill="#fee2e2" stroke="#dc2626"/><text x="515" y="48" fill="#b91c1c" font-weight="bold">逐张质检</text><text x="515" y="62" fill="#b91c1c">可否决重取</text>
+    </g>
+  </svg>
+  </div>
+  <p>核心脚本 native_subtitle_stitch.py 提供 sample（候选帧抽取）/stitch（拼接）/质检 子命令；ffmpeg 由 imageio-ffmpeg 提供二进制（本机无系统 ffmpeg 也能跑通测试，已验证）。</p>
+</div>
+
+<div class="q purple" id="q4">
+  <h2><span class="num">Q4</span>版式工程学（为什么好看）</h2>
+  <p>三个反直觉细节：① 原生模式<b>先拼源像素再统一缩放</b>——第一句不会被单独放大变形（长图工具最常见的翻车点）；② 脚本模式主图固定占 <b>70%</b>（句数多时自动降到 48%，保证条带可读）；③ <b>字幕条之间零空隙</b>。本机目检成品（exercise/example_output.jpg）：3:4、主图+5 条字幕带、条带内文字清晰——版式承诺兑现。</p>
+</div>
+
+<div class="q teal" id="q5">
+  <h2><span class="num">Q5</span>质量内建：39 项测试在守什么</h2>
+  <p>测试名即需求文档：「crop 模式保持源像素精确」「缩放保持圆形几何」「字幕条紧凑」「窄字幕填满画布无黑边」「宽字幕限制裁剪但不切文字」「crop_center 移动窗口但绝不切字幕」「未知字幕模式回退 padding」。其中<b>几何保持测试</b>（缩放后圆形还是圆形）是在防 AI 工具最常见的"把人脸拉扁"事故。</p>
+</div>
+
+<div class="q red" id="q6">
+  <h2><span class="num">Q6</span>Agent Skill 形态集成</h2>
+  <p>SKILL.md 做任务路由（找句子/取帧/拼图/质检四步调度），references/ 三篇文档分工：端到端工作流、视觉风格规范、yt-dlp 与字幕获取（含 YouTube 下载与转录）。agents/openai.yaml 说明跨 agent 兼容性。这是本库学过的第三个 Agent Skill 样本（huashu=director 型、dsh=migration 型、本条=content-factory 型），形态日趋成熟。</p>
+</div>
+
+<div class="q pink" id="q7">
+  <h2><span class="num">Q7</span>祛魅：涨粉故事与方法可信度分开</h2>
+  <p>"12 天 0→3000 粉、单条近 100 万播放"是单方案例主张（[[证据优先质检ProofOverClaims]]）。工具解决的是"量产合格长图"这一道工序；涨粉还取决于选题、账号权重、平台流量分配——后者不可复制。工具本身的方法可信度由 39 项测试+本机实跑背书，属于高。</p>
+</div>
+
+<div class="q orange" id="q8">
+  <h2><span class="num">Q8</span>与生成后处理管线互链</h2>
+  <p>上一条 sprite_gen 提炼了「生成后处理管线」概念（清洗/切分/排版/契约）。本条是同一概念在<b>社交内容工厂</b>域的实例：取帧=切分，字幕条裁剪=清洗，紧凑拼图=排版，3:4 与质检标准=契约。差异：sprite-gen 交付给游戏引擎（机器消费），本条交付给平台算法与人眼（流量消费）。</p>
+</div>
+
+<div class="q" id="q9">
+  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
+  <div class="ability">
+    <div class="a"><b>① 字幕双模式伦理</b>：原生不重绘、脚本不冒充，信任红线写成产品原则。</div>
+    <div class="a"><b>② 先拼后缩放</b>：多帧拼图的顺序决定变形与否，先拼源像素再统一缩放。</div>
+    <div class="a"><b>③ 几何回归测试</b>：圆形不变形是图像管线的质量哨兵。</div>
+    <div class="a"><b>④ 自带运行时</b>：imageio-ffmpeg 捆绑二进制，免除环境地狱。</div>
+    <div class="a"><b>⑤ Skill 形态第三样本</b>：内容工厂型 skill 的路由+文档分工。</div>
+    <div class="a"><b>⑥ 质检否决权</b>：逐张质检可否决重取，机器量产保留人工闸门。</div>
+  </div>
+</div>
+
+<div class="q blue" id="q10">
+  <h2><span class="num">Q10</span>动手实验：39/39 全绿 + 成品目检</h2>
+  <p>实验环境：Windows 11，Python 3.14.7，无系统 ffmpeg（imageio-ffmpeg 兜底）。真实运行（exercise/run_output.txt）：</p>
+  <div class="cmd">git clone --depth 1 https://github.com/chengyi-ai/native-subtitle-quote-image
+cd native-subtitle-quote-image
+python -m pytest tests/ -q -p no:cacheprovider --basetemp=&lt;本地干净临时目录&gt;
+# 39 collected → 39 passed, 17 subtests passed in 9.12s</div>
+  <div class="real">关键：测试含端到端用例——ffmpeg lavfi 生成合成视频(testsrc2
+640x360/10fps/3s) → 脚本 sample 子命令真实取帧 → stitch 渲染长图，全部通过。
+目检：仓库自带成品 examples/gallery/chen-shu-simple-life.jpg（3:4，主图
+70%+5 字幕条，文字清晰无变形）已复制至 exercise/example_output.jpg。</real>
+  <div class="key"><b>诚实声明：</b>未用自己找的真实视频出图（版权与下载成本，合成视频已证管线）；YouTube 下载路径（yt-dlp）未实测；39 项通过≠所有真实视频效果，复杂字幕样式仍可能翻车（质检回路兜底）。</div>
+</div>
+
+<div class="footer">
+  <b>学习来源</b>：@ChengYi3629 推文（https://x.com/ChengYi3629/status/2107427874731155490）+ 仓库 chengyi-ai/native-subtitle-quote-image（快照 08d6990）。<br>
+  <b>产物</b>：本指南 + exercise/run_output.txt + exercise/example_output.jpg + 实验日志 + 知识提案。生成：2026-10-07，worker kimi-pool-20261007-w1。
+</div>
+
+</div>
+</body>
+</html>

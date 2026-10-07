@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Kronos K线基础模型 · 小白指南</title>
+<style>
+:root{
+  --c-main:#16a34a; --c-main-dark:#15803d; --c-blue:#2563eb; --c-purple:#7c3aed;
+  --c-yellow:#f59e0b; --c-red:#dc2626; --c-pink:#db2777; --c-orange:#ea580c; --c-teal:#0d9488;
+  --bg:#f0fdf4; --card:#ffffff; --ink:#1f2937; --soft:#dcfce7;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#16a34a 0%,#0d9488 55%,#2563eb 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(22,163,74,.35)}
+.hero h1{font-size:2.05em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(13,148,136,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.q.orange{border-left-color:var(--c-orange)} .q.orange h2{color:var(--c-orange)} .q.orange .num{background:var(--c-orange)}
+.q.teal{border-left-color:var(--c-teal)} .q.teal h2{color:var(--c-teal)} .q.teal .num{background:var(--c-teal)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#f0fdfa;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #bbf7d0;padding:7px 12px}
+tr:nth-child(even){background:#f0fdf4}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.expect{background:#dcfce7;border:3px dashed var(--c-main);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>Kronos：开源 K 线基础模型 · 小白指南</h1>
+  <div class="sub">原帖：@Gk「有个叫 Kronos 的模型，首个开源、专门解析 K 线的通用大模型…AAAI 2026 接收」（423 赞）。<br>学习对象：shiyu-coder/Kronos（GitHub 40102 stars，MIT，快照 67b630e；<b>官方回归测试 4/4 本机真实通过</b>，CPU 端到端推理约 96 秒）。</div>
+  <div class="tags">
+    <span class="tag">开源项目类</span><span class="tag">金融时序</span><span class="tag">基础模型</span><span class="tag">回归测试实测</span><span class="tag">AAAI 2026</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 两阶段框架</a><a href="#q3">Q3 模型家族</a>
+  <a href="#q4">Q4 怎么用</a><a href="#q5">Q5 预测靠谱吗</a><a href="#q6">Q6 能微调吗</a>
+  <a href="#q7">Q7 推文宣称核实</a><a href="#q8">Q8 和量化工具关系</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>Kronos 是什么？</h2>
+  <p>一句话：<span class="hl">第一个开源的、专门为 K 线（金融蜡烛图）序列预训练的基础模型</span>——把 OHLCV 行情当成"语言"，先分词成离散 token，再用自回归 Transformer 学行情规律，一个模型服务多种量化任务（预测、补全、生成等）。论文 2025-08 挂 arXiv（2508.02739），2025-11 被 AAAI 2026 接收。</p>
+  <table>
+    <tr><th>事实项</th><th>核实值（README + GitHub API + 本机实测）</th></tr>
+    <tr><td>仓库</td><td>shiyu-coder/Kronos，40102 stars，MIT，Python（模型本体 1232 行：kronos.py 662 + module.py 570）</td></tr>
+    <tr><td>训练数据</td><td>45+ 全球交易所 K 线（README 口径）</td></tr>
+    <tr><td>权重发布</td><td>HuggingFace NeoQuasar 组织：mini/small/base 开源，large（499.2M）未开源</td></tr>
+    <tr><td>本机验证</td><td>官方回归测试 4/4 通过（含官方期望输出比对，容差 1e-5）</td></tr>
+  </table>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>"K线即语言"具体怎么实现？</h2>
+  <div class="svgbox">
+  <svg width="660" height="180" viewBox="0 0 660 180">
+    <text x="100" y="24" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">连续 OHLCV 行情</text>
+    <rect x="30" y="40" width="140" height="30" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="100" y="59" text-anchor="middle" font-size="10.5" fill="#1e40af">O=100.2 H=101.5 L=99.8</text>
+    <rect x="30" y="78" width="140" height="30" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="100" y="97" text-anchor="middle" font-size="10.5" fill="#1e40af">C=101.1 V=52341</text>
+    <path d="M175 75 L 240 75" stroke="#2563eb" stroke-width="3" marker-end="url(#b1)"/>
+    <defs><marker id="b1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#2563eb"/></marker></defs>
+    <text x="300" y="24" text-anchor="middle" font-size="13" font-weight="bold" fill="#7c3aed">① 专用 Tokenizer</text>
+    <rect x="245" y="40" width="130" height="30" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+    <text x="310" y="59" text-anchor="middle" font-size="10.5" fill="#5b21b6">分层离散量化</text>
+    <rect x="245" y="78" width="130" height="30" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+    <text x="310" y="97" text-anchor="middle" font-size="10.5" fill="#5b21b6">2k token 词表</text>
+    <path d="M378 75 L 440 75" stroke="#7c3aed" stroke-width="3" marker-end="url(#b2)"/>
+    <defs><marker id="b2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#7c3aed"/></marker></defs>
+    <text x="545" y="24" text-anchor="middle" font-size="13" font-weight="bold" fill="#16a34a">② 自回归 Transformer</text>
+    <rect x="450" y="40" width="180" height="30" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="540" y="59" text-anchor="middle" font-size="10.5" fill="#166534">decoder-only 预训练</text>
+    <rect x="450" y="78" width="180" height="30" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="540" y="97" text-anchor="middle" font-size="10.5" fill="#166534">下一个 token 概率</text>
+    <text x="330" y="150" text-anchor="middle" font-size="11" fill="#6b7280">类似 GPT 之于文字：先把行情"翻译成词"，再学"词的语法"</text>
+  </svg>
+  </div>
+  <p>关键创新在 tokenizer：连续多维 K 线数据被量化成<b>分层离散 token</b>（hierarchical discrete tokens），不同分辨率层级捕捉不同尺度的行情结构——这是它能用 NLP 成熟范式（词表 + 自回归）处理金融数据的前提。金融数据高噪声、非平稳，通用时序基础模型（TSFM）直接套效果不好，Kronos 从分词层面就为金融数据特制。</p>
+</div>
+
+<div class="q purple" id="q3">
+  <h2><span class="num">Q3</span>模型家族与硬件需求</h2>
+  <table>
+    <tr><th>模型</th><th>上下文</th><th>参数量</th><th>开源</th><th>适用</th></tr>
+    <tr><td>Kronos-mini</td><td>2048</td><td>4.1M</td><td>✅</td><td>玩具/边缘设备/教学</td></tr>
+    <tr><td>Kronos-small</td><td>512</td><td>24.7M</td><td>✅</td><td>个人实验（本机实测用这个）</td></tr>
+    <tr><td>Kronos-base</td><td>512</td><td>102.3M</td><td>✅</td><td>认真点的任务</td></tr>
+    <tr><td>Kronos-large</td><td>512</td><td>499.2M</td><td>❌ 未放出</td><td>论文最优成绩在这个尺寸上</td></tr>
+  </table>
+  <div class="key"><b>注意：</b>README 明说 small/base 的 max_context=512，输入 lookback 不应超过 512（超长自动截断）；论文报告的<b>最佳指标来自未开源的 large</b>——看论文数字时记住这一点。CPU 就能跑 small（本机实测 96 秒跑完 4 项回归）。</div>
+</div>
+
+<div class="q teal" id="q4">
+  <h2><span class="num">Q4</span>怎么用？（真实代码路径）</h2>
+  <p>仓库把复杂度都封装进 <code>KronosPredictor</code> 三步：① <code>KronosTokenizer.from_pretrained</code> + <code>Kronos.from_pretrained</code> 从 HF 拉模型；② 传 model/tokenizer/max_context 建 predictor；③ 给 <code>predict(df, x_timestamp, y_timestamp)</code> 喂含 open/high/low/close（volume/amount 可选）的 DataFrame，返回未来 K 线预测。预处理、归一化、逆归一化全自动。</p>
+  <p>examples/ 目录给了 9 个真实场景脚本：akshare 取数预测、A 股日线预测、批量预测、无 volume 预测、回测脚本 <code>run_backtest_kronos.py</code>、甚至还有 GUI 版。另有 webui/ 网页界面和 finetune/ 微调脚本。</p>
+</div>
+
+<div class="q red" id="q5">
+  <h2><span class="num">Q5</span>它预测得准吗？（最重要的一问）</h2>
+  <p>三个层面分开看：</p>
+  <table>
+    <tr><th>层面</th><th>证据与判断</th></tr>
+    <tr><td>代码工程可信</td><td>✅ 本机官方回归测试 4/4：同输入同输出的确定性、与官方期望回归数据逐点一致（1e-5 容差）、MSE 复现（0.008979/0.003741±1e-6）——"模型行为可复现"是硬证据</td></tr>
+    <tr><td>论文指标</td><td>⚠️ AAAI 接收说明同行评议认可其方法贡献；但最佳数字来自未开源的 large，开源的 mini/small/base 实际预测力要自行评估</td></tr>
+    <tr><td>能否赚钱</td><td>❓ <b>无证据</b>。高噪声金融序列上"预测形状"≠"有交易边际"，还需扣 [[交易成本与鞭打效应]]、过拟合、非平稳漂移。Demo 画的 BTC 24h 曲线看着像≠统计上有 edge</td></tr>
+  </table>
+  <div class="expect">一句话：它是一个真实、可复现、工程干净的研究级模型；"拿它预测赚钱"是完全另一件事，中间隔着回测、成本、风控三道鬼门关。</div>
+</div>
+
+<div class="q yellow" id="q6">
+  <h2><span class="num">Q6</span>能微调吗？</h2>
+  <p>可以，且是显式支持的：finetune/（通用流程）与 finetune_csv/（CSV 数据直接微调）两套脚本，2025-08-17 官方发布。思路与其他预训练模型一致：冻结或低学习率更新预训练权重，用自己的标的/周期数据适配。微调需要的是带时间戳的 OHLCV 序列，与你已有的 [[daily-stock-analysis]] 数据管线可衔接。</p>
+</div>
+
+<div class="q pink" id="q7">
+  <h2><span class="num">Q7</span>推文宣称逐项核实</h2>
+  <table>
+    <tr><th>推文说法</th><th>核实结果</th></tr>
+    <tr><td>首个开源 K 线专用基础模型</td><td>✅ 与 README 自述一致（"first open-source foundation model for financial candlesticks"）</td></tr>
+    <tr><td>45 家交易所数据训练</td><td>✅ README 口径 "over 45 global exchanges"（数据集本身未随仓库发布，无法独立复核）</td></tr>
+    <tr><td>AAAI 2026 接收</td><td>✅ README News 栏 2025-11-10 官宣（arXiv 2508.02739）</td></tr>
+    <tr><td>mini 到 base 全开源</td><td>✅ HF 可拉，本机实测 small 权重真实可用</td></tr>
+    <tr><td>large 未放出</td><td>✅ 官方 Model Zoo 明确 ❌</td></tr>
+    <tr><td>"预测 BTC 24h"的 Demo</td><td>⚠️ 在线演示存在（Kronos-demo 页），"准不准"无统计评估，属展示性质</td></tr>
+  </table>
+  <p>结论：推文事实性宣称<b>全部属实</b>，是本批少见的零夸大推广帖。夸大点在语境——"有人做出来了"≠"你能靠它赚钱"。</p>
+</div>
+
+<div class="q orange" id="q8">
+  <h2><span class="num">Q8</span>和你已有的量化知识什么关系？</h2>
+  <p>Kronos 与 vault 量化工具链是<b>互补而非替代</b>：[[daily-stock-analysis]]（数据管线）、[[nautilus_trader]]/[[事件驱动回测]]（回测执行）、[[技术指标MA与MACD与RSI]]（人工特征）解决"怎么拿到干净数据并验证策略"；Kronos 提供"数据驱动的行情表示"。正确的接入姿势：Kronos 输出作为策略<b>特征之一</b>进回测框架验证，而不是直接照它的预测下单。</p>
+</div>
+
+<div class="q" id="q9">
+  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
+  <div class="ability">
+    <div class="a"><b>① 时序分词思想</b>：连续数据→分层离散 token，让 NLP 范式迁移到行情。</div>
+    <div class="a"><b>② 基础模型使用范式</b>：tokenizer+model+predictor 三段式，与 LLM API 设计同构。</div>
+    <div class="a"><b>③ 回归测试素养</b>：官方给期望输出做逐点比对——模型仓库的可信度该怎么建。</div>
+    <div class="a"><b>④ 宣称核实方法</b>：论文接收/开源范围/最佳模型是否放出，三个独立核对点。</div>
+    <div class="a"><b>⑤ 祛魅</b>："模型真实"与"交易有 edge"之间的三道鬼门关（回测/成本/非平稳）。</div>
+    <div class="a"><b>⑥ 微调路径</b>：finetune_csv 把自己的标的数据接进预训练模型。</div>
+  </div>
+</div>
+
+<div class="q blue" id="q10">
+  <h2><span class="num">Q10</span>动手实验：官方回归测试真实跑通</h2>
+  <p>实验环境：Windows 11，Python 3.14.7，torch 2.11.0（CPU）。过程（exercise/run_output.txt 完整记录）：</p>
+  <div class="cmd">git clone --depth 1 https://github.com/shiyu-coder/Kronos
+cd Kronos
+pip install einops==0.8.1 huggingface_hub==0.33.1 safetensors==0.6.2
+python -m pytest tests/test_kronos_regression.py -q
+# 首次失败：einops 缺失 → 按 requirements.txt 补装后重跑</div>
+  <div class="real">结果：4 passed, 5 warnings in 95.87s (0:01:35)
+验证内容：从 HuggingFace 拉取固定版本 Kronos-small + Tokenizer-base，
+在真实行情回归数据（regression_input.csv）上推理：
+· 2 组上下文长度（512/256）的预测输出与官方期望回归数据逐点一致（rel 容差 1e-5）
+· 2 组 MSE 回归 = 0.008979 / 0.003741，与官方期望偏差 &lt; 1e-6
+5 个 warning 均为 Windows 无 symlink 的 HF 缓存降级提示，无功能影响。</div>
+  <div class="key"><b>诚实声明：</b>回归测试证明"模型在本机行为与官方发布一致"；未验证预测的交易有效性（需自行回测），未跑 large（未开源），微调流程未执行。</div>
+</div>
+
+<div class="footer">
+  <b>学习来源</b>：@Gk 推文（https://x.com/0xGky/status/2106826437453861101）；核实：GitHub API + README + arXiv 2508.02739 + 本机回归测试 4/4 真实通过。<br>
+  <b>产物</b>：本指南 + exercise/run_output.txt + 实验日志 + 知识提案。生成：2026-10-07，worker kimi-pool-20261007-w1。
+</div>
+
+</div>
+</body>
+</html>

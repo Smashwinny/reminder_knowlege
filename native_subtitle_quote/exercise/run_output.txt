@@ -1,0 +1,6 @@
+== native-subtitle-quote-image 实验运行记录 ==
+仓库：chengyi-ai/native-subtitle-quote-image 浅克隆 08d6990（1832 stars，MIT，2026-10-07 推送）
+
+1. 测试套件真实运行（39 收集）：
+.......................................                 [100%]
+39 passed, 17 subtests passed in 9.12s

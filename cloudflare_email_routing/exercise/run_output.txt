@@ -1,0 +1,22 @@
+  ✅ T1 精确规则优先于 catch-all: [deliver] 规则[support@example.com] 转发到 me@gmail.com
+  ✅ T2 无匹配拒收: [reject] 无匹配规则且未开 catch-all
+  ✅ T3 catch-all 接拼错地址: [deliver] 规则[*@example.com] 转发到 backup@gmail.com
+  ✅ T4 subaddressing 回退: [deliver] 规则[me@example.com]（subaddressing 回退，+shopping 保留） 转发到 me@gmail.com
+  ✅ T5 +tag 字面规则优先: [drop] 规则[me+shopping@example.com] drop：删除不路由
+  ✅ T6 同 pattern 首条生效: [deliver] 规则[a@example.com] 转发到 first@gmail.com
+  ✅ T7 未验证目标规则禁用: [reject] 规则[support@example.com] 目标地址未验证，规则禁用且无兜底
+  ✅ T8 禁用后 catch-all 兜底: [deliver] 规则[support@example.com] 因目标未验证被禁用；规则[*@example.com] 转发到 backup@gmail.com
+  ✅ T9 drop 优先于 catch-all: [drop] 规则[spam@example.com] drop：删除不路由
+  ✅ T10 26MiB 拒收: [reject] 超过入站 25MiB 上限（26.0 MiB）
+  ✅ T11 25MiB 边界放行: [deliver] 规则[*@example.com] 转发到 backup@gmail.com
+  ✅ T12 worker 接管: [worker] 规则[hook@example.com] 交给 Worker 处理（message.to 含完整 rcpt）
+  ✅ T13 非本域名拒收: [reject] 非本域名 other.com
+
+测试结果：13/13 通过
+
+演示场景：mydomain.com 5 条规则（2 显式 + catch-all + drop）
+  support@mydomain.com               -> [deliver] 规则[support@mydomain.com] 转发到 me@outlook.com
+  register@mydomain.com              -> [deliver] 规则[register@mydomain.com] 转发到 me@outlook.com
+  anything+tag123@mydomain.com       -> [deliver] 规则[*@mydomain.com] 转发到 archive@outlook.com
+  ifno@mydomain.com                  -> [deliver] 规则[*@mydomain.com] 转发到 archive@outlook.com
+  hi@mydomain.com                    -> [drop] 规则[hi@mydomain.com] drop：删除不路由

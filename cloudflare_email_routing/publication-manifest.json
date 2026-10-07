@@ -1,0 +1,32 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "Cloudflare Email Routing（邮件路由）：自有域名免费无限别名邮箱的机制、规则匹配逻辑与边界（知识学习类）",
+  "project_dir": "cloudflare_email_routing",
+  "pdf": "cloudflare_email_routing/Cloudflare邮件路由-小白指南.pdf",
+  "html": "cloudflare_email_routing/cloudflare_email_routing-guide.html",
+  "exercise_dir": "cloudflare_email_routing/exercise",
+  "experiment_log": "cloudflare_email_routing/cloudflare_email_routing-experiment-log.md",
+  "vault_note": "vault/项目笔记/cloudflare_email_routing.md",
+  "report_path": "完成/分析报告/f1fad58a-1241-48e4-8fd2-498786c6a24c.md",
+  "source_urls": [
+    "https://x.com/taiyanghere/status/2107119143577436176",
+    "https://developers.cloudflare.com/email-service/configuration/email-routing-addresses/",
+    "https://developers.cloudflare.com/email-service/configuration/domains/",
+    "https://developers.cloudflare.com/email-service/platform/limits/"
+  ],
+  "experiment_files": [
+    "cloudflare_email_routing/exercise/routing_simulator.py",
+    "cloudflare_email_routing/exercise/run_output.txt"
+  ],
+  "upstream": {
+    "repo": "N/A（托管服务，无代码仓库可克隆）",
+    "commit": "N/A",
+    "note": "核实依据为 Cloudflare 官方文档 email-service 文档体系，2026-10-07 逐页 WebFetch 读取"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/cloudflare_email_routing.md；新概念提案「邮件路由与无限别名」在 cloudflare_email_routing-knowledge-proposal.md，含查重提示，由协调者终审合并",
+    "pdf_pages": 10,
+    "experiment_verified": "routing_simulator.py 复刻官方文档匹配逻辑，13/13 断言通过 exit=0（同 pattern 首条生效/RFC5233 回退/未验证禁用/25MiB 边界/drop 优先等），run_output.txt 完整",
+    "pdf_verified": "结构校验通过（10 页、字体嵌入、1.02MB），渲染抽查由协调者 review 执行"
+  }
+}

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>huashu-art-motion 艺术动画 Skill · 小白指南</title>
+<style>
+:root{
+  --c-main:#db2777; --c-main-dark:#be185d; --c-blue:#2563eb; --c-green:#16a34a;
+  --c-purple:#7c3aed; --c-yellow:#f59e0b; --c-red:#dc2626; --c-orange:#ea580c; --c-teal:#0d9488;
+  --bg:#fdf2f8; --card:#ffffff; --ink:#1f2937; --soft:#fce7f3;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#db2777 0%,#7c3aed 55%,#2563eb 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(219,39,119,.35)}
+.hero h1{font-size:2.05em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(124,58,237,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.orange{border-left-color:var(--c-orange)} .q.orange h2{color:var(--c-orange)} .q.orange .num{background:var(--c-orange)}
+.q.teal{border-left-color:var(--c-teal)} .q.teal h2{color:var(--c-teal)} .q.teal .num{background:var(--c-teal)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#fdf4ff;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #fbcfe8;padding:7px 12px}
+tr:nth-child(even){background:#fdf2f8}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>huashu-art-motion：代码画 35 种艺术风格并让它活 · 小白指南</h1>
+  <div class="sub">原帖：@花叔 AlchainHust「我的 skill 基本可以毕业了，Opus5.5 + Huashu-art-motion 做的 whiteboard 视频」（187 赞）。<br>学习对象：alchaincyf/huashu-art-motion（GitHub Trending 日增 707 星，MIT，快照 26dba25；<b>结构宣称 6/6 本机校验通过</b>，引擎实渲染因权限拦截如实记录）。</div>
+  <div class="tags">
+    <span class="tag">开源项目类</span><span class="tag">程序化动画</span><span class="tag">Agent Skill</span><span class="tag">Canvas 引擎</span><span class="tag">结构实测</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 核心资产</a><a href="#q3">Q3 五层机制</a>
+  <a href="#q4">Q4 35 张风格卡</a><a href="#q5">Q5 9 种视频语法</a><a href="#q6">Q6 引擎工程</a>
+  <a href="#q7">Q7 安装与依赖</a><a href="#q8">Q8 质量边界</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>这个 skill 是什么？</h2>
+  <p>一句话：<span class="hl">一个让 coding agent"用代码画画并做成动画"的 Agent Skill</span>——你是导演+分镜+原画+动画+剪辑，但画笔是 Canvas 代码。它来自一次真实复刻（2026-10-04 复刻 @cherry_mx_reds 的 15 秒"艺术史速通"，16 个艺术时代），把复刻经验固化成可重复使用的方法库。</p>
+  <table>
+    <tr><th>事实项</th><th>核实值（本机实测）</th></tr>
+    <tr><td>仓库</td><td>alchaincyf/huashu-art-motion，396 文件，MIT（花叔卡通形象除外）</td></tr>
+    <tr><td>风格配方卡</td><td><b>35 张（INDEX 表逐张核对，35/35 有可运行场景代码）</b></td></tr>
+    <tr><td>解说视频语法</td><td><b>9 种（3b1b/发布会UI/财经图表/Kurzgesagt/Vox/白板/Storytime/动态字排/讲解员）</b></td></tr>
+    <tr><td>引擎</td><td>scripts/engine/ 完整工程：35 个风格场景 + 转场库 + 绘画库 + 渲染器 + 8 支示范片 + 参数化片段</td></tr>
+    <tr><td>安装</td><td><code>npx skills add alchaincyf/huashu-art-motion</code></td></tr>
+  </table>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>核心资产是什么？（三类）</h2>
+  <p>① <b>35 张风格配方卡</b>（references/风格配方/）：每张 = 核心渲染器手法 + 母题动作（画怎么活）+ 签名转场（怎么进入它）+ 质量星级 + 当前短板——是"实做的参数和坑"，不是唯一画法；② <b>9 种视频语法卡</b>（references/动画语法/）：每种解说风格一张配方，引擎里对应可参数化渲染的 clips/ 库；③ <b>完整代码工程</b>（scripts/engine/）：可以复制开新片，改 eras.js 段落表、写 scenes/&lt;id&gt;.js。</p>
+  <div class="key"><b>形态创新点：</b>它不是"一个工具"，而是"给 agent 的职业技能包"——SKILL.md 是路由表，按用户说的话决定读哪些参考文档。这与 vault 的 [[AgentSkills技能包]] 概念同构，是 skill 形态的成熟样本。</div>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>"五层机制"——它让画"活"的公式</h2>
+  <p>复刻"艺术史速通"提炼出的通用公式：<span class="hl">固定场景骨架 × 每幕都是活的画（主角动作+风格母题小循环）× 转场用下一风格的签名语言 × 节拍网格加速 × 连续叙事锚+结尾角色梗</span>。换题材照样成立——这是从"复刻一次"到"可复制方法"的关键一跃。</p>
+  <p>配套硬规则（"窄桥"）：画面必须动（自检要量帧差）；场景与风格用代码画、真人角色用 AI 生帧+代码合成；复刻学机制不逐像素；新方向先出三帧给用户挑；<b>所有随机用种子，同一时刻渲两次逐像素一致</b>；成片交付前派没参与制作的 agent 独立审片。</p>
+</div>
+
+<div class="q purple" id="q4">
+  <h2><span class="num">Q4</span>35 张风格卡长什么样？</h2>
+  <p>艺术史 15 种（洞穴岩画→埃及→希腊黑绘→罗马马赛克→哥特泥金→文艺复兴→印象派→梵高→慕夏→立体主义→包豪斯→波普→8-bit→早期光追→当代扁平）+ 水墨、克里姆特、蒙克、敦煌、草间弥生、构成主义、达利、霍珀、吉卜力、蒸汽波、漫威 Kirby、莫奈、修拉、马蒂斯、凯斯·哈林、伦勃朗、橡皮管卡通、皮影、新海诚、毕加索蓝 = 35。INDEX 诚实标注质量：★★★ 20 种 / ★★ 14 种 / ★ 1 种（伦勃朗，审片 5/10，"最该重做"）。</p>
+  <div class="key"><b>最值钱的诚实：</b>每张卡都写了"当前短板"（梵高"每帧 120ms 最重"、皮影"121ms 偏慢"、8-bit"猫头压窗台"）——这是实做者的笔记，不是营销文档。普遍短板是角色（背景过了风格渲染器就像，角色平涂就像贴上去的）。</div>
+</div>
+
+<div class="q yellow" id="q5">
+  <h2><span class="num">Q5</span>9 种视频语法——口播驱动的片段渲染</h2>
+  <p>对解说视频，它把"风格"细分为频道级语法：3b1b 数学动画、Keynote 式 UI 演示、财经图表、Kurzgesagt、Vox、白板手绘、Storytime、动态字排、真人讲解员。8 种带示范片和 <b>JSON spec</b>——给一段口播转录，按 spec 渲出<b>时长精确对齐</b>的片段：<code>render.py --spec</code> 直接出片。本机校验：examples/ 下 8 个 JSON spec 全部合法可解析。</p>
+</div>
+
+<div class="q teal" id="q6">
+  <h2><span class="num">Q6</span>引擎工程里有什么？</h2>
+  <p>scripts/engine/ = engine.js（种子/时间轴/世界画布）+ lib/（brush 笔触/paint/camera/collage/diagram 绘画库 + woff 字体）+ scenes/ 35+1 个风格场景 JS + render.py（Playwright 无头渲染静帧/mp4）+ clip.html/clip.js + clips/ 9 个语法片段库 + demos/ 8 支示范 + compare.py 参考并排对比。另附 analyze/breakdown.py 参考片拆解工具。</p>
+  <p>种子确定性本机验证：lib/util.js 实现 mulberry32，全引擎 <b>53 处 rng(seed) 种子调用</b>——"渲两次逐像素一致"的宣称有真实实现面支撑。</p>
+</div>
+
+<div class="q orange" id="q7">
+  <h2><span class="num">Q7</span>安装与依赖（诚实清单）</h2>
+  <table>
+    <tr><th>依赖</th><th>用途</th><th>本机状态</th></tr>
+    <tr><td>npx skills add</td><td>装进 Claude Code 等 agent</td><td>—</td></tr>
+    <tr><td>uv</td><td>Python 运行器</td><td>✅ 0.12.22</td></tr>
+    <tr><td>Playwright Chromium</td><td>无头渲染 Canvas</td><td>✅ 已装（install 成功）</td></tr>
+    <tr><td>ffmpeg</td><td>出 mp4/拆解</td><td>❌ 未装（静帧不需要，出片需要）</td></tr>
+  </table>
+</div>
+
+<div class="q red" id="q8">
+  <h2><span class="num">Q8</span>质量边界与祛魅</h2>
+  <p>① 角色是普遍短板（INDEX 自己承认）；② 性能：梵高 120ms/帧、皮影 121ms——长片渲染时间是真成本；③ 口播整片参考代码（spacex/）需自备角色帧和音频，"开箱即整片"不成立；④ 35 张卡的质量星级是"当前实做水平"不是风格难度上限；⑤ 它是给 agent 的技能包， solo 人类照 SKILL.md 手工做会慢很多——价值在 agent 编排。</p>
+</div>
+
+<div class="q" id="q9">
+  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
+  <div class="ability">
+    <div class="a"><b>① 风格即渲染器</b>：每种艺术风格=一个程序化渲染器+母题+签名转场的三元组，可拆解可复刻。</div>
+    <div class="a"><b>② 先一帧后运动</b>：静态帧过关再谈动画的"一帧先行"工作流。</div>
+    <div class="a"><b>③ 种子确定性</b>：所有随机种子化=可复现可回归，动画工程的质量基线。</div>
+    <div class="a"><b>④ 语法分层</b>：频道级视觉语法（9 种）比"风格"更细，是解说视频的可组合单元。</div>
+    <div class="a"><b>⑤ Skill 形态</b>：SKILL.md 路由表+参考文档+代码工程=职业技能包的标准结构。</div>
+    <div class="a"><b>⑥ 诚实标注法</b>：质量星级+当前短板的自我披露，比"全都能做"可信十倍。</div>
+  </div>
+</div>
+
+<div class="q blue" id="q10">
+  <h2><span class="num">Q10</span>动手实验：结构宣称校验 6/6</h2>
+  <p>实验文件：<code>exercise/validate_structure.py</code>（纯标准库）。把 SKILL.md 的结构宣称逐条变成断言验证，真实运行（exit=0）：</p>
+  <div class="real">测试结果：6/6 通过
+  ✅ INDEX 卡片数=35（宣称35，缺 0 张）
+  ✅ 每个卡片有场景 js 文件（35/35）
+  ✅ 视频语法数=9（t1_3b1b/t2_keynote_ui/t3_finance_chart/y1..y6）
+  ✅ 引擎骨架完整（engine.js/render.py/clip.html/clips/demos/lib…9 项全在）
+  ✅ 种子确定性：lib/util.js 实现 mulberry32，全引擎 53 处 rng(seed) 调用
+  ✅ examples/ 8 个 JSON spec 全部合法可解析</div>
+  <p>排查实录（未掩盖）：T5 首版只查 engine.js 得 2 命中判失败 → 定位到种子机制在 lib/util.js + 全引擎 rng(seed) 调用面 → 修正断言后通过；T6 首版找错 JSON 目录（clips/ 下是 .js 库，JSON spec 在 examples/）→ 修正后 8/8。</p>
+  <div class="cmd">cd exercise
+python validate_structure.py    # 6 断言，exit=0
+# 引擎实渲染（Playwright 已装）：render.py --solo 14_8bit --stills 0,0.3,0.6
+# 该步被权限分类器拦截（外部仓库代码执行需用户点名授权），未绕过，留待授权后补做</div>
+  <div class="key"><b>诚实声明：</b>6/6 验证的是"宣称的结构真实存在"；实渲染出图被权限拦截未执行（Chromium 已装好，用户授权后一条命令可补）；ffmpeg 缺失未出 mp4；视觉效果未经本机目检。</div>
+</div>
+
+<div class="footer">
+  <b>学习来源</b>：@花叔 推文（https://x.com/AlchainHust/status/2107018546194882678）+ 仓库 alchaincyf/huashu-art-motion（快照 26dba25）。<br>
+  <b>产物</b>：本指南 + exercise/validate_structure.py（6/6）+ 实验日志 + 知识提案。生成：2026-10-07，worker kimi-pool-20261007-w1。
+</div>
+
+</div>
+</body>
+</html>
