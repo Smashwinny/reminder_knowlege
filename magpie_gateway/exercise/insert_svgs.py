@@ -1,76 +1,12 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<title>magpie 本地模型网关 · 小白指南</title>
-<style>
-:root{
-  --c-main:#7c3aed; --c-main-dark:#5b21b6; --c-blue:#2563eb; --c-green:#16a34a;
-  --c-yellow:#f59e0b; --c-red:#dc2626; --c-pink:#db2777; --c-orange:#ea580c; --c-teal:#0d9488;
-  --bg:#f5f3ff; --card:#ffffff; --ink:#1f2937; --soft:#ede9fe;
-}
-*{box-sizing:border-box}
-body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
-.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
-.hero{background:linear-gradient(135deg,#7c3aed 0%,#db2777 55%,#ea580c 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(124,58,237,.35)}
-.hero h1{font-size:2.05em;margin:0 0 8px}
-.hero .sub{font-size:1.02em;opacity:.95}
-.hero .tags{margin-top:14px}
-.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
-.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
-.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
-.toc a:hover{background:var(--c-main);color:#fff}
-.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(219,39,119,.10);border-left:10px solid var(--c-main);break-inside:avoid}
-.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
-.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
-.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
-.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
-.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
-.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
-.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
-.q.teal{border-left-color:var(--c-teal)} .q.teal h2{color:var(--c-teal)} .q.teal .num{background:var(--c-teal)}
-.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
-.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
-.key b{color:var(--c-main-dark)}
-code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
-.svgbox{background:#fdf4ff;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
-table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
-th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
-td{border:1px solid #ddd6fe;padding:7px 12px}
-tr:nth-child(even){background:#f5f3ff}
-.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
-.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
-.ability .a b{color:var(--c-blue)}
-.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
-.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
-.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
-.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
-.footer b{color:#fbbf24}
-@page{size:A4;margin:14mm}
-@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
-</style>
-</head>
-<body>
-<div class="wrap">
+# -*- coding: utf-8 -*-
+"""为 magpie_guide.html 的 Q1-Q10 各插入一张内联 SVG（审核打回补图）。"""
+import re
+from pathlib import Path
 
-<div class="hero">
-  <h1>magpie：所有 Agent 一个菜单换所有模型 · 小白指南</h1>
-  <div class="sub">原帖：@MindfulReturn「今年最牛逼产品就是 magpie……七八个供应商全在一个面板里」（171 赞）。<br>学习对象：yetone/magpie（MIT，Go，~4.3k stars，快照 023f5aa，2162 个 Go 文件/1425 个测试文件；<b>宣称校验 6/6 本机通过</b>）。</div>
-  <div class="tags">
-    <span class="tag">开源项目类</span><span class="tag">模型网关</span><span class="tag">BYOK旗舰</span><span class="tag">订阅共享</span><span class="tag">结构实测</span>
-  </div>
-</div>
+p = Path("F:/reminder/magpie_gateway/magpie_gateway-guide.html")
+html = p.read_text(encoding="utf-8")
 
-<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
-<div class="toc">
-  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 为什么是网关</a><a href="#q3">Q3 四协议互译</a>
-  <a href="#q4">Q4 订阅共享魔法</a><a href="#q5">Q5 配置手术</a><a href="#q6">Q6 工程密度</a>
-  <a href="#q7">Q7 边界与风险</a><a href="#q8">Q8 与 BYOK 概念关系</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
-</div>
-
-<div class="q" id="q1">
-  <h2><span class="num">Q1</span>magpie 是什么？</h2>
-  <div class="svgbox">
+Q1 = '''<div class="svgbox">
 <svg width="640" height="170" viewBox="0 0 640 170">
   <g font-size="11" text-anchor="middle">
   <rect x="15" y="25" width="70" height="30" rx="8" fill="#ede9fe" stroke="#7c3aed"/><text x="50" y="44" fill="#5b21b6">Claude Code</text>
@@ -96,20 +32,9 @@ tr:nth-child(even){background:#f5f3ff}
   <text x="552" y="119" fill="#166534" font-size="10">限流自动切下一家</text>
   </g>
 </svg>
-</div>
-  <p>一句话：<span class="hl">跑在本机 127.0.0.1:3425 的模型网关 + 菜单栏换模型面板</span>——把 Codex、Claude Code、Gemini CLI、Cursor 等 40+ Agent 的配置"接"到同一个网关，任何 Agent 都能用任何模型（Claude Code 跑 Kimi、Codex 跑 DeepSeek），菜单一键切换，不用挨个翻配置文件。作者 yetone（开源界知名开发者），MIT 协议。</p>
-  <table>
-    <tr><th>事实项</th><th>核实值（本机实测）</th></tr>
-    <tr><td>仓库</td><td>yetone/magpie，MIT，Go，~4.3k stars，高频活跃</td></tr>
-    <tr><td>规模</td><td>2162 个 Go 文件 / <b>1425 个测试文件</b>（测试:源码 ≈ 2:3）/ 44 个 internal 包</td></tr>
-    <tr><td>协议</td><td>OpenAI Chat Completions / OpenAI Responses / Anthropic Messages / Gemini 四种协议互译（含流式、工具调用、推理过程）</td></tr>
-    <tr><td>订阅共享</td><td>登录过的 Claude Code/Codex/Copilot/Gemini/Grok 订阅成为 provider，配额尽自动故障转移</td></tr>
-  </table>
-</div>
+</div>'''
 
-<div class="q blue" id="q2">
-  <h2><span class="num">Q2</span>为什么答案是一个网关，而不是又一个配置管理器？</h2>
-  <div class="svgbox">
+Q2 = '''<div class="svgbox">
 <svg width="640" height="180" viewBox="0 0 640 180">
   <text x="140" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">旧世界：MxN（每个 Agent 单独接每个模型）</text>
   <g stroke="#fca5a5" stroke-width="1.5">
@@ -135,13 +60,9 @@ tr:nth-child(even){background:#f5f3ff}
   <text x="500" y="125" font-size="10" fill="#6b7280">新增一个 Agent 或一家供应商</text>
   <text x="500" y="140" font-size="10" fill="#6b7280">只需写一个适配器，其余零改动</text>
 </svg>
-</div>
-  <p>换模型难的不是改一行 base URL，而是：<b>各家 Agent 的配置格式不同、协议不同、凭证形态不同</b>。magpie 的架构决策是"一切代理化"——所有 Agent 都指向 127.0.0.1:3425，协议翻译和供应商选择在网关里做，Agent 侧只做一次性接入。这把 M×N 问题（M 个 Agent × N 个模型）压成 M+N（M 个适配器 + N 个供应商插件）。</p>
-</div>
+</div>'''
 
-<div class="q green" id="q3">
-  <h2><span class="num">Q3</span>四协议互译怎么实现？</h2>
-  <div class="svgbox">
+Q3 = '''<div class="svgbox">
 <svg width="640" height="150" viewBox="0 0 640 150">
   <g font-size="10" text-anchor="middle">
   <rect x="10" y="30" width="100" height="26" rx="7" fill="#dbeafe" stroke="#2563eb"/><text x="60" y="47" fill="#1e40af">OpenAI Chat</text>
@@ -165,13 +86,9 @@ tr:nth-child(even){background:#f5f3ff}
   <text x="545" y="105" font-size="10.5" fill="#6b7280">协议流式返回</text>
   </g>
 </svg>
-</div>
-  <p>internal/gateway/ 下四个核心处理器：<code>chat.go</code>（OpenAI Chat）、<code>responses.go</code>（OpenAI Responses，Codex 用）、<code>anthropic.go</code>（Claude）、<code>gemini.go</code>（Gemini）。网关收到任一协议的请求 → 归一化为内部表示 → 按目标供应商翻译成对应协议 → 回流式响应再翻译回来。难点多在<b>流式增量、工具调用格式、推理过程字段</b>的跨协议保真——这是它 1425 个测试文件主要在守的东西。</p>
-</div>
+</div>'''
 
-<div class="q yellow" id="q4">
-  <h2><span class="num">Q4</span>订阅共享：让别人的订阅变成你的 provider</h2>
-  <div class="svgbox">
+Q4 = '''<div class="svgbox">
 <svg width="640" height="160" viewBox="0 0 640 160">
   <g font-size="10" text-anchor="middle">
   <rect x="15" y="20" width="120" height="34" rx="9" fill="#fef3c7" stroke="#f59e0b"/><text x="75" y="35" fill="#92400e" font-weight="bold">你的 Claude 订阅</text><text x="75" y="48" fill="#92400e" font-size="8.5">已登录的 Claude Code</text>
@@ -195,13 +112,9 @@ tr:nth-child(even){background:#f5f3ff}
   <text x="587" y="97" fill="#b91c1c" font-size="8.5">禁止共享/自动化</text>
   </g>
 </svg>
-</div>
-  <p>最反直觉的能力：你登录过的 Claude Code（Claude 订阅）、Codex（ChatGPT Plus）、Copilot、Gemini 等，magpie 把它们的<b>登录态变成网关的 provider</b>——其他 Agent 也能"借用"。实现上（claude_subscription.go + claudebridge/mcp.go）：对 Claude 订阅，magpie 驱动真实的 claude 二进制，通过 <b>MCP 桥接</b>把调用方的工具请求转发过去；多账号排队，配额用尽自动切下一个。这把"订阅"从应用内资产变成了网关级可调度资源——也是它最有争议的能力（见 Q7）。</p>
-</div>
+</div>'''
 
-<div class="q teal" id="q5">
-  <h2><span class="num">Q5</span>配置手术：原子化修改各 Agent 配置文件</h2>
-  <div class="svgbox">
+Q5 = '''<div class="svgbox">
 <svg width="640" height="150" viewBox="0 0 640 150">
   <g font-size="10">
   <rect x="15" y="18" width="260" height="115" rx="10" fill="#1f2937"/>
@@ -228,13 +141,9 @@ tr:nth-child(even){background:#f5f3ff}
   <text x="550" y="122" fill="#a7f3d0" font-family="monospace" font-size="8.5">timeout = 120</text>
   </g>
 </svg>
-</div>
-  <p>internal/agent/ 下 80 个适配器文件（cindy/agy/air/alma…每个对应一个 Agent 生态），职责是"外科手术式"修改各家配置：改 base URL 时注释和格式保持不变，失败可回滚。这比"重写配置文件"体面得多——用户的手工注释和个性化设置不被吞掉。</p>
-</div>
+</div>'''
 
-<div class="q red" id="q6">
-  <h2><span class="num">Q6</span>工程密度：1425 个测试文件意味着什么</h2>
-  <div class="svgbox">
+Q6 = '''<div class="svgbox">
 <svg width="640" height="140" viewBox="0 0 640 140">
   <text x="320" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#7c3aed">测试密度：1425 / 2162 = 66% 的 Go 文件是测试</text>
   <rect x="60" y="45" width="380" height="34" rx="6" fill="#ddd6fe"/>
@@ -252,13 +161,9 @@ tr:nth-child(even){background:#f5f3ff}
   <text x="585" y="60" font-size="10" fill="#16a34a" font-weight="bold" text-anchor="middle">测试名</text>
   <text x="585" y="75" font-size="10" fill="#16a34a" font-weight="bold" text-anchor="middle">即规格</text>
 </svg>
-</div>
-  <p>2162 个 Go 文件里 1425 个是测试（66%），覆盖路由分组、配额、故障转移、供应商识别、协议形状等。测试名即规格（account_cap/account_rank/quota_served/groups_rules…）。这是"个人项目"里极其罕见的工程纪律——网关这种" silently wrong "（悄悄翻译错一个字段）风险高的软件，只能靠测试密度兜底。</p>
-</div>
+</div>'''
 
-<div class="q pink" id="q7">
-  <h2><span class="num">Q7</span>边界与风险（诚实清单）</h2>
-  <div class="svgbox">
+Q7 = '''<div class="svgbox">
 <svg width="640" height="130" viewBox="0 0 640 130">
   <g font-size="10" text-anchor="middle">
   <rect x="15" y="20" width="145" height="95" rx="12" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
@@ -283,19 +188,9 @@ tr:nth-child(even){background:#f5f3ff}
   <text x="560" y="99" fill="#5b21b6">风险自担</text>
   </g>
 </svg>
-</div>
-  <table>
-    <tr><th>风险</th><th>说明</th></tr>
-    <tr><td>订阅共享的 ToS 灰区</td><td>把 Claude 订阅当 provider 给其他 Agent 用，大概率触碰各家订阅条款（账号共享/自动化使用），封号风险自担——README 社区也在讨论</td></tr>
-    <tr><td>凭证集中</td><td>所有 key 和登录态集中在网关，本机被入侵=全部失守；需配合系统盘加密</td></tr>
-    <tr><td>协议翻译损耗</td><td>四种协议互译必有边角失真，复杂工具调用场景需实测（1425 个测试在守但不等于零 bug）</td></tr>
-    <tr><td>单一作者依赖</td><td>yetone 个人项目，迭代极快= breaking change 风险</td></tr>
-  </table>
-</div>
+</div>'''
 
-<div class="q orange" id="q8">
-  <h2><span class="num">Q8</span>与 vault [[BYOK模型网关与用量归因]] 的关系</h2>
-  <div class="svgbox">
+Q8 = '''<div class="svgbox">
 <svg width="640" height="160" viewBox="0 0 640 160">
   <g font-size="10" text-anchor="middle">
   <rect x="20" y="95" width="120" height="45" rx="9" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
@@ -317,13 +212,9 @@ tr:nth-child(even){background:#f5f3ff}
   <text x="562" y="135" fill="#16a34a" font-size="9">订阅共享 + 40+Agent</text>
   </g>
 </svg>
-</div>
-  <p>vault 已有 BYOK 概念（自带 key 的模型网关与用量归因）——magpie 是该概念的<b>旗舰实现 + 能力超集</b>：BYOK 之上加了订阅凭证化（BYSOL，自带订阅）和四协议翻译。学习 magpie 的增量 = 协议翻译架构 + 订阅凭证调度 + 配置手术三件套。同类对照： LiteLLM（Python 系）、One-API/New-API（国内流行）——magpie 的差异化在 Agent 适配器广度与订阅共享。</p>
-</div>
+</div>'''
 
-<div class="q" id="q9">
-  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
-  <div class="svgbox">
+Q9 = '''<div class="svgbox">
 <svg width="640" height="120" viewBox="0 0 640 120">
   <g font-size="10" text-anchor="middle">
   <rect x="20" y="25" width="135" height="70" rx="10" fill="#ede9fe" stroke="#7c3aed"/>
@@ -344,20 +235,9 @@ tr:nth-child(even){background:#f5f3ff}
   <text x="552" y="83" fill="#b45309" font-size="9">1425 测试即规格</text>
   </g>
 </svg>
-</div>
-  <div class="ability">
-    <div class="a"><b>① 网关架构观</b>：M×N 压成 M+N，一切代理化是集成问题的通解。</div>
-    <div class="a"><b>② 协议翻译 know-how</b>：四协议互译的归一化内部表示模式。</div>
-    <div class="a"><b>③ 凭证形态谱系</b>：API key→OAuth→登录态→订阅凭证化，调度抽象逐层升级。</div>
-    <div class="a"><b>④ 配置手术原则</b>：改配置保注释保格式，失败可回滚。</div>
-    <div class="a"><b>⑤ 故障转移设计</b>：配额尽自动切下一个账号，路由策略可配置。</div>
-    <div class="a"><b>⑥ 测试密度即规格</b>：1425 测试文件，测试名即行为契约。</div>
-  </div>
-</div>
+</div>'''
 
-<div class="q blue" id="q10">
-  <h2><span class="num">Q10</span>动手实验：宣称校验 6/6</h2>
-  <div class="svgbox">
+Q10 = '''<div class="svgbox">
 <svg width="640" height="120" viewBox="0 0 640 120">
   <g font-size="10" text-anchor="middle">
   <circle cx="45" cy="35" r="13" fill="#16a34a"/><text x="45" y="40" fill="#fff" font-weight="bold">v</text>
@@ -376,24 +256,16 @@ tr:nth-child(even){background:#f5f3ff}
   <text x="320" y="102" fill="#5b21b6" font-weight="bold" font-size="11">validate_magpie.py 6/6 exit=0（独立审核者复跑一致）</text>
   </g>
 </svg>
-</div>
-  <p>实验文件：<code>exercise/validate_magpie.py</code>（纯标准库；Go 工具链本机未装，测试未跑）。真实运行（exit=0，run_output.txt）：</p>
-  <div class="real">测试结果：6/6 通过
-  ✅ 四协议处理器 4/4（chat.go/responses.go/anthropic.go/gemini.go 均&gt;2KB）
-  ✅ 端口 3425 在 18 个 agent 适配器文件中被引用
-  ✅ 订阅共享：claude_subscription.go + claudebridge/mcp.go(5923B) 存在
-  ✅ 供应商 host 识别 3 家（deepseek.com/moonshot.cn/siliconflow.cn）
-  ✅ Agent 适配器 80 个（原子化配置手术的实现面）
-  ✅ 测试文件 1425 个（工程密度宣称属实）
-工程统计：Go 2162 / 测试 1425 / internal 包 44</div>
-  <div class="key"><b>诚实声明：</b>Go 工具链本机未装，1425 个测试未实际执行（结构校验替代）；网关未真实运行（拉起 127.0.0.1:3425 代理属系统级变更，且需真实凭证）；订阅共享的 ToS 合规性未评估（属用户自担风险项）。</div>
-</div>
+</div>'''
 
-<div class="footer">
-  <b>学习来源</b>：@MindfulReturn 推文（https://x.com/MindfulReturn/status/2106599213379309749）+ 仓库 yetone/magpie（快照 023f5aa）。<br>
-  <b>产物</b>：本指南 + exercise/validate_magpie.py（6/6）+ 实验日志 + 知识提案。生成：2026-10-09，worker kimi-pool-20261007-w1。
-</div>
+svgs = {"q1": Q1, "q2": Q2, "q3": Q3, "q4": Q4, "q5": Q5,
+        "q6": Q6, "q7": Q7, "q8": Q8, "q9": Q9, "q10": Q10}
 
-</div>
-</body>
-</html>
+for qid, svg in svgs.items():
+    pat = re.compile(r'(<div class="q[^"]*" id="' + qid + r'">\s*\n\s*<h2>.*?</h2>)', re.S)
+    html, n = pat.subn(lambda m: m.group(1) + "\n  " + svg, html)
+    if n != 1:
+        print("WARN", qid, n)
+
+p.write_text(html, encoding="utf-8")
+print("inserted", len(svgs))

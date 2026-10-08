@@ -23,8 +23,9 @@
   },
   "notes": {
     "vault_note": "按协调者裁定新建 vault/项目笔记/magpie_gateway.md；不新建概念，提案给既有 [[BYOK模型网关与用量归因]] 追加 magpie 旗舰实现节（BYOK→BYSOL→四协议翻译三段进阶），见 magpie_gateway-knowledge-proposal.md",
-    "pdf_pages": 6,
+    "pdf_pages": 11,
     "experiment_verified": "validate_magpie.py 6/6：四协议处理器 4/4（chat/responses/anthropic/gemini.go）/端口 3425 十八处引用/订阅 MCP 桥存在/供应商 host 识别≥3/80 Agent 适配器/1425 测试文件；Go 2162/测试 1425/internal 44 包",
-    "pdf_verified": "结构校验通过（6 页、字体嵌入、745KB），渲染抽查由协调者 review 执行"
+    "pdf_verified": "结构校验通过（11 页 v2 补图版：Q1-Q10 各配 1 张内联 SVG 共 10 张、字体嵌入、985KB），渲染抽查由协调者 review 执行",
+    "revision": "2026-10-09 v2：按 review 打回补 Q1-Q10 各一张内联 SVG（insert_svgs.py），重印 PDF 6页→11页；实验与知识结论不变"
   }
 }
