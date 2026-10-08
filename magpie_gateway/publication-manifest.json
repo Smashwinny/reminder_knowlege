@@ -1,0 +1,30 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "magpie：让所有 Agent 一个菜单换所有模型的本地模型网关（开源项目类，BYOK 概念旗舰实现）",
+  "project_dir": "magpie_gateway",
+  "pdf": "magpie_gateway/magpie本地模型网关-小白指南.pdf",
+  "html": "magpie_gateway/magpie_gateway-guide.html",
+  "exercise_dir": "magpie_gateway/exercise",
+  "experiment_log": "magpie_gateway/magpie_gateway-experiment-log.md",
+  "vault_note": "vault/项目笔记/magpie_gateway.md",
+  "report_path": "完成/分析报告/3fee3059-7297-47f6-9ba8-e0ba5fb8b635.md",
+  "source_urls": [
+    "https://x.com/MindfulReturn/status/2106599213379309749",
+    "https://github.com/yetone/magpie"
+  ],
+  "experiment_files": [
+    "magpie_gateway/exercise/validate_magpie.py",
+    "magpie_gateway/exercise/run_output.txt"
+  ],
+  "upstream": {
+    "repo": "https://github.com/yetone/magpie",
+    "commit": "023f5aa",
+    "note": "repo/ 浅克隆（3836 文件）；Go 工具链本机未装，1425 测试未执行（结构校验替代）；网关未真实运行"
+  },
+  "notes": {
+    "vault_note": "按协调者裁定新建 vault/项目笔记/magpie_gateway.md；不新建概念，提案给既有 [[BYOK模型网关与用量归因]] 追加 magpie 旗舰实现节（BYOK→BYSOL→四协议翻译三段进阶），见 magpie_gateway-knowledge-proposal.md",
+    "pdf_pages": 6,
+    "experiment_verified": "validate_magpie.py 6/6：四协议处理器 4/4（chat/responses/anthropic/gemini.go）/端口 3425 十八处引用/订阅 MCP 桥存在/供应商 host 识别≥3/80 Agent 适配器/1425 测试文件；Go 2162/测试 1425/internal 44 包",
+    "pdf_verified": "结构校验通过（6 页、字体嵌入、745KB），渲染抽查由协调者 review 执行"
+  }
+}

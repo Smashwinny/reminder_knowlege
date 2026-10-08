@@ -30,3 +30,15 @@ tags: [概念]
 [[用量、额度与估算费用的计量分层]] 单独管理来源、单位和时间窗：Token 处理量不直接换算成订阅剩余百分比，按公开模型价格估算的金额也不等于账单。[[规划执行分账]] 讨论工序分配到不同账户额度的策略，与这套读数分层相关而非同义；旧项目的套餐数字、节省比例和实验结果不作为 Metrik 的已验证事实。
 
 来源：[使用指南](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/docs/guide.md)、[定价实现](https://github.com/keros68/metrik/blob/637444bdc8d91475f66f5319a15dda0e4be1c652/src-tauri/src/pricing.rs)。这里只合并固定源码与概念边界；没有真实提供方请求、账户额度或账单验证。
+
+## 旗舰实现样本：magpie（2026-10-09）
+
+[[项目笔记/magpie_gateway]] 是本概念的旗舰实现+能力超集，体现三段进阶：
+
+- **BYOK**（自带 key，上文 Temps 即此层）→ **BYSOL**（自带订阅凭证化：把登录过的 Claude/Codex/Copilot/Gemini 订阅变成 provider，驱动真实 claude 二进制 + MCP 桥接，多账号配额尽自动切换）→ **四协议翻译网关**（OpenAI Chat/Responses + Anthropic Messages + Gemini 归一化互译，含流式/工具调用）。
+- 架构通解：M×N 集成压成 M+N——一切代理接到本机 127.0.0.1:3425 网关，M 个 Agent 适配器 + N 个供应商插件。
+- 配置手术原则：80 个 Agent 适配器原子化修改各家配置，保注释保格式可回滚。
+- 风险注记：订阅共享处于 ToS 灰区（封号风险自担）；凭证集中（网关被入侵=全部失守）；单一作者依赖。
+- 对照：LiteLLM（Python 系）、One-API/New-API（国内流行）。
+
+实证：结构校验 6/6（四协议处理器/端口引用/订阅 MCP 桥/供应商识别/80 适配器/1425 测试文件），Go 工具链缺失未跑测试、网关未真实运行，详见项目笔记。

@@ -1,0 +1,9 @@
+  ✅ T1 四协议处理器 4/4: OpenAI Chat,OpenAI Responses,Anthropic,Gemini
+  ✅ T2 端口 3425 在 agent 适配器引用: 18 个文件引用
+  ✅ T3 订阅共享(MCP桥): claude_subscription.go + mcp.go(5923B)
+  ✅ T4 供应商 host 识别 3 家: deepseek.com,moonshot.cn,siliconflow.cn
+  ✅ T5 Agent 适配器 80 个: 例:['agent.go', 'agents.go', 'agy.go', 'air.go', 'alma.go']
+  ✅ T6 测试文件 1425 个: 全仓 1425
+
+测试结果：6/6 通过
+工程统计：Go 文件 2162，测试 1425，internal 包 44 个
