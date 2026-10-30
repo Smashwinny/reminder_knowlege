@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>capcut-cli 剪映草稿命令行 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f3fff9; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#06d6a0 0%,#00b8a9 45%,#2d9cdb 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-teal));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-teal));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-teal));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-teal));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>capcut-cli：让 Agent 在终端里剪视频，剪映里继续手动调</h1>
+  <p>直接读写剪映/CapCut 本地草稿 JSON——"JSON in, JSON out"，无 API、无守护进程、轨道全部保持可编辑</p>
+  <p>
+    <span class="badge">GitHub 966★</span><span class="badge">MIT</span>
+    <span class="badge">Node ≥18 零依赖</span><span class="badge">实测 v0.31.1</span>
+  </p>
+  <p style="font-size:.9em;opacity:.85;">仓库：github.com/renezander030/capcut-cli ｜ 非官方，与字节跳动无关 ｜ 学习日期 2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q1</div>
+<h2>capcut-cli 是什么？一句话能说清吗？</h2>
+<p><span class="big">一个非官方的剪映命令行：不调用任何 CapCut API，直接读写剪映存在本地的草稿 JSON 文件，让 Agent 或你可以在终端里完成建草稿、加素材、剪静音、上字幕、做翻译，产出的草稿打开剪映后每条轨道都还是活的、能接着手动精调。</span></p>
+<p>它不是"另一个剪辑软件"，而是<span class="hl">给剪映外挂的自动化前道</span>：Agent 批量干粗活（自动剪空白、打字幕、出多语言版本），人继续在剪映里做精修。官方 README 的定位句："JSON in, JSON out: every command reads and writes the local draft store directly, with no MCP server or HTTP daemon."</p>
+<div class="svgbox">
+<svg width="720" height="190" viewBox="0 0 720 190">
+  <rect x="20" y="55" width="150" height="80" rx="12" fill="#7c4dff"/>
+  <text x="95" y="86" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">你 / Agent</text>
+  <text x="95" y="106" fill="#e6dcff" font-size="11" text-anchor="middle">终端命令</text>
+  <rect x="250" y="45" width="200" height="100" rx="14" fill="#00b8a9"/>
+  <text x="350" y="78" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">capcut-cli</text>
+  <text x="350" y="99" fill="#d8fffb" font-size="11" text-anchor="middle">读写本地草稿 JSON</text>
+  <text x="350" y="116" fill="#d8fffb" font-size="11" text-anchor="middle">校验 schema · 原子写 · .bak</text>
+  <rect x="530" y="55" width="170" height="80" rx="12" fill="#ff6b1a"/>
+  <text x="615" y="86" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">剪映 / CapCut</text>
+  <text x="615" y="106" fill="#ffe8d6" font-size="11" text-anchor="middle">轨道可编辑 · 人工精修</text>
+  <path d="M170 95 L250 95" stroke="#333" stroke-width="2.5" marker-end="url(#c1)"/>
+  <path d="M450 95 L530 95" stroke="#333" stroke-width="2.5" marker-end="url(#c1)"/>
+  <text x="350" y="30" font-size="12" text-anchor="middle" fill="#555">不是导出成片——是"活的草稿"往返</text>
+  <defs><marker id="c1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q2</div>
+<h2>为什么需要它？Agent 剪辑的痛点是什么？</h2>
+<p><span class="big">视频是 Agent 时代最难自动化的媒介：剪辑软件全是 GUI，没有 API。</span>Agent 想"把这段口播的空白剪掉、打上字幕"，面前只有两条烂路：① 模拟点击剪映界面（脆弱、慢）；② 用 FFmpeg 硬剪（产出是死视频，人没法再调）。</p>
+<p>capcut-cli 指出了第三条路：<b>剪映的草稿本来就是 JSON</b>。既然格式是开放的，就直接读写它——</p>
+<table>
+<tr><th>方案</th><th>产出可人工精修</th><th>稳定性</th><th>批量自动化</th></tr>
+<tr><td>GUI 自动化（点剪映）</td><td>✅</td><td>❌ 界面一变就崩</td><td>❌</td></tr>
+<tr><td>FFmpeg 硬剪</td><td>❌ 死视频</td><td>✅</td><td>✅</td></tr>
+<tr><td><b>capcut-cli 改草稿</b></td><td><b>✅ 轨道全活</b></td><td><b>✅ JSON 确定性</b></td><td><b>✅ 命令可脚本化</b></td></tr>
+</table>
+<p>这正好接上知识库里 [[声明式视频源语言]] / [[分镜表驱动生成]] 的路线：视频生产越来越"结构化中间表示驱动"，剪映草稿 JSON 就是其中一种工业级 IR。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q3</div>
+<h2>它是怎么做到的？核心机制是什么？</h2>
+<h3>① 草稿即 JSON：直接读写本地草稿库</h3>
+<p>剪映把每个工程存在草稿目录（<code>draft_content.json</code> / <code>draft_info.json</code>）。capcut-cli 每条命令 = 加载草稿 → 按版本感知 schema 校验 → 应用编辑 → <b>原子写回 + .bak 备份</b>。实测草稿目录里每个 JSON 都自动带同名 .bak。</p>
+<h3>② 版本感知 schema</h3>
+<p>不同剪映版本的草稿格式不同（支持 6.x–9.x）。CLI 内置模板与 schema 探测，<code>version</code> 命令报告版本标记与 schema 特性；新版多时间线（CapCut 8.7 的 mirror 结构）用 <code>sync-timelines</code> 对齐修复，不假定 draft_content.json 是唯一真值。</p>
+<h3>③ 安全写</h3>
+<p>默认拦截"剪映正在运行/磁盘上已被改过/版本越界"的写入（<code>--force-write</code> 才覆盖）；<code>--dry-run</code> 预览不动盘；<code>restore</code> 凭 .bak 撤销。还有 <code>doctor</code> 环境体检与 <code>lint</code> 草稿体检（实测 0 错误 0 警告通过）。</p>
+<h3>④ 可选能力外置</h3>
+<p>核心零依赖；Whisper（字幕）、FFmpeg（预览渲染）、ffprobe（媒体时长）、翻译 API（多语言克隆）都是可选外挂——本机无 ffmpeg 时图片素材自动用 5 秒占位并明确告知，不偷偷瞎编。</p>
+<div class="svgbox">
+<svg width="720" height="175" viewBox="0 0 720 175">
+  <rect x="30" y="50" width="130" height="75" rx="12" fill="#2d9cdb"/>
+  <text x="95" y="80" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">读草稿 JSON</text>
+  <text x="95" y="100" fill="#e8f4fd" font-size="11" text-anchor="middle">+ schema 校验</text>
+  <rect x="220" y="50" width="130" height="75" rx="12" fill="#7c4dff"/>
+  <text x="285" y="80" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">应用编辑</text>
+  <text x="285" y="100" fill="#e6dcff" font-size="11" text-anchor="middle">剪辑/字幕/动画</text>
+  <rect x="410" y="50" width="130" height="75" rx="12" fill="#06d6a0"/>
+  <text x="475" y="80" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">原子写回</text>
+  <text x="475" y="100" fill="#eafff8" font-size="11" text-anchor="middle">.bak 备份</text>
+  <rect x="600" y="50" width="100" height="75" rx="12" fill="#ff6b1a"/>
+  <text x="650" y="80" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">剪映打开</text>
+  <text x="650" y="100" fill="#ffe8d6" font-size="11" text-anchor="middle">人工精修</text>
+  <path d="M160 87 L220 87" stroke="#333" stroke-width="2.5" marker-end="url(#c3)"/>
+  <path d="M350 87 L410 87" stroke="#333" stroke-width="2.5" marker-end="url(#c3)"/>
+  <path d="M540 87 L600 87" stroke="#333" stroke-width="2.5" marker-end="url(#c3)"/>
+  <defs><marker id="c3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q4</div>
+<h2>关键术语都是什么意思？</h2>
+<table>
+<tr><th>术语</th><th>一句话解释</th></tr>
+<tr><td><b>草稿 (draft)</b></td><td>剪映工程在本地的一组 JSON 文件（draft_content.json 等）</td></tr>
+<tr><td><b>轨道 (track) / 片段 (segment)</b></td><td>时间线上的层（视频/音频/文字轨）和层上的素材区间</td></tr>
+<tr><td><b>draft_materials</b></td><td>草稿的素材登记表：所有被引用的媒体在这里登记</td></tr>
+<tr><td><b>schema 探测</b></td><td>读草稿里的版本标记，判断该用哪套格式规则读写</td></tr>
+<tr><td><b>原子写 + .bak</b></td><td>先写临时文件再切换，同时保留改前备份，崩了可 restore</td></tr>
+<tr><td><b>--dry-run</b></td><td>预览写操作结果但不落盘，.bak 也不动</td></tr>
+<tr><td><b>lint</b></td><td>草稿体检：按版本规则查错误/警告（如 JianYing 11.6 的 UNIFORM_SCALE 检查）</td></tr>
+<tr><td><b>quickstart / compile</b></td><td>一条命令建首个草稿 / 从 JSON spec 批量构建草稿</td></tr>
+<tr><td><b>render（低分辨率代理）</b></td><td>FFmpeg 出低清预览，<b>不是</b>剪映的最终导出</td></tr>
+</table>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q5</div>
+<h2>它能干什么？命令全景</h2>
+<table>
+<tr><th>组</th><th>代表命令</th><th>用途</th></tr>
+<tr><td><b>查看</b></td><td>info / tracks / materials / version / lint</td><td>摸清水草稿结构</td></tr>
+<tr><td><b>创建</b></td><td>init / quickstart / compile</td><td>建草稿；compile 从 JSON spec 批量构建</td></tr>
+<tr><td><b>加料</b></td><td>add-video / add-audio / add-text</td><td>加素材与文字（支持 Wikimedia URL）</td></tr>
+<tr><td><b>精剪</b></td><td>trim / speed / volume / 转场 / 蒙版 / 动画 / 缓动</td><td>片段级编辑</td></tr>
+<tr><td><b>字幕与多语言</b></td><td>caption / import-srt / export-srt / translate</td><td>Whisper 自动字幕；克隆多语言版本</td></tr>
+<tr><td><b>长视频→ shorts</b></td><td>detect-silence / cut / detect-scenes / detect-retakes</td><td>按静音/场景自动切块</td></tr>
+<tr><td><b>兜底</b></td><td>doctor / sync-timelines / restore / migrate</td><td>体检 / 修 8.7 mirror / 撤销 / 迁移</td></tr>
+</table>
+<p>Agent 集成有两条路：装 <code>capcut-edit</code> skill（<code>npx skills add</code>）让 Agent 学会命令；或实验性的 Wasm 组件（只读 inspect/diff/lint 三个 MCP 工具，零文件零网络权限）。</p>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>它和已有概念是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本项目中的体现</th></tr>
+<tr><td>[[JSON-IR类型化中间表示]]</td><td>剪映草稿 JSON 就是视频生产的 IR：Agent 只改语义表，渲染交给剪映</td></tr>
+<tr><td>[[声明式视频源语言]] / [[分镜表驱动生成]]</td><td>同路线家族：compile 命令 = 把 JSON spec"编译"成草稿</td></tr>
+<tr><td>[[事实与判断分离]]</td><td>版本探测是确定性代码干的；剪辑决策可以交给 Agent</td></tr>
+<tr><td>[[质检Gate与自我纠错循环]]</td><td>lint 门禁 + doctor 体检 + dry-run 预览 = 写盘前三道 Gate</td></tr>
+<tr><td>[[Checkpoint存档与持久执行]]</td><td>.bak 备份 + restore 撤销 = 草稿级的 checkpoint 机制</td></tr>
+<tr><td>[[产物留痕与状态外置]]</td><td>草稿 JSON 就是落盘产物，Agent 崩溃后下一位从 JSON 接着干</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q7</div>
+<h2>实测：无剪映环境能跑到哪一步？</h2>
+<p>本机实验（详见 <code>capcut_cli\exercise\experiment-log.md</code>）：<b>没有安装 CapCut、没有 ffmpeg</b>，用 Python 标准库自造了一个 320×240 PNG 和一段 2 秒 WAV：</p>
+<pre><code># 一条命令建草稿（图片无时长 → 明确用 5 秒占位并告知）
+capcut quickstart demo1 --video clip.png --audio bgm.wav --ratio 16:9
+# → create ✓ / add-video ✓(5s占位) / add-audio ✓(5.00s) / lint ✓ 0警告
+
+capcut tracks demo1        # → #0 video 5.00s / #1 audio 5.00s
+capcut add-text demo1 0 2 "hello capcut" --color "#FF2E88"
+                           # → 新增 #2 text 2.00s 独立轨道
+capcut trim demo1 &lt;id&gt; 0 1 --dry-run   # → {"dryRun":true} 不落盘
+capcut lint demo1          # → {"ok":true,"errors":0,"warnings":0}</code></pre>
+<div class="okbox"><b>实测结论</b>：零外部依赖链路（建草稿→查轨道→加文字→dry-run→lint）全部真实跑通；每一步都留 .bak；缺 ffprobe 时诚实降级为占位而不是瞎编时长。</div>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>边界与风险是什么？</h2>
+<ul>
+<li><b>最终导出永远在剪映</b>：CLI 的 render 只是低清预览代理，成片导出要回剪映按；</li>
+<li><b>版本敏感</b>：格式跟剪映版本走（支持 6.x–9.x），剪映大版本升级后要先 <code>version</code> + <code>sync-timelines</code> 核对；</li>
+<li><b>旧版本有安全污点</b>：官方自述 0.18.0 之前存在本地命令/过滤器注入路径与不安全临时文件行为，≤0.17.2 的 fixtures 可能含稳定设备标识符——<span class="hl">务必用最新版</span>；</li>
+<li><b>云字幕是实验性</b>：caption --cloud 会把音频传到字节服务器，非官方且涉及上传，生产环境慎用；</li>
+<li><b>部分路径未验证</b>：桌面版对"剪映自建工程"的持久化写入官方标注"remains unverified"；</li>
+<li><b>第三方工程</b>：与字节跳动无任何关系，格式逆向而来，理论上剪映改格式就会追修。</li>
+</ul>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q9</div>
+<h2>"Agent 剪视频"这个场景值不值得学？</h2>
+<p><span class="big">值得，因为它示范了一种通用架构：把"GUI 软件"变成"文件格式接口"。</span></p>
+<p>大量专业软件（剪辑、CAD、音频工作站）都没有 API，但都有<b>工程文件</b>。capcut-cli 的路线——逆向工程文件格式 + 版本感知 schema + 原子写——可以平移到任何这类软件上。对 Agent 工作流而言，这相当于把"只能人操作的软件"变成了"可编程的资源"。</p>
+<p>它与 [[声明式视频源语言]]（hypit）的区别在定位：hypit 想替代整条视频生产线，capcut-cli 则是<b>寄生在现有工业软件上的自动化层</b>——落地阻力小得多，今天就能用。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>实际怎么装、怎么用？</h2>
+<pre><code># 安装（三选一）
+npm install -g capcut-cli     # 全局
+npx capcut-cli &lt;command&gt;      # 一次性
+pip install capcut            # Python 包装：capcut.run(...)
+
+# 日常闭环
+capcut doctor                 # ① 环境体检
+capcut quickstart mydraft --video a.mp4 --srt sub.srt   # ② 一条命令建草稿+字幕
+capcut detect-silence mydraft --cut   # ③ 自动剪静音
+capcut tracks mydraft -H      # ④ 核对轨道
+# ⑤ 打开剪映人工精修 → 导出成片</code></pre>
+<div class="tipbox">给 Agent 用：<code>npx skills add</code> 装 capcut-edit skill，Agent 即获得全部命令的用法与约束；Wasm 实验组件提供零权限只读三件套（inspect/diff/lint），适合"先看再说"的审计场景。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个项目给我什么能力？</h2>
+<ol>
+<li><b>口播视频自动化</b>：一段原始口播 → 自动剪静音 + Whisper 字幕 → 打开剪映微调即发布；</li>
+<li><b>多语言批量出片</b>：translate 克隆多语言草稿，一次录制全球分发；</li>
+<li><b>长视频切 shorts</b>：detect-scenes/detect-silence 自动切块，矩阵号内容流水线；</li>
+<li><b>给 Agent 装"剪辑手"</b>：配合 [[分镜表驱动生成]]，从选题到草稿全自动，人只做最后审美；</li>
+<li><b>学"文件格式自动化"范式</b>：任何无 API 的 GUI 软件，都可复制"读写工程文件"这条路线。</li>
+</ol>
+</div>
+
+<!-- 实验 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">动手</div>
+<h2>实验：10 分钟建一个真实剪映草稿（无剪映也能跑）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 构建。</b>
+<pre><code>git clone --depth 1 https://github.com/renezander030/capcut-cli repo
+cd repo && npm install && npm run build
+node dist/index.js --version    # → 0.31.x</code></pre>
+<div class="expect">✅ 预期结果：版本号输出。（bin 入口是 dist/index.js。）</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 自造测试素材。</b>用任意方式准备一张图片和一个音频文件（本实验用 Python 标准库生成了 320×240 PNG 与 2 秒 WAV）。
+<div class="expect">✅ 预期结果：clip.png 与 bgm.wav 就位。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ quickstart 建草稿。</b>
+<pre><code>node dist/index.js quickstart demo1 --video clip.png --audio bgm.wav --ratio 16:9 --drafts ./drafts</code></pre>
+<div class="expect">✅ 预期结果（本机真实输出）：create ✓（注册进工程索引、画布 1920x1080）→ add-video ✓（无 ffprobe 用 5s 占位并明示）→ add-audio ✓（5.00s）→ lint ✓ 0 警告。</div></div>
+<div class="step"><b class="s">步骤 4 ｜ 看轨道、加文字。</b>
+<pre><code>node dist/index.js tracks drafts/demo1 -H
+node dist/index.js add-text drafts/demo1 0 2 "hello" --color "#FF2E88"
+node dist/index.js tracks drafts/demo1 -H    # 多出 #2 text 2.00s</code></pre>
+<div class="expect">✅ 预期结果：文字作为独立轨道出现，返回 segment_id/material_id/track_id。</div></div>
+<div class="step"><b class="s">步骤 5 ｜ 安全机制体验。</b>
+<pre><code>ls drafts/demo1            # 每个 JSON 都带 .bak
+node dist/index.js trim drafts/demo1 &lt;id&gt; 0 1 --dry-run   # dryRun:true 不落盘
+node dist/index.js lint drafts/demo1                       # 0 错误 0 警告</code></pre>
+<div class="expect">✅ 预期结果：备份文件齐全；dry-run 只预览；lint 干净。</div></div>
+<div class="warnbox"><b>如实声明</b>：本机未装 CapCut，"打开剪映人工核验轨道可编辑"一步未验证；caption/render 需 Whisper/FFmpeg 亦未验证。其余链路全部真实执行，日志见 <code>capcut_cli\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>它是剪映草稿的 JSON 读写器</b>：无 API、零依赖、轨道保持可编辑，Agent 干粗活、人做精修；</li>
+<li><b>工程纪律是亮点</b>：版本感知 schema、原子写 + .bak、dry-run、lint 门禁，写盘前三重保护；</li>
+<li><b>可选能力外置</b>：Whisper/FFmpeg/翻译 API 都是外挂，缺了诚实降级不瞎编；</li>
+<li><b>边界要清醒</b>：最终导出回剪映；旧版有安全污点务必升级；云字幕会外传音频；</li>
+<li><b>范式可平移</b>："读写工程文件"是让一切 GUI 软件可被 Agent 操作的通用路线。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">capcut-cli 小白指南 · 2026-10-27 · 实测 v0.31.1 (master@f3d6c75) · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

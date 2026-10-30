@@ -1,0 +1,32 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "Seedance 2.5 frame-break effect：黑边破框效果的五层提示词工程与约束竞争实战（知识学习类）",
+  "project_dir": "seedance_framebreak_prompt",
+  "pdf": "seedance_framebreak_prompt/Seedance帧破格提示词工程-小白指南.pdf",
+  "html": "seedance_framebreak_prompt/seedance_framebreak_prompt-guide.html",
+  "exercise_dir": "seedance_framebreak_prompt/exercise",
+  "experiment_log": "seedance_framebreak_prompt/seedance_framebreak_prompt-experiment-log.md",
+  "vault_note": "vault/项目笔记/seedance_framebreak_prompt-proposal-pending.md",
+  "report_path": "完成/分析报告/3a2b1895-1561-4c62-95b8-308dccb39dc3.md",
+  "source_urls": [
+    "https://x.com/aimikoda/status/2106044483863191748",
+    "https://x.com/aimikoda/status/2106044848310452333"
+  ],
+  "experiment_files": [
+    "seedance_framebreak_prompt/exercise/parse_prompts.py",
+    "seedance_framebreak_prompt/exercise/run_output.txt",
+    "seedance_framebreak_prompt/exercise/prompt_fulltext.txt"
+  ],
+  "upstream": {
+    "repo": "N/A（提示词工件，非代码仓库）",
+    "commit": "N/A",
+    "note": "提示词全文 11950 字符已存档 prompt_fulltext.txt；效果未复现（付费云端模型）"
+  },
+  "notes": {
+    "vault_note": "工具 ready 校验过渡方案（与 harness/mesh_avatar 同款）：以 *-proposal-pending.md 后缀放入 vault，待协调者转正为 seedance_framebreak_prompt.md",
+    "pdf_pages": 10,
+    "experiment_verified": "parse_prompts.py 6/6：2 支提示词五层骨架全命中（角色锚定/视觉目标/合成顺序/物理约束/节拍）、合成三层齐备、Koda 四条方法论观察全录（黑边漂移/运镜破坏/约束竞争/2.0→2.5 代差）",
+    "pdf_verified": "结构校验通过（10 页、字体嵌入、1.12MB）；SVG 自检 PASS（Q1-Q10 各恰 1 张，全局映射法）",
+    "revision": "2026-10-09 v1 首发（SVG 自检先行一次通过）"
+  }
+}

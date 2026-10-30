@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Mesh Avatar Studio · 小白指南</title>
+<style>
+:root{
+  --c-main:#db2777; --c-main-dark:#be185d; --c-blue:#2563eb; --c-green:#16a34a;
+  --c-purple:#7c3aed; --c-yellow:#f59e0b; --c-red:#dc2626; --c-orange:#ea580c; --c-teal:#0d9488;
+  --bg:#fdf2f8; --card:#ffffff; --ink:#1f2937; --soft:#fce7f3;
+}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+.hero{background:linear-gradient(135deg,#db2777 0%,#7c3aed 55%,#2563eb 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:28px;box-shadow:0 10px 30px rgba(219,39,119,.35)}
+.hero h1{font-size:2.05em;margin:0 0 8px}
+.hero .sub{font-size:1.02em;opacity:.95}
+.hero .tags{margin-top:14px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:3px 14px;margin:3px 6px 3px 0;font-size:.85em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+.toc a{display:inline-block;background:var(--card);border:2px solid var(--c-main);color:var(--c-main-dark);border-radius:999px;padding:4px 14px;text-decoration:none;font-weight:bold;font-size:.9em}
+.toc a:hover{background:var(--c-main);color:#fff}
+.q{background:var(--card);border-radius:18px;padding:26px 28px;margin:26px 0;box-shadow:0 6px 20px rgba(124,58,237,.10);border-left:10px solid var(--c-main);break-inside:avoid}
+.q h2{margin:0 0 12px;font-size:1.32em;color:var(--c-main-dark)}
+.q .num{display:inline-block;background:var(--c-main);color:#fff;font-size:1.5em;font-weight:900;border-radius:12px;padding:0 14px;margin-right:10px;vertical-align:middle}
+.q.blue{border-left-color:var(--c-blue)} .q.blue h2{color:var(--c-blue)} .q.blue .num{background:var(--c-blue)}
+.q.green{border-left-color:var(--c-green)} .q.green h2{color:var(--c-green)} .q.green .num{background:var(--c-green)}
+.q.purple{border-left-color:var(--c-purple)} .q.purple h2{color:var(--c-purple)} .q.purple .num{background:var(--c-purple)}
+.q.yellow{border-left-color:var(--c-yellow)} .q.yellow h2{color:#b45309} .q.yellow .num{background:var(--c-yellow)}
+.q.red{border-left-color:var(--c-red)} .q.red h2{color:var(--c-red)} .q.red .num{background:var(--c-red)}
+.q.pink{border-left-color:var(--c-pink)} .q.pink h2{color:var(--c-pink)} .q.pink .num{background:var(--c-pink)}
+.q.teal{border-left-color:var(--c-teal)} .q.teal h2{color:var(--c-teal)} .q.teal .num{background:var(--c-teal)}
+.hl{background:linear-gradient(transparent 55%, #fde047 55%);font-weight:900;font-size:1.12em;padding:0 2px}
+.key{background:var(--soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:1.02em}
+.key b{color:var(--c-main-dark)}
+code{background:#fef3c7;color:#92400e;border-radius:6px;padding:1px 7px;font-family:Consolas,monospace;font-weight:bold}
+.svgbox{background:#fdf4ff;border-radius:12px;padding:10px;margin:14px 0;text-align:center;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+th{background:var(--c-main);color:#fff;padding:8px 12px;text-align:left}
+td{border:1px solid #fbcfe8;padding:7px 12px;font-size:.95em}
+tr:nth-child(even){background:#fdf2f8}
+.ability{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.ability .a{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:14px;border:2px solid var(--c-blue)}
+.ability .a b{color:var(--c-blue)}
+.expect{background:#dcfce7;border:3px dashed var(--c-green);border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:bold;color:#166534}
+.cmd{background:#111827;color:#a7f3d0;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.9em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.real{background:#312e81;color:#e0e7ff;border-radius:10px;padding:12px 16px;font-family:Consolas,monospace;font-size:.85em;margin:8px 0;white-space:pre-wrap;word-break:break-all}
+.footer{margin-top:36px;background:#1f2937;color:#f9fafb;border-radius:16px;padding:22px 26px;font-size:.92em}
+.footer b{color:#fbbf24}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>Mesh Avatar Studio：一张插画变会动的 2D 头像 · 小白指南</h1>
+  <div class="sub">对象：shinshin86/mesh-avatar-studio（540★，MIT，快照 39d1625，v0.1.0，217 文件；<b>单元测试 102/107 真实通过</b>）。<br>来源：子 agent 分类上报（learning 候选获主控批复），主控执行完整学习。日文作者 shinshin86（aituber-onair 同生态活跃开发者）。</div>
+  <div class="tags">
+    <span class="tag">开源项目类</span><span class="tag">人机协作管线</span><span class="tag">2D 网格头像</span><span class="tag">Live2D 风格</span><span class="tag">测试实测</span>
+  </div>
+</div>
+
+<h2 style="color:var(--c-main-dark)">📖 疑问目录</h2>
+<div class="toc">
+  <a href="#q1">Q1 这是什么</a><a href="#q2">Q2 人机分工</a><a href="#q3">Q3 agent-guide</a>
+  <a href="#q4">Q4 视觉自检</a><a href="#q5">Q5 编辑器微调</a><a href="#q6">Q6 工程结构</a>
+  <a href="#q7">Q7 许可边界</a><a href="#q8">Q8 与像素族谱关系</a><a href="#q9">Q9 给我什么能力</a><a href="#q10">Q10 动手实验</a>
+</div>
+
+<div class="q" id="q1">
+  <h2><span class="num">Q1</span>这是什么？</h2>
+  <div class="svgbox">
+<svg width="640" height="120" viewBox="0 0 640 120">
+  <g font-size="10" text-anchor="middle">
+  <rect x="20" y="25" width="110" height="70" rx="10" fill="#fdf2f8" stroke="#db2777" stroke-width="2"/>
+  <text x="75" y="52" fill="#be185d" font-weight="bold" font-size="11">一张插画</text>
+  <text x="75" y="70" fill="#db2777" font-size="9">正面半身透明底 PNG</text>
+  <path d="M130 60 L 175 60" stroke="#db2777" stroke-width="3" marker-end="url(#ma1)"/>
+  <defs><marker id="ma1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#db2777"/></marker></defs>
+  <rect x="180" y="15" width="170" height="90" rx="12" fill="#db2777"/>
+  <text x="265" y="45" fill="#fff" font-weight="bold" font-size="12">Mesh Avatar Studio</text>
+  <text x="265" y="67" fill="#fce7f3" font-size="9.5">Agent 备料 + 编辑器微调</text>
+  <text x="265" y="85" fill="#fce7f3" font-size="9.5">MIT · 540星 · v0.1.0</text>
+  <path d="M350 60 L 395 60" stroke="#db2777" stroke-width="3" marker-end="url(#ma1b)"/>
+  <defs><marker id="ma1b" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#db2777"/></marker></defs>
+  <rect x="400" y="25" width="220" height="70" rx="10" fill="#fef9c3" stroke="#f59e0b" stroke-width="2"/>
+  <text x="510" y="50" fill="#92400e" font-weight="bold" font-size="11">会动的 2D 头像</text>
+  <text x="510" y="68" fill="#92400e" font-size="9.5">眨眼 · 说话口型 · 转头 · 呼吸 · 摆发</text>
+  <text x="510" y="84" fill="#92400e" font-size="9">VTuber/AI 主播即用</text>
+  </g>
+</svg>
+</div>
+  <p>一句话：<span class="hl">一张插画 → 会眨眼、说话、转头、呼吸、摆头发的 Live2D 风格 2D 网格头像</span>。制作方式是"coding agent 备料 + 人工编辑器微调"的四步管线——VTuber/AI 主播头像的开源化生产管线。</p>
+  <table>
+    <tr><th>事实项</th><th>核实值（本机实测）</th></tr>
+    <tr><td>仓库</td><td>shinshin86/mesh-avatar-studio，540★，MIT（代码；样例角色 Miko 与 vendor 除外），v0.1.0</td></tr>
+    <tr><td>规模</td><td>217 文件：src/（editor/engine/lighting/live/rig/server）+ 23 个单元测试文件 + Playwright e2e</td></tr>
+    <tr><td>依赖</td><td>Node 22.17+（本机 v24.21 满足）；agent 侧另需 Python/uv + Playwright Chromium</td></tr>
+    <tr><td>本机验证</td><td>npm install 成功；单元测试 <b>102 passed / 5 failed</b>（失败全为 Windows symlink 权限族）</td></tr>
+  </table>
+</div>
+
+<div class="q blue" id="q2">
+  <h2><span class="num">Q2</span>人机怎么分工？（最有意思的设计）</h2>
+  <div class="svgbox">
+  <svg width="640" height="150" viewBox="0 0 640 150">
+    <g font-size="10" text-anchor="middle">
+    <rect x="15" y="40" width="130" height="60" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+    <text x="80" y="63" fill="#5b21b6" font-weight="bold" font-size="11">Step1 Agent</text>
+    <text x="80" y="80" fill="#7c3aed" font-size="9">读图定位/摆骨架/切层/自检</text>
+    <path d="M145 70 L 180 70" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#ma2)"/>
+    <defs><marker id="ma2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#7c3aed"/></marker></defs>
+    <rect x="185" y="40" width="130" height="60" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="250" y="63" fill="#1e40af" font-weight="bold" font-size="11">Step2 人查</text>
+    <text x="250" y="80" fill="#2563eb" font-size="9">编辑器 Pose test/口型检查</text>
+    <path d="M315 70 L 350 70" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ma2b)"/>
+    <defs><marker id="ma2b" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#2563eb"/></marker></defs>
+    <rect x="355" y="40" width="130" height="60" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <text x="420" y="63" fill="#166534" font-weight="bold" font-size="11">Step3 人拖拽修</text>
+    <text x="420" y="80" fill="#16a34a" font-size="9">拖关键点/保存重建层</text>
+    <path d="M485 70 L 520 70" stroke="#16a34a" stroke-width="2.5" marker-end="url(#ma2c)"/>
+    <defs><marker id="ma2c" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#16a34a"/></marker></defs>
+    <rect x="525" y="40" width="100" height="60" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text x="575" y="63" fill="#92400e" font-weight="bold" font-size="11">Step4 Agent</text>
+    <text x="575" y="80" fill="#92400e" font-size="9">固定姿势自检评审</text>
+    <text x="320" y="130" fill="#6b7280" font-size="10.5" font-weight="bold">机器做 1/4，人做 2/4，且机器步骤强制"自检+报告"——人不是操作工是审核员</text>
+    </g>
+  </svg>
+  </div>
+</div>
+
+<div class="q green" id="q3">
+  <h2><span class="num">Q3</span>docs/agent-guide.md——写给 agent 的 201 行作业指导书</h2>
+  <div class="svgbox">
+<svg width="640" height="140" viewBox="0 0 640 140">
+  <g font-size="10" text-anchor="middle">
+  <rect x="25" y="20" width="270" height="100" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="160" y="45" fill="#166534" font-weight="bold" font-size="12">docs/agent-guide.md（201 行）</text>
+  <text x="160" y="68" fill="#166534" font-size="9.5">顺序执行 · 每步带检查</text>
+  <text x="160" y="84" fill="#166534" font-size="9.5">"不要跳过检查：质量取决于</text>
+  <text x="160" y="98" fill="#166534" font-size="9.5"> 查看自己的输出并修正"</text>
+  <text x="160" y="114" fill="#166534" font-size="9.5">projects/ 永不提交</text>
+  <path d="M295 70 L 345 70" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#ma3)"/>
+  <defs><marker id="ma3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#7c3aed"/></marker></defs>
+  <rect x="350" y="20" width="270" height="100" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="485" y="45" fill="#5b21b6" font-weight="bold" font-size="12">资质声明制</text>
+  <text x="485" y="68" fill="#7c3aed" font-size="9.5">先报告自己是什么模型</text>
+  <text x="485" y="84" fill="#7c3aed" font-size="9.5">不在推荐清单（Opus 5.5/GPT-6.1 Sol）</text>
+  <text x="485" y="100" fill="#7c3aed" font-size="9.5">→ 明说"可能不达标"并询问是否继续</text>
+  </g>
+</svg>
+</div>
+  <p>这是本仓库最值得学的文件：一份完整的"给 coding agent 的生产级任务书"。要点：① <b>顺序执行+每步带检查</b>（"不要跳过检查：结果质量取决于查看你自己的输出并修正"）；② <b>模型资质声明</b>——先告诉用户自己是什么模型，不在推荐清单（Claude Opus 5.5 / GPT-6.1 Sol）里就明说"可能不达标"并询问是否继续；③ 项目存 <code>projects/&lt;name&gt;/</code> 永不提交。与 SKILL.md（路由型）、agent-guide（作业型）构成 agent 指令文件的两种体裁。</p>
+</div>
+
+<div class="q yellow" id="q4">
+  <h2><span class="num">Q4</span>视觉自检 calibration——agent 先证明自己看得准</h2>
+  <div class="svgbox">
+<svg width="640" height="130" viewBox="0 0 640 130">
+  <g font-size="10" text-anchor="middle">
+  <rect x="25" y="25" width="170" height="80" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="110" y="50" fill="#1e40af" font-weight="bold" font-size="11">① vision-check make</text>
+  <text x="110" y="68" fill="#1e40af" font-size="9">生成带编号标记的标定图</text>
+  <text x="110" y="90" fill="#1e40af" font-size="9">agent 读图写 JSON 答案</text>
+  <path d="M195 65 L 245 65" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#ma4)"/>
+  <defs><marker id="ma4" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#f59e0b"/></marker></defs>
+  <rect x="250" y="25" width="140" height="80" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="320" y="50" fill="#92400e" font-weight="bold" font-size="11">② score 评分</text>
+  <text x="320" y="68" fill="#92400e" font-size="9">量化"这个模型读坐标准不准"</text>
+  <text x="320" y="90" fill="#92400e" font-size="9">10 秒完成能力标定</text>
+  <path d="M390 65 L 440 65" stroke="#dc2626" stroke-width="2.5" marker-end="url(#ma4b)"/>
+  <defs><marker id="ma4b" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#dc2626"/></marker></defs>
+  <rect x="445" y="25" width="175" height="80" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+  <text x="532" y="50" fill="#b91c1c" font-weight="bold" font-size="11">③ 不达标就停</text>
+  <text x="532" y="68" fill="#b91c1c" font-size="9">"读坐标可能偏，大部分要手工修"</text>
+  <text x="532" y="90" fill="#b91c1c" font-size="9">返工成本变成 10 秒标定</text>
+  </g>
+</svg>
+</div>
+  <p>开工前强制跑 <code>tools/vision-check.py</code>：生成带编号标记的标定图 → agent 读图写 JSON 答案 → 评分。分数不达标就停下告诉用户"这个模型读坐标可能偏，后面大部分工作要手工修"。<span class="hl">这是"能力前置验证"模式：不让 agent 直接开干再返工，而是先量化它的视觉能力是否够格</span>——把返工成本变成 10 秒标定测试。</p>
+</div>
+
+<div class="q pink" id="q5">
+  <h2><span class="num">Q5</span>编辑器微调：拖点即所见</h2>
+  <div class="svgbox">
+<svg width="640" height="120" viewBox="0 0 640 120">
+  <g font-size="10" text-anchor="middle">
+  <rect x="30" y="20" width="180" height="80" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="120" y="45" fill="#166534" font-weight="bold" font-size="11">左：部件列表</text>
+  <text x="120" y="65" fill="#15803d" font-size="9">选中部件 → 图上高亮关键点</text>
+  <text x="120" y="83" fill="#15803d" font-size="9">拖到对的位置</text>
+  <path d="M210 60 L 250 60" stroke="#16a34a" stroke-width="2.5" marker-end="url(#ma5)"/>
+  <defs><marker id="ma5" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#16a34a"/></marker></defs>
+  <rect x="255" y="20" width="160" height="80" rx="10" fill="#7c3aed"/>
+  <text x="335" y="45" fill="#fff" font-weight="bold" font-size="11">右：实时预览</text>
+  <text x="335" y="65" fill="#e9d5ff" font-size="9">Pose test 转头/闭眼</text>
+  <text x="335" y="83" fill="#e9d5ff" font-size="9">Lip sync 元音口型核对</text>
+  <path d="M415 60 L 455 60" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#ma5b)"/>
+  <defs><marker id="ma5b" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#7c3aed"/></marker></defs>
+  <rect x="460" y="20" width="160" height="80" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="540" y="45" fill="#92400e" font-weight="bold" font-size="11">改切割值弹横幅</text>
+  <text x="540" y="65" fill="#92400e" font-size="9">眼/手轮廓、发罩区域</text>
+  <text x="540" y="83" fill="#92400e" font-size="9">→ 保存并重建图层(几秒)</text>
+  </g>
+</svg>
+</div>
+  <p>人工步骤全是"看+拖"：左侧选部件 → 图上高亮该部件的关键点 → 拖到对的位置 → 右侧预览实时跟新。眼睛/手部轮廓、头发遮罩区域等值还决定图层切割方式——改了会弹横幅"保存并重建图层"（几秒）。口型检查（Lip sync）按元音口形核对。设计哲学：<b>AI 产出的几何误差，用最直觉的拖拽交互收敛</b>。</p>
+</div>
+
+<div class="q teal" id="q6">
+  <h2><span class="num">Q6</span>工程结构与许可边界</h2>
+  <div class="svgbox">
+<svg width="640" height="120" viewBox="0 0 640 120">
+  <g font-size="10" text-anchor="middle">
+  <rect x="20" y="25" width="180" height="70" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="110" y="50" fill="#166534" font-weight="bold" font-size="10.5">src/engine</text>
+  <text x="110" y="68" fill="#16a34a" font-size="9">渲染/物理/表情/kana口型</text>
+  <rect x="220" y="25" width="180" height="70" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="310" y="50" fill="#1e40af" font-weight="bold" font-size="10.5">src/rig + live</text>
+  <text x="310" y="68" fill="#2563eb" font-size="9">骨架数值+摄像头追踪/推流</text>
+  <rect x="420" y="25" width="200" height="70" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="520" y="50" fill="#92400e" font-weight="bold" font-size="10.5">tests ×23 + e2e</text>
+  <text x="520" y="68" fill="#92400e" font-size="9">含 symlink 路径逃逸安全测试</text>
+  </g>
+</svg>
+</div>
+  <table>
+    <tr><th>模块</th><th>内容</th></tr>
+    <tr><td>src/engine</td><td>渲染/物理/表情/motion/kana 口型（createMeshAvatar/renderer/physics…）</td></tr>
+    <tr><td>src/rig + live</td><td>骨架数值 + 摄像头实时追踪/直播推流（live-tracking/live-relay 测试）</td></tr>
+    <tr><td>tests</td><td>23 个 vitest 文件（含路径逃逸安全测试：symlink 攻击样本、traversal 拒绝）</td></tr>
+    <tr><td>许可</td><td>代码 MIT；<b>样例角色 Miko 不在 MIT 内</b>（作者保留）；vendor/mediapipe 面部关键点模型为 Apache 2.0</td></tr>
+  </table>
+</div>
+
+<div class="q red" id="q7">
+  <h2><span class="num">Q7</span>边界与风险（诚实清单）</h2>
+  <div class="svgbox">
+<svg width="640" height="125" viewBox="0 0 640 125">
+  <g font-size="10" text-anchor="middle">
+  <rect x="18" y="18" width="185" height="90" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+  <text x="110" y="42" fill="#b91c1c" font-weight="bold" font-size="11">模型门槛</text>
+  <text x="110" y="60" fill="#b91c1c" font-size="9">仅认证 Opus 5.5/GPT-6.1 Sol</text>
+  <text x="110" y="78" fill="#b91c1c" font-size="9">弱视觉模型=大量手工修</text>
+  <text x="110" y="96" fill="#b91c1c" font-size="9">输入限正面半身透明PNG</text>
+  <rect x="218" y="18" width="185" height="90" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+  <text x="310" y="42" fill="#c2410c" font-weight="bold" font-size="11">Windows 专章</text>
+  <text x="310" y="60" fill="#c2410c" font-size="9">ZIP 要解锁 Properties</text>
+  <text x="310" y="78" fill="#c2410c" font-size="9">projects/ 目录权限继承</text>
+  <text x="310" y="96" fill="#c2410c" font-size="9">README 有整节排障</text>
+  <rect x="418" y="18" width="200" height="90" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="518" y="42" fill="#5b21b6" font-weight="bold" font-size="11">许可分层</text>
+  <text x="518" y="60" fill="#5b21b6" font-size="9">代码 MIT ✅</text>
+  <text x="518" y="78" fill="#5b21b6" font-size="9">样例角色 Miko 作者保留 ❌</text>
+  <text x="518" y="96" fill="#5b21b6" font-size="9">vendor/mediapipe Apache 2.0</text>
+  </g>
+</svg>
+</div>
+  <p>① 效果依赖强视觉模型（官方仅认证 Opus 5.5 / GPT-6.1 Sol 两档）；② 最佳输入限制严格（正面半身透明底 PNG）；③ Windows 有专门章节的坑（ZIP 解锁/projects 目录权限继承）；④ 5 个测试在无 symlink 权限的 Windows 上失败（见 Q10）；⑤ e2e 需要 Playwright 浏览器，本机未跑。</p>
+</div>
+
+<div class="q purple" id="q8">
+  <h2><span class="num">Q8</span>与本库已学项目的关系</h2>
+  <div class="svgbox">
+<svg width="640" height="130" viewBox="0 0 640 130">
+  <g font-size="10" text-anchor="middle">
+  <rect x="20" y="35" width="130" height="60" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="85" y="58" fill="#166534" font-weight="bold" font-size="10.5">bead_pattern</text>
+  <text x="85" y="76" fill="#16a34a" font-size="9">照片→像素图纸</text>
+  <rect x="170" y="35" width="130" height="60" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="235" y="58" fill="#1e40af" font-weight="bold" font-size="10.5">sprite_gen</text>
+  <text x="235" y="76" fill="#2563eb" font-size="9">立绘→游戏精灵</text>
+  <rect x="320" y="35" width="130" height="60" rx="10" fill="#7c3aed"/>
+  <text x="385" y="58" fill="#fff" font-weight="bold" font-size="10.5">mesh_avatar(本条)</text>
+  <text x="385" y="76" fill="#e9d5ff" font-size="9">插画→动头像</text>
+  <rect x="470" y="35" width="150" height="60" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="545" y="58" fill="#92400e" font-weight="bold" font-size="10.5">新增子系统</text>
+  <text x="545" y="76" fill="#92400e" font-size="9">能力校准(vision-check)</text>
+  <text x="320" y="118" fill="#6b7280" font-size="10" font-weight="bold">"单图→可用资产"三部曲 + harness 论文七子系统之外的新增位置</text>
+  </g>
+</svg>
+</div>
+  <p>与本日刚学的 harness_engineering_paper 互证：agent-guide 的"每步带检查+自检"正是论文 6.2 迭代行动-观察循环的应用层实例；vision-check 对应论文"安全与权限"子系统外的又一个创新子系统——<b>能力校准</b>。与 [[bead_pattern]]（照片→像素图纸）、[[sprite_gen]]（立绘→游戏精灵）组成"单图→可动/可用资产"三部曲；与 [[项目笔记/huashu_art_motion]] 的"一帧先行"同族（先静态后动态）。</p>
+</div>
+
+<div class="q" id="q9">
+  <h2><span class="num">Q9</span>这个项目给我什么（能力清单）</h2>
+  <div class="svgbox">
+<svg width="640" height="110" viewBox="0 0 640 110">
+  <g font-size="10" text-anchor="middle">
+  <rect x="20" y="22" width="140" height="66" rx="10" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="90" y="47" fill="#5b21b6" font-weight="bold">四步管线</text>
+  <text x="90" y="65" fill="#7c3aed" font-size="9">A、人查、人修、A</text>
+  <rect x="175" y="22" width="140" height="66" rx="10" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="245" y="47" fill="#1e40af" font-weight="bold">能力前置验证</text>
+  <text x="245" y="65" fill="#2563eb" font-size="9">先标定再开工</text>
+  <rect x="330" y="22" width="140" height="66" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="400" y="47" fill="#166534" font-weight="bold">2D网格机理</text>
+  <text x="400" y="65" fill="#16a34a" font-size="9">切层+关键点+物理</text>
+  <rect x="485" y="22" width="140" height="66" rx="10" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="555" y="47" fill="#92400e" font-weight="bold">许可分层</text>
+  <text x="555" y="65" fill="#92400e" font-size="9">代码/资产分开写</text>
+  </g>
+</svg>
+</div>
+  
+  
+  <div class="ability">
+    <div class="a"><b>① 人机四步管线</b>：Agent→人查→人修→Agent 的审核式分工模板。</div>
+    <div class="a"><b>② 能力前置验证</b>：vision-check 把"模型行不行"变成开工前的标定分。</div>
+    <div class="a"><b>③ agent 作业书体裁</b>：顺序+检查+资质声明的 201 行范本。</div>
+    <div class="a"><b>④ 2D 网格动画机理</b>：切层+关键点+物理摆动的 Live2D 平替实现。</div>
+    <div class="a"><b>⑤ 路径安全测试法</b>：用 symlink 构造攻击样本测自己的 API。</div>
+    <div class="a"><b>⑥ 许可分层意识</b>：代码 MIT 但角色资产单独保留的边界写法。</div>
+  </div>
+</div>
+
+<div class="q blue" id="q10">
+  <h2><span class="num">Q10</span>动手实验：102/107 真实通过 + 失败归因</h2>
+  <div class="svgbox">
+<svg width="640" height="110" viewBox="0 0 640 110">
+  <g font-size="10" text-anchor="middle">
+  <rect x="60" y="25" width="500" height="34" rx="8" fill="#dcfce7"/>
+  <rect x="60" y="25" width="477" height="34" rx="8" fill="#16a34a"/>
+  <text x="298" y="47" fill="#fff" font-weight="bold" font-size="11">102 passed / 107（95.3%）</text>
+  <text x="580" y="47" fill="#166534" font-weight="bold" font-size="10" text-anchor="start">5 失败</text>
+  <text x="320" y="82" fill="#6b7280" font-size="10">失败全部 = Windows symlink EPERM 权限族（测试用符号链接构造路径逃逸攻击样本）</text>
+  <text x="320" y="99" fill="#6b7280" font-size="10">非代码缺陷 · e2e 未跑 · 端到端头像未生成（如实声明）</text>
+  </g>
+</svg>
+</div>
+  <p>实验环境：Windows 11，Node v24.21.0，npm 11.19.0，快照 39d1625。真实运行（exercise/run_output.txt）：</p>
+  <div class="cmd">git clone --depth 1 https://github.com/shinshin86/mesh-avatar-studio
+cd mesh-avatar-studio
+npm install --ignore-scripts
+npx vitest run tests/</div>
+  <div class="real">结果：23 测试文件 / 107 用例 → 102 passed, 5 failed in 9.73s
+失败归因（--tb 逐条核实，全部 Windows 环境族非代码缺陷）：
+· local-projects ×3 + project-jobs ×1 = EPERM symlink 被拒
+  （Windows 非管理员账户不能创建符号链接；测试用 symlink
+   构造路径逃逸攻击样本来测自家 API 的安全性）
+· expression-remote ×1 = token 私有性测试同类环境差异
+有效通过率 102/107 = 95.3%
+e2e（Playwright）未跑：需浏览器+dev server；agent 四步工作流
+需真实插画与 agent 会话，超出本次实验面（如实声明）。</div>
+  <div class="key"><b>诚实声明：</b>未端到端生成真实头像（需透明底插画+强视觉模型 agent 会话）；npm 用 --ignore-scripts 安装（权限策略）；e2e 未执行；5 失败未尝试修复（环境权限限制，修复需管理员/开发者模式）。</div>
+</div>
+
+<div class="footer">
+  <b>学习来源</b>：子 agent（kimi-sub-20261009-s1）分类上报 + 仓库 shinshin86/mesh-avatar-studio（快照 39d1625）。<br>
+  <b>产物</b>：本指南 + exercise/run_output.txt + 实验日志 + 知识提案。生成：2026-10-09，主控 worker kimi-pool-20261007-w1。
+</div>
+
+</div>
+</body>
+</html>

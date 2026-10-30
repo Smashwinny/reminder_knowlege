@@ -1,0 +1,19 @@
+== mesh-avatar-studio 实验运行记录 ==
+环境：Windows 11, Node v24.21.0, npm 11.19.0
+仓库：shinshin86/mesh-avatar-studio 浅克隆 39d1625（v0.1.0，217 文件，无 LICENSE 字段于 package.json——README 待查）
+
+1. npm install --ignore-scripts：成功
+2. npx vitest run tests/（单元测试 23 文件 107 用例）：
+   102 passed, 5 failed in 9.73s
+
+3. 5 个失败归因（--tb 逐条核实）：
+   · tests/local-projects.test.ts ×3：EPERM symlink 操作被拒——
+     Windows 非管理员/无开发者模式账户不能创建符号链接（Windows 权限
+     特性，非代码缺陷；测试用 symlink 构造路径逃逸攻击样本）
+   · tests/expression-remote.test.ts ×1：token 私有性测试（同类环境差异待查）
+   · tests/project-jobs.test.ts ×1：同 symlink EPERM 族
+   有效通过率：102/(102+5) = 95.3%
+
+4. e2e（Playwright）未跑：需浏览器二进制+dev server，属实跑面；
+   README 的 4 步工作流中 step1(step4) 由 coding agent 完成——即本 worker
+   场景，但需要真实插画与 agent 会话，超出本次实验面，如实声明。

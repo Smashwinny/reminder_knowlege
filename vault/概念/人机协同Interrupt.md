@@ -31,3 +31,9 @@ OpenMuse 使用自己的 ActionService。固定实现把输入、连接、目标
 目标版本交给 fixture 只证明传参，没有测试真实 Google/HTTP ETag 冲突。动作准备的幂等键与内容 hash 也不同：同键改输入返回原提案，换新键改输入才生成变化的 hash。这些是本项目契约，不能合成“批准后任意内容均可执行”，关联 [[工具调用三段式流水线]]、[[沙箱与审批正交]]。
 
 来源：[LangGraph Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts)、[固定 ActionService](https://github.com/CopilotKit/openmuse/blob/b06caad7005ac5b6d2b451752a3794a6ae1759c1/apps/server/src/actions.ts)、[原始审批测试](https://github.com/CopilotKit/openmuse/blob/b06caad7005ac5b6d2b451752a3794a6ae1759c1/tests/actions.test.ts)；[历史实验日志](../../openmuse/delivery/openmuse-experiment-log.md)。
+
+## 能力前置验证：先标定，再决定是否值得人工接管（2026-10-09）
+
+[[项目笔记/mesh_avatar_studio]] 的 `tools/vision-check.py` 提供一种轻量 HITL 前置模式：agent 开工前先生成标定图并读取坐标，量化自身视觉定位能力；不达标就主动停下并告知用户，而不是做完全部素材后才让人返工。它校准的是模型能力资质，不是 [[Checkpoint存档与持久执行]] 的任务状态。
+
+与 interrupt 的串联方式：标定通过才进入机器备料；编辑器和 Pose test 留给人审核；最后再由 agent 做固定姿势自检。其价值是把"何时应该请人介入"从事后救火前移为十秒级能力门槛判断。该项目仅完成 102/107 单元测试，未验证端到端头像生成。

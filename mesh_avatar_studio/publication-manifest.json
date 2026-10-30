@@ -1,0 +1,30 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "Mesh Avatar Studio：一张插画经 Agent 备料+人工微调变会动的 2D 网格头像（开源项目类）",
+  "project_dir": "mesh_avatar_studio",
+  "pdf": "mesh_avatar_studio/MeshAvatarStudio插画变动头像-小白指南.pdf",
+  "html": "mesh_avatar_studio/mesh_avatar_studio-guide.html",
+  "exercise_dir": "mesh_avatar_studio/exercise",
+  "experiment_log": "mesh_avatar_studio/mesh_avatar_studio-experiment-log.md",
+  "vault_note": "vault/项目笔记/mesh_avatar_studio-proposal-pending.md",
+  "report_path": "完成/分析报告/06ac032d-cdee-4bda-9f23-55e454bc34a6.md",
+  "source_urls": [
+    "https://x.com/shinshin86/status/2106593371762651346",
+    "https://github.com/shinshin86/mesh-avatar-studio"
+  ],
+  "experiment_files": [
+    "mesh_avatar_studio/exercise/run_output.txt"
+  ],
+  "upstream": {
+    "repo": "https://github.com/shinshin86/mesh-avatar-studio",
+    "commit": "39d1625",
+    "note": "repo/ 浅克隆；npm --ignore-scripts；vitest 真实运行 102/107（5 失败=Windows symlink EPERM 权限族）；e2e 未跑"
+  },
+  "notes": {
+    "vault_note": "工具 ready 校验强制 vault_note 在 vault/ 内：以 *-proposal-pending.md 后缀放入，待协调者转正为 mesh_avatar_studio.md（或合并后删除 pending 文件）",
+    "pdf_pages": 9,
+    "experiment_verified": "vitest 23 文件 107 用例真实运行 102 passed/5 failed；失败逐条归因（4×symlink EPERM Windows 权限族+1×token 环境差异），有效通过率 95.3%；agent-guide 201 行/vision-check 能力标定/许可分层结构阅读",
+    "pdf_verified": "结构校验通过（9 页、字体嵌入、982KB）；SVG 自检 PASS（Q1-Q10 各恰 1 张，全局映射法核验）",
+    "revision": "2026-10-09 v1 首发（SVG 自检先行）"
+  }
+}

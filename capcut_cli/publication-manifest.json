@@ -1,0 +1,43 @@
+{
+  "task_id": "fc6b3e7b-4b5c-44d1-b3f6-ea15458366ba",
+  "topic": "capcut-cli：剪映草稿 JSON 命令行（Agent 剪辑前道）",
+  "project_dir": "capcut_cli",
+  "classification": "开源项目类",
+  "source_urls": [
+    "https://x.com/GitHub_Daily/status/2101098978167451823",
+    "https://github.com/renezander030/capcut-cli"
+  ],
+  "upstream": {
+    "repo": "https://github.com/renezander030/capcut-cli",
+    "version": "0.31.1",
+    "commit": "f3d6c75",
+    "license": "MIT",
+    "stars": 966
+  },
+  "pdf": "capcut_cli/capcut-cli剪映草稿命令行-小白指南.pdf",
+  "html": "capcut_cli/capcut-cli-guide.html",
+  "exercise_dir": "capcut_cli/exercise",
+  "experiment_log": "capcut_cli/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/capcut_cli-proposal-pending.md",
+  "deliverables": [
+    "capcut_cli/capcut-cli-guide.html",
+    "capcut_cli/capcut-cli剪映草稿命令行-小白指南.pdf",
+    "capcut_cli/exercise/clip.png",
+    "capcut_cli/exercise/bgm.wav",
+    "capcut_cli/exercise/drafts/demo1",
+    "capcut_cli/exercise/experiment-log.md",
+    "capcut_cli/capcut_cli-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "v0.31.1 源码构建成功（npm install + npm run build），CLI 输出版本号",
+    "quickstart 创建草稿成功：注册工程索引、画布 1920x1080、lint 0 错误 0 警告",
+    "无 ffprobe 时图片素材用 5 秒占位并明确告知（不瞎编时长）",
+    "add-text 新增独立 text 轨道（2.00s），返回 segment/material/track 三 ID",
+    "trim --dry-run 返回 dryRun:true 不落盘；草稿目录每个 JSON 均自动带 .bak 备份",
+    "version 命令实测：模板 app_version 6.5.0，支持范围 6.x–9.x"
+  ],
+  "blocked_items": [
+    "本机无 CapCut：真实打开剪映核验轨道可编辑性未验证",
+    "caption（需 Whisper）与 render（需 ffmpeg）未验证"
+  ]
+}
