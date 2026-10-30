@@ -1,0 +1,32 @@
+{
+  "schema": "reminder-learning-delivery-v1",
+  "topic": "Harness Engineering：11 个编码 Agent 源码解剖的七子系统框架与双缺席实证（arXiv:2609.00006，知识学习类）",
+  "project_dir": "harness_engineering_paper",
+  "pdf": "harness_engineering_paper/HarnessEngineering论文解剖-小白指南.pdf",
+  "html": "harness_engineering_paper/harness_engineering_paper-guide.html",
+  "exercise_dir": "harness_engineering_paper/exercise",
+  "experiment_log": "harness_engineering_paper/harness_engineering_paper-experiment-log.md",
+  "vault_note": "vault/项目笔记/harness_engineering_paper-proposal-pending.md",
+  "report_path": "完成/分析报告/2791589d-5cee-48df-8e6d-54881aef5a1d.md",
+  "source_urls": [
+    "https://x.com/yupi996/status/2106760754997203304",
+    "https://arxiv.org/abs/2609.00006"
+  ],
+  "experiment_files": [
+    "harness_engineering_paper/exercise/verify_claims.py",
+    "harness_engineering_paper/exercise/run_output.txt",
+    "harness_engineering_paper/exercise/paper.html"
+  ],
+  "upstream": {
+    "repo": "N/A（论文研究；被解剖的 11 个 harness 仓库未克隆）",
+    "commit": "N/A",
+    "note": "论文全文已存档 exercise/paper.html（1.4MB，CC BY 4.0）"
+  },
+  "notes": {
+    "vault_note": "2026-10-09 新边界过渡处理：工具 ready 校验强制 vault_note 在 vault/ 内，故以 *-proposal-pending.md 后缀放入 vault，内容为提案稿，待协调者转正为 harness_engineering_paper.md（或合并后删除本 pending 文件）",
+    "pdf_pages": 10,
+    "experiment_verified": "verify_claims.py 7/7 原句级断言：11 系统/七子系统+Table1 最小最大实现/双缺席×2（无 agentic 框架+无向量检索）/SKILL.md 9:11 领先 MCP 8:11/Mini-SWE 100 行证明/不 benchmark 方法论；T2 HTML 实体修正实录保留",
+    "pdf_verified": "结构校验通过（10 页、字体嵌入、1.04MB）；SVG 自检 PASS（Q1-Q10 各恰 1 张，新纪律执行）",
+    "revision": "2026-10-09 v1 首发（SVG 自检先行，避免 magpie 式打回）"
+  }
+}

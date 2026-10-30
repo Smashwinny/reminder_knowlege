@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>hand-drawn-styles 手绘风格配方库 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#fff8ef; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#00b8a9 0%,#2d9cdb 55%,#7c4dff 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.4em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-teal));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-teal));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-teal));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-teal));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>hand-drawn-styles：23 种手绘风格的"提示词配方库"</h1>
+  <p>让 AI Agent 像点菜一样点画风——编号 / 中文名 / 别名任选，输出拿来即用的图像生成 prompt</p>
+  <p>
+    <span class="badge">GitHub 2.6K★</span><span class="badge">MIT</span>
+    <span class="badge">零依赖 Python 3.10+</span><span class="badge">本指南实测 main@5a2f91f</span>
+  </p>
+  <p style="font-size:.9em;opacity:.85;">仓库：github.com/threerocks/hand-drawn-styles ｜ 学习日期：2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q1</div>
+<h2>这个项目是什么？一句话能说清吗？</h2>
+<p><span class="big">一个"手绘风格配方仓库"：把 23 种手绘/插画风格各自整理成一段经过验证的提示词配方（recipe），Agent 或人按编号点菜，脚本从配方真源原样提取、填入你的主体内容，输出一条可直接喂给任何图像模型的完整 prompt。</span></p>
+<p>项目明确<b>不生图</b>——它是"菜谱"不是"厨房"：输出模型无关的文本 prompt 或 JSON 调用包，执行交给用户自己的图像工具（Midjourney、Nano Banana、GPT Image 等均可）。</p>
+<div class="svgbox">
+<svg width="720" height="170" viewBox="0 0 720 170">
+  <rect x="20" y="45" width="140" height="70" rx="12" fill="#2d9cdb"/>
+  <text x="90" y="74" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">你 / Agent</text>
+  <text x="90" y="94" fill="#e8f4fd" font-size="11" text-anchor="middle">"水墨风画只鸟"</text>
+  <rect x="230" y="35" width="230" height="90" rx="14" fill="#00b8a9"/>
+  <text x="345" y="65" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">render_prompt.py</text>
+  <text x="345" y="86" fill="#d8fffb" font-size="11" text-anchor="middle">STYLES.md 原样提取 + 填占位符</text>
+  <text x="345" y="103" fill="#d8fffb" font-size="11" text-anchor="middle">fail-closed 缺槽报错</text>
+  <rect x="530" y="45" width="170" height="70" rx="12" fill="#7c4dff"/>
+  <text x="615" y="74" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">任意图像模型</text>
+  <text x="615" y="94" fill="#e6dcff" font-size="11" text-anchor="middle">MJ / NanoBanana / GPT Image</text>
+  <path d="M160 80 L230 80" stroke="#333" stroke-width="2.5" marker-end="url(#b1)"/>
+  <path d="M460 80 L530 80" stroke="#333" stroke-width="2.5" marker-end="url(#b1)"/>
+  <defs><marker id="b1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q2</div>
+<h2>为什么需要它？没有它之前怎么画手绘风？</h2>
+<p><span class="big">没有它之前，"画出手绘感"是纯试错玄学。</span>同一个模型，你要描述"像 5 岁小孩用蜡笔画的、故意画得很丑、白纸质感"，来回抽卡几十次才偶尔蒙对；下次换个主体又得重来。社区的散装经验散落在小红书评论和论坛帖里，无法复用、无法传承。</p>
+<p>这个仓库把每次成功的"咒语"固化成配方，核心贡献是三个"确定性"：</p>
+<table>
+<tr><th>痛点</th><th>配方的解法</th></tr>
+<tr><td>每次重新组织语言</td><td>配方正文是<b>成品 prompt 本身</b>，不是描述——提取即用</td></tr>
+<tr><td>模型对"风格"理解漂移</td><td>每套配方含<b>负向"严禁"清单</b>（如"严禁：均匀灰度滤镜、平滑渐变"）</td></tr>
+<tr><td>经验口口相传会走样</td><td><code>STYLES.md</code> 是唯一真源，脚本机械提取，<b>人改不了渲染路径</b></td></tr>
+</table>
+<p>它本质是知识库 [[PromptAsCode提示词即代码]] 的社区实践：提示词从"聊天记录"升级为"版本化的代码资产"。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q3</div>
+<h2>它是怎么做到的？架构是什么？</h2>
+<p><span class="big">极简架构：一份"唯一真源"Markdown + 一个零依赖 Python 渲染器 + 别名路由表。</span></p>
+<h3>① STYLES.md —— 唯一真源</h3>
+<p>23 套配方全部以代码块形式存在这一个文件里，每套配方含正文 prompt + 槽位声明（【主体】【主色调】等）。<b>所有工具（脚本 / SKILL.md / AGENTS.md）都从它提取</b>，不存在第二份拷贝，杜绝"文档和实现不一致"。</p>
+<h3>② scripts/render_prompt.py —— 渲染器</h3>
+<p>零第三方依赖（只用标准库）。职责：解析 STYLES.md → 按编号/中文名/别名找到配方 → 检查必填槽位 → 填槽输出。实测 <span class="hl">116 个别名</span>全部可路由。</p>
+<h3>③ 槽位 fail-closed 机制</h3>
+<p>缺槽位时<b>拒绝输出半成品 prompt</b>，明确报"缺少占位符：主色调"。这是它与"字符串模板 replace"的本质区别：宁可报错也不交付残次咒语。</p>
+<h3>④ 分发层</h3>
+<p>Claude Code 把目录放进 <code>~/.claude/skills/</code>、Codex 放 <code>~/.codex/skills/</code>；Cursor/Gemini 用 AGENTS.md + PROTOCOL.md 指规则。参考锚图托管在 Cloudflare Pages，带 SHA-256 校验和本地缓存。</p>
+<div class="svgbox">
+<svg width="720" height="185" viewBox="0 0 720 185">
+  <rect x="30" y="55" width="160" height="75" rx="12" fill="#ffd60a"/>
+  <text x="110" y="84" fill="#5a3d00" font-size="14" text-anchor="middle" font-weight="bold">STYLES.md</text>
+  <text x="110" y="104" fill="#5a3d00" font-size="11" text-anchor="middle">唯一真源 · 23 配方</text>
+  <rect x="270" y="55" width="170" height="75" rx="12" fill="#00b8a9"/>
+  <text x="355" y="82" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">render_prompt.py</text>
+  <text x="355" y="102" fill="#d8fffb" font-size="11" text-anchor="middle">提取 → 路由 → 填槽</text>
+  <rect x="520" y="55" width="170" height="75" rx="12" fill="#7c4dff"/>
+  <text x="605" y="82" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">各宿主入口</text>
+  <text x="605" y="102" fill="#e6dcff" font-size="11" text-anchor="middle">Claude / Codex / Cursor</text>
+  <path d="M190 80 L270 80" stroke="#333" stroke-width="2.5" marker-end="url(#b3)"/>
+  <path d="M440 80 L520 80" stroke="#333" stroke-width="2.5" marker-end="url(#b3)"/>
+  <path d="M110 130 L110 150 L605 150 L605 130" fill="none" stroke="#ef476f" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="357" y="145" font-size="11" text-anchor="middle" fill="#ef476f">check_skill.py 自检：23 配方 / 116 别名 / 23 完整调用（实测 pass）</text>
+  <defs><marker id="b3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q4</div>
+<h2>关键术语都是什么意思？</h2>
+<table>
+<tr><th>术语</th><th>一句话解释</th></tr>
+<tr><td><b>配方 (recipe)</b></td><td>一段成品级 prompt 模板，含槽位，存于 STYLES.md 代码块</td></tr>
+<tr><td><b>画风编号 / 别名</b></td><td>每套配方的路由键：1~23 编号 + 中文名 + 英文别名共 116 个</td></tr>
+<tr><td><b>槽位 / 占位符</b></td><td>配方里的变量，如【主体】【主色调】【文字】，渲染时必填</td></tr>
+<tr><td><b>负向清单（严禁段）</b></td><td>配方尾部"严禁：照片写实、3D……"段，压住模型的默认倾向</td></tr>
+<tr><td><b>锚图 (anchor)</b></td><td>画风 3.1/19/20/22 需要的参考图，作为风格基准而非内容来源</td></tr>
+<tr><td><b>JSON 调用包</b></td><td>需锚图的画风输出结构化 JSON（含 content-source / style 锚点分工）</td></tr>
+<tr><td><b>fail-closed</b></td><td>缺槽位/未知画风时拒绝输出，报错指向具体缺失项</td></tr>
+</table>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q5</div>
+<h2>23 种画风都有什么？怎么选？</h2>
+<p><span class="big">一张"风格光谱"：从极简到繁复、从单色到彩色、从平面到材质。</span></p>
+<table>
+<tr><th>编号</th><th>画风</th><th>一句话气质</th><th>特殊要求</th></tr>
+<tr><td>1</td><td>极简黑白线条漫画</td><td>几笔画完一个故事</td><td>—</td></tr>
+<tr><td>2</td><td>蜡笔儿童画</td><td>5 岁小孩故意画"丑"</td><td>—</td></tr>
+<tr><td>3</td><td>吉卜力水彩</td><td>温柔通透动画水彩</td><td>—</td></tr>
+<tr><td>3.1</td><td>吉卜力标题卡</td><td>带准确标题字的标题画面</td><td>需锚图+标题词</td></tr>
+<tr><td>8</td><td>写意水墨</td><td>墨分五色、留白空灵</td><td>—</td></tr>
+<tr><td>9</td><td>复古像素画</td><td>8-bit 精灵图、棋盘抖动</td><td>需主色调</td></tr>
+<tr><td>13</td><td>北欧剪纸</td><td>对称镂空纸艺</td><td>—</td></tr>
+<tr><td>22</td><td>朱红水墨转绘</td><td>给照片换水墨魂</td><td>需源图+锚图</td></tr>
+<tr><td>23</td><td>皮影彩染</td><td>非遗皮影质感</td><td>注明 DAAI 灵感来源</td></tr>
+</table>
+<div class="tipbox">选择方式有三种：直接报编号（<code>--style 9</code>）、报中文名、报英文别名（<code>--style ink-wash</code>）。<code>--list</code> 输出全部菜单 JSON，<code>--catalog</code> 只读查询带选型说明。</div>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>它和已有概念是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本项目中的体现</th></tr>
+<tr><td>[[PromptAsCode提示词即代码]] / [[图像提示八要素]]</td><td>直接落地：配方=槽位化代码资产，负向清单=官方八要素"负向排除"的批量实践</td></tr>
+<tr><td>[[AgentSkills技能包]]</td><td>本项目就是一件 Skill：SKILL.md 入口 + 分层按需加载（[[分层按需加载]]）</td></tr>
+<tr><td>[[质检Gate与自我纠错循环]]</td><td>fail-closed 缺槽报错 + check_skill.py 自检 = 交付前的确定性 Gate</td></tr>
+<tr><td>[[确定性脚本]]</td><td>render_prompt.py 零依赖、纯标准库：同输入同输出，配方不可能被"即兴发挥"</td></tr>
+<tr><td>[[修改与约束分离]]</td><td>转绘画风（22）"原图管内容、锚图管风格"正是该原则的结构化</td></tr>
+<tr><td>[[转绘]]（xxd-panel）</td><td>画风 22/3.1 是它的工程化工具链版</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q7</div>
+<h2>实测：一条配方到底长什么样？</h2>
+<p>以水墨风（ink-wash）为例，本机真实渲染输出（节选）：</p>
+<pre><code>中国传统写意水墨画,画在生宣纸上,纯手绘毛笔笔触,不是数字插画、不是照片。
+主体:一只鸟停在细枝上。
+用墨:以黑墨为主,讲究"墨分五色"——焦、浓、重、淡、清并存……
+留白:大量空白宣纸作为画面主体,疏可走马、密不透风……
+点睛:画面一角一枚小小的朱红方形印章。
+严禁:照片写实、3D、数字矢量、均匀灰度滤镜、平滑渐变……</code></pre>
+<p>观察配方的三段式结构：<b>① 身份断言</b>（"是……不是……"先立边界）→ <b>② 工艺细节</b>（用墨/笔法/留白，给模型可执行的视觉词汇）→ <b>③ 严禁清单</b>（压住模型的照片写实默认倾向）。<span class="hl">这就是"为什么别人的提示词比你的管用"的全部秘密。</span></p>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q8</div>
+<h2>它的边界在哪？什么情况下不好用？</h2>
+<ul>
+<li><b>不生图</b>：它没有图像生成能力，输出要接你自己的工具；</li>
+<li><b>锚图依赖外网</b>：画风 3.1/19/20/22 的参考图托管在 Cloudflare Pages，离线环境不可用；</li>
+<li><b>轻量化包可能落后 main</b>：官方 hand-drawn-skill.zip（≤1MiB）明确注明"可能落后于 main 分支"；</li>
+<li><b>README 与 About 描述不一致</b>：侧边栏仍写"5 种画风"而实际 23 种——小项目常见的文档漂移，选用时以 STYLES.md 真源为准；</li>
+<li><b>风格覆盖面</b>：目前以平面手绘/插画风为主，照片级写实、3D 渲染类风格不在射程内。</li>
+</ul>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q9</div>
+<h2>模型无关宣称可信吗？跨模型一致性怎么理解？</h2>
+<p>原始推文称它"跨 MJ/Nanobanana/GPT Image 模型一致性调试"，意为配方在多家图像模型上都抽卡验证过，输出<b>文本 prompt 是模型无关的</b>——但"同一 prompt 在不同模型出图效果一致"永远是程度问题，不是承诺。</p>
+<p>工程上的真实含义是：<span class="hl">配方把变量收敛到最小</span>——正文固定（真源提取）、只剩主体/色调等少数槽位由你填。比"每个人自由发挥写 prompt"的一致性强得多，这是"社区配方"相对"个人咒语"的本质优势。实测蜡笔配方的英文开头甚至写了 "NOT made by an artist. It should look clumsy, messy, and 'bad' on purpose"——用<b>身份否定句</b>对抗模型"画得越好越对"的默认优化方向，是跨模型通用的技巧。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>实际怎么装、怎么用？（含本机实测命令）</h2>
+<h3>安装（Claude Code 路线）</h3>
+<pre><code>git clone --depth 1 https://github.com/threerocks/hand-drawn-styles
+# 把目录放进 ~/.claude/skills/hand-drawn-styles/</code></pre>
+<h3>日常三条命令</h3>
+<pre><code># ① 自检（23 配方 / 116 别名 / 23 完整调用）
+python scripts/check_skill.py
+
+# ② 渲染 prompt（编号 / 中文名 / 别名均可）
+python scripts/render_prompt.py --style ink-wash --subject "一只鸟停在细枝上" --aspect 3:4
+
+# ③ 需槽位的配方用 --var 逐个填（缺了会 fail-closed 报错）
+python scripts/render_prompt.py --style pixel-art --subject "一只猫在屋顶" --var 主色调=深蓝</code></pre>
+<div class="okbox"><b>本机实测全部通过</b>：自检 pass；水墨/像素/蜡笔三套配方成功渲染；未知画风与缺槽位均被明确拒绝。详见 <code>hand_drawn_styles\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个项目给我什么能力？</h2>
+<ol>
+<li><b>一张嘴就是 23 种手绘风</b>：给文章配图、给 PPT 画插画，报个编号出成品 prompt；</li>
+<li><b>给自己的项目建"风格配方库"</b>：把自家反复调好的提示词也固化成 STYLES.md 式真源 + 渲染脚本；</li>
+<li><b>学"配方三段式"写法</b>：身份断言→工艺细节→严禁清单，可用于任何图像 prompt 场景；</li>
+<li><b>转绘工作流</b>：画风 22 给照片换水墨/剪纸魂，内容管"画什么"、锚图管"怎么画"（[[转绘]]）；</li>
+<li><b>给 Agent 装"画风技能"</b>：SKILL.md 入口直接装进 Claude Code/Codex，Agent 写图文内容时自动选风格。</li>
+</ol>
+</div>
+
+<!-- 实验 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">动手</div>
+<h2>实验：5 条命令跑通配方库（约 5 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 克隆 + 自检。</b>
+<pre><code>git clone --depth 1 https://github.com/threerocks/hand-drawn-styles repo
+cd repo && python scripts/check_skill.py</code></pre>
+<div class="expect">✅ 预期结果：<code>pass: 23 套配方, 116 个别名, 23 项完整调用</code></div></div>
+<div class="step"><b class="s">步骤 2 ｜ 渲染水墨风。</b>
+<pre><code>python scripts/render_prompt.py --style ink-wash --subject "一只鸟停在细枝上" --aspect 3:4</code></pre>
+<div class="expect">✅ 预期结果：输出含"墨分五色""飞白枯笔""朱红印章""严禁：照片写实……"的完整 prompt。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 触发 fail-closed。</b>
+<pre><code>python scripts/render_prompt.py --style 9 --subject "一只猫在屋顶"</code></pre>
+<div class="expect">✅ 预期结果：<code>render_prompt: 缺少占位符: 主色调</code>——拒绝输出半成品。</div></div>
+<div class="step"><b class="s">步骤 4 ｜ 填槽重跑。</b>
+<pre><code>python scripts/render_prompt.py --style pixel-art --subject "一只猫在屋顶" --var 主色调=深蓝</code></pre>
+<div class="expect">✅ 预期结果：完整英文 prompt——8-bit sprite、硬边像素、8~16 色板、dithering 代替渐变。</div></div>
+<div class="step"><b class="s">步骤 5 ｜ 未知画风报错。</b>
+<pre><code>python scripts/render_prompt.py --style no-such-style --subject x</code></pre>
+<div class="expect">✅ 预期结果：<code>STYLES.md 中不存在画风 no-such-style 的代码块配方</code>。</div></div>
+<div class="okbox"><b>实验结论：</b>真源提取不走样、116 别名全路由、缺槽 fail-closed——"提示词即代码"的最小完整实现。全部命令本机真实执行，日志见 <code>hand_drawn_styles\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>它是"手绘风格提示词的真源库"</b>：STYLES.md 唯一真源 + 渲染脚本机械提取，配方不走样；</li>
+<li><b>配方三段式值得抄</b>：身份断言 → 工艺细节 → 严禁清单，负向锚定对抗模型默认倾向；</li>
+<li><b>fail-closed 是工程质量的分水岭</b>：缺槽宁可报错，不交付残次 prompt；</li>
+<li><b>不生图、锚图依赖外网</b>：边界清醒，它是菜谱不是厨房；</li>
+<li><b>与 [[AgentSkills技能包]]/[[PromptAsCode提示词即代码]] 同族</b>：社区版"提示词资产化"范本。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">hand-drawn-styles 小白指南 · 2026-10-27 · 实测 main@5a2f91f · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+  ✅ T1 十一系统 11/11 + Omnigent=True: Claude Code,Codex CLI,Gemini CLI,Mistral Vibe,OpenHands…
+  ✅ T2 七子系统 7/7 + Table1 最小/最大实现: minimal(mini-swe linear while)=True, maximal(OpenHands event-sourced)=True
+  ✅ T3 双缺席1：无 agentic 框架: 原句命中（含 Gemini CLI 不用自家框架）
+  ✅ T4 双缺席2：无向量代码检索: 原句命中（deterministic retrieval: ripgrep/tree-sitter/glob）
+  ✅ T5 SKILL.md 9/11 领先 MCP 8/11；ACP 6 系统: 原句命中
+  ✅ T6 Mini-SWE-Agent ~100 行七子系统存在证明: 原句命中（floor is low）
+  ✅ T7 不 benchmark 不排名；13 观察 + 29 模式: 原句命中
+
+核对结果：7/7 通过

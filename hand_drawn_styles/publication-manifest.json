@@ -1,0 +1,37 @@
+{
+  "task_id": "8e674041-e9f2-4aba-be1f-4b614d670696",
+  "topic": "hand-drawn-styles：23 种手绘风格提示词配方库",
+  "project_dir": "hand_drawn_styles",
+  "classification": "开源项目类",
+  "source_urls": [
+    "https://x.com/leo_xiaolei/status/2108021746884579797",
+    "https://github.com/threerocks/hand-drawn-styles"
+  ],
+  "upstream": {
+    "repo": "https://github.com/threerocks/hand-drawn-styles",
+    "commit": "5a2f91f",
+    "license": "MIT",
+    "stars": 2600
+  },
+  "pdf": "hand_drawn_styles/手绘风格配方库-小白指南.pdf",
+  "html": "hand_drawn_styles/hand-drawn-styles-guide.html",
+  "exercise_dir": "hand_drawn_styles/exercise",
+  "experiment_log": "hand_drawn_styles/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/hand_drawn_styles-proposal-pending.md",
+  "deliverables": [
+    "hand_drawn_styles/hand-drawn-styles-guide.html",
+    "hand_drawn_styles/手绘风格配方库-小白指南.pdf",
+    "hand_drawn_styles/exercise/experiment-log.md",
+    "hand_drawn_styles/hand_drawn_styles-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "check_skill.py 输出 pass: 23 套配方, 116 个别名, 23 项完整调用",
+    "render_prompt.py --style ink-wash 渲染出含墨分五色/严禁清单的完整 prompt",
+    "缺槽位 fail-closed：--style 9 未填主色调时报 '缺少占位符: 主色调' 拒绝输出",
+    "未知画风报错：STYLES.md 中不存在画风 no-such-style 的代码块配方",
+    "pixel-art/crayon 补齐 --var 槽位后渲染成功"
+  ],
+  "blocked_items": [
+    "需锚图的画风（3.1/19/20/22）输出 JSON 调用包路径未验证（需下载参考图）"
+  ]
+}

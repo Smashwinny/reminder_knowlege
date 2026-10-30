@@ -40,3 +40,13 @@ tags: [概念]
 这补充了 [[多智能体协作]] 与 [[子智能体咨询]] 的分工机制，不把分工本身当作授权；执行边界仍需 [[沙箱与审批正交]] 和 [[代码管边界提示词管判断]]。教学程序仅演示上述有限约束，没有建成手册所述全部企业权限体系，也不是阿里巴巴提供的实现。
 
 来源：[手册印刷 p53 / PDF 58](https://g.alistatic.com/s/v/ainativeinfra/ai-native-handbook/0.0.1/ai-native-handbook.pdf#page=58)；[六步实验日志](../../ai_native_handbook/delivery/ai_native_handbook-experiment-log.md)。
+
+## Harness Engineering 论文：七子系统与双缺席实证（2026-10-09）
+
+[[项目笔记/harness_engineering_paper]]（arXiv:2609.00006）对 11 个生产级 coding harness 做约 400 万行源码解剖，给出七子系统框架：Agent loop、LLM 集成、工具与动作、记忆与上下文、安全与权限、编排、扩展；每部件存在最小到最大实现光谱，缺位也是位置。
+
+两项反直觉实证：语料中没有通用 agentic 框架导入，也没有向量代码检索；生产实现主要采用手写循环与 ripgrep/tree-sitter/glob 等确定性检索。Mini-SWE-Agent 约 100 行即可覆盖七子系统，说明生产差距主要落在安全、恢复、成本、扩展与平台工程，而不是 agent loop 是否存在。
+
+扩展标准方面，论文报告 SKILL.md 为 9/11、MCP 为 8/11，ACP 出现在 6 个系统中。这里是该论文样本内的采用计数，不代表整个生态的永久排名。与 [[工具目录膨胀]]、[[Compaction上下文压缩算法]]、[[工具调用三段式流水线]] 互参。
+
+本机验证仅对论文存档做 7/7 原句断言，未复算 400 万行语料统计，也未独立验证 SWE-bench 成绩。
