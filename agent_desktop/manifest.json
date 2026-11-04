@@ -1,0 +1,40 @@
+{
+  "topic": "agent-desktop：无障碍树、严格元素引用与安全桌面动作",
+  "project_dir": "agent_desktop",
+  "pdf": "agent_desktop/agent_desktop-小白指南.pdf",
+  "html": "agent_desktop/agent_desktop-小白指南.html",
+  "exercise_dir": "agent_desktop/exercise",
+  "experiment_log": "agent_desktop/exercise/results/safe-lab.json",
+  "vault_note": "vault/项目笔记/agent_desktop.md",
+  "knowledge_proposal_dir": "agent_desktop/knowledge_proposal",
+  "source_urls": [
+    "https://x.com/i/status/2117102017990795278",
+    "https://github.com/vercel-labs/agent-desktop",
+    "https://www.npmjs.com/package/agent-desktop"
+  ],
+  "report_path": "完成/分析报告/d207db3d-e6ca-4ef2-b3fb-1b53d7e21f52.md",
+  "experiment_files": [
+    "agent_desktop/exercise/run_safe_lab.py",
+    "agent_desktop/exercise/README.md",
+    "agent_desktop/exercise/results/safe-lab.json"
+  ],
+  "source_revisions": {
+    "agent_desktop": "6660fbac768dc7e7332837b90ed465684859afa3",
+    "npm_package": "agent-desktop@1.1.0",
+    "json_envelope": "2.6"
+  },
+  "verification": {
+    "safe_lab_passed": 5,
+    "desktop_access": "not exercised: version/skills only; two pinned-source contract checks",
+    "real_desktop_actions": false,
+    "pdf_pages": 17,
+    "pdf_extracted_characters": 9557,
+    "pdf_replacement_characters": 0,
+    "question_numbers_present": 15
+  },
+  "limitations": [
+    "未验证真实 AT-SPI 观察或桌面动作",
+    "未验证 MCP 长驻服务、C FFI、macOS/Windows 行为或 Rust 编译",
+    "网站完成由用户本人点击，本清单不修改网站状态"
+  ]
+}

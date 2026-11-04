@@ -1,0 +1,136 @@
+{
+  "schema": 2,
+  "binary": "agent-desktop 1.1.0 / envelope 2.6",
+  "binary_sha256": "e03d67b7e61d358eb62c411376fc7bbd3dc5923cb01131c968f3113c56687bbf",
+  "source_revision": "6660fbac768dc7e7332837b90ed465684859afa3",
+  "desktop_access": "not exercised: only version/skills CLI branches execute; adapter-bound commands are forbidden by the harness",
+  "executed_cli_commands": [
+    "version",
+    "skills get desktop",
+    "skills get platform"
+  ],
+  "forbidden_cli_commands": "all snapshot/status/action/window/input/clipboard commands",
+  "environment_note": "session variables are removed only as defense in depth, not as proof of desktop isolation",
+  "state_root": "exercise/state (mode 0700)",
+  "checks": [
+    {
+      "kind": "cli",
+      "arguments": [
+        "version"
+      ],
+      "exit_code": 0,
+      "envelope": {
+        "version": "2.6",
+        "ok": true,
+        "command": "version",
+        "data": {
+          "os": "linux",
+          "target": "x86_64",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "kind": "cli",
+      "arguments": [
+        "skills",
+        "get",
+        "desktop"
+      ],
+      "exit_code": 0,
+      "envelope": {
+        "version": "2.6",
+        "ok": true,
+        "command": "skills",
+        "data": {
+          "content": {
+            "characters": 6997,
+            "sha256": "ac02fcd45fa931b87fe02316641261716d1df5135d54ec7f9d305705cbf6972a"
+          },
+          "full": false,
+          "skill": "agent-desktop"
+        }
+      }
+    },
+    {
+      "kind": "cli",
+      "arguments": [
+        "skills",
+        "get",
+        "platform"
+      ],
+      "exit_code": 0,
+      "envelope": {
+        "version": "2.6",
+        "ok": true,
+        "command": "skills",
+        "data": {
+          "content": {
+            "characters": 17209,
+            "sha256": "32f2940827bcfc8704ce8d1db0e669c610160a5a0b92c15b57e7bb70db7bddf9"
+          },
+          "full": false,
+          "skill": "agent-desktop-linux"
+        }
+      }
+    },
+    {
+      "kind": "pinned_source",
+      "check": "snapshot-qualified refs and pre-action ordering",
+      "files": [
+        {
+          "path": "crates/core/src/refs/ref_token.rs",
+          "sha256": "f0ad2c55c4d9a86016463bf84dc175f85bb682d2769985e5ed1c1a7daae8e861",
+          "matched_markers": [
+            "ref_id.strip_prefix('@')",
+            "rsplit_once(\":e\")",
+            "validate_snapshot_id(snapshot_id)?;",
+            "if !is_local_ref(&local_ref)"
+          ]
+        },
+        {
+          "path": "src/main.rs",
+          "sha256": "10fb737d923bebbb58392b3e7354b6add8b110db2b62b27f64926b9152e0c735",
+          "matched_markers": [
+            "adapter.permission_report(deadline)",
+            "command_policy::preflight(&cmd, &report)?;"
+          ]
+        },
+        {
+          "path": "crates/linux/src/system/permissions/mod.rs",
+          "sha256": "55507e4fb13b6b2f4b21a283b39478b748ca5322e408b9e370a66719868d0cd6",
+          "matched_markers": [
+            "bus",
+            "probe_registry"
+          ]
+        }
+      ],
+      "passed": true
+    },
+    {
+      "kind": "pinned_source",
+      "check": "headless policy and retry semantics",
+      "files": [
+        {
+          "path": "crates/core/src/actions/interaction_policy.rs",
+          "sha256": "f192b6dbafaa83eac9e92cf864bc02cb5e2c903c0606f27726b981609b991acc",
+          "matched_markers": [
+            "allow_focus_steal: false",
+            "allow_cursor_move: false"
+          ]
+        },
+        {
+          "path": "crates/core/src/actions/delivery_semantics.rs",
+          "sha256": "9959b0856f2d20dcfe42d40b13424924020894cd34e8dee50bd8aaa781d02ae4",
+          "matched_markers": [
+            "Self::NotDelivered => RetryDisposition::Safe",
+            "Self::Unknown => RetryDisposition::Unknown",
+            "RetryDisposition::Unsafe"
+          ]
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "passed": 5
+}
