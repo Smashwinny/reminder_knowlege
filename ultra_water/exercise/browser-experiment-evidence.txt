@@ -1,0 +1,32 @@
+Ultra-Water 浏览器实测观察
+观察者：本轮协调者 Codex；使用 CUA Chrome UI，实际打开本机 http://127.0.0.1:5187/。
+观察日期：2026-11-11 01:00–01:04 Asia/Shanghai。
+固定上游：30ea65ecb0a66b137aa200d099965634bdd84d51。
+启动：npm.cmd run dev -- --host 127.0.0.1 --port 5187 --strictPort（项目 repo 目录）。Vite 服务已实际启动。
+UI显示设备 NVIDIA GeForce RTX 4070，1660×1053，4×MSAA，desktop profile。
+
+视觉 A/B：
+1. 默认 Lagoon、Water/caustics=1：实际截图清晰显示水面、浅水沙底、细密网状亮焦散。
+2. 仅把 Water/caustics 输入框置0并按Enter；再次读取DOM值为0。下一帧截图沙底网状亮焦散消失，波浪和沙纹仍在。
+3. caustics恢复1，进入下一次渲染。选择camera=Underwater并核对选项：实际截图显示蓝绿色水下雾、底部焦散和水中物体轮廓。
+所有截图均在本轮工具返回中实际观察；本记录不冒称截图已保存为本地文件。A/B期间时间继续流动，不是同一模拟时刻的像素差分，也不是物理精度验证。
+
+项目自带 Run benchmark 实际点击一次（Lagoon，caustics恢复1，1660×1053，4×MSAA）：
+按钮先变Benchmarking…禁用，后恢复Run benchmark。
+UI原始结果：benchmark 2.38 ms/frame = 420 fps (GPU 2.34 ms)
+floatShadow 0.001 ms
+sim.evolve 0.005 ms
+sim.fft 0.162 ms
+sim.assemble 0.096 ms
+caustics 0.090 ms
+query 0.002 ms
+reflection 0.043 ms
+opaque 0.487 ms
+water 1.300 ms
+post 0.154 ms
+这是项目内置暂停常规循环、连续推进300帧/300帧方式的一次UI报告；非多轮统计，不是显示器实际FPS或跨设备性能保证。后台普通HUD约1FPS，不能把后台调度值当GPU真实吞吐。未另做驱动/热状态校准或全场景计时。
+新建实验页的受控日志读取返回warn/error空列表；早先标签曾看到着色器精度警告，未据此声明所有浏览器均无警告。
+
+范围：安装、构建、CPU数值检查、浏览器渲染与可见单参数效果已验证；GPU像素正确性、256×1024图集隔离、MRT/fp16数值误差及跨硬件性能未验证。
+
+源码复核补充：main.js454–475暂停常规循环后，20预热帧与300测量帧均renderFrame(1/200)，模拟继续推进；不是冻结同一场景时刻。gpuTimer.drain未独立重查disjoint，本轮也未独立捕获该状态。

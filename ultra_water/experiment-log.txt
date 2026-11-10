@@ -1,0 +1,171 @@
+Ultra-Water 本地实验日志
+========================
+执行者：本地 claude_kimi worker（非协调者）
+工作目录：F:/reminder/ultra_water
+上游：https://github.com/Humpalumps/Ultra-Water
+固定 commit：30ea65ecb0a66b137aa200d099965634bdd84d51
+记录时区：命令中的 +08:00；Node 脚本 ISO 时间为 UTC（Z）
+边界：未领取/释放任务；未改共享 vault、Git 索引/分支/提交、Reminder 数据库、凭据或日程；未启动子 agent、长期服务器或浏览器；未生成 PDF。
+
+[1] 规范、资料与源码读取
+------------------------
+已读取 F:/reminder/AGENTS.md、CLAUDE.md、tools/shiyi_worker_guide.md、learn-project SKILL、Grok 研究及之前 kimi-research.json。
+已读取上游 README、package.json、package-lock、LICENSE、THIRD_PARTY_NOTICES、vite.config、index.html、main.js、OceanSim.js、OceanSurface.js、WaterQuery.js、gpuTimer.js、fullscreen.js。
+已只读查重 Three.js与场景图、先量后优化性能法、证据优先质检ProofOverClaims；知识仅写项目内提案。
+
+[2] 环境和 commit（退出码 0）
+----------------------------
+时间：2026-11-10T23:19:54+08:00
+命令：node --version
+真实输出：v24.21.0
+命令：npm --version
+真实输出：11.19.0
+命令：git -C repo rev-parse HEAD
+真实输出：30ea65ecb0a66b137aa200d099965634bdd84d51
+判定：与期望固定版本完全一致。
+
+[3] 锁定依赖安装（退出码 0）
+---------------------------
+开始：2026-11-10T23:21:07+08:00
+命令：npm ci --ignore-scripts --no-audit --no-fund
+真实输出摘要：added 17 packages in 8s
+结束：2026-11-10T23:21:16+08:00
+退出码：0
+补充命令：npm ls --depth=0
+真实输出：lil-gui@0.21.0；three@0.186.1；vite@8.3.5
+补充退出码：0
+未执行 npm audit fix、全局安装或永久环境变量设置。
+
+[4] 生产构建（退出码 0，有非阻断警告）
+------------------------------------
+开始：2026-11-10T23:21:24+08:00
+命令：npm run build
+真实输出摘要：
+  vite v8.3.5 building client environment for production...
+  32 modules transformed.
+  dist/licenses.md 2.29 kB
+  dist/index.html 2.46 kB (gzip 1.19 kB)
+  dist/THIRD_PARTY_NOTICES.md 2.70 kB
+  dist/assets/index-Cr0uBaw7.js 751.48 kB (gzip 206.06 kB)
+  built in 227ms
+警告：主 chunk 超过 500 kB；未阻断，未据此宣称性能通过。
+结束：2026-11-10T23:21:26+08:00
+退出码：0
+文件检查：licenses.md 2293 bytes；THIRD_PARTY_NOTICES.md 2700 bytes；index.html 2468 bytes；主 JS 751489 bytes。
+
+[5] 实验脚本开发中的真实失败（未隐藏）
+------------------------------------
+5a. 首次 Bash heredoc 写入
+结果：shell 在解析阶段报告 unexpected EOF while looking for matching single quote，退出码 2；未创建 exercise 文件。
+处理：改用占位文件 + Edit 工具写入；没有重试绕过任何权限。
+
+5b. 第一次数值运行
+Node 时间：2026-11-10T15:25:51.579Z
+退出码：1
+结果：PASS 01–07；第 08 项失败。
+原因：测试文本锚点期望已展开的 300.0，但原始 JS 模板字符串此处是 ${LOOP.toFixed(1)}。
+处理：从 VM 暴露并读取上游实际展开的 COMMON/EVOLVE_FRAG/FFT_FRAG/ASSEMBLE_FRAG 和常量，再重跑。
+
+5c. 第二次数值运行
+Node 时间：2026-11-10T15:26:23.439Z
+退出码：1
+结果：PASS 01–10；泡沫恢复期望失败。
+真实值/错误期望：0.8 != 0.86。
+原因：练习 oracle 算错。初始 0.16，恢复量 0.7/max(J=0.8,0.5)=0.875/s，最终被 J=0.8 截断。
+处理：把独立期望修正为 0.8；未放宽容差。
+
+5d. 第三次数值运行
+Node 时间：2026-11-10T15:26:35.717Z
+退出码：1
+结果：PASS 01–11；N=4 的 Stockham/DFT 最大误差 12.385678800296827。
+诊断：另跑一维 N=4 对照，Stockham 与普通 DFT 一致；二维差异恰好是 checkerboard 符号。
+原因：独立二维 DFT oracle 漏乘 ASSEMBLE_FRAG 的 (-1)^(x+y) centered-k 反移位。
+处理：给独立 DFT 参考结果乘相同数学反移位，保留单独负对照，未改上游源码、未放宽误差阈值。
+临时 DFT_DEBUG 文件仅用于定位，已删除；失败摘要保留在本日志。
+
+[6] 最终数值验证（退出码 0）
+---------------------------
+命令：node --check exercise/verify-ocean.mjs
+退出码：0
+命令：set -o pipefail && node exercise/verify-ocean.mjs 2>&1 | tee exercise/verification-output.txt
+Node 开始时间：2026-11-10T15:28:31.504Z
+退出码：0
+真实输出：SUMMARY checks=14 status=PASS gpu=NOT_TESTED
+关键数值：
+  atlas=[256,1024]
+  cascadeTexelMetres=[2.34375,0.33203125,0.046875,0.008203125]
+  cascadeCuts=[0.44351896285973547,3.141592653589793,17.951958020513104]
+  fftStagesPerFrame=16
+  jonswapDefault alpha=0.00922769519522109, peakOmega=1.013664848341946
+  N=4 DFT max complex error=3.9533917949896255e-15
+  N=8 DFT max complex error=1.724530548492318e-14
+  pack2 reconstruction error=7.549516567451064e-15
+  Hermitian imaginary max=8.118657102639939e-15
+边界输出：零/负风速或 fetch 至少一个 JONSWAP 参数非有限；JSON 输出中的 null 是 NaN/Infinity 序列化结果，不是有效数值 0。
+证据范围：直接执行上游 JS + CPU 解释 GLSL 算术 + 独立 DFT；不是官方测试套件，不是 GPU 通过。
+
+[7] 最终状态与 SHA-256
+---------------------
+命令：git -C repo status --short
+真实输出：空（退出码 0）；没有上游 tracked 文件改动。node_modules/dist 按上游规则忽略。
+
+上游文件：
+1aedd7418cf9b2dc17be08542cd0d5072ea976f6e74f2a68432d7449f494c368  repo/README.md
+1bd2b124cfc771d2b208b17523261cfdf80de54bbdc8396089c3e17310ab1fd4  repo/package.json
+88c4c5e93fefdbd4af399b4933a4cf4b52f1e5c1cae9df74d801d27470bcee8c  repo/package-lock.json
+33ba3838cbb4a91459cd59217829e2979605720699ae610a7c0d1bf2f687dd90  repo/LICENSE
+54a25ee55f3a5f0d649cdb1f920405e8eda871223d1575078d0bdc7f9a8808a7  repo/THIRD_PARTY_NOTICES.md
+1220ee1f81224718c20e2710b997bf699d2a5f9837dca76e60742b66724a756d  repo/src/water/OceanSim.js
+bcedec8d1be4ec572723026735eeb9a93940027d032ec06235bca6a51c307c24  repo/src/water/OceanSurface.js
+0997036f78e3509693a170988714718de5618938f5a40f3fa86f2c8b3b1e12f3  repo/src/water/WaterQuery.js
+5c646c919b7ebfe0dc8873ee22534d498311b78c213b4e6c3ddaea426241b7bb  repo/src/engine/gpuTimer.js
+dd2eda5494c8b02c71e7a909dd4953ad02565f45d6a878f60dc9ced4a923b610  repo/src/main.js
+
+实验与构建文件：
+ba679c5cf42315dbd07ba074e6d5a71051dcd6bd4db6242509b9fbed54755f99  exercise/verify-ocean.mjs
+625f49e69e32a149d98e169577840235731aedbc02aba05f16e5461b901f2ecc  exercise/verification-output.txt
+756bbc08e252c638aff505fe3b6b2b421c2ac83dde63ac33abae74ccfaf14aed  repo/dist/index.html
+3a4ca1c1777a8bbf02b0b25d0869001af846cf55e028205fffcc7ba51895966e  repo/dist/licenses.md
+54a25ee55f3a5f0d649cdb1f920405e8eda871223d1575078d0bdc7f9a8808a7  repo/dist/THIRD_PARTY_NOTICES.md
+9f73fdb1c1a0caacc42c703790ffd0f271d49361acda6d0d92fd4b161c544e19  repo/dist/assets/index-Cr0uBaw7.js
+
+[8] 明确未执行/待协调者
+----------------------
+未运行 npm run dev，未监听 5187；准确启动命令已写入 exercise/README.md。
+未做浏览器视觉、控制台、WebGL 扩展、shader、GPU timer、FPS、截图、PDF 或独立 review。
+记录整理时间：2026-11-10T23:29:30+08:00 之后；状态仅为本地安装/构建/CPU 数值实验完成，完整学习未完成。
+
+
+[协调者补充：实际浏览器实验]
+Ultra-Water 浏览器实测观察
+观察者：本轮协调者 Codex；使用 CUA Chrome UI，实际打开本机 http://127.0.0.1:5187/。
+观察日期：2026-11-11 01:00–01:04 Asia/Shanghai。
+固定上游：30ea65ecb0a66b137aa200d099965634bdd84d51。
+启动：npm.cmd run dev -- --host 127.0.0.1 --port 5187 --strictPort（项目 repo 目录）。Vite 服务已实际启动。
+UI显示设备 NVIDIA GeForce RTX 4070，1660×1053，4×MSAA，desktop profile。
+
+视觉 A/B：
+1. 默认 Lagoon、Water/caustics=1：实际截图清晰显示水面、浅水沙底、细密网状亮焦散。
+2. 仅把 Water/caustics 输入框置0并按Enter；再次读取DOM值为0。下一帧截图沙底网状亮焦散消失，波浪和沙纹仍在。
+3. caustics恢复1，进入下一次渲染。选择camera=Underwater并核对选项：实际截图显示蓝绿色水下雾、底部焦散和水中物体轮廓。
+所有截图均在本轮工具返回中实际观察；本记录不冒称截图已保存为本地文件。A/B期间时间继续流动，不是同一模拟时刻的像素差分，也不是物理精度验证。
+
+项目自带 Run benchmark 实际点击一次（Lagoon，caustics恢复1，1660×1053，4×MSAA）：
+按钮先变Benchmarking…禁用，后恢复Run benchmark。
+UI原始结果：benchmark 2.38 ms/frame = 420 fps (GPU 2.34 ms)
+floatShadow 0.001 ms
+sim.evolve 0.005 ms
+sim.fft 0.162 ms
+sim.assemble 0.096 ms
+caustics 0.090 ms
+query 0.002 ms
+reflection 0.043 ms
+opaque 0.487 ms
+water 1.300 ms
+post 0.154 ms
+这是项目内置暂停常规循环、连续推进300帧/300帧方式的一次UI报告；非多轮统计，不是显示器实际FPS或跨设备性能保证。后台普通HUD约1FPS，不能把后台调度值当GPU真实吞吐。未另做驱动/热状态校准或全场景计时。
+新建实验页的受控日志读取返回warn/error空列表；早先标签曾看到着色器精度警告，未据此声明所有浏览器均无警告。
+
+范围：安装、构建、CPU数值检查、浏览器渲染与可见单参数效果已验证；GPU像素正确性、256×1024图集隔离、MRT/fp16数值误差及跨硬件性能未验证。
+
+源码复核补充：main.js454–475暂停常规循环后，20预热帧与300测量帧均renderFrame(1/200)，模拟继续推进；不是冻结同一场景时刻。gpuTimer.drain未独立重查disjoint，本轮也未独立捕获该状态。
