@@ -1,0 +1,22 @@
+{
+  "evidence/purge-current/package.json": "f0362f4a12ddb107a0d78443653040dfb4966b0d9a713ead65dbda88927f17c7",
+  "evidence/purge-current/LICENSE": "b32f2a249e149a652cf298e65d30e30067ac0c32ff8088b130394878fbcd220f",
+  "evidence/purge-current/test/pi-purge.test.mjs": "8dc841e6854a4bbc98a025256f7a4517d637c38c80eba15dfe01ed107c5d2835",
+  "evidence/purge-current/test/pi-purge-env-source.test.mjs": "a01d583347a382dcde954e97d307533da005d360f5aef2274dbeeb57fef8400c",
+  "evidence/purge-current/extensions/pi-purge.ts": "29c4ed6e83ef35c4b007c5a98c916355955a6c81b03ecc301a26a544b25858a9",
+  "evidence/purge-post/package.json": "1baac591a2fe1406c0eeccccdf6417a70ac41e40039373d46c9d205932af435b",
+  "evidence/purge-post/LICENSE": "b32f2a249e149a652cf298e65d30e30067ac0c32ff8088b130394878fbcd220f",
+  "evidence/purge-post/extensions/pi-purge.ts": "5bb815a368a262c43c6f1444ea273d4caae988deaaaa13fd8e7f2a7de2141183",
+  "evidence/pi-0842/LICENSE": "0457f5bcec3b3b211605dfb5d1a49042fd638f3686a410fe099c24a25af13c48",
+  "evidence/pi-0842/packages/coding-agent/package.json": "820f4adc6d61f2cefbc29ce17e9dfd9aa482248d54be5d0dfa2a868ca000c7b0",
+  "evidence/pi-0842/packages/coding-agent/src/core/agent-session.ts": "c83f43205f0b0ef014a383b4969f2bce112a8b4280f6e9f889eeae0d7e02ec2e",
+  "evidence/pi-0842/packages/coding-agent/src/core/system-prompt.ts": "e8b06a0f093c83fd7660a3eae331d5f8ee917702763b1e5044f5c5306e9c1d00",
+  "evidence/pi-0842/packages/coding-agent/src/core/extensions/types.ts": "731ef884151310fdb5216845be2a0d4a4b2acd0e985529c5cbbc7528405de821",
+  "evidence/pi-0842/packages/coding-agent/src/core/extensions/runner.ts": "071a6609afa6aeffa74e485b66474076bd7d70c14503804591ce79739100756c",
+  "evidence/pi-latest/LICENSE": "0457f5bcec3b3b211605dfb5d1a49042fd638f3686a410fe099c24a25af13c48",
+  "evidence/pi-latest/packages/coding-agent/package.json": "18b422b7d80f2caa2551d253c0a8409e1caa54b954bfb7d18252e507bb8a0318",
+  "evidence/pi-latest/packages/coding-agent/src/core/agent-session.ts": "dea73f4df16b15c927a4cb6b35ad7a3f9738232acb2d48473f0497f360fda6fe",
+  "evidence/pi-latest/packages/coding-agent/src/core/system-prompt.ts": "eef891d637974d09a6611d33e52d66d5f2a93d6e9512259ba45f593c42143617",
+  "evidence/pi-latest/packages/coding-agent/src/core/extensions/types.ts": "174549078f95dddd70e656c4eb54f73e0f75782af6a971cf6dc2ee622fa0917c",
+  "evidence/pi-latest/packages/coding-agent/src/core/extensions/runner.ts": "6e305286a99c0364f58dfc89008b5d858363b3f38eb8c93686c3de5bd6b42475"
+}

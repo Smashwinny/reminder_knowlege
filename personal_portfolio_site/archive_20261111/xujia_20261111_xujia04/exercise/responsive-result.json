@@ -1,0 +1,21 @@
+{
+  "mode": "responsive",
+  "samples": [
+    {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "cards": 3
+    },
+    {
+      "viewport": 768,
+      "scrollWidth": 768,
+      "cards": 3
+    },
+    {
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "cards": 3
+    }
+  ],
+  "errors": []
+}

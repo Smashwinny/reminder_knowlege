@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "vitest": "4.1.12",
+    "@silvia-odwyer/photon": "0.3.3",
+    "diff": "8.0.4",
+    "@anthropic-ai/sdk": "0.129.0",
+    "@aws-sdk/client-bedrock-runtime": "3.1127.0",
+    "@google/genai": "2.21.0",
+    "@smithy/node-http-handler": "4.12.1",
+    "http-proxy-agent": "9.1.0",
+    "https-proxy-agent": "9.1.0",
+    "openai": "7.19.0",
+    "partial-json": "0.1.7",
+    "quickjs-wasi": "3.6.2"
+  }
+}

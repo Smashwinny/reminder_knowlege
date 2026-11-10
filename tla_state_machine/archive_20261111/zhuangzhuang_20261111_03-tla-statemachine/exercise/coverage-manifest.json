@@ -1,0 +1,18 @@
+{
+  "baseline_type": "云端scratch无Git提交，使用内容哈希；不要把pstack源SHA当合成订单同步提交",
+  "files": {
+    "order_reference.py": "cb535278607600917e651efc215d2f5940922531135290b457734b5227217bd7",
+    "models/OrderCore.tla": "7059c1d9fa7f8468670e8815f517dfb7d5577af84ae9f060725064576039097d",
+    "models/OrderBug.tla": "14cb414b416fbf825c6f2257dd69ba8b61b1ca60f27d128a812826d8d198af35",
+    "models/OrderFixed.tla": "93966fc22cbb9c75bebbfea4218214c5bb8c3bd198da310e63515a13906cefa5",
+    "models/OrderMany.tla": "ee8115d4c99ade4c2ddccad0ea9b610868adfe64f51e5f649ea7371433f4dc4f",
+    "run_labs.py": "4535a0b98915a02ec0af27c6f3be280f78e330010486b94fbf117ae8b77d1d45"
+  },
+  "assumptions": [
+    "单步原子读写",
+    "发货后不允许退款；此限制在bug/fixed完全一致",
+    "单一币种/金额抽象为布尔paid",
+    "无网络、真实支付或数据库",
+    "多订单互相独立，无库存共享、重试次数或消息队列"
+  ]
+}

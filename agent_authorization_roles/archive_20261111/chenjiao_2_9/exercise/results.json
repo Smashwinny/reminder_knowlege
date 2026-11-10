@@ -1,0 +1,22 @@
+[
+  {
+    "command": "python3 exercise/lab.py prepare",
+    "output": "{\"owns\": \"公开资料对比报告\", \"inputs\": [\"三条公开资料\"], \"may\": [\"read\", \"draft\"], \"must_ask\": [\"send\", \"delete\"], \"done\": [\"来源齐全\", \"缺口明确\"]}\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py gate",
+    "output": "{'read': 'allow', 'draft': 'allow', 'send': 'park', 'delete': 'park', 'unknown': 'park'}\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py binding",
+    "output": "changed_parameters=rejected replay=rejected; external_sent=0 (local token simulation only)\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py probation",
+    "output": "5 clean + rollback => eligible; failure/no rollback => denied; 0.8^5= 0.3276800000000001\n",
+    "exit": 0
+  }
+]

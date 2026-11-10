@@ -1,0 +1,30 @@
+[
+  {
+    "name": "成功命令",
+    "input_hex": "6563686f205245414c5f4f4b0a",
+    "output_repr": "b'echo REAL_OK\\r\\n\\x1b]133;C\\x07REAL_OK\\r\\n\\x1b]133;D;0\\x07\\x1b]7;file:///workspace/learn-batch/01-elyterminal/exercise/results\\x07\\x1b]2;results\\x07\\x1b]133;A;aid=elyterminal\\x07LAB> \\x1b]133;B\\x07'",
+    "expected_repr": "b'\\x1b]133;D;0\\x07'",
+    "pass": true
+  },
+  {
+    "name": "失败命令",
+    "input_hex": "66616c73650a",
+    "output_repr": "b'false\\r\\n\\x1b]133;C\\x07\\x1b]133;D;1\\x07\\x1b]7;file:///workspace/learn-batch/01-elyterminal/exercise/results\\x07\\x1b]2;results\\x07\\x1b]133;A;aid=elyterminal\\x07LAB> \\x1b]133;B\\x07'",
+    "expected_repr": "b'\\x1b]133;D;1\\x07'",
+    "pass": true
+  },
+  {
+    "name": "切换目录",
+    "input_hex": "6d6b646972202d7020277370616365202520646972273b20636420277370616365202520646972270a",
+    "output_repr": "b\"mkdir -p 'space % dir'; cd 'space % dir'\\r\\n\\x1b]133;C\\x07\\x1b]133;D;0\\x07\\x1b]7;file:///workspace/learn-batch/01-elyterminal/exercise/results/space %25 dir\\x07\\x1b]2;space % dir\\x07\\x1b]133;A;aid=elyterminal\\x07LAB> \\x1b]133;B\\x07\"",
+    "expected_repr": "b'/space %25 dir\\x07'",
+    "pass": true
+  },
+  {
+    "name": "光标编辑",
+    "input_hex": "7072696e74662027454449545f4f4b58271b5b441b5b44040a",
+    "output_repr": "b\"printf 'EDIT_OKX'\\x08\\x08\\x1b[1P'\\x08\\r\\n\\x1b]133;C\\x07EDIT_OK\\x1b]133;D;0\\x07\\x1b]7;file:///workspace/learn-batch/01-elyterminal/exercise/results/space %25 dir\\x07\\x1b]2;space % dir\\x07\\x1b]133;A;aid=elyterminal\\x07LAB> \\x1b]133;B\\x07\"",
+    "expected_repr": "b'EDIT_OK'",
+    "pass": true
+  }
+]

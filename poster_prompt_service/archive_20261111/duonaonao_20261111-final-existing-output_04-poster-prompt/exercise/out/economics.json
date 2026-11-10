@@ -1,0 +1,34 @@
+{
+  "kind": "hypothetical_not_sales",
+  "rows": [
+    {
+      "price": 5,
+      "refund_probability": 0.1,
+      "generation_cost": 0.8,
+      "labor_minutes": 2,
+      "labor_hourly": 30,
+      "fee_assumed": 0,
+      "margin": 2.7
+    },
+    {
+      "price": 5,
+      "refund_probability": 0.1,
+      "generation_cost": 0.8,
+      "labor_minutes": 5,
+      "labor_hourly": 30,
+      "fee_assumed": 0,
+      "margin": 1.2
+    },
+    {
+      "price": 5,
+      "refund_probability": 0.1,
+      "generation_cost": 0.8,
+      "labor_minutes": 10,
+      "labor_hourly": 30,
+      "fee_assumed": 0,
+      "margin": -1.3
+    }
+  ],
+  "gross_claim_arithmetic": 100000,
+  "claim_verified": false
+}

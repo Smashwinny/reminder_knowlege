@@ -1,0 +1,15 @@
+{
+  "groups_passed": 8,
+  "checks": {
+    "matrix_has_four_tools": true,
+    "classic_missing_only_on_esp_emu": true,
+    "raw_rejected": true,
+    "padded_accepted": true,
+    "ptable_three_entries": true,
+    "factory_at_0x10000": true,
+    "magics": true,
+    "gpio_contrast_recorded": true
+  },
+  "python": "3.13.5",
+  "scope": "author-written deterministic checks, not independent audit or upstream tests"
+}

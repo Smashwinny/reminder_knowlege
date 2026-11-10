@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>先卖再开发，别把自述当成单位经济 · 小白指南</title>
+<style>
+:root{
+  --cyan:#06b6d4; --cyan-dark:#0e7490; --blue:#2563eb; --orange:#ea580c;
+  --orange-b:#f97316; --ink:#163044; --bg:#ecfeff; --card:#fff;
+  --soft:#cffafe; --warn:#ffedd5; --warn-ink:#9a3412;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans CJK SC","Microsoft YaHei","PingFang SC",sans-serif;line-height:1.75;font-size:16px}
+.wrap{max-width:880px;margin:0 auto;padding:20px 16px 56px}
+.hero{background:linear-gradient(135deg,#06b6d4 0%,#2563eb 58%,#ea580c 140%);color:#fff;border-radius:22px;padding:36px 28px;margin-bottom:22px}
+.hero .kicker{letter-spacing:.12em;font-size:.85em;opacity:.92}
+.hero h1{font-size:2.05em;line-height:1.3;margin:8px 0 12px}
+.hero .sub{font-size:1.05em;opacity:.96}
+.badge{display:inline-block;background:#ffedd5;color:#9a3412;font-weight:900;border-radius:999px;padding:4px 14px;margin:3px 6px 0 0;font-size:.92em}
+.badge.cyan{background:#cffafe;color:#155e75}
+.key{font-size:1.28em;font-weight:900;background:#fff7ed;color:#9a3412;border-left:10px solid #ea580c;border-radius:12px;padding:16px 18px;margin:18px 0}
+.q{background:var(--card);border-radius:18px;padding:22px 22px 18px;margin:22px 0;border-left:10px solid var(--cyan);box-shadow:0 6px 18px rgba(37,99,235,.08);break-inside:avoid}
+.q h2{margin:0 0 10px;font-size:1.28em;color:#0e7490}
+.q .num{display:inline-block;background:var(--cyan);color:#fff;font-size:1.45em;font-weight:900;border-radius:12px;padding:0 12px;margin-right:8px}
+.q.blue{border-left-color:var(--blue)} .q.blue h2{color:var(--blue)} .q.blue .num{background:var(--blue)}
+.q.orange{border-left-color:var(--orange)} .q.orange h2{color:var(--orange)} .q.orange .num{background:var(--orange)}
+svg.fig{display:block;width:100%;height:auto;margin:12px 0 6px;background:#f0fdff;border-radius:12px}
+.uses,.step{background:#fff;border:2px solid #67e8f9;border-radius:16px;padding:16px 18px;margin:16px 0;break-inside:avoid}
+.step{border-color:#fb923c}
+.step h3{margin:0 0 8px;color:#c2410c}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0f2742;color:#d9f9ff;padding:12px 14px;border-radius:10px;font-size:12.5px;line-height:1.55;font-family:"Noto Sans Mono CJK SC",ui-monospace,monospace}
+.result{background:#e0f2fe;color:#0c4a6e;border:1px solid #38bdf8;border-radius:10px;padding:12px 14px;margin:8px 0}
+.small{font-size:.86em;color:#475569}
+.foot{font-size:.78em;color:#475569;border-top:2px solid #67e8f9;margin-top:14px;padding-top:8px;break-inside:avoid;page-break-inside:avoid}
+h1.sec{break-after:avoid;page-break-after:avoid}
+a{color:#2563eb;overflow-wrap:anywhere}
+h1.sec{font-size:1.6em;color:#0e7490}
+ul.big li{margin:8px 0}
+table{width:100%;border-collapse:collapse;font-size:.95em;margin:8px 0 4px}
+th,td{border:1px solid #a5f3fc;padding:6px 8px;text-align:left}
+th{background:#0891b2;color:#fff}
+td.r,th.r{text-align:right}
+tr:nth-child(even){background:#ecfeff}
+.endblock{break-inside:avoid;page-break-inside:avoid}
+@media print{
+  body{background:#fff}
+  .wrap{max-width:none;padding:0}
+  .hero,.q,.uses,.step,.key{break-inside:avoid}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{size:A4;margin:12mm}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+  <div class="kicker">REMINDER 增量学习 · 第 7 项 · 状态：待验证</div>
+  <h1>先卖再开发，别把自述当成单位经济</h1>
+  <p class="sub">实读黄小木转述帖和旗哥长文，再用带标签的假设跑一个离线漏斗模型。故事里的收入、融资和办公面积全部保持「作者自述」。</p>
+  <span class="badge">待验证</span>
+  <span class="badge cyan">实验 7 步真实跑通</span>
+  <span class="badge cyan">11 项公式测试通过</span>
+</section>
+
+<div class="key">重点：这条学习材料的入口是转述加招募，正文是作者自述。能在云电脑核实的，只有原文读没读到，以及教学模型算得对不对。不能核实的，是店铺、投放、课程、融资和 5000 平场地。</div>
+
+<h1 class="sec">实读结论</h1>
+<ul class="big">
+  <li>入口帖：<a href="https://x.com/ai_xiaomu/status/2110343201995567117">https://x.com/ai_xiaomu/status/2110343201995567117</a>，黄小木 @ai_xiaomu，2026-10-14 20:13:22 Asia/Shanghai（API 时间为 2026-10-14T12:13:22.000Z）。全文 171 字，没有长文正文。</li>
+  <li>被引用长文：<a href="https://x.com/wang_aoqi/status/2110341343134527581">https://x.com/wang_aoqi/status/2110341343134527581</a>，旗哥｜火星Ai @wang_aoqi，2026-10-14 20:05:59 Asia/Shanghai。完整故事在 note_tweet，2469 字，已读完。</li>
+  <li>黄小木把故事概括成「短短 2 年，从负债到融资千万」，并写「私信旗哥」招人接单。这是转述加招募，不是旁证。</li>
+  <li>查重基线 <code>a8674777e18302b8804b137212b1396cbfe5a747</code>（2026-11-04 17:42:58 Asia/Shanghai）。已有闲鱼笔记来自另一位作者的脚本模板副业，本批只补增量，不覆盖旧文。</li>
+</ul>
+
+<h1 class="sec">13 个由浅入深的问题</h1>
+
+<article class="q">
+<h2><span class="num">01</span> 这条学习入口到底是谁的帖、谁的故事？</h2>
+<p>入口是黄小木的短帖，故事是旗哥的长文。两条帖间隔约 7 分 23 秒。旗哥用第一人称写倒闭、闲鱼测试单、投流、合作交付、视频号和融资；黄小木用第三人称概括，并邀请程序员「学习转型 CEO 经验」和「接单子搞钱」。阅读时要先分清叙述者，避免把招募话术当成已经核实的传记。</p>
+<svg class="fig" viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="短帖引用长文">
+  <rect x="16" y="22" width="250" height="76" rx="14" fill="#06b6d4"/>
+  <text x="141" y="54" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">黄小木短帖</text>
+  <text x="141" y="78" text-anchor="middle" fill="#fff" font-size="14">转述 + 招募</text>
+  <path d="M276 60h70" stroke="#2563eb" stroke-width="5" fill="none"/>
+  <polygon points="346,52 368,60 346,68" fill="#2563eb"/>
+  <rect x="380" y="22" width="324" height="76" rx="14" fill="#2563eb"/>
+  <text x="542" y="54" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">旗哥 note_tweet</text>
+  <text x="542" y="78" text-anchor="middle" fill="#fff" font-size="14">2469 字第一人称自述</text>
+</svg>
+<p class="small">依据：S1、S2。读取当日短帖赞 18 / 展示 8079，长文赞 111 / 展示 34039，之后会变。</p>
+</article>
+
+<article class="q blue">
+<h2><span class="num">02</span> 短帖和长文分别说了什么？哪些只是转述？</h2>
+<p>短帖只落了两笔：一条讲 agent 的视频号「爆了以后引来了千万投资」；昆明「5000 平的公司」还有定制需求。长文从 2024 年 10 月公司倒闭、信用卡刷爆写起，经过回老东家攒钱、2025 年初一个人先卖再开发、5 元修图测试、投流、郑州朋友和小林合作、自媒体冷启动、2980 元课程、春节后厨房视频，再到 2026 年 5 月自述获千万投资、租 5000 平、9 月百人线下课和广州 10 个 FDE 交付。短帖里的「短短 2 年，从负债到融资千万」是黄小木的概括，不是长文原句。融资、面积、GMV 在两处都是自述，互相重复也不能当独立证据。</p>
+<svg class="fig" viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="转述不等于旁证">
+  <rect x="20" y="20" width="200" height="80" rx="14" fill="#f97316"/>
+  <text x="120" y="66" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">短帖概括</text>
+  <rect x="260" y="20" width="200" height="80" rx="14" fill="#2563eb"/>
+  <text x="360" y="66" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">长文自述</text>
+  <rect x="500" y="20" width="200" height="80" rx="14" fill="#0e7490"/>
+  <text x="600" y="55" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">独立证据</text>
+  <text x="600" y="78" text-anchor="middle" fill="#fff" font-size="14">本批没有</text>
+</svg>
+</article>
+
+<article class="q orange">
+<h2><span class="num">03</span> 「先卖再开发」具体指什么？</h2>
+<p>长文把两次创业直接对比。第一次「租办公室招员工」，创业半年后倒闭。2025 年初再出发时，「一个人不租房，不招人，先想办法把东西卖出去，再开发」。前期几个月没有收入，但额外成本也几乎只有生活费。这句话的可学之处是<strong>先用可变成本验证有人付钱，再承担固定成本</strong>，不是「先卖再开发就一定能融资」。</p>
+<svg class="fig" viewBox="0 0 720 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="先固定成本 vs 先验证付款">
+  <rect x="16" y="16" width="330" height="100" rx="14" fill="#ea580c"/>
+  <text x="181" y="48" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">路径 A 先铺固定成本</text>
+  <text x="181" y="76" text-anchor="middle" fill="#fff" font-size="14">租办公室 → 招人 → 再找客户</text>
+  <text x="181" y="98" text-anchor="middle" fill="#fff" font-size="14">失败成本高（自述第一次）</text>
+  <rect x="372" y="16" width="330" height="100" rx="14" fill="#06b6d4"/>
+  <text x="537" y="48" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">路径 B 先验证付款</text>
+  <text x="537" y="76" text-anchor="middle" fill="#fff" font-size="14">最小商品 → 成交 → 再扩交付</text>
+  <text x="537" y="98" text-anchor="middle" fill="#fff" font-size="14">固定成本后置（路径主张）</text>
+</svg>
+</article>
+
+<article class="q">
+<h2><span class="num">04</span> 为什么先上架 5 元 AI 修图，而不是直接卖智能体工作流？</h2>
+<p>作者想接智能体工作流定制，「但一直找不到方法，也不知道怎么把东西卖出去」，于是在闲鱼上架「5 块钱帮别人用 AI 修图」的商品，「就是为了把这个接单的流程跑通」。5 元是<strong>最小交易闭环</strong>的试验价格，用来跑通下单、沟通、交付、收款，不是主营产品的定价实验。5 元来自原文自述；成交笔数、退款和工时都没有披露，所以它只能教方法，不能教「5 元就能获客」。</p>
+<svg class="fig" viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="最小交易闭环">
+  <rect x="10" y="28" width="130" height="64" rx="12" fill="#06b6d4"/><text x="75" y="66" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">上架</text>
+  <rect x="155" y="28" width="130" height="64" rx="12" fill="#2563eb"/><text x="220" y="66" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">下单</text>
+  <rect x="300" y="28" width="130" height="64" rx="12" fill="#0e7490"/><text x="365" y="66" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">交付</text>
+  <rect x="445" y="28" width="130" height="64" rx="12" fill="#f97316"/><text x="510" y="66" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">收款</text>
+  <rect x="590" y="28" width="120" height="64" rx="12" fill="#ea580c"/><text x="650" y="66" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">复盘</text>
+</svg>
+</article>
+
+<article class="q blue">
+<h2><span class="num">05</span> 「投流」在故事里起了什么作用？我们能核实投放回报吗？</h2>
+<p>作者写「慢慢地也摸到了店铺曝光的秘诀（就是投流）」，之后用家人账号开了几个同类目店铺，「谈不上矩阵店铺，但还是增加了一些曝光渠道」。原文没有花费、点击、转化或利润。因此「投流让流量上来了」是因果自述，本批不能计算 ROI。家人多店还涉及平台规则，本批不做合规判断，也不设计任何真实投放步骤。</p>
+<svg class="fig" viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="投流缺数据">
+  <rect x="30" y="24" width="200" height="72" rx="14" fill="#2563eb"/><text x="130" y="66" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">有自述「投流」</text>
+  <rect x="260" y="24" width="200" height="72" rx="14" fill="#94a3b8"/><text x="360" y="66" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">无 CPC / CAC</text>
+  <rect x="490" y="24" width="200" height="72" rx="14" fill="#ea580c"/><text x="590" y="66" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">ROI 待验证</text>
+</svg>
+</article>
+
+<article class="q orange">
+<h2><span class="num">06</span> 接单量上来之后，交付是怎么扩容的？风险在哪？</h2>
+<p>作者先自己做，忙不过来就在郑州找朋友合作，并与「AI 破局俱乐部的合伙人小林」合作「有十几万的商单」（自述）。自媒体爆单后，「一个团队合作开发都承载不了」，再找多个开发团队。可学的是<strong>产能先于品牌扩张成为瓶颈</strong>。风险是分成后贡献利润下降、质量和售后口径不统一、固定成本被提前锁死。教学实验里，同一漏斗下交付占比从 0.25 升到 0.55，贡献利润从 ¥13,135.68 降到 ¥6,979.68；当交付占比被故障注入到 1.10，贡献利润变成 −¥4,306.32。</p>
+<svg class="fig" viewBox="0 0 720 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="交付占比升高利润下降">
+  <text x="360" y="22" text-anchor="middle" font-size="14" fill="#0e7490">同一教学漏斗，只改交付成本占比（不是作者账本）</text>
+  <rect x="40" y="40" width="80" height="70" rx="8" fill="#06b6d4"/><text x="80" y="80" text-anchor="middle" fill="#fff" font-size="13">0.25</text>
+  <rect x="160" y="52" width="80" height="58" rx="8" fill="#2563eb"/><text x="200" y="86" text-anchor="middle" fill="#fff" font-size="13">0.55</text>
+  <rect x="280" y="70" width="80" height="40" rx="8" fill="#f97316"/><text x="320" y="94" text-anchor="middle" fill="#fff" font-size="13">0.80</text>
+  <rect x="400" y="86" width="80" height="24" rx="8" fill="#ea580c"/><text x="440" y="103" text-anchor="middle" fill="#fff" font-size="12">1.10</text>
+  <text x="600" y="78" text-anchor="middle" font-size="16" fill="#9a3412" font-weight="700">1.10 时亏损</text>
+  <text x="600" y="100" text-anchor="middle" font-size="14" fill="#9a3412">−¥4,306.32</text>
+</svg>
+</article>
+
+<article class="q">
+<h2><span class="num">07</span> 从闲鱼小单换成自媒体获客，爆款是证据吗？</h2>
+<p>作者「不满足于闲鱼接小订单」，去做视频号 IP「旗哥｜智能体架构师」，做了几个月没有流量，后来报了 don 哥的课，做出「人生中的第一个小爆款」，私信里全是定制需求。春节后一条在厨房起意、穿着围裙录的视频，自述「大概有几十万的曝光」，「直接给我带来了十几万的课程收入，还有很多万元级别的定制商单」，并称投资人因这条视频找到他。这些曝光、收入和因果关系都没有可核验的后台流水；长文所附 3 张图片本批也未做视觉鉴定。爆款是<strong>叙述中的转折</strong>，不是已经质检的证据。</p>
+<svg class="fig" viewBox="0 0 720 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="获客路径变换">
+  <rect x="16" y="22" width="160" height="66" rx="12" fill="#06b6d4"/><text x="96" y="62" text-anchor="middle" fill="#fff" font-size="16">闲鱼小单</text>
+  <rect x="200" y="22" width="160" height="66" rx="12" fill="#2563eb"/><text x="280" y="62" text-anchor="middle" fill="#fff" font-size="16">冷启动</text>
+  <rect x="384" y="22" width="160" height="66" rx="12" fill="#f97316"/><text x="464" y="62" text-anchor="middle" fill="#fff" font-size="16">自述爆款</text>
+  <rect x="568" y="22" width="136" height="66" rx="12" fill="#94a3b8"/><text x="636" y="62" text-anchor="middle" fill="#fff" font-size="16">待验证</text>
+</svg>
+</article>
+
+<article class="q blue">
+<h2><span class="num">08</span> 为什么把交付经验做成 2980 元的课？</h2>
+<p>读书会公益分享之后，有人转红包请他装智能体（自述当时是 Gemini CLI 配中转站 API）。他发现「一次可以给很多人上课，比接商单快多了」，于是把 2025 年企业定制经验抽象成知识付费产品。在低价课和高价课之间，「看到了读书会伙伴的反馈之后，果断开了高价课」，定价 2980，内测两期，再在视频号直播卖课。单位经济上，课程是一次对多人、履约边际较低，但获客成本和退款率会主导结果。教学情景里课程贡献利润率看起来高，只是因为成交率、履约成本和 CPC 都是教学假设，不是作者课表。</p>
+<svg class="fig" viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="接单与课程杠杆">
+  <rect x="30" y="20" width="300" height="80" rx="14" fill="#2563eb"/>
+  <text x="180" y="54" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">定制商单：时间近似线性</text>
+  <text x="180" y="78" text-anchor="middle" fill="#fff" font-size="14">多一单，多一次交付</text>
+  <rect x="390" y="20" width="300" height="80" rx="14" fill="#ea580c"/>
+  <text x="540" y="54" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">课程：一次对多人</text>
+  <text x="540" y="78" text-anchor="middle" fill="#fff" font-size="14">标价 2980 是自述，成本待测</text>
+</svg>
+</article>
+
+<article class="q orange">
+<h2><span class="num">09</span> 「一条视频值几十万」「千万投资」「5000 平」分别是哪类主张？</h2>
+<p>「十几万课程收入 + 万元定制单」是未审计的经营结果自述；「千万投资」是资本项，长文未写轮次、估值、到账和稀释；「昆明呈贡大学城 5A 级写字楼 5000 平、上下三整层」是场地主张，会变成租金等固定成本，但本批没有租约。作者还写「基本上是发一条爆一条」，这是效果主张。黄小木再次转述这些数字，只增加传播，不增加证据等级。这些项目都<strong>不应写入贡献利润公式</strong>——本练习的 <code>unit_economics()</code> 也故意没有融资参数。</p>
+<svg class="fig" viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="三类主张">
+  <rect x="16" y="20" width="220" height="80" rx="14" fill="#f97316"/><text x="126" y="54" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">经营自述</text><text x="126" y="78" text-anchor="middle" fill="#fff" font-size="13">GMV / 课程收入</text>
+  <rect x="250" y="20" width="220" height="80" rx="14" fill="#2563eb"/><text x="360" y="54" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">资本项</text><text x="360" y="78" text-anchor="middle" fill="#fff" font-size="13">千万投资</text>
+  <rect x="484" y="20" width="220" height="80" rx="14" fill="#0e7490"/><text x="594" y="54" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">固定成本主张</text><text x="594" y="78" text-anchor="middle" fill="#fff" font-size="13">5000 平场地</text>
+</svg>
+</article>
+
+<article class="q">
+<h2><span class="num">10</span> 什么是单位经济？CAC 和贡献利润怎么算？</h2>
+<p>单位经济看的是「做成一笔或做完一期之后，扣完直接成本还剩什么」。本实验采用：</p>
+<p><strong>收入 = 成交单数 × 客单价</strong><br>
+<strong>净收入 = 收入 − 退款</strong><br>
+<strong>贡献利润 = 净收入 − 手续费 − 交付成本 − 履约成本 − 流量成本</strong><br>
+<strong>CAC = 流量成本 ÷ 成交单数</strong><br>
+<strong>贡献利润率 = 贡献利润 ÷ 收入</strong></p>
+<p>一次成交的商品，贡献利润大于 0，这一期就回本；订阅制才需要按月回本。GMV 只是还没扣成本的流水，不能代替贡献利润。漏斗则是：展示 × 点击率 = 点击；点击 × 咨询率 = 咨询；咨询 × 成交率 = 成交。</p>
+<svg class="fig" viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="漏斗四层">
+  <polygon points="80,20 640,20 580,50 140,50" fill="#06b6d4"/><text x="360" y="42" text-anchor="middle" fill="#fff" font-size="15">展示</text>
+  <polygon points="140,56 580,56 530,82 190,82" fill="#2563eb"/><text x="360" y="74" text-anchor="middle" fill="#fff" font-size="15">点击 / 咨询</text>
+  <polygon points="190,88 530,88 490,112 230,112" fill="#ea580c"/><text x="360" y="107" text-anchor="middle" fill="#fff" font-size="15">成交 → 贡献利润</text>
+</svg>
+</article>
+
+<article class="q blue">
+<h2><span class="num">11</span> 漏斗哪一层最敏感？为什么必须先给假设贴标签？</h2>
+<p>在「教学保守 / 独自交付」基准上，对价格、成交单数、交付占比、费率、流量成本和退款率做 ±10%、±30% 的单因子扰动。贡献利润变化振幅最大的是<strong>价格和成交单数</strong>（均为 ¥4,210.70），其次是交付占比（¥1,539.00），流量成本只有 ¥270.00。这个排序依赖「其余因子冻结」和当前假设：教学情景里 CPC 仅 ¥1.50、成交率 15%，流量成本本来就不大，所以它看起来不敏感。<strong>不先标明哪些是自述、哪些是教学假设，就会把作者的 50 万 GMV 错当成已经测过的收入。</strong></p>
+<svg class="fig" viewBox="0 0 720 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="敏感分析振幅">
+  <text x="20" y="24" font-size="14" fill="#0e7490">振幅（教学基准，其余冻结）</text>
+  <rect x="160" y="36" width="421" height="16" fill="#ea580c"/><text x="150" y="49" text-anchor="end" font-size="13">价格 / 单数</text>
+  <rect x="160" y="60" width="154" height="16" fill="#f97316"/><text x="150" y="73" text-anchor="end" font-size="13">交付占比</text>
+  <rect x="160" y="84" width="41" height="16" fill="#2563eb"/><text x="150" y="97" text-anchor="end" font-size="13">费率</text>
+  <rect x="160" y="108" width="27" height="16" fill="#06b6d4"/><text x="150" y="121" text-anchor="end" font-size="13">流量成本</text>
+  <rect x="160" y="132" width="22" height="16" fill="#0e7490"/><text x="150" y="145" text-anchor="end" font-size="13">退款率</text>
+</svg>
+</article>
+
+<article class="q orange">
+<h2><span class="num">12</span> 把自述营收直接代入模型，错在哪里？</h2>
+<p>长文写「25 年一整年做了上百单，GMV 大概 50 万」。若把「上百」取下沿 100，粗除客单价是 ¥5,000，现场复核 500000/100 与假设文件一致。但这不是实测客单价：「上百」不是精确计数，也没有退款和成本。本实验把 ¥5,000 仅替换教学漏斗里的客单价，贡献利润变成 ¥22,492.80——这只说明「如果单价更高、成本和转化却仍用教学假设」的算术，<strong>不是对 50 万 GMV 的证实</strong>。融资 ¥10,000,000 更不能加进来。若把「十几万课程收入」取下沿 10 万再按 2980 反推，约合 33.56 份，同样只是演示。</p>
+<svg class="fig" viewBox="0 0 720 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GMV不是利润">
+  <rect x="20" y="20" width="210" height="70" rx="14" fill="#94a3b8"/><text x="125" y="60" text-anchor="middle" fill="#fff" font-size="16">GMV 自述</text>
+  <text x="250" y="64" font-size="28" fill="#ea580c">≠</text>
+  <rect x="290" y="20" width="190" height="70" rx="14" fill="#2563eb"/><text x="385" y="60" text-anchor="middle" fill="#fff" font-size="16">贡献利润</text>
+  <text x="500" y="64" font-size="28" fill="#ea580c">≠</text>
+  <rect x="540" y="20" width="160" height="70" rx="14" fill="#0e7490"/><text x="620" y="60" text-anchor="middle" fill="#fff" font-size="16">融资</text>
+</svg>
+</article>
+
+<article class="q">
+<h2><span class="num">13</span> 若要自己小规模验证，最小实验是什么？</h2>
+<p>不需要打电话给客服、不需要投放、不需要租办公室或签署交付伙伴。最小动作是：做一个能收款的最小商品（哪怕先人工交付），连续记录询价数、成交数、工时、平台扣点和退款，用自己的数字替换 <code>assumptions.json</code>，看单笔贡献是否为正，再决定要不要加投放或找人。复制作者的 50 万、2980 或「千万投资」当输入，实验就失效了。</p>
+<svg class="fig" viewBox="0 0 720 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="最小验证步骤">
+  <rect x="12" y="24" width="160" height="64" rx="12" fill="#06b6d4"/><text x="92" y="62" text-anchor="middle" fill="#fff" font-size="15">最小可售商品</text>
+  <rect x="190" y="24" width="160" height="64" rx="12" fill="#2563eb"/><text x="270" y="62" text-anchor="middle" fill="#fff" font-size="15">记下真实成本</text>
+  <rect x="368" y="24" width="160" height="64" rx="12" fill="#0e7490"/><text x="448" y="62" text-anchor="middle" fill="#fff" font-size="15">算贡献利润</text>
+  <rect x="546" y="24" width="160" height="64" rx="12" fill="#ea580c"/><text x="626" y="62" text-anchor="middle" fill="#fff" font-size="15">再决定扩张</text>
+</svg>
+</article>
+
+<h1 class="sec">可以用来做什么</h1>
+<div class="uses">
+<ul class="big">
+  <li>用带 <code>source</code> 标签的输入，比较测试单、定制单、课程三条轨道的贡献利润，而不是照搬故事数字。</li>
+  <li>把「先验证交易闭环，再承担办公室和团队」当成检查清单，而不是成功学公式。</li>
+  <li>用交付占比的敏感分析和故障注入，判断要不要找交付伙伴。</li>
+  <li>计算最大 CAC 和最小成交率，避免还没测成本就加大投放。</li>
+  <li>把融资、爆款、面积和 GMV 全部标成自述，避免二次传播成「已核实事实」。</li>
+</ul>
+</div>
+
+<h1 class="sec">主实验：带标签的单位经济模型</h1>
+<p>实验在云电脑离线完成，工作目录 <code>/workspace/reminder-batch-2026-11-11/item-7-qige-unit-econ/exercise</code>。执行时间见 experiment-log.md（Asia/Shanghai）。下面每一步的输出都是真实跑出来的。</p>
+
+<div class="step">
+<h3>步骤 1 · 列出全部假设并核验来源标签</h3>
+<p>目的：先打印每条输入的数值和 source，区分作者自述与教学假设。</p>
+<pre>cd /workspace/reminder-batch-2026-11-11/item-7-qige-unit-econ/exercise
+python3 unit_econ.py assumptions</pre>
+<div class="result">真实结果：退出码 0。三类标签均已定义。例如测试商品标价 5 和课程标价 2980 标记为 author_claim；2025 年 GMV 50 万标记为 author_claim；由「上百单 / 50 万」粗除的客单价 5000 标记为 author_claim_derived；点击率、CPC、交付占比等全部标记为 teaching_assumption。融资注明不能纳入经营单位经济。</div>
+<p><b>验证：</b>每条字段都带 source，模型没有接受无标签数字。</p>
+</div>
+
+<div class="step">
+<h3>步骤 2 · 教学保守情景：定制单与课程</h3>
+<p>目的：用教学漏斗跑通贡献利润。展示 20000、点击率 3%、咨询率 8%、定制成交率 15%、课程成交率 4%、CPC ¥1.50、教学客单价 ¥3,000。课程轨道只用自述标价 2980，成本和转化仍是教学假设。</p>
+<pre>python3 unit_econ.py base</pre>
+<div class="result">漏斗：20000 → 点击 600 → 咨询 48 → 定制成交 7.20 / 课程成交 1.92。流量成本均为 ¥900。<br>
+独自交付：收入 ¥21,600.00，贡献利润 <b>¥13,135.68</b>（60.81%），CAC ¥125.00，单笔 ¥1,824.40。<br>
+外包交付（占比 0.55）：贡献利润 <b>¥6,979.68</b>（32.31%），单笔 ¥969.40。<br>
+课程：收入 ¥5,721.60，贡献利润 <b>¥3,663.18</b>（64.02%），CAC ¥468.75。<br>
+结论边界已打印：这些数字只在给定假设下成立，不能证明原帖收入或融资。还要注意：这里的「保守」指不使用自述 GMV，不等于 CPC 和成交率在真实投放里也保守。</div>
+<p><b>验证：</b>人数、成本和利润齐全，且写出了不能证明原帖的边界。</p>
+</div>
+
+<div class="step">
+<h3>步骤 3 · 单因子敏感分析与龙卷风排序</h3>
+<p>目的：在独自交付基准上做 ±10%、±30% 扰动，按贡献利润振幅排序。</p>
+<pre>python3 unit_econ.py sensitivity</pre>
+<div class="result">基准贡献利润 ¥13,135.68。振幅降序：价格 ¥4,210.70，成交单数 ¥4,210.70，交付占比 ¥1,539.00，费率 ¥406.30，流量成本 ¥270.00，退款率 ¥221.62。输出同时说明「其余冻结」不是因果证明。</div>
+<table>
+  <tr><th>因子</th><th class="r">最小变化</th><th class="r">最大变化</th><th class="r">振幅</th></tr>
+  <tr><td>price</td><td class="r">−¥4,210.70</td><td class="r">¥4,210.70</td><td class="r">¥4,210.70</td></tr>
+  <tr><td>n_paid</td><td class="r">−¥4,210.70</td><td class="r">¥4,210.70</td><td class="r">¥4,210.70</td></tr>
+  <tr><td>delivery_cost_ratio</td><td class="r">−¥1,539.00</td><td class="r">¥1,539.00</td><td class="r">¥1,539.00</td></tr>
+  <tr><td>fee_rate</td><td class="r">−¥406.30</td><td class="r">¥406.30</td><td class="r">¥406.30</td></tr>
+  <tr><td>traffic_cost</td><td class="r">−¥270.00</td><td class="r">¥270.00</td><td class="r">¥270.00</td></tr>
+  <tr><td>refund_rate</td><td class="r">−¥221.62</td><td class="r">¥221.62</td><td class="r">¥221.62</td></tr>
+</table>
+<p><b>验证：</b>每个因子 4 个扰动行，排序与日志一致。</p>
+</div>
+
+<div class="step">
+<h3>步骤 4 · 盈亏平衡：最大 CAC 与最小成交率</h3>
+<p>目的：求使贡献利润为零的最大流量成本，以及使贡献利润非负的最小成交率。融资不进入公式。</p>
+<pre>python3 unit_econ.py breakeven</pre>
+<div class="result">定制 / 独自交付：最大流量成本 ¥14,035.68，最大 CAC ¥1,949.40（当前 CAC ¥125.00）；最小成交率 0.9618%（当前教学成交率 15%）。<br>
+课程轨道：最大流量成本 ¥4,563.18，最大 CAC ¥2,376.65，最小成交率 0.7889%。<br>
+日志写明：融资额、办公面积和「一条视频值几十万」不进入盈亏平衡。</div>
+<p><b>验证：</b>临界值与当前值同时给出；资本项被排除。</p>
+</div>
+
+<div class="step">
+<h3>步骤 5 · 自述情景对照（全部未核实）</h3>
+<p>目的：单独列出作者数字，现场复核粗除，并演示错误代入的后果。</p>
+<pre>python3 unit_econ.py narrative</pre>
+<div class="result">GMV ¥500,000.00（author_claim）；订单下沿 100（author_claim_derived）；粗除客单价 ¥5,000.00，现场复核 500000/100 与 JSON 一致为 True。课程收入下沿 ¥100,000.00，反推约 33.56 份。融资 ¥10,000,000.00 标明不能纳入单位经济。把 ¥5,000 仅替换教学漏斗客单价后，贡献利润为 ¥22,492.80——日志同时列出四条理由，说明这不是对 50 万的证实。</div>
+<p><b>验证：</b>除法复核为 True，融资被排除。</p>
+</div>
+
+<div class="step">
+<h3>步骤 6 · 故障注入：交付成本与退款率恶化</h3>
+<p>目的：把成本和退款推到恶化区间，看何时亏损。</p>
+<pre>python3 unit_econ.py stress</pre>
+<div class="result">基准 ¥13,135.68。交付占比 0.80 仍为 +¥1,849.68；退款率 0.30 仍为 +¥9,442.08；两者同时恶化仍为 +¥1,126.08；<b>交付占比 1.10 时贡献利润 −¥4,306.32（亏损）</b>。4 组里 1 组为负。说明未测成本前不能按自述 GMV 扩张外包或投放。</div>
+<p><b>验证：</b>交付占比超过净收入的一组确定亏损。</p>
+</div>
+
+<div class="step">
+<h3>步骤 7 · 公式与标签纪律单元测试</h3>
+<p>目的：用固定合成输入核对公式、负值拒绝、假设标签、自述客单价除法和「融资不能进入函数签名」。</p>
+<pre>python3 -m unittest test_unit_econ.py -v</pre>
+<div class="result">Ran 11 tests in 0.001s。全部 OK。手算用例：10 单 × ¥100、退款 10%、费率 5%、交付 20%、流量 ¥80、履约每单 ¥2，贡献利润 = ¥577.00，与代码一致。</div>
+<p><b>验证：</b>退出码 0，11/11 通过。</p>
+</div>
+
+<section class="endblock">
+<h1 class="sec">待验证与未做事项</h1>
+<ul>
+  <li>闲鱼店铺、投流花费、视频号曝光、课程销量、融资和 5000 平场地：全部待验证。</li>
+  <li>引用帖 3 张图片未做视觉鉴定。</li>
+  <li>教学假设中的点击率、CPC、成交率和成本占比不是市场调查。</li>
+  <li>没有打电话、没有投放、没有改任何计费或安全设置，也没有使用用户密钥。</li>
+  <li>本文和实验由同一批次完成，不是第三方独立审核。</li>
+</ul>
+
+<div class="foot">
+  Reminder 增量学习候选成果 · 第 7 项 · 2026-11-11 Asia/Shanghai · 状态：待验证 · SHA a8674777e18302b8804b137212b1396cbfe5a747 · 日志 experiment-log.md · 代码 exercise.zip<br>
+  来源：S1 <a href="https://x.com/ai_xiaomu/status/2110343201995567117">x.com/ai_xiaomu/status/2110343201995567117</a>
+  · S2 <a href="https://x.com/wang_aoqi/status/2110341343134527581">x.com/wang_aoqi/status/2110341343134527581</a>
+</div>
+</section>
+</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "at": "2026-11-10T17:07:19.577691+00:00",
+  "artifact_sha256": "0427073644b32551b7947cb6ffe3f2c10ae7afab4326e77667eeb8aac230324e",
+  "checks": {
+    "frames": true,
+    "fps": true,
+    "decode": true
+  },
+  "technical_pass": true,
+  "black_candidates": [],
+  "black_review_pending": false,
+  "audio": null,
+  "visual_acceptance": false,
+  "dynamic_review": "pending"
+}

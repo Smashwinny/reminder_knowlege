@@ -1,0 +1,59 @@
+id,name,section,url,url_source,status,final_url,method,ok,error,note,checked_at
+1,沉浸式翻译,市场调研,https://immersivetranslate.com/,official_wellknown,200,https://immersivetranslate.com/en/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+2,AITDK,市场调研,https://aitdk.com/,official_wellknown,200,https://aitdk.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+3,SiteData,市场调研,https://www.sitedata.io/,inferred_from_common_domain,200,https://sitedata.io/,HEAD,True,,原文未给域名，先探测 sitedata.io,2026-11-11 01:15:38 CST（UTC+8）
+4,Similarweb,市场调研,https://www.similarweb.com/,official_wellknown,404,https://www.similarweb.com/,HEAD,False,HTTPError 404,,2026-11-11 01:15:38 CST（UTC+8）
+5,Wayback Machine,市场调研,https://web.archive.org/,official_wellknown,200,https://web.archive.org/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+6,Wappalyzer,市场调研,https://www.wappalyzer.com/,official_wellknown,200,https://www.wappalyzer.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+7,Google Trends,市场调研,https://trends.google.com/,official_wellknown,200,https://trends.google.com/trends/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+8,Exploding Topics,市场调研,https://explodingtopics.com/,official_wellknown,200,https://explodingtopics.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+9,Screaming Frog SEO Spider,SEO,https://www.screamingfrog.co.uk/seo-spider/,official_wellknown,200,https://www.screamingfrog.co.uk/seo-spider/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+10,SEO Minion,SEO,https://seominion.com/,inferred_from_common_domain,200,https://keywordseverywhere.com/seominion/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+11,Semrush,SEO,https://www.semrush.com/,official_wellknown,200,https://www.semrush.com/,GET,True,,,2026-11-11 01:15:38 CST（UTC+8）
+12,Moz Link Explorer,SEO,https://moz.com/link-explorer,official_wellknown,200,https://moz.com/link-explorer,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+13,Ahrefs,SEO,https://ahrefs.com/,official_wellknown,200,https://ahrefs.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+14,（原文缺号）,SEO,,missing_in_article,skipped,,,False,官方长文从13跳到15，没有第14项,官方长文从13跳到15，没有第14项,2026-11-11 01:15:38 CST（UTC+8）
+15,Linkhouse,SEO,https://linkhouse.net/,inferred_from_common_domain,200,https://linkhouse.net/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+16,Collaborator,SEO,https://collaborator.pro/,inferred_from_common_domain,200,https://collaborator.pro/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+53a,Fiverr,SEO,https://www.fiverr.com/,official_wellknown,403,https://www.fiverr.com/,GET,False,HTTPError 403,原文编号写成53，与后文Feedlog冲突,2026-11-11 01:15:38 CST（UTC+8）
+54,Adsy,SEO,https://www.adsy.com/,inferred_from_common_domain,200,https://adsy.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+17,Figma,设计AI演示,https://www.figma.com/,official_wellknown,202,https://www.figma.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+18,Framer,设计AI演示,https://www.framer.com/,official_wellknown,200,https://www.framer.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+19,IconPark,设计AI演示,https://iconpark.oceanengine.com/official,official_wellknown,200,https://iconpark.oceanengine.com/official,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+20,OpenRouter,设计AI演示,https://openrouter.ai/,official_wellknown,200,https://openrouter.ai/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+21,Dify,设计AI演示,https://dify.ai/,official_wellknown,200,https://dify.ai/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+22,Replicate,设计AI演示,https://replicate.com/,official_wellknown,200,https://replicate.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+23,n8n,设计AI演示,https://n8n.io/,official_wellknown,200,https://n8n.io/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+24,Midjourney,设计AI演示,https://www.midjourney.com/,official_wellknown,403,https://www.midjourney.com/,GET,False,HTTPError 403,,2026-11-11 01:15:38 CST（UTC+8）
+25,Ideogram,设计AI演示,https://ideogram.ai/,official_wellknown,200,https://ideogram.ai/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+26,Loom,设计AI演示,https://www.loom.com/,official_wellknown,200,https://www.loom.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+27,Screen Studio,设计AI演示,https://www.screen.studio/,official_wellknown,200,https://screen.studio/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+28,Cloudflare,建站本地化,https://www.cloudflare.com/,official_wellknown,200,https://www.cloudflare.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+29,Vercel,建站本地化,https://vercel.com/,official_wellknown,200,https://vercel.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+30,DeepL,建站本地化,https://www.deepl.com/,official_wellknown,200,https://www.deepl.com/en,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+31,Weglot,建站本地化,https://www.weglot.com/,official_wellknown,200,https://www.weglot.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+32,Lokalise,建站本地化,https://lokalise.com/,official_wellknown,200,https://lokalise.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+33,Stripe,支付合规,https://stripe.com/,official_wellknown,200,https://stripe.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+34,Paddle,支付合规,https://www.paddle.com/,official_wellknown,200,https://www.paddle.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+35,Lemon Squeezy,支付合规,https://www.lemonsqueezy.com/,official_wellknown,200,https://www.lemonsqueezy.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+36,Starryblu,支付合规,https://www.starryblu.com/,inferred_from_common_domain,200,https://www.starryblu.com/,HEAD,True,,原文含推荐码，本实验不使用、不推广该码,2026-11-11 01:15:38 CST（UTC+8）
+37,Termly,支付合规,https://termly.io/,official_wellknown,200,https://termly.io/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+38,Product Hunt,增长获客,https://www.producthunt.com/,official_wellknown,200,https://www.producthunt.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+39,Uneed,增长获客,https://www.uneed.best/,inferred_from_common_domain,200,https://www.uneed.best/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+40,Microlaunch,增长获客,https://microlaunch.net/,inferred_from_common_domain,200,https://microlaunch.net/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+41,BetaList,增长获客,https://betalist.com/,official_wellknown,200,https://betalist.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+42a,Discord,增长获客,https://discord.com/,official_wellknown,200,https://discord.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+42b,Disboard,增长获客,https://disboard.org/,official_wellknown,200,https://disboard.org/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+43,Toolify,增长获客,https://www.toolify.ai/,official_wellknown,403,https://www.toolify.ai/,GET,False,HTTPError 403,,2026-11-11 01:15:38 CST（UTC+8）
+44,There's An AI For That,增长获客,https://theresanaiforthat.com/,official_wellknown,403,https://theresanaiforthat.com/,GET,False,HTTPError 403,,2026-11-11 01:15:38 CST（UTC+8）
+45,Typefully,增长获客,https://typefully.com/,official_wellknown,200,https://typefully.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+46,Beehiiv,增长获客,https://www.beehiiv.com/,official_wellknown,200,https://www.beehiiv.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+47,Customer,增长获客,https://customer.io/,inferred_from_common_domain,200,https://customer.io/,HEAD,True,,原文只写Customer，按功能描述推断为 Customer.io，未在原文确认域名,2026-11-11 01:15:38 CST（UTC+8）
+48,Loops,增长获客,https://loops.so/,official_wellknown,200,https://loops.so/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+49,Google Search Console,数据分析,https://search.google.com/search-console,official_wellknown,200,https://search.google.com/search-console/about,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+50,Google Analytics 4,数据分析,https://marketingplatform.google.com/about/analytics/,official_wellknown,200,https://marketingplatform.google.com/about/analytics/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+51,PostHog,数据分析,https://posthog.com/,official_wellknown,200,https://posthog.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+52,Microsoft Clarity,数据分析,https://clarity.microsoft.com/,official_wellknown,200,https://clarity.microsoft.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+53b,Feedlog,数据分析,https://feedlog.com/,inferred_from_common_domain,200,https://feedlog.com/,HEAD,True,,作者自述为自有产品；原文未给域名，先探测 feedlog.com,2026-11-11 01:15:38 CST（UTC+8）
+55,Crisp,数据分析,https://crisp.chat/,official_wellknown,200,https://crisp.chat/en/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）
+56,Cursorful,数据分析,https://cursorful.com/,inferred_from_common_domain,200,https://cursorful.com/,HEAD,True,,,2026-11-11 01:15:38 CST（UTC+8）

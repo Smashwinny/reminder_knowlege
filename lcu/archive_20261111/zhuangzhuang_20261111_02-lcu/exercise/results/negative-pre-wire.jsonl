@@ -1,0 +1,6 @@
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 1, "error": {"code": -32002, "message": "初始化未完成"}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 2, "method": "initialize", "params": {"protocolVersion": "2099-01-01"}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 2, "error": {"code": -32602, "message": "仅支持教学版本 2025-11-25"}}}
+{"direction": "client_to_server", "raw": "{bad json"}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": null, "error": {"code": -32700, "message": "Parse error"}}}

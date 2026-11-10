@@ -1,0 +1,20 @@
+{
+  "spec": "1920x1080 30fps 240frames 8sec",
+  "audio": "AAC 48000Hz mono; only input is synthesized BGM; no voiceover source",
+  "wave_samples": 384000,
+  "wave_peak": 0.274749755859375,
+  "wave_rms": 0.03388352669688955,
+  "bpm": 120,
+  "frames_per_beat": 15,
+  "scene_start_frames": [
+    0,
+    60,
+    120,
+    180
+  ],
+  "scene_grid_aligned": true,
+  "beat_attack_tail_energy_ratio_min": 50.87604868615443,
+  "beat_count": 16,
+  "video_packet_sha_equal": true,
+  "video_packet_sha": "SHA256=d3679f98f8f644791bebd1749c5ba77656442c3bf2bf66e41736ff2d3c405fab"
+}

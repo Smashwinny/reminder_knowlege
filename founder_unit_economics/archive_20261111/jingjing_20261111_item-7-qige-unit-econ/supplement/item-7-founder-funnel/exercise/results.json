@@ -1,0 +1,436 @@
+{
+  "disclaimer": "作者融资、GMV、课程收入和场地均为自述，本模型只做带标签的算术敏感度，不是财务审计。",
+  "inputs": {
+    "photo_price": {
+      "value": 5,
+      "unit": "CNY",
+      "source": "author_claim",
+      "note": "旗哥自述闲鱼上架5元AI修图，目的是跑通接单流程"
+    },
+    "year_gmv": {
+      "value": 500000,
+      "unit": "CNY",
+      "source": "author_claim",
+      "note": "自述25年GMV大概50万、上百单，未提供账本或平台后台"
+    },
+    "year_orders": {
+      "value": 100,
+      "unit": "orders",
+      "source": "teaching_assumption",
+      "note": "把「上百单」取整为100，仅用于单均价推演"
+    },
+    "course_price": {
+      "value": 2980,
+      "unit": "CNY",
+      "source": "author_claim",
+      "note": "自述第一门课定价2980"
+    },
+    "course_refund_rate": {
+      "value": 0.1,
+      "unit": "ratio",
+      "source": "teaching_assumption",
+      "note": "知识付费常见假设，不是作者给出的退款率"
+    },
+    "delivery_cost_ratio": {
+      "value": 0.4,
+      "unit": "ratio",
+      "source": "teaching_assumption",
+      "note": "协作交付成本占GMV的比例，作者未披露真实成本"
+    },
+    "ad_spend": {
+      "value": 20000,
+      "unit": "CNY",
+      "source": "teaching_assumption",
+      "note": "闲鱼投流花费未给出，这里只作敏感度起点"
+    },
+    "consult_from_ad": {
+      "value": 200,
+      "unit": "leads",
+      "source": "teaching_assumption",
+      "note": "假设广告带来的咨询数"
+    },
+    "close_rate": {
+      "value": 0.1,
+      "unit": "ratio",
+      "source": "teaching_assumption",
+      "note": "咨询到成交转化率"
+    },
+    "video_course_revenue": {
+      "value": 100000,
+      "unit": "CNY",
+      "source": "author_claim",
+      "note": "自述一条视频带来十几万课程收入，取10万作下限演示"
+    },
+    "investment": {
+      "value": 10000000,
+      "unit": "CNY",
+      "source": "author_claim",
+      "note": "自述千万投资，未见到投资协议或工商披露"
+    }
+  },
+  "derived": {
+    "avg_order_if_100": {
+      "value": 5000.0,
+      "source": "derived",
+      "uses": [
+        "year_gmv",
+        "year_orders"
+      ]
+    },
+    "service_delivery_cost": {
+      "value": 200000.0,
+      "source": "derived",
+      "uses": [
+        "year_gmv",
+        "delivery_cost_ratio"
+      ]
+    },
+    "service_contribution": {
+      "value": 300000.0,
+      "source": "derived",
+      "uses": [
+        "year_gmv",
+        "delivery_cost_ratio"
+      ]
+    },
+    "ad_orders": {
+      "value": 20.0,
+      "source": "derived",
+      "uses": [
+        "consult_from_ad",
+        "close_rate"
+      ]
+    },
+    "cac": {
+      "value": 1000.0,
+      "source": "derived",
+      "uses": [
+        "ad_spend",
+        "consult_from_ad",
+        "close_rate"
+      ]
+    },
+    "contrib_per_order": {
+      "value": 3000.0,
+      "source": "derived",
+      "uses": [
+        "year_gmv",
+        "delivery_cost_ratio",
+        "year_orders"
+      ]
+    },
+    "ad_profit_under_assumptions": {
+      "value": 40000.0,
+      "source": "derived",
+      "uses": [
+        "ad_spend",
+        "consult_from_ad",
+        "close_rate",
+        "year_gmv",
+        "delivery_cost_ratio",
+        "year_orders"
+      ]
+    },
+    "net_course_revenue_per_seat": {
+      "value": 2682.0,
+      "source": "derived",
+      "uses": [
+        "course_price",
+        "course_refund_rate"
+      ]
+    },
+    "seats_to_match_claimed_gmv": {
+      "value": 186.4,
+      "source": "derived",
+      "uses": [
+        "year_gmv",
+        "course_price",
+        "course_refund_rate"
+      ]
+    },
+    "photo_listing_is_not_a_profit_model": {
+      "value": true,
+      "source": "derived",
+      "uses": [
+        "photo_price"
+      ]
+    },
+    "investment_excluded_from_profit": {
+      "value": true,
+      "source": "derived",
+      "note": "融资不是营业收入，模型利润不含投资额"
+    }
+  },
+  "sensitivity": [
+    {
+      "close_rate": 0.05,
+      "delivery_cost_ratio": 0.2,
+      "ad_spend": 10000,
+      "orders": 10.0,
+      "contrib_per_order": 4000.0,
+      "profit": 30000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.05,
+      "delivery_cost_ratio": 0.2,
+      "ad_spend": 20000,
+      "orders": 10.0,
+      "contrib_per_order": 4000.0,
+      "profit": 20000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.05,
+      "delivery_cost_ratio": 0.2,
+      "ad_spend": 50000,
+      "orders": 10.0,
+      "contrib_per_order": 4000.0,
+      "profit": -10000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.05,
+      "delivery_cost_ratio": 0.4,
+      "ad_spend": 10000,
+      "orders": 10.0,
+      "contrib_per_order": 3000.0,
+      "profit": 20000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.05,
+      "delivery_cost_ratio": 0.4,
+      "ad_spend": 20000,
+      "orders": 10.0,
+      "contrib_per_order": 3000.0,
+      "profit": 10000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.05,
+      "delivery_cost_ratio": 0.4,
+      "ad_spend": 50000,
+      "orders": 10.0,
+      "contrib_per_order": 3000.0,
+      "profit": -20000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.05,
+      "delivery_cost_ratio": 0.6,
+      "ad_spend": 10000,
+      "orders": 10.0,
+      "contrib_per_order": 2000.0,
+      "profit": 10000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.05,
+      "delivery_cost_ratio": 0.6,
+      "ad_spend": 20000,
+      "orders": 10.0,
+      "contrib_per_order": 2000.0,
+      "profit": 0.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.05,
+      "delivery_cost_ratio": 0.6,
+      "ad_spend": 50000,
+      "orders": 10.0,
+      "contrib_per_order": 2000.0,
+      "profit": -30000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.1,
+      "delivery_cost_ratio": 0.2,
+      "ad_spend": 10000,
+      "orders": 20.0,
+      "contrib_per_order": 4000.0,
+      "profit": 70000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.1,
+      "delivery_cost_ratio": 0.2,
+      "ad_spend": 20000,
+      "orders": 20.0,
+      "contrib_per_order": 4000.0,
+      "profit": 60000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.1,
+      "delivery_cost_ratio": 0.2,
+      "ad_spend": 50000,
+      "orders": 20.0,
+      "contrib_per_order": 4000.0,
+      "profit": 30000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.1,
+      "delivery_cost_ratio": 0.4,
+      "ad_spend": 10000,
+      "orders": 20.0,
+      "contrib_per_order": 3000.0,
+      "profit": 50000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.1,
+      "delivery_cost_ratio": 0.4,
+      "ad_spend": 20000,
+      "orders": 20.0,
+      "contrib_per_order": 3000.0,
+      "profit": 40000.0,
+      "is_base": true,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.1,
+      "delivery_cost_ratio": 0.4,
+      "ad_spend": 50000,
+      "orders": 20.0,
+      "contrib_per_order": 3000.0,
+      "profit": 10000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.1,
+      "delivery_cost_ratio": 0.6,
+      "ad_spend": 10000,
+      "orders": 20.0,
+      "contrib_per_order": 2000.0,
+      "profit": 30000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.1,
+      "delivery_cost_ratio": 0.6,
+      "ad_spend": 20000,
+      "orders": 20.0,
+      "contrib_per_order": 2000.0,
+      "profit": 20000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.1,
+      "delivery_cost_ratio": 0.6,
+      "ad_spend": 50000,
+      "orders": 20.0,
+      "contrib_per_order": 2000.0,
+      "profit": -10000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.2,
+      "delivery_cost_ratio": 0.2,
+      "ad_spend": 10000,
+      "orders": 40.0,
+      "contrib_per_order": 4000.0,
+      "profit": 150000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.2,
+      "delivery_cost_ratio": 0.2,
+      "ad_spend": 20000,
+      "orders": 40.0,
+      "contrib_per_order": 4000.0,
+      "profit": 140000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.2,
+      "delivery_cost_ratio": 0.2,
+      "ad_spend": 50000,
+      "orders": 40.0,
+      "contrib_per_order": 4000.0,
+      "profit": 110000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.2,
+      "delivery_cost_ratio": 0.4,
+      "ad_spend": 10000,
+      "orders": 40.0,
+      "contrib_per_order": 3000.0,
+      "profit": 110000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.2,
+      "delivery_cost_ratio": 0.4,
+      "ad_spend": 20000,
+      "orders": 40.0,
+      "contrib_per_order": 3000.0,
+      "profit": 100000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.2,
+      "delivery_cost_ratio": 0.4,
+      "ad_spend": 50000,
+      "orders": 40.0,
+      "contrib_per_order": 3000.0,
+      "profit": 70000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.2,
+      "delivery_cost_ratio": 0.6,
+      "ad_spend": 10000,
+      "orders": 40.0,
+      "contrib_per_order": 2000.0,
+      "profit": 70000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.2,
+      "delivery_cost_ratio": 0.6,
+      "ad_spend": 20000,
+      "orders": 40.0,
+      "contrib_per_order": 2000.0,
+      "profit": 60000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    },
+    {
+      "close_rate": 0.2,
+      "delivery_cost_ratio": 0.6,
+      "ad_spend": 50000,
+      "orders": 40.0,
+      "contrib_per_order": 2000.0,
+      "profit": 30000.0,
+      "is_base": false,
+      "all_inputs_are_assumptions_or_claims": true
+    }
+  ]
+}

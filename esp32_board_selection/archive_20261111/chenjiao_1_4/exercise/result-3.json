@@ -1,0 +1,14 @@
+{
+  "illustrative_suffix_parser": {
+    "N16R8": {
+      "flash_MiB": 16,
+      "psram_MiB": 8
+    },
+    "N8R2": {
+      "flash_MiB": 8,
+      "psram_MiB": 2
+    },
+    "ESP32-S3": null
+  },
+  "warning": "商品缩写不证明真实容量，更不证明引脚兼容"
+}

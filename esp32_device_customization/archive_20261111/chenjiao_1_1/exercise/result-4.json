@@ -1,0 +1,18 @@
+{
+  "scene": [
+    {
+      "brightness": 0
+    },
+    {
+      "brightness": 25
+    },
+    {
+      "brightness": 50
+    },
+    {
+      "brightness": 100
+    }
+  ],
+  "invalid": "rejected",
+  "claims": "只验证模拟控制值，不证明灯具/相机兼容"
+}

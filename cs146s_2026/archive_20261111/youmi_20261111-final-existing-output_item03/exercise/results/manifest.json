@@ -1,0 +1,37 @@
+[
+  {
+    "file": "source-post.json",
+    "bytes": 27201,
+    "sha256": "548da72323ac09a8b50ec1a4660df2de3d688f78830f7c14467a5782afc3c9c1"
+  },
+  {
+    "file": "course-home.html",
+    "bytes": 27161,
+    "sha256": "8566d8ad058d4e35a1040227d73e85886dc59919911e3c6663c6fe950b515129"
+  },
+  {
+    "file": "course-calendar.txt",
+    "bytes": 2611,
+    "sha256": "d21a71cd8d5bd025073f938a5dff7fbd28deeeb0aa03676c229181be17de16fa"
+  },
+  {
+    "file": "course2026-source-fragment.txt",
+    "bytes": 7988,
+    "sha256": "6e4ed32d910199629cda92797f0c0861719a6912ac5e887295b0659072ca92c8"
+  },
+  {
+    "file": "transcript-0924.txt",
+    "bytes": 39513,
+    "sha256": "c19a165345967e2668c0273345e2eac2b42cc9386eede015ce6a0c36c5f5549b"
+  },
+  {
+    "file": "transcript-1001.txt",
+    "bytes": 29384,
+    "sha256": "2d9e7eda8f8e8659d34ad4ae38cbbf19373517468fd8550b76f014e0cba3cd03"
+  },
+  {
+    "file": "coding_agent_from_scratch.py",
+    "bytes": 6395,
+    "sha256": "a70a9bece7952abb6b466eb16ece51ae1716d177d0a1a85c5e017de85ebce2b4"
+  }
+]

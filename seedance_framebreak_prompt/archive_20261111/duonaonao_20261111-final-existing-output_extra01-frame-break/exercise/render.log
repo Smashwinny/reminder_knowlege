@@ -1,0 +1,5 @@
+/workspace/jingjing-duonaonao-batch2-20261111/extra01-frame-break/exercise/lab.py:23: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  intended=sum(1 for v in cross.getdata() if v)
+/workspace/jingjing-duonaonao-batch2-20261111/extra01-frame-break/exercise/lab.py:27: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  visible=sum(1 for v in ImageChops.multiply(subject.getchannel('A'),bar_mask).getdata() if v)
+rendered 12 PNG cases + 144 comparison frames (960x300); all character art self-drawn; no model inference

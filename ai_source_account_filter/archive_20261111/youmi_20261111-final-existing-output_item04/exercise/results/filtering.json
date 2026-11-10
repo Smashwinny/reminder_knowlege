@@ -1,0 +1,145 @@
+{
+  "synthetic_only": true,
+  "fixtures": {
+    "boundary": {
+      "followers": 5000,
+      "days": 14,
+      "originals": 8,
+      "zh_share": 0.625,
+      "median_views": 300,
+      "median_likes": 0,
+      "promotion": false,
+      "excluded_topic": false
+    },
+    "likes_only": {
+      "followers": 100000,
+      "days": 14,
+      "originals": 8,
+      "zh_share": 0.625,
+      "median_views": 999,
+      "median_likes": 20,
+      "promotion": false,
+      "excluded_topic": false
+    },
+    "too_small": {
+      "followers": 4999,
+      "days": 14,
+      "originals": 8,
+      "zh_share": 0.625,
+      "median_views": 300,
+      "median_likes": 0,
+      "promotion": false,
+      "excluded_topic": false
+    },
+    "exact_half_zh": {
+      "followers": 5000,
+      "days": 14,
+      "originals": 8,
+      "zh_share": 0.5,
+      "median_views": 300,
+      "median_likes": 0,
+      "promotion": false,
+      "excluded_topic": false
+    },
+    "missing_metrics": {
+      "followers": 5000,
+      "days": 14,
+      "originals": 8,
+      "zh_share": 0.625,
+      "median_views": null,
+      "median_likes": null,
+      "promotion": false,
+      "excluded_topic": false
+    },
+    "manual_promotion": {
+      "followers": 5000,
+      "days": 14,
+      "originals": 8,
+      "zh_share": 0.625,
+      "median_views": 300,
+      "median_likes": 0,
+      "promotion": true,
+      "excluded_topic": false
+    },
+    "high_frequency": {
+      "followers": 5000,
+      "days": 14,
+      "originals": 451,
+      "zh_share": 0.625,
+      "median_views": 300,
+      "median_likes": 0,
+      "promotion": false,
+      "excluded_topic": false
+    },
+    "relative_floor_fail": {
+      "followers": 100000,
+      "days": 14,
+      "originals": 8,
+      "zh_share": 0.625,
+      "median_views": 900,
+      "median_likes": 4,
+      "promotion": false,
+      "excluded_topic": false
+    }
+  },
+  "results": {
+    "boundary": {
+      "status": "pass",
+      "reasons": [],
+      "unknown": []
+    },
+    "likes_only": {
+      "status": "pass",
+      "reasons": [],
+      "unknown": []
+    },
+    "too_small": {
+      "status": "reject",
+      "reasons": [
+        "followers"
+      ],
+      "unknown": []
+    },
+    "exact_half_zh": {
+      "status": "reject",
+      "reasons": [
+        "zh_share"
+      ],
+      "unknown": []
+    },
+    "missing_metrics": {
+      "status": "unknown",
+      "reasons": [],
+      "unknown": [
+        "interaction"
+      ]
+    },
+    "manual_promotion": {
+      "status": "reject",
+      "reasons": [
+        "promotion"
+      ],
+      "unknown": []
+    },
+    "high_frequency": {
+      "status": "reject",
+      "reasons": [
+        "originals"
+      ],
+      "unknown": []
+    },
+    "relative_floor_fail": {
+      "status": "reject",
+      "reasons": [
+        "interaction"
+      ],
+      "unknown": []
+    }
+  },
+  "counts": {
+    "pass": 2,
+    "reject": 5,
+    "unknown": 1
+  },
+  "policy_note": "450为练习离散化上限，原文约450需人工裁量；中文用严格大于一半"
+}

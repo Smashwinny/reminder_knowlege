@@ -1,0 +1,7 @@
+{
+  "synthetic_manifest_accepts": [
+    true,
+    false
+  ],
+  "conclusion": "同芯片同容量但codec不同仍拒绝；清单不在场则未知"
+}

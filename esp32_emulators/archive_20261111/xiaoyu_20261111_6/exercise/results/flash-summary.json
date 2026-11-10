@@ -1,0 +1,38 @@
+{
+  "raw_small_bytes": 131072,
+  "qemu_accepts_raw_small": false,
+  "pad": "padded-to-2MiB",
+  "padded_bytes": 2097152,
+  "qemu_accepts_padded": true,
+  "classic_bytes": 4194304,
+  "classic_bootloader_offset": 4096,
+  "classic_boot_magic": 233,
+  "c3_boot_magic": 233,
+  "ptable": [
+    {
+      "index": 0,
+      "label": "nvs",
+      "type": 1,
+      "subtype": 2,
+      "offset": 36864,
+      "length": 24576
+    },
+    {
+      "index": 1,
+      "label": "phy_init",
+      "type": 1,
+      "subtype": 1,
+      "offset": 61440,
+      "length": 4096
+    },
+    {
+      "index": 2,
+      "label": "factory",
+      "type": 0,
+      "subtype": 0,
+      "offset": 65536,
+      "length": 1048576
+    }
+  ],
+  "scope": "synthetic valid headers; not a bootable IDF firmware"
+}

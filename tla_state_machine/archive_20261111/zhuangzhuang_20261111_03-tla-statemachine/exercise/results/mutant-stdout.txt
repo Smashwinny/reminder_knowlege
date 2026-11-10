@@ -1,0 +1,40 @@
+TLC2 Version 2.19 of 08 August 2024 (rev: 5a47802)
+Running breadth-first search Model-Checking with fp 0 and seed -2945173793223592271 with 1 worker on 8 cores with 241MB heap and 64MB offheap memory [pid: 226407] (Linux 6.12.113+ amd64, Eclipse Adoptium 21.0.13 x86_64, MSBDiskFPSet, DiskStateQueue).
+Parsing file /workspace/learn-batch/03-tla-statemachine/exercise/models/OrderMutant.tla
+Parsing file /workspace/learn-batch/03-tla-statemachine/exercise/models/OrderCore.tla
+Semantic processing of module OrderCore
+Semantic processing of module OrderMutant
+Starting... (2026-11-11 01:29:20)
+Computing initial states...
+Finished computing initial states: 1 distinct state generated at 2026-11-11 01:29:20.
+Error: Invariant NoUnpaidShipment is violated.
+Error: The behavior up to this point is:
+State 1: <Initial predicate>
+/\ checkedPaid = FALSE
+/\ shipPhase = "new"
+/\ paid = FALSE
+
+State 2: <Pay line 7, col 8 to line 8, col 62 of module OrderCore>
+/\ checkedPaid = FALSE
+/\ shipPhase = "new"
+/\ paid = TRUE
+
+State 3: <CheckPayment line 9, col 17 to line 11, col 33 of module OrderCore>
+/\ checkedPaid = TRUE
+/\ shipPhase = "checked"
+/\ paid = TRUE
+
+State 4: <Refund line 12, col 11 to line 13, col 66 of module OrderCore>
+/\ checkedPaid = TRUE
+/\ shipPhase = "checked"
+/\ paid = FALSE
+
+State 5: <ShipBug line 14, col 12 to line 15, col 71 of module OrderCore>
+/\ checkedPaid = TRUE
+/\ shipPhase = "shipped"
+/\ paid = FALSE
+
+8 states generated, 6 distinct states found, 1 states left on queue.
+The depth of the complete state graph search is 5.
+The average outdegree of the complete state graph is 1 (minimum is 1, the maximum 2 and the 95th percentile is 2).
+Finished in 00s at (2026-11-11 01:29:20)

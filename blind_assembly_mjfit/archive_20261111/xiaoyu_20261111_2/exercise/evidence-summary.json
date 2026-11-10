@@ -1,0 +1,13 @@
+{
+  "paper_success_count": 173,
+  "paper_trial_count": 237,
+  "paper_fraction_recomputed": 0.729957805907173,
+  "wilson95": [
+    0.6700979640567583,
+    0.782481922038145
+  ],
+  "scope": "counts are authors reported; only interval calculation ours",
+  "blocked_drop_dt05ms": 5.341172780788058,
+  "blocked_drop_dt1ms": 5.5953788665330775,
+  "dt_sensitivity_scope": "one passive scene, not convergence proof"
+}

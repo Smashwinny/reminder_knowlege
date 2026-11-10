@@ -1,0 +1,116 @@
+[
+  {
+    "clearance_mm": 0.02,
+    "offset_mm": [
+      0.0,
+      0.0
+    ],
+    "width_mm": 16.0,
+    "height_mm": 16.0,
+    "friction": 1.0,
+    "tau_ms": 2.0,
+    "dt_ms": 1.0,
+    "drop_mm": 11.000066818011089,
+    "peg_plate_contact_count": 0,
+    "max_simultaneous_contacts": 0,
+    "minimum_contact_distance_um": 0.0,
+    "passed_depth_threshold": true,
+    "simulation_s": 0.25000000000000017,
+    "cpu_wall_s": 0.018238237000332447
+  },
+  {
+    "clearance_mm": 0.02,
+    "offset_mm": [
+      2.0,
+      0.0
+    ],
+    "width_mm": 16.0,
+    "height_mm": 16.0,
+    "friction": 1.0,
+    "tau_ms": 2.0,
+    "dt_ms": 1.0,
+    "drop_mm": 5.187312685825868,
+    "peg_plate_contact_count": 790,
+    "max_simultaneous_contacts": 4,
+    "minimum_contact_distance_um": -70.3082724237842,
+    "passed_depth_threshold": false,
+    "simulation_s": 0.25000000000000017,
+    "cpu_wall_s": 0.0187091040006635
+  },
+  {
+    "clearance_mm": 0.1,
+    "offset_mm": [
+      0.0,
+      0.0
+    ],
+    "width_mm": 16.0,
+    "height_mm": 16.0,
+    "friction": 1.0,
+    "tau_ms": 2.0,
+    "dt_ms": 1.0,
+    "drop_mm": 11.000066818011103,
+    "peg_plate_contact_count": 0,
+    "max_simultaneous_contacts": 0,
+    "minimum_contact_distance_um": 0.0,
+    "passed_depth_threshold": true,
+    "simulation_s": 0.25000000000000017,
+    "cpu_wall_s": 0.018081756001265603
+  },
+  {
+    "clearance_mm": 0.1,
+    "offset_mm": [
+      2.0,
+      0.0
+    ],
+    "width_mm": 16.0,
+    "height_mm": 16.0,
+    "friction": 1.0,
+    "tau_ms": 2.0,
+    "dt_ms": 1.0,
+    "drop_mm": 5.5953788665330775,
+    "peg_plate_contact_count": 780,
+    "max_simultaneous_contacts": 4,
+    "minimum_contact_distance_um": -140.48503137358875,
+    "passed_depth_threshold": false,
+    "simulation_s": 0.25000000000000017,
+    "cpu_wall_s": 0.020263730999431573
+  },
+  {
+    "clearance_mm": 0.5,
+    "offset_mm": [
+      0.0,
+      0.0
+    ],
+    "width_mm": 16.0,
+    "height_mm": 16.0,
+    "friction": 1.0,
+    "tau_ms": 2.0,
+    "dt_ms": 1.0,
+    "drop_mm": 11.000066818011089,
+    "peg_plate_contact_count": 0,
+    "max_simultaneous_contacts": 0,
+    "minimum_contact_distance_um": 0.0,
+    "passed_depth_threshold": true,
+    "simulation_s": 0.25000000000000017,
+    "cpu_wall_s": 0.018152269998608972
+  },
+  {
+    "clearance_mm": 0.5,
+    "offset_mm": [
+      2.0,
+      0.0
+    ],
+    "width_mm": 16.0,
+    "height_mm": 16.0,
+    "friction": 1.0,
+    "tau_ms": 2.0,
+    "dt_ms": 1.0,
+    "drop_mm": 6.142126247759863,
+    "peg_plate_contact_count": 780,
+    "max_simultaneous_contacts": 4,
+    "minimum_contact_distance_um": -188.74715244455606,
+    "passed_depth_threshold": false,
+    "simulation_s": 0.25000000000000017,
+    "cpu_wall_s": 0.0194455389992072
+  }
+]

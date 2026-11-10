@@ -1,0 +1,19 @@
+Title:           人形机器人：从漂亮展台到可验证构建
+Creator:         Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36
+Producer:        Skia/PDF m156
+CreationDate:    Wed Nov 11 01:42:23 2026 CST
+ModDate:         Wed Nov 11 01:42:23 2026 CST
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          yes
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           10
+Encrypted:       no
+Page size:       594.96 x 841.92 pts (A4)
+Page rot:        0
+File size:       872576 bytes
+Optimized:       no
+PDF version:     1.4

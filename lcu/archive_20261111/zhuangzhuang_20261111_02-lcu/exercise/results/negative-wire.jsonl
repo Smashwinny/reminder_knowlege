@@ -1,0 +1,21 @@
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2025-11-25", "clientInfo": {"name": "本地教学驱动", "version": "1"}, "capabilities": {}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 1, "result": {"protocolVersion": "2025-11-25", "serverInfo": {"name": "学习用模拟MCP", "version": "0.1.0"}, "capabilities": {"tools": {}}, "instructions": "只操作模拟记事本；同步JS变量跨调用保留。js_reset不撤销文档。不接入真实桌面。"}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "method": "notifications/initialized"}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 2, "method": "missing", "params": {}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 2, "error": {"code": -32601, "message": "Method not found"}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "turn_ended", "arguments": {}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 3, "error": {"code": -32602, "message": "未知工具"}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 4, "method": "tools/call", "params": {"name": "js", "arguments": {}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 4, "error": {"code": -32602, "message": "js需要code字符串且无额外参数"}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 5, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "cua.getApp(\"real.browser\")"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 5, "result": {"content": [{"type": "text", "text": "{\"error\":\"模拟白名单拒绝：real.browser\",\"rollback\":false}"}], "isError": true}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 6, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "cua.move({x:900,y:1})"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 6, "result": {"content": [{"type": "text", "text": "{\"error\":\"模拟坐标越界\",\"rollback\":false}"}], "isError": true}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 7, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "while(true){}"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 7, "result": {"content": [{"type": "text", "text": "{\"error\":\"Script execution timed out after 80ms\",\"rollback\":false}"}], "isError": true}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 8, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "2+2"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 8, "result": {"content": [{"type": "text", "text": "4"}], "isError": false}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 9, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "console.log(\"只进stderr\"); 7"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 9, "result": {"content": [{"type": "text", "text": "7"}], "isError": false}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 10, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "var localOnly=99"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 10, "result": {"content": [{"type": "text", "text": "null"}], "isError": false}}}

@@ -1,0 +1,112 @@
+[
+  {
+    "repo": "higgsfield-ai/skills",
+    "ref": "HEAD",
+    "path": "README.md",
+    "name": "higgsfield-ai__skills__README.md",
+    "sha": "27000402070db19d958789d05b3b52b6f4718d7c",
+    "url": "https://raw.githubusercontent.com/higgsfield-ai/skills/27000402070db19d958789d05b3b52b6f4718d7c/README.md",
+    "bytes": 8351,
+    "status": "read"
+  },
+  {
+    "repo": "github/awesome-copilot",
+    "ref": "main",
+    "path": "skills/game-engine/SKILL.md",
+    "name": "github__awesome-copilot__skills__game-engine__SKILL.md",
+    "sha": "227949a7542a55d2155c00e7cdb998d9a0fee4f3",
+    "url": "https://raw.githubusercontent.com/github/awesome-copilot/227949a7542a55d2155c00e7cdb998d9a0fee4f3/skills/game-engine/SKILL.md",
+    "bytes": 6322,
+    "status": "read"
+  },
+  {
+    "repo": "rivet-dev/skills",
+    "ref": "ba5d3db3d7489cfc6190fd0de45b96e3787e1ea3",
+    "path": "multiplayer-game/SKILL.md",
+    "name": "rivet-dev__skills__multiplayer-game__SKILL.md",
+    "sha": "ba5d3db3d7489cfc6190fd0de45b96e3787e1ea3",
+    "url": "https://raw.githubusercontent.com/rivet-dev/skills/ba5d3db3d7489cfc6190fd0de45b96e3787e1ea3/multiplayer-game/SKILL.md",
+    "bytes": 31251,
+    "status": "read"
+  },
+  {
+    "repo": "Jeffallan/claude-skills",
+    "ref": "main",
+    "path": "skills/game-developer/SKILL.md",
+    "name": "Jeffallan__claude-skills__skills__game-developer__SKILL.md",
+    "sha": "078a25cc5bfd8011459be7b91d004e900c1d02d3",
+    "url": "https://raw.githubusercontent.com/Jeffallan/claude-skills/078a25cc5bfd8011459be7b91d004e900c1d02d3/skills/game-developer/SKILL.md",
+    "bytes": 5900,
+    "status": "read"
+  },
+  {
+    "repo": "omer-metin/skills-for-antigravity",
+    "ref": "main",
+    "path": "skills/game-ui-design/SKILL.md",
+    "name": "omer-metin__skills-for-antigravity__skills__game-ui-design__SKILL.md",
+    "sha": "e8dcf4e8737921a10088bd5c9eb65e81f74c051f",
+    "url": "https://raw.githubusercontent.com/omer-metin/skills-for-antigravity/e8dcf4e8737921a10088bd5c9eb65e81f74c051f/skills/game-ui-design/SKILL.md",
+    "bytes": 3669,
+    "status": "read"
+  },
+  {
+    "repo": "pluginagentmarketplace/custom-plugin-game-developer",
+    "ref": "main",
+    "path": "skills/game-design-theory/SKILL.md",
+    "name": "pluginagentmarketplace__custom-plugin-game-developer__skills__game-design-theory__SKILL.md",
+    "sha": "aa7edfe267b34eac63d888f60b13e08aca7850ed",
+    "url": "https://raw.githubusercontent.com/pluginagentmarketplace/custom-plugin-game-developer/aa7edfe267b34eac63d888f60b13e08aca7850ed/skills/game-design-theory/SKILL.md",
+    "bytes": 11179,
+    "status": "read"
+  },
+  {
+    "repo": "gamedev-skills/awesome-gamedev-agent-skills",
+    "ref": "main",
+    "path": "skills/disciplines/game-feel/SKILL.md",
+    "name": "gamedev-skills__awesome-gamedev-agent-skills__skills__disciplines__game-feel__SKILL.md",
+    "sha": "dcf3bbbb83f365632402c086bf595048aa24aaa8",
+    "url": "https://raw.githubusercontent.com/gamedev-skills/awesome-gamedev-agent-skills/dcf3bbbb83f365632402c086bf595048aa24aaa8/skills/disciplines/game-feel/SKILL.md",
+    "bytes": 9520,
+    "status": "read"
+  },
+  {
+    "repo": "gamedev-skills/awesome-gamedev-agent-skills",
+    "ref": "main",
+    "path": "skills/disciplines/game-ui-ux/SKILL.md",
+    "name": "gamedev-skills__awesome-gamedev-agent-skills__skills__disciplines__game-ui-ux__SKILL.md",
+    "sha": "dcf3bbbb83f365632402c086bf595048aa24aaa8",
+    "url": "https://raw.githubusercontent.com/gamedev-skills/awesome-gamedev-agent-skills/dcf3bbbb83f365632402c086bf595048aa24aaa8/skills/disciplines/game-ui-ux/SKILL.md",
+    "bytes": 10317,
+    "status": "read"
+  },
+  {
+    "repo": "majidmanzarpour/threejs-game-skills",
+    "ref": "HEAD",
+    "path": "README.md",
+    "name": "majidmanzarpour__threejs-game-skills__README.md",
+    "sha": "8286774b22a2566bf894dbc825825c16921866af",
+    "url": "https://raw.githubusercontent.com/majidmanzarpour/threejs-game-skills/8286774b22a2566bf894dbc825825c16921866af/README.md",
+    "bytes": 18819,
+    "status": "read"
+  },
+  {
+    "repo": "openai/skills",
+    "ref": "30444aed500c00c85294d12074f6e3ee794f808a",
+    "path": "skills/.curated/develop-web-game/SKILL.md",
+    "name": "openai__skills__skills__.curated__develop-web-game__SKILL.md",
+    "sha": "30444aed500c00c85294d12074f6e3ee794f808a",
+    "url": "https://raw.githubusercontent.com/openai/skills/30444aed500c00c85294d12074f6e3ee794f808a/skills/.curated/develop-web-game/SKILL.md",
+    "bytes": 9233,
+    "status": "read"
+  },
+  {
+    "repo": "bobeff/open-source-games",
+    "ref": "HEAD",
+    "path": "README.md",
+    "name": "bobeff__open-source-games__README.md",
+    "sha": "3a9ab8fc892a2cdadf8989a72ba7624a11e39cec",
+    "url": "https://raw.githubusercontent.com/bobeff/open-source-games/3a9ab8fc892a2cdadf8989a72ba7624a11e39cec/README.md",
+    "bytes": 37285,
+    "status": "read"
+  }
+]

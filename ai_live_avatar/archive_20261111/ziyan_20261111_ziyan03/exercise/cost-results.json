@@ -1,0 +1,12 @@
+{
+  "basis": "作者文章: 1.5积分/秒、约169元/小时、67分钟账单191.47元；README:0.03125元/积分",
+  "yuan_per_second": "0.046875",
+  "yuan_per_hour": "168.750000",
+  "base_67min_yuan": "188.437500",
+  "author_claimed_bill_yuan": "191.47",
+  "difference_yuan": "3.032500",
+  "equivalent_extra_seconds_not_measured": "64.69333333333333333333333333",
+  "budget_100yuan_minutes": "35.55555555555555555555555555",
+  "24h_yuan_without_overhead": "4050.000000",
+  "limits": "差额不能归因到某一次换装；预热、重启、舍入等占比未获原始账单，作者声称不作独立核验。"
+}

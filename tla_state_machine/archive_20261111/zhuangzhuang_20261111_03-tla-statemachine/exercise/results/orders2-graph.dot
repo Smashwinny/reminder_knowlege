@@ -1,0 +1,99 @@
+strict digraph DiskGraph {
+nodesep=0.35;
+subgraph cluster_graph {
+color="white";
+-7917599390867540210 [label="/\\ checkedPaid = [order1 |-> FALSE, order2 |-> FALSE]\n/\\ shipPhase = [order1 |-> \"new\", order2 |-> \"new\"]\n/\\ paid = [order1 |-> FALSE, order2 |-> FALSE]",style = filled]
+-7917599390867540210 -> -8990143569610620203 [label="Pay",color="black",fontcolor="black"];
+-8990143569610620203 [label="/\\ checkedPaid = [order1 |-> FALSE, order2 |-> FALSE]\n/\\ shipPhase = [order1 |-> \"new\", order2 |-> \"new\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> FALSE]"];
+-7917599390867540210 -> 3178323217431220779 [label="Pay",color="black",fontcolor="black"];
+3178323217431220779 [label="/\\ checkedPaid = [order1 |-> FALSE, order2 |-> FALSE]\n/\\ shipPhase = [order1 |-> \"new\", order2 |-> \"new\"]\n/\\ paid = [order1 |-> FALSE, order2 |-> TRUE]"];
+-8990143569610620203 -> -5278401360454287673 [label="CheckPayment",color="black",fontcolor="black"];
+-5278401360454287673 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> FALSE]\n/\\ shipPhase = [order1 |-> \"checked\", order2 |-> \"new\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> FALSE]"];
+-8990143569610620203 -> -7917599390867540210 [label="Refund",color="black",fontcolor="black"];
+-8990143569610620203 -> 4411343334459058160 [label="Pay",color="black",fontcolor="black"];
+4411343334459058160 [label="/\\ checkedPaid = [order1 |-> FALSE, order2 |-> FALSE]\n/\\ shipPhase = [order1 |-> \"new\", order2 |-> \"new\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> TRUE]"];
+3178323217431220779 -> 4411343334459058160 [label="Pay",color="black",fontcolor="black"];
+3178323217431220779 -> -1340352232987496951 [label="CheckPayment",color="black",fontcolor="black"];
+-1340352232987496951 [label="/\\ checkedPaid = [order1 |-> FALSE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"new\", order2 |-> \"checked\"]\n/\\ paid = [order1 |-> FALSE, order2 |-> TRUE]"];
+3178323217431220779 -> -7917599390867540210 [label="Refund",color="black",fontcolor="black"];
+-5278401360454287673 -> -6368995122070451428 [label="Refund",color="black",fontcolor="black"];
+-6368995122070451428 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> FALSE]\n/\\ shipPhase = [order1 |-> \"checked\", order2 |-> \"new\"]\n/\\ paid = [order1 |-> FALSE, order2 |-> FALSE]"];
+-5278401360454287673 -> 6250686987073442474 [label="Ship",color="black",fontcolor="black"];
+6250686987073442474 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> FALSE]\n/\\ shipPhase = [order1 |-> \"shipped\", order2 |-> \"new\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> FALSE]"];
+-5278401360454287673 -> 629374200121793506 [label="Pay",color="black",fontcolor="black"];
+629374200121793506 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> FALSE]\n/\\ shipPhase = [order1 |-> \"checked\", order2 |-> \"new\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> TRUE]"];
+4411343334459058160 -> 629374200121793506 [label="CheckPayment",color="black",fontcolor="black"];
+4411343334459058160 -> 3178323217431220779 [label="Refund",color="black",fontcolor="black"];
+4411343334459058160 -> -268652483482117166 [label="CheckPayment",color="black",fontcolor="black"];
+-268652483482117166 [label="/\\ checkedPaid = [order1 |-> FALSE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"new\", order2 |-> \"checked\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> TRUE]"];
+4411343334459058160 -> -8990143569610620203 [label="Refund",color="black",fontcolor="black"];
+-1340352232987496951 -> -268652483482117166 [label="Pay",color="black",fontcolor="black"];
+-1340352232987496951 -> 6008569168952036140 [label="Refund",color="black",fontcolor="black"];
+6008569168952036140 [label="/\\ checkedPaid = [order1 |-> FALSE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"new\", order2 |-> \"checked\"]\n/\\ paid = [order1 |-> FALSE, order2 |-> FALSE]"];
+-1340352232987496951 -> 7612034135411703351 [label="Ship",color="black",fontcolor="black"];
+7612034135411703351 [label="/\\ checkedPaid = [order1 |-> FALSE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"new\", order2 |-> \"shipped\"]\n/\\ paid = [order1 |-> FALSE, order2 |-> TRUE]"];
+-6368995122070451428 -> -5278401360454287673 [label="Pay",color="black",fontcolor="black"];
+-6368995122070451428 -> 1844344734276611641 [label="Pay",color="black",fontcolor="black"];
+1844344734276611641 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> FALSE]\n/\\ shipPhase = [order1 |-> \"checked\", order2 |-> \"new\"]\n/\\ paid = [order1 |-> FALSE, order2 |-> TRUE]"];
+6250686987073442474 -> -1676953283240151153 [label="Pay",color="black",fontcolor="black"];
+-1676953283240151153 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> FALSE]\n/\\ shipPhase = [order1 |-> \"shipped\", order2 |-> \"new\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> TRUE]"];
+629374200121793506 -> 1844344734276611641 [label="Refund",color="black",fontcolor="black"];
+629374200121793506 -> -1676953283240151153 [label="Ship",color="black",fontcolor="black"];
+629374200121793506 -> -926039071787812635 [label="CheckPayment",color="black",fontcolor="black"];
+-926039071787812635 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"checked\", order2 |-> \"checked\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> TRUE]"];
+629374200121793506 -> -5278401360454287673 [label="Refund",color="black",fontcolor="black"];
+-268652483482117166 -> -926039071787812635 [label="CheckPayment",color="black",fontcolor="black"];
+-268652483482117166 -> -1340352232987496951 [label="Refund",color="black",fontcolor="black"];
+-268652483482117166 -> 4774141681331437303 [label="Refund",color="black",fontcolor="black"];
+4774141681331437303 [label="/\\ checkedPaid = [order1 |-> FALSE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"new\", order2 |-> \"checked\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> FALSE]"];
+-268652483482117166 -> 8683206115195472876 [label="Ship",color="black",fontcolor="black"];
+8683206115195472876 [label="/\\ checkedPaid = [order1 |-> FALSE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"new\", order2 |-> \"shipped\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> TRUE]"];
+6008569168952036140 -> 4774141681331437303 [label="Pay",color="black",fontcolor="black"];
+6008569168952036140 -> -1340352232987496951 [label="Pay",color="black",fontcolor="black"];
+7612034135411703351 -> 8683206115195472876 [label="Pay",color="black",fontcolor="black"];
+1844344734276611641 -> 629374200121793506 [label="Pay",color="black",fontcolor="black"];
+1844344734276611641 -> -2160147696880382658 [label="CheckPayment",color="black",fontcolor="black"];
+-2160147696880382658 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"checked\", order2 |-> \"checked\"]\n/\\ paid = [order1 |-> FALSE, order2 |-> TRUE]"];
+1844344734276611641 -> -6368995122070451428 [label="Refund",color="black",fontcolor="black"];
+-1676953283240151153 -> -4684607129169264205 [label="CheckPayment",color="black",fontcolor="black"];
+-4684607129169264205 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"shipped\", order2 |-> \"checked\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> TRUE]"];
+-1676953283240151153 -> 6250686987073442474 [label="Refund",color="black",fontcolor="black"];
+-926039071787812635 -> -2160147696880382658 [label="Refund",color="black",fontcolor="black"];
+-926039071787812635 -> -4684607129169264205 [label="Ship",color="black",fontcolor="black"];
+-926039071787812635 -> 5558190926785191360 [label="Refund",color="black",fontcolor="black"];
+5558190926785191360 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"checked\", order2 |-> \"checked\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> FALSE]"];
+-926039071787812635 -> 8638872030269679835 [label="Ship",color="black",fontcolor="black"];
+8638872030269679835 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"checked\", order2 |-> \"shipped\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> TRUE]"];
+4774141681331437303 -> 5558190926785191360 [label="CheckPayment",color="black",fontcolor="black"];
+4774141681331437303 -> 6008569168952036140 [label="Refund",color="black",fontcolor="black"];
+4774141681331437303 -> -268652483482117166 [label="Pay",color="black",fontcolor="black"];
+8683206115195472876 -> 8638872030269679835 [label="CheckPayment",color="black",fontcolor="black"];
+8683206115195472876 -> 7612034135411703351 [label="Refund",color="black",fontcolor="black"];
+-2160147696880382658 -> -926039071787812635 [label="Pay",color="black",fontcolor="black"];
+-2160147696880382658 -> 6629642182505654299 [label="Refund",color="black",fontcolor="black"];
+6629642182505654299 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"checked\", order2 |-> \"checked\"]\n/\\ paid = [order1 |-> FALSE, order2 |-> FALSE]"];
+-2160147696880382658 -> 7404165266712386816 [label="Ship",color="black",fontcolor="black"];
+7404165266712386816 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"checked\", order2 |-> \"shipped\"]\n/\\ paid = [order1 |-> FALSE, order2 |-> TRUE]"];
+-4684607129169264205 -> 69889146868098198 [label="Refund",color="black",fontcolor="black"];
+69889146868098198 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"shipped\", order2 |-> \"checked\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> FALSE]"];
+-4684607129169264205 -> 4195545792152785293 [label="Ship",color="black",fontcolor="black"];
+4195545792152785293 [label="/\\ checkedPaid = [order1 |-> TRUE, order2 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"shipped\", order2 |-> \"shipped\"]\n/\\ paid = [order1 |-> TRUE, order2 |-> TRUE]"];
+5558190926785191360 -> 6629642182505654299 [label="Refund",color="black",fontcolor="black"];
+5558190926785191360 -> 69889146868098198 [label="Ship",color="black",fontcolor="black"];
+5558190926785191360 -> -926039071787812635 [label="Pay",color="black",fontcolor="black"];
+8638872030269679835 -> 7404165266712386816 [label="Refund",color="black",fontcolor="black"];
+8638872030269679835 -> 4195545792152785293 [label="Ship",color="black",fontcolor="black"];
+6629642182505654299 -> 5558190926785191360 [label="Pay",color="black",fontcolor="black"];
+6629642182505654299 -> -2160147696880382658 [label="Pay",color="black",fontcolor="black"];
+7404165266712386816 -> 8638872030269679835 [label="Pay",color="black",fontcolor="black"];
+69889146868098198 -> -4684607129169264205 [label="Pay",color="black",fontcolor="black"];
+4195545792152785293 -> 4195545792152785293 [label="Done",color="black",fontcolor="black"];
+{rank = same; -7917599390867540210;}
+{rank = same; 3178323217431220779;-8990143569610620203;}
+{rank = same; -1340352232987496951;4411343334459058160;-5278401360454287673;}
+{rank = same; -6368995122070451428;629374200121793506;6250686987073442474;6008569168952036140;-268652483482117166;7612034135411703351;}
+{rank = same; -1676953283240151153;8683206115195472876;4774141681331437303;1844344734276611641;-926039071787812635;}
+{rank = same; 5558190926785191360;-2160147696880382658;-4684607129169264205;8638872030269679835;}
+{rank = same; 7404165266712386816;4195545792152785293;6629642182505654299;69889146868098198;}
+}
+}

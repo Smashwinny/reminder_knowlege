@@ -1,0 +1,161 @@
+[
+  {
+    "name": "below",
+    "calls": [],
+    "logs": [
+      "Received billing alert notification via Pub/Sub",
+      "Budget Alert Data: {\"costAmount\":8,\"budgetAmount\":10,\"currencyCode\":\"USD\"}",
+      "[SAFE] Current spend (8 USD) is below 90% of budget (10 USD). No action needed."
+    ]
+  },
+  {
+    "name": "at90",
+    "calls": [
+      [
+        "get",
+        {
+          "name": "projects/offline-demo"
+        }
+      ],
+      [
+        "update",
+        {
+          "name": "projects/offline-demo",
+          "projectBillingInfo": {
+            "billingAccountName": ""
+          }
+        }
+      ]
+    ],
+    "logs": [
+      "Received billing alert notification via Pub/Sub",
+      "Budget Alert Data: {\"costAmount\":9,\"budgetAmount\":10,\"currencyCode\":\"USD\"}",
+      "Threshold reached! Checking current billing info for: offline-demo...",
+      "[KILL SWITCH] Disabling billing for project offline-demo to prevent credit card charges...",
+      "[KILL SWITCH] Successfully unlinked billing for project offline-demo! All billable API calls stopped."
+    ]
+  },
+  {
+    "name": "threshold",
+    "calls": [
+      [
+        "get",
+        {
+          "name": "projects/offline-demo"
+        }
+      ],
+      [
+        "update",
+        {
+          "name": "projects/offline-demo",
+          "projectBillingInfo": {
+            "billingAccountName": ""
+          }
+        }
+      ]
+    ],
+    "logs": [
+      "Received billing alert notification via Pub/Sub",
+      "Budget Alert Data: {\"costAmount\":8,\"budgetAmount\":10,\"currencyCode\":\"USD\",\"alertThresholdExceeded\":0.9}",
+      "Threshold reached! Checking current billing info for: offline-demo...",
+      "[KILL SWITCH] Disabling billing for project offline-demo to prevent credit card charges...",
+      "[KILL SWITCH] Successfully unlinked billing for project offline-demo! All billable API calls stopped."
+    ]
+  },
+  {
+    "name": "dry",
+    "calls": [
+      [
+        "get",
+        {
+          "name": "projects/offline-demo"
+        }
+      ]
+    ],
+    "logs": [
+      "Received billing alert notification via Pub/Sub",
+      "Budget Alert Data: {\"costAmount\":8,\"budgetAmount\":10,\"currencyCode\":\"USD\",\"dryRun\":true}",
+      "[DRY RUN] Permission check passed for offline-demo. Current billingEnabled=true, billingAccountName=FAKE"
+    ]
+  },
+  {
+    "name": "bad-number",
+    "calls": [
+      [
+        "get",
+        {
+          "name": "projects/offline-demo"
+        }
+      ],
+      [
+        "update",
+        {
+          "name": "projects/offline-demo",
+          "projectBillingInfo": {
+            "billingAccountName": ""
+          }
+        }
+      ]
+    ],
+    "logs": [
+      "Received billing alert notification via Pub/Sub",
+      "Budget Alert Data: {\"costAmount\":\"abc\",\"budgetAmount\":10,\"currencyCode\":\"USD\"}",
+      "Threshold reached! Checking current billing info for: offline-demo...",
+      "[KILL SWITCH] Disabling billing for project offline-demo to prevent credit card charges...",
+      "[KILL SWITCH] Successfully unlinked billing for project offline-demo! All billable API calls stopped."
+    ]
+  },
+  {
+    "name": "string-false-force",
+    "calls": [
+      [
+        "get",
+        {
+          "name": "projects/offline-demo"
+        }
+      ],
+      [
+        "update",
+        {
+          "name": "projects/offline-demo",
+          "projectBillingInfo": {
+            "billingAccountName": ""
+          }
+        }
+      ]
+    ],
+    "logs": [
+      "Received billing alert notification via Pub/Sub",
+      "Budget Alert Data: {\"costAmount\":8,\"budgetAmount\":10,\"currencyCode\":\"USD\",\"forceKill\":\"false\"}",
+      "Threshold reached! Checking current billing info for: offline-demo...",
+      "[KILL SWITCH] Disabling billing for project offline-demo to prevent credit card charges...",
+      "[KILL SWITCH] Successfully unlinked billing for project offline-demo! All billable API calls stopped."
+    ]
+  },
+  {
+    "name": "already-off",
+    "calls": [
+      [
+        "get",
+        {
+          "name": "projects/offline-demo"
+        }
+      ]
+    ],
+    "logs": [
+      "Received billing alert notification via Pub/Sub",
+      "Budget Alert Data: {\"costAmount\":9,\"budgetAmount\":10,\"currencyCode\":\"USD\"}",
+      "Threshold reached! Checking current billing info for: offline-demo...",
+      "Billing is already disabled/unlinked for project: offline-demo. No action needed."
+    ]
+  },
+  {
+    "name": "missing-budget",
+    "calls": [],
+    "logs": [
+      "Received billing alert notification via Pub/Sub",
+      "Budget Alert Data: {}",
+      "[SAFE] No valid threshold or budget amount exceeded in payload. Skipping unlink."
+    ]
+  }
+]

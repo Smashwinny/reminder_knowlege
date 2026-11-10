@@ -1,0 +1,53 @@
+{
+  "source": "D:\\agenttry\\reminder-learning-20261110\\remotion-refined\\exercise.zip",
+  "source_bytes": 41363,
+  "source_sha256": "7b509e1106f49e5f76671327bf43af18a46f8e2f48829a323b49291cf1f786c7",
+  "destination": "D:\\agenttry\\reminder-learning-20261110\\remotion-refined\\work\\final-zip-check",
+  "entries": [
+    {
+      "name": "exercise/README.md",
+      "bytes": 6778,
+      "compressed": 3651,
+      "sha256": "19b61574114c992c21291d3fdcbf64b92e0e10705cc6c29f404367990a3c542e"
+    },
+    {
+      "name": "exercise/package.json",
+      "bytes": 363,
+      "compressed": 220,
+      "sha256": "7627542a62cf38e9f25c79ad0afc80cc0e304134b3998b2330bcfa0e3d1ee3ba"
+    },
+    {
+      "name": "exercise/package-lock.json",
+      "bytes": 140069,
+      "compressed": 31848,
+      "sha256": "65d5724a69653d28a54fe4040ad2bf6060c6980ff8a7154788135e6d9eae2b45"
+    },
+    {
+      "name": "exercise/tsconfig.json",
+      "bytes": 159,
+      "compressed": 129,
+      "sha256": "647b200b8bceaf5eaac298369ec89cc25d3ca92e57beba02d7de3f8588765a8a"
+    },
+    {
+      "name": "exercise/verify.py",
+      "bytes": 4631,
+      "compressed": 1793,
+      "sha256": "674e6ae7b4381f69e8bb1ae7c7ad2a8f07462d53836241dcc3ddd8c57f4ac287"
+    },
+    {
+      "name": "exercise/LICENSE-Remotion.md",
+      "bytes": 2823,
+      "compressed": 1259,
+      "sha256": "bd65083b940f61904f6ef298aade918a7cad72a3e35bc406e36fab365844b673"
+    },
+    {
+      "name": "exercise/src/index.tsx",
+      "bytes": 2851,
+      "compressed": 1599,
+      "sha256": "5bdfb81d4ebc6fd406e7cf37e1748886c55b437fc1b0a3cfcdfa8c4cbe454687"
+    }
+  ],
+  "file_count": 7,
+  "uncompressed_bytes": 157674,
+  "result": "PASS"
+}

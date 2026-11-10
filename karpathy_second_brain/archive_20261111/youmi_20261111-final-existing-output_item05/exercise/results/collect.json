@@ -1,0 +1,17 @@
+[
+  {
+    "name": 1,
+    "sha256": "e67cbaf9ec90e41122a13a4e1ebf14f110c023f409e1ab41c35669d860bfc603",
+    "status": "written"
+  },
+  {
+    "name": 2,
+    "sha256": "db315475fe53fd1cbfc127095e4ceef8c23df0ab1b0dc640d43df4b397b1624f",
+    "status": "written"
+  },
+  {
+    "name": 3,
+    "sha256": "9967333d233bf4bf30052e67e65fa2b10bb6dc617e8c76381d6327c7cbbde51e",
+    "status": "written"
+  }
+]

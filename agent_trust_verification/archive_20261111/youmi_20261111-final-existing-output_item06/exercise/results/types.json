@@ -1,0 +1,34 @@
+{
+  "fixed": {
+    "command": [
+      "node",
+      "/workspace/reminder-batch/worker-689b81da/item06/exercise/node_modules/typescript/bin/tsc",
+      "--strict",
+      "--target",
+      "ES2022",
+      "--module",
+      "commonjs",
+      "--noEmit",
+      "fixed.ts"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "negative_expected_failure": {
+    "command": [
+      "node",
+      "/workspace/reminder-batch/worker-689b81da/item06/exercise/node_modules/typescript/bin/tsc",
+      "--strict",
+      "--target",
+      "ES2022",
+      "--module",
+      "commonjs",
+      "--noEmit",
+      "negative.ts"
+    ],
+    "exit": 2,
+    "stdout": "negative.ts(3,17): error TS2345: Argument of type 'Draft' is not assignable to parameter of type 'Approved'.\n  Property 'approvalId' is missing in type 'Draft' but required in type 'Approved'.\n",
+    "stderr": ""
+  }
+}

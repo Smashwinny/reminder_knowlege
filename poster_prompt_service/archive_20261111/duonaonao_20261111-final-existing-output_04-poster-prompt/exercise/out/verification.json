@@ -1,0 +1,45 @@
+{
+  "files": [
+    {
+      "id": "lamp",
+      "sha256": "bd8d84274e029fdcd65dbac0af946d1cfe2c5f1954bdd60faabb21d855d851eb",
+      "checks": [
+        "dimensions",
+        "clip",
+        "brand",
+        "tagline",
+        "no_external_image",
+        "no_script",
+        "deterministic_rebuild"
+      ]
+    },
+    {
+      "id": "bottle",
+      "sha256": "14a5d0dffb726e76bdc995d3e33d4b593e9c4131851e50f842dda6ef12f81bc3",
+      "checks": [
+        "dimensions",
+        "clip",
+        "brand",
+        "tagline",
+        "no_external_image",
+        "no_script",
+        "deterministic_rebuild"
+      ]
+    },
+    {
+      "id": "disc",
+      "sha256": "1305bc29827c0d4a53cab664816200c7faabe94cc0dae38f09bc3631ea301e38",
+      "checks": [
+        "dimensions",
+        "clip",
+        "brand",
+        "tagline",
+        "no_external_image",
+        "no_script",
+        "deterministic_rebuild"
+      ]
+    }
+  ],
+  "checks": 21,
+  "scope": "XML/byte checks; aesthetics and font portability not proven"
+}

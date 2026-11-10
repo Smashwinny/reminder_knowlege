@@ -1,0 +1,83 @@
+{
+  "safe_model": false,
+  "states": 6,
+  "states_and_shortest_paths": [
+    {
+      "approved": false,
+      "delivered": 0,
+      "trace": []
+    },
+    {
+      "approved": true,
+      "delivered": 0,
+      "trace": [
+        "approve"
+      ]
+    },
+    {
+      "approved": false,
+      "delivered": 1,
+      "trace": [
+        "send"
+      ]
+    },
+    {
+      "approved": true,
+      "delivered": 1,
+      "trace": [
+        "approve",
+        "send"
+      ]
+    },
+    {
+      "approved": false,
+      "delivered": 2,
+      "trace": [
+        "send",
+        "send"
+      ]
+    },
+    {
+      "approved": true,
+      "delivered": 2,
+      "trace": [
+        "approve",
+        "send",
+        "send"
+      ]
+    }
+  ],
+  "violations": [
+    {
+      "state": [
+        false,
+        1
+      ],
+      "trace": [
+        "send"
+      ]
+    },
+    {
+      "state": [
+        false,
+        2
+      ],
+      "trace": [
+        "send",
+        "send"
+      ]
+    },
+    {
+      "state": [
+        true,
+        2
+      ],
+      "trace": [
+        "approve",
+        "send",
+        "send"
+      ]
+    }
+  ],
+  "bound": "count<=2, no revocation/crash/network/real approval"
+}

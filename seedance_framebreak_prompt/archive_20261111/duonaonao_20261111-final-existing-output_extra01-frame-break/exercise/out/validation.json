@@ -1,0 +1,25 @@
+{
+  "case_count": 12,
+  "clipped_zero_overlap": true,
+  "front_nonzero_overlap": true,
+  "bar_geometries": [
+    27,
+    49,
+    68
+  ],
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 960,
+        "height": 300,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "144"
+      }
+    ],
+    "format": {
+      "duration": "6.000000"
+    }
+  }
+}

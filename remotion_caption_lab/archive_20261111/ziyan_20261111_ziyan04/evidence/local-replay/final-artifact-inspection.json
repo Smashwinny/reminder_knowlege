@@ -1,0 +1,91 @@
+{
+  "guide_bytes": 134901,
+  "sections": 12,
+  "articles": 12,
+  "question_articles": 12,
+  "svg": 12,
+  "images": [
+    {
+      "declared": [
+        "720",
+        "405"
+      ],
+      "actual": [
+        720,
+        405
+      ],
+      "format": "JPEG",
+      "bytes": 20218
+    },
+    {
+      "declared": [
+        "720",
+        "405"
+      ],
+      "actual": [
+        720,
+        405
+      ],
+      "format": "JPEG",
+      "bytes": 19992
+    },
+    {
+      "declared": [
+        "720",
+        "405"
+      ],
+      "actual": [
+        720,
+        405
+      ],
+      "format": "JPEG",
+      "bytes": 18733
+    },
+    {
+      "declared": [
+        "720",
+        "405"
+      ],
+      "actual": [
+        720,
+        405
+      ],
+      "format": "JPEG",
+      "bytes": 21583
+    }
+  ],
+  "step_h3": 6,
+  "scripts": 0,
+  "font_face": false,
+  "microsoft_yahei": true,
+  "external_image": false,
+  "old_workspace_path": false,
+  "zip": {
+    "bytes": 41363,
+    "entries": [
+      "exercise/README.md",
+      "exercise/package.json",
+      "exercise/package-lock.json",
+      "exercise/tsconfig.json",
+      "exercise/verify.py",
+      "exercise/LICENSE-Remotion.md",
+      "exercise/src/index.tsx"
+    ],
+    "crc_error": null,
+    "node_modules": false,
+    "absolute_or_parent": false,
+    "license_included": true,
+    "readme_matches_root": true
+  },
+  "original_mp4": {
+    "bytes": 1271452,
+    "sha256": "94bb30211c135902f228081b43f276b6213a9cadd219aaa7d9b70dc206160e1d"
+  },
+  "uses_markers": {
+    "①": 1,
+    "②": 1,
+    "③": 1,
+    "④": 1
+  },
+  "status": "PASS"
+}

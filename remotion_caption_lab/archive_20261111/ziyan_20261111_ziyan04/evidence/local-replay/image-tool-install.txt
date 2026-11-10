@@ -1,0 +1,21 @@
+$ python -m venv work/image-venv
+exit=0
+$ work/image-venv/Scripts/python -m pip install Pillow
+WARNING: There was an error checking the latest version of pip.
+Collecting Pillow
+  Using cached pillow-13.0.0-cp314-cp314-win_amd64.whl.metadata (9.3 kB)
+Using cached pillow-13.0.0-cp314-cp314-win_amd64.whl (7.3 MB)
+Installing collected packages: Pillow
+Successfully installed Pillow-13.0.0
+exit=0
+$ work/image-venv/Scripts/python -m pip show Pillow
+Name: pillow
+Version: 13.0.0
+Summary: Python Imaging Library (fork)
+Home-page: https://python-pillow.org
+Author: 
+Author-email: Jeffrey 'Alex' Clark <aclark@aclark.net>
+License-Expression: MIT-CMU
+Location: D:\agenttry\reminder-learning-20261110\remotion-refined\work\image-venv\Lib\site-packages
+Requires: 
+Required-by: 

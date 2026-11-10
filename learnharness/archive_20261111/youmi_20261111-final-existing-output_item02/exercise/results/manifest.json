@@ -1,0 +1,47 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 6084,
+    "sha256": "1cbb4a7ce7b9be1515d993f6585c9ea9a4a87a6b80e935c0bcd5afc3b6b24b08"
+  },
+  {
+    "path": "LICENSE",
+    "bytes": 34523,
+    "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+  },
+  {
+    "path": "package.json",
+    "bytes": 3270,
+    "sha256": "ed310c3d8deefb10f3ecbe0be880ccfb0d06e2db662906a3ceb254ba49b9da84"
+  },
+  {
+    "path": "docs/architecture.md",
+    "bytes": 19747,
+    "sha256": "ac898e5b14067a1bf57b1e8918432be8b223b7081bd702cfe65fee93143919cf"
+  },
+  {
+    "path": "docs/development.md",
+    "bytes": 8893,
+    "sha256": "0f5e7d0985d29d2b7583156e785ded2de7f0021a1ab725317d3e4ab9bfef0dbe"
+  },
+  {
+    "path": "docs/teaching-methodology.md",
+    "bytes": 10937,
+    "sha256": "814b1e617abda7b389a9fa91923da41f72fa7fd6be0e91d1eac4443d5f8fe929"
+  },
+  {
+    "path": "src/core/plan-tree.ts",
+    "bytes": 5430,
+    "sha256": "230121b62e2f5e76e22bd39044398b90fbd08679185a409ed9273b8f4e9bc9e8"
+  },
+  {
+    "path": "src/agent/tools/mermaid-plan.ts",
+    "bytes": 6653,
+    "sha256": "c7ce84a7f0416f16995e33d894678e3325e7d476713b338dac998697e30016c7"
+  },
+  {
+    "path": "tests/plan-tree.test.ts",
+    "bytes": 18466,
+    "sha256": "60e315b204af7e755107918173b258765cc41a1a9388c60713cfaceba301d291"
+  }
+]

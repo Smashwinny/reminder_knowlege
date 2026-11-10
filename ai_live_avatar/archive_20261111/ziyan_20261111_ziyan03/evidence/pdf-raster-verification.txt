@@ -1,0 +1,11 @@
+page-01.png: final compressed raster identical=True; sha256=4fcedc51407652a5e7fa676bd7645f368718b6e152ab2884682298311e8a9339
+page-02.png: final compressed raster identical=True; sha256=8f170b0b50afdca4cfda3099d4e8d762de6d7476008be3a575ff05faccb83cfe
+page-03.png: final compressed raster identical=True; sha256=24d580fcac33bef2a8604507aa8333f13e960ce68edd5cef76c5a9e8e31d9d1b
+page-04.png: final compressed raster identical=True; sha256=02ce3f56dcf624c22af2582a47cb8742029747c785e706a982d5235322022925
+page-05.png: final compressed raster identical=True; sha256=ecc7cbbbf91db614c2b0aac75e1c5658358d08658faa5bcd308bb3e2a4d3cadf
+page-06.png: final compressed raster identical=True; sha256=24a7e8b0608078b5281ea3f9cb20fedf88ae2eabc353076b3cccfa0bcb8cc635
+page-07.png: final compressed raster identical=True; sha256=879e3da017f15d7d971413823c39e89e10d2762e84049ab40662ed0a083f0a10
+page-08.png: final compressed raster identical=True; sha256=c6afb760c2a9814b92043c4dd73050cddba70060e1c2dc23a5086e0a6985b05b
+page-09.png: final compressed raster identical=True; sha256=98f23d19d2338a056d0e16ada8f753c7251d624020272b7937fe7840ff58a96c
+page-10.png: final compressed raster identical=True; sha256=357a16a7f58bd91f0a0da30013f2078a9524e6825792e3adb3ab861e984f7490
+page-11.png: final compressed raster identical=True; sha256=8df2baa0fe5559ffa880adb7884be93be267008f101c1124f59016861016cc1f

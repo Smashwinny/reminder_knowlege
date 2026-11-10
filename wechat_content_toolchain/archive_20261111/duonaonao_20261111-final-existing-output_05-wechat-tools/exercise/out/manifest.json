@@ -1,0 +1,8 @@
+{
+  "exercise/out/fixture.xml": "59013b0f056ea9e6e048056be9acd7fec01df9858e2a4ac448b5abe3145f62b5",
+  "exercise/out/selected.json": "3c70dfef0907ba9f26e66be345963aaf9eb20d054e837d2affe3a14a92d86d7c",
+  "exercise/out/article-inline.html": "d61ab9b093fe0c555a7d7c0ea0b994e7cf85705628accc0a019a8eddb45f92cf",
+  "upstream/TrendRadar/trendradar/core/frequency.py": "b01974cbb9914f55080f197708d90224eec13c209210b8eb76fa5023508df14e",
+  "upstream/md/packages/core/src/utils/markdownHelpers.ts": "abe2f559428b79b2274146d31c896d2b8fa9c01c0e93f970c96128031deb8bfa",
+  "upstream/RSSHub/lib/routes/github/issue.ts": "fc8937af59dd21e185f66b2ffbf53f7d01aff43215bad1219d03c42decc6014d"
+}

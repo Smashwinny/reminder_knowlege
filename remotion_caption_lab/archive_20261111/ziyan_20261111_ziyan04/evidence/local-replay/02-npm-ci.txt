@@ -1,0 +1,6 @@
+$ test ! -e node_modules
+exit=0
+$ npm ci --ignore-scripts --no-audit --no-fund
+
+added 245 packages in 15s
+exit=0

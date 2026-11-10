@@ -1,0 +1,15 @@
+实验模板（未提交模型）
+Image 1: ONLY identity, face, body, outfit.
+Image 2: POSES ONLY; never transfer face, clothes or background.
+Audio 1: rhythm and accents only; lyrics are NOT action instructions.
+24fps; 9:16; original requested audio duration 10.876s; no audio stretch.
+Timing contract conflict: 261 full CFR frames last 10.875s; preserve audio master and resolve backend/container endpoint explicitly, do not silently stretch.
+Natural foot-led weight transfers, then hips/torso, then arms/hair. Hard cuts, not body morphs.
+0.000–2.150s: signature_close_pass; unique opening exception; recover full body by 2.15s
+2.150–3.620s: full_body_hold; head, hands and feet visible; continuous dance steps
+3.620–5.430s: full_body_hold; head, hands and feet visible; continuous dance steps
+5.430–7.250s: short_lateral_then_settle; head, hands and feet visible; continuous dance steps
+7.250–9.060s: hold_during_pivot; head, hands and feet visible; continuous dance steps
+9.060–10.876s: full_body_settle; head, hands and feet visible; continuous dance steps
+No lyric acting, lip-sync, props from words, duplicate limbs, foot cropping, endless orbit or freeze before audio end.
+Keep subtle residual motion for continuation; generation and visual QC pending.

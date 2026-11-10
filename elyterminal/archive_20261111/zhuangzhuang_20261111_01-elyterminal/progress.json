@@ -1,0 +1,36 @@
+{
+  "item": 1,
+  "status": "真实完成（学习交付与组件实验）；原生应用验证待验证",
+  "updated_at": "2026-11-11T01:12:00.199180+08:00",
+  "timezone": "Asia/Shanghai",
+  "original_post": "https://x.com/i/status/2113499695586721857",
+  "original_post_sha": null,
+  "upstream_sha": "9504b5382f3b47b0377063fa3b78cb706f44ed08",
+  "knowledge_main_sha": "a8674777e18302b8804b137212b1396cbfe5a747",
+  "pdf_pages": 12,
+  "pdf_review": "12/12页已Read视觉自查，无截断/溢出，SVG/中文正常",
+  "real_experiments": [
+    "两个上游文件字节核对与bash -n",
+    "上游Bash集成PTY四场景",
+    "原样marks.rs三项上游单测",
+    "18个实际OSC133标记经上游解析器读取",
+    "九个合成透明度场景及两个数学端点断言",
+    "cargo metadata读取完整项目要求"
+  ],
+  "pending": [
+    "完整应用构建：Rust环境1.85.1<上游1.95",
+    "ELYTerminal原生GUI",
+    "macOS安装与macOS27透明背景",
+    "多会话切换/关闭与宠物",
+    "中文、软折行与组合字符点击",
+    "性能、内存和个人效率对照"
+  ],
+  "no_actions": [
+    "未改vault",
+    "未发布或push",
+    "未勾选任务",
+    "未新建日程/队列",
+    "未使用用户密钥",
+    "续接后未改共享_common或其他助手项目"
+  ]
+}

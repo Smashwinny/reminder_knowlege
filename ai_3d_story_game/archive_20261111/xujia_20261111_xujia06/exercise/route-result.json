@@ -1,0 +1,19 @@
+{
+  "mode": "route",
+  "actions": 5,
+  "state": {
+    "place": "ending",
+    "bag": [
+      "memory",
+      "stone"
+    ],
+    "visited": [
+      "grove",
+      "ridge",
+      "observatory",
+      "ending"
+    ],
+    "ended": true
+  },
+  "replay_equal": true
+}

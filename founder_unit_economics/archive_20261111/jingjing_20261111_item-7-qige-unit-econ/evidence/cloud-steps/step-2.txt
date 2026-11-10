@@ -1,0 +1,80 @@
+【教学保守情景】定制商单漏斗（全部关键成本为 teaching_assumption，客单价也是教学假设，不是自述 GMV）
+漏斗：展示 20000 → 点击 600.00 → 咨询 48.00 → 成交 7.2000
+流量成本 = 点击 × CPC = 600.00 × ¥1.50 = ¥900.00
+## 定制商单 · 独自交付假设
+输入标签：
+  - impressions: teaching_assumption
+  - ctr: teaching_assumption
+  - inquiry_rate: teaching_assumption
+  - close_rate_custom: teaching_assumption
+  - cpc: teaching_assumption
+  - custom_aov_teaching: teaching_assumption
+  - refund_rate_custom: teaching_assumption
+  - fees: teaching_assumption+teaching_assumption
+  - delivery_cost_ratio_solo: teaching_assumption
+  成交单数: 7.2000
+  客单价: ¥3,000.00
+  收入: ¥21,600.00
+  退款: ¥1,080.00
+  净收入: ¥20,520.00
+  平台/支付手续费: ¥1,354.32
+  交付成本: ¥5,130.00
+  履约成本: ¥0.00
+  流量成本: ¥900.00
+  贡献利润: ¥13,135.68
+  CAC（流量成本/成交单数）: ¥125.00
+  单笔贡献利润: ¥1,824.40
+  贡献利润率: 60.81%
+
+## 定制商单 · 外包交付假设（同一漏斗，只改交付成本占比）
+输入标签：
+  - impressions: teaching_assumption
+  - ctr: teaching_assumption
+  - inquiry_rate: teaching_assumption
+  - close_rate_custom: teaching_assumption
+  - cpc: teaching_assumption
+  - custom_aov_teaching: teaching_assumption
+  - refund_rate_custom: teaching_assumption
+  - fees: teaching_assumption+teaching_assumption
+  - delivery_cost_ratio_outsourced: teaching_assumption
+  成交单数: 7.2000
+  客单价: ¥3,000.00
+  收入: ¥21,600.00
+  退款: ¥1,080.00
+  净收入: ¥20,520.00
+  平台/支付手续费: ¥1,354.32
+  交付成本: ¥11,286.00
+  履约成本: ¥0.00
+  流量成本: ¥900.00
+  贡献利润: ¥6,979.68
+  CAC（流量成本/成交单数）: ¥125.00
+  单笔贡献利润: ¥969.40
+  贡献利润率: 32.31%
+
+课程漏斗：展示 20000 → 点击 600.00 → 咨询 48.00 → 成交 1.9200
+## 课程（标价来自作者自述 2980，其余成本与转化为教学假设）
+输入标签：
+  - impressions: teaching_assumption
+  - ctr: teaching_assumption
+  - inquiry_rate: teaching_assumption
+  - close_rate_course: teaching_assumption
+  - cpc: teaching_assumption
+  - course_price: author_claim
+  - course_refund_rate: teaching_assumption
+  - fees: teaching_assumption+teaching_assumption
+  - course_fulfillment_cost: teaching_assumption
+  成交单数: 1.9200
+  客单价: ¥2,980.00
+  收入: ¥5,721.60
+  退款: ¥457.73
+  净收入: ¥5,263.87
+  平台/支付手续费: ¥347.42
+  交付成本: ¥0.00
+  履约成本: ¥353.28
+  流量成本: ¥900.00
+  贡献利润: ¥3,663.18
+  CAC（流量成本/成交单数）: ¥468.75
+  单笔贡献利润: ¥1,907.90
+  贡献利润率: 64.02%
+
+结论边界：以上贡献利润只在给定假设下成立，不能证明原帖收入或融资。

@@ -1,0 +1,18 @@
+{
+  "board_files": 886,
+  "leaf_directories": 173,
+  "matching_paths": [
+    "main/boards/lckfb/szpi-esp32c3/README.md",
+    "main/boards/lckfb/szpi-esp32c3/config.h",
+    "main/boards/lckfb/szpi-esp32c3/config.json",
+    "main/boards/lckfb/szpi-esp32c3/lichuang_c3_dev_board.cc",
+    "main/boards/lckfb/szpi-esp32s3/config.h",
+    "main/boards/lckfb/szpi-esp32s3/config.json",
+    "main/boards/lckfb/szpi-esp32s3/lichuang_dev_board.cc",
+    "main/boards/waveshare/esp32-s3-touch-amoled-1.75/README.md",
+    "main/boards/waveshare/esp32-s3-touch-amoled-1.75/config.h",
+    "main/boards/waveshare/esp32-s3-touch-amoled-1.75/config.json",
+    "main/boards/waveshare/esp32-s3-touch-amoled-1.75/esp32-s3-touch-amoled-1.75.cc"
+  ],
+  "sha": "a73e9a7e266e3196d1368ba46c30bee0d81f0a64"
+}

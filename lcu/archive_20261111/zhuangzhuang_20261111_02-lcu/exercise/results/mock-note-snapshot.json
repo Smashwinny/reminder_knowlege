@@ -1,0 +1,22 @@
+{
+  "kind": "SIMULATED_APP",
+  "appId": "demo.notes",
+  "text": "学习MCP",
+  "saved": true,
+  "revision": 1,
+  "cursor": {
+    "x": 0,
+    "y": 0
+  },
+  "elements": [
+    {
+      "id": "editor",
+      "role": "textbox"
+    },
+    {
+      "id": "save",
+      "role": "button",
+      "name": "保存"
+    }
+  ]
+}

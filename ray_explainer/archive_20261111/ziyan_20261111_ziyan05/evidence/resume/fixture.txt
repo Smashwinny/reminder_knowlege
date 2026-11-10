@@ -1,0 +1,5 @@
+2026-11-11T01:26:23.556170 Asia/Shanghai UTC+8
+$ python3 exercise/prepare_fixture.py /workspace/reminder-batch/item05/exercise/2026-11-11-resume-local
+fixture prepared: /workspace/reminder-batch/item05/exercise/2026-11-11-resume-local duration=12s PCM silence, NOT narration
+
+exit_code=0

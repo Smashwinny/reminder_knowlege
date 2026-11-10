@@ -1,0 +1,83 @@
+$ npx remotion still src/index.tsx CaptionLab ../frames/replay-01.png --frame=45 --browser-executable="$CHROME_BIN"
+Bundling 6%
+Bundling 32%
+Bundling 40%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 98%
+Bundling 100%
+Getting composition
+Composition          CaptionLab
+Format               png
+Output               ../frames/replay-01.png
+Rendered 0/1
+Rendered 0/1
+Rendered 1/1
++                    ../frames/replay-01.png
+exit=0
+$ npx remotion still src/index.tsx CaptionLab ../frames/replay-02.png --frame=135 --browser-executable="$CHROME_BIN"
+Bundling 6%
+Bundling 32%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 98%
+Bundling 100%
+Getting composition
+Composition          CaptionLab
+Format               png
+Output               ../frames/replay-02.png
+Rendered 0/1
+Rendered 0/1
+Rendered 1/1
++                    ../frames/replay-02.png
+exit=0
+$ npx remotion still src/index.tsx CaptionLab ../frames/replay-03.png --frame=225 --browser-executable="$CHROME_BIN"
+Bundling 6%
+Bundling 32%
+Bundling 42%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 98%
+Bundling 100%
+Getting composition
+Composition          CaptionLab
+Format               png
+Output               ../frames/replay-03.png
+Rendered 0/1
+Rendered 0/1
+Rendered 1/1
++                    ../frames/replay-03.png
+exit=0
+$ npx remotion still src/index.tsx CaptionLab ../frames/replay-04.png --frame=315 --browser-executable="$CHROME_BIN"
+Bundling 6%
+Bundling 32%
+Bundling 42%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 98%
+Bundling 100%
+Getting composition
+Composition          CaptionLab
+Format               png
+Output               ../frames/replay-04.png
+Rendered 0/1
+Rendered 0/1
+Rendered 1/1
++                    ../frames/replay-04.png
+exit=0

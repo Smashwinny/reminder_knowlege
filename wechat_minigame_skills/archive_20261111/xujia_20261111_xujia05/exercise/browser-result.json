@@ -1,0 +1,22 @@
+{
+  "pickup": {
+    "tick": 30,
+    "x": 120,
+    "y": 150,
+    "r": 12,
+    "coinX": 260,
+    "coinY": 150,
+    "score": 1,
+    "paused": false,
+    "seed": 1042201148,
+    "events": [],
+    "coordinate": "origin top-left; +x right; +y down",
+    "remainder_ms": 0,
+    "flash": 0
+  },
+  "paused_tick": 30,
+  "ten_1ms_ticks": 0,
+  "then_7ms_ticks": 1,
+  "overflow": false,
+  "errors": []
+}

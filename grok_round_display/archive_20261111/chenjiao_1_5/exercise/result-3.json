@@ -1,0 +1,9 @@
+{
+  "accepted": [
+    {
+      "request_id": "demo-001",
+      "text": "环回测试成功"
+    }
+  ],
+  "rejected_wrong_or_duplicate": 2
+}

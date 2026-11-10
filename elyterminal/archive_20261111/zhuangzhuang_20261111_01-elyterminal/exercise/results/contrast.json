@@ -1,0 +1,92 @@
+[
+  {
+    "wallpaper": [
+      255,
+      255,
+      255
+    ],
+    "opacity": 1,
+    "row_fill_contrast": 1.2911047482396334,
+    "solid_edge_contrast": 14.745685389004995
+  },
+  {
+    "wallpaper": [
+      255,
+      255,
+      255
+    ],
+    "opacity": 0.6,
+    "row_fill_contrast": 1.2949719743229622,
+    "solid_edge_contrast": 15.151503547091837
+  },
+  {
+    "wallpaper": [
+      255,
+      255,
+      255
+    ],
+    "opacity": 0.25,
+    "row_fill_contrast": 1.298294239282286,
+    "solid_edge_contrast": 15.512681716527558
+  },
+  {
+    "wallpaper": [
+      30,
+      35,
+      55
+    ],
+    "opacity": 1,
+    "row_fill_contrast": 1.2911047482396334,
+    "solid_edge_contrast": 14.745685389004995
+  },
+  {
+    "wallpaper": [
+      30,
+      35,
+      55
+    ],
+    "opacity": 0.6,
+    "row_fill_contrast": 1.165022203137695,
+    "solid_edge_contrast": 6.216108858642764
+  },
+  {
+    "wallpaper": [
+      30,
+      35,
+      55
+    ],
+    "opacity": 0.25,
+    "row_fill_contrast": 1.0200127256400882,
+    "solid_edge_contrast": 2.2343225334506127
+  },
+  {
+    "wallpaper": [
+      255,
+      140,
+      30
+    ],
+    "opacity": 1,
+    "row_fill_contrast": 1.2911047482396334,
+    "solid_edge_contrast": 14.745685389004995
+  },
+  {
+    "wallpaper": [
+      255,
+      140,
+      30
+    ],
+    "opacity": 0.6,
+    "row_fill_contrast": 1.2627709808631367,
+    "solid_edge_contrast": 10.686950956657315
+  },
+  {
+    "wallpaper": [
+      255,
+      140,
+      30
+    ],
+    "opacity": 0.25,
+    "row_fill_contrast": 1.2444312442224825,
+    "solid_edge_contrast": 8.114042287355959
+  }
+]

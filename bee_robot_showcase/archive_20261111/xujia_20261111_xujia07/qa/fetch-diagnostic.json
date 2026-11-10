@@ -1,0 +1,8 @@
+{
+  "requests": [
+    "\"GET / HTTP/1.1\" 200 -",
+    "\"GET /ok HTTP/1.1\" 200 -"
+  ],
+  "dom": "<html><head><script>fetch(\"/ok\").then(r=>r.text()).then(s=>document.body.textContent=s).catch(e=>document.body.textContent=String(e))</script></head><body>FETCH_OK</body></html>\n",
+  "chrome_exit": 0
+}

@@ -1,0 +1,9 @@
+{
+  "status": "部分待验证",
+  "summary": "TS负对照与有限模型六步实跑，12自写检查通过；6状态反例收紧至3状态",
+  "caveat": "未安装pstack/查Slack；无TLA+/远端CI/真实Agent性能或生产恰好一次验证",
+  "pdf_pages": 8,
+  "questions": 12,
+  "svg": 12,
+  "html_bytes": 22449
+}

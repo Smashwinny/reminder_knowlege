@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import { marked } from 'marked';
+import juice from 'juice';
+import { sanitizeHtml } from '../upstream/md/packages/core/src/utils/markdownHelpers.ts';
+const out=new URL('./out/',import.meta.url);
+const raw=fs.readFileSync(new URL('article.md',out),'utf8');
+const input=marked.parse(raw) as string;
+const clean=sanitizeHtml(input+'<script>NOT_EXECUTED</script><img src="x" onerror="NOT_EXECUTED">');
+if(/<script|onerror=/i.test(clean))throw new Error('sanitize failed');
+const rendered=juice('<style>h1{color:#1678ed}h2{color:#00a7be}p{line-height:1.7}</style>'+clean);
+fs.writeFileSync(new URL('article-inline.html',out),rendered);
+const marker='<!--mermaid-start--><b>benign marker fixture</b><!--mermaid-end-->';
+if(!sanitizeHtml(marker).includes('benign marker fixture'))throw new Error('marker roundtrip');
+console.log('real Doocs sanitizeHtml: ordinary script+event removed; benign protected-marker content restored');
+console.log('marked + juice: HTML generated, inline style='+rendered.includes('style='));
+console.log('scope: real sanitizer component, not full Doocs renderer or WeChat clipboard; marker trust boundary not a universal sanitizer proof');

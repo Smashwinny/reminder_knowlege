@@ -1,0 +1,47 @@
+[
+  {
+    "path": "scripts/recast.py",
+    "sha256": "978696c62e8e888e897b8cf7123aef14f7de8988a29de4d9a402326b63e4765c",
+    "matches_saved": true
+  },
+  {
+    "path": "SKILL.md",
+    "sha256": "96c846906af3d1bede63d036112a9b6a19dd7c0527523931461a80071da6cb92",
+    "matches_saved": true
+  },
+  {
+    "path": "README.md",
+    "sha256": "8b4e6fb41f56ab8b9e5c6db07e736207b4f0c95e08279b03fd1ef20f41526dd6",
+    "matches_saved": true
+  },
+  {
+    "path": "references/production.md",
+    "sha256": "a493fc0d5ab4c33ec94905b895c0cdded0cff127260bc279cf34036e938a8dae",
+    "matches_saved": true
+  },
+  {
+    "path": "references/comfyui.md",
+    "sha256": "3b7e670a4527ef0f6ecc9cbbf756e8f8285b98a434e1313f098f3b5b359727af",
+    "matches_saved": true
+  },
+  {
+    "path": "references/quality.md",
+    "sha256": "4532c967f367481e0654b3da44cca2c820cd6f90d51ae52f824c5641424bbc19",
+    "matches_saved": true
+  },
+  {
+    "path": "tests/test_production.py",
+    "sha256": "ad8b540cc572a497e7f768ce4fab74fbd8503e21fd2d667cda22f969902076da",
+    "matches_saved": true
+  },
+  {
+    "path": "LICENSE",
+    "sha256": "ffa96d72259ed7caa1e775d288a4e9274d247f134ffef766fddd751d84cdbeeb",
+    "matches_saved": true
+  },
+  {
+    "path": "MEDIA_NOTICE.md",
+    "sha256": "deb4e6dae4ad11453d9128d81bfacb7ff712af1abd4e078dafcecd728f2346ea",
+    "matches_saved": true
+  }
+]

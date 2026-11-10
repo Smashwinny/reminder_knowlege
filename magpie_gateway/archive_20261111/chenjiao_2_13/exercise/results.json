@@ -1,0 +1,22 @@
+[
+  {
+    "command": "python3 exercise/lab.py prepare",
+    "output": "{'bind': '127.0.0.1', 'upstreams': ['local-429', 'local-ok'], 'real_keys': False}\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py failover",
+    "output": "attempts= [429, 200] counts= {'bad': 1, 'good': 1}\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py auth",
+    "output": "attempts= [401] counts= {'bad': 1, 'good': 0}\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py budget",
+    "output": "synthetic reservations= [True, True, False] reserved_tokens= 90 external_requests=0; NOT Magpie execution\n",
+    "exit": 0
+  }
+]

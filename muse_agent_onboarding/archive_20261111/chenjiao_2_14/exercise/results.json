@@ -1,0 +1,22 @@
+[
+  {
+    "command": "python3 exercise/lab.py prepare",
+    "output": "9 synthetic use cases saved; no service login\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py classify",
+    "output": "[('简报', 'allow-offline'), ('邮件分类', 'approval-required'), ('旅行备选', 'allow-offline'), ('订阅清单', 'allow-offline'), ('价格监控', 'approval-required'), ('文档总结', 'allow-offline'), ('社媒草稿', 'allow-offline'), ('研究报告', 'allow-offline'), ('目标追踪', 'approval-required')]\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py lint",
+    "output": "bad missing= ['inputs', 'scope', 'stop', 'done'] good missing= []\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py injection",
+    "output": "external text kept as DATA; actions= ['read', 'draft'] sent=0 (deterministic fixture, not LLM robustness test)\n",
+    "exit": 0
+  }
+]

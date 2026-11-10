@@ -1,0 +1,531 @@
+{
+  "meta": {
+    "article_id_url": "https://x.com/i/article/2110257071849603072",
+    "note": "帖子 entities 里该文章链接 status=404；X API 按 id 查询返回 Not Found。正文是从母帖 article.plain_text 读到的。",
+    "do_not_use_referral_codes": true
+  },
+  "tools": [
+    {
+      "article_no": "1",
+      "name": "沉浸式翻译",
+      "chapter": "一、市场机会与竞品调研",
+      "role": "双语对照读竞品，不覆盖原文",
+      "official_url": "https://immersivetranslate.com/",
+      "confidence": "search_confirmed",
+      "url_note": "官方站点"
+    },
+    {
+      "article_no": "2",
+      "name": "AITDK",
+      "chapter": "一、市场机会与竞品调研",
+      "role": "浏览器里做竞品初筛：域名年龄、TDK、流量、外链、密度",
+      "official_url": "https://aitdk.com/",
+      "confidence": "search_confirmed",
+      "url_note": "插件页为 /extension，本批探测官网根路径"
+    },
+    {
+      "article_no": "3",
+      "name": "SiteData",
+      "chapter": "一、市场机会与竞品调研",
+      "role": "作者称为 AITDK 升级版，看流量趋势、关键词、广告和相似站点",
+      "official_url": "https://sitedata.dev/",
+      "confidence": "search_confirmed",
+      "url_note": "检索得到 sitedata.dev；名称有歧义，若作者指其他产品则待验证"
+    },
+    {
+      "article_no": "4",
+      "name": "Similarweb",
+      "chapter": "一、市场机会与竞品调研",
+      "role": "看国家、设备与 Direct/Search/Social/Referral/Paid 来源",
+      "official_url": "https://www.similarweb.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "5",
+      "name": "Wayback Machine",
+      "chapter": "一、市场机会与竞品调研",
+      "role": "对比竞品历史快照，尤其是改价格或换目标用户的时点",
+      "official_url": "https://web.archive.org/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "6",
+      "name": "Wappalyzer",
+      "chapter": "一、市场机会与竞品调研",
+      "role": "识别 CMS、分析、支付、客服和营销技术栈",
+      "official_url": "https://www.wappalyzer.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "7",
+      "name": "Google Trends",
+      "chapter": "一、市场机会与竞品调研",
+      "role": "看搜索趋势和季节性，作者自述曾据此提前上线教育站点",
+      "official_url": "https://trends.google.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "8",
+      "name": "Exploding Topics",
+      "chapter": "一、市场机会与竞品调研",
+      "role": "发现上升主题，再放回 Trends 和 Similarweb 复核；趋势不是需求证明",
+      "official_url": "https://explodingtopics.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "9",
+      "name": "Screaming Frog SEO Spider",
+      "chapter": "二、SEO 与内容资产",
+      "role": "抓取本站技术 SEO 问题；免费版最多 500 URL",
+      "official_url": "https://www.screamingfrog.co.uk/seo-spider/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "10",
+      "name": "SEO Minion",
+      "chapter": "二、SEO 与内容资产",
+      "role": "发布前检查标题、H 标签、内链、Alt 和 SERP 预览",
+      "official_url": "https://seominion.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "11",
+      "name": "Semrush",
+      "chapter": "二、SEO 与内容资产",
+      "role": "竞品关键词与外链；作者与 Ahrefs 二选一；文中拼写为 senrush",
+      "official_url": "https://www.semrush.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "12",
+      "name": "Moz Link Explorer",
+      "chapter": "二、SEO 与内容资产",
+      "role": "看引用域名和外链来源是否像自然传播",
+      "official_url": "https://moz.com/link-explorer",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "13",
+      "name": "Ahrefs",
+      "chapter": "二、SEO 与内容资产",
+      "role": "看已带来流量的页面和词；与 Semrush 选一个即可",
+      "official_url": "https://ahrefs.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "14",
+      "name": "（原文缺号）",
+      "chapter": "二、SEO 与内容资产",
+      "role": "编号从 13 直接跳到 15，本批未读到第 14 个工具正文",
+      "official_url": null,
+      "confidence": "missing",
+      "url_note": "原文缺号，不探测"
+    },
+    {
+      "article_no": "15",
+      "name": "Linkhouse",
+      "chapter": "二、SEO 与内容资产",
+      "role": "外链交易市场；强调相关性、真实流量和页面质量，避免垃圾站",
+      "official_url": "https://linkhouse.net/",
+      "confidence": "search_confirmed",
+      "url_note": ""
+    },
+    {
+      "article_no": "16",
+      "name": "Collaborator",
+      "chapter": "二、SEO 与内容资产",
+      "role": "按国家或行业找媒体，不能只看 DR/AS",
+      "official_url": "https://collaborator.pro/",
+      "confidence": "official_known",
+      "url_note": "域名按常见官方站填写，探测时核验"
+    },
+    {
+      "article_no": "53-early",
+      "name": "Fiverr",
+      "chapter": "二、SEO 与内容资产",
+      "role": "作者称采购客座博客外链多用此平台；编号 53 出现在第 2 章",
+      "official_url": "https://www.fiverr.com/",
+      "confidence": "official_known",
+      "url_note": "编号错位，不是第 7 章的 53"
+    },
+    {
+      "article_no": "54-early",
+      "name": "Adsy",
+      "chapter": "二、SEO 与内容资产",
+      "role": "按国家、行业、流量筛选媒体；不适合批量铺垃圾链接",
+      "official_url": "https://www.adsy.com/",
+      "confidence": "official_known",
+      "url_note": "编号错位，出现在第 2 章末"
+    },
+    {
+      "article_no": "17",
+      "name": "Figma",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "role": "先画落地页、注册、首次输入、结果页和付费五页并连通",
+      "official_url": "https://www.figma.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "18",
+      "name": "Framer",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "role": "可视化建站；作者认为大型复杂 SaaS 不适合",
+      "official_url": "https://www.framer.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "19",
+      "name": "IconPark",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "role": "统一图标再导出 SVG",
+      "official_url": "https://iconpark.oceanengine.com/",
+      "confidence": "official_known",
+      "url_note": "字节跳动 IconPark 官方站"
+    },
+    {
+      "article_no": "20",
+      "name": "OpenRouter",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "role": "用真实任务比较模型质量、速度、上下文和成本",
+      "official_url": "https://openrouter.ai/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "21",
+      "name": "Dify",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "role": "先搭工作流验证 AI 功能是否有用，再开发",
+      "official_url": "https://dify.ai/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "22",
+      "name": "Replicate",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "role": "先看开源模型输出稳定性和单次成本",
+      "official_url": "https://replicate.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "23",
+      "name": "n8n",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "role": "把重复运营动作做成自动流程",
+      "official_url": "https://n8n.io/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "24",
+      "name": "Midjourney",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "role": "统一品牌主视觉，避免各渠道看起来像不同产品",
+      "official_url": "https://www.midjourney.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "25",
+      "name": "Ideogram",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "role": "生成带文字海报，发布前必须人工校对",
+      "official_url": "https://ideogram.ai/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "26",
+      "name": "Loom",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "role": "异步讲解和客户演示，偏沟通",
+      "official_url": "https://www.loom.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "27",
+      "name": "Screen Studio",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "role": "更适合公开展示的录屏，偏传播",
+      "official_url": "https://screen.studio/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "28",
+      "name": "Cloudflare",
+      "chapter": "四、建站、本地化与基础设施",
+      "role": "域名、DNS、CDN 和 SSL，先排除访问问题",
+      "official_url": "https://www.cloudflare.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "29",
+      "name": "Vercel",
+      "chapter": "四、建站、本地化与基础设施",
+      "role": "Git 连接后自动部署官网、Demo 和 MVP",
+      "official_url": "https://vercel.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "30",
+      "name": "DeepL",
+      "chapter": "四、建站、本地化与基础设施",
+      "role": "出第一版译文，关键页仍要人工润色",
+      "official_url": "https://www.deepl.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "31",
+      "name": "Weglot",
+      "chapter": "四、建站、本地化与基础设施",
+      "role": "给现站加多语言；作者建议先测一个语言市场",
+      "official_url": "https://www.weglot.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "32",
+      "name": "Lokalise",
+      "chapter": "四、建站、本地化与基础设施",
+      "role": "文案变多后集中管理翻译，避免各端互相打架",
+      "official_url": "https://lokalise.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "33",
+      "name": "Stripe",
+      "chapter": "五、支付、跨境资金与合规",
+      "role": "自控支付和订阅；作者强调用测试模式走完异常路径",
+      "official_url": "https://stripe.com/",
+      "confidence": "official_known",
+      "url_note": "本批只探测官网，不发起测试支付"
+    },
+    {
+      "article_no": "34",
+      "name": "Paddle",
+      "chapter": "五、支付、跨境资金与合规",
+      "role": "平台代处理收款、订阅和部分税务，适合小团队",
+      "official_url": "https://www.paddle.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "35",
+      "name": "Lemon Squeezy",
+      "chapter": "五、支付、跨境资金与合规",
+      "role": "用 Checkout Link 先验证愿不愿意付钱",
+      "official_url": "https://www.lemonsqueezy.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "36",
+      "name": "Starryblu",
+      "chapter": "五、支付、跨境资金与合规",
+      "role": "跨境账户和资金管理；原文末尾带推荐码，本批不使用、不注册",
+      "official_url": "https://www.starryblu.com/",
+      "confidence": "search_confirmed",
+      "url_note": "只探测官网根路径，不打开邀请链接，不使用原文推荐码"
+    },
+    {
+      "article_no": "37",
+      "name": "Termly",
+      "chapter": "五、支付、跨境资金与合规",
+      "role": "生成隐私政策等页面草稿；不是法律意见",
+      "official_url": "https://termly.io/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "38",
+      "name": "Product Hunt",
+      "chapter": "六、增长获客与渠道分发",
+      "role": "发布和早期反馈；作者认为评论比榜单位置更有价值",
+      "official_url": "https://www.producthunt.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "39",
+      "name": "Uneed",
+      "chapter": "六、增长获客与渠道分发",
+      "role": "低成本分发；提交成功不等于产品验证成功",
+      "official_url": "https://www.uneed.best/",
+      "confidence": "search_confirmed",
+      "url_note": ""
+    },
+    {
+      "article_no": "40",
+      "name": "Microlaunch",
+      "chapter": "六、增长获客与渠道分发",
+      "role": "早期产品发布社区，记录访问、注册和反馈",
+      "official_url": "https://microlaunch.net/",
+      "confidence": "search_confirmed",
+      "url_note": ""
+    },
+    {
+      "article_no": "41",
+      "name": "BetaList",
+      "chapter": "六、增长获客与渠道分发",
+      "role": "找 Beta 用户，单独标记访问和邮箱，区分围观者与试用者",
+      "official_url": "https://betalist.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "42a",
+      "name": "Discord",
+      "chapter": "六、增长获客与渠道分发",
+      "role": "海外社群；作者强调先参与讨论，进群直接发广告常被踢",
+      "official_url": "https://discord.com/",
+      "confidence": "official_known",
+      "url_note": "原文 42 是 Discord + Disboard，拆成两个官方地址探测"
+    },
+    {
+      "article_no": "42b",
+      "name": "Disboard",
+      "chapter": "六、增长获客与渠道分发",
+      "role": "公开 Discord 群组目录",
+      "official_url": "https://disboard.org/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "43",
+      "name": "Toolify",
+      "chapter": "六、增长获客与渠道分发",
+      "role": "AI 工具导航；作者称会付费做外链，也用来观察竞品分类",
+      "official_url": "https://www.toolify.ai/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "44",
+      "name": "There's An AI For That",
+      "chapter": "六、增长获客与渠道分发",
+      "role": "按任务找 AI 工具，检查产品描述是否够具体",
+      "official_url": "https://theresanaiforthat.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "45",
+      "name": "Typefully",
+      "chapter": "六、增长获客与渠道分发",
+      "role": "把一次研究写成 Thread，让内容成为获客入口",
+      "official_url": "https://typefully.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "46",
+      "name": "Beehiiv",
+      "chapter": "六、增长获客与渠道分发",
+      "role": "把平台流量沉淀成邮件名单",
+      "official_url": "https://www.beehiiv.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "47",
+      "name": "Customer",
+      "chapter": "六、增长获客与渠道分发",
+      "role": "按行为触发邮件；作者只写了 Customer，本批按功能推断为 Customer.io",
+      "official_url": "https://customer.io/",
+      "confidence": "inferred",
+      "url_note": "名称简写存在歧义，URL 是推断，探测结果不能单独证明作者指的就是这家"
+    },
+    {
+      "article_no": "48",
+      "name": "Loops",
+      "chapter": "六、增长获客与渠道分发",
+      "role": "SaaS 事务邮件和生命周期邮件，先跑通欢迎和试用提醒",
+      "official_url": "https://loops.so/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "49",
+      "name": "Google Search Console",
+      "chapter": "七、数据分析与用户反馈",
+      "role": "看真实搜索词、展示、点击率和页面",
+      "official_url": "https://search.google.com/search-console/about",
+      "confidence": "official_known",
+      "url_note": "探测公开介绍页，不登录控制台"
+    },
+    {
+      "article_no": "50",
+      "name": "Google Analytics 4",
+      "chapter": "七、数据分析与用户反馈",
+      "role": "按来源和国家看注册与付费事件",
+      "official_url": "https://marketingplatform.google.com/about/analytics/",
+      "confidence": "official_known",
+      "url_note": "探测公开介绍页，不登录账户"
+    },
+    {
+      "article_no": "51",
+      "name": "PostHog",
+      "chapter": "七、数据分析与用户反馈",
+      "role": "从注册到付费建漏斗；先修首次使用再投放",
+      "official_url": "https://posthog.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "52",
+      "name": "Microsoft Clarity",
+      "chapter": "七、数据分析与用户反馈",
+      "role": "热图和录屏，找反复点击或看不到的区域",
+      "official_url": "https://clarity.microsoft.com/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "53",
+      "name": "Feedlog",
+      "chapter": "七、数据分析与用户反馈",
+      "role": "作者自称自己的产品，整理反馈并可在 Agent 里装 MCP",
+      "official_url": "https://feedlog.ai/",
+      "confidence": "search_confirmed",
+      "url_note": "官网写作 FeedLog；作者夹带私货，需单独标明"
+    },
+    {
+      "article_no": "55",
+      "name": "Crisp",
+      "chapter": "七、数据分析与用户反馈",
+      "role": "在线客服，把咨询原话变成 FAQ；编号从 53 跳到 55，缺 54",
+      "official_url": "https://crisp.chat/",
+      "confidence": "official_known",
+      "url_note": ""
+    },
+    {
+      "article_no": "56",
+      "name": "Cursorful",
+      "chapter": "七、数据分析与用户反馈",
+      "role": "录制从注册到关键任务的演示视频",
+      "official_url": "https://cursorful.com/",
+      "confidence": "search_confirmed",
+      "url_note": ""
+    }
+  ]
+}

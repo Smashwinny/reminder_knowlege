@@ -1,0 +1,22 @@
+{
+  "synthetic_views": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    10000
+  ],
+  "mean": 1337.5,
+  "median": 100.0,
+  "mean_threshold_pass": true,
+  "median_threshold_pass": false,
+  "floor_sweep": {
+    "299": "pass",
+    "300": "pass",
+    "301": "reject"
+  },
+  "meaning": "只说明本合成样本及规则敏感性，不推断真人质量"
+}

@@ -1,0 +1,32 @@
+货币: CNY
+说明: 教学用单位经济与漏斗模型。所有数字都是模型输入，不是本批实测成交、也不是经审计的财务报表。
+标签定义:
+  [author_claim] 来自原帖或引用长文的作者自述原文，未经独立核实，禁止当作实测。
+  [author_claim_derived] 由一条或多条自述粗略推算得到，推算过程透明，结论仍未核实。
+  [teaching_assumption] 为了让模型能跑而设定的教学假设，不是作者数据，也不是市场调查结果。
+
+=== funnel_teaching ===
+  impressions: 20000  [teaching_assumption]
+  ctr: 0.03  [teaching_assumption]
+  inquiry_rate: 0.08  [teaching_assumption]
+  close_rate_custom: 0.15  [teaching_assumption]
+  close_rate_course: 0.04  [teaching_assumption]
+  cpc: 1.5  [teaching_assumption]  作者只说「秘诀就是投流」，未给出 CPC、CPM 或 CAC。
+=== economics ===
+  test_sku_price: 5  [author_claim]  原文：「上架了一个5块钱帮别人用AI修图的商品」
+  platform_fee_rate: 0.06  [teaching_assumption]  闲鱼等平台费率因类目而异，此处仅为教学占位，待验证。
+  payment_fee_rate: 0.006  [teaching_assumption]  教学占位。
+  custom_aov_teaching: 3000  [teaching_assumption]
+  custom_aov_from_claim: 5000  [author_claim_derived]  由自述「上百单、GMV大概50万」按订单数=100 粗除得到；「上百」不是精确计数。
+  delivery_cost_ratio_solo: 0.25  [teaching_assumption]  含自己时间的机会成本占位，不是作者工时记录。
+  delivery_cost_ratio_outsourced: 0.55  [teaching_assumption]  教学占位。作者提到找朋友和团队合作，但未披露分成。
+  refund_rate_custom: 0.05  [teaching_assumption]
+  course_price: 2980  [author_claim]  原文：「第一个知识付费的产品定价是2980」
+  course_fulfillment_cost: 200  [teaching_assumption]  平台、答疑、工具与退款准备的占位成本。
+  course_refund_rate: 0.08  [teaching_assumption]
+  claimed_year_orders: 100  [author_claim_derived]  原文：「25年一整年做了上百单」 取「上百」的下沿 100，仍是自述。
+  claimed_year_gmv: 500000  [author_claim]  原文：「GMV大概50万」
+  claimed_video_course_revenue: 100000  [author_claim_derived]  原文：「直接给我带来了十几万的课程收入」 「十几万」取下沿 10 万做演示，仍是自述。
+  claimed_investment: 10000000  [author_claim]  原文：「拿到了千万投资」 未给出轮次、估值、到账与稀释，不能纳入经营单位经济。
+
+校验：每条输入都带 source，模型拒绝无标签数值直接入账。

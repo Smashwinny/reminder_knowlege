@@ -1,0 +1,56 @@
+{
+  "skills_verified": 8,
+  "all_current_path_reads": true,
+  "installed_skills": 0,
+  "model_calls": 0,
+  "files": [
+    {
+      "name": "game-design-theory",
+      "sha": "aa7edfe267b34eac63d888f60b13e08aca7850ed",
+      "bytes": 11179,
+      "sha256": "548e01881f6509daddbb89fddfddbd5293ab92764d8067c9d9bc259afa32ff65"
+    },
+    {
+      "name": "game-engine",
+      "sha": "227949a7542a55d2155c00e7cdb998d9a0fee4f3",
+      "bytes": 6322,
+      "sha256": "af6d0628e806be430903743ca1795f715937e65ef81d4c3f0544fb326d23dce2"
+    },
+    {
+      "name": "game-developer",
+      "sha": "078a25cc5bfd8011459be7b91d004e900c1d02d3",
+      "bytes": 5900,
+      "sha256": "de7140309b8cc2fbd6aaa7550744f7a26e05b4e45ac0bd714a80d27408e47091"
+    },
+    {
+      "name": "game-ui-design",
+      "sha": "e8dcf4e8737921a10088bd5c9eb65e81f74c051f",
+      "bytes": 3669,
+      "sha256": "24797d586cf7de743c930295a2be7356bda42031177f8de9d53855f99822a940"
+    },
+    {
+      "name": "game-ui-ux",
+      "sha": "dcf3bbbb83f365632402c086bf595048aa24aaa8",
+      "bytes": 10317,
+      "sha256": "accd64692faed4656661a2d6977f20ed505134c1ab5f1732de1798c90071ce5c"
+    },
+    {
+      "name": "threejs-game-ui-designer",
+      "sha": "8286774b22a2566bf894dbc825825c16921866af",
+      "bytes": 2368,
+      "sha256": "f68b6a0ad4347ed30fb416d3e5d9ee21e63af6c43dc05a3784f3e333f21e4f85"
+    },
+    {
+      "name": "game-feel",
+      "sha": "dcf3bbbb83f365632402c086bf595048aa24aaa8",
+      "bytes": 9520,
+      "sha256": "48971c7ad1fbb39069cb165f0e45f88c13776585870d69d5de8a04bbe0988e28"
+    },
+    {
+      "name": "higgsfield-websites",
+      "sha": "27000402070db19d958789d05b3b52b6f4718d7c",
+      "bytes": 14951,
+      "sha256": "6de160a62a0c0195c51174a97abf878d68404c354a19a411b441273a68aad19b"
+    }
+  ]
+}

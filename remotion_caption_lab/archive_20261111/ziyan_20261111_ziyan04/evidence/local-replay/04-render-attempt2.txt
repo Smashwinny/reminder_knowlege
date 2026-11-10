@@ -1,0 +1,104 @@
+$ npx remotion render src/index.tsx CaptionLab ../caption-lab-replay.mp4 --concurrency=1 --browser-executable="$CHROME_BIN"
+CHROME_BIN=C:\Program Files\Google\Chrome\Application\chrome.exe
+Bundling 6%
+Bundling 32%
+Bundling 42%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 98%
+Bundling 100%
+Getting composition
+Composition          CaptionLab
+Codec                h264
+Output               ../caption-lab-replay.mp4
+Concurrency          1x
+Rendered 0/360
+Rendered 1/360, time remaining: 2m 18s
+Rendered 2/360, time remaining: 1m 24s
+Rendered 3/360, time remaining: 1m 2s
+Rendered 4/360, time remaining: 50s
+Rendered 5/360, time remaining: 43s
+Rendered 6/360, time remaining: 39s
+Rendered 7/360, time remaining: 37s
+Rendered 8/360, time remaining: 34s
+Rendered 9/360, time remaining: 32s
+Rendered 10/360, time remaining: 31s
+Rendered 11/360, time remaining: 29s
+Rendered 12/360, time remaining: 28s
+Rendered 13/360, time remaining: 27s
+Rendered 14/360, time remaining: 26s
+Rendered 15/360, time remaining: 26s
+Rendered 16/360, time remaining: 25s
+Rendered 17/360, time remaining: 24s
+Rendered 18/360, time remaining: 24s
+Rendered 19/360, time remaining: 24s
+Rendered 20/360, time remaining: 23s
+Rendered 21/360, time remaining: 23s
+Rendered 22/360, time remaining: 23s
+Rendered 23/360, time remaining: 22s
+Rendered 24/360, time remaining: 22s
+Rendered 25/360, time remaining: 22s
+Rendered 26/360, time remaining: 21s
+Rendered 27/360, time remaining: 21s
+Rendered 28/360, time remaining: 21s
+Rendered 29/360, time remaining: 21s
+Rendered 30/360, time remaining: 20s
+Rendered 31/360, time remaining: 20s
+Rendered 32/360, time remaining: 20s
+Rendered 33/360, time remaining: 20s
+Rendered 34/360, time remaining: 20s
+Rendered 35/360, time remaining: 20s
+Rendered 36/360, time remaining: 19s
+Rendered 37/360, time remaining: 19s
+Rendered 38/360, time remaining: 19s
+Rendered 39/360, time remaining: 19s
+Rendered 40/360, time remaining: 19s
+Rendered 41/360, time remaining: 19s
+Rendered 42/360, time remaining: 19s
+Rendered 43/360, time remaining: 18s
+Rendered 44/360, time remaining: 18s
+Rendered 45/360, time remaining: 18s
+Rendered 46/360, time remaining: 18s
+Rendered 47/360, time remaining: 18s
+Rendered 48/360, time remaining: 18s
+Rendered 49/360, time remaining: 18s
+Rendered 50/360, time remaining: 18s
+Rendered 51/360, time remaining: 17s
+Rendered 52/360, time remaining: 17s
+Rendered 53/360, time remaining: 17s
+Rendered 54/360, time remaining: 17s
+Rendered 55/360, time remaining: 17s
+Rendered 56/360, time remaining: 17s
+Rendered 57/360, time remaining: 17s
+Rendered 58/360, time remaining: 17s
+Rendered 59/360, time remaining: 17s
+Rendered 60/360, time remaining: 17s
+Rendered 61/360, time remaining: 16s
+Rendered 62/360, time remaining: 16s
+Rendered 63/360, time remaining: 16s
+
+Error: FFmpeg quit with code 4294967283 while piping frame 63. Stderr: ffmpeg version n7.1 Copyright (c) 2000-2024 the FFmpeg developers
+  built with gcc 10-win32 (GCC) 20220113
+  configuration: --prefix=remotion --target-os=mingw32 --arch=x86_64 --cross-prefix=x86_64-w64-mingw32- --disable-w32threads --disable-os2threads --extra-cflags='-Iremotion/include -Iremotion/include/opus -Iremotion/include/lame -Iremotion/include/vpx' --extra-ldflags=-Lremotion/lib --enable-small --enable-shared --enable-libdav1d --enable-libaom --enable-libzimg --enable-libfdk-aac --disable-static --disable-ffplay --disable-postproc --disable-filters --disable-libxcb --enable-filter=aformat --enable-filter=atrim --enable-filter=acopy --enable-filter=adelay --enable-filter=anullsrc --enable-filter=atempo --enable-filter=apad --enable-filter=amerge --enable-filter=amix --enable-filter=asetrate --enable-filter=asetpts --enable-filter=aresample --enable-filter=concat --enable-filter=loudnorm --enable-filter=colorspace --enable-filter=tinterlace --enable-filter=fieldorder --enable-filter=pan --enable-filter=volume --enable-filter=scale --enable-filter=sine --enable-filter=split --enable-filter=nullsrc --enable-filter=silencedetect --enable-filter=palettegen --enable-filter=paletteuse --enable-filter=zscale --enable-filter=tonemap --enable-filter=copy --disable-doc --disable-debug --enable-gpl --disable-encoders --enable-encoder=opus --enable-encoder=aac --enable-encoder=libfdk_aac --enable-encoder=png --enable-encoder=mjpeg --enable-encoder=pcm_s16le --enable-encoder=pcm_s24le --enable-encoder=libx264 --enable-encoder=libx265 --enable-encoder=libaom_av1 --enable-libvpx --enable-encoder=libvpx_vp8 --enable-encoder=libvpx_vp9 --enable-encoder=gif --enable-encoder=libmp3lame --enable-encoder=libopus --enable-encoder=prores_ks --enable-encoder=rawvideo --enable-encoder=h264_nvenc --enable-encoder=hevc_nvenc --disable-muxers --enable-muxer='webm,opus,mp4,wav,mp3,mov,matroska,hevc,h264,gif,image2,image2pipe,adts,m4a,mpegts,null,avi' --enable-libx264 --enable-libx265 --enable-libmp3lame --enable-zlib --enable-libopus --disable-demuxers --disable-sdl2 --disable-xlib --enable-demuxer='aac,av1,avi,caf,concat,flac,flv,h264,hevc,image2,image2pipe,matroska,mov,mp3,ogg,pcm_f32le,pcm_f32be,pcm_f64le,pcm_f64be,pcm_s16be,pcm_s16le,pcm_s24be,pcm_s24le,pcm_s32be,pcm_s32le,pcm_u16be,pcm_u16le,pcm_u24le,pcm_u24be,pcm_u32be,pcm_u32le,wav,gif,hls,m4a,mpeg2_videotoolbox,mpeg4_videotoolbox' --disable-decoders --enable-decoder='aac,ac3,flac,h264,hevc,libvpx_vp8,libvpx_vp9,vp8,vp9,mp3,mpeg4,opus,pcm_u8,pcm_f16le,pcm_f24le,pcm_f32le,pcm_f32be,pcm_f64le,pcm_f64be,pcm_s16be,pcm_s16le,pcm_s24be,pcm_s24le,pcm_s32be,pcm_s32le,pcm_s64be,pcm_s64le,pcm_u16be,pcm_u16le,pcm_u24le,pcm_u24be,pcm_u32be,pcm_u32le,prores,theora,vorbis,vp9,mjpeg,gif,png,libdav1d,hls,m4a,rawvideo'
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.100 / 61. 19.100
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+Input #0, image2pipe, from 'fd:':
+  Duration: N/A, bitrate: N/A
+  Stream #0:0: Video: mjpeg, yuvj420p(pc, bt470bg/unknown/unknown), 1920x1080 [SAR 1:1 DAR 16:9], 30 fps, 30 tbr, 30 tbn
+[out#0/mp4 @ 00000251605bed40] Error opening output F:\UserTemp\Windows\react-motion-renderMWSyBD\pre-encode.mp4: Permission denied
+Error opening output file F:\UserTemp\Windows\react-motion-renderMWSyBD\pre-encode.mp4.
+Error opening output files: Permission denied
+
+    at renderFramesProc.onFrame (D:\agenttry\reminder-learning-20261110\remotion-refined\repro\exercise\node_modules\@remotion\renderer\dist\render-media.js:442:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async renderFrameWithOptionToReject (D:\agenttry\reminder-learning-20261110\remotion-refined\repro\exercise\node_modules\@remotion\renderer\dist\render-frame-with-option-to-reject.js:165:17)
+exit=1

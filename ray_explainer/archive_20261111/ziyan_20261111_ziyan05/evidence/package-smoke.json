@@ -1,0 +1,43 @@
+[
+  {
+    "command": [
+      "python3",
+      "upstream/scripts/test_hf_template.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "upstream/scripts/test_hf_anchors.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "bash",
+      "upstream/scripts/new_project.sh",
+      "package-smoke",
+      "/workspace/reminder-batch/item05/research/final/exercise-smoke/ray-explainer-offline/exercise"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "exercise/prepare_fixture.py",
+      "/workspace/reminder-batch/item05/research/final/exercise-smoke/ray-explainer-offline/exercise/2026-11-11-package-smoke"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "node",
+      "upstream/scripts/render.js",
+      "/workspace/reminder-batch/item05/research/final/exercise-smoke/ray-explainer-offline/exercise/2026-11-11-package-smoke",
+      "stills",
+      "2.5"
+    ],
+    "exit_code": 0
+  }
+]

@@ -1,0 +1,13 @@
+$ python verify.py ../caption-lab-replay.mp4
+probe_mode: stdlib ISO-BMFF container (no decode)
+target: D:\agenttry\reminder-learning-20261110\remotion-refined\repro\caption-lab-replay.mp4
+observed: {"bytes": 1219770, "tracks": [{"codec": "avc1", "fps": 30.0, "height": 1080, "samples": 360, "seconds": 12.0, "timescale": 90000, "type": "vide", "width": 1920}]}
+one_video PASS
+no_audio PASS
+h264 PASS
+1080p PASS
+30fps PASS
+12s PASS
+360frames PASS
+scope: container metadata only; no full-frame decode or playback claim
+exit=0

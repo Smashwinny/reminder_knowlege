@@ -1,0 +1,4 @@
+$ bash upstream/scripts/new_project.sh package-smoke /workspace/reminder-batch/item05/research/final/exercise-smoke/ray-explainer-offline/exercise
+/workspace/reminder-batch/item05/research/final/exercise-smoke/ray-explainer-offline/exercise/2026-11-11-package-smoke
+
+exit_code=0

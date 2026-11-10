@@ -1,0 +1,13 @@
+{
+  "spec": "1920x1080 30fps 180frames 6sec",
+  "audio_streams": 0,
+  "mode": "placeholder only; no digital human or voice",
+  "safe_rects_disjoint": true,
+  "timeline_contiguous": true,
+  "avatar_roi_diff_fraction_at_0.8_1.3": 0.15816091954022987,
+  "roi_sha256": [
+    "13069ae33528b483c52325af1cb541a281c67f6972783fdb48844e37a93f70d5",
+    "e09e5da4659f5eefae03734ae72beac04a3f24e1777e3a287dfe77f811104697"
+  ],
+  "caveat": "ROI difference proves change, not lip sync or human identity; geometry validation is not pixel text-bound audit"
+}

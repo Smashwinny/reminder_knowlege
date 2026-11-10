@@ -1,0 +1,11 @@
+{
+  "states": [
+    "accepted",
+    "waiting",
+    "timed_out",
+    "reply_ready"
+  ],
+  "retry_submissions": 0,
+  "played": false,
+  "warning": "超时不是取消，也不是可以重新派单的证据"
+}

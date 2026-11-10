@@ -1,0 +1,47 @@
+{
+  "source": "D:\\agenttry\\reminder-learning-20261110\\cloud-review-remotion\\item04\\exercise.zip",
+  "source_bytes": 35616,
+  "source_sha256": "e9d9a9acfe21edfcc23d66c13f19af56d7af132d18b9c69f9b9e920ebbd9c3bb",
+  "destination": "D:\\agenttry\\reminder-learning-20261110\\remotion-refined\\repro",
+  "entries": [
+    {
+      "name": "exercise/README.md",
+      "bytes": 541,
+      "compressed": 459,
+      "sha256": "5aacb610300ae8315763981d797f1e2904980e0da8e02e3a38c8eee3cc1455e5"
+    },
+    {
+      "name": "exercise/package-lock.json",
+      "bytes": 140069,
+      "compressed": 32063,
+      "sha256": "65d5724a69653d28a54fe4040ad2bf6060c6980ff8a7154788135e6d9eae2b45"
+    },
+    {
+      "name": "exercise/package.json",
+      "bytes": 373,
+      "compressed": 229,
+      "sha256": "5388af125fff6645bb3ae390fe04127f9b3215573ddfd944bfdc4fc1f5dde10f"
+    },
+    {
+      "name": "exercise/src/index.tsx",
+      "bytes": 2851,
+      "compressed": 1563,
+      "sha256": "5bdfb81d4ebc6fd406e7cf37e1748886c55b437fc1b0a3cfcdfa8c4cbe454687"
+    },
+    {
+      "name": "exercise/tsconfig.json",
+      "bytes": 159,
+      "compressed": 130,
+      "sha256": "647b200b8bceaf5eaac298369ec89cc25d3ca92e57beba02d7de3f8588765a8a"
+    },
+    {
+      "name": "exercise/verify.py",
+      "bytes": 722,
+      "compressed": 440,
+      "sha256": "d4f15faca4a8cd9e3849fea623de7c6b31f93db734d256b68e8b8af7289606db"
+    }
+  ],
+  "file_count": 6,
+  "uncompressed_bytes": 144715,
+  "result": "PASS"
+}

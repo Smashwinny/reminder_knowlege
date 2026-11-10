@@ -1,0 +1,58 @@
+{
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "durationFrames": 180,
+  "avatar": {
+    "mode": "placeholder",
+    "label": "占位形象 · 非真人",
+    "rect": [
+      100,
+      250,
+      440,
+      580
+    ]
+  },
+  "voice": "none",
+  "contentRect": [
+    680,
+    250,
+    1120,
+    580
+  ],
+  "sections": [
+    {
+      "from": 0,
+      "duration": 60,
+      "title": "先拆模板，再谈数字人",
+      "labels": [
+        "人物层",
+        "内容层",
+        "动效层"
+      ],
+      "color": "#00d9ee"
+    },
+    {
+      "from": 60,
+      "duration": 60,
+      "title": "口型与声音，尚未接入",
+      "labels": [
+        "身份授权",
+        "音轨对齐",
+        "口型验证"
+      ],
+      "color": "#ff922b"
+    },
+    {
+      "from": 120,
+      "duration": 60,
+      "title": "有模板，不等于获客",
+      "labels": [
+        "独立证据",
+        "合法素材",
+        "发布复核"
+      ],
+      "color": "#458bff"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "normal": [
+    "consent",
+    "business_connected",
+    "verify",
+    "user_verifies",
+    "done"
+  ],
+  "no_consent": [
+    "business_connected"
+  ],
+  "otp": [
+    "consent",
+    "business_connected",
+    "share_otp"
+  ],
+  "disconnect": [
+    "consent",
+    "business_connected",
+    "disconnect",
+    "done"
+  ]
+}

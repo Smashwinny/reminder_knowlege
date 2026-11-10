@@ -1,0 +1,11 @@
+{
+  "root": "/workspace/reminder-batch/worker-689b81da/item05/scratch/brain",
+  "directories": [
+    "raw",
+    "wiki",
+    "out"
+  ],
+  "rules": "2026-11-11｜单主题HTTP缓存；事实需来源；外发不执行；检查只报告。\n",
+  "real_bots_created": 0,
+  "routines_created": 0
+}

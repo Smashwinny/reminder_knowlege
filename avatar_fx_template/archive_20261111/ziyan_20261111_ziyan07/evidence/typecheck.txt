@@ -1,0 +1,3 @@
+$ ./node_modules/.bin/tsc --noEmit
+
+exit_code=0

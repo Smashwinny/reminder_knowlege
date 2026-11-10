@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" width="640" height="240" font-family="sans-serif">
+<rect width="640" height="240" fill="#f7fcff"/>
+<text x="320.0" y="18" text-anchor="middle" font-size="13" fill="#0866ca" font-weight="700">更硬桨叶如何把挥舞频率移离 160 Hz（缩放模型）</text>
+<line x1="58" y1="28" x2="58" y2="200" stroke="#9bb8c9"/>
+<line x1="58" y1="200" x2="624" y2="200" stroke="#9bb8c9"/>
+<line x1="58" y1="200.0" x2="624" y2="200.0" stroke="#e3eef4"/>
+<text x="52" y="204.0" text-anchor="end" font-size="10" fill="#577288">95.5</text>
+<line x1="58" y1="157.0" x2="624" y2="157.0" stroke="#e3eef4"/>
+<text x="52" y="161.0" text-anchor="end" font-size="10" fill="#577288">159</text>
+<line x1="58" y1="114.0" x2="624" y2="114.0" stroke="#e3eef4"/>
+<text x="52" y="118.0" text-anchor="end" font-size="10" fill="#577288">223</text>
+<line x1="58" y1="71.0" x2="624" y2="71.0" stroke="#e3eef4"/>
+<text x="52" y="75.0" text-anchor="end" font-size="10" fill="#577288">287</text>
+<line x1="58" y1="28.0" x2="624" y2="28.0" stroke="#e3eef4"/>
+<text x="52" y="32.0" text-anchor="end" font-size="10" fill="#577288">351</text>
+<text x="58.0" y="216" text-anchor="middle" font-size="10" fill="#577288">0.5</text>
+<text x="199.5" y="216" text-anchor="middle" font-size="10" fill="#577288">1.38</text>
+<text x="341.0" y="216" text-anchor="middle" font-size="10" fill="#577288">2.25</text>
+<text x="482.5" y="216" text-anchor="middle" font-size="10" fill="#577288">3.12</text>
+<text x="624.0" y="216" text-anchor="middle" font-size="10" fill="#577288">4</text>
+<text x="320.0" y="234" text-anchor="middle" font-size="11" fill="#17324d">相对软桨的弯曲刚度倍数 EI / EI_soft（假设）</text>
+<text x="14" y="114.0" text-anchor="middle" font-size="11" fill="#17324d" transform="rotate(-90 14 114.0)">频率 (Hz)</text>
+<polyline fill="none" stroke="#1769ff" stroke-width="2.4" points="58.00,188.14 98.43,171.02 138.86,156.58 219.71,132.37 300.57,111.95 462.29,77.71 624.00,48.84"/>
+<rect x="66" y="32" width="10" height="10" fill="#1769ff"/>
+<text x="80" y="41" font-size="11" fill="#17324d">一阶挥舞频率 (Hz)</text>
+<polyline fill="none" stroke="#ff7900" stroke-width="2.4" points="58.00,156.58 98.43,156.58 138.86,156.58 219.71,156.58 300.57,156.58 462.29,156.58 624.00,156.58"/>
+<rect x="182" y="32" width="10" height="10" fill="#ff7900"/>
+<text x="196" y="41" font-size="11" fill="#17324d">160 Hz 参考</text>
+<polyline fill="none" stroke="#00b7d5" stroke-width="2.4" points="58.00,39.86 98.43,39.86 138.86,39.86 219.71,39.86 300.57,39.86 462.29,39.86 624.00,39.86"/>
+<rect x="282" y="32" width="10" height="10" fill="#00b7d5"/>
+<text x="296" y="41" font-size="11" fill="#17324d">20k RPM 的 1/rev = 333 Hz</text>
+</svg>

@@ -1,0 +1,36 @@
+{
+  "item": 7,
+  "status": "待验证",
+  "reason": "来源和固定SHA真实实读，资产/时钟实验完成；headless仅UI启动，完整GLB成功0/4、中央无模型，整站视觉/步态验收不通过。",
+  "source_sha": "286d56ccbbb924c10812fc5e6cabb11906454afc",
+  "source_commit_date": "2026-10-18 03:14:20 Asia/Shanghai",
+  "date": "2026-11-11 Asia/Shanghai",
+  "completed": [
+    "12问SVG+5用途独立HTML",
+    "原帖/引用完整note、作者11条线程+空末页",
+    "固定18文件及哈希、4GLB解析147节点147网格",
+    "原计时类合成输入测试",
+    "真实Chrome两类视图加载尝试+失败日志+截图实看",
+    "实际10页A4 PDF逐页PNG检查"
+  ],
+  "headless_status": "受阻：GLB加载/可见模型未验收，原因未确认，不是完整运行成功",
+  "failed_or_limited": [
+    "最终成功GLB0/4；not ready；脚本非零退出",
+    "早期降级29关节变化、4186对象位移/0收回残差不证明原GLB有效",
+    "初版步态字段错误已修，但修正版未进入状态测试"
+  ],
+  "pending": [
+    "完整GLB/可见机器人",
+    "正确字段的步态冻结",
+    "模型生成及完整prompt/创作工程",
+    "物理/硬件/全部模式/普通交互/性能"
+  ],
+  "dedup_sha": "a8674777e18302b8804b137212b1396cbfe5a747",
+  "dedup": "机器人展台/FK已有，只补生产构建/异步门槛/降级/回归/HUD与许可，未写vault",
+  "pdf": "实际Chrome打印10页A4，10页PNG逐页查看；修正后变化页复看，其余像素SHA一致；卡片无跨页/裁切；自检非独立审核",
+  "updated_at": "2026-11-11 01:45:17 Asia/Shanghai",
+  "stopped_on_user_instruction": true,
+  "remaining_action": "已结束；不再实验/重试，不创建定时任务或自动恢复",
+  "zip_replay": "停止指令前已从新解压exercise.zip重跑fetch/assets/clock，固定输入及断言一致；未重跑浏览器",
+  "delivery": "item07-delivery.zip"
+}

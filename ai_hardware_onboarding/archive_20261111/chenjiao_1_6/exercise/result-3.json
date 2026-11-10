@@ -1,0 +1,6 @@
+{
+  "corrupt_sha256": "0f1b80d16728f1e0d37733f6aa593bb9a75c4fc76d176e72d15e0829142adc6d",
+  "expected_sha256": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193",
+  "gate": "REJECT",
+  "changed_bytes": 1
+}

@@ -1,0 +1,151 @@
+{
+  "upstream_sha": "dc87db8ad53fb81cfe07dcac08215497dfa1a50d",
+  "mode": "stdlib-only offline pieces; no API, no streaming",
+  "inputs": [
+    {
+      "user": "A",
+      "text": "你好",
+      "accepted": true,
+      "reason": "",
+      "category": "",
+      "raw_intent": "chat",
+      "queue_ids": [
+        "A"
+      ]
+    },
+    {
+      "user": "A",
+      "text": "你好！",
+      "accepted": false,
+      "reason": "重复刷屏",
+      "category": "重复"
+    },
+    {
+      "user": "B",
+      "text": "加我微信",
+      "accepted": false,
+      "reason": "命中「微信」",
+      "category": "引流广告"
+    },
+    {
+      "user": "C",
+      "text": "今天又摸鱼了",
+      "accepted": true,
+      "reason": "",
+      "category": "",
+      "raw_intent": "chat",
+      "queue_ids": [
+        "A",
+        "C"
+      ]
+    },
+    {
+      "user": "D",
+      "text": "比个心",
+      "accepted": true,
+      "reason": "",
+      "category": "",
+      "raw_intent": "action",
+      "queue_ids": [
+        "A",
+        "C",
+        "D"
+      ]
+    },
+    {
+      "user": "E",
+      "text": "背景换成海边",
+      "accepted": true,
+      "reason": "",
+      "category": "",
+      "raw_intent": "background",
+      "offline_gate": "visual -> chat",
+      "queue_ids": [
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "user": "F",
+      "text": "换衣服要等多久",
+      "accepted": true,
+      "reason": "",
+      "category": "",
+      "raw_intent": "chat",
+      "queue_ids": [
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    {
+      "user": "G",
+      "text": "穿泳装",
+      "accepted": false,
+      "reason": "命中「泳装」",
+      "category": "低俗擦边"
+    },
+    {
+      "user": "H",
+      "text": "😂😂",
+      "accepted": false,
+      "reason": "空内容或只有表情",
+      "category": "噪声"
+    },
+    {
+      "user": "I",
+      "text": "长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长",
+      "accepted": false,
+      "reason": "超过 40 字",
+      "category": "过长"
+    }
+  ],
+  "accepted": 5,
+  "blocked": 5,
+  "fifo_max3_picks": [
+    {
+      "user": "D",
+      "kind": "action"
+    },
+    {
+      "user": "E",
+      "kind": "chat"
+    },
+    {
+      "user": "F",
+      "kind": "chat"
+    }
+  ],
+  "expiry_and_preparing": "PASS",
+  "idle": {
+    "draws": 201,
+    "unique_round1": 100,
+    "unique_round2": 100,
+    "boundary_no_repeat": true,
+    "first10": [
+      "原创人设话题056",
+      "原创人设话题034",
+      "原创人设话题045",
+      "原创人设话题020",
+      "原创人设话题062",
+      "原创人设话题042",
+      "原创人设话题089",
+      "原创人设话题080",
+      "原创人设话题014",
+      "原创人设话题025"
+    ],
+    "empty_pool": "IndexError: 空话题列表需要调用端兜底"
+  },
+  "queue_all_gift_counterexample": {
+    "max_size": 2,
+    "actual_size": 3
+  },
+  "source_hashes": {
+    "vendor/live/__init__.py": "f0be05b3c775c20a0e2b2f0e56d53e51ee314442aac8746c8b0885799ad4bf26",
+    "vendor/live/session.py": "9bc34ecfc1a10487a48e43b58a0ee14f5d318a051e7eef639ea5bdc2da2462cf",
+    "vendor/live/router.py": "5c7a6d88ae808851765cdd961ac1e1425b1991e0eafce8f95eb63fd023519853",
+    "vendor/live/moderation.py": "8a8277370823ab29f2a0de80a00fb6c651eb50916476887e2291ad863483674e",
+    "vendor/live/queue.py": "c89d755cf4e8ccea71e1afe8f627b7f573b4a08de16f1d539b6c431230431b91"
+  }
+}

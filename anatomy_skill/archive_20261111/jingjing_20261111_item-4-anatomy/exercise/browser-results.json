@@ -1,0 +1,28 @@
+{
+  "rows": [
+    {
+      "key": "Home",
+      "want": 18,
+      "aria": "18",
+      "readout": "block 1 \u00b7 reads 18.0 px",
+      "needle": "M350.3 151.4L355.9 138.2"
+    },
+    {
+      "key": "ArrowLeft",
+      "want": 14,
+      "aria": "14",
+      "readout": "block 2 \u00b7 reads 14.0 px",
+      "needle": "M355.4 150.3L332 143.5"
+    },
+    {
+      "key": "End",
+      "want": 10,
+      "aria": "10",
+      "readout": "block 3 \u00b7 reads 10.0 px",
+      "needle": "M354.8 147.5L334.7 156.6"
+    }
+  ],
+  "errors": [],
+  "network_attempts": [],
+  "paths": 342
+}

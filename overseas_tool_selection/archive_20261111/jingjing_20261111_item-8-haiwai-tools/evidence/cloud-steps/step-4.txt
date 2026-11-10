@@ -1,0 +1,71 @@
+checked_at: 2026-11-11 01:22:18 Asia/Shanghai
+method: HTTP GET, follow redirects, no auth, no POST, no referral parameters
+counts: {"可达": 53, "原文缺号未探测": 1, "被拦截或需登录（站点存在但未放行）": 5}
+已填官网数: 57
+--- 可达 (53) ---
+  1 沉浸式翻译: status=200 final=https://immersivetranslate.com/en/ err=
+  2 AITDK: status=200 final=https://aitdk.com/ err=
+  3 SiteData: status=200 final=https://sitedata.dev/ err=
+  4 Similarweb: status=200 final=https://www.similarweb.com/ err=
+  5 Wayback Machine: status=200 final=https://web.archive.org/ err=
+  6 Wappalyzer: status=200 final=https://www.wappalyzer.com/ err=
+  7 Google Trends: status=200 final=https://trends.google.com/trends/ err=
+  8 Exploding Topics: status=200 final=https://explodingtopics.com/ err=
+  9 Screaming Frog SEO Spider: status=200 final=https://www.screamingfrog.co.uk/seo-spider/ err=
+  10 SEO Minion: status=200 final=https://keywordseverywhere.com/seominion/ err=
+  11 Semrush: status=200 final=https://www.semrush.com/ err=
+  12 Moz Link Explorer: status=200 final=https://moz.com/link-explorer err=
+  13 Ahrefs: status=200 final=https://ahrefs.com/ err=
+  15 Linkhouse: status=200 final=https://linkhouse.net/ err=
+  16 Collaborator: status=200 final=https://collaborator.pro/ err=
+  54-early Adsy: status=200 final=https://adsy.com/ err=
+  17 Figma: status=202 final=https://www.figma.com/ err=
+  18 Framer: status=200 final=https://www.framer.com/ err=
+  19 IconPark: status=200 final=https://iconpark.oceanengine.com/ err=
+  20 OpenRouter: status=200 final=https://openrouter.ai/ err=
+  21 Dify: status=200 final=https://dify.ai/ err=
+  22 Replicate: status=200 final=https://replicate.com/ err=
+  23 n8n: status=200 final=https://n8n.io/ err=
+  25 Ideogram: status=200 final=https://ideogram.ai/ err=
+  26 Loom: status=200 final=https://www.loom.com/ err=
+  27 Screen Studio: status=200 final=https://screen.studio/ err=
+  28 Cloudflare: status=200 final=https://www.cloudflare.com/ err=
+  29 Vercel: status=200 final=https://vercel.com/ err=
+  30 DeepL: status=200 final=https://www.deepl.com/en err=
+  31 Weglot: status=200 final=https://www.weglot.com/ err=
+  32 Lokalise: status=200 final=https://lokalise.com/ err=
+  33 Stripe: status=200 final=https://stripe.com/ err=
+  34 Paddle: status=200 final=https://www.paddle.com/ err=
+  35 Lemon Squeezy: status=200 final=https://www.lemonsqueezy.com/ err=
+  36 Starryblu: status=200 final=https://www.starryblu.com/ err=
+  37 Termly: status=200 final=https://termly.io/ err=
+  39 Uneed: status=200 final=https://www.uneed.best/ err=
+  40 Microlaunch: status=200 final=https://microlaunch.net/ err=
+  41 BetaList: status=200 final=https://betalist.com/ err=
+  42a Discord: status=200 final=https://discord.com/ err=
+  42b Disboard: status=200 final=https://disboard.org/ err=
+  45 Typefully: status=200 final=https://typefully.com/ err=
+  46 Beehiiv: status=200 final=https://www.beehiiv.com/ err=
+  47 Customer: status=200 final=https://customer.io/ err=
+  48 Loops: status=200 final=https://loops.so/ err=
+  49 Google Search Console: status=200 final=https://search.google.com/search-console/about err=
+  50 Google Analytics 4: status=200 final=https://marketingplatform.google.com/about/analytics/ err=
+  51 PostHog: status=200 final=https://posthog.com/ err=
+  52 Microsoft Clarity: status=200 final=https://clarity.microsoft.com/ err=
+  53 Feedlog: status=200 final=https://feedlog.ai/ err=
+  55 Crisp: status=200 final=https://crisp.chat/en/ err=
+  56 Cursorful: status=200 final=https://cursorful.com/ err=
+  article-id X 独立文章链接: status=200 final=https://x.com/i/jf/onboarding/web?redirect_after_login=%2Fi%2Farticle%2F2110257071849603072&mode=login err=
+--- 被拦截或需登录（站点存在但未放行） (5) ---
+  53-early Fiverr: status=403 final=https://www.fiverr.com/ err=HTTPError 403 Forbidden
+  24 Midjourney: status=403 final=https://www.midjourney.com/ err=HTTPError 403 Forbidden
+  38 Product Hunt: status=403 final=https://www.producthunt.com/ err=HTTPError 403 Forbidden
+  43 Toolify: status=403 final=https://www.toolify.ai/ err=HTTPError 403 Forbidden
+  44 There's An AI For That: status=403 final=https://theresanaiforthat.com/ err=HTTPError 403 Forbidden
+--- 404 (0) ---
+--- 网络或证书失败 (0) ---
+--- 原文缺号未探测 (1) ---
+  14 （原文缺号）: status=None final= err=missing_from_article
+推断网址探测结果:
+  Customer 可达 200
+独立文章链接: 可达 {'requested_url': 'https://x.com/i/article/2110257071849603072', 'ok': True, 'status': 200, 'final_url': 'https://x.com/i/jf/onboarding/web?redirect_after_login=%2Fi%2Farticle%2F2110257071849603072&mode=login', 'elapsed_ms': 230, 'error': None, 'redirected': True}

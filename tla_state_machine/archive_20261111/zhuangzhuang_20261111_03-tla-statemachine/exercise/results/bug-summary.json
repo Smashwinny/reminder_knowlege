@@ -1,0 +1,9 @@
+{
+  "name": "bug",
+  "os_exit_code": 12,
+  "generated": 8,
+  "distinct": 6,
+  "queue": 1,
+  "completed": false,
+  "meaning": "TLC有限模型检查；非任意规模证明或真实支付产品验收"
+}

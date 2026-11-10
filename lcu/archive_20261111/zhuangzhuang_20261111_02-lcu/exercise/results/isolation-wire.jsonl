@@ -1,0 +1,5 @@
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2025-11-25", "clientInfo": {"name": "本地教学驱动", "version": "1"}, "capabilities": {}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 1, "result": {"protocolVersion": "2025-11-25", "serverInfo": {"name": "学习用模拟MCP", "version": "0.1.0"}, "capabilities": {"tools": {}}, "instructions": "只操作模拟记事本；同步JS变量跨调用保留。js_reset不撤销文档。不接入真实桌面。"}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "method": "notifications/initialized"}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 2, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "typeof localOnly"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 2, "result": {"content": [{"type": "text", "text": "\"undefined\""}], "isError": false}}}

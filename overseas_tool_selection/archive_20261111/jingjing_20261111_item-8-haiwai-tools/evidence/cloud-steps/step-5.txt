@@ -1,0 +1,11 @@
+test_adsy_is_in_chapter_two (test_catalog.TestCatalog.test_adsy_is_in_chapter_two) ... ok
+test_customer_is_inferred (test_catalog.TestCatalog.test_customer_is_inferred) ... ok
+test_missing_number_fourteen (test_catalog.TestCatalog.test_missing_number_fourteen) ... ok
+test_no_referral_in_probe_urls (test_catalog.TestCatalog.test_no_referral_in_probe_urls) ... ok
+test_number_53_appears_twice_as_different_tools (test_catalog.TestCatalog.test_number_53_appears_twice_as_different_tools) ... ok
+test_probe_results_if_present (test_catalog.TestCatalog.test_probe_results_if_present) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.002s
+
+OK

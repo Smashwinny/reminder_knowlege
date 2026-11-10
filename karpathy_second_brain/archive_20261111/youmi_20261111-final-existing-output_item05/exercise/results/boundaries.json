@@ -1,0 +1,15 @@
+{
+  "compile_denied": [
+    "reader",
+    "checker"
+  ],
+  "duplicate_rejected": true,
+  "raw1_unchanged": true,
+  "external_without_approval": {
+    "send": "blocked:explicit approval required",
+    "buy": "blocked:explicit approval required",
+    "delete": "blocked:explicit approval required",
+    "publish": "blocked:explicit approval required"
+  },
+  "external_with_approval_still_unsupported": "unsupported:no executor"
+}

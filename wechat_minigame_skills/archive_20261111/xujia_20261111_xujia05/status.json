@@ -1,0 +1,77 @@
+{
+  "item": 5,
+  "status": "待验证",
+  "completed": [
+    "完整原帖与直接引用及其下一层",
+    "11入口固定10仓库SHA",
+    "12问内联SVG教材",
+    "原创游戏5步真实Node/Chrome实验"
+  ],
+  "pending": [
+    "技能宿主与生成模型",
+    "Higgsfield服务",
+    "联机/3D/Unity/UE",
+    "微信适配/真机/审核",
+    "性能/用户测评"
+  ],
+  "knowledge_sha": "a8674777e18302b8804b137212b1396cbfe5a747",
+  "pdf": "Chrome实际打印11页A4，page-01至page-11逐页查看；12问卡片无跨页，无图文裁切。自检非独立审核。",
+  "sources": [
+    {
+      "repo": "higgsfield-ai/skills",
+      "sha": "27000402070db19d958789d05b3b52b6f4718d7c",
+      "path": "README.md"
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "sha": "227949a7542a55d2155c00e7cdb998d9a0fee4f3",
+      "path": "skills/game-engine/SKILL.md"
+    },
+    {
+      "repo": "rivet-dev/skills",
+      "sha": "ba5d3db3d7489cfc6190fd0de45b96e3787e1ea3",
+      "path": "multiplayer-game/SKILL.md"
+    },
+    {
+      "repo": "Jeffallan/claude-skills",
+      "sha": "078a25cc5bfd8011459be7b91d004e900c1d02d3",
+      "path": "skills/game-developer/SKILL.md"
+    },
+    {
+      "repo": "omer-metin/skills-for-antigravity",
+      "sha": "e8dcf4e8737921a10088bd5c9eb65e81f74c051f",
+      "path": "skills/game-ui-design/SKILL.md"
+    },
+    {
+      "repo": "pluginagentmarketplace/custom-plugin-game-developer",
+      "sha": "aa7edfe267b34eac63d888f60b13e08aca7850ed",
+      "path": "skills/game-design-theory/SKILL.md"
+    },
+    {
+      "repo": "gamedev-skills/awesome-gamedev-agent-skills",
+      "sha": "dcf3bbbb83f365632402c086bf595048aa24aaa8",
+      "path": "skills/disciplines/game-feel/SKILL.md"
+    },
+    {
+      "repo": "gamedev-skills/awesome-gamedev-agent-skills",
+      "sha": "dcf3bbbb83f365632402c086bf595048aa24aaa8",
+      "path": "skills/disciplines/game-ui-ux/SKILL.md"
+    },
+    {
+      "repo": "majidmanzarpour/threejs-game-skills",
+      "sha": "8286774b22a2566bf894dbc825825c16921866af",
+      "path": "README.md"
+    },
+    {
+      "repo": "openai/skills",
+      "sha": "30444aed500c00c85294d12074f6e3ee794f808a",
+      "path": "skills/.curated/develop-web-game/SKILL.md"
+    },
+    {
+      "repo": "bobeff/open-source-games",
+      "sha": "3a9ab8fc892a2cdadf8989a72ba7624a11e39cec",
+      "path": "README.md"
+    }
+  ],
+  "zip_replay": "exercise.zip全新解压，npm ci和5步完整命令已成功执行，输出在replay-check-log.txt"
+}

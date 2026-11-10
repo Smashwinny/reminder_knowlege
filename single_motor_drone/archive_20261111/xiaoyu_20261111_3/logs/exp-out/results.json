@@ -1,0 +1,316 @@
+{
+  "steps": {
+    "1_geometry_timing": {
+      "diameter_in_author": 6.0,
+      "diameter_m": 0.15239999999999998,
+      "radius_m": 0.07619999999999999,
+      "rpm_author_almost": 20000.0,
+      "rev_frequency_Hz": 333.3333333333333,
+      "period_ms": 3.0,
+      "omega_rad_s": 2094.3951023931954,
+      "tip_speed_m_s": 159.59290680236148,
+      "tip_speed_mph": 356.99916517197613,
+      "tip_speed_kmh": 574.5344644885014,
+      "mach_at_343mps_assumed": 0.46528544257248244,
+      "author_phrase_half_speed_of_sound": "tips approaching half the speed of sound",
+      "acc_dec_per_s_author": 300.0,
+      "acc_per_rev_if_20k_rpm": 0.9,
+      "rpm_if_exactly_300_once_per_rev": 18000.0,
+      "deg_per_second": 120000.0,
+      "latency_ms_for_exactly_20_deg": 0.16666666666666666,
+      "latency_table": [
+        {
+          "latency_ms": 0.033,
+          "rotation_deg_at_20k_rpm": 3.9600000000000004,
+          "fraction_of_rev": 0.011000000000000001
+        },
+        {
+          "latency_ms": 0.2,
+          "rotation_deg_at_20k_rpm": 24.0,
+          "fraction_of_rev": 0.06666666666666667
+        },
+        {
+          "latency_ms": 0.167,
+          "rotation_deg_at_20k_rpm": 20.040000000000003,
+          "fraction_of_rev": 0.05566666666666668
+        },
+        {
+          "latency_ms": 2.0,
+          "rotation_deg_at_20k_rpm": 240.0,
+          "fraction_of_rev": 0.6666666666666666
+        },
+        {
+          "latency_ms": 3.0,
+          "rotation_deg_at_20k_rpm": 360.0,
+          "fraction_of_rev": 1.0
+        }
+      ],
+      "esc_loses_sync_above_Hz_author": 50.0,
+      "rpm_at_which_1_per_rev_equals_esc_limit": 3000.0,
+      "moteus_control_rate_kHz_author_spec": [
+        15,
+        30
+      ],
+      "updates_per_rev_at_15kHz": 45.0,
+      "updates_per_rev_at_30kHz": 90.0,
+      "mcout_publish_Hz_firmware": 400,
+      "mcout_updates_per_rev_at_20k": 1.2000000000000002,
+      "note": "2 ms at 20,000 RPM is 240°, not 20°. 20° corresponds to 0.1667 ms. Toms Hardware and a YouTube comment both say sub-0.2 ms; 0.2 ms is 24°. Auto-transcript '2 milliseconds is 20°' is internally inconsistent."
+    },
+    "2_kinematics": {
+      "formula": "theta = zeta * tan(alpha)",
+      "sample_lag_deg_assumed": 8.0,
+      "alpha_deg": [
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        55,
+        60,
+        65,
+        70,
+        75
+      ],
+      "coupling_tan_alpha": [
+        0.2679491924311227,
+        0.36397023426620234,
+        0.4663076581549986,
+        0.5773502691896257,
+        0.7002075382097097,
+        0.8390996311772799,
+        0.9999999999999999,
+        1.19175359259421,
+        1.4281480067421144,
+        1.7320508075688767,
+        2.1445069205095586,
+        2.7474774194546216,
+        3.7320508075688776
+      ],
+      "pitch_deg_at_sample_lag": [
+        2.1435935394489816,
+        2.9117618741296187,
+        3.7304612652399887,
+        4.618802153517006,
+        5.601660305677678,
+        6.712797049418239,
+        7.999999999999998,
+        9.53402874075368,
+        11.425184053936915,
+        13.856406460551014,
+        17.15605536407647,
+        21.979819355636973,
+        29.85640646055102
+      ],
+      "at_45_deg_coupling": 0.9999999999999999,
+      "why_45": "tan(45°)=1, so a lag of N degrees becomes a pitch of N degrees. Opposite hinge sense on the two blades yields pure cyclic pitch.",
+      "at_30_coupling": 0.5773502691896257,
+      "at_60_coupling": 1.7320508075688767
+    },
+    "3_dynamics_side_force": {
+      "assumed": {
+        "blade_mass_kg": 0.004,
+        "radius_of_gyration_m": 0.04,
+        "inertia_kgm2": 6.4000000000000006e-06,
+        "wn_over_Omega": 1.4,
+        "damping_ratio": 0.25,
+        "stiffness_Nm_per_rad": 55.024141158784396,
+        "damping_Nms_per_rad": 0.009382890058721515,
+        "collective_deg": 12.0,
+        "mean_chord_m": 0.018,
+        "cl_alpha_per_rad": 5.73,
+        "speed_variation_fraction": 0.04
+      },
+      "natural_freq_Hz": 466.66666666666663,
+      "once_per_rev_Hz": 333.3333333333333,
+      "zeta_amp_deg": 1.928975887341157,
+      "theta_amp_deg_at_45": 1.928975887341157,
+      "zeta_phase_rel_accel_deg": 143.90171603289198,
+      "hub_accel_amp_rad_s2": 175459.63379714414,
+      "forces_with_cyclic": {
+        "Fx_N": -1.1026255568853924,
+        "Fy_N": 0.8039978018955984,
+        "Fz_N": 16.978412822536452,
+        "Fx_baseline_N": -1.7270135938613546e-17,
+        "Fy_baseline_N": -6.046475049043604e-17,
+        "tilt_angle_deg": 4.595212709191592
+      },
+      "forces_without_cyclic": {
+        "Fx_N": -1.7270135938613546e-17,
+        "Fy_N": -4.9478168475916264e-17,
+        "Fz_N": 16.97841282253648,
+        "Fx_baseline_N": -1.7270135938613546e-17,
+        "Fy_baseline_N": -6.046475049043604e-17,
+        "tilt_angle_deg": 1.7684925243667137e-16
+      },
+      "side_force_N": 1.3646228724998624,
+      "baseline_side_force_N": 5.2405598470672434e-17,
+      "thrust_N": 16.978412822536452,
+      "tilt_deg": 4.595212709191592,
+      "sweep_speed_frac": [
+        0.0,
+        0.01,
+        0.02,
+        0.03,
+        0.04,
+        0.05,
+        0.06,
+        0.07,
+        0.08,
+        0.09,
+        0.1
+      ],
+      "sweep_side_force_N": [
+        5.2405598470672434e-17,
+        0.3411557181249662,
+        0.682311436249932,
+        1.023467154374899,
+        1.3646228724998624,
+        1.7057785906248297,
+        2.046934308749796,
+        2.388090026874765,
+        2.7292457449997287,
+        3.0704014631246905,
+        3.411557181249659
+      ],
+      "sweep_tilt_deg": [
+        1.7684925243667137e-16,
+        1.1511177743176233,
+        2.301307023624412,
+        3.449643708922071,
+        4.595212709191592,
+        5.737112146479926,
+        6.87445755365132,
+        8.006385837811,
+        9.132058996832956,
+        10.2506675516581,
+        11.361433662897767
+      ],
+      "sweep_pitch_amp_deg": [
+        0.0,
+        0.4822439718352893,
+        0.9644879436705786,
+        1.446731915505868,
+        1.928975887341157,
+        2.411219859176447,
+        2.893463831011736,
+        3.3757078028470255,
+        3.857951774682314,
+        4.340195746517604,
+        4.822439718352894
+      ],
+      "note": "Side force and tilt are from an assumed linear blade-element model with no inflow or stall. They demonstrate the mechanism (cyclic pitch → mean lateral force) and must not be quoted as Bird's measured thrust vector."
+    },
+    "4_vibration_160Hz": {
+      "author_vibration_Hz": 160.0,
+      "once_per_rev_at_20k_Hz": 333.3333333333333,
+      "half_per_rev_at_20k_Hz": 166.66666666666666,
+      "abs_diff_160_vs_half_rev_Hz": 6.666666666666657,
+      "rpm_if_160_is_1_per_rev": 9600.0,
+      "rpm_if_160_is_half_rev": 19200.0,
+      "interpretations": [
+        "160 Hz is 6.7 Hz below Ω/2 at 20,000 RPM (166.7 Hz). Close, but the author fixed it by stiffening the blades, which points to a structural/flap mode rather than a locked rotor harmonic.",
+        "Early hover RPM may have been lower than 20,000; 9,600 RPM would put 1/rev exactly at 160 Hz.",
+        "A flap or body mode near 160 Hz can still be excited by 1/rev or 2/rev content and swamp a flight-controller accelerometer."
+      ],
+      "assumed_blade_length_m": 0.062,
+      "EI_soft_if_flap_equals_160Hz": 0.0779351401623888,
+      "stiffness_multipliers": [
+        0.5,
+        0.75,
+        1.0,
+        1.5,
+        2.0,
+        3.0,
+        4.0
+      ],
+      "flap_freq_Hz": [
+        113.13708498984761,
+        138.56406460551017,
+        160.0,
+        195.95917942265424,
+        226.27416997969522,
+        277.12812921102034,
+        320.0
+      ],
+      "freq_scales_as": "sqrt(EI)  (and sqrt(E) if geometry is unchanged)",
+      "double_EI_new_Hz": 226.27416997969522,
+      "note": "The cantilever model is only for scaling. Hardware/strobe photos and the flight fix remain 待验证."
+    },
+    "5_mcout_protocol": {
+      "packet_len": 84,
+      "crc_known_vector": {
+        "empty": 0,
+        "abc": 40406,
+        "123456789": 12739,
+        "expected_123456789": 12739,
+        "abc_ok": true
+      },
+      "roundtrip_ok": true,
+      "decoded": {
+        "magic": 49229,
+        "version": 1,
+        "length": 84,
+        "message_id": 1,
+        "sequence": 42,
+        "timestamp_usec": 1000000,
+        "flags": 71,
+        "spool_state": 3,
+        "desired_spool": 2,
+        "roll": 0.25,
+        "pitch": -0.10000000149011612,
+        "yaw": 0.800000011920929,
+        "throttle": 0.550000011920929,
+        "crc_wire": 36664,
+        "crc_calc": 36664,
+        "crc_ok": true,
+        "header_ok": true,
+        "output_allowed": true
+      },
+      "corrupted_crc_ok": false,
+      "disarmed_output_allowed": false,
+      "estop_output_allowed": false,
+      "docs_protocol_number": {
+        "moteus_guide_SERIALx_PROTOCOL": 50,
+        "ardupilot_README_SERIALx_PROTOCOL": 51,
+        "note": "Pinned SHAs disagree (moteus 704a0dd vs ardupilot 455b266). Treat as a documentation inconsistency to verify on hardware, not as a flight result."
+      },
+      "cyclic_isr_formula": "base + amp * sin(2*pi*(harmonic*(angle-zero_angle)+phase)) at PWM rate 15-30 kHz",
+      "yaw_in_firmware": "MCOUT packet carries yaw; moteus MCOUT guide states yaw commands are ignored because a single underactuated propeller has no (cyclic) yaw authority."
+    },
+    "6_comparisons": {
+      "pulsar_diameter_m_reported": 0.376,
+      "pulsar_source": "HKU PULSAR page / Science Robotics 10.1126/scirobotics.ade4538 (2023): 37.6 cm single propeller; the vehicle itself self-rotates (different architecture).",
+      "bird_disk_area_m2": 0.018241469247509915,
+      "pulsar_disk_area_m2": 0.11103645074847765,
+      "pulsar_over_bird_area": 6.087034396291016,
+      "author_claim": "over six times less propeller area than the Pulsar drone",
+      "claim_holds_on_37_6cm": true,
+      "paulos_2013_diameter_m": 0.386,
+      "paulos_2013_area_m2": 0.11702118475356622,
+      "paulos_over_bird_area": 6.415118385792329,
+      "paulos_2013_notes": "IROS 2013: 38.6 cm hinged rotor, ~1 N at 1200 rpm, 30 N·mm control moment, flight vehicle is a 358 g coaxial with TWO motors (hinged top + fixed bottom). Custom motor controller + 12-bit magnetic encoder (1/4096 rev). They also used a xenon-strobe camera — the same diagnostic idea Bird later rebuilt.",
+      "tom_stanton": "Author notes Tom Stanton's swashplateless helicopter still needs two motors.",
+      "architectural_distinctions": [
+        "Paulos 2013: two motors (coaxial), large slow rotor, lab MAV.",
+        "PULSAR 2023: one motor, but the whole airframe self-rotates; 37.6 cm rotor.",
+        "Bird 2026: one motor, finned TPU body that is *meant* not to spin with the prop (it still slowly rotates; yaw/heading via reaction torque + fins + IR beacon). 6 inch, ~20,000 RPM."
+      ]
+    }
+  },
+  "meta": {
+    "script": "ex_cyclic_hinge_sim.py",
+    "python": "3.13.5",
+    "elapsed_s": 0.05538034439086914,
+    "cwd": "/tmp",
+    "outdir": "/workspace/learn-batch/03-single-motor-drone/logs/exp-out",
+    "status": {
+      "numerical_experiments": "真实完成",
+      "hardware_print_hover_strobe": "待验证",
+      "youtube_full_asr_captions": "受阻 (timedtext empty / yt-dlp HTTP 429)"
+    }
+  }
+}

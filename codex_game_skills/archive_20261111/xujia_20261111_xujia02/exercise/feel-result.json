@@ -1,0 +1,9 @@
+{
+  "overlap_restore_at": 0.11,
+  "old_deadline_still_frozen": true,
+  "new_deadline_restored": true,
+  "reduced_motion_offset": 0,
+  "trauma_after_2s": 0,
+  "simulation_mutation": false,
+  "note": "original JS adaptation; not Godot/Unity runtime and not subjective playtest"
+}

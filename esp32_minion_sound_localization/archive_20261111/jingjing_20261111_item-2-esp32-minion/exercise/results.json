@@ -1,0 +1,42 @@
+[
+  {
+    "truth": -60,
+    "lag_samples": -10,
+    "estimate_deg": -63.282,
+    "error_deg": 3.282,
+    "target_deg": 30.0,
+    "first_command_deg": 80.0
+  },
+  {
+    "truth": -30,
+    "lag_samples": -6,
+    "estimate_deg": -32.408,
+    "error_deg": 2.408,
+    "target_deg": 57.592,
+    "first_command_deg": 80.0
+  },
+  {
+    "truth": 0,
+    "lag_samples": 0,
+    "estimate_deg": 0.0,
+    "error_deg": 0.0,
+    "target_deg": 90.0,
+    "first_command_deg": 90.0
+  },
+  {
+    "truth": 30,
+    "lag_samples": 6,
+    "estimate_deg": 32.408,
+    "error_deg": 2.408,
+    "target_deg": 122.408,
+    "first_command_deg": 100.0
+  },
+  {
+    "truth": 60,
+    "lag_samples": 10,
+    "estimate_deg": 63.282,
+    "error_deg": 3.282,
+    "target_deg": 150.0,
+    "first_command_deg": 100.0
+  }
+]

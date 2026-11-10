@@ -1,0 +1,11 @@
+{
+  "bytes": 7719160,
+  "sha256": "b3c28c34e609e430911207a9aaf3b2adef47b2893017503f01176482d833d22f",
+  "generator": "Khronos glTF Blender I/O v4.2.83",
+  "nodes": 340,
+  "meshes": 282,
+  "skins": 0,
+  "animations": 0,
+  "required_nodes": 24,
+  "missing": []
+}

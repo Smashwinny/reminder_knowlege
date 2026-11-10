@@ -1,0 +1,2 @@
+# 无新增提案
+原帖Authorization Error，无法核实新增方法。已读当前main总览及bead_pattern项目笔记，SHA a8674777e18302b8804b137212b1396cbfe5a747。既有量化/网格/用量CSV不重复，旧性能不冒称本轮实测。

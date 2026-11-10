@@ -1,0 +1,16 @@
+{
+  "changes": [
+    {
+      "key": "launcher",
+      "old": "vendor.home",
+      "new": "demo.home"
+    },
+    {
+      "key": "ad.demo",
+      "old": true,
+      "new": false
+    }
+  ],
+  "restored": true,
+  "hardware": "待验证"
+}

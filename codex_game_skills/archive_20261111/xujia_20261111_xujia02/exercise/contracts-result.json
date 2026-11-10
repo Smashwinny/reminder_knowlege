@@ -1,0 +1,9 @@
+{
+  "checks": 8,
+  "win": "WIN",
+  "lose": "LOSE",
+  "score_events": 3,
+  "duplicate_rejected": true,
+  "invalid_hp_rejected": true,
+  "replay_hash": "171d176076837f6e36ee0c878bdb1f022da83c50de4a4b155679c22b6d33cc33"
+}

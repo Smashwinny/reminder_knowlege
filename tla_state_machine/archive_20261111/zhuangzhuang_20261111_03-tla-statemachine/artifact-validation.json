@@ -1,0 +1,72 @@
+{
+  "访问日期": "2026-11-11 Asia/Shanghai",
+  "问答": 12,
+  "内联SVG": 13,
+  "用途": 5,
+  "主实验步骤": 6,
+  "PDF页数": 12,
+  "逐页Read检查": 12,
+  "PDF文本字符数": 11051,
+  "替换字符": 0,
+  "案例汇总": {
+    "bug": {
+      "name": "bug",
+      "os_exit_code": 12,
+      "generated": 8,
+      "distinct": 6,
+      "queue": 1,
+      "completed": false,
+      "meaning": "TLC有限模型检查；非任意规模证明或真实支付产品验收"
+    },
+    "fixed": {
+      "name": "fixed",
+      "os_exit_code": 0,
+      "generated": 8,
+      "distinct": 5,
+      "queue": 0,
+      "completed": true,
+      "meaning": "TLC有限模型检查；非任意规模证明或真实支付产品验收"
+    },
+    "orders1": {
+      "name": "orders1",
+      "os_exit_code": 0,
+      "generated": 8,
+      "distinct": 5,
+      "queue": 0,
+      "completed": true,
+      "meaning": "TLC有限模型检查；非任意规模证明或真实支付产品验收"
+    },
+    "orders2": {
+      "name": "orders2",
+      "os_exit_code": 0,
+      "generated": 62,
+      "distinct": 25,
+      "queue": 0,
+      "completed": true,
+      "meaning": "TLC有限模型检查；非任意规模证明或真实支付产品验收"
+    },
+    "orders3": {
+      "name": "orders3",
+      "os_exit_code": 0,
+      "generated": 452,
+      "distinct": 125,
+      "queue": 0,
+      "completed": true,
+      "meaning": "TLC有限模型检查；非任意规模证明或真实支付产品验收"
+    },
+    "mutant": {
+      "name": "mutant",
+      "os_exit_code": 12,
+      "generated": 8,
+      "distinct": 6,
+      "queue": 1,
+      "completed": false,
+      "meaning": "TLC有限模型检查；非任意规模证明或真实支付产品验收"
+    }
+  },
+  "TLC反例状态数": 5,
+  "TLC反例转移数": 4,
+  "不变量配置保持一致": true,
+  "覆盖文件基线哈希匹配": true,
+  "证据边界": "合成订单有限模型；不是真实支付产品、活性或任意规模证明"
+}

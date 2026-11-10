@@ -1,0 +1,27 @@
+{
+  "normal": [
+    "draft",
+    "approved",
+    "interpreting",
+    "awaiting_user",
+    "interpreting",
+    "finished"
+  ],
+  "no_consent": [
+    "draft",
+    "rejected"
+  ],
+  "otp": [
+    "draft",
+    "approved",
+    "interpreting",
+    "rejected"
+  ],
+  "disconnect": [
+    "draft",
+    "approved",
+    "interpreting",
+    "outcome_unknown",
+    "rejected"
+  ]
+}

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<title>邮筒索道 · TCP 三次握手教学模型</title>
+<style>
+  :root{--cyan:#06b6d4;--blue:#2563eb;--orange:#f97316;--ink:#122847;--paper:#f4fbff}
+  *{box-sizing:border-box}
+  body{margin:0;background:#e8f7ff;color:var(--ink);font-family:"Noto Sans CJK SC",sans-serif}
+  main{max-width:980px;margin:0 auto;padding:16px}
+  h1{font-size:26px;margin:0 0 6px}
+  .note{font-size:13px;color:#345}
+  .stage{outline:none;background:#fff;border:3px solid var(--cyan);border-radius:16px;padding:12px 12px 8px;margin:12px 0}
+  .stage:focus{box-shadow:0 0 0 4px rgba(37,99,235,.25)}
+  svg{width:100%;height:auto;display:block}
+  .panel{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 0}
+  button{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer}
+  button.alt{background:var(--orange)}
+  .readout{flex:1;min-width:240px;background:#08264b;color:#d5faff;border-radius:8px;padding:10px 12px;font-size:14px;font-weight:700}
+  .hint{font-size:12px;color:#456}
+  .cap{margin-top:8px;font-size:12px;color:#345}
+</style>
+<main>
+  <h1>邮筒索道：三次握手</h1>
+  <p class="note">这是一份<b>手写教学模型</b>，隐喻取自 Anatomy 官网把 TCP 握手画成 mail ropeway 的对应关系，数字与状态严格按 RFC 793 图 6：ISS(A)=100，ISS(B)=300。它<b>不是</b> Anatomy 技能或付费模型生成的正式图，也没有配音。</p>
+  <div class="stage" id="stage" tabindex="0" role="slider" aria-label="三次握手步骤" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" data-step="0" data-client="CLOSED" data-server="LISTEN" data-segment="—" data-readout="">
+    <svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="两座邮站之间的索道和信筒">
+      <rect width="900" height="360" fill="#effaff"/>
+      <!-- ground -->
+      <rect x="0" y="300" width="900" height="60" fill="#d7ecf6"/>
+      <!-- rope -->
+      <path d="M160 150 C 300 90, 600 90, 740 150" fill="none" stroke="#122847" stroke-width="5" id="rope"/>
+      <path d="M160 158 C 300 98, 600 98, 740 158" fill="none" stroke="#94a3b8" stroke-width="2"/>
+      <!-- pylons -->
+      <rect x="150" y="150" width="16" height="150" fill="#2563eb"/>
+      <rect x="734" y="150" width="16" height="150" fill="#2563eb"/>
+      <!-- station A -->
+      <g id="stationA">
+        <rect x="40" y="200" width="140" height="100" rx="8" fill="#06b6d4"/>
+        <polygon points="30,200 110,150 200,200" fill="#0e7490"/>
+        <text x="110" y="230" text-anchor="middle" fill="#fff" font-size="18" font-family="Noto Sans CJK SC,sans-serif">站 A 客户</text>
+        <rect x="60" y="245" width="100" height="36" rx="6" fill="#08264b"/>
+        <text id="stateA" x="110" y="269" text-anchor="middle" fill="#d5faff" font-size="14" font-family="Noto Sans CJK SC,sans-serif">CLOSED</text>
+      </g>
+      <!-- station B -->
+      <g id="stationB">
+        <rect x="720" y="200" width="140" height="100" rx="8" fill="#2563eb"/>
+        <polygon points="710,200 790,150 880,200" fill="#1e40af"/>
+        <text x="790" y="230" text-anchor="middle" fill="#fff" font-size="18" font-family="Noto Sans CJK SC,sans-serif">站 B 服务</text>
+        <rect x="740" y="245" width="100" height="36" rx="6" fill="#08264b"/>
+        <text id="stateB" x="790" y="269" text-anchor="middle" fill="#d5faff" font-size="14" font-family="Noto Sans CJK SC,sans-serif">LISTEN</text>
+      </g>
+      <!-- semaphore arms -->
+      <g id="semA">
+        <circle cx="110" cy="120" r="16" fill="#94a3b8"/>
+        <rect id="armA" x="108" y="70" width="4" height="50" fill="#f97316" transform="rotate(-40 110 120)"/>
+      </g>
+      <g id="semB">
+        <circle cx="790" cy="120" r="16" fill="#94a3b8"/>
+        <rect id="armB" x="788" y="70" width="4" height="50" fill="#f97316" transform="rotate(40 790 120)"/>
+      </g>
+      <!-- canister -->
+      <g id="canister" transform="translate(160,150)" visibility="hidden">
+        <rect x="-28" y="-18" width="56" height="36" rx="8" fill="#f97316"/>
+        <text id="canText" x="0" y="6" text-anchor="middle" fill="#fff" font-size="11" font-family="Noto Sans CJK SC,sans-serif">SYN</text>
+      </g>
+      <!-- seq plates -->
+      <text x="110" y="330" text-anchor="middle" font-size="13" fill="#122847" font-family="Noto Sans CJK SC,sans-serif">ISS A = 100</text>
+      <text x="790" y="330" text-anchor="middle" font-size="13" fill="#122847" font-family="Noto Sans CJK SC,sans-serif">ISS B = 300</text>
+      <text id="caption" x="450" y="40" text-anchor="middle" font-size="16" fill="#122847" font-family="Noto Sans CJK SC,sans-serif">尚未发出报文</text>
+    </svg>
+    <div class="panel">
+      <button type="button" id="btnReset">Home 复位</button>
+      <button type="button" id="btnStep">空格 / → 下一步</button>
+      <button type="button" class="alt" id="btnEnd">End 完成握手</button>
+      <div class="readout" data-readout id="readout">step 0/3 | A CLOSED | B LISTEN | —</div>
+    </div>
+    <p class="hint">点选画布后用键盘：Home 复位，ArrowRight 或 Space 前进一步，End 跳到双方 ESTABLISHED。这页完全离线。</p>
+  </div>
+  <p class="cap">成功标准只核对：步骤与 RFC 793 图 6 的状态、序号、标志位一致，页面无脚本错误、无外网请求。不声称几何达到 Anatomy 官方 40–80 零件标准，也不验证配音视频。</p>
+</main>
+<script>
+const ISS_A=100, ISS_B=300;
+const STEPS=[
+  {step:0,client:"CLOSED",server:"LISTEN",segment:null,caption:"尚未发出报文",armA:-40,armB:40,t:0,can:"",visible:false},
+  {step:1,client:"SYN-SENT",server:"SYN-RECEIVED",segment:{from:"A",to:"B",seq:ISS_A,ack:null,ctl:["SYN"]},caption:"A→B  <SEQ=100><CTL=SYN>",armA:0,armB:20,t:0.33,can:"SYN 100",visible:true},
+  {step:2,client:"ESTABLISHED",server:"SYN-RECEIVED",segment:{from:"B",to:"A",seq:ISS_B,ack:ISS_A+1,ctl:["SYN","ACK"]},caption:"B→A  <SEQ=300><ACK=101><CTL=SYN,ACK>  （A 已 ESTABLISHED，B 仍 SYN-RECEIVED）",armA:20,armB:0,t:0.66,can:"SYN,ACK 300/101",visible:true},
+  {step:3,client:"ESTABLISHED",server:"ESTABLISHED",segment:{from:"A",to:"B",seq:ISS_A+1,ack:ISS_B+1,ctl:["ACK"]},caption:"A→B  <SEQ=101><ACK=301><CTL=ACK>  （ACK 不占用序号空间）",armA:50,armB:50,t:1,can:"ACK 101/301",visible:true}
+];
+function fmt(seg){
+  if(!seg) return "—";
+  const ack = seg.ack==null?"":(" ACK="+seg.ack);
+  return seg.from+"->"+seg.to+" SEQ="+seg.seq+ack+" CTL="+seg.ctl.join(",");
+}
+function readoutOf(s){return "step "+s.step+"/3 | A "+s.client+" | B "+s.server+" | "+fmt(s.segment);}
+function pointOnRope(t){
+  // cubic Bezier of the rope path M160,150 C300,90 600,90 740,150
+  const p0=[160,150],p1=[300,90],p2=[600,90],p3=[740,150];
+  const u=1-t;
+  const x=u*u*u*p0[0]+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*p3[0];
+  const y=u*u*u*p0[1]+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*p3[1];
+  return [x,y];
+}
+let step=0;
+const stage=document.getElementById("stage");
+function render(){
+  const s=STEPS[step];
+  document.getElementById("stateA").textContent=s.client;
+  document.getElementById("stateB").textContent=s.server;
+  document.getElementById("caption").textContent=s.caption;
+  document.getElementById("armA").setAttribute("transform","rotate("+s.armA+" 110 120)");
+  document.getElementById("armB").setAttribute("transform","rotate("+s.armB+" 790 120)");
+  const can=document.getElementById("canister");
+  if(s.visible){
+    const [x,y]=pointOnRope(s.t);
+    can.setAttribute("transform","translate("+x+","+y+")");
+    can.setAttribute("visibility","visible");
+    document.getElementById("canText").textContent=s.can;
+  }else{
+    can.setAttribute("visibility","hidden");
+  }
+  const text=readoutOf(s);
+  document.getElementById("readout").textContent=text;
+  stage.setAttribute("aria-valuenow",String(s.step));
+  stage.dataset.step=String(s.step);
+  stage.dataset.client=s.client;
+  stage.dataset.server=s.server;
+  stage.dataset.segment=fmt(s.segment);
+  stage.dataset.readout=text;
+}
+function go(n){step=Math.max(0,Math.min(3,n));render();}
+document.getElementById("btnReset").onclick=()=>go(0);
+document.getElementById("btnStep").onclick=()=>go(step+1);
+document.getElementById("btnEnd").onclick=()=>go(3);
+stage.addEventListener("keydown",ev=>{
+  if(ev.key==="Home"){go(0);ev.preventDefault();}
+  else if(ev.key==="End"){go(3);ev.preventDefault();}
+  else if(ev.key==="ArrowRight"||ev.key===" "||ev.key==="Spacebar"){go(step+1);ev.preventDefault();}
+  else if(ev.key==="ArrowLeft"){go(step-1);ev.preventDefault();}
+});
+render();
+</script>
+</html>

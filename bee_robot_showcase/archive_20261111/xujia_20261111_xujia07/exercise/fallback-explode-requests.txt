@@ -1,0 +1,4 @@
+"GET /?quality=low&showcase=0&lab=explode HTTP/1.1" 200 -
+"GET /assets/index-BWjJCO7Y.js HTTP/1.1" 200 -
+"GET /assets/index-CqPE8GzT.css HTTP/1.1" 200 -
+"GET /assets/inter-tight-latin-400-normal-iW8qmuJY.woff2 HTTP/1.1" 200 -

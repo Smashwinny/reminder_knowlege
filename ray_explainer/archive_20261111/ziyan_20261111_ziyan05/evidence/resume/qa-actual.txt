@@ -1,0 +1,19 @@
+$ python3 upstream/scripts/qa_video.py /workspace/reminder-batch/item05/exercise/2026-11-11-resume-local/out.mp4 --scenes /workspace/reminder-batch/item05/exercise/2026-11-11-resume-local/scenes.json --out /workspace/reminder-batch/item05/research/resume/qa-actual
+# 成片检查：out.mp4
+
+- [x] 有音轨：有
+- [x] 音画长度一致（2 帧内）：画面 12.000s，声音 12.000s
+- [ ] 响度在 -21 ±1.5 LUFS：-70.0 LUFS
+- [ ] 峰值 ≤ −1 dBFS：None dBFS
+- [x] 没有黑场：无
+- [x] 中段没有空画面（≥0.3 秒几乎没有边缘）：无
+- [x] 蓝紫底 < 30%：0%
+- 尺寸：1080×1920
+- 帧率：30 fps
+- 3 秒以上没有明显变化的段落（匀速慢推几个百分点也算没变化；按长短排）：0.6–4.0s（3.4s）
+
+再用 Read 看 contact.jpg、opening.jpg 和 cuts/ 下 2 张切点图（每张是切点前后各 5 帧）。
+
+文件在 /workspace/reminder-batch/item05/research/resume/qa-actual
+
+exit_code=1

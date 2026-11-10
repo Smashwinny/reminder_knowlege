@@ -1,0 +1,29 @@
+{
+  "scripted_model": true,
+  "max_steps": 4,
+  "observed_steps": 3,
+  "events": [
+    {
+      "step": 1,
+      "tool": "edit_file",
+      "result": {
+        "path": "/workspace/reminder-batch/worker-689b81da/item03/scratch/replay.txt",
+        "action": "created_file"
+      }
+    },
+    {
+      "step": 2,
+      "tool": "read_file",
+      "result": {
+        "file_path": "/workspace/reminder-batch/worker-689b81da/item03/scratch/replay.txt",
+        "content": "answer=42"
+      }
+    },
+    {
+      "step": 3,
+      "assistant": "Finished: answer=42",
+      "stop": true
+    }
+  ],
+  "artifact": "answer=42"
+}

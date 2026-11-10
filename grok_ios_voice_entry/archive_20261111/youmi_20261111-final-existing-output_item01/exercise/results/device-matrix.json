@@ -1,0 +1,90 @@
+[
+  {
+    "case": 1,
+    "lock": "unlocked",
+    "noise": "quiet",
+    "network": "online",
+    "trigger_observed": null,
+    "app_open_observed": null,
+    "reply_observed": null,
+    "latency_ms": null,
+    "status": "待真机验证"
+  },
+  {
+    "case": 2,
+    "lock": "unlocked",
+    "noise": "quiet",
+    "network": "offline",
+    "trigger_observed": null,
+    "app_open_observed": null,
+    "reply_observed": null,
+    "latency_ms": null,
+    "status": "待真机验证"
+  },
+  {
+    "case": 3,
+    "lock": "unlocked",
+    "noise": "noisy",
+    "network": "online",
+    "trigger_observed": null,
+    "app_open_observed": null,
+    "reply_observed": null,
+    "latency_ms": null,
+    "status": "待真机验证"
+  },
+  {
+    "case": 4,
+    "lock": "unlocked",
+    "noise": "noisy",
+    "network": "offline",
+    "trigger_observed": null,
+    "app_open_observed": null,
+    "reply_observed": null,
+    "latency_ms": null,
+    "status": "待真机验证"
+  },
+  {
+    "case": 5,
+    "lock": "locked",
+    "noise": "quiet",
+    "network": "online",
+    "trigger_observed": null,
+    "app_open_observed": null,
+    "reply_observed": null,
+    "latency_ms": null,
+    "status": "待真机验证"
+  },
+  {
+    "case": 6,
+    "lock": "locked",
+    "noise": "quiet",
+    "network": "offline",
+    "trigger_observed": null,
+    "app_open_observed": null,
+    "reply_observed": null,
+    "latency_ms": null,
+    "status": "待真机验证"
+  },
+  {
+    "case": 7,
+    "lock": "locked",
+    "noise": "noisy",
+    "network": "online",
+    "trigger_observed": null,
+    "app_open_observed": null,
+    "reply_observed": null,
+    "latency_ms": null,
+    "status": "待真机验证"
+  },
+  {
+    "case": 8,
+    "lock": "locked",
+    "noise": "noisy",
+    "network": "offline",
+    "trigger_observed": null,
+    "app_open_observed": null,
+    "reply_observed": null,
+    "latency_ms": null,
+    "status": "待真机验证"
+  }
+]

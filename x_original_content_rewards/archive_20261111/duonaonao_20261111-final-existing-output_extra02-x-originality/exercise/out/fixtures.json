@@ -1,0 +1,97 @@
+{
+  "corpus": [
+    "这是一条用于离线测试的合成来源文本，不属于真实作者。",
+    "ABC123 TEST",
+    "日落之后温度降低",
+    "Hello world"
+  ],
+  "drafts": [
+    {
+      "text": "我用自绘几何素材测试两种遮挡顺序，黑边占画布高度的18%。",
+      "mode": "original",
+      "third_party": false,
+      "automated": false,
+      "id": "self_written",
+      "expected": "no_rule_hit"
+    },
+    {
+      "text": "下载别人作品后重新上传。",
+      "mode": "reupload",
+      "third_party": true,
+      "automated": false,
+      "id": "unlicensed_reupload",
+      "expected": "review"
+    },
+    {
+      "text": "署名不等于拥有商用许可。",
+      "mode": "original",
+      "third_party": true,
+      "automated": false,
+      "id": "credited_but_no_permission",
+      "expected": "review",
+      "attribution": "示例作者",
+      "source_url": "https://x.com/example/status/1"
+    },
+    {
+      "text": "这里补充我自己的实验，不重传第三方媒体。",
+      "mode": "quote",
+      "third_party": true,
+      "automated": false,
+      "id": "quote_with_ledger",
+      "expected": "no_rule_hit",
+      "rights": "permission",
+      "attribution": "示例作者",
+      "source_url": "https://x.com/example/status/1"
+    },
+    {
+      "text": "我想引用一篇没有记录链接的帖子。",
+      "mode": "quote",
+      "third_party": true,
+      "automated": false,
+      "id": "quote_missing_link",
+      "expected": "review",
+      "rights": "permission",
+      "attribution": "示例作者"
+    },
+    {
+      "text": "自动批量发布也必须停下来人工审查。",
+      "mode": "original",
+      "third_party": false,
+      "automated": true,
+      "id": "automated_copy",
+      "expected": "review"
+    },
+    {
+      "text": "这是一条用于离线测试的合成来源文本，不属于真实作者。",
+      "mode": "original",
+      "third_party": false,
+      "automated": false,
+      "id": "exact_copy",
+      "expected": "review"
+    },
+    {
+      "text": "ＡＢＣ１２３ test!",
+      "mode": "original",
+      "third_party": false,
+      "automated": false,
+      "id": "unicode_copy",
+      "expected": "review"
+    },
+    {
+      "text": "太阳一落山，这里就凉快了。",
+      "mode": "original",
+      "third_party": false,
+      "automated": false,
+      "id": "semantic_paraphrase_known_miss",
+      "expected": "no_rule_hit"
+    },
+    {
+      "text": "Hello world",
+      "mode": "original",
+      "third_party": false,
+      "automated": false,
+      "id": "short_common_phrase_known_false_alarm",
+      "expected": "review"
+    }
+  ]
+}

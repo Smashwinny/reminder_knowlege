@@ -1,0 +1,13 @@
+{
+  "frames": 312,
+  "size": [
+    640,
+    360
+  ],
+  "fps": 24,
+  "duration_seconds": 13,
+  "shutter_degrees": 180,
+  "samples_per_frame": 4,
+  "renderer": "original CPU perspective polygons, not Three.js/WebGL/onetake",
+  "wall_seconds": 13.833
+}

@@ -1,0 +1,13 @@
+$ python3 upstream/scripts/test_hf_template.py
+ok    make_beats.py runs
+ok    decimal stays in one caption ['最后只有 2.5%', '的人留了下来', '剩下的人都去找', '下一个热门产品了']
+ok    no split-number warning
+ok    host_build.py runs
+ok    adjacent big segments return to the corner once, not twice
+ok    build.py runs
+ok    ray-ip-dark → light top bar on dark ground
+ok    caption styles scoped to #root > .cap
+ok    top-bar backing is a see-through gradient
+hf-template: OK
+
+exit_code=0

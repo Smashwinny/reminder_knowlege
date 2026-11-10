@@ -1,0 +1,208 @@
+$ /usr/bin/python3 /workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py map /workspace/reminder-batch/item02/media/native24.mp4 /workspace/reminder-batch/item02/media/mapped30.mp4 --start 0 --end 150 --source-fps 30 --native-fps 24 --native-source-start 0
+/workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py:65: SyntaxWarning: invalid escape sequence '\,'
+  run([tool('ffmpeg'),'-v','error','-n','-i',a.source,'-vf',f'select=eq(n\,{n})','-frames:v','1',p/f'frame-{n:06}.png'])
+
+exit=0
+$ /usr/bin/python3 /workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py probe /workspace/reminder-batch/item02/media/mapped30.mp4
+{
+  "path": "/workspace/reminder-batch/item02/media/mapped30.mp4",
+  "sha256": "0427073644b32551b7947cb6ffe3f2c10ae7afab4326e77667eeb8aac230324e",
+  "frame_count": 150,
+  "fps": "30/1",
+  "width": 320,
+  "height": 180,
+  "probe": {
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+        "profile": "High",
+        "codec_type": "video",
+        "codec_tag_string": "avc1",
+        "codec_tag": "0x31637661",
+        "width": 320,
+        "height": 180,
+        "coded_width": 320,
+        "coded_height": 192,
+        "closed_captions": 0,
+        "film_grain": 0,
+        "has_b_frames": 2,
+        "pix_fmt": "yuv420p",
+        "level": 13,
+        "chroma_location": "left",
+        "field_order": "progressive",
+        "refs": 4,
+        "is_avc": "true",
+        "nal_length_size": "4",
+        "id": "0x1",
+        "r_frame_rate": "30/1",
+        "avg_frame_rate": "30/1",
+        "time_base": "1/15360",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 76800,
+        "duration": "5.000000",
+        "bit_rate": "396521",
+        "bits_per_raw_sample": "8",
+        "nb_frames": "150",
+        "nb_read_frames": "150",
+        "extradata_size": 46,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "VideoHandler",
+          "vendor_id": "[0][0][0][0]",
+          "encoder": "Lavc61.19.101 libx264"
+        }
+      }
+    ],
+    "format": {
+      "filename": "/workspace/reminder-batch/item02/media/mapped30.mp4",
+      "nb_streams": 1,
+      "nb_programs": 0,
+      "nb_stream_groups": 0,
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "format_long_name": "QuickTime / MOV",
+      "start_time": "0.000000",
+      "duration": "5.000000",
+      "size": "250444",
+      "bit_rate": "400710",
+      "probe_score": 100,
+      "tags": {
+        "major_brand": "isom",
+        "minor_version": "512",
+        "compatible_brands": "isomiso2avc1mp41",
+        "encoder": "Lavf61.7.103"
+      }
+    }
+  }
+}
+/workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py:65: SyntaxWarning: invalid escape sequence '\,'
+  run([tool('ffmpeg'),'-v','error','-n','-i',a.source,'-vf',f'select=eq(n\,{n})','-frames:v','1',p/f'frame-{n:06}.png'])
+
+exit=0
+$ ffmpeg -v error -i /workspace/reminder-batch/item02/media/native24.mp4 -vf setpts=0.8*PTS -r 30 -frames:v 120 -c:v libx264 /workspace/reminder-batch/item02/media/wrong-speed30.mp4
+
+exit=0
+$ /usr/bin/python3 /workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py probe /workspace/reminder-batch/item02/media/wrong-speed30.mp4
+{
+  "path": "/workspace/reminder-batch/item02/media/wrong-speed30.mp4",
+  "sha256": "b88d23972ed5b9f2cabdda32f53b47813e6d94e121efb5db2304f620d8e3ad0a",
+  "frame_count": 120,
+  "fps": "30/1",
+  "width": 320,
+  "height": 180,
+  "probe": {
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+        "profile": "High",
+        "codec_type": "video",
+        "codec_tag_string": "avc1",
+        "codec_tag": "0x31637661",
+        "width": 320,
+        "height": 180,
+        "coded_width": 320,
+        "coded_height": 192,
+        "closed_captions": 0,
+        "film_grain": 0,
+        "has_b_frames": 2,
+        "sample_aspect_ratio": "1:1",
+        "display_aspect_ratio": "16:9",
+        "pix_fmt": "yuv420p",
+        "level": 13,
+        "chroma_location": "left",
+        "field_order": "progressive",
+        "refs": 4,
+        "is_avc": "true",
+        "nal_length_size": "4",
+        "id": "0x1",
+        "r_frame_rate": "30/1",
+        "avg_frame_rate": "30/1",
+        "time_base": "1/15360",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 61440,
+        "duration": "4.000000",
+        "bit_rate": "258948",
+        "bits_per_raw_sample": "8",
+        "nb_frames": "120",
+        "nb_read_frames": "120",
+        "extradata_size": 47,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "VideoHandler",
+          "vendor_id": "[0][0][0][0]",
+          "encoder": "Lavc61.19.101 libx264"
+        }
+      }
+    ],
+    "format": {
+      "filename": "/workspace/reminder-batch/item02/media/wrong-speed30.mp4",
+      "nb_streams": 1,
+      "nb_programs": 0,
+      "nb_stream_groups": 0,
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "format_long_name": "QuickTime / MOV",
+      "start_time": "0.000000",
+      "duration": "4.000000",
+      "size": "131725",
+      "bit_rate": "263450",
+      "probe_score": 100,
+      "tags": {
+        "major_brand": "isom",
+        "minor_version": "512",
+        "compatible_brands": "isomiso2avc1mp41",
+        "encoder": "Lavf61.7.103"
+      }
+    }
+  }
+}
+/workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py:65: SyntaxWarning: invalid escape sequence '\,'
+  run([tool('ffmpeg'),'-v','error','-n','-i',a.source,'-vf',f'select=eq(n\,{n})','-frames:v','1',p/f'frame-{n:06}.png'])
+
+exit=0

@@ -1,0 +1,8 @@
+{
+  "steps": 600,
+  "simulated_seconds": 10,
+  "stance_samples": 1389,
+  "swing_samples": 1011,
+  "max_target_plant_drift": 0,
+  "note": "target planting only, not actual solved mesh feet or physical balance"
+}

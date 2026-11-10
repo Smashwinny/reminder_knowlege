@@ -1,0 +1,29 @@
+<mujoco model="peg_in_hole">
+  <option timestep="0.001" integrator="implicitfast" />
+  <default>
+    <default class="mjfit">
+      <geom solref="0.002 1" solimp="0.99 0.999 0.001 0.5 2.0" condim="4" friction="1.0 0.01 0.001" />
+    </default>
+  </default>
+  <asset>
+    <mesh name="plate_0" vertex="-0.03 -0.03 -0.005 0.03 -0.03 -0.005 0.008 -0.008 -0.005 -0.008 -0.008 -0.005 -0.03 -0.03 0.005 0.03 -0.03 0.005 0.008 -0.008 0.005 -0.008 -0.008 0.005" />
+    <mesh name="plate_1" vertex="0.03 -0.03 -0.005 0.03 0.03 -0.005 0.008 0.008 -0.005 0.008 -0.008 -0.005 0.03 -0.03 0.005 0.03 0.03 0.005 0.008 0.008 0.005 0.008 -0.008 0.005" />
+    <mesh name="plate_2" vertex="0.03 0.03 -0.005 -0.03 0.03 -0.005 -0.008 0.008 -0.005 0.008 0.008 -0.005 0.03 0.03 0.005 -0.03 0.03 0.005 -0.008 0.008 0.005 0.008 0.008 0.005" />
+    <mesh name="plate_3" vertex="-0.03 0.03 -0.005 -0.03 -0.03 -0.005 -0.008 -0.008 -0.005 -0.008 0.008 -0.005 -0.03 0.03 0.005 -0.03 -0.03 0.005 -0.008 -0.008 0.005 -0.008 0.008 0.005" />
+    <mesh name="peg_0" vertex="-0.0079 -0.0079 -0.01 0.0079 -0.0079 -0.01 0.0079 0.0079 -0.01 -0.0079 0.0079 -0.01 -0.0079 -0.0079 0.01 0.0079 -0.0079 0.01 0.0079 0.0079 0.01 -0.0079 0.0079 0.01" />
+  </asset>
+  <worldbody>
+    <light pos="0.3 0.3 1.2" dir="-0.23570226039551584 -0.23570226039551584 -0.9428090415820634" diffuse="0.8 0.8 0.8" />
+    <geom name="floor" type="plane" class="mjfit" size="1.0 1.0 0.01" rgba="0.92 0.92 0.92 1" />
+    <body name="plate" childclass="mjfit" pos="0.0 0.0 0.005">
+      <geom name="plate_0" type="mesh" mesh="plate_0" rgba="0.70 0.75 0.82 1" density="1000.0" />
+      <geom name="plate_1" type="mesh" mesh="plate_1" rgba="0.70 0.75 0.82 1" density="1000.0" />
+      <geom name="plate_2" type="mesh" mesh="plate_2" rgba="0.70 0.75 0.82 1" density="1000.0" />
+      <geom name="plate_3" type="mesh" mesh="plate_3" rgba="0.70 0.75 0.82 1" density="1000.0" />
+    </body>
+    <body name="peg" childclass="mjfit" pos="0.0 0.0 0.020999999999999998">
+      <freejoint name="peg_joint" />
+      <geom name="peg_0" type="mesh" mesh="peg_0" rgba="0.90 0.30 0.30 1" density="1000.0" />
+    </body>
+  </worldbody>
+</mujoco>

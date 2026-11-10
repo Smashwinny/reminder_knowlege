@@ -1,0 +1,22 @@
+strict digraph DiskGraph {
+nodesep=0.35;
+subgraph cluster_graph {
+color="white";
+-7424030312717943862 [label="/\\ checkedPaid = [order1 |-> FALSE]\n/\\ shipPhase = [order1 |-> \"new\"]\n/\\ paid = [order1 |-> FALSE]",style = filled]
+-7424030312717943862 -> 2809171592927911663 [label="Pay",color="black",fontcolor="black"];
+2809171592927911663 [label="/\\ checkedPaid = [order1 |-> FALSE]\n/\\ shipPhase = [order1 |-> \"new\"]\n/\\ paid = [order1 |-> TRUE]"];
+2809171592927911663 -> -5428143215979322503 [label="CheckPayment",color="black",fontcolor="black"];
+-5428143215979322503 [label="/\\ checkedPaid = [order1 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"checked\"]\n/\\ paid = [order1 |-> TRUE]"];
+2809171592927911663 -> -7424030312717943862 [label="Refund",color="black",fontcolor="black"];
+-5428143215979322503 -> 770108857484297820 [label="Refund",color="black",fontcolor="black"];
+770108857484297820 [label="/\\ checkedPaid = [order1 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"checked\"]\n/\\ paid = [order1 |-> FALSE]"];
+-5428143215979322503 -> 875330702799449917 [label="Ship",color="black",fontcolor="black"];
+875330702799449917 [label="/\\ checkedPaid = [order1 |-> TRUE]\n/\\ shipPhase = [order1 |-> \"shipped\"]\n/\\ paid = [order1 |-> TRUE]"];
+770108857484297820 -> -5428143215979322503 [label="Pay",color="black",fontcolor="black"];
+875330702799449917 -> 875330702799449917 [label="Done",color="black",fontcolor="black"];
+{rank = same; -7424030312717943862;}
+{rank = same; 2809171592927911663;}
+{rank = same; -5428143215979322503;}
+{rank = same; 875330702799449917;770108857484297820;}
+}
+}

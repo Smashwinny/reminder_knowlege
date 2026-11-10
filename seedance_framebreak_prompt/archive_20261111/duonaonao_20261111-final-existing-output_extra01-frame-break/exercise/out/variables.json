@@ -1,0 +1,74 @@
+[
+  {
+    "bar_ratio": 0.1,
+    "overlap": false,
+    "camera_pan_px": 0,
+    "prompt_strength": "not simulated"
+  },
+  {
+    "bar_ratio": 0.1,
+    "overlap": false,
+    "camera_pan_px": 16,
+    "prompt_strength": "not simulated"
+  },
+  {
+    "bar_ratio": 0.1,
+    "overlap": true,
+    "camera_pan_px": 0,
+    "prompt_strength": "not simulated"
+  },
+  {
+    "bar_ratio": 0.1,
+    "overlap": true,
+    "camera_pan_px": 16,
+    "prompt_strength": "not simulated"
+  },
+  {
+    "bar_ratio": 0.18,
+    "overlap": false,
+    "camera_pan_px": 0,
+    "prompt_strength": "not simulated"
+  },
+  {
+    "bar_ratio": 0.18,
+    "overlap": false,
+    "camera_pan_px": 16,
+    "prompt_strength": "not simulated"
+  },
+  {
+    "bar_ratio": 0.18,
+    "overlap": true,
+    "camera_pan_px": 0,
+    "prompt_strength": "not simulated"
+  },
+  {
+    "bar_ratio": 0.18,
+    "overlap": true,
+    "camera_pan_px": 16,
+    "prompt_strength": "not simulated"
+  },
+  {
+    "bar_ratio": 0.25,
+    "overlap": false,
+    "camera_pan_px": 0,
+    "prompt_strength": "not simulated"
+  },
+  {
+    "bar_ratio": 0.25,
+    "overlap": false,
+    "camera_pan_px": 16,
+    "prompt_strength": "not simulated"
+  },
+  {
+    "bar_ratio": 0.25,
+    "overlap": true,
+    "camera_pan_px": 0,
+    "prompt_strength": "not simulated"
+  },
+  {
+    "bar_ratio": 0.25,
+    "overlap": true,
+    "camera_pan_px": 16,
+    "prompt_strength": "not simulated"
+  }
+]

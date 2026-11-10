@@ -1,0 +1,5 @@
+{"file": "scene-01.jpg", "source_bytes": 368732, "bytes": 20218, "source_dimensions": [1920, 1080], "dimensions": [720, 405], "quality": 70, "sha256": "cfd4f6c5310068263d7c535181cce4fd170341efe2ab2c5b573b216b4296aa32"}
+{"file": "scene-02.jpg", "source_bytes": 353159, "bytes": 19992, "source_dimensions": [1920, 1080], "dimensions": [720, 405], "quality": 70, "sha256": "b0bdd0b8b042f92bc576f8526d47806ca5071ff452ddb599015b841c3af2d214"}
+{"file": "scene-03.jpg", "source_bytes": 340501, "bytes": 18733, "source_dimensions": [1920, 1080], "dimensions": [720, 405], "quality": 70, "sha256": "07b02d466b726264f59f97420603680a2a55ff821d0f79da9933b3a70ec3eeb3"}
+{"file": "scene-04.jpg", "source_bytes": 385404, "bytes": 21583, "source_dimensions": [1920, 1080], "dimensions": [720, 405], "quality": 70, "sha256": "8bc8b7067ed2783b7640a6e5b03b45f91b6bfff5ff4a32c0e1e574aac530213f"}
+exit=0

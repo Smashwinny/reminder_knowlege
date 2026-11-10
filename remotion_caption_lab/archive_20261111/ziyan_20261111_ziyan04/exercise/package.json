@@ -1,0 +1,1 @@
+{"name":"item04-caption-lab","private":true,"version":"1.0.0","scripts":{"typecheck":"tsc --noEmit","render":"remotion render src/index.tsx CaptionLab ../caption-lab-replay.mp4 --concurrency=2"},"dependencies":{"remotion":"4.0.542","@remotion/cli":"4.0.542","react":"19.1.0","react-dom":"19.1.0"},"devDependencies":{"typescript":"5.9.3","@types/react":"19.1.0"}}

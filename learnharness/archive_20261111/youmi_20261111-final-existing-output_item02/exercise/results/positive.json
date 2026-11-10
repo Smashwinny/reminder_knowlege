@@ -1,0 +1,31 @@
+{
+  "input": "合成的分数→比例→概率，不是模型或学习者数据",
+  "tree": {
+    "nodes": [
+      {
+        "id": "fractions",
+        "title": "分数"
+      },
+      {
+        "id": "ratio",
+        "title": "比例"
+      },
+      {
+        "id": "probability",
+        "title": "概率"
+      }
+    ],
+    "edges": [
+      {
+        "from": "fractions",
+        "to": "ratio"
+      },
+      {
+        "from": "ratio",
+        "to": "probability"
+      }
+    ],
+    "version": 1
+  },
+  "edgeMeaning": "from 必须先于 to 理解；仅结构，不证明知识已掌握"
+}

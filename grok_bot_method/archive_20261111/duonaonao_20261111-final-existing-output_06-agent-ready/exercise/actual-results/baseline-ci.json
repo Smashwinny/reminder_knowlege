@@ -1,0 +1,7 @@
+{
+  "sha": "c35c8c30c6fa157284d7dce3a70bbc3b7ad85006",
+  "checks": {
+    "tests": true,
+    "lint": true
+  }
+}

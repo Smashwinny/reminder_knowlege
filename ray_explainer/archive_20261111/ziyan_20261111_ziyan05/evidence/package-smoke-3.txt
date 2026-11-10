@@ -1,0 +1,4 @@
+$ python3 exercise/prepare_fixture.py /workspace/reminder-batch/item05/research/final/exercise-smoke/ray-explainer-offline/exercise/2026-11-11-package-smoke
+fixture prepared: /workspace/reminder-batch/item05/research/final/exercise-smoke/ray-explainer-offline/exercise/2026-11-11-package-smoke duration=12s PCM silence, NOT narration
+
+exit_code=0

@@ -1,0 +1,28 @@
+{
+  "safe_model": true,
+  "states": 3,
+  "states_and_shortest_paths": [
+    {
+      "approved": false,
+      "delivered": 0,
+      "trace": []
+    },
+    {
+      "approved": true,
+      "delivered": 0,
+      "trace": [
+        "approve"
+      ]
+    },
+    {
+      "approved": true,
+      "delivered": 1,
+      "trace": [
+        "approve",
+        "send"
+      ]
+    }
+  ],
+  "violations": [],
+  "bound": "count<=2, no revocation/crash/network/real approval"
+}

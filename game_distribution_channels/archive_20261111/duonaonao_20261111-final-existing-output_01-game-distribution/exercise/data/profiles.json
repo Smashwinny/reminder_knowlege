@@ -1,0 +1,32 @@
+[
+  {
+    "id": "A",
+    "description": "合成：HTML5原型，仅浏览器试玩/捐赠，不接受网页独占",
+    "build": "html5",
+    "mode": "donation",
+    "browser_only": true,
+    "budget_usd": 0,
+    "accept_exclusive": false,
+    "domestic": false
+  },
+  {
+    "id": "B",
+    "description": "合成：PC买断，1款作品，准入费上限100美元",
+    "build": "desktop",
+    "mode": "paid",
+    "browser_only": false,
+    "budget_usd": 100,
+    "accept_exclusive": false,
+    "domestic": false
+  },
+  {
+    "id": "C",
+    "description": "合成：国内微信广告小游戏，资质尚未核实",
+    "build": "wechat",
+    "mode": "ads",
+    "browser_only": false,
+    "budget_usd": 100,
+    "accept_exclusive": false,
+    "domestic": true
+  }
+]

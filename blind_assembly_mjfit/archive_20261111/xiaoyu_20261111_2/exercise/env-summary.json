@@ -1,0 +1,9 @@
+{
+  "python": "3.13.5",
+  "platform": "Linux-6.12.113+-x86_64-with-glibc2.41",
+  "mujoco": "4.0.0",
+  "mjfit": "0.1.0",
+  "numpy": "2.5.4",
+  "mjfit_sha": "5833f465896e1e06bc4be4f003be847f5183a4db",
+  "scope": "CPU MuJoCo passive geometry/contact; no RL actor"
+}

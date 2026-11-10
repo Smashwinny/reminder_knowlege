@@ -1,0 +1,45 @@
+[
+  {
+    "name": "重置前变量存在",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "reset返回成功",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "reset清空JS变量",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "reset不撤销外部模拟文档",
+    "pass": true,
+    "observed": "A"
+  },
+  {
+    "name": "半程失败带isError",
+    "pass": true,
+    "observed": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"error\":\"故障注入\",\"rollback\":false}"
+        }
+      ],
+      "isError": true
+    }
+  },
+  {
+    "name": "错误不回滚文档",
+    "pass": true,
+    "observed": "AB"
+  },
+  {
+    "name": "盲重试产生重复副作用",
+    "pass": true,
+    "observed": "ABB"
+  }
+]

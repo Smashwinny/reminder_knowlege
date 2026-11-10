@@ -1,0 +1,398 @@
+[
+  {
+    "profile": "A",
+    "channel": "apple",
+    "name": "App Store",
+    "status": "排除",
+    "fee_usd": 99,
+    "reasons": [
+      "构建目标不匹配",
+      "本实验核实的变现模式不匹配",
+      "已知准入费超预算"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证"
+    ],
+    "sources": [
+      "S01",
+      "S13"
+    ]
+  },
+  {
+    "profile": "A",
+    "channel": "play",
+    "name": "Google Play",
+    "status": "排除",
+    "fee_usd": 25,
+    "reasons": [
+      "构建目标不匹配",
+      "本实验核实的变现模式不匹配",
+      "已知准入费超预算"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证"
+    ],
+    "sources": [
+      "S02",
+      "S12"
+    ]
+  },
+  {
+    "profile": "A",
+    "channel": "steam",
+    "name": "Steam",
+    "status": "排除",
+    "fee_usd": 100,
+    "reasons": [
+      "构建目标不匹配",
+      "本实验核实的变现模式不匹配",
+      "已知准入费超预算"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证"
+    ],
+    "sources": [
+      "S03"
+    ]
+  },
+  {
+    "profile": "A",
+    "channel": "itch-download",
+    "name": "itch 下载",
+    "status": "排除",
+    "fee_usd": 0,
+    "reasons": [
+      "下载模式不满足浏览器内试玩目标"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证"
+    ],
+    "sources": [
+      "S04",
+      "S06"
+    ]
+  },
+  {
+    "profile": "A",
+    "channel": "itch-html5",
+    "name": "itch 浏览器",
+    "status": "候选",
+    "fee_usd": 0,
+    "reasons": [],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证"
+    ],
+    "sources": [
+      "S04",
+      "S05",
+      "S06"
+    ]
+  },
+  {
+    "profile": "A",
+    "channel": "poki",
+    "name": "Poki",
+    "status": "排除",
+    "fee_usd": null,
+    "reasons": [
+      "本实验核实的变现模式不匹配",
+      "不接受网页独占"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证",
+      "费用未知，不能按0计入预算"
+    ],
+    "sources": [
+      "S07"
+    ]
+  },
+  {
+    "profile": "A",
+    "channel": "wechat",
+    "name": "微信小游戏",
+    "status": "排除",
+    "fee_usd": null,
+    "reasons": [
+      "构建目标不匹配",
+      "本实验核实的变现模式不匹配"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证",
+      "费用未知，不能按0计入预算"
+    ],
+    "sources": [
+      "S08",
+      "S09",
+      "S10",
+      "S11"
+    ]
+  },
+  {
+    "profile": "B",
+    "channel": "apple",
+    "name": "App Store",
+    "status": "排除",
+    "fee_usd": 99,
+    "reasons": [
+      "构建目标不匹配"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证"
+    ],
+    "sources": [
+      "S01",
+      "S13"
+    ]
+  },
+  {
+    "profile": "B",
+    "channel": "play",
+    "name": "Google Play",
+    "status": "排除",
+    "fee_usd": 25,
+    "reasons": [
+      "构建目标不匹配"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证"
+    ],
+    "sources": [
+      "S02",
+      "S12"
+    ]
+  },
+  {
+    "profile": "B",
+    "channel": "steam",
+    "name": "Steam",
+    "status": "候选",
+    "fee_usd": 100,
+    "reasons": [],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证"
+    ],
+    "sources": [
+      "S03"
+    ]
+  },
+  {
+    "profile": "B",
+    "channel": "itch-download",
+    "name": "itch 下载",
+    "status": "候选",
+    "fee_usd": 0,
+    "reasons": [],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证"
+    ],
+    "sources": [
+      "S04",
+      "S06"
+    ]
+  },
+  {
+    "profile": "B",
+    "channel": "itch-html5",
+    "name": "itch 浏览器",
+    "status": "排除",
+    "fee_usd": 0,
+    "reasons": [
+      "构建目标不匹配",
+      "本实验核实的变现模式不匹配"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证"
+    ],
+    "sources": [
+      "S04",
+      "S05",
+      "S06"
+    ]
+  },
+  {
+    "profile": "B",
+    "channel": "poki",
+    "name": "Poki",
+    "status": "排除",
+    "fee_usd": null,
+    "reasons": [
+      "构建目标不匹配",
+      "本实验核实的变现模式不匹配",
+      "不接受网页独占"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证",
+      "费用未知，不能按0计入预算"
+    ],
+    "sources": [
+      "S07"
+    ]
+  },
+  {
+    "profile": "B",
+    "channel": "wechat",
+    "name": "微信小游戏",
+    "status": "排除",
+    "fee_usd": null,
+    "reasons": [
+      "构建目标不匹配",
+      "本实验核实的变现模式不匹配"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证",
+      "费用未知，不能按0计入预算"
+    ],
+    "sources": [
+      "S08",
+      "S09",
+      "S10",
+      "S11"
+    ]
+  },
+  {
+    "profile": "C",
+    "channel": "apple",
+    "name": "App Store",
+    "status": "排除",
+    "fee_usd": 99,
+    "reasons": [
+      "构建目标不匹配"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证",
+      "国内出版/备案/广告资格必须分别核实"
+    ],
+    "sources": [
+      "S01",
+      "S13"
+    ]
+  },
+  {
+    "profile": "C",
+    "channel": "play",
+    "name": "Google Play",
+    "status": "排除",
+    "fee_usd": 25,
+    "reasons": [
+      "构建目标不匹配"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证",
+      "国内出版/备案/广告资格必须分别核实"
+    ],
+    "sources": [
+      "S02",
+      "S12"
+    ]
+  },
+  {
+    "profile": "C",
+    "channel": "steam",
+    "name": "Steam",
+    "status": "排除",
+    "fee_usd": 100,
+    "reasons": [
+      "构建目标不匹配",
+      "本实验核实的变现模式不匹配"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证",
+      "国内出版/备案/广告资格必须分别核实"
+    ],
+    "sources": [
+      "S03"
+    ]
+  },
+  {
+    "profile": "C",
+    "channel": "itch-download",
+    "name": "itch 下载",
+    "status": "排除",
+    "fee_usd": 0,
+    "reasons": [
+      "构建目标不匹配",
+      "本实验核实的变现模式不匹配"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "国内出版/备案/广告资格必须分别核实"
+    ],
+    "sources": [
+      "S04",
+      "S06"
+    ]
+  },
+  {
+    "profile": "C",
+    "channel": "itch-html5",
+    "name": "itch 浏览器",
+    "status": "排除",
+    "fee_usd": 0,
+    "reasons": [
+      "构建目标不匹配",
+      "本实验核实的变现模式不匹配"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "国内出版/备案/广告资格必须分别核实"
+    ],
+    "sources": [
+      "S04",
+      "S05",
+      "S06"
+    ]
+  },
+  {
+    "profile": "C",
+    "channel": "poki",
+    "name": "Poki",
+    "status": "排除",
+    "fee_usd": null,
+    "reasons": [
+      "构建目标不匹配",
+      "不接受网页独占"
+    ],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证",
+      "费用未知，不能按0计入预算",
+      "国内出版/备案/广告资格必须分别核实"
+    ],
+    "sources": [
+      "S07"
+    ]
+  },
+  {
+    "profile": "C",
+    "channel": "wechat",
+    "name": "微信小游戏",
+    "status": "待核",
+    "fee_usd": null,
+    "reasons": [],
+    "pending": [
+      "主体/地区/收款税务/内容/隐私与实际平台审核均未验证",
+      "平台审查或合作接纳待验证",
+      "费用未知，不能按0计入预算",
+      "国内出版/备案/广告资格必须分别核实"
+    ],
+    "sources": [
+      "S08",
+      "S09",
+      "S10",
+      "S11"
+    ]
+  }
+]

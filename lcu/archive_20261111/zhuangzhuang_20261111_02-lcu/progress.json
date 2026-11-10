@@ -1,0 +1,17 @@
+{
+  "item": 2,
+  "status": "学习交付真实完成；原始运行时与真实GUI待验证",
+  "reason": "遵守用户禁止安装/使用账号/密钥要求；未启动原始服务。原帖及引用可读，非受阻。",
+  "access_date": "2026-11-11 Asia/Shanghai",
+  "upstream_sha": "a7e30c1862707214dfe748d410854771ab4f4494",
+  "knowledge_main_sha": "a8674777e18302b8804b137212b1396cbfe5a747",
+  "questions": 12,
+  "uses": 5,
+  "experiment_steps": 6,
+  "named_checks": 41,
+  "upstream_unit_tests": 7,
+  "pdf_pages": 12,
+  "pdf_pages_read": 12,
+  "next_item": "等待明确委派，不自动执行其他项",
+  "unchanged_scope": "未修改其他助手目录或共享_common；无发布、push、合入、勾选、日程、购买或安全设置变更"
+}

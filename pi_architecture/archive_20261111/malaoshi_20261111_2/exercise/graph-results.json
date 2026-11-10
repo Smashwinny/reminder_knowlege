@@ -1,0 +1,92 @@
+{
+  "0.84.2": {
+    "sha": "914cf1472e715297caa30db4b9535d534a9eb718",
+    "workspaces": 9,
+    "non_private": 8,
+    "product": "0.84.2",
+    "direct": [
+      "pi-agent-core",
+      "pi-ai",
+      "pi-client",
+      "pi-protocol",
+      "pi-tui"
+    ],
+    "closure": [
+      "pi-agent-core",
+      "pi-ai",
+      "pi-client",
+      "pi-coding-agent",
+      "pi-protocol",
+      "pi-telemetry",
+      "pi-tui"
+    ]
+  },
+  "1.2.0": {
+    "sha": "06a466935536f8c9bcacb2d5efc0fc021be1bdff",
+    "workspaces": 11,
+    "non_private": 10,
+    "product": "1.2.0",
+    "direct": [
+      "pi-agent-core",
+      "pi-ai",
+      "pi-codemode",
+      "pi-mcp",
+      "pi-tui"
+    ],
+    "closure": [
+      "pi-agent-core",
+      "pi-ai",
+      "pi-codemode",
+      "pi-coding-agent",
+      "pi-mcp",
+      "pi-telemetry",
+      "pi-tui"
+    ]
+  },
+  "audit-1.5.2": {
+    "sha": "65c43bb520edf53f11923f7a927aefd05475c6af",
+    "workspaces": 12,
+    "non_private": 11,
+    "product": "1.5.2",
+    "direct": [
+      "pi-agent-core",
+      "pi-ai",
+      "pi-codemode",
+      "pi-mcp",
+      "pi-tui"
+    ],
+    "closure": [
+      "pi-agent-core",
+      "pi-ai",
+      "pi-codemode",
+      "pi-coding-agent",
+      "pi-mcp",
+      "pi-schema",
+      "pi-telemetry",
+      "pi-tui"
+    ]
+  },
+  "main-1.5.2": {
+    "sha": "b30d54b8aebe6408e02d1473446d25f8083da68f",
+    "workspaces": 12,
+    "non_private": 11,
+    "product": "1.5.2",
+    "direct": [
+      "pi-agent-core",
+      "pi-ai",
+      "pi-codemode",
+      "pi-mcp",
+      "pi-tui"
+    ],
+    "closure": [
+      "pi-agent-core",
+      "pi-ai",
+      "pi-codemode",
+      "pi-coding-agent",
+      "pi-mcp",
+      "pi-schema",
+      "pi-telemetry",
+      "pi-tui"
+    ]
+  }
+}

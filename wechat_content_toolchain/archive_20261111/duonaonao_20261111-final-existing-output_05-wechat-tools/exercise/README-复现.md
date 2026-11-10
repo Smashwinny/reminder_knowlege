@@ -1,0 +1,1 @@
+解压到独立目录。先cd exercise/runtime运行npm ci --ignore-scripts --no-audit --no-fund，再cd ../..运行ln -s exercise/runtime/node_modules node_modules。随后按experiment-log.md依次执行五步。仅附所用上游文件与LICENSE，非完整仓库。RSSHub源码仅供阅读，不启动。

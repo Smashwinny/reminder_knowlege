@@ -1,0 +1,16 @@
+test_assumptions_all_tagged (test_unit_econ.TestFormulas.test_assumptions_all_tagged) ... ok
+test_break_even_close_rate_non_negative (test_unit_econ.TestFormulas.test_break_even_close_rate_non_negative) ... ok
+test_break_even_traffic_equals_zero_traffic_contribution (test_unit_econ.TestFormulas.test_break_even_traffic_equals_zero_traffic_contribution) ... ok
+test_claimed_aov_matches_division (test_unit_econ.TestFormulas.test_claimed_aov_matches_division) ... ok
+test_contribution_linear_in_traffic (test_unit_econ.TestFormulas.test_contribution_linear_in_traffic) ... ok
+test_funnel_counts (test_unit_econ.TestFormulas.test_funnel_counts) ... ok
+test_impossible_close_rate_is_inf (test_unit_econ.TestFormulas.test_impossible_close_rate_is_inf) ... ok
+test_investment_not_in_unit_econ_signature (test_unit_econ.TestFormulas.test_investment_not_in_unit_econ_signature) ... ok
+test_rejects_negative (test_unit_econ.TestFormulas.test_rejects_negative) ... ok
+test_sensitivity_identity_at_zero_delta (test_unit_econ.TestFormulas.test_sensitivity_identity_at_zero_delta) ... ok
+test_unit_economics_hand_calc (test_unit_econ.TestFormulas.test_unit_economics_hand_calc) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.001s
+
+OK

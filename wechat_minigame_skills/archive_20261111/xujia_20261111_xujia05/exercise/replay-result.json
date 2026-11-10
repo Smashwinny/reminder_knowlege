@@ -1,0 +1,17 @@
+{
+  "mode": "replay",
+  "steps": 600,
+  "equal": true,
+  "final": {
+    "tick": 600,
+    "x": 60,
+    "y": 150,
+    "r": 12,
+    "coinX": 260,
+    "coinY": 150,
+    "score": 1,
+    "paused": false,
+    "seed": 1042201148,
+    "events": []
+  }
+}

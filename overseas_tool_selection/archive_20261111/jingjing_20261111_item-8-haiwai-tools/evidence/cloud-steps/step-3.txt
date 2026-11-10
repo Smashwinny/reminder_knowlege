@@ -1,0 +1,63 @@
+       1  沉浸式翻译                         200  可达  https://immersivetranslate.com/
+       2  AITDK                         200  可达  https://aitdk.com/
+       3  SiteData                      200  可达  https://sitedata.dev/
+       4  Similarweb                    200  可达  https://www.similarweb.com/
+       5  Wayback Machine               200  可达  https://web.archive.org/
+       6  Wappalyzer                    200  可达  https://www.wappalyzer.com/
+       7  Google Trends                 200  可达  https://trends.google.com/
+       8  Exploding Topics              200  可达  https://explodingtopics.com/
+       9  Screaming Frog SEO Spider     200  可达  https://www.screamingfrog.co.uk/seo-spider/
+      10  SEO Minion                    200  可达  https://seominion.com/
+      11  Semrush                       200  可达  https://www.semrush.com/
+      12  Moz Link Explorer             200  可达  https://moz.com/link-explorer
+      13  Ahrefs                        200  可达  https://ahrefs.com/
+      14  （原文缺号）                        None  原文缺号未探测  -
+      15  Linkhouse                     200  可达  https://linkhouse.net/
+      16  Collaborator                  200  可达  https://collaborator.pro/
+53-early  Fiverr                        403  被拦截或需登录（站点存在但未放行）  https://www.fiverr.com/
+54-early  Adsy                          200  可达  https://www.adsy.com/
+      17  Figma                         202  可达  https://www.figma.com/
+      18  Framer                        200  可达  https://www.framer.com/
+      19  IconPark                      200  可达  https://iconpark.oceanengine.com/
+      20  OpenRouter                    200  可达  https://openrouter.ai/
+      21  Dify                          200  可达  https://dify.ai/
+      22  Replicate                     200  可达  https://replicate.com/
+      23  n8n                           200  可达  https://n8n.io/
+      24  Midjourney                    403  被拦截或需登录（站点存在但未放行）  https://www.midjourney.com/
+      25  Ideogram                      200  可达  https://ideogram.ai/
+      26  Loom                          200  可达  https://www.loom.com/
+      27  Screen Studio                 200  可达  https://screen.studio/
+      28  Cloudflare                    200  可达  https://www.cloudflare.com/
+      29  Vercel                        200  可达  https://vercel.com/
+      30  DeepL                         200  可达  https://www.deepl.com/
+      31  Weglot                        200  可达  https://www.weglot.com/
+      32  Lokalise                      200  可达  https://lokalise.com/
+      33  Stripe                        200  可达  https://stripe.com/
+      34  Paddle                        200  可达  https://www.paddle.com/
+      35  Lemon Squeezy                 200  可达  https://www.lemonsqueezy.com/
+      36  Starryblu                     200  可达  https://www.starryblu.com/
+      37  Termly                        200  可达  https://termly.io/
+      38  Product Hunt                  403  被拦截或需登录（站点存在但未放行）  https://www.producthunt.com/
+      39  Uneed                         200  可达  https://www.uneed.best/
+      40  Microlaunch                   200  可达  https://microlaunch.net/
+      41  BetaList                      200  可达  https://betalist.com/
+     42a  Discord                       200  可达  https://discord.com/
+     42b  Disboard                      200  可达  https://disboard.org/
+      43  Toolify                       403  被拦截或需登录（站点存在但未放行）  https://www.toolify.ai/
+      44  There's An AI For That        403  被拦截或需登录（站点存在但未放行）  https://theresanaiforthat.com/
+      45  Typefully                     200  可达  https://typefully.com/
+      46  Beehiiv                       200  可达  https://www.beehiiv.com/
+      47  Customer                      200  可达  https://customer.io/
+      48  Loops                         200  可达  https://loops.so/
+      49  Google Search Console         200  可达  https://search.google.com/search-console/about
+      50  Google Analytics 4            200  可达  https://marketingplatform.google.com/about/analytics/
+      51  PostHog                       200  可达  https://posthog.com/
+      52  Microsoft Clarity             200  可达  https://clarity.microsoft.com/
+      53  Feedlog                       200  可达  https://feedlog.ai/
+      55  Crisp                         200  可达  https://crisp.chat/
+      56  Cursorful                     200  可达  https://cursorful.com/
+ article  X article link                200  可达
+
+checked_at: 2026-11-11 01:22:18 Asia/Shanghai
+counts: {"可达": 53, "原文缺号未探测": 1, "被拦截或需登录（站点存在但未放行）": 5}
+工具官网可达 52/57（不含独立文章链接和缺号项）

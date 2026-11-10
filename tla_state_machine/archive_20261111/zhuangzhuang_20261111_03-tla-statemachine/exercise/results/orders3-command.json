@@ -1,0 +1,22 @@
+{
+  "cwd": "/workspace/learn-batch/03-tla-statemachine/exercise/models",
+  "argv": [
+    "/workspace/learn-batch/03-tla-statemachine/tools/jdk-21.0.13+9-jre/bin/java",
+    "-Xmx256m",
+    "-XX:+UseParallelGC",
+    "-jar",
+    "/workspace/learn-batch/03-tla-statemachine/tools/tla2tools.jar",
+    "-workers",
+    "1",
+    "-fp",
+    "0",
+    "-config",
+    "Orders3.cfg",
+    "-metadir",
+    "/workspace/learn-batch/03-tla-statemachine/exercise/results/orders3-meta",
+    "-dump",
+    "dot,actionlabels",
+    "/workspace/learn-batch/03-tla-statemachine/exercise/results/orders3-graph.dot",
+    "OrderMany.tla"
+  ]
+}

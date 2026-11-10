@@ -1,0 +1,22 @@
+[
+  {
+    "command": "python3 exercise/lab.py prepare",
+    "output": "[('AI-News.html', 200, 102899), ('The-Batch.html', 200, 152643), ('HF-Papers.html', 200, 507098), ('alphaXiv.html', 200, 915635), ('arXiv.html', 200, 99558), ('Arena.html', 200, 115565), ('Artificial-Analysis.html', 200, 1474660)]\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py extract",
+    "output": "link observations= 99 unique papers= 92\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py dedupe",
+    "output": "3 synthetic links => 1 canonical paper; versions must also be recorded separately\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py audit",
+    "output": "sources_with_paper_ids= ['HF-Papers.html', 'alphaXiv.html', 'arXiv.html', 'paper-2611.12865.html']\nHTTP 200 != paper reviewed; rankings != universal quality; no schedule created\n",
+    "exit": 0
+  }
+]

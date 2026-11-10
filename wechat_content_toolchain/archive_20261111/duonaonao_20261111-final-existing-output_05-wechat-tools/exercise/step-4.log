@@ -1,0 +1,3 @@
+real Doocs sanitizeHtml: ordinary script+event removed; benign protected-marker content restored
+marked + juice: HTML generated, inline style=true
+scope: real sanitizer component, not full Doocs renderer or WeChat clipboard; marker trust boundary not a universal sanitizer proof

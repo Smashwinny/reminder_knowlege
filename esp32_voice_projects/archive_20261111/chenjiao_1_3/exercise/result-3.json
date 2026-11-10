@@ -1,0 +1,8 @@
+{
+  "reloaded": {
+    "A": "claude",
+    "B": "deepseek"
+  },
+  "unknown_alias_policy": "保留既有路由或默认，不执行未知命令",
+  "persistence": "仅本地JSON正常写读；非崩溃一致性证明"
+}

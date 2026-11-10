@@ -1,0 +1,12 @@
+{
+  "sha": "f83c8721c1a87a9767bf855b22eb8160370e3b10",
+  "changed": [
+    "src/calc.py"
+  ],
+  "eligible": false,
+  "reasons": [
+    "independent approval absent (fixture)"
+  ],
+  "review_is_synthetic": true,
+  "merged": false
+}

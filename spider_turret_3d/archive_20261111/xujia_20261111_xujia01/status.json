@@ -1,0 +1,36 @@
+{
+  "item": 1,
+  "status": "待验证",
+  "reason": "教材及五步CPU数值/GLB实验真实完成；原图→模型生成、完整WebGPU视觉/音频/GPU计时/实际GLB脚尖仍未验证",
+  "finished_candidate_at": "2026-11-11T01:03:59.030748+08:00",
+  "source_sha": "e5f92a8b99f2cbeef6a87ad12c142b0ccf34a99b",
+  "knowledge_main_sha": "a8674777e18302b8804b137212b1396cbfe5a747",
+  "question_count": 12,
+  "svg_count": 12,
+  "pdf_pages": 10,
+  "pdf_visual_self_check": "10/10 pages inspected; no question card splits",
+  "independent_review": false,
+  "experiments_executed": [
+    "fetch+fixed install",
+    "GLB audit",
+    "state+barrel dt",
+    "IK/FK",
+    "gait target plant"
+  ],
+  "not_executed": [
+    "single image model generation",
+    "full browser 3D application",
+    "GPU/FPS timing",
+    "real GLB foot error",
+    "physical stability/multi-terrain"
+  ],
+  "deliverables": [
+    "guide.html",
+    "guide.pdf",
+    "exercise.zip",
+    "experiment-log.md",
+    "knowledge-proposal.md",
+    "sources.md",
+    "qa/qa-report.md"
+  ]
+}

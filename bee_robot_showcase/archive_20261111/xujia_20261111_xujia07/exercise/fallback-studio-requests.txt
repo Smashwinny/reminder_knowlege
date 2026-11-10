@@ -1,0 +1,3 @@
+"GET /?quality=low&showcase=0&lab=studio HTTP/1.1" 200 -
+"GET /assets/index-BWjJCO7Y.js HTTP/1.1" 200 -
+"GET /assets/index-CqPE8GzT.css HTTP/1.1" 200 -

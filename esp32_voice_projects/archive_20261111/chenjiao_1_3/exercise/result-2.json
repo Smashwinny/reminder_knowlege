@@ -1,0 +1,21 @@
+{
+  "routes": [
+    [
+      "A",
+      "claude"
+    ],
+    [
+      "B",
+      "deepseek"
+    ],
+    [
+      "A",
+      "claude"
+    ],
+    [
+      "B",
+      "deepseek"
+    ]
+  ],
+  "device_isolation": true
+}

@@ -1,0 +1,21 @@
+{
+  "frames": 150,
+  "max_pts_error_seconds": 3.33333333379926e-07,
+  "unique_native_frames": 120,
+  "duplicated_output_frames": 30,
+  "first_indices": [
+    0,
+    1,
+    2,
+    2,
+    3,
+    4,
+    5,
+    6,
+    6,
+    7,
+    8,
+    9
+  ],
+  "last_index": 119
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "synthetic_interval_ms": 16.666666666666668,
+    "reciprocal_hz": 59.99999999999999,
+    "reported_hud_fps": 90,
+    "simulation_dt": 0.01666666666666663
+  },
+  {
+    "synthetic_interval_ms": 100,
+    "reciprocal_hz": 10,
+    "reported_hud_fps": 120,
+    "simulation_dt": 0.05
+  },
+  {
+    "synthetic_interval_ms": 1000,
+    "reciprocal_hz": 1,
+    "reported_hud_fps": 120,
+    "simulation_dt": 0.05
+  }
+]

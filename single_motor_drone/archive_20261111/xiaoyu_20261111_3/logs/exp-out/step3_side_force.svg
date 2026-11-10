@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" width="640" height="240" font-family="sans-serif">
+<rect width="640" height="240" fill="#f7fcff"/>
+<text x="320.0" y="18" text-anchor="middle" font-size="13" fill="#0866ca" font-weight="700">周期调速幅值增大时，平均侧向力与变距振幅（假设模型）</text>
+<line x1="58" y1="28" x2="58" y2="200" stroke="#9bb8c9"/>
+<line x1="58" y1="200" x2="624" y2="200" stroke="#9bb8c9"/>
+<line x1="58" y1="200.0" x2="624" y2="200.0" stroke="#e3eef4"/>
+<text x="52" y="204.0" text-anchor="end" font-size="10" fill="#577288">-0.909</text>
+<line x1="58" y1="157.0" x2="624" y2="157.0" stroke="#e3eef4"/>
+<text x="52" y="161.0" text-anchor="end" font-size="10" fill="#577288">2.39</text>
+<line x1="58" y1="114.0" x2="624" y2="114.0" stroke="#e3eef4"/>
+<text x="52" y="118.0" text-anchor="end" font-size="10" fill="#577288">5.68</text>
+<line x1="58" y1="71.0" x2="624" y2="71.0" stroke="#e3eef4"/>
+<text x="52" y="75.0" text-anchor="end" font-size="10" fill="#577288">8.98</text>
+<line x1="58" y1="28.0" x2="624" y2="28.0" stroke="#e3eef4"/>
+<text x="52" y="32.0" text-anchor="end" font-size="10" fill="#577288">12.3</text>
+<text x="58.0" y="216" text-anchor="middle" font-size="10" fill="#577288">0</text>
+<text x="199.5" y="216" text-anchor="middle" font-size="10" fill="#577288">2.5</text>
+<text x="341.0" y="216" text-anchor="middle" font-size="10" fill="#577288">5</text>
+<text x="482.5" y="216" text-anchor="middle" font-size="10" fill="#577288">7.5</text>
+<text x="624.0" y="216" text-anchor="middle" font-size="10" fill="#577288">10</text>
+<text x="320.0" y="234" text-anchor="middle" font-size="11" fill="#17324d">转速一次谐波幅值 δΩ/Ω (%)（假设）</text>
+<text x="14" y="114.0" text-anchor="middle" font-size="11" fill="#17324d" transform="rotate(-90 14 114.0)">力 / 角度</text>
+<polyline fill="none" stroke="#1769ff" stroke-width="2.4" points="58.00,188.14 114.60,183.69 171.20,179.23 227.80,174.78 284.40,170.33 341.00,165.88 397.60,161.42 454.20,156.97 510.80,152.52 567.40,148.07 624.00,143.61"/>
+<rect x="66" y="32" width="10" height="10" fill="#1769ff"/>
+<text x="80" y="41" font-size="11" fill="#17324d">平均侧向力 (N)</text>
+<polyline fill="none" stroke="#ff7900" stroke-width="2.4" points="58.00,188.14 114.60,173.11 171.20,158.10 227.80,143.12 284.40,128.17 341.00,113.26 397.60,98.42 454.20,83.65 510.80,68.96 567.40,54.36 624.00,39.86"/>
+<rect x="166" y="32" width="10" height="10" fill="#ff7900"/>
+<text x="180" y="41" font-size="11" fill="#17324d">推力倾斜角 (°)</text>
+<polyline fill="none" stroke="#00b7d5" stroke-width="2.4" points="58.00,188.14 114.60,181.84 171.20,175.55 227.80,169.26 284.40,162.96 341.00,156.67 397.60,150.38 454.20,144.08 510.80,137.79 567.40,131.49 624.00,125.20"/>
+<rect x="266" y="32" width="10" height="10" fill="#00b7d5"/>
+<text x="280" y="41" font-size="11" fill="#17324d">变距振幅 (°)</text>
+</svg>

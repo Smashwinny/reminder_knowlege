@@ -1,0 +1,98 @@
+$ npx remotion render src/index.tsx CaptionLab ../caption-lab-replay.mp4 --concurrency=2 --browser-executable="$CHROME_BIN"
+CHROME_BIN=C:\Program Files\Google\Chrome\Application\chrome.exe
+Bundling 6%
+Bundling 21%
+Bundling 32%
+Bundling 43%
+Bundling 54%
+Bundling 65%
+Bundling 70%
+Bundling 75%
+Bundling 80%
+Bundling 85%
+Bundling 91%
+Bundling 98%
+Bundling 100%
+Getting composition
+⚡️ Cached bundle. Subsequent renders will be faster.
+Composition          CaptionLab
+Codec                h264
+Output               ../caption-lab-replay.mp4
+Concurrency          2x
+Rendered 0/360
+Rendered 1/360, time remaining: 2m 39s
+Rendered 2/360, time remaining: 1m 37s
+Rendered 3/360, time remaining: 1m 26s
+Rendered 4/360, time remaining: 1m 4s
+Rendered 5/360, time remaining: 55s
+Rendered 6/360, time remaining: 55s
+Rendered 7/360, time remaining: 47s
+Rendered 8/360, time remaining: 44s
+Rendered 9/360, time remaining: 45s
+Rendered 10/360, time remaining: 40s
+Rendered 11/360, time remaining: 38s
+Rendered 12/360, time remaining: 39s
+Rendered 13/360, time remaining: 36s
+Rendered 14/360, time remaining: 35s
+Rendered 15/360, time remaining: 36s
+Rendered 16/360, time remaining: 34s
+Rendered 17/360, time remaining: 33s
+Rendered 18/360, time remaining: 34s
+Rendered 19/360, time remaining: 32s
+Rendered 20/360, time remaining: 32s
+Rendered 21/360, time remaining: 33s
+Rendered 22/360, time remaining: 31s
+Rendered 23/360, time remaining: 31s
+Rendered 24/360, time remaining: 31s
+Rendered 25/360, time remaining: 30s
+Rendered 26/360, time remaining: 29s
+Rendered 27/360, time remaining: 30s
+Rendered 28/360, time remaining: 29s
+Rendered 29/360, time remaining: 28s
+Rendered 30/360, time remaining: 29s
+Rendered 31/360, time remaining: 28s
+Rendered 32/360, time remaining: 28s
+Rendered 33/360, time remaining: 28s
+Rendered 34/360, time remaining: 27s
+Rendered 35/360, time remaining: 27s
+Rendered 36/360, time remaining: 28s
+Rendered 37/360, time remaining: 27s
+Rendered 38/360, time remaining: 26s
+Rendered 39/360, time remaining: 27s
+Rendered 40/360, time remaining: 26s
+Rendered 41/360, time remaining: 26s
+Rendered 42/360, time remaining: 27s
+Rendered 43/360, time remaining: 26s
+Rendered 44/360, time remaining: 25s
+Rendered 45/360, time remaining: 26s
+Rendered 46/360, time remaining: 25s
+Rendered 47/360, time remaining: 25s
+Rendered 48/360, time remaining: 25s
+Rendered 49/360, time remaining: 25s
+Rendered 50/360, time remaining: 25s
+Rendered 51/360, time remaining: 25s
+Rendered 52/360, time remaining: 24s
+Rendered 53/360, time remaining: 24s
+Rendered 54/360, time remaining: 25s
+Rendered 55/360, time remaining: 24s
+Rendered 56/360, time remaining: 24s
+Rendered 57/360, time remaining: 24s
+Rendered 58/360, time remaining: 24s
+Rendered 59/360, time remaining: 24s
+Rendered 60/360, time remaining: 24s
+Rendered 61/360, time remaining: 24s
+Rendered 62/360, time remaining: 23s
+Rendered 63/360, time remaining: 24s
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+Error: write EOF
+    at WriteWrap.onWriteComplete [as oncomplete] (node:internal/stream_base_commons:87:19) {
+  errno: -4095,
+  code: 'EOF',
+  syscall: 'write'
+}
+
+Node.js v24.21.0
+exit=1

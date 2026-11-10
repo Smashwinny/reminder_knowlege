@@ -1,0 +1,42 @@
+{
+  "trace_actions": [
+    "Pay",
+    "CheckPayment",
+    "Refund",
+    "ShipBug"
+  ],
+  "states": [
+    {
+      "paid": false,
+      "shipPhase": "new",
+      "checkedPaid": false
+    },
+    {
+      "paid": true,
+      "shipPhase": "new",
+      "checkedPaid": false
+    },
+    {
+      "paid": true,
+      "shipPhase": "checked",
+      "checkedPaid": true
+    },
+    {
+      "paid": false,
+      "shipPhase": "checked",
+      "checkedPaid": true
+    },
+    {
+      "paid": false,
+      "shipPhase": "shipped",
+      "checkedPaid": true
+    }
+  ],
+  "transition_count": 4,
+  "state_count": 5,
+  "python_fixed_reachable": 5,
+  "python_bug_full_reachable": 6,
+  "fixed_TLC_DOT_equals_python_full_state_set": true,
+  "fixed_blocks_bug_final_transition": true,
+  "scope": "仅自编合成实现的逐步重放与状态集合交叉检查；非产品代码精化证明"
+}

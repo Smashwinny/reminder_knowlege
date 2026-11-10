@@ -1,0 +1,17 @@
+{
+  "status": "部分完成（用户叫停）",
+  "questions": 12,
+  "SVG": 13,
+  "PDF_pages": 8,
+  "Read_reviewed": 8,
+  "PDF_text_replacement_characters": 0,
+  "exercise_zip_crc": "通过；只含设计草案/天气快照，代码未完成",
+  "not_done": [
+    "前端代码",
+    "headless原型截图",
+    "负面用例",
+    "天气前端联动",
+    "真实任务接入"
+  ],
+  "no_more_experiments": true
+}

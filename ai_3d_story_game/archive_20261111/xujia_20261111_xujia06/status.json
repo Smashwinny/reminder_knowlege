@@ -1,0 +1,21 @@
+{
+  "item": 6,
+  "status": "待验证",
+  "reason": "原帖和下载页正文可读，但作者HTML附件直链未取得，公开页直接读取403；未加载作者HTML。原创状态/WebGL方法实验真实完成。",
+  "game_commit": null,
+  "game_sha256": null,
+  "teaching_three_sha": "beab9e845f9e5ae11d648f55b24a0e910b56a85a",
+  "completed": [
+    "12问SVG HTML",
+    "完整原帖/引用/作者线程/Notion正文",
+    "原创5步Node与真实WebGL实验"
+  ],
+  "pending": [
+    "作者HTML/许可/源码审阅/加载",
+    "模型生成/费用",
+    "完整叙事集成/真机/性能"
+  ],
+  "pdf": "已实际打印10页A4，逐页PNG查看，无卡片跨页，自检非独立审核",
+  "delivery_saved": "item06-delivery.zip已生成；现保存状态后继续第7项",
+  "fresh_replay": "从exercise.zip全新解压，重跑graph/gates/route均一致；未重新跑WebGL；日志qa/fresh-replay-log.txt"
+}

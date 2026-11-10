@@ -1,0 +1,35 @@
+$ /usr/bin/python3 -m unittest -v test_production.Production.test_plan_gaps_overlaps_and_review test_production.Production.test_exact_mapping_offsets test_production.Production.test_media_pipeline_and_acceptance_gate
+/tmp/tmpa1hae9cg/project
+{
+  "at": "2026-11-10T17:07:21.952576+00:00",
+  "artifact_sha256": "328d6bcc810bd0b51d5e9c25f1354bac00602716dea42e99ac6abd64a613e1da",
+  "checks": {
+    "frames": true,
+    "fps": true,
+    "decode": true,
+    "audio_exact": true
+  },
+  "technical_pass": true,
+  "black_candidates": [],
+  "black_review_pending": false,
+  "audio": {
+    "method": "full decoded 48k stereo PCM equality",
+    "source_sha256": "73c0456e17e192e73e9f5489487024b5f029ab790019904542dd5e4ae6bba130",
+    "output_sha256": "73c0456e17e192e73e9f5489487024b5f029ab790019904542dd5e4ae6bba130",
+    "exact": true
+  },
+  "visual_acceptance": false,
+  "dynamic_review": "pending"
+}
+/workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py:65: SyntaxWarning: invalid escape sequence '\,'
+  run([tool('ffmpeg'),'-v','error','-n','-i',a.source,'-vf',f'select=eq(n\,{n})','-frames:v','1',p/f'frame-{n:06}.png'])
+test_plan_gaps_overlaps_and_review (test_production.Production.test_plan_gaps_overlaps_and_review) ... ok
+test_exact_mapping_offsets (test_production.Production.test_exact_mapping_offsets) ... ok
+test_media_pipeline_and_acceptance_gate (test_production.Production.test_media_pipeline_and_acceptance_gate) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.120s
+
+OK
+
+exit=0

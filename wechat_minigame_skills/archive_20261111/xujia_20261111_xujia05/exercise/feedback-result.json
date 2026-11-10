@@ -1,0 +1,7 @@
+{
+  "mode": "feedback",
+  "steps": 120,
+  "pickup_events": 2,
+  "feedback_does_not_change_simulation": true,
+  "flash_final": 0
+}

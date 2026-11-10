@@ -1,0 +1,8 @@
+{
+  "seed": 2026,
+  "pairs": 32,
+  "nominal_centered_pass": true,
+  "randomized_passes": 2,
+  "oracle_centered_passes": 32,
+  "scope": "paired passive drop distribution test; oracle uses exact hole center, NOT blind policy or randomized training"
+}

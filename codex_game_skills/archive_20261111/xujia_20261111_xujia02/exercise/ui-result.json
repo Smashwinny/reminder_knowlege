@@ -1,0 +1,27 @@
+{
+  "focus_stack": "game→pause→settings→pause→game",
+  "viewports": [
+    {
+      "w": 360,
+      "h": 800,
+      "inset": 16,
+      "pause_target": 44,
+      "overlap": false
+    },
+    {
+      "w": 1280,
+      "h": 720,
+      "inset": 16,
+      "pause_target": 44,
+      "overlap": false
+    },
+    {
+      "w": 2560,
+      "h": 1080,
+      "inset": 16,
+      "pause_target": 44,
+      "overlap": false
+    }
+  ],
+  "note": "geometry assertions, not physical device/gamepad tests"
+}

@@ -1,0 +1,32 @@
+{
+  "state_cases": 6,
+  "state_at_speed9": "FIRING_ACTIVE",
+  "actual_trigger_at_speed9": false,
+  "frames": [
+    {
+      "hz": 20,
+      "trigger_count_2s": 33,
+      "first_trigger_s": 0.35,
+      "heat_after_2s": 1
+    },
+    {
+      "hz": 30,
+      "trigger_count_2s": 36,
+      "first_trigger_s": 0.3333333333333333,
+      "heat_after_2s": 1
+    },
+    {
+      "hz": 60,
+      "trigger_count_2s": 35,
+      "first_trigger_s": 0.3333333333333333,
+      "heat_after_2s": 1
+    },
+    {
+      "hz": 120,
+      "trigger_count_2s": 35,
+      "first_trigger_s": 0.325,
+      "heat_after_2s": 1
+    }
+  ],
+  "note": "UI threshold 8 differs from actual trigger threshold 10; Hz are synthetic timesteps, not measured FPS"
+}

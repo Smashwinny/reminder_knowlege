@@ -1,0 +1,12 @@
+{
+  "exercise_zip": "TLA状态机-exercise.zip",
+  "CRC": "全部条目通过",
+  "entries": 47,
+  "sha256": "67a8e00dfabfa47faabc2d8db454b4130f25071a7d983bab0bda608ec6331682",
+  "实际解压便携复跑": {
+    "bug": 0,
+    "fixed": 0,
+    "replay": 0
+  },
+  "说明": "复跑使用本项固定Java/JAR，通过环境参数指定路径；所有写入只在本项package-smoke目录"
+}

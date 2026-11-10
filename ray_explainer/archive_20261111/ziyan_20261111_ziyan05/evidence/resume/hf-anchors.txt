@@ -1,0 +1,33 @@
+2026-11-11T01:26:24.099428 Asia/Shanghai UTC+8
+$ python3 upstream/scripts/test_hf_anchors.py
+ok    make_beats.py runs
+ok    build.py runs
+ok    first build: x-v2 data-start = 1.800 (got ('phrase:0:飞起来+0.2', 1.8))
+ok    first build: x-v3 data-start = 2.600 (got ('clip:c1', 2.6))
+ok    first build: x-v4 data-start = 4.600 (got ('clip:c1:end', 4.6))
+ok    first build: x-v5 data-start = 4.900 (got ('line:1', 4.9))
+ok    first build: x-v6 data-start = 2.500 (got ('cap:1-0.1', 2.5))
+ok    first build: plain data-start="0" left alone
+ok    no {{…}} left in the scene file after build
+ok    hard-coded video data-start is flagged
+ok    playback-rate below 0.35 is flagged
+ok    make_beats.py runs
+ok    build.py runs
+ok    after re-voice (+1.3 s): x-v2 data-start = 3.100 (got ('phrase:0:飞起来+0.2', 3.1))
+ok    after re-voice (+1.3 s): x-v3 data-start = 3.900 (got ('clip:c1', 3.9))
+ok    after re-voice (+1.3 s): x-v4 data-start = 5.900 (got ('clip:c1:end', 5.9))
+ok    after re-voice (+1.3 s): x-v5 data-start = 6.200 (got ('line:1', 6.2))
+ok    after re-voice (+1.3 s): x-v6 data-start = 3.800 (got ('cap:1-0.1', 3.8))
+ok    after re-voice (+1.3 s): plain data-start="0" left alone
+ok    make_beats.py runs
+ok    build.py runs
+ok    narration.m4a is encoded from narration.wav
+ok    make_beats.py runs
+ok    build.py runs
+ok    narration.m4a up to date → not re-encoded
+ok    make_beats.py runs
+ok    build.py runs
+ok    newer narration.wav → m4a re-encoded
+hf-anchors: OK
+
+exit_code=0

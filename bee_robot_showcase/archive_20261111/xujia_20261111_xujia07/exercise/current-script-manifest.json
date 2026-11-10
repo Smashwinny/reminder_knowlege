@@ -1,0 +1,147 @@
+[
+  {
+    "path": "LICENSE",
+    "bytes": 703,
+    "sha256": "7e7d1ed837647cc2f3f5e7fc1d056189ee3ae47888ea477940c05aa7bf13a2e5"
+  },
+  {
+    "path": "README.md",
+    "bytes": 2649,
+    "sha256": "51804b9a1260fdf30504bb4c6991215f0157ecd16d0e6463d9dc082c0d21c9ee"
+  },
+  {
+    "path": "assets-result.json",
+    "bytes": 1300,
+    "sha256": "9fc84f02e9d80eb33b926e4b7908fb677dd94c0e1a142207703d1be7c5cf1a8e"
+  },
+  {
+    "path": "assets.py",
+    "bytes": 885,
+    "sha256": "86cab089e5cdca832ed46b1d33695259a2ffd7e2e993cbc8f4fa8ec00349f80b"
+  },
+  {
+    "path": "browser.py",
+    "bytes": 2277,
+    "sha256": "499e939ed16e276530a4b09627f5aaaaeebaf332cf39279c05b97b50d0ed84a4"
+  },
+  {
+    "path": "clock-result.json",
+    "bytes": 415,
+    "sha256": "9b7d7e297640cd94a1911a6212c20328a682c059d009596e9f329d819e12d077"
+  },
+  {
+    "path": "clock.cjs",
+    "bytes": 747,
+    "sha256": "b55e765c41e41bfefc1004c989737c04ef32f0641da2461ae341adf477df8170"
+  },
+  {
+    "path": "download-manifest.json",
+    "bytes": 3039,
+    "sha256": "ec5776ca3a7f3837370a810071bf95c14f8138f39c774768334c12139d860d5f"
+  },
+  {
+    "path": "expected-manifest.json",
+    "bytes": 3039,
+    "sha256": "ec5776ca3a7f3837370a810071bf95c14f8138f39c774768334c12139d860d5f"
+  },
+  {
+    "path": "explode-dom.html",
+    "bytes": 74989,
+    "sha256": "6df2b82f518468227d84a979844a7e4475cbef91ab170c2bfc36e3a91e71a48d"
+  },
+  {
+    "path": "explode-live-requests.txt",
+    "bytes": 153,
+    "sha256": "67d8f47a9781790f761af21fce832dda71807e564290766ffe79c0ab9e7a937e"
+  },
+  {
+    "path": "explode-requests.txt",
+    "bytes": 152,
+    "sha256": "ee5294049d12d46e5e5667d72fa3600b16c4ef769597a1f0160b6cfdcb706c28"
+  },
+  {
+    "path": "explode-result.json",
+    "bytes": 99,
+    "sha256": "a53ee91b92ee2ddbe06bca0fc9029aae46fd75990a0a5ee45da46469f74c7173"
+  },
+  {
+    "path": "explode-stderr.txt",
+    "bytes": 2194,
+    "sha256": "aa0ca740cc8e965e107de7c7d227eadf1f38d654d121725493e53a449e652eef"
+  },
+  {
+    "path": "explode.png",
+    "bytes": 67384,
+    "sha256": "21151e5f839fde622aa574b6178fac3f2c4bba1f350a7b5ffeeffef95d8f5b6b"
+  },
+  {
+    "path": "fallback-explode-requests.txt",
+    "bytes": 225,
+    "sha256": "81af62b5a005a45081ba956a2fd13247f9889018c29326ddee1b6425fdb047d9"
+  },
+  {
+    "path": "fallback-explode-result.json",
+    "bytes": 1204,
+    "sha256": "0af3b503787155421f58bf82c12491e78077c4294fcb288e69eb43699fc8cdbd"
+  },
+  {
+    "path": "fallback-explode.png",
+    "bytes": 128916,
+    "sha256": "5ab27732776b0efa045f2373435d39b07e50f5ea392dbd97c55e7e053d75ba5c"
+  },
+  {
+    "path": "fallback-studio-requests.txt",
+    "bytes": 151,
+    "sha256": "983293b6e2e13e73109ba7bdac9f854eb98418418e47f1297a4938f6e5a3bbb7"
+  },
+  {
+    "path": "fallback-studio-result.json",
+    "bytes": 1198,
+    "sha256": "022e2a199d9dea8a72a6ab6a11ef1db4bb2fed099f9ba0f301dc1fc8b090ec19"
+  },
+  {
+    "path": "fallback-studio.png",
+    "bytes": 67581,
+    "sha256": "ac9141904a0c032d066007dad2f8ea0be2321e8904fc6c34e25a1c020b6f4ef5"
+  },
+  {
+    "path": "fetch.py",
+    "bytes": 1641,
+    "sha256": "62051e805f909b9cf41c3dfdd4c12cea765d4376817f6a5305234c84fa49e1de"
+  },
+  {
+    "path": "harness.js",
+    "bytes": 3399,
+    "sha256": "14ce092993f5fe0aceadacf568078152736d45b41be12040cc82785a16ca1607"
+  },
+  {
+    "path": "studio-dom.html",
+    "bytes": 74989,
+    "sha256": "6df2b82f518468227d84a979844a7e4475cbef91ab170c2bfc36e3a91e71a48d"
+  },
+  {
+    "path": "studio-live-requests.txt",
+    "bytes": 152,
+    "sha256": "54bf6b9c9adbfd420167875bcbc049be04653e6df51f3a5a72daafbf38891562"
+  },
+  {
+    "path": "studio-requests.txt",
+    "bytes": 151,
+    "sha256": "33a0a0f91cdb1faa4ed5ec87ad6a7dddab5f3ca3c8d6493ac671c2185442fae2"
+  },
+  {
+    "path": "studio-result.json",
+    "bytes": 99,
+    "sha256": "a53ee91b92ee2ddbe06bca0fc9029aae46fd75990a0a5ee45da46469f74c7173"
+  },
+  {
+    "path": "studio-stderr.txt",
+    "bytes": 2193,
+    "sha256": "b16d1985777c012623da29ade149d6c4baad7a55c8544ea567112859426c89f7"
+  },
+  {
+    "path": "studio.png",
+    "bytes": 67384,
+    "sha256": "21151e5f839fde622aa574b6178fac3f2c4bba1f350a7b5ffeeffef95d8f5b6b"
+  }
+]

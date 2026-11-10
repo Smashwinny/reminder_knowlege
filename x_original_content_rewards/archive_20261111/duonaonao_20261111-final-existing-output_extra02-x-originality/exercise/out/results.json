@@ -1,0 +1,100 @@
+[
+  {
+    "id": "self_written",
+    "result": "no_rule_hit",
+    "reasons": [],
+    "similarity": 0.16,
+    "legal_clearance": false,
+    "platform_approval": false
+  },
+  {
+    "id": "unlicensed_reupload",
+    "result": "review",
+    "reasons": [
+      "REUPLOAD_NOT_QUOTE",
+      "RIGHTS_UNVERIFIED",
+      "MISSING_ATTRIBUTION",
+      "MISSING_CANONICAL_SOURCE"
+    ],
+    "similarity": 0.1053,
+    "legal_clearance": false,
+    "platform_approval": false
+  },
+  {
+    "id": "credited_but_no_permission",
+    "result": "review",
+    "reasons": [
+      "RIGHTS_UNVERIFIED"
+    ],
+    "similarity": 0.1143,
+    "legal_clearance": false,
+    "platform_approval": false
+  },
+  {
+    "id": "quote_with_ledger",
+    "result": "no_rule_hit",
+    "reasons": [],
+    "similarity": 0.1429,
+    "legal_clearance": false,
+    "platform_approval": false
+  },
+  {
+    "id": "quote_missing_link",
+    "result": "review",
+    "reasons": [
+      "MISSING_CANONICAL_SOURCE",
+      "QUOTE_WITHOUT_LINK"
+    ],
+    "similarity": 0.1026,
+    "legal_clearance": false,
+    "platform_approval": false
+  },
+  {
+    "id": "automated_copy",
+    "result": "review",
+    "reasons": [
+      "AUTOMATION_REVIEW"
+    ],
+    "similarity": 0.05,
+    "legal_clearance": false,
+    "platform_approval": false
+  },
+  {
+    "id": "exact_copy",
+    "result": "review",
+    "reasons": [
+      "HIGH_TEXT_SIMILARITY"
+    ],
+    "similarity": 1.0,
+    "legal_clearance": false,
+    "platform_approval": false
+  },
+  {
+    "id": "unicode_copy",
+    "result": "review",
+    "reasons": [
+      "HIGH_TEXT_SIMILARITY"
+    ],
+    "similarity": 1.0,
+    "legal_clearance": false,
+    "platform_approval": false
+  },
+  {
+    "id": "semantic_paraphrase_known_miss",
+    "result": "no_rule_hit",
+    "reasons": [],
+    "similarity": 0.1053,
+    "legal_clearance": false,
+    "platform_approval": false
+  },
+  {
+    "id": "short_common_phrase_known_false_alarm",
+    "result": "review",
+    "reasons": [
+      "HIGH_TEXT_SIMILARITY"
+    ],
+    "similarity": 1.0,
+    "legal_clearance": false,
+    "platform_approval": false
+  }
+]

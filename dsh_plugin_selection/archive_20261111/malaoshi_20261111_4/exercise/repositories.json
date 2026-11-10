@@ -1,0 +1,65 @@
+[
+  {
+    "folder": "dsh-rewind",
+    "repo": "SiriLee/dsh-rewind",
+    "sha": "f5668ded87eb5c230916e288f26a887c633b4154",
+    "commit_time": "2026-11-07T17:38:40+08:00",
+    "package": "dsh-rewind-plugin",
+    "version": "0.21.2",
+    "engines": {
+      "node": ">=24.9.0",
+      "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+    },
+    "license": "MIT"
+  },
+  {
+    "folder": "dsh-cost-meter",
+    "repo": "Han-1413141/dsh-cost-meter",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "commit_time": "2026-11-10T22:09:39+08:00",
+    "package": "dsh-cost-meter",
+    "version": "1.9.64",
+    "engines": {
+      "node": ">=20",
+      "dsh": ">=0.2.0-rc.1 <0.3.0-0"
+    },
+    "license": "MIT"
+  },
+  {
+    "folder": "review-micheng",
+    "repo": "MichengAI/dsh-code-review",
+    "sha": "89cc7166972e4d3c8bf482ee505d8d58c106fa13",
+    "commit_time": "2026-11-10T14:53:22+08:00",
+    "package": "@michengai/dsh-code-review",
+    "version": "1.0.10",
+    "engines": {
+      "node": ">=22.19.0",
+      "dsh": ">=0.2.0-rc.1 <0.3.0-0"
+    },
+    "license": "Apache-2.0"
+  },
+  {
+    "folder": "review-feng",
+    "repo": "f-e-n-g-0531/dsh-code-review",
+    "sha": "0d3f6b03f9080153cc01fb8b75a79ddcbcae86d4",
+    "commit_time": "2026-11-06T15:02:44+08:00",
+    "package": "@feng0531/dsh-code-review",
+    "version": "0.92.3",
+    "engines": {
+      "node": ">=22"
+    },
+    "license": "SEE LICENSE IN LICENSE"
+  },
+  {
+    "folder": "archify",
+    "repo": "tt-a1i/archify",
+    "sha": "7e45f36c66de1254d5ad6ba1d878f6499ea269fd",
+    "commit_time": "2026-11-10T09:32:12+08:00",
+    "package": "@tt-a1i/archify-dsh",
+    "version": "1.1.0",
+    "engines": {
+      "node": "^22.19.0 || >=24.0.0"
+    },
+    "license": "MIT"
+  }
+]

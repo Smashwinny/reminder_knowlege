@@ -1,0 +1,13 @@
+{
+  "noisy_cm": [
+    19,
+    21,
+    19,
+    21,
+    19,
+    21
+  ],
+  "raw_transitions": 5,
+  "hysteresis_transitions": 0,
+  "warning": "迟滞仅演示17/23cm边界，不是安全刹车系统"
+}

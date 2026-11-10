@@ -1,0 +1,11 @@
+from pathlib import Path
+p=Path(__file__).parent
+core=(p/'core.mjs').read_text().replace('export ','')
+h='''<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>八技能交接实验：拾星</title><style>body{font:20px/1.6 sans-serif;background:#10213b;color:#eafaff;margin:28px}h1{color:#00def0}button{font-size:20px;min-height:48px;padding:8px 20px;margin:6px;background:#ff951f;border:0;border-radius:7px}canvas{background:#132e56;border:2px solid #00d9ee;width:min(640px,95vw);height:auto}pre{white-space:pre-wrap;font-size:15px}</style><h1>拾星：共享状态，不共享“猜测”</h1><p id="hud"></p><canvas id="board" width="640" height="220"></canvas><div><button id="coin">拾取星星</button><button id="hit">碰撞受伤</button><button id="reset">重新开始</button></div><p>目标：收集3颗星获胜；受伤3次失败。按钮分发意图，规则只在共享核心中。</p><pre id="result"></pre><script>'''+core+'''
+let state=setup(),seq=0,draws=0;const readout=document.getElementById('hud'),cv=document.getElementById('board'),ctx=cv.getContext('2d');
+function paint(){let v=hud(state);readout.textContent=`生命 ${v.hp}/3 ｜ 星星 ${v.score}/3 ｜ ${v.phase}`;ctx.clearRect(0,0,640,220);ctx.fillStyle='#00d8ed';ctx.fillRect(35,95,55,55);for(let i=0;i<3;i++){ctx.fillStyle=i<v.score?'#ff9a20':'#617da0';ctx.font='55px sans-serif';ctx.fillText('★',200+i*100,135);}draws++;}
+function dispatch(type){let r=apply(state,{id:String(++seq),type});state=r.state;if(r.events.length)paint();}
+document.getElementById('coin').onclick=()=>dispatch('collect');document.getElementById('hit').onclick=()=>dispatch('damage');document.getElementById('reset').onclick=()=>{state=setup();paint();};paint();
+if(new URLSearchParams(location.search).has('test')){document.getElementById('coin').click();document.getElementById('coin').click();document.getElementById('coin').click();if(state.phase!=='WIN')throw Error('no win');document.getElementById('reset').click();document.getElementById('hit').click();if(state.hp!==2||!readout.textContent.includes('生命 2/3'))throw Error('HUD stale');document.getElementById('result').textContent=JSON.stringify({browser_checks:4,win_reached:true,restart_score:state.score,damage_hp:state.hp,hud_current:true,canvas_draws:draws});}
+</script></html>'''
+(p/'demo.html').write_text(h);print('built demo.html: inline shared core, no dependencies')

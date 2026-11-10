@@ -1,0 +1,16 @@
+{
+  "channels": {
+    "ai_news": "聚合发现",
+    "the_batch": "编辑解读",
+    "hf_papers": "社区发现",
+    "alphaxiv": "研究发现与讨论",
+    "arxiv_recent": "原始论文",
+    "arena_home": "偏好评测入口",
+    "aa_method": "性能/价格方法"
+  },
+  "raw_http_success": 5,
+  "raw_http_failures": 6,
+  "webfetch_read_excerpts": 6,
+  "original_post_sha256": "e7bcea7fb0d9797f023b78368e46f1fb8c7ac0361fcd388c17f5d31dd7c2b4ac",
+  "note": "主7渠道都经WebFetch实读；原始HTTP失败保留，与成功WebFetch不能混报"
+}

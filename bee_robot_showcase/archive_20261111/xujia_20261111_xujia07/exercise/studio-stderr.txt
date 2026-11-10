@@ -1,0 +1,13 @@
+[236906:236931:1111/013633.654110:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[236906:236931:1111/013633.692290:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[236906:236931:1111/013633.692339:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[236906:236931:1111/013633.692361:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[236906:236931:1111/013633.867856:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[236906:236931:1111/013633.868430:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[236906:236906:1111/013633.887081:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.Properties.GetAll: object_path= /org/freedesktop/UPower/devices/DisplayDevice: unknown error type: 
+[236944:236944:1111/013634.125934:ERROR:gpu/command_buffer/service/gles2_cmd_decoder_passthrough.cc:1269] []Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader flag to opt in to lower security guarantees for trusted content.
+[236944:236944:1111/013645.377597:ERROR:gpu/command_buffer/service/gl_utils.cc:431] [.WebGL-0x1c2c00197800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+Created TensorFlow Lite XNNPACK delegate for CPU.
+[236944:236944:1111/013710.403547:ERROR:gpu/command_buffer/service/gl_utils.cc:431] [.WebGL-0x1c2c00197800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[236944:236944:1111/013721.852907:ERROR:gpu/command_buffer/service/gl_utils.cc:431] [.WebGL-0x1c2c00197800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+67384 bytes written to file studio.png

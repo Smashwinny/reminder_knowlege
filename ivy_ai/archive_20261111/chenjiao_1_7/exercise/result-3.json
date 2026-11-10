@@ -1,0 +1,10 @@
+{
+  "exit_code": 0,
+  "upstream_test": "test_arena OK",
+  "not_tested": [
+    "模型推理",
+    "ESP-IDF固件",
+    "麦克风",
+    "PSRAM时序"
+  ]
+}

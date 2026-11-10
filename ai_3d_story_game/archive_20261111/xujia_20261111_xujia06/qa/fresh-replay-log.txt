@@ -1,0 +1,34 @@
+$ node test.cjs graph
+{
+  "mode": "graph",
+  "nodes": 4,
+  "broken_edges": 0
+}
+$ node test.cjs gates
+{
+  "mode": "gates",
+  "early_travel_blocked": true,
+  "duplicate_item_prevented": true,
+  "second_gate_blocked": true,
+  "place": "ridge"
+}
+$ node test.cjs route
+{
+  "mode": "route",
+  "actions": 5,
+  "state": {
+    "place": "ending",
+    "bag": [
+      "memory",
+      "stone"
+    ],
+    "visited": [
+      "grove",
+      "ridge",
+      "observatory",
+      "ending"
+    ],
+    "ended": true
+  },
+  "replay_equal": true
+}

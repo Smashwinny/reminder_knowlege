@@ -1,0 +1,41 @@
+【自述情景对照】以下全部标记为未核实，不是本批实测。
+  2025 GMV: ¥500,000.00  [author_claim] 原文：「GMV大概50万」
+  订单数下沿: 100  [author_claim_derived] 原文：「25年一整年做了上百单」
+  粗除客单价: ¥5,000.00  [author_claim_derived]  由自述「上百单、GMV大概50万」按订单数=100 粗除得到；「上百」不是精确计数。
+  现场复核 500000/100 = ¥5,000.00 （与 JSON 中 custom_aov_from_claim 一致: True）
+  课程标价: ¥2,980.00  [author_claim]
+  单条视频课程收入下沿: ¥100,000.00  [author_claim_derived] 原文：「直接给我带来了十几万的课程收入」  「十几万」取下沿 10 万做演示，仍是自述。
+  若把「10万课程收入」按 2980 反推销量 ≈ 33.56 份（ demonstrative only）
+  融资: ¥10,000,000.00  [author_claim] 原文：「拿到了千万投资」  未给出轮次、估值、到账与稀释，不能纳入经营单位经济。
+
+## 把自述粗除客单价代入教学漏斗——仍然不是对 50 万 GMV 的证实
+输入标签：
+  - impressions: teaching_assumption
+  - ctr: teaching_assumption
+  - inquiry_rate: teaching_assumption
+  - close_rate_custom: teaching_assumption
+  - cpc: teaching_assumption
+  - custom_aov_teaching: teaching_assumption
+  - refund_rate_custom: teaching_assumption
+  - fees: teaching_assumption+teaching_assumption
+  - delivery_cost_ratio_solo: teaching_assumption
+  - price: author_claim_derived（仅替换客单价，成本和转化仍是教学假设）
+  成交单数: 7.2000
+  客单价: ¥5,000.00
+  收入: ¥36,000.00
+  退款: ¥1,800.00
+  净收入: ¥34,200.00
+  平台/支付手续费: ¥2,257.20
+  交付成本: ¥8,550.00
+  履约成本: ¥0.00
+  流量成本: ¥900.00
+  贡献利润: ¥22,492.80
+  CAC（流量成本/成交单数）: ¥125.00
+  单笔贡献利润: ¥3,124.00
+  贡献利润率: 62.48%
+
+为什么不能把 50 万 GMV 写成「已验证收入」：
+  1. 没有订单流水、平台账单或税务记录；
+  2. GMV 不是贡献利润，未扣退款、投流、交付分成和自己的时间；
+  3. 「上百单」不是精确计数，客单价只是下沿粗除；
+  4. 融资是资本项，不能加进贡献利润，更不能用来证明获客效率。

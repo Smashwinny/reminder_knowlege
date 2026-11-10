@@ -1,0 +1,27 @@
+{
+  "synthetic_only": true,
+  "rows": [
+    {
+      "days_since_snapshot": 0,
+      "last_post_age": 7,
+      "decision": "pass"
+    },
+    {
+      "days_since_snapshot": 7,
+      "last_post_age": 14,
+      "decision": "pass"
+    },
+    {
+      "days_since_snapshot": 8,
+      "last_post_age": 15,
+      "decision": "reject"
+    },
+    {
+      "days_since_snapshot": 180,
+      "last_post_age": 187,
+      "decision": "reject"
+    }
+  ],
+  "original_claim": "半年约为作者复盘经验，不是经过生存分析证明的通用寿命",
+  "scheduled_tasks_created": 0
+}

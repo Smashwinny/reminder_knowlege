@@ -1,0 +1,5 @@
+const fs=require('fs'),assert=require('assert/strict'),{create,step}=require('./core.js');let mode=process.argv[2];let out={mode};
+if(mode==='replay'){const run=()=>{let s=create();for(let i=0;i<600;i++)s=step(s,i%120<60?1:-1);return s;};let a=run(),b=run();assert.deepEqual(a,b);out={...out,steps:600,equal:true,final:a};}
+if(mode==='boundaries'){let s=create();for(let i=0;i<1000;i++)s=step(s,1);assert.equal(s.x,308);let before={...s,paused:true};let after=step(before,-1);assert.equal(after.x,before.x);assert.equal(after.tick,before.tick);out={...out,right_x:s.x,score:s.score,pause_tick_frozen:true};}
+if(mode==='feedback'){let a=create(),b=create(),flash=0,events=0;for(let i=0;i<120;i++){a=step(a,1);b=step(b,1);if(a.events.length){flash=6;events+=a.events.length;}else flash=Math.max(0,flash-1);assert.deepEqual(a,b);}assert.equal(flash,0);out={...out,steps:120,pickup_events:events,feedback_does_not_change_simulation:true,flash_final:flash};}
+console.log(JSON.stringify(out,null,2));fs.writeFileSync(mode+'-result.json',JSON.stringify(out,null,2));

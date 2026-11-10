@@ -1,0 +1,7 @@
+{
+  "exercise_zip": "LCU-exercise.zip",
+  "CRC": "全部条目通过",
+  "entries": 29,
+  "sha256": "06ad7719542cbe68aca08129127d08b724f1fc99a166dfa33f547751602a4212",
+  "说明": "仅自编模拟代码、合成数据与上游MIT组件；不含官方运行时、密钥、浏览器profile或私密记录"
+}

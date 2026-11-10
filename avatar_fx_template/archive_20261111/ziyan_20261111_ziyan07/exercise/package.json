@@ -1,0 +1,18 @@
+{
+  "name": "item07-placeholder-lab",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "render": "remotion render src/index.tsx TemplateLab ../template-final.mp4 --concurrency=2 --browser-executable=/usr/bin/google-chrome"
+  },
+  "dependencies": {
+    "remotion": "4.0.542",
+    "@remotion/cli": "4.0.542",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/react": "19.1.0"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "item": 3,
+  "finished_at_Asia_Shanghai": "2026-11-11T01:11:21.047254+08:00",
+  "article": "完成：复读协调者浏览器保存全文；未再次独立访问X",
+  "dedupe": "完成；vault main a8674777e18302b8804b137212b1396cbfe5a747",
+  "code": "完成；ai-live-avatar dc87db8ad53fb81cfe07dcac08215497dfa1a50d",
+  "experiments": "完成：纯逻辑9原测、10合成弹幕、201次抽样、成本算术；不是端到端直播",
+  "html": "完成：12问12SVG、5用途、6步实验",
+  "pdf": "完成：11页A4，逐页Read，压缩后像素一致",
+  "Vidu_OBS_voice_clone_RTC": "待验证，未调用未购买",
+  "publishing": "未做，不修改vault/Git/任务",
+  "light_package": "item03-light.zip"
+}

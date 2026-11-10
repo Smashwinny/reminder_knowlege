@@ -1,0 +1,7 @@
+{
+  "reachable_samples": 101,
+  "max_fk_error": 4.1540741810552243e-16,
+  "unreachable_target_error": 8.760841100617018,
+  "angles_finite": true,
+  "note": "synthetic hierarchy follows solver comments; not a loaded-GLB animation test"
+}

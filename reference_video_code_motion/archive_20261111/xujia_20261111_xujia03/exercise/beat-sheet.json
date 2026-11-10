@@ -1,0 +1,27 @@
+{
+  "duration": 13,
+  "fps": 24,
+  "sample_rate": 48000,
+  "beats": [
+    {
+      "t": 0.4,
+      "event": "enter"
+    },
+    {
+      "t": 1.6,
+      "event": "land"
+    },
+    {
+      "t": 3.5,
+      "event": "orbit"
+    },
+    {
+      "t": 8.5,
+      "event": "reframe"
+    },
+    {
+      "t": 11.2,
+      "event": "settle"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+pypdf lossless streams level=9, deduplicated; original=961959; candidate=912036; final=912036
+Two calls failed on renamed deprecated keyword arguments before writing; corrected to remove_duplicates/remove_unreferenced.

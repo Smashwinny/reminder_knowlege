@@ -1,0 +1,10 @@
+{
+  "status": "部分待验证",
+  "conclusion": "198唯一handle/138新标记行真实核对；量化筛选不等于内容质量",
+  "actual_experiment": "6步：真实文章审计与合成数值实验，12自写unittest通过",
+  "unverified": "作者643候选/198账号原始指标与当前账号状态，无数据复核，不给真人打新标签",
+  "questions": 12,
+  "svg": 12,
+  "pdf_pages": 8,
+  "html_bytes": 22350
+}

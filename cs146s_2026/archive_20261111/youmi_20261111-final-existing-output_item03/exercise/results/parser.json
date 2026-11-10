@@ -1,0 +1,34 @@
+{
+  "normal": [
+    [
+      "read_file",
+      {
+        "filename": "demo.txt"
+      }
+    ]
+  ],
+  "trailing": [
+    [
+      "read_file",
+      {
+        "filename": "demo.txt"
+      }
+    ]
+  ],
+  "array": [
+    [
+      "read_file",
+      [
+        1,
+        2
+      ]
+    ]
+  ],
+  "unknown": [
+    [
+      "remove_everything",
+      {}
+    ]
+  ],
+  "malformed": []
+}

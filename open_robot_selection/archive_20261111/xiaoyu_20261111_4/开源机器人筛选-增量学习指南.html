@@ -1,0 +1,275 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>开源机器人筛选与失败标注 增量学习指南</title>
+<style>
+@page{size:A4;margin:12mm}
+*{box-sizing:border-box}
+body{margin:0;color:#17324d;background:#eafaff;font:13px/1.55 "Noto Sans CJK SC",sans-serif}
+.page{background:white;min-height:0;padding:4mm 5mm 5mm;break-after:page;position:relative}
+.page:last-child{break-after:auto}
+header{font-size:11px;color:#577288;border-bottom:2px solid #00b7d5;padding-bottom:7px}
+header b{float:right;color:#1769ff}
+h1{font-size:22px;line-height:1.35;color:#0866ca;margin:8px 0}
+h2{font-size:18px;line-height:1.5;margin:0 0 8px}
+h2 span{color:#ff7900;font-size:24px}
+h3{color:#008ea8;font-size:16px;margin:8px 0}
+.hero{background:linear-gradient(120deg,#00b8dc,#1769ff);color:white;padding:16px 20px;border-radius:16px}
+.hero h1{color:white;font-size:30px;margin:6px 0}
+.hero strong{font-size:20px;color:#ffdd70}
+.qcard{padding:10px 14px;border:1px solid #c6e3f0;border-top:5px solid #00b6d2;border-radius:14px;margin:8px 0;break-inside:avoid}
+.qcard:nth-of-type(even){border-top-color:#ff7900}
+.qcard p{margin:7px 0}
+.tip{background:#edf7ff;border-left:4px solid #1769ff;padding:8px 12px;font-size:13px}
+.warn{background:#fff1dc;border-left:6px solid #ff7900;border-radius:8px;padding:14px}
+.big{font-size:18px;color:#ff7900;font-weight:900}
+svg{display:block;width:100%;height:auto;margin:4px 0;max-height:28mm}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#15304a;color:#a5faff;padding:8px 10px;border-radius:8px;font:10.5px/1.55 monospace;margin:6px 0}
+code{overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:10.5px}
+th{background:#087ed2;color:white}
+td,th{padding:5px 6px;border:1px solid #bcd9e8;vertical-align:top}
+li{margin:6px 0}
+.small{font-size:11px;overflow-wrap:anywhere}
+.step{margin:8px 0;padding:9px 14px;border-left:6px solid #00b9cf;background:#f0fbff;border-radius:10px;break-inside:avoid}
+a{color:#086cca}
+@media print{body{background:white}.page{min-height:268mm}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+<body>
+<section class="page">
+<header>REMINDER · 增量学习 04 <b>开源机器人清单</b></header>
+<h1>01 / 先看结论与边界</h1>
+<div class="hero">
+<div>从一份“18个开源机器人”清单，到许可验货与失败标注</div>
+<h1>先读仓库，<br>再谈复刻</h1>
+<strong>失败样本不是口号，要数字段</strong>
+<p>12个问题 · 6步主实验 · GitHub API与URDF均真跑</p>
+</div>
+<p class="big">18个名字已从原帖 note_tweet 锁定，不是猜视频。</p>
+<p>主帖 @techniahqrobot，2026-10-24 21:15:47（Asia/Shanghai）。直接引用帖讲 AGIBOT WORLD 2026 Release 4：失败也是数据，应标注失败原因。作者个人推荐 SO-ARM100，并提醒规格、3D 文件和许可各不相同。[S1]</p>
+<div class="warn"><b>状态：学习交付完成 / 实物复刻与完整数据集下载待验证</b><br>
+本批在云端完成：18个一手仓库元数据与 LICENSE 实读、98个公开 info.json 的关键帧统计、SO-100/SO-101/TurtleBot3/OpenMANIPULATOR-X 的官方 URDF 正运动学。没有购买套件、没有装配真机、没有下载数 TB 的视频与 parquet。AGIBOT 数据许可为 CC BY-NC-SA 4.0，本批只读元数据与标注字段。2026-11-11 · Asia/Shanghai；只保存候选，不提交 Git、不勾选任务。</div>
+<h2 style="margin-top:20px">可以拿它做什么？（用途不是已部署成果）</h2>
+<ol>
+<li><b>复刻筛选：</b>按人形 / 四足 / 机械臂 / 移动平台，再叠加许可与维护活跃度，缩小候选。</li>
+<li><b>开源验货：</b>对照 GitHub license 字段、实读 LICENSE、硬件与软件是否分仓，避免把“开源”写成可商用。</li>
+<li><b>数据集规范：</b>给自建轨迹加上失败类型、原因、是否可恢复，而不是只留一个成功布尔值。</li>
+<li><b>无硬件预习：</b>用官方 URDF 算正运动学，先弄清零位姿态和传感器位置。</li>
+<li><b>与旧笔记互链：</b>已有 openarm 是另一套双臂平台，不要和 SO-ARM100 混名；失败反馈具体化来自 agent 循环，原则可迁移，对象不同。</li>
+</ol>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 04 <b>开源机器人清单</b></header>
+<h1>02 / 从原帖走进清单</h1>
+<article class="qcard">
+<h2><span>Q01</span> 原帖到底列了哪18个？引用帖在说什么？</h2>
+<p>完整名单在 note_tweet，不在被截断的短文本里：1 Microban，2 MiniLoong，3 Poppy Humanoid，4 Otto DIY，5 pib，6 Mini Pupper，7 Petoi Bittle，8 Stanford Doggo，9 SpotMicro，10 OpenQuadruped，11 Puguette，12 SO-ARM100，13 RoArm-M2，14 OpenMANIPULATOR-X，15 LeKiwi，16 TurtleBot3 Burger，17 OpenBot，18 Duckiebot。作者写它们覆盖人形、四足、机械臂和移动机器人，并给出部分 3D 模型署名。引用帖不是这份名单的来源，而是同一作者前一天的观察：Release 4 强调物理推理，包含成功与失败尝试，并认为“标注机器人为什么失败，可能和记录它如何成功同样有用”。引用帖自己又引用了与本项无关的旧手机帖，不把那条当作资料。[S1]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="短文本截断 → note_tweet 18名 → 引用帖谈失败标注"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">短文本止于第13项</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">全文锁定18个名字</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">引用：失败也是数据</text></svg>
+<p class="tip">清单收录时间 2026-10-24 23:32:50 不是发帖时间。发帖是当天 21:15:47（Asia/Shanghai）。本批未把 140 秒视频逐帧 OCR 当作名单来源。</p>
+</article>
+<article class="qcard">
+<h2><span>Q02</span> 作者后来为何又说“并非全部都是开源”？</h2>
+<p>一天后作者回复 @RobotCaveCom：<b>“But not all of them are open source.”</b> 这句比标题更准确。最清楚的反例是 Duckiebot：duckietown/Hardware 的 LICENSE.pdf 是 Software Terms of Use v1.2 摘要，允许个人教育、认证高校课程和研究（需署名），<b>明确禁止未经书面授权的商业使用</b>，并要求贡献转让版权。这不是 OSI 意义上的开源许可。Microban 硬件是 CC BY-NC-SA 4.0，可分享但挡住商业利用；pib 与 RoArm-M2 使用 AGPL-3.0，对网络服务有源码提供义务。把 18 个项目一律写成“开源可商用复刻”不符合原帖自己的补充，也不符合一手文件。[S1][S3]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="标题称开源 → 作者补充并非全部 → 须逐仓读许可"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">标题：18 open source</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">作者：并非全部开源</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">逐仓读 LICENSE</text></svg>
+<p class="tip">AGIBOT WORLD 2026 本身也是 CC BY-NC-SA 4.0，和这 18 个机器人是不同对象，不能把数据集许可套到机械臂套件上。</p>
+</article>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 04 <b>开源机器人清单</b></header>
+<h1>深入一层 / 分类与许可</h1>
+<article class="qcard">
+<h2><span>Q03</span> “开源机器人”至少要查哪几层？</h2>
+<p>至少四层，而且经常不一致。一是<b>控制软件</b>仓库的 SPDX 许可；二是<b>硬件 / CAD / STL</b>，可能是另一种 CC 或 FAQ 与文件打架；三是<b>第三方零件与 3D 署名</b>，原帖已写出 SpotMicro 设计是 KDY0523 的 CC BY 3.0、OpenBot 轮子来自 FreeCAD 库；四是<b>仿真与数据集</b>，SO-ARM 的 URDF 在同一仓，AgiBot 数据却是独立的 NC 协议。已有概念[[开源验货三查]]和[[内容型开源与双许可]]可以复用：先固定提交，再打开 LICENSE，再看宣传是否等于实货。[S3][S6]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="软件许可 → 硬件与3D文件 → 零件署名与数据协议"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">软件 LICENSE</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">CAD / STL / 硬件</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">零件署名与数据</text></svg>
+<p class="tip">pib 官网 FAQ 写硬件也是 AGPL-3.0，但 pib-stls 仓的 LICENSE.txt 是 GPL-3.0。应以文件为准，并把不一致记下来，而不是自行“统一”。</p>
+</article>
+<article class="qcard">
+<h2><span>Q04</span> 按人形、四足、机械臂、移动平台怎么分？</h2>
+<p>原帖的四类大体可用，但有两个边界项目。Otto DIY 是桌面双足，放在人形/双足更老实。LeKiwi 是移动底盘加臂的移动操作平台，不应只算纯机械臂或纯移动底盘。本批对照表：人形 4（Microban、MiniLoong、Poppy、pib）+ Otto 双足；四足 6；机械臂 3（SO-ARM100、RoArm-M2、OpenMANIPULATOR-X）；移动操作 1（LeKiwi）；移动平台 3（TurtleBot3、OpenBot、Duckiebot）。分类只为筛选，不代替看工作空间和传感器。[E2]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="人形与双足 → 四足 → 臂与移动操作平台"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">人形 4 + 双足 1</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">四足 6</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">臂3 / 移动操作1 / 底盘3</text></svg>
+<p class="tip">已有 vault 的 openarm 是 enactic 的 7 自由度双臂，不是本清单中的 SO-ARM100。筛选时先对名字，再对仓库。</p>
+</article>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 04 <b>开源机器人清单</b></header>
+<h1>深入一层 / 许可陷阱</h1>
+<article class="qcard">
+<h2><span>Q05</span> 双许可和 NC 条款到底挡住什么？</h2>
+<p>Microban 的 LICENSE 首部写得很清楚：<b>cad/ 下硬件是 CC BY-NC-SA 4.0，其余控制软件是 GPL-3.0</b>。非商业（NC）允许个人、教学和学术分享，但出售整机、套件或把设计用于商业产品需要另行授权；ShareAlike 还要求改作保持同类许可。Poppy Humanoid 是另一种双许可：硬件 CC BY-SA 4.0（无 NC），软件 GPL-3.0；根目录没有单一 LICENSE，GitHub API 因此显示为空。原帖 3D 署名与我们实读一致：Microban 标了 CC BY-NC-SA 4.0，Poppy 标了 CC BY-SA 4.0。[S3]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="CAD 用 CC → 软件用 GPL → 商用可能被 NC 挡住"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">CAD：CC 系列</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">软件：GPL 系</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">NC ≠ 可售卖</text></svg>
+<p class="tip">这不是法律意见。若要商用或做衍生套件，应联系权利人并固定你使用的那个提交。</p>
+</article>
+<article class="qcard">
+<h2><span>Q06</span> AGPL 和自定义非商用条款有何不同？</h2>
+<p>AGPL-3.0（pib-backend、RoArm-M2）仍是 OSI 开源许可，允许商业使用，但若通过网络提供修改后的程序，通常要向用户提供对应源码。这与“不能商用”不是一回事。Duckiebot 的条款则直接写 <b>You may not use this software in a commercial enterprise</b>，除非得到 Duckietown Foundation 书面授权；贡献还被要求转让版权。二者都需要在筛选表上单独标记，不能用同一个“开源”格子打勾。[S3]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="AGPL 可商用但要开放网络源码 → 自定义条款禁止商用 → 筛选表必须分列"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">AGPL：可商用+网络义务</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Duckie：非商用条款</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">筛选表要分列</text></svg>
+<p class="tip">TurtleBot3、SO-ARM100、Mini Pupper、LeKiwi、OpenMANIPULATOR-X 的软件仓是 Apache-2.0，对商用友好比前两者宽松，但仍要核对零件商标、教程和第三方网格。</p>
+</article>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 04 <b>开源机器人清单</b></header>
+<h1>深入一层 / 对错仓库</h1>
+<article class="qcard">
+<h2><span>Q07</span> 作者推荐的 SO-ARM100，和现在的 SO-101 是什么关系？</h2>
+<p>TheRobotStudio/SO-ARM100 当前 README 标题已是 Standard Open SO-100 &amp; SO-101 Arms，并写明 <b>SO-101 是下一代，SO-100 文档标为 deprecated</b>。同一提交 <code>a758567c3978</code> 里同时有 Simulation/SO100/so100.urdf 和 Simulation/SO101/so101_new_calib.urdf。本批解析正运动学：SO-100 零位夹爪（jaw）约在 <b>(0.000, −0.176, 0.147) m</b>，沿 −Y 折叠；SO-101 的 gripper_frame_link 约在 <b>(0.391, 0.000, 0.226) m</b>，沿 +X 伸出。零位约定不同，不能把一份关节角原样接到另一套模型上。这是官方 URDF 的几何事实，不是真机标定，也不是作者性能指标。[S3][E6]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="同一仓库 → SO-100 已弃用文档 → SO-101 零位不同"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">仓名仍是 SO-ARM100</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">README 主推 SO-101</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">零位几何不可混用</text></svg>
+<p class="tip">本批未加载网格，也未运行 MuJoCo。缺 STL 不影响关节链计算；实物行程、齿轮间隙和电机方向待验证。</p>
+</article>
+<article class="qcard">
+<h2><span>Q08</span> SpotMicro 的设计仓库和软件仓库是同一份吗？</h2>
+<p>不是。原帖署名 “SpotMicro design by Deok-yeon Kim / KDY0523 (CC BY 3.0)”。我们核到的活跃软件仓 mike4192/spotMicro 是社区 ROS 实现，LICENSE 为 MIT，最后推送停留在 2021-03-20。MIT 覆盖的是这份软件，<b>不自动覆盖 Thingiverse 上的原始设计</b>。类似地，Stanford Doggo 的活动仓在 Nate711/StanfordDoggoProject，而不是旧的 stanfordroboticsclub 路径。找错上游，后面的 SHA 和许可都会错。[S1][S3]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="原设计 CC BY 3.0 → 社区软件 MIT → 不能互相冒充"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">设计：KDY0523 CC BY 3.0</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">软件仓：MIT / 2021</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">许可不可互相冒充</text></svg>
+<p class="tip">筛选表要有“设计来源”和“可编译软件来源”两列。星星数高只说明关注度，不证明文件仍在维护。</p>
+</article>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 04 <b>开源机器人清单</b></header>
+<h1>深入一层 / API 不可靠</h1>
+<article class="qcard">
+<h2><span>Q09</span> 为什么不能把 GitHub 的 license 字段当成最终依据？</h2>
+<p>本批看到三类陷阱。第一，API 返回 NOASSERTION 或空：OpenQuadruped 的 LICENSE 明明以 MIT License 开头，API 仍是 NOASSERTION；Poppy 因为双文件许可，API 为空；Microban 双许可也被标成 Other。第二，<b>仓库重定向会指到另一台机器人</b>：请求 OttoDIY/OttoDIY 会落到 OttoNinja（MIT），那是另一款项目，不能拿来填 Otto DIY 的格子；Otto DIY 软件库应看 OttoDIYLib（GPL-3.0）。第三，PetoiCamp/OpenCat 与 isl-org/OpenBot 是改名或组织迁移，需要记录最终 full_name，但它们仍是同一项目。固定 SHA 必须写在最终路径上。[E2][E3]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="API 字段 → 打开 LICENSE → 确认有没有重定向到别的机器人"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">API：可能 NOASSERTION</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">实读 LICENSE 文件</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">检查 301 是否换项目</text></svg>
+<p class="tip">本批用公开 API 拉元数据，再用 git ls-remote 固定默认分支 SHA，并用 raw.githubusercontent.com 读取该 SHA 下的 LICENSE。没有登录，也没有用用户密钥。</p>
+</article>
+<article class="qcard">
+<h2><span>Q10</span> 为什么失败标注可能和成功轨迹同样重要？</h2>
+<p>引用帖的判断与已有概念[[失败反馈具体化]]同向：只告诉系统“失败了，重来”，信息量接近零。对机器人数据，至少应记录<b>哪一段失败、失败类型、原因、是否可恢复</b>。官方 README 也设计了 Error Frame，以及 frame_detail.error_cause、restorable。若字段存在却几乎不用，或原因字符串不统一，训练程序很难把“失败”用起来。Theme 3 的强化学习说明另有 succeed / Error / Intervention 字段，那是另一主题，不能直接算进 Release 4 的 Physical Reasoning 统计。[S2][S4][S6]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="成功轨迹 → 失败类型与原因 → 才可能纠正策略"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">如何成功</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">哪段失败 + 原因</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">才能修正下一步</text></svg>
+<p class="tip">“失败也是数据”是研究方向，不是本批已经训练出更好策略的证据。本批只统计公开标注字段。</p>
+</article>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 04 <b>开源机器人清单</b></header>
+<h1>深入一层 / 字段要数出来</h1>
+<article class="qcard">
+<h2><span>Q11</span> Release 4 文档里有哪些标注层？实际文件里看到了什么？</h2>
+<p>Hugging Face 数据集 agibot-world/AgiBotWorld2026 固定提交 <code>95b159a10305a0385f369aba5d4b16242526d17b</code>（最后修改 2026-10-24 21:41:37 Asia/Shanghai）。README 按 LeRobot v2.1 描述三层：Task Frame 子任务、2D 框、instruction_segments 技能步；key_frame 还列出 Error / Success / Intervention 等类型。导出收据 verification.json 写人工完成 8146 个 episode。关键陷阱：completions.json 里 8146 条收据的 <code>isResultSucceed</code> 和 <code>present</code> 全是 false，这是未填写的 interval 占位，<b>绝不能当成 8146 次任务失败</b>。真正的类型在各任务 meta/info.json 的 key_frame。[S2][E4]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="README 列出字段 → 收据占位全是 false → 要数 info.json 的 frame 类型"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">README：字段清单</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">收据占位全是 false</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">以 key_frame 为准</text></svg>
+<p class="tip">官方新闻稿写覆盖“超过 10 类逻辑推理场景”，同时又列出九项核心推理能力。引用帖取“9 reasoning abilities”，与九项清单一致；“超过 10 类”是新闻稿另一句话，不要混成同一个数字。</p>
+</article>
+<article class="qcard">
+<h2><span>Q12</span> “成功与错误样本同等权重”得到证实了吗？</h2>
+<p>没有。我们读取了出版清单中全部 <b>98 个</b> info.json（18 个任务，opensourcev4-20261001 与 20261003），关键帧类型合计 <b>Success Frame 8259、Error Frame 2、Intervention Frame 2</b>。两条 Error 分别在 task_86632 episode 55 与 task_96812 episode 49，原因字段几乎同义却不统一：<i>Operation Process Issue - Operation Pause</i> 与 <i>Operation process problem - Operation pause</i>，restorable 均为 true，comment 为空。两条 Intervention 的 frame_detail.comment 竟是 “Command executed successfully”。官方文章所称“成功与错误样本同等权重”，与这份公开 key_frame 计数不相符。Schema 有 error_cause，不等于 Release 4 已经提供可学习的大规模失败原因。[S2][S5][E5]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="8259 成功帧 → 仅 2 个错误帧 → 同等权重不成立"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Success 8259</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Error 2 / 介入 2</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">同等权重不成立</text></svg>
+<p class="tip">首次扫描有 9 个文件因 SSL 中断失败，随后用 curl 重试全部成功，Intervention Frame 正是在重试中补到的。统计以 98/98 为准。本批没有下载视频，不能验证这些帧在画面上是否真的失败或被介入。</p>
+</article>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 04 <b>开源机器人清单</b></header>
+<h1>03 / 对照表（一手仓库，固定 SHA）</h1>
+<p class="small">星星数与 pushed_at 来自读取日的 GitHub API；SHA 来自 git ls-remote 默认分支。许可以实读文件为准，API 字段只作对照。时间已换算到日期（UTC 日期，细时区见 sources.md）。</p>
+<table>
+<tr><th>项目</th><th>类</th><th>仓库 @SHA</th><th>★</th><th>API许可</th><th>实读要点</th></tr>
+<tr><td>Microban</td><td>人形</td><td>Rhoban/microban @d0a128d180ec</td><td>682</td><td>NOASSERTION</td><td>硬件 NC-SA / 软件 GPL-3.0</td></tr>
+<tr><td>MiniLoong</td><td>人形</td><td>loongOpen/MiniLoong @50d93a591255</td><td>38</td><td>Apache-2.0</td><td>文件一致；最后推送 2025-12-17</td></tr>
+<tr><td>Poppy Humanoid</td><td>人形</td><td>poppy-project/poppy-humanoid @d66c8fbd6aa3</td><td>1103</td><td>（空）</td><td>硬件 CC BY-SA 4.0 / 软件 GPL-3.0；2021-12 后无推送</td></tr>
+<tr><td>Otto DIY</td><td>双足</td><td>OttoDIY/OttoDIYLib @f384c00a641e</td><td>216</td><td>GPL-3.0</td><td>勿用 OttoDIY→OttoNinja 填空</td></tr>
+<tr><td>pib</td><td>人形</td><td>pib-rocks/pib-backend @1a35eb0266ab</td><td>14</td><td>AGPL-3.0</td><td>STL 仓是 GPL-3.0，与 FAQ 不完全一致</td></tr>
+<tr><td>Mini Pupper</td><td>四足</td><td>mangdangroboticsclub/mini_pupper @5a76f233f862</td><td>1201</td><td>Apache-2.0</td><td>文件一致；2026-11 仍活跃</td></tr>
+<tr><td>Petoi Bittle</td><td>四足</td><td>PetoiCamp/OpenCat-Quadruped-Robot @24563ca2e021</td><td>5556</td><td>MIT</td><td>由 OpenCat 改名</td></tr>
+<tr><td>Stanford Doggo</td><td>四足</td><td>Nate711/StanfordDoggoProject @ce5716b59417</td><td>2577</td><td>MIT</td><td>活动仓在 Nate711；2024-07 后较静</td></tr>
+<tr><td>SpotMicro</td><td>四足</td><td>mike4192/spotMicro @2a34f5d303df</td><td>2163</td><td>MIT</td><td>仅软件；原设计是 KDY0523 CC BY 3.0</td></tr>
+<tr><td>OpenQuadruped</td><td>四足</td><td>adham-elarabawy/open-quadruped @b0ab4fa599f9</td><td>524</td><td>NOASSERTION</td><td>LICENSE 以 MIT 开头</td></tr>
+<tr><td>Puguette</td><td>四足</td><td>haruto89610/puguette @2694b129a74e</td><td>18</td><td>MIT</td><td>文件一致</td></tr>
+<tr><td>SO-ARM100</td><td>臂</td><td>TheRobotStudio/SO-ARM100 @a758567c3978</td><td>8074</td><td>Apache-2.0</td><td>仓内并行 SO-101；100 文档已弃用</td></tr>
+<tr><td>RoArm-M2</td><td>臂</td><td>waveshareteam/roarm_m2 @c6ccc5bda2eb</td><td>40</td><td>AGPL-3.0</td><td>文件一致</td></tr>
+<tr><td>OpenMANIPULATOR-X</td><td>臂</td><td>ROBOTIS-GIT/open_manipulator @7addeda59bbd</td><td>678</td><td>Apache-2.0</td><td>含官方 URDF；2026-11 仍活跃</td></tr>
+<tr><td>LeKiwi</td><td>移动操作</td><td>SIGRobotics-UIUC/LeKiwi @efa608d7ee5a</td><td>1515</td><td>Apache-2.0</td><td>底盘+臂，不要只归一类</td></tr>
+<tr><td>TurtleBot3 Burger</td><td>移动</td><td>ROBOTIS-GIT/turtlebot3 @faf695dfffe2</td><td>2103</td><td>Apache-2.0</td><td>官方 burger URDF；2026-11 仍活跃</td></tr>
+<tr><td>OpenBot</td><td>移动</td><td>ob-f/OpenBot @db044a7d2e50</td><td>3658</td><td>MIT</td><td>isl-org/OpenBot 重定向至此</td></tr>
+<tr><td>Duckiebot</td><td>移动</td><td>duckietown/Hardware @b31bff1a557a</td><td>0</td><td>NOASSERTION</td><td>ToU v1.2 非商用；硬件仓停于 2018</td></tr>
+</table>
+<p class="small">硬件规格、BOM 价格和 3D 打印可制造性未逐项实测，表格不能当成采购清单。实物复刻全部待验证。</p>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 04 <b>开源机器人清单</b></header>
+<h1>03 / 主实验：从仓库到标注</h1>
+<p>解压 exercise.zip 后进入其上级目录。已有 python3 与 numpy。独立环境可执行 <code>python3 -m venv .venv &amp;&amp; .venv/bin/pip install numpy==2.5.4</code>。agibot 子命令若找不到 sources/hf 下的 completions 与 info-scan-stats，会如实标记 missing，不伪造计数。</p>
+<div class="step">
+<h3>E1 环境与能力边界</h3>
+<b>目的：</b>写清这是 CPU 元数据与解析运动学，不是真机或仿真器评测。
+<pre>python3 exercise/lab.py env</pre>
+<b>真实结果：</b>Python 3.13.5、NumPy 2.5.4，NVIDIA 设备 0，时间 2026-11-11 01:18:50（Asia/Shanghai）。<br>
+<b>验证：</b>核对 JSON 环境字段。设备 0 只说明当前未见 NVIDIA 设备。
+</div>
+<div class="step">
+<h3>E2 18 项仓库元数据对照</h3>
+<b>目的：</b>用已保存的公开 API 缓存与 git ls-remote SHA，生成分类表并标出重定向。
+<pre>python3 exercise/lab.py survey</pre>
+<b>真实结果：</b>18 项齐；分类见上表。缓存中另见 3 个重定向：OttoDIY/OttoDIY→OttoNinja，PetoiCamp/OpenCat→OpenCat-Quadruped-Robot，isl-org/OpenBot→ob-f/OpenBot。<br>
+<b>验证：</b>断言清单长度为 18，且四类主体都出现。重定向不等于都换了项目。
+</div>
+<div class="step">
+<h3>E3 LICENSE 实读对照 API</h3>
+<b>目的：</b>列出 API 不可靠或范围需人工阅读的条目。
+<pre>python3 exercise/lab.py licenses</pre>
+<b>真实结果：</b>20 条发现中，双许可、NOASSERTION、FAQ 不一致、设计/软件分仓、Duckiebot 非商用条款均被标出。<br>
+<b>验证：</b>Duckiebot 条款被列入需人工阅读的清单。这不是法律审查报告。
+</div>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 04 <b>开源机器人清单</b></header>
+<h1>03 / 主实验：标注与正运动学</h1>
+<div class="step">
+<h3>E4 不要把完成收据当成失败率</h3>
+<b>目的：</b>统计 completions.json 的 isResultSucceed，并写出正确解释。
+<pre>python3 exercise/lab.py agibot</pre>
+<b>真实结果：</b>格式 datahub-completion-receipts-v1，8146 条，isResultSucceed 与 present 全为 false，覆盖 18 个 task_id。程序把这解释为占位，而不是失败率。<br>
+<b>验证：</b>自写检查要求 n=8146 且解释文本含“占位”。样本 info（task_100347/02）170 个 episode 中 167 条 Success Frame，无 error_cause。
+</div>
+<div class="step">
+<h3>E5 对 98 个公开 info.json 计数</h3>
+<b>目的：</b>按出版清单逐文件统计 key_frame.frame_type_name 与 error_cause。
+<b>操作：</b>实验脚本读取已落盘的 info-scan-stats.json（由本批对 98 个文件完整扫描并重试 SSL 失败项后生成）。<br>
+<b>真实结果：</b>98/98 成功；关键帧 8263 条 = Success 8259 + Error 2 + Intervention 2。两条失败原因用词不统一；Intervention 的 comment 写成成功。<br>
+<b>验证：</b>计数来自逐文件解析，不是作者宣传数字。未下载视频，画面真伪待验证。Theme 2/3 的失败样本不计入本统计。
+</div>
+<div class="step">
+<h3>E6 官方 URDF 正运动学</h3>
+<b>目的：</b>不依赖网格，解析 SO-100 / SO-101 / TurtleBot3 Burger / OpenMANIPULATOR-X 的关节链。
+<pre>python3 exercise/lab.py fk
+python3 exercise/lab.py verify</pre>
+<b>真实结果：</b>SO-100 有 6 个转动关节，零位 jaw ≈ (0.000, −0.176, 0.147) m；SO-101 gripper_frame ≈ (0.391, 0.000, 0.226) m。TurtleBot3 左右轮间距 0.16 m，雷达在 z=0.182 m；把两轮转到 π，雷达与 IMU 位置不变。OpenMANIPULATOR-X 零位末端 (0.286, 0.000, 0.1875) m。verify 9/9 组自写检查通过。<br>
+<b>验证：</b>雷达不变是固定关节的几何结论。9/9 不能称为上游测试或独立审核。未运行 MuJoCo/PyBullet，实物复刻待验证。
+</div>
+<div class="warn">主实验是公开元数据与解析几何，不是 18 台机器人的装配验收，也不是 AgiBot 策略训练。不要把作者推荐、星星数或新闻稿句子写成实测性能。</div>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 04 <b>开源机器人清单</b></header>
+<h1>04 / 合入候选与待验证清单</h1>
+<h2>增量，而非重写旧知识库</h2>
+<p>查重固定公开 main <code>a8674777e18302b8804b137212b1396cbfe5a747</code>，提交时间 2026-11-04 17:42:58（Asia/Shanghai）。已读总览与 openarm、robot-web-anatomy 项目笔记，以及失败反馈具体化、Sim2Real与MuJoCo仿真、机器人数字展台概念。仓库中没有这 18 项清单或 AGIBOT WORLD Release 4 的专条。openarm 只互链，不扩写为 SO-ARM；失败反馈具体化保持 agent 循环定义，本批只补充机器人数据字段案例。</p>
+<h2>版本固定</h2>
+<table>
+<tr><th>来源</th><th>固定版本与范围</th></tr>
+<tr><td>原帖与引用</td><td>2113982788407787894（2026-10-24 21:15:47 Asia/Shanghai）；引用 2113775728105844754。实读 note_tweet 与作者回复。</td></tr>
+<tr><td>18 个一手仓</td><td>默认分支 SHA 见对照表与 sources.md；实读 LICENSE/README，不打包上游源码到练习 ZIP。</td></tr>
+<tr><td>AgiBot World 2026</td><td>HF 提交 95b159a10305a0385f369aba5d4b16242526d17b；README、官方新闻稿、导出收据与 98 个 info.json 的类型统计。未下载视频/parquet。</td></tr>
+</table>
+<h2>待验证（不属于已执行主实验）</h2>
+<ul>
+<li>任一项目的 3D 打印、BOM 采购、装配与真机标定。</li>
+<li>在 MuJoCo/PyBullet 中带网格加载、碰撞和控制器。</li>
+<li>观看原帖 140 秒视频、Release 4 视频，核对画面与 Error/Intervention 帧。</li>
+<li>Theme 2 / Theme 3 中宣称更丰富的失败与介入样本。</li>
+<li>AgiBot 官方“九项推理能力”在任务目录上的逐项映射。</li>
+</ul>
+<h2>来源短码</h2>
+<ul class="small">
+<li>[S1] https://x.com/techniahqrobot/status/2113982788407787894 及引用帖 2113775728105844754、作者回复 2114373432515125520</li>
+<li>[S2] https://huggingface.co/datasets/agibot-world/AgiBotWorld2026/tree/95b159a10305a0385f369aba5d4b16242526d17b</li>
+<li>[S3] 各项目 GitHub 仓的固定 SHA，见 sources.md</li>
+<li>[S4] https://www.agibot.com/article/231/detail/129.html（2026-10-22 新闻稿）</li>
+<li>[S5] 本批 98 个 info.json 扫描与 rare-key-frames.json</li>
+<li>[S6] reminder_knowlege 总览及失败反馈具体化、openarm、开源验货三查（SHA a867477）</li>
+</ul>
+<p class="small">详细 URL、指纹、查重与合入建议见 sources.md、knowledge-proposal.md；完整真实输出见 experiment-log.md。本文由同一 worker 自查，不声称独立审核。未更改共享 vault、用户任务状态或日程。</p>
+</section>
+</body></html>

@@ -1,0 +1,8 @@
+{
+  "mode": "interaction",
+  "visible": 2,
+  "pressed": "true",
+  "focus": "web",
+  "transform": "matrix3d(0.978148, 0, -0.207912, 0.00025989, 0, 1, 0, 0, 0.207912, 0, 0.978148, -0.00122268, 0, 0, 0, 1)",
+  "errors": []
+}

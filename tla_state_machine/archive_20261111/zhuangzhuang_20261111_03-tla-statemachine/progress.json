@@ -1,0 +1,25 @@
+{
+  "item": 3,
+  "status": "学习交付与合成实验真实完成",
+  "pending": "真实产品映射、外部副作用、活性/公平性与任意规模未验证",
+  "date": "2026-11-11 Asia/Shanghai",
+  "source_sha": "de8ee15dd1194627d21eb5fcd41cb1873208dabb",
+  "knowledge_sha": "a8674777e18302b8804b137212b1396cbfe5a747",
+  "tlc_tag_sha": "5a47802b5c391f59ecdd44117981f4ff8c0656ba",
+  "pdf_pages": 12,
+  "pages_Read_checked": 12,
+  "counterexample_transitions": 4,
+  "fixed_distinct_states": 5,
+  "scaling_distinct_states": [
+    5,
+    25,
+    125
+  ],
+  "ZIP实际解压复跑": {
+    "bug": 0,
+    "fixed": 0,
+    "replay": 0
+  },
+  "next_item": "等待明确委派，不自动处理其他条目",
+  "scope": "仅本项目录，未动其他助手目录/共享_common或合入发布"
+}

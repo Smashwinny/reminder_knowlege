@@ -1,0 +1,16 @@
+{
+  "item": 2,
+  "source_read": "complete",
+  "dedupe": "complete",
+  "cpu_experiment": "complete",
+  "upstream_selected_tests": "3 passed; not full suite",
+  "html": "complete;12 Q&A each inline SVG;4 uses;6 steps",
+  "pdf": "rendered A4 9 pages; each PNG inspected via Read",
+  "exercise": "complete",
+  "logs_sources_proposal": "complete",
+  "gpu_comfyui": "pending external qualified environment/model assets",
+  "real_face_visual_dynamic_acceptance": "pending; no generated real-face video",
+  "history": "history/blocked-20261111 retained",
+  "git_publish": "not performed",
+  "task_completion_toggle": "not performed"
+}

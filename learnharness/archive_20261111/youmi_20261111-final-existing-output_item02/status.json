@@ -1,0 +1,9 @@
+{
+  "status": "部分待验证",
+  "html": "/workspace/reminder-batch/worker-689b81da/item02/guide.html",
+  "pdf": "/workspace/reminder-batch/worker-689b81da/item02/guide.pdf",
+  "questions": 12,
+  "inline_svg": 12,
+  "pdf_pages": 8,
+  "note": "原始纯模块五步实跑；5个选定上游测试+8个自写检查通过；完整GUI/模型/教学质量未验证"
+}

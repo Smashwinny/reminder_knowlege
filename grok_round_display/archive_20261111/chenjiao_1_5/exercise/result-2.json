@@ -1,0 +1,8 @@
+{
+  "http_status": 202,
+  "response": {
+    "request_id": "demo-001",
+    "state": "accepted"
+  },
+  "has_answer": false
+}

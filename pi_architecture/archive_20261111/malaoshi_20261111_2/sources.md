@@ -1,0 +1,140 @@
+# 来源清单
+读取/复用日期：2026-11-11（Asia/Shanghai UTC+8）。本次不是新独立审核；旧审计日期为 2026-11-10 UTC+8。
+## 公开原帖与引用（已读）
+- https://x.com/i/status/2114233439205679614 ：本次公开工具读取成功；单帖 text 截断，另用 search_posts_all 得到完整 note_tweet.text；原始返回 evidence/x-thread-current.txt。
+- https://x.com/i/status/2113924538300018737 ：本次完整 note_tweet 及引用展开读取成功，evidence/x-quoted-current.txt。
+- https://x.com/i/status/2113892461861106016 ：在引用展开中读取完整 note_tweet；只记录其作者说法，OpenClaw 采用史/提交频率没有外部验证。
+- https://x.com/i/status/2114366641668759715 ：作者回复本次第一分页可读。
+- 作者线程尾页本次曾遇共享 HTTP 429；限流重置后一次原样重试仍 429，未再次重试。工具给出的最新恢复时刻换算上海为 2026-11-11 01:01:43.284 UTC+8；这不是用户自己的 X 额度。不能宣称本次重新读完线程尾页。旧审计保存的第二页 result_count=0 本次已实读并封存 evidence/prior-x-thread-page2.txt；来源时间为旧审计，不能当最新回复穷尽证明。
+- 原帖正文和引用链已成功读取，所以本项不属“原帖不可读受阻”。图片未逐图视觉审计，图里额外主张未验证。
+## 当前官方源代码（本次固定）
+- https://github.com/earendil-works/pi/tree/b30d54b8aebe6408e02d1473446d25f8083da68f ：本次公开只读 clone 成功；main 提交时间 2026-11-11 00:38:00 UTC+8，产品 1.5.2。
+- https://github.com/earendil-works/pi/tree/65c43bb520edf53f11923f7a927aefd05475c6af ：旧独立审计固定 SHA；本次通过已有 clone 读取四快照，7 个关键文件与新 main 字节相同，见 evidence/core-freshness.json。
+- https://github.com/earendil-works/pi/tree/914cf1472e715297caa30db4b9535d534a9eb718 ：旧版 v0.84.2，本次读发布物与 package.json 快照。
+- https://github.com/earendil-works/pi/tree/06a466935536f8c9bcacb2d5efc0fc021be1bdff ：v1.2.0，本次读 changelog 3—64 行及清单。
+- https://registry.npmjs.org/@earendil-works/pi-coding-agent/0.84.2 ：旧审计保存 registry 元数据；本次新执行 npm pack 精确下载成功，SHA1=e4d4c1e769963c816959f5cea02a0a10ccc0495a；metadata.json 和 pack.json 保存。
+## 旧 vault 查重（本次当前 main 只读）
+- 固定 SHA：a8674777e18302b8804b137212b1396cbfe5a747；全文读取总览，相关概念复用，不将其历史实验当本次运行。
+- https://github.com/Smashwinny/reminder_knowlege/blob/a8674777e18302b8804b137212b1396cbfe5a747/vault/00-总览.md ：本次成功全文读取。
+- https://github.com/Smashwinny/reminder_knowlege/blob/a8674777e18302b8804b137212b1396cbfe5a747/vault/项目笔记/agent-kernel.md ：本次成功全文读取。
+- https://github.com/Smashwinny/reminder_knowlege/blob/a8674777e18302b8804b137212b1396cbfe5a747/vault/项目笔记/archify.md ：本次成功全文读取。
+- https://github.com/Smashwinny/reminder_knowlege/blob/a8674777e18302b8804b137212b1396cbfe5a747/vault/概念/源码取证图.md ：本次成功全文读取。
+- https://github.com/Smashwinny/reminder_knowlege/blob/a8674777e18302b8804b137212b1396cbfe5a747/vault/概念/事实与判断分离.md ：本次成功全文读取。
+- https://github.com/Smashwinny/reminder_knowlege/blob/a8674777e18302b8804b137212b1396cbfe5a747/vault/概念/固定版本中的跨文件时间漂移.md ：本次成功全文读取。
+- https://github.com/Smashwinny/reminder_knowlege/blob/a8674777e18302b8804b137212b1396cbfe5a747/archify/archify_guide.html ：本次成功读取；HTML 仅读版式定义及开头案例，不宣称读全文。
+## 本次 HTML 内联固定源码引用（逐项有文件行号）
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/CHANGELOG.md#L3-L64 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/CHANGELOG.md#L61-L64 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/package.json#L42-L67 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/CHANGELOG.md#L678-L709 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/README.md#L460-L490 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/README.md#L494-L506 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/package.json#L1-L29 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/package.json#L1-L83 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/package.json#L14-L29 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/package.json#L42-L83 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/src/core/provider-attribution.ts#L36-L96 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/src/core/settings-manager.ts#L945-L955 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/src/core/telemetry.ts#L1-L13 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/src/modes/interactive/interactive-mode.ts#L1192-L1239 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/agent/package.json#L1-L50 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/ai/package.json#L94-L119 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/codemode/src/runtime/vm.ts#L160-L180 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/coding-agent/docs/codemode.md#L3-L18 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/coding-agent/docs/security.md#L1-L21 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/coding-agent/package.json#L1-L24 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/coding-agent/package.json#L1-L97 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/coding-agent/package.json#L43-L65 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/coding-agent/src/core/settings-defaults.ts#L57-L60 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/coding-agent/src/extensions/codemode/index.ts#L1-L45 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/durable/package.json#L1-L174 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/env/package.json#L1-L54 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/mcp/package.json#L1-L60 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/mcp/src/config.ts#L85-L140 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+- https://github.com/earendil-works/pi/blob/b30d54b8aebe6408e02d1473446d25f8083da68f/packages/schema/package.json#L1-L60 ：已由旧审计或本次直接文件读取支撑；具体实验状态见正文，不自动等于运行验收。
+## 完整复用旧审计来源清单
+以下原始证据 URL 继承 evidence/prior-audit.md；“复用”不是本次逐页重新联网读取。旧报告保留完整论证与文件行号。
+- https://github.com/earendil-works/pi （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/CHANGELOG.md#L13-L17 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/CHANGELOG.md#L15-L18 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/CHANGELOG.md#L18-L24 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/CHANGELOG.md#L24-L42 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/CHANGELOG.md#L3-L59 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/CHANGELOG.md#L61-L64 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/install-lock/package-lock.json#L462-L555 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/package.json#L1-L25 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/package.json#L14-L24 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/06a466935536f8c9bcacb2d5efc0fc021be1bdff/packages/coding-agent/package.json#L42-L67 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/package.json#L1-L13 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/agent/package.json#L1-L50 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/ai/package.json#L1-L119 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/ai/src/telemetry.ts#L121-L153 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/ai/src/telemetry.ts#L15-L60 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/ai/src/telemetry.ts#L164-L205 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/ai/src/utils/identity.ts#L106-L143 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/ai/src/utils/identity.ts#L61-L82 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/chord/package.json#L1-L196 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/chord/src/telemetry-ingest/sender.ts#L1-L60 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/codemode/package.json#L1-L75 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/codemode/src/runtime/vm.ts#L160-L180 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/CHANGELOG.md#L139-L151 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/CHANGELOG.md#L355-L416 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/CHANGELOG.md#L574-L587 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/CHANGELOG.md#L678-L709 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/CHANGELOG.md#L934-L946 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/docs/codemode.md#L3-L18 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/docs/codemode.md#L60-L95 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/docs/mcp.md#L1-L32 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/docs/mcp.md#L30-L34 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/docs/mcp.md#L62-L82 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/docs/mcp.md#L92-L102 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/docs/security.md#L1-L18 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/install-lock/package-lock.json#L462-L563 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/package.json#L1-L24 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/package.json#L1-L25 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/package.json#L1-L97 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/package.json#L10-L24 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/package.json#L43-L69 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/src/cli/startup-ui.ts#L180-L198 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/src/core/client-identity.ts#L1-L16 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/src/core/settings-defaults.ts#L27-L34 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/src/core/settings-defaults.ts#L57-L60 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/src/core/settings-manager.ts#L1070-L1088 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/src/core/telemetry.ts#L1-L13 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/src/extensions/codemode/index.ts#L1-L45 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/src/extensions/codemode/worker.ts#L1-L6 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/src/modes/interactive/interactive-mode.ts#L1365-L1405 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/src/modes/interactive/interactive-mode.ts#L1472-L1488 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/coding-agent/src/utils/pi-user-agent.ts#L1-L6 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/durable/package.json#L1-L174 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/env/package.json#L1-L54 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/evals/package.json#L1-L22 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/mcp/package.json#L1-L60 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/mcp/src/config.ts#L85-L140 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/mcp/src/index.ts#L1-L96 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/schema/package.json#L1-L60 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/telemetry/package.json#L1-L54 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/telemetry/src/noop.ts#L1-L37 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/65c43bb520edf53f11923f7a927aefd05475c6af/packages/tui/package.json#L1-L63 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/agent/package.json#L1-L68 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/README.md#L453-L479 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/README.md#L490-L502 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/docs/environment-variables.md#L70-L94 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/package.json#L1-L29 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/package.json#L14-L29 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/package.json#L42-L83 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/src/core/provider-attribution.ts#L36-L96 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/src/core/settings-manager.ts#L945-L955 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/src/core/settings-manager.ts#L948-L968 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/src/core/telemetry.ts#L1-L13 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/src/modes/interactive/interactive-mode.ts#L1192-L1239 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/914cf1472e715297caa30db4b9535d534a9eb718/packages/coding-agent/src/utils/pi-user-agent.ts#L1-L4 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/blob/fab2c5353ea4adcbb0d35701897892941f185235/packages/schema/package.json#L1-L56 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/commit/7472cda0d6e51dfbf53c03f46b47aa42ac64bf64 （复用旧审计；非本次新独立复核全部内容）
+- https://github.com/earendil-works/pi/releases/tag/v1.2.0 （复用旧审计；非本次新独立复核全部内容）
+- https://pi.dev/api/report-install?version=0.84.2' （复用旧审计；非本次新独立复核全部内容）
+- https://pi.dev/api/report-install?version=…`，附 （复用旧审计；非本次新独立复核全部内容）
+- https://registry.npmjs.org/@earendil-works/pi-coding-agent/0.84.2 （复用旧审计；非本次新独立复核全部内容）
+- https://x.com/aehyok/status/2113924538300018737 （复用旧审计；非本次新独立复核全部内容）
+- https://x.com/aehyok/status/2114233439205679614 （复用旧审计；非本次新独立复核全部内容）
+- https://x.com/aehyok/status/2114366641668759715 （复用旧审计；非本次新独立复核全部内容）

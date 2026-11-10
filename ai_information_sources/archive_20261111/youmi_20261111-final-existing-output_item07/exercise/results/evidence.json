@@ -1,0 +1,23 @@
+{
+  "ledger": [
+    {
+      "claim": "arXiv本身不做同行评审",
+      "file": "snapshots/arxiv_about.txt",
+      "needle": "not peer-reviewed",
+      "matched": true
+    },
+    {
+      "claim": "当前AA混合价格按cache/input/output=7:2:1",
+      "file": "snapshots/aa_method.txt",
+      "needle": "7:2:1",
+      "matched": true
+    },
+    {
+      "claim": "AA输出速率口径包含首token等待",
+      "file": "snapshots/aa_method.txt",
+      "needle": "includes time to first token",
+      "matched": true
+    }
+  ],
+  "scope": "只是已读方法文档的可定位文本证据；不验证榜单/论文结论/真实模型表现"
+}

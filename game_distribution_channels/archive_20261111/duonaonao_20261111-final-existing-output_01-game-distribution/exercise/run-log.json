@@ -1,0 +1,48 @@
+{
+  "environment": "Linux-6.12.113+-x86_64-with-glibc2.41",
+  "python": "3.13.5",
+  "runs": [
+    {
+      "command": "python3 exercise/lab.py init",
+      "at": "2026-11-11T01:02:30.167901+08:00",
+      "exit_code": 0,
+      "stdout": "init: 7渠道记录，3个合成画像；官方费用+人工结构化，画像不是用户数据\n",
+      "stderr": ""
+    },
+    {
+      "command": "python3 exercise/lab.py validate",
+      "at": "2026-11-11T01:02:30.207507+08:00",
+      "exit_code": 0,
+      "stdout": "{\"channels\": 7, \"source_ids_used\": 13, \"unknown_fee_channels\": [\"poki\", \"wechat\"]}\n",
+      "stderr": ""
+    },
+    {
+      "command": "python3 exercise/lab.py shortlist",
+      "at": "2026-11-11T01:02:30.237824+08:00",
+      "exit_code": 0,
+      "stdout": "A: {\"候选\": [\"itch-html5\"], \"待核\": [], \"排除\": [\"apple\", \"play\", \"steam\", \"itch-download\", \"poki\", \"wechat\"]}\nB: {\"候选\": [\"steam\", \"itch-download\"], \"待核\": [], \"排除\": [\"apple\", \"play\", \"itch-html5\", \"poki\", \"wechat\"]}\nC: {\"候选\": [], \"待核\": [\"wechat\"], \"排除\": [\"apple\", \"play\", \"steam\", \"itch-download\", \"itch-html5\", \"poki\"]}\n",
+      "stderr": ""
+    },
+    {
+      "command": "python3 exercise/lab.py costs",
+      "at": "2026-11-11T01:02:30.274575+08:00",
+      "exit_code": 0,
+      "stdout": "{\"apple\": {\"1年1款\": 99, \"3年2款\": 297}, \"play\": {\"1年1款\": 25, \"3年2款\": 25}, \"steam\": {\"1年1款\": 100, \"3年2款\": 200}, \"itch-download\": {\"1年1款\": 0, \"3年2款\": 0}, \"itch-html5\": {\"1年1款\": 0, \"3年2款\": 0}, \"poki\": {\"1年1款\": null, \"3年2款\": null}, \"wechat\": {\"1年1款\": null, \"3年2款\": null}}\n仅准入费；Steam回收未抵扣；税费/制作/抽成/退款/支付费未计入\n",
+      "stderr": ""
+    },
+    {
+      "command": "python3 exercise/lab.py test",
+      "at": "2026-11-11T01:02:30.304279+08:00",
+      "exit_code": 0,
+      "stdout": "PASS 14/14 自编模型断言；非平台接入验收\n",
+      "stderr": ""
+    },
+    {
+      "command": "python3 exercise/lab.py audit",
+      "at": "2026-11-11T01:02:30.345103+08:00",
+      "exit_code": 0,
+      "stdout": "audit: 8个文件指纹；无网络调用，无发布，无账号操作\n",
+      "stderr": ""
+    }
+  ]
+}

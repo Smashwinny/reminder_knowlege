@@ -1,0 +1,74 @@
+[
+  {
+    "name": "game-design-theory",
+    "repo": "pluginagentmarketplace/custom-plugin-game-developer",
+    "path": "skills/game-design-theory/SKILL.md",
+    "sha": "aa7edfe267b34eac63d888f60b13e08aca7850ed",
+    "status": "current",
+    "current_head": "aa7edfe267b34eac63d888f60b13e08aca7850ed",
+    "current_path_error": null
+  },
+  {
+    "name": "game-engine",
+    "repo": "github/awesome-copilot",
+    "path": "skills/game-engine/SKILL.md",
+    "sha": "227949a7542a55d2155c00e7cdb998d9a0fee4f3",
+    "status": "current",
+    "current_head": "227949a7542a55d2155c00e7cdb998d9a0fee4f3",
+    "current_path_error": null
+  },
+  {
+    "name": "game-developer",
+    "repo": "Jeffallan/claude-skills",
+    "path": "skills/game-developer/SKILL.md",
+    "sha": "078a25cc5bfd8011459be7b91d004e900c1d02d3",
+    "status": "current",
+    "current_head": "078a25cc5bfd8011459be7b91d004e900c1d02d3",
+    "current_path_error": null
+  },
+  {
+    "name": "game-ui-design",
+    "repo": "omer-metin/skills-for-antigravity",
+    "path": "skills/game-ui-design/SKILL.md",
+    "sha": "e8dcf4e8737921a10088bd5c9eb65e81f74c051f",
+    "status": "current",
+    "current_head": "e8dcf4e8737921a10088bd5c9eb65e81f74c051f",
+    "current_path_error": null
+  },
+  {
+    "name": "game-ui-ux",
+    "repo": "gamedev-skills/awesome-gamedev-agent-skills",
+    "path": "skills/disciplines/game-ui-ux/SKILL.md",
+    "sha": "dcf3bbbb83f365632402c086bf595048aa24aaa8",
+    "status": "current",
+    "current_head": "dcf3bbbb83f365632402c086bf595048aa24aaa8",
+    "current_path_error": null
+  },
+  {
+    "name": "threejs-game-ui-designer",
+    "repo": "majidmanzarpour/threejs-game-skills",
+    "path": "skills/threejs-game-ui-designer/SKILL.md",
+    "sha": "8286774b22a2566bf894dbc825825c16921866af",
+    "status": "current",
+    "current_head": "8286774b22a2566bf894dbc825825c16921866af",
+    "current_path_error": null
+  },
+  {
+    "name": "game-feel",
+    "repo": "gamedev-skills/awesome-gamedev-agent-skills",
+    "path": "skills/disciplines/game-feel/SKILL.md",
+    "sha": "dcf3bbbb83f365632402c086bf595048aa24aaa8",
+    "status": "current",
+    "current_head": "dcf3bbbb83f365632402c086bf595048aa24aaa8",
+    "current_path_error": null
+  },
+  {
+    "name": "higgsfield-websites",
+    "repo": "higgsfield-ai/skills",
+    "path": "higgsfield-websites/SKILL.md",
+    "sha": "27000402070db19d958789d05b3b52b6f4718d7c",
+    "status": "current",
+    "current_head": "27000402070db19d958789d05b3b52b6f4718d7c",
+    "current_path_error": null
+  }
+]

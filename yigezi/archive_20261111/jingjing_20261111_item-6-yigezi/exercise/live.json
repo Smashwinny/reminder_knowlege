@@ -1,0 +1,27 @@
+{
+  "checked_at": "2026-11-11 01:20:12 CST（UTC+8）",
+  "demo": {
+    "url": "https://ivan666jjj.github.io/yigezi/",
+    "final_url": "https://ivan666jjj.github.io/yigezi/",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes_preview": 2048,
+    "elapsed_s": 0.09,
+    "contains_title": true
+  },
+  "repo": {
+    "url": "https://api.github.com/repos/Ivan666jjj/yigezi",
+    "status": 200,
+    "full_name": "Ivan666jjj/yigezi",
+    "sha_pushed_at": "2026-10-26T07:23:00Z",
+    "stargazers": 135,
+    "default_branch": "main",
+    "homepage": "https://ivan666jjj.github.io/yigezi/",
+    "license": "MIT"
+  },
+  "gif": {
+    "path": "/workspace/reminder-batch-2026-11-11/item-6-yigezi/exercise/placeholder-evolution.gif",
+    "bytes": 17320,
+    "note": "system-font placeholder, not official glyphs"
+  }
+}

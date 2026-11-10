@@ -1,0 +1,4 @@
+$ python3 synth.py
+{"sample_rate": 48000, "samples": 384000, "peak": 0.2747612368283126, "bpm": 120, "beat_frames_at_30fps": 15}
+
+exit_code=0

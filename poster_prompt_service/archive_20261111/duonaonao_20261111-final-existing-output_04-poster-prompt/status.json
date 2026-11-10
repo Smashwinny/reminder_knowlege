@@ -1,0 +1,25 @@
+{
+  "item": 4,
+  "topic": "海报提示词与可信交付",
+  "status": "离线学习真实完成；商业链路待验证",
+  "original_post_read": true,
+  "quoted_article_read": true,
+  "repo_sha": "a8674777e18302b8804b137212b1396cbfe5a747",
+  "comfy_sha": "989d93d0d968e704c589ce0146bb18c77f6b50cc",
+  "pdf_pages": 11,
+  "questions": 12,
+  "uses": 5,
+  "main_experiment_steps": 5,
+  "model_calls": 0,
+  "real_orders": 0,
+  "independent_review": false,
+  "pending": [
+    "真实模型推理与质量",
+    "具体模型/字体/素材许可",
+    "闲鱼当前类目与认证",
+    "真实成交与收益"
+  ],
+  "saved_at": "2026-11-11T01:05:22.900171+08:00",
+  "no_git_push": true,
+  "no_task_completion_mark": true
+}

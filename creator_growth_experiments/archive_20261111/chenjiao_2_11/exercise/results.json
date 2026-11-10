@@ -1,0 +1,22 @@
+[
+  {
+    "command": "python3 exercise/lab.py prepare",
+    "output": "synthetic cohorts= [['A', 'warm', 80, 100], ['A', 'cold', 10, 100], ['B', 'warm', 9, 10], ['B', 'cold', 120, 1000]] NOT author analytics\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py interval",
+    "output": "8/100 CI95= (0.04109296948581091, 0.14998266879403072) 12/100 CI95= (0.06999337365267776, 0.19812268002908368)\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py confounding",
+    "output": "aggregate A= 0.45 B= 0.12772277227722773 within warm B .90 > A .80; cold B .12 > A .10\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py cost",
+    "output": "hours= 2 follows= 8 labor_cost_per_follow= 12.5\nhours= 4 follows= 12 labor_cost_per_follow= 16.666666666666668\npre-register: same audience, fixed 14 posts, no optional stopping, no automatic publishing\n",
+    "exit": 0
+  }
+]

@@ -1,0 +1,75 @@
+[
+  {
+    "name": "初始化前拒绝工具",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "协议版本不支持明确拒绝",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "畸形JSON产生解析错误",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "未知方法错误",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "未知工具拒绝",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "缺code参数拒绝",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "模拟白名单拒绝未知App",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "模拟坐标越界拒绝",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "同步循环80ms超时为工具错误",
+    "pass": true,
+    "observed": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"error\":\"Script execution timed out after 80ms\",\"rollback\":false}"
+        }
+      ],
+      "isError": true
+    }
+  },
+  {
+    "name": "超时后仍可执行",
+    "pass": true,
+    "observed": 4
+  },
+  {
+    "name": "console日志不污染stdout",
+    "pass": true,
+    "observed": 7
+  },
+  {
+    "name": "另一进程看不到JS变量",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "真实stderr捕获日志",
+    "pass": true,
+    "observed": "模拟日志：只进stderr\n模拟服务stdin已关闭，正常退出"
+  }
+]

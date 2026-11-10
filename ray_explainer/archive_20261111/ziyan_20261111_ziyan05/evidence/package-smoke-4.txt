@@ -1,0 +1,5 @@
+$ node upstream/scripts/render.js /workspace/reminder-batch/item05/research/final/exercise-smoke/ray-explainer-offline/exercise/2026-11-11-package-smoke stills 2.5
+ready { duration: 12, scenes: 'hook:kit proof:kit gate:kit' }
+/workspace/reminder-batch/item05/research/final/exercise-smoke/ray-explainer-offline/exercise/2026-11-11-package-smoke/stills
+
+exit_code=0

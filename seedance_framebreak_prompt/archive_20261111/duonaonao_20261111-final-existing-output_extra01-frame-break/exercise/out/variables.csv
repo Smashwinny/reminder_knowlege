@@ -1,0 +1,13 @@
+bar_ratio,overlap,camera_pan_px,prompt_strength
+0.1,False,0,not simulated
+0.1,False,16,not simulated
+0.1,True,0,not simulated
+0.1,True,16,not simulated
+0.18,False,0,not simulated
+0.18,False,16,not simulated
+0.18,True,0,not simulated
+0.18,True,16,not simulated
+0.25,False,0,not simulated
+0.25,False,16,not simulated
+0.25,True,0,not simulated
+0.25,True,16,not simulated

@@ -1,0 +1,8 @@
+{
+  "channels": 7,
+  "source_ids_used": 13,
+  "unknown_fee_channels": [
+    "poki",
+    "wechat"
+  ]
+}

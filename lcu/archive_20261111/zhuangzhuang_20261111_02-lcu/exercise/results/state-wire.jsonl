@@ -1,0 +1,15 @@
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2025-11-25", "clientInfo": {"name": "本地教学驱动", "version": "1"}, "capabilities": {}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 1, "result": {"protocolVersion": "2025-11-25", "serverInfo": {"name": "学习用模拟MCP", "version": "0.1.0"}, "capabilities": {"tools": {}}, "instructions": "只操作模拟记事本；同步JS变量跨调用保留。js_reset不撤销文档。不接入真实桌面。"}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "method": "notifications/initialized"}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 2, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "var counter = 40; counter + 2"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 2, "result": {"content": [{"type": "text", "text": "42"}], "isError": false}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "counter += 1; counter"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 3, "result": {"content": [{"type": "text", "text": "41"}], "isError": false}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 4, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "cua.getState().applications[0].id"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 4, "result": {"content": [{"type": "text", "text": "\"demo.notes\""}], "isError": false}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 5, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "var app = cua.getApp(\"demo.notes\"); app.typeText(\"学习MCP\"); app.click({elementId:\"save\"}); app.getState()"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 5, "result": {"content": [{"type": "text", "text": "{\"kind\":\"SIMULATED_APP\",\"appId\":\"demo.notes\",\"text\":\"学习MCP\",\"saved\":true,\"revision\":1,\"cursor\":{\"x\":0,\"y\":0},\"elements\":[{\"id\":\"editor\",\"role\":\"textbox\"},{\"id\":\"save\",\"role\":\"button\",\"name\":\"保存\"}]}"}], "isError": false}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 6, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "app.getState().text"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 6, "result": {"content": [{"type": "text", "text": "\"学习MCP\""}], "isError": false}}}
+{"direction": "client_to_server", "message": {"jsonrpc": "2.0", "id": 7, "method": "tools/call", "params": {"name": "js", "arguments": {"code": "app.getScreenshot()"}}}}
+{"direction": "server_to_client", "message": {"jsonrpc": "2.0", "id": 7, "result": {"content": [{"type": "text", "text": "{\"kind\":\"SYNTHETIC_DESCRIPTOR\",\"actualCapture\":false,\"width\":800,\"height\":600,\"note\":\"仅模拟元数据，无真实截图像素\"}"}], "isError": false}}}

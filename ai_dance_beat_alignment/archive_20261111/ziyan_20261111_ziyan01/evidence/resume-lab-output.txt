@@ -1,0 +1,50 @@
+[2026-11-11T01:20:51.586881 Asia/Shanghai UTC+8] $ /usr/bin/python3 --version
+Python 3.13.5
+exit_code=0
+
+[2026-11-11T01:20:51.637609 Asia/Shanghai UTC+8] $ /usr/bin/python3 dance_lab.py synth
+SYNTH samples=522048 duration=10.876000s pulses=25 BPM=132.5; NOT original audio
+exit_code=0
+
+[2026-11-11T01:20:51.694401 Asia/Shanghai UTC+8] $ /usr/bin/python3 dance_lab.py analyze
+{
+  "detected_pulses": 25,
+  "estimated_BPM": 132.49907986750094,
+  "max_onset_error_ms": 0.020833333333333332,
+  "beat_s": 0.4528301886792453,
+  "bar_s": 1.8113207547169812,
+  "phrase_s": 3.6226415094339623,
+  "phrase_anchors": [
+    0.0,
+    3.622642,
+    7.245283,
+    10.867925
+  ],
+  "audio_duration": 10.876,
+  "nearest_24fps_frames": 261,
+  "nearest_24fps_duration": 10.875,
+  "duration_error_ms": -0.9999999999994458,
+  "scope": "threshold onset detector on isolated synthetic clicks only; not a music beat tracker"
+}
+exit_code=0
+
+[2026-11-11T01:20:51.726996 Asia/Shanghai UTC+8] $ /usr/bin/python3 dance_lab.py template
+TEMPLATE phases=6 references=3 VALID; no model invocation
+exit_code=0
+
+[2026-11-11T01:20:51.758061 Asia/Shanghai UTC+8] $ /usr/bin/python3 dance_lab.py test
+REJECT negative1: reference role collision
+REJECT negative2: identity/lyric semantic leakage
+REJECT negative3: identity/lyric semantic leakage
+REJECT negative4: output contract
+REJECT negative5: gap/overlap
+REJECT negative6: feet/head/hands must remain visible
+REJECT negative7: anchor outside audio
+REJECT negative8: opening exception only segment01
+REJECT negative9: duration coverage
+PASS checks=12 (1 valid,9 rejected,2 numeric); VIDEO_NOT_GENERATED
+exit_code=0
+
+[2026-11-11T01:20:51.775015 Asia/Shanghai UTC+8] $ /usr/bin/python3 -c import json; print(json.load(open('output/analysis.json'))['detected_pulses'])
+25
+exit_code=0

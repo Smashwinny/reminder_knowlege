@@ -1,0 +1,35 @@
+[
+  {
+    "name": "固定协议版本",
+    "pass": true,
+    "observed": "2025-11-25"
+  },
+  {
+    "name": "初始化说明传回",
+    "pass": true,
+    "observed": "只操作模拟记事本；同步JS变量跨调用保留。js_reset不撤销文档。不接入真实桌面。"
+  },
+  {
+    "name": "公开工具恰好两个",
+    "pass": true,
+    "observed": [
+      "js",
+      "js_reset"
+    ]
+  },
+  {
+    "name": "工具schema为对象",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "ping返回空对象",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "模拟桌面明确非实机",
+    "pass": true,
+    "observed": null
+  }
+]

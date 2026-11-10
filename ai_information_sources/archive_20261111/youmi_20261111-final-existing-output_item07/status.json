@@ -1,0 +1,9 @@
+{
+  "status": "部分待验证",
+  "summary": "七渠道实读，真实快照链接审计与合成区间/计价六步实验，12自写检查通过",
+  "caveat": "6个普通HTTP403已记录但WebFetch读成功；真实模型选型/论文性能未验证",
+  "pdf_pages": 8,
+  "questions": 12,
+  "svg": 12,
+  "html_bytes": 23086
+}

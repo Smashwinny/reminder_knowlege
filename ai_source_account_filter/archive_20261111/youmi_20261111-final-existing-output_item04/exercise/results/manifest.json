@@ -1,0 +1,22 @@
+[
+  {
+    "file": "source-post.json",
+    "bytes": 74602,
+    "sha256": "755abbd914aa4f66a4af2c8f7b2b7fab266c9ba29ba2a9278f8e3ee4189c9924"
+  },
+  {
+    "file": "article.txt",
+    "bytes": 28387,
+    "sha256": "eee3e5513a679383ef04e1868d69d4477c8cfe98b35fe11d0abaa6862a80d828"
+  },
+  {
+    "file": "x-data-dictionary.html",
+    "bytes": 684227,
+    "sha256": "c4bc0ec5f10ddbda883c8d3db52d505642db36a036a74449761c32d8faf95b80"
+  },
+  {
+    "file": "python-statistics.html",
+    "bytes": 151303,
+    "sha256": "95a915bafb5f0e5cb730f0ae9fc4dcbc29685d4aae701d4e3d1960aba085695e"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "samples": [
+    10,
+    19.9,
+    20,
+    49.9,
+    50,
+    100
+  ],
+  "colours": [
+    "RED",
+    "RED",
+    "AMBER",
+    "AMBER",
+    "GREEN",
+    "GREEN"
+  ],
+  "mutual_exclusion": true
+}

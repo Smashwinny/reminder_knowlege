@@ -1,0 +1,22 @@
+{
+  "three_revision": "170",
+  "webgl": true,
+  "scene_switches": 13,
+  "geometry_counts": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "all_one": true,
+  "draw_calls": 1,
+  "triangles": 180
+}

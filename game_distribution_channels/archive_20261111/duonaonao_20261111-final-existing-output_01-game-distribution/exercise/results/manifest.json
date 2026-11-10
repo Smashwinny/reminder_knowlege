@@ -1,0 +1,14 @@
+{
+  "sha256": {
+    "data/channels.json": "830111c8b037b384852d68b6e009120da2d8a5012bd3847a5fdbde7875fae91e",
+    "data/profiles.json": "6244c2448d8f15298478b24bb19dcb00d71f47ebbaf95d233be239f8630e69f4",
+    "lab.py": "e5900f2a80afd93bb933d89477f33ae13cc0e875214ed88c569b33ed0e15cc08",
+    "results/costs.json": "b910d50a2c082f15efd5cfcac56cfe87607aec715db5c5e12546b7c17e7071d5",
+    "results/shortlist.csv": "27e93ae863986688a5b60fca444b83e4614575d6de8f8f4310a1c0ce98d46b48",
+    "results/shortlist.json": "c01220b3a8cc7957dbcceb4d84a0cd2be65bfe92330ca349343ea08077d5af3c",
+    "results/tests.json": "e6d0729211e79aa39b2ee707afb6c210c7cd76dbd20f8233757871c08d484a32",
+    "results/validation.json": "6a83d48745c0d947bb9582e4969a6950df53d1b851877f6f00397877c476bc1a"
+  },
+  "network_during_lab": false,
+  "publishing": false
+}

@@ -1,0 +1,9 @@
+{
+  "upstream_sha": "a7e30c1862707214dfe748d410854771ab4f4494",
+  "files": {
+    "adapters/host-guard.mjs": "5b8360ae81517ae15277d564fff32b4195e350becba0880b6e98c8d84ddc01bc",
+    "adapters/test/host-guard.test.mjs": "e954ce902ac762d7a178e73eae3f42ad2f454e64ccd85d3fb23e2db7825fe9bc",
+    "tests/mcp_client.py": "014d97a4a7b760f7aa7584f0e8aec861979904f84fc23be73855f524ff2360eb",
+    "LICENSE": "7fff04d38b9a70f51822eb46ad6ee390ef505932f36429a5be54ec78c212581c"
+  }
+}

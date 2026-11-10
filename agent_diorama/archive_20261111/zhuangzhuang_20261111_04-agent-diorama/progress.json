@@ -1,0 +1,28 @@
+{
+  "item": 4,
+  "status": "部分完成（用户叫停）",
+  "date": "2026-11-11 Asia/Shanghai",
+  "source_sha": "e8748fd0c2aad4013e5996c3188535567070f24a",
+  "knowledge_sha": "a8674777e18302b8804b137212b1396cbfe5a747",
+  "completed": [
+    "原帖与两图实读",
+    "相关中台固定SHA并只读核对",
+    "官方文档阅读",
+    "一次公开天气取数"
+  ],
+  "unfinished": [
+    "网页/归约器代码",
+    "headless原型场景截图",
+    "负面/重试用例",
+    "前端天气联动",
+    "真实Agent任务接入"
+  ],
+  "exercise": "草案资料包，无完成的练习代码",
+  "stop": "不再扩展实验；第5–7项未启动",
+  "pdf_pages": 8,
+  "pdf_Read_reviewed": 8,
+  "pdf_status": "已渲染/逐页自查通过",
+  "questions": 12,
+  "uses": 5,
+  "experiment_steps": 6
+}

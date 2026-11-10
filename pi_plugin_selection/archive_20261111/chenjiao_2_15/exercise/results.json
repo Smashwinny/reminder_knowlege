@@ -1,0 +1,22 @@
+[
+  {
+    "command": "python3 exercise/lab.py inventory",
+    "output": "billion-context 0.1.213 133f3525c628c4b959bb79ece82af6df82e131a3\npi-mcp-adapter 7.0.1 0beff98460567cd228ae08d99db5f169a1ad3034\npi-subagents 0.87.0 52e68e9ef0e563d5c97b28519f9999f1b5fbbbea\npi-web-access 0.47.0 322e44fafc1aaa691779cdf2116584e67edd7645\nscoped-question 2.15.0 ce6d3530410812ca504ec294995581a52170f9e1\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py catalog",
+    "output": "synthetic catalog bytes= 55890 proxy bytes= 71 ratio= 787.18\nbytes NOT model tokens; lookup and result costs excluded\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py compression",
+    "output": "bad_summary=rejected good_summary=accepted; deterministic field retention, NOT plugin quality\n",
+    "exit": 0
+  },
+  {
+    "command": "python3 exercise/lab.py question",
+    "output": "{\"question\": \"缺哪个输入？\", \"options\": [\"来源URL\", \"离线文件\"], \"other\": true}\nno UI invoked; plugins NOT installed; no real credentials read\n",
+    "exit": 0
+  }
+]

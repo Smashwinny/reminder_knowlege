@@ -1,0 +1,24 @@
+$ /usr/bin/python3 /workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py init /workspace/reminder-batch/item02/synthetic-project --source /workspace/reminder-batch/item02/media/native24.mp4 --id synthetic-demo
+/workspace/reminder-batch/item02/synthetic-project
+/workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py:65: SyntaxWarning: invalid escape sequence '\,'
+  run([tool('ffmpeg'),'-v','error','-n','-i',a.source,'-vf',f'select=eq(n\,{n})','-frames:v','1',p/f'frame-{n:06}.png'])
+
+exit=0
+$ /usr/bin/python3 /workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py validate-plan /workspace/reminder-batch/item02/results/plan.json
+True
+/workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py:65: SyntaxWarning: invalid escape sequence '\,'
+  run([tool('ffmpeg'),'-v','error','-n','-i',a.source,'-vf',f'select=eq(n\,{n})','-frames:v','1',p/f'frame-{n:06}.png'])
+
+exit=0
+$ /usr/bin/python3 /workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py validate-plan /workspace/reminder-batch/item02/results/gap.json
+/workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py:65: SyntaxWarning: invalid escape sequence '\,'
+  run([tool('ffmpeg'),'-v','error','-n','-i',a.source,'-vf',f'select=eq(n\,{n})','-frames:v','1',p/f'frame-{n:06}.png'])
+gap, overlap, invalid range at S002
+
+exit=1
+$ /usr/bin/python3 /workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py validate-plan /workspace/reminder-batch/item02/results/overlap.json
+/workspace/reminder-batch/item02/evidence/upstream/scripts/recast.py:65: SyntaxWarning: invalid escape sequence '\,'
+  run([tool('ffmpeg'),'-v','error','-n','-i',a.source,'-vf',f'select=eq(n\,{n})','-frames:v','1',p/f'frame-{n:06}.png'])
+gap, overlap, invalid range at S002
+
+exit=1

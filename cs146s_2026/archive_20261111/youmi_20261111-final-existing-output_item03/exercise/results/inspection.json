@@ -1,0 +1,17 @@
+{
+  "physical_lines": 193,
+  "registry": [
+    "read_file",
+    "list_files",
+    "edit_file"
+  ],
+  "has_bash": false,
+  "selected_functions": [
+    "edit_file_tool",
+    "extract_tool_invocations",
+    "list_files_tool",
+    "read_file_tool",
+    "resolve_abs_path"
+  ],
+  "global_api_initialization_skipped": true
+}

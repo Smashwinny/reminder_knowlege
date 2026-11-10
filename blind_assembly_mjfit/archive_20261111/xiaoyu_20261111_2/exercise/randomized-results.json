@@ -1,0 +1,1314 @@
+[
+  {
+    "id": 0,
+    "randomized_offset": {
+      "clearance_mm": 0.28690736045739407,
+      "offset_mm": [
+        0.871554737559795,
+        1.2154315100315216
+      ],
+      "width_mm": 15.789348136754363,
+      "height_mm": 20.399131657151546,
+      "friction": 0.5401760501083854,
+      "tau_ms": 3.7422106700837796,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0000423232943527,
+      "peg_plate_contact_count": 1544,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -116.38191341207363,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.021669378000297
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.28690736045739407,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 15.789348136754363,
+      "height_mm": 20.399131657151546,
+      "friction": 0.5401760501083854,
+      "tau_ms": 3.7422106700837796,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000044164266704,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018783901999995578
+    }
+  },
+  {
+    "id": 1,
+    "randomized_offset": {
+      "clearance_mm": 0.21932110694222773,
+      "offset_mm": [
+        0.4076124124339541,
+        0.7581962912372601
+      ],
+      "width_mm": 15.773531918230486,
+      "height_mm": 20.52784802685132,
+      "friction": 1.8672131163451344,
+      "tau_ms": 5.719475561880475,
+      "dt_ms": 1.0,
+      "drop_mm": 4.700882078246604,
+      "peg_plate_contact_count": 1026,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -231.82902119683496,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.01986412500082224
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.21932110694222773,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 15.773531918230486,
+      "height_mm": 20.52784802685132,
+      "friction": 1.8672131163451344,
+      "tau_ms": 5.719475561880475,
+      "dt_ms": 1.0,
+      "drop_mm": 11.004259543564656,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018987634000950493
+    }
+  },
+  {
+    "id": 2,
+    "randomized_offset": {
+      "clearance_mm": 0.27935221816004124,
+      "offset_mm": [
+        -0.8210008294697897,
+        0.07745053003574506
+      ],
+      "width_mm": 19.151536963223517,
+      "height_mm": 22.2589525837557,
+      "friction": 0.5057293314685094,
+      "tau_ms": 3.472647254250557,
+      "dt_ms": 1.0,
+      "drop_mm": 6.478552852722249,
+      "peg_plate_contact_count": 816,
+      "max_simultaneous_contacts": 4,
+      "minimum_contact_distance_um": -111.84898121360872,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.01941064600032405
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.27935221816004124,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 19.151536963223517,
+      "height_mm": 22.2589525837557,
+      "friction": 0.5057293314685094,
+      "tau_ms": 3.472647254250557,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000032464854133,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.0194527769999695
+    }
+  },
+  {
+    "id": 3,
+    "randomized_offset": {
+      "clearance_mm": 0.10513619294672263,
+      "offset_mm": [
+        -0.913807200385338,
+        0.2845976130181585
+      ],
+      "width_mm": 18.309120606844317,
+      "height_mm": 20.631806204725955,
+      "friction": 0.6342421681590759,
+      "tau_ms": 3.77813280396337,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0000655091407586,
+      "peg_plate_contact_count": 1888,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -118.33142591114192,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.021857183999600238
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.10513619294672263,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 18.309120606844317,
+      "height_mm": 20.631806204725955,
+      "friction": 0.6342421681590759,
+      "tau_ms": 3.77813280396337,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000067249356782,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018919291998827248
+    }
+  },
+  {
+    "id": 4,
+    "randomized_offset": {
+      "clearance_mm": 0.18376644849448784,
+      "offset_mm": [
+        0.320129030054937,
+        -0.46469826399812364
+      ],
+      "width_mm": 18.353131559506448,
+      "height_mm": 16.999915037451498,
+      "friction": 1.541005671537825,
+      "tau_ms": 5.291118104325014,
+      "dt_ms": 1.0,
+      "drop_mm": 3.827800447521575,
+      "peg_plate_contact_count": 958,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -201.19408703025127,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.020607624001058866
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.18376644849448784,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 18.353131559506448,
+      "height_mm": 16.999915037451498,
+      "friction": 1.541005671537825,
+      "tau_ms": 5.291118104325014,
+      "dt_ms": 1.0,
+      "drop_mm": 11.001867823729668,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018434908000926953
+    }
+  },
+  {
+    "id": 5,
+    "randomized_offset": {
+      "clearance_mm": 0.2731050958479808,
+      "offset_mm": [
+        0.5879846104013503,
+        -0.5585390182128898
+      ],
+      "width_mm": 23.468197909796483,
+      "height_mm": 19.633773745025454,
+      "friction": 1.6260242765446706,
+      "tau_ms": 3.6176963136565186,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0010347751611623,
+      "peg_plate_contact_count": 1528,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -111.03219798340585,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.020610407998901792
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.2731050958479808,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 23.468197909796483,
+      "height_mm": 19.633773745025454,
+      "friction": 1.6260242765446706,
+      "tau_ms": 3.6176963136565186,
+      "dt_ms": 1.0,
+      "drop_mm": 11.001049859558957,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018681689000004553
+    }
+  },
+  {
+    "id": 6,
+    "randomized_offset": {
+      "clearance_mm": 0.19115679156294307,
+      "offset_mm": [
+        -0.9332809057366247,
+        0.6937219750753338
+      ],
+      "width_mm": 16.615530463118,
+      "height_mm": 21.008408895008554,
+      "friction": 0.6970485110394087,
+      "tau_ms": 4.530099585571946,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0001191883828136,
+      "peg_plate_contact_count": 1588,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -156.10590572827334,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.02313074899939238
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.19115679156294307,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 16.615530463118,
+      "height_mm": 21.008408895008554,
+      "friction": 0.6970485110394087,
+      "tau_ms": 4.530099585571946,
+      "dt_ms": 1.0,
+      "drop_mm": 11.00012355465462,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018488567000531475
+    }
+  },
+  {
+    "id": 7,
+    "randomized_offset": {
+      "clearance_mm": 0.24885772671873196,
+      "offset_mm": [
+        -0.09008726278149055,
+        0.526917668548869
+      ],
+      "width_mm": 19.4848306462463,
+      "height_mm": 20.215032596259377,
+      "friction": 0.5989800176691294,
+      "tau_ms": 4.2319038727096965,
+      "dt_ms": 1.0,
+      "drop_mm": 6.269495380137312,
+      "peg_plate_contact_count": 832,
+      "max_simultaneous_contacts": 4,
+      "minimum_contact_distance_um": -141.29462786406407,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.022472384000138845
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.24885772671873196,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 19.4848306462463,
+      "height_mm": 20.215032596259377,
+      "friction": 0.5989800176691294,
+      "tau_ms": 4.2319038727096965,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000072899841463,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.017510508001578273
+    }
+  },
+  {
+    "id": 8,
+    "randomized_offset": {
+      "clearance_mm": 0.10072094144272761,
+      "offset_mm": [
+        -0.5203660085661901,
+        -0.00013493276641808258
+      ],
+      "width_mm": 19.77177504496199,
+      "height_mm": 18.16270642992466,
+      "friction": 1.303231321139964,
+      "tau_ms": 4.317844774005175,
+      "dt_ms": 1.0,
+      "drop_mm": 3.8527969271240115,
+      "peg_plate_contact_count": 894,
+      "max_simultaneous_contacts": 4,
+      "minimum_contact_distance_um": -146.4307590140471,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.022476099999039434
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.10072094144272761,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 19.77177504496199,
+      "height_mm": 18.16270642992466,
+      "friction": 1.303231321139964,
+      "tau_ms": 4.317844774005175,
+      "dt_ms": 1.0,
+      "drop_mm": 11.00071149145164,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.01801952800087747
+    }
+  },
+  {
+    "id": 9,
+    "randomized_offset": {
+      "clearance_mm": 0.49589446703380136,
+      "offset_mm": [
+        0.6901937334572507,
+        -0.5572856063463519
+      ],
+      "width_mm": 14.934459334946181,
+      "height_mm": 23.047040725533527,
+      "friction": 0.28247706716764764,
+      "tau_ms": 3.7538092650698354,
+      "dt_ms": 1.0,
+      "drop_mm": 6.58985400449575,
+      "peg_plate_contact_count": 769,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -225.3293375622338,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.019556674000341445
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.49589446703380136,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 14.934459334946181,
+      "height_mm": 23.047040725533527,
+      "friction": 0.28247706716764764,
+      "tau_ms": 3.7538092650698354,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000010330032083,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018124344998796005
+    }
+  },
+  {
+    "id": 10,
+    "randomized_offset": {
+      "clearance_mm": 0.40968486305234997,
+      "offset_mm": [
+        0.3628063956001486,
+        -1.0191770619957907
+      ],
+      "width_mm": 19.67049758364449,
+      "height_mm": 18.1657096231503,
+      "friction": 1.8345080088075445,
+      "tau_ms": 5.609383992108368,
+      "dt_ms": 1.0,
+      "drop_mm": 5.18536104452286,
+      "peg_plate_contact_count": 870,
+      "max_simultaneous_contacts": 4,
+      "minimum_contact_distance_um": -297.3657981580545,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.019863892999637756
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.40968486305234997,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 19.67049758364449,
+      "height_mm": 18.1657096231503,
+      "friction": 1.8345080088075445,
+      "tau_ms": 5.609383992108368,
+      "dt_ms": 1.0,
+      "drop_mm": 11.003848197234161,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.01844751699900371
+    }
+  },
+  {
+    "id": 11,
+    "randomized_offset": {
+      "clearance_mm": 0.2190837825683446,
+      "offset_mm": [
+        -0.03791080178246566,
+        -1.2213343537276584
+      ],
+      "width_mm": 23.47062083311663,
+      "height_mm": 14.23632428671776,
+      "friction": 0.44901653534501806,
+      "tau_ms": 4.851390936029467,
+      "dt_ms": 1.0,
+      "drop_mm": 6.314079115699496,
+      "peg_plate_contact_count": 784,
+      "max_simultaneous_contacts": 4,
+      "minimum_contact_distance_um": -172.6983966215844,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.01944810100030736
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.2190837825683446,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 23.47062083311663,
+      "height_mm": 14.23632428671776,
+      "friction": 0.44901653534501806,
+      "tau_ms": 4.851390936029467,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000047688218784,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.019093159999101772
+    }
+  },
+  {
+    "id": 12,
+    "randomized_offset": {
+      "clearance_mm": 0.29659333293637047,
+      "offset_mm": [
+        1.1713773248990398,
+        1.2551905736117903
+      ],
+      "width_mm": 14.128578877449304,
+      "height_mm": 20.04315746773638,
+      "friction": 0.873056159767409,
+      "tau_ms": 4.474083523529371,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0002106909255022,
+      "peg_plate_contact_count": 1562,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -153.52508231103445,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.02157873200121685
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.29659333293637047,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 14.128578877449304,
+      "height_mm": 20.04315746773638,
+      "friction": 0.873056159767409,
+      "tau_ms": 4.474083523529371,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000224045444078,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018515675999879022
+    }
+  },
+  {
+    "id": 13,
+    "randomized_offset": {
+      "clearance_mm": 0.4150906505291134,
+      "offset_mm": [
+        0.13818068970192762,
+        1.251789898928522
+      ],
+      "width_mm": 15.88257161102365,
+      "height_mm": 23.421208694705342,
+      "friction": 0.9441439585272312,
+      "tau_ms": 4.808625436218322,
+      "dt_ms": 1.0,
+      "drop_mm": 5.8524776704518136,
+      "peg_plate_contact_count": 872,
+      "max_simultaneous_contacts": 4,
+      "minimum_contact_distance_um": -279.9156879224843,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.020045334998940234
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.4150906505291134,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 15.88257161102365,
+      "height_mm": 23.421208694705342,
+      "friction": 0.9441439585272312,
+      "tau_ms": 4.808625436218322,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000324751192993,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.025778789999094442
+    }
+  },
+  {
+    "id": 14,
+    "randomized_offset": {
+      "clearance_mm": 0.42569722474866023,
+      "offset_mm": [
+        -0.2914995734112783,
+        0.7981090243988488
+      ],
+      "width_mm": 16.332632062001387,
+      "height_mm": 19.99315992269581,
+      "friction": 0.3308580656000525,
+      "tau_ms": 4.654278960256034,
+      "dt_ms": 1.0,
+      "drop_mm": 7.040515585719772,
+      "peg_plate_contact_count": 806,
+      "max_simultaneous_contacts": 4,
+      "minimum_contact_distance_um": -250.20082582214613,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.019776679000642616
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.42569722474866023,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 16.332632062001387,
+      "height_mm": 19.99315992269581,
+      "friction": 0.3308580656000525,
+      "tau_ms": 4.654278960256034,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000022123824506,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.01791912000044249
+    }
+  },
+  {
+    "id": 15,
+    "randomized_offset": {
+      "clearance_mm": 0.4428314759946588,
+      "offset_mm": [
+        0.46738816776566766,
+        -0.4855414717919678
+      ],
+      "width_mm": 14.677143606205405,
+      "height_mm": 20.068143810342033,
+      "friction": 0.9234102086246948,
+      "tau_ms": 3.6246819340873224,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000172997920256,
+      "peg_plate_contact_count": 29,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -59.28885717925638,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.023410026000419748
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.4428314759946588,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 14.677143606205405,
+      "height_mm": 20.068143810342033,
+      "friction": 0.9234102086246948,
+      "tau_ms": 3.6246819340873224,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000172997897868,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.02025905900154612
+    }
+  },
+  {
+    "id": 16,
+    "randomized_offset": {
+      "clearance_mm": 0.21199669767835708,
+      "offset_mm": [
+        0.16430885944951953,
+        -0.8049053358230783
+      ],
+      "width_mm": 20.6859278841009,
+      "height_mm": 15.283444014420535,
+      "friction": 0.26760094848505583,
+      "tau_ms": 2.793682861369418,
+      "dt_ms": 1.0,
+      "drop_mm": 6.387365937724278,
+      "peg_plate_contact_count": 696,
+      "max_simultaneous_contacts": 4,
+      "minimum_contact_distance_um": -160.2259543249171,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.020988745000067865
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.21199669767835708,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 20.6859278841009,
+      "height_mm": 15.283444014420535,
+      "friction": 0.26760094848505583,
+      "tau_ms": 2.793682861369418,
+      "dt_ms": 1.0,
+      "drop_mm": 11.00000520908478,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.017580574000021443
+    }
+  },
+  {
+    "id": 17,
+    "randomized_offset": {
+      "clearance_mm": 0.4524744717398094,
+      "offset_mm": [
+        -0.5589997753085759,
+        -1.1464510664268144
+      ],
+      "width_mm": 19.160825876377316,
+      "height_mm": 20.59569533072841,
+      "friction": 0.5231088357839649,
+      "tau_ms": 3.6153763825356084,
+      "dt_ms": 1.0,
+      "drop_mm": 6.475325249746084,
+      "peg_plate_contact_count": 806,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -225.79860885322347,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018601140000100713
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.4524744717398094,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 19.160825876377316,
+      "height_mm": 20.59569533072841,
+      "friction": 0.5231088357839649,
+      "tau_ms": 3.6153763825356084,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000038145137975,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.017490607000581804
+    }
+  },
+  {
+    "id": 18,
+    "randomized_offset": {
+      "clearance_mm": 0.2892019443451955,
+      "offset_mm": [
+        0.5967455149574661,
+        0.7351046599429556
+      ],
+      "width_mm": 20.631833646572645,
+      "height_mm": 22.1965458143721,
+      "friction": 0.7982387336539473,
+      "tau_ms": 5.854680397934665,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0002925502735522,
+      "peg_plate_contact_count": 1622,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -224.67363928841337,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.026677671001380077
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.2892019443451955,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 20.631833646572645,
+      "height_mm": 22.1965458143721,
+      "friction": 0.7982387336539473,
+      "tau_ms": 5.854680397934665,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000297881930129,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.01854234200072824
+    }
+  },
+  {
+    "id": 19,
+    "randomized_offset": {
+      "clearance_mm": 0.36006642332827626,
+      "offset_mm": [
+        -0.46864336199431683,
+        0.566384117139143
+      ],
+      "width_mm": 22.894983573045284,
+      "height_mm": 16.15790576084119,
+      "friction": 1.1112500746567682,
+      "tau_ms": 5.447797754032341,
+      "dt_ms": 1.0,
+      "drop_mm": 4.402195371314158,
+      "peg_plate_contact_count": 878,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -203.40439038323407,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.020022396000058507
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.36006642332827626,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 22.894983573045284,
+      "height_mm": 16.15790576084119,
+      "friction": 1.1112500746567682,
+      "tau_ms": 5.447797754032341,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000682039351709,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018291305999809992
+    }
+  },
+  {
+    "id": 20,
+    "randomized_offset": {
+      "clearance_mm": 0.14067430283286533,
+      "offset_mm": [
+        -0.8504294951616044,
+        -1.1590860192354733
+      ],
+      "width_mm": 20.04400605802606,
+      "height_mm": 18.093610338226654,
+      "friction": 0.5209241768556188,
+      "tau_ms": 5.872196618421676,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0000945386790008,
+      "peg_plate_contact_count": 1608,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -225.47378420641462,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.020737196999107255
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.14067430283286533,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 20.04400605802606,
+      "height_mm": 18.093610338226654,
+      "friction": 0.5209241768556188,
+      "tau_ms": 5.872196618421676,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000099253837638,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018041614999674493
+    }
+  },
+  {
+    "id": 21,
+    "randomized_offset": {
+      "clearance_mm": 0.20687957273450858,
+      "offset_mm": [
+        0.2576685436404774,
+        -0.7837656613351454
+      ],
+      "width_mm": 17.67679424737008,
+      "height_mm": 15.009807921059823,
+      "friction": 1.6740798770786363,
+      "tau_ms": 3.6157372850595286,
+      "dt_ms": 1.0,
+      "drop_mm": 4.225615976462621,
+      "peg_plate_contact_count": 839,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -135.40124134623753,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.019478968999464996
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.20687957273450858,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 17.67679424737008,
+      "height_mm": 15.009807921059823,
+      "friction": 1.6740798770786363,
+      "tau_ms": 3.6157372850595286,
+      "dt_ms": 1.0,
+      "drop_mm": 11.001159981961797,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.01777542800118681
+    }
+  },
+  {
+    "id": 22,
+    "randomized_offset": {
+      "clearance_mm": 0.4159237533102019,
+      "offset_mm": [
+        0.7747486969454731,
+        0.1628476170816983
+      ],
+      "width_mm": 20.679799243985048,
+      "height_mm": 15.276563876648826,
+      "friction": 0.602418564304553,
+      "tau_ms": 3.1428113548200094,
+      "dt_ms": 1.0,
+      "drop_mm": 6.131287196716257,
+      "peg_plate_contact_count": 830,
+      "max_simultaneous_contacts": 4,
+      "minimum_contact_distance_um": -85.90640954050345,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.01869312000053469
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.4159237533102019,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 20.679799243985048,
+      "height_mm": 15.276563876648826,
+      "friction": 0.602418564304553,
+      "tau_ms": 3.1428113548200094,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000040891106584,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.01984433300094679
+    }
+  },
+  {
+    "id": 23,
+    "randomized_offset": {
+      "clearance_mm": 0.4125463572778871,
+      "offset_mm": [
+        1.3961078095340398,
+        -1.4086055756253149
+      ],
+      "width_mm": 18.381450103309692,
+      "height_mm": 16.40626041813773,
+      "friction": 0.534349350420698,
+      "tau_ms": 2.650817417221085,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0000204416771747,
+      "peg_plate_contact_count": 1518,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -59.45917457978997,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.02132081999843649
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.4125463572778871,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 18.381450103309692,
+      "height_mm": 16.40626041813773,
+      "friction": 0.534349350420698,
+      "tau_ms": 2.650817417221085,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000021693920374,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018407634999675793
+    }
+  },
+  {
+    "id": 24,
+    "randomized_offset": {
+      "clearance_mm": 0.18314197662877352,
+      "offset_mm": [
+        1.3735258567768596,
+        1.3089366727735345
+      ],
+      "width_mm": 15.204690776238742,
+      "height_mm": 18.658125309953792,
+      "friction": 0.5018767828589884,
+      "tau_ms": 4.486478346766692,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0000491621737426,
+      "peg_plate_contact_count": 1580,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -153.8967928723856,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.020687828000518493
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.18314197662877352,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 15.204690776238742,
+      "height_mm": 18.658125309953792,
+      "friction": 0.5018767828589884,
+      "tau_ms": 4.486478346766692,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000053057902091,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018577078000816982
+    }
+  },
+  {
+    "id": 25,
+    "randomized_offset": {
+      "clearance_mm": 0.16712946205289808,
+      "offset_mm": [
+        0.6535030718486943,
+        0.6563796150825802
+      ],
+      "width_mm": 14.738959758452353,
+      "height_mm": 22.533136562599992,
+      "friction": 1.3512537460440157,
+      "tau_ms": 3.5372152624686977,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0005223463072643,
+      "peg_plate_contact_count": 1530,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -105.93030852213417,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.020693660000688396
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.16712946205289808,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 14.738959758452353,
+      "height_mm": 22.533136562599992,
+      "friction": 1.3512537460440157,
+      "tau_ms": 3.5372152624686977,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000537625991134,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.017701034999845433
+    }
+  },
+  {
+    "id": 26,
+    "randomized_offset": {
+      "clearance_mm": 0.2101923411452007,
+      "offset_mm": [
+        -1.2611119872731797,
+        0.48888401330654657
+      ],
+      "width_mm": 22.505512597563552,
+      "height_mm": 23.796258488514937,
+      "friction": 0.9233345496460551,
+      "tau_ms": 5.0874127847296196,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0003301329243355,
+      "peg_plate_contact_count": 1888,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -185.85044819620632,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.02617480700064334
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.2101923411452007,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 22.505512597563552,
+      "height_mm": 23.796258488514937,
+      "friction": 0.9233345496460551,
+      "tau_ms": 5.0874127847296196,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000340498100345,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.03123783800037927
+    }
+  },
+  {
+    "id": 27,
+    "randomized_offset": {
+      "clearance_mm": 0.3197886231339036,
+      "offset_mm": [
+        0.4257527712100706,
+        -0.003993415954494685
+      ],
+      "width_mm": 17.21515515308248,
+      "height_mm": 15.614690426609508,
+      "friction": 0.6532244928134285,
+      "tau_ms": 4.519779415359672,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000103747480198,
+      "peg_plate_contact_count": 40,
+      "max_simultaneous_contacts": 4,
+      "minimum_contact_distance_um": -106.8025752905045,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.02065101500011224
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.3197886231339036,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 17.21515515308248,
+      "height_mm": 15.614690426609508,
+      "friction": 0.6532244928134285,
+      "tau_ms": 4.519779415359672,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000103747524497,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.01781829699939408
+    }
+  },
+  {
+    "id": 28,
+    "randomized_offset": {
+      "clearance_mm": 0.2155166596037702,
+      "offset_mm": [
+        0.4562943505978631,
+        -0.8807319598115656
+      ],
+      "width_mm": 23.05150707439136,
+      "height_mm": 15.779141983910044,
+      "friction": 0.5243728602166753,
+      "tau_ms": 5.210337070275314,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0000773526565587,
+      "peg_plate_contact_count": 1888,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -191.64173933362986,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.0211062589987705
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.2155166596037702,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 23.05150707439136,
+      "height_mm": 15.779141983910044,
+      "friction": 0.5243728602166753,
+      "tau_ms": 5.210337070275314,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000079447986167,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018328043001019978
+    }
+  },
+  {
+    "id": 29,
+    "randomized_offset": {
+      "clearance_mm": 0.4080965862289809,
+      "offset_mm": [
+        1.1861550813978627,
+        1.1382961796151323
+      ],
+      "width_mm": 21.44441890593916,
+      "height_mm": 21.71537037906744,
+      "friction": 0.2942508962748533,
+      "tau_ms": 3.242487020890204,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0000082591907316,
+      "peg_plate_contact_count": 1556,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -91.2610765447545,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.020998181998947985
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.4080965862289809,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 21.44441890593916,
+      "height_mm": 21.71537037906744,
+      "friction": 0.2942508962748533,
+      "tau_ms": 3.242487020890204,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000008457379593,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.019123340998703497
+    }
+  },
+  {
+    "id": 30,
+    "randomized_offset": {
+      "clearance_mm": 0.20507330337907248,
+      "offset_mm": [
+        -0.6547192897897447,
+        -0.6879572956622695
+      ],
+      "width_mm": 16.05572657596673,
+      "height_mm": 19.51375658314716,
+      "friction": 0.5941315532891865,
+      "tau_ms": 2.5733069545684213,
+      "dt_ms": 1.0,
+      "drop_mm": 1.0000259315557507,
+      "peg_plate_contact_count": 1520,
+      "max_simultaneous_contacts": 8,
+      "minimum_contact_distance_um": -56.08781911267552,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.020706714998596
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.20507330337907248,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 16.05572657596673,
+      "height_mm": 19.51375658314716,
+      "friction": 0.5941315532891865,
+      "tau_ms": 2.5733069545684213,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000026549953647,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018469074999302393
+    }
+  },
+  {
+    "id": 31,
+    "randomized_offset": {
+      "clearance_mm": 0.1710065973726463,
+      "offset_mm": [
+        0.4120803522781691,
+        0.09734354954507607
+      ],
+      "width_mm": 23.19130490952074,
+      "height_mm": 19.879702166328254,
+      "friction": 0.6082320007549623,
+      "tau_ms": 4.225276567664839,
+      "dt_ms": 1.0,
+      "drop_mm": 6.132013662561749,
+      "peg_plate_contact_count": 834,
+      "max_simultaneous_contacts": 4,
+      "minimum_contact_distance_um": -135.42569762447306,
+      "passed_depth_threshold": false,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.020472972999414196
+    },
+    "oracle_centered": {
+      "clearance_mm": 0.1710065973726463,
+      "offset_mm": [
+        0.0,
+        0.0
+      ],
+      "width_mm": 23.19130490952074,
+      "height_mm": 19.879702166328254,
+      "friction": 0.6082320007549623,
+      "tau_ms": 4.225276567664839,
+      "dt_ms": 1.0,
+      "drop_mm": 11.000075541874603,
+      "peg_plate_contact_count": 0,
+      "max_simultaneous_contacts": 0,
+      "minimum_contact_distance_um": 0.0,
+      "passed_depth_threshold": true,
+      "simulation_s": 0.25000000000000017,
+      "cpu_wall_s": 0.018566167998869787
+    }
+  }
+]

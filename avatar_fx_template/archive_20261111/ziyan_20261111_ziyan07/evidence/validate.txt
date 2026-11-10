@@ -1,0 +1,8 @@
+$ python3 validate_template.py
+PASS valid placeholder config
+EXPECTED_REJECT overlap rect overlap
+EXPECTED_REJECT real_avatar only placeholder implemented; real identity not accepted
+EXPECTED_REJECT no_label visible placeholder label required
+EXPECTED_REJECT voice voice generation not implemented
+
+exit_code=0

@@ -1,0 +1,15 @@
+{
+  "synthetic_input": [
+    {
+      "case": 1,
+      "status": "真实完成",
+      "trigger_observed": true,
+      "app_open_observed": true,
+      "reply_observed": null
+    }
+  ],
+  "rejected_cases": [
+    1
+  ],
+  "meaning": "检测到缺少语音回复证据；不是设备故障实测"
+}

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "lamp",
+    "subject": "lamp",
+    "brand": "NOVA",
+    "tagline": "less form more meaning",
+    "keywords": [
+      "light",
+      "quiet",
+      "shape",
+      "space",
+      "line",
+      "calm"
+    ],
+    "background": "#123B72",
+    "accent": "#FF952B",
+    "layout": "A",
+    "rights": "self-authored-demo",
+    "provenance": "worker-original-demo-not-author-prompt",
+    "engine": "deterministic-svg-v1",
+    "seed": null
+  },
+  {
+    "id": "bottle",
+    "subject": "bottle",
+    "brand": "TIDE",
+    "tagline": "less form more meaning",
+    "keywords": [
+      "light",
+      "quiet",
+      "shape",
+      "space",
+      "line",
+      "calm"
+    ],
+    "background": "#075968",
+    "accent": "#20DBE6",
+    "layout": "A",
+    "rights": "self-authored-demo",
+    "provenance": "worker-original-demo-not-author-prompt",
+    "engine": "deterministic-svg-v1",
+    "seed": null
+  },
+  {
+    "id": "disc",
+    "subject": "disc",
+    "brand": "ORBIT",
+    "tagline": "less form more meaning",
+    "keywords": [
+      "light",
+      "quiet",
+      "shape",
+      "space",
+      "line",
+      "calm"
+    ],
+    "background": "#213EC5",
+    "accent": "#FF9B36",
+    "layout": "C",
+    "rights": "self-authored-demo",
+    "provenance": "worker-original-demo-not-author-prompt",
+    "engine": "deterministic-svg-v1",
+    "seed": null
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "上游轻客户端握手互通",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "上游客户端发现两个工具",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "上游客户端跨调用状态",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "上游客户端接收isError",
+    "pass": true,
+    "observed": null
+  }
+]

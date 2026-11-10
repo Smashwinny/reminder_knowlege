@@ -1,0 +1,6 @@
+无法加载文件 D:\agenttry\reminder-learning-20261110\remotion-refined\work\convert-images.ps1。未对文件 D:\agenttry\remin
+der-learning-20261110\remotion-refined\work\convert-images.ps1 进行数字签名。无法在当前系统上运行该脚本。有关运行脚本和设
+置执行策略的详细信息，请参阅 https:/go.microsoft.com/fwlink/?LinkID=135170 中的 about_Execution_Policies。
+    + CategoryInfo          : SecurityError: (:) []，ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+exit=1 scene=01

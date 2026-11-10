@@ -1,0 +1,34 @@
+{
+  "bytes": 41363,
+  "sha256": "7b509e1106f49e5f76671327bf43af18a46f8e2f48829a323b49291cf1f786c7",
+  "entries": [
+    {
+      "name": "README.md",
+      "bytes": 6778
+    },
+    {
+      "name": "package.json",
+      "bytes": 363
+    },
+    {
+      "name": "package-lock.json",
+      "bytes": 140069
+    },
+    {
+      "name": "tsconfig.json",
+      "bytes": 159
+    },
+    {
+      "name": "verify.py",
+      "bytes": 4631
+    },
+    {
+      "name": "LICENSE-Remotion.md",
+      "bytes": 2823
+    },
+    {
+      "name": "src/index.tsx",
+      "bytes": 2851
+    }
+  ]
+}

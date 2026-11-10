@@ -1,0 +1,66 @@
+[
+  {
+    "name": "below",
+    "payload": {
+      "costAmount": 8,
+      "budgetAmount": 10,
+      "currencyCode": "USD"
+    }
+  },
+  {
+    "name": "at90",
+    "payload": {
+      "costAmount": 9,
+      "budgetAmount": 10,
+      "currencyCode": "USD"
+    }
+  },
+  {
+    "name": "threshold",
+    "payload": {
+      "costAmount": 8,
+      "budgetAmount": 10,
+      "currencyCode": "USD",
+      "alertThresholdExceeded": 0.9
+    }
+  },
+  {
+    "name": "dry",
+    "payload": {
+      "costAmount": 8,
+      "budgetAmount": 10,
+      "currencyCode": "USD",
+      "dryRun": true
+    }
+  },
+  {
+    "name": "bad-number",
+    "payload": {
+      "costAmount": "abc",
+      "budgetAmount": 10,
+      "currencyCode": "USD"
+    }
+  },
+  {
+    "name": "string-false-force",
+    "payload": {
+      "costAmount": 8,
+      "budgetAmount": 10,
+      "currencyCode": "USD",
+      "forceKill": "false"
+    }
+  },
+  {
+    "name": "already-off",
+    "payload": {
+      "costAmount": 9,
+      "budgetAmount": 10,
+      "currencyCode": "USD"
+    },
+    "enabled": false
+  },
+  {
+    "name": "missing-budget",
+    "payload": {}
+  }
+]

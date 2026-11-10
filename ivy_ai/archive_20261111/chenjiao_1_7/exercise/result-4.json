@@ -1,0 +1,12 @@
+{
+  "illustrative_MB": {
+    "STT": 5.4,
+    "LLM": 6.5,
+    "TTS": 2.5
+  },
+  "simultaneous_MB": 14.4,
+  "sequential_peak_MB": 6.5,
+  "arena_MB": 7,
+  "headroom_MB": 0.5,
+  "warning": "十进制教学近似；不含全部系统常驻内存，非ESP32测量"
+}

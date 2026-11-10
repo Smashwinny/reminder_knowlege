@@ -1,0 +1,989 @@
+=== E1 environment ===
+{
+  "when": "2026-11-11 01:18:34 UTC+08:00",
+  "python": "3.13.5",
+  "platform": "Linux-6.12.113+-x86_64-with-glibc2.41",
+  "host_ip_forward": "1"
+}
+--- ip -br addr ---
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp0s3           UP             172.30.0.2/24 fe80::802b:38ff:fe3d:bcd0/64 
+docker0          DOWN           172.17.0.1/16 
+
+[exit 0]
+--- ip route ---
+default via 172.30.0.1 dev enp0s3 
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown 
+172.30.0.0/24 dev enp0s3 proto kernel scope link src 172.30.0.2 
+
+[exit 0]
+=== E2 subnet / RFC class / DHCP sim ===
+{
+  "host_example": "192.168.1.20/24",
+  "network": "192.168.1.0/24",
+  "netmask": "255.255.255.0",
+  "prefix": 24,
+  "address_count": 256,
+  "usable_first": "192.168.1.1",
+  "usable_last": "192.168.1.254",
+  "usable_count": 254,
+  "remaining_if_gateway_takes_one": 253,
+  "membership": [
+    {
+      "ip": "192.168.1.30",
+      "network": "192.168.1.0/24",
+      "member": true,
+      "expected": true,
+      "ok": true,
+      "why": "same /24, stay local"
+    },
+    {
+      "ip": "192.168.2.30",
+      "network": "192.168.1.0/24",
+      "member": false,
+      "expected": false,
+      "ok": true,
+      "why": "different /24, go to gateway"
+    },
+    {
+      "ip": "192.168.1.20",
+      "network": "192.168.1.0/25",
+      "member": true,
+      "expected": true,
+      "ok": true,
+      "why": "/25 lower half includes .20"
+    },
+    {
+      "ip": "192.168.1.150",
+      "network": "192.168.1.0/25",
+      "member": false,
+      "expected": false,
+      "ok": true,
+      "why": "/25 lower half excludes .150"
+    },
+    {
+      "ip": "192.168.1.150",
+      "network": "192.168.1.128/25",
+      "member": true,
+      "expected": true,
+      "ok": true,
+      "why": "/25 upper half includes .150"
+    },
+    {
+      "ip": "192.168.1.20",
+      "network": "192.168.1.128/25",
+      "member": false,
+      "expected": false,
+      "ok": true,
+      "why": "/25 upper half excludes .20"
+    },
+    {
+      "ip": "100.90.0.1",
+      "network": "192.168.1.0/24",
+      "member": false,
+      "expected": false,
+      "ok": true,
+      "why": "Tailscale example is not on home LAN"
+    },
+    {
+      "ip": "100.90.0.1",
+      "network": "100.64.0.0/10",
+      "member": true,
+      "expected": true,
+      "ok": true,
+      "why": "example is inside RFC6598/CGNAT range"
+    },
+    {
+      "ip": "192.168.1.20",
+      "network": "192.168.0.0/16",
+      "member": true,
+      "expected": true,
+      "ok": true,
+      "why": "RFC1918 16-bit block contains this LAN"
+    }
+  ],
+  "classify": {
+    "192.168.1.20": "RFC1918-private:192.168.0.0/16",
+    "192.168.1.30": "RFC1918-private:192.168.0.0/16",
+    "192.168.2.30": "RFC1918-private:192.168.0.0/16",
+    "100.90.0.1": "RFC6598-CGNAT-shared",
+    "8.8.8.8": "public-or-other",
+    "172.30.0.2": "RFC1918-private:172.16.0.0/12",
+    "10.66.0.1": "RFC1918-private:10.0.0.0/8"
+  },
+  "rfc1918_reuse_same_number_is_legal_in_isolated_nets": true,
+  "dhcp_simulation": {
+    "rfc2131_four_way": [
+      "DHCPDISCOVER",
+      "DHCPOFFER",
+      "DHCPREQUEST",
+      "DHCPACK"
+    ],
+    "phone_reservation": {
+      "client": "phone-mac",
+      "assigned": "192.168.1.30",
+      "options": {
+        "mask": "255.255.255.0",
+        "router": "192.168.1.1",
+        "dns": [
+          "192.168.1.1"
+        ],
+        "lease_seconds": 3600
+      },
+      "trace": [
+        [
+          "client",
+          "DHCPDISCOVER",
+          {
+            "client": "phone-mac"
+          }
+        ],
+        [
+          "server",
+          "DHCPOFFER",
+          {
+            "yiaddr": "192.168.1.30",
+            "mask": "255.255.255.0",
+            "router": "192.168.1.1",
+            "dns": [
+              "192.168.1.1"
+            ],
+            "lease_seconds": 3600
+          }
+        ],
+        [
+          "client",
+          "DHCPREQUEST",
+          {
+            "requested": "192.168.1.30",
+            "client": "phone-mac"
+          }
+        ],
+        [
+          "server",
+          "DHCPACK",
+          {
+            "yiaddr": "192.168.1.30",
+            "mask": "255.255.255.0",
+            "router": "192.168.1.1",
+            "dns": [
+              "192.168.1.1"
+            ],
+            "lease_seconds": 3600
+          }
+        ]
+      ]
+    },
+    "laptop_dynamic": {
+      "client": "laptop-mac",
+      "assigned": "192.168.1.100",
+      "options": {
+        "mask": "255.255.255.0",
+        "router": "192.168.1.1",
+        "dns": [
+          "192.168.1.1"
+        ],
+        "lease_seconds": 3600
+      },
+      "trace": [
+        [
+          "client",
+          "DHCPDISCOVER",
+          {
+            "client": "laptop-mac"
+          }
+        ],
+        [
+          "server",
+          "DHCPOFFER",
+          {
+            "yiaddr": "192.168.1.100",
+            "mask": "255.255.255.0",
+            "router": "192.168.1.1",
+            "dns": [
+              "192.168.1.1"
+            ],
+            "lease_seconds": 3600
+          }
+        ],
+        [
+          "client",
+          "DHCPREQUEST",
+          {
+            "requested": "192.168.1.100",
+            "client": "laptop-mac"
+          }
+        ],
+        [
+          "server",
+          "DHCPACK",
+          {
+            "yiaddr": "192.168.1.100",
+            "mask": "255.255.255.0",
+            "router": "192.168.1.1",
+            "dns": [
+              "192.168.1.1"
+            ],
+            "lease_seconds": 3600
+          }
+        ]
+      ]
+    },
+    "note": "Reservation still uses DHCP; the address is just reserved in the pool. Not a static, manually filled host config."
+  }
+}
+=== E3 longest-prefix match ===
+{
+  "table": [
+    {
+      "dst": "192.168.1.0/24",
+      "dev": "wlan0",
+      "via": null,
+      "kind": "connected-lan"
+    },
+    {
+      "dst": "100.64.0.0/10",
+      "dev": "tailscale0",
+      "via": null,
+      "kind": "overlay-cgnat"
+    },
+    {
+      "dst": "0.0.0.0/0",
+      "dev": "wlan0",
+      "via": "192.168.1.1",
+      "kind": "default-gateway"
+    }
+  ],
+  "lookups": [
+    {
+      "dest": "192.168.1.30",
+      "match": {
+        "dst": "192.168.1.0/24",
+        "dev": "wlan0",
+        "via": null,
+        "kind": "connected-lan",
+        "prefix": 24
+      },
+      "candidates": [
+        {
+          "dst": "192.168.1.0/24",
+          "dev": "wlan0",
+          "via": null,
+          "kind": "connected-lan",
+          "prefix": 24
+        },
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "wlan0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    },
+    {
+      "dest": "192.168.2.30",
+      "match": {
+        "dst": "0.0.0.0/0",
+        "dev": "wlan0",
+        "via": "192.168.1.1",
+        "kind": "default-gateway",
+        "prefix": 0
+      },
+      "candidates": [
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "wlan0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    },
+    {
+      "dest": "100.90.0.1",
+      "match": {
+        "dst": "100.64.0.0/10",
+        "dev": "tailscale0",
+        "via": null,
+        "kind": "overlay-cgnat",
+        "prefix": 10
+      },
+      "candidates": [
+        {
+          "dst": "100.64.0.0/10",
+          "dev": "tailscale0",
+          "via": null,
+          "kind": "overlay-cgnat",
+          "prefix": 10
+        },
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "wlan0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    },
+    {
+      "dest": "8.8.8.8",
+      "match": {
+        "dst": "0.0.0.0/0",
+        "dev": "wlan0",
+        "via": "192.168.1.1",
+        "kind": "default-gateway",
+        "prefix": 0
+      },
+      "candidates": [
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "wlan0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    },
+    {
+      "dest": "192.168.1.150",
+      "match": {
+        "dst": "192.168.1.0/24",
+        "dev": "wlan0",
+        "via": null,
+        "kind": "connected-lan",
+        "prefix": 24
+      },
+      "candidates": [
+        {
+          "dst": "192.168.1.0/24",
+          "dev": "wlan0",
+          "via": null,
+          "kind": "connected-lan",
+          "prefix": 24
+        },
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "wlan0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    },
+    {
+      "dest": "10.0.0.1",
+      "match": {
+        "dst": "0.0.0.0/0",
+        "dev": "wlan0",
+        "via": "192.168.1.1",
+        "kind": "default-gateway",
+        "prefix": 0
+      },
+      "candidates": [
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "wlan0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    }
+  ],
+  "split_25": {
+    "table": [
+      {
+        "dst": "192.168.1.0/25",
+        "dev": "office0",
+        "via": null,
+        "kind": "office"
+      },
+      {
+        "dst": "192.168.1.128/25",
+        "dev": "guest0",
+        "via": null,
+        "kind": "guest"
+      },
+      {
+        "dst": "0.0.0.0/0",
+        "dev": "office0",
+        "via": "192.168.1.1",
+        "kind": "default-gateway"
+      }
+    ],
+    "192.168.1.20": {
+      "dest": "192.168.1.20",
+      "match": {
+        "dst": "192.168.1.0/25",
+        "dev": "office0",
+        "via": null,
+        "kind": "office",
+        "prefix": 25
+      },
+      "candidates": [
+        {
+          "dst": "192.168.1.0/25",
+          "dev": "office0",
+          "via": null,
+          "kind": "office",
+          "prefix": 25
+        },
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "office0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    },
+    "192.168.1.150": {
+      "dest": "192.168.1.150",
+      "match": {
+        "dst": "192.168.1.128/25",
+        "dev": "guest0",
+        "via": null,
+        "kind": "guest",
+        "prefix": 25
+      },
+      "candidates": [
+        {
+          "dst": "192.168.1.128/25",
+          "dev": "guest0",
+          "via": null,
+          "kind": "guest",
+          "prefix": 25
+        },
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "office0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    }
+  },
+  "lpm_prefers_25_over_24": {
+    "dest": "192.168.1.150",
+    "match": {
+      "dst": "192.168.1.128/25",
+      "dev": "guest0",
+      "via": null,
+      "kind": "guest",
+      "prefix": 25
+    },
+    "candidates": [
+      {
+        "dst": "192.168.1.128/25",
+        "dev": "guest0",
+        "via": null,
+        "kind": "guest",
+        "prefix": 25
+      },
+      {
+        "dst": "0.0.0.0/0",
+        "dev": "office0",
+        "via": "192.168.1.1",
+        "kind": "default-gateway",
+        "prefix": 0
+      },
+      {
+        "dst": "192.168.1.0/24",
+        "dev": "wrong0",
+        "via": null,
+        "kind": "too-wide",
+        "prefix": 24
+      }
+    ]
+  }
+}
+=== E2 subnet / RFC class / DHCP sim ===
+{
+  "host_example": "192.168.1.20/24",
+  "network": "192.168.1.0/24",
+  "netmask": "255.255.255.0",
+  "prefix": 24,
+  "address_count": 256,
+  "usable_first": "192.168.1.1",
+  "usable_last": "192.168.1.254",
+  "usable_count": 254,
+  "remaining_if_gateway_takes_one": 253,
+  "membership": [
+    {
+      "ip": "192.168.1.30",
+      "network": "192.168.1.0/24",
+      "member": true,
+      "expected": true,
+      "ok": true,
+      "why": "same /24, stay local"
+    },
+    {
+      "ip": "192.168.2.30",
+      "network": "192.168.1.0/24",
+      "member": false,
+      "expected": false,
+      "ok": true,
+      "why": "different /24, go to gateway"
+    },
+    {
+      "ip": "192.168.1.20",
+      "network": "192.168.1.0/25",
+      "member": true,
+      "expected": true,
+      "ok": true,
+      "why": "/25 lower half includes .20"
+    },
+    {
+      "ip": "192.168.1.150",
+      "network": "192.168.1.0/25",
+      "member": false,
+      "expected": false,
+      "ok": true,
+      "why": "/25 lower half excludes .150"
+    },
+    {
+      "ip": "192.168.1.150",
+      "network": "192.168.1.128/25",
+      "member": true,
+      "expected": true,
+      "ok": true,
+      "why": "/25 upper half includes .150"
+    },
+    {
+      "ip": "192.168.1.20",
+      "network": "192.168.1.128/25",
+      "member": false,
+      "expected": false,
+      "ok": true,
+      "why": "/25 upper half excludes .20"
+    },
+    {
+      "ip": "100.90.0.1",
+      "network": "192.168.1.0/24",
+      "member": false,
+      "expected": false,
+      "ok": true,
+      "why": "Tailscale example is not on home LAN"
+    },
+    {
+      "ip": "100.90.0.1",
+      "network": "100.64.0.0/10",
+      "member": true,
+      "expected": true,
+      "ok": true,
+      "why": "example is inside RFC6598/CGNAT range"
+    },
+    {
+      "ip": "192.168.1.20",
+      "network": "192.168.0.0/16",
+      "member": true,
+      "expected": true,
+      "ok": true,
+      "why": "RFC1918 16-bit block contains this LAN"
+    }
+  ],
+  "classify": {
+    "192.168.1.20": "RFC1918-private:192.168.0.0/16",
+    "192.168.1.30": "RFC1918-private:192.168.0.0/16",
+    "192.168.2.30": "RFC1918-private:192.168.0.0/16",
+    "100.90.0.1": "RFC6598-CGNAT-shared",
+    "8.8.8.8": "public-or-other",
+    "172.30.0.2": "RFC1918-private:172.16.0.0/12",
+    "10.66.0.1": "RFC1918-private:10.0.0.0/8"
+  },
+  "rfc1918_reuse_same_number_is_legal_in_isolated_nets": true,
+  "dhcp_simulation": {
+    "rfc2131_four_way": [
+      "DHCPDISCOVER",
+      "DHCPOFFER",
+      "DHCPREQUEST",
+      "DHCPACK"
+    ],
+    "phone_reservation": {
+      "client": "phone-mac",
+      "assigned": "192.168.1.30",
+      "options": {
+        "mask": "255.255.255.0",
+        "router": "192.168.1.1",
+        "dns": [
+          "192.168.1.1"
+        ],
+        "lease_seconds": 3600
+      },
+      "trace": [
+        [
+          "client",
+          "DHCPDISCOVER",
+          {
+            "client": "phone-mac"
+          }
+        ],
+        [
+          "server",
+          "DHCPOFFER",
+          {
+            "yiaddr": "192.168.1.30",
+            "mask": "255.255.255.0",
+            "router": "192.168.1.1",
+            "dns": [
+              "192.168.1.1"
+            ],
+            "lease_seconds": 3600
+          }
+        ],
+        [
+          "client",
+          "DHCPREQUEST",
+          {
+            "requested": "192.168.1.30",
+            "client": "phone-mac"
+          }
+        ],
+        [
+          "server",
+          "DHCPACK",
+          {
+            "yiaddr": "192.168.1.30",
+            "mask": "255.255.255.0",
+            "router": "192.168.1.1",
+            "dns": [
+              "192.168.1.1"
+            ],
+            "lease_seconds": 3600
+          }
+        ]
+      ]
+    },
+    "laptop_dynamic": {
+      "client": "laptop-mac",
+      "assigned": "192.168.1.100",
+      "options": {
+        "mask": "255.255.255.0",
+        "router": "192.168.1.1",
+        "dns": [
+          "192.168.1.1"
+        ],
+        "lease_seconds": 3600
+      },
+      "trace": [
+        [
+          "client",
+          "DHCPDISCOVER",
+          {
+            "client": "laptop-mac"
+          }
+        ],
+        [
+          "server",
+          "DHCPOFFER",
+          {
+            "yiaddr": "192.168.1.100",
+            "mask": "255.255.255.0",
+            "router": "192.168.1.1",
+            "dns": [
+              "192.168.1.1"
+            ],
+            "lease_seconds": 3600
+          }
+        ],
+        [
+          "client",
+          "DHCPREQUEST",
+          {
+            "requested": "192.168.1.100",
+            "client": "laptop-mac"
+          }
+        ],
+        [
+          "server",
+          "DHCPACK",
+          {
+            "yiaddr": "192.168.1.100",
+            "mask": "255.255.255.0",
+            "router": "192.168.1.1",
+            "dns": [
+              "192.168.1.1"
+            ],
+            "lease_seconds": 3600
+          }
+        ]
+      ]
+    },
+    "note": "Reservation still uses DHCP; the address is just reserved in the pool. Not a static, manually filled host config."
+  }
+}
+=== E3 longest-prefix match ===
+{
+  "table": [
+    {
+      "dst": "192.168.1.0/24",
+      "dev": "wlan0",
+      "via": null,
+      "kind": "connected-lan"
+    },
+    {
+      "dst": "100.64.0.0/10",
+      "dev": "tailscale0",
+      "via": null,
+      "kind": "overlay-cgnat"
+    },
+    {
+      "dst": "0.0.0.0/0",
+      "dev": "wlan0",
+      "via": "192.168.1.1",
+      "kind": "default-gateway"
+    }
+  ],
+  "lookups": [
+    {
+      "dest": "192.168.1.30",
+      "match": {
+        "dst": "192.168.1.0/24",
+        "dev": "wlan0",
+        "via": null,
+        "kind": "connected-lan",
+        "prefix": 24
+      },
+      "candidates": [
+        {
+          "dst": "192.168.1.0/24",
+          "dev": "wlan0",
+          "via": null,
+          "kind": "connected-lan",
+          "prefix": 24
+        },
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "wlan0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    },
+    {
+      "dest": "192.168.2.30",
+      "match": {
+        "dst": "0.0.0.0/0",
+        "dev": "wlan0",
+        "via": "192.168.1.1",
+        "kind": "default-gateway",
+        "prefix": 0
+      },
+      "candidates": [
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "wlan0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    },
+    {
+      "dest": "100.90.0.1",
+      "match": {
+        "dst": "100.64.0.0/10",
+        "dev": "tailscale0",
+        "via": null,
+        "kind": "overlay-cgnat",
+        "prefix": 10
+      },
+      "candidates": [
+        {
+          "dst": "100.64.0.0/10",
+          "dev": "tailscale0",
+          "via": null,
+          "kind": "overlay-cgnat",
+          "prefix": 10
+        },
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "wlan0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    },
+    {
+      "dest": "8.8.8.8",
+      "match": {
+        "dst": "0.0.0.0/0",
+        "dev": "wlan0",
+        "via": "192.168.1.1",
+        "kind": "default-gateway",
+        "prefix": 0
+      },
+      "candidates": [
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "wlan0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    },
+    {
+      "dest": "192.168.1.150",
+      "match": {
+        "dst": "192.168.1.0/24",
+        "dev": "wlan0",
+        "via": null,
+        "kind": "connected-lan",
+        "prefix": 24
+      },
+      "candidates": [
+        {
+          "dst": "192.168.1.0/24",
+          "dev": "wlan0",
+          "via": null,
+          "kind": "connected-lan",
+          "prefix": 24
+        },
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "wlan0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    },
+    {
+      "dest": "10.0.0.1",
+      "match": {
+        "dst": "0.0.0.0/0",
+        "dev": "wlan0",
+        "via": "192.168.1.1",
+        "kind": "default-gateway",
+        "prefix": 0
+      },
+      "candidates": [
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "wlan0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    }
+  ],
+  "split_25": {
+    "table": [
+      {
+        "dst": "192.168.1.0/25",
+        "dev": "office0",
+        "via": null,
+        "kind": "office"
+      },
+      {
+        "dst": "192.168.1.128/25",
+        "dev": "guest0",
+        "via": null,
+        "kind": "guest"
+      },
+      {
+        "dst": "0.0.0.0/0",
+        "dev": "office0",
+        "via": "192.168.1.1",
+        "kind": "default-gateway"
+      }
+    ],
+    "192.168.1.20": {
+      "dest": "192.168.1.20",
+      "match": {
+        "dst": "192.168.1.0/25",
+        "dev": "office0",
+        "via": null,
+        "kind": "office",
+        "prefix": 25
+      },
+      "candidates": [
+        {
+          "dst": "192.168.1.0/25",
+          "dev": "office0",
+          "via": null,
+          "kind": "office",
+          "prefix": 25
+        },
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "office0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    },
+    "192.168.1.150": {
+      "dest": "192.168.1.150",
+      "match": {
+        "dst": "192.168.1.128/25",
+        "dev": "guest0",
+        "via": null,
+        "kind": "guest",
+        "prefix": 25
+      },
+      "candidates": [
+        {
+          "dst": "192.168.1.128/25",
+          "dev": "guest0",
+          "via": null,
+          "kind": "guest",
+          "prefix": 25
+        },
+        {
+          "dst": "0.0.0.0/0",
+          "dev": "office0",
+          "via": "192.168.1.1",
+          "kind": "default-gateway",
+          "prefix": 0
+        }
+      ]
+    }
+  },
+  "lpm_prefers_25_over_24": {
+    "dest": "192.168.1.150",
+    "match": {
+      "dst": "192.168.1.128/25",
+      "dev": "guest0",
+      "via": null,
+      "kind": "guest",
+      "prefix": 25
+    },
+    "candidates": [
+      {
+        "dst": "192.168.1.128/25",
+        "dev": "guest0",
+        "via": null,
+        "kind": "guest",
+        "prefix": 25
+      },
+      {
+        "dst": "0.0.0.0/0",
+        "dev": "office0",
+        "via": "192.168.1.1",
+        "kind": "default-gateway",
+        "prefix": 0
+      },
+      {
+        "dst": "192.168.1.0/24",
+        "dev": "wrong0",
+        "via": null,
+        "kind": "too-wide",
+        "prefix": 24
+      }
+    ]
+  }
+}
+=== E6 verify ===
+{
+  "ok": true,
+  "when": "2026-11-11 01:18:34 UTC+08:00"
+}
+wrote /workspace/learn-batch/05-esp32-tailscale/exercise/results.json

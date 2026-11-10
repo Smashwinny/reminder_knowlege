@@ -1,0 +1,37 @@
+{
+  "valid_templates": 3,
+  "negative_cases_rejected": [
+    {
+      "case": "unknown-rights",
+      "errors": [
+        "rights:unapproved"
+      ]
+    },
+    {
+      "case": "bad-layout",
+      "errors": [
+        "layout:invalid"
+      ]
+    },
+    {
+      "case": "bad-color",
+      "errors": [
+        "color:invalid"
+      ]
+    },
+    {
+      "case": "long-brand",
+      "errors": [
+        "brand:too-long"
+      ]
+    },
+    {
+      "case": "bad-keywords",
+      "errors": [
+        "keywords:count",
+        "keywords:latin"
+      ]
+    }
+  ],
+  "scope": "self-authored structural checks, NOT independent review or legal clearance"
+}

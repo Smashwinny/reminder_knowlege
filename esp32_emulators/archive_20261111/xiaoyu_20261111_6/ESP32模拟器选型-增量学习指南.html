@@ -1,0 +1,267 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>ESP32 模拟器选型增量学习指南</title><style>
+@page{size:A4;margin:12mm}
+*{box-sizing:border-box}
+body{margin:0;color:#17324d;background:#eafaff;font:14px/1.75 "Noto Sans CJK SC","Noto Sans SC","Source Han Sans SC",sans-serif}
+.page{background:white;min-height:268mm;padding:5mm 5mm 7mm;break-after:page;position:relative}
+.page:last-child{break-after:auto}
+header{font-size:11px;color:#577288;border-bottom:2px solid #00b7d5;padding-bottom:7px}
+header b{float:right;color:#1769ff}
+h1{font-size:26px;line-height:1.4;color:#0866ca;margin:16px 0}
+h2{font-size:18px;line-height:1.5;margin:0 0 8px}
+h2 span{color:#ff7900;font-size:24px}
+h3{color:#008ea8;font-size:17px;margin:8px 0}
+.hero{background:linear-gradient(120deg,#00b8dc,#1769ff);color:white;padding:26px;border-radius:18px}
+.hero h1{color:white;font-size:34px;margin:10px 0}
+.hero strong{font-size:22px;color:#ffdd70}
+.qcard{padding:15px 18px;border:1px solid #c6e3f0;border-top:5px solid #00b6d2;border-radius:14px;margin:14px 0;break-inside:avoid}
+.qcard:nth-of-type(even){border-top-color:#ff7900}
+.qcard p{margin:7px 0}
+.tip{background:#edf7ff;border-left:4px solid #1769ff;padding:8px 12px;font-size:13px}
+.warn{background:#fff1dc;border-left:6px solid #ff7900;border-radius:8px;padding:14px}
+.big{font-size:22px;color:#ff7900;font-weight:900}
+svg{display:block;width:100%;height:auto;margin:8px 0}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#15304a;color:#a5faff;padding:11px;border-radius:9px;font:11px/1.65 monospace}
+code{overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+th{background:#087ed2;color:white}
+td,th{padding:7px;border:1px solid #bcd9e8;vertical-align:top}
+li{margin:6px 0}
+.small{font-size:11px;overflow-wrap:anywhere}
+.step{margin:12px 0;padding:13px 16px;border-left:6px solid #00b9cf;background:#f0fbff;border-radius:10px;break-inside:avoid}
+a{color:#086cca}
+@media print{body{background:white}.page{min-height:268mm}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style><body>
+
+<section class="page">
+<header>REMINDER · 增量学习 06 <b>ESP 模拟器选型</b></header>
+<h1>01 / 先看结论与边界</h1>
+<div class="hero">
+<div>从一条盘点帖到四份可运行工具</div>
+<h1>没有板子，<br>先选对模拟器</h1>
+<strong>官方模拟器 ≠ 官方 QEMU</strong>
+<p>12个问题 · 6步主实验 · 真实串口可重放</p>
+</div>
+<p class="big">已实读原帖全文、作者回复和三个仓库，并在云端真跑了官方预编译固件。</p>
+<p>主角是 Velxio、esp32sim、乐鑫 <b>esp-emulator</b>；评论区另补出 <b>espressif/qemu</b>。作者明确说「官方是第三个」，因此不能把 QEMU 叉和 esp-emulator 当成同一个产品。[S1]</p>
+<div class="warn"><b>状态：学习交付完成 / 网页交互、真板对照、作者私有固件待验证</b><br>
+本批真实运行了 esp-emu v1.0.0-rc2、乐鑫 QEMU 9.2.2（20261109）和 esp32sim 0.3.0。使用的是官方 examples 按键固件和仓库内公开 hello_world，不是作者自己的验收固件。未部署 Velxio（本机无 Docker），未打开网页编辑器做交互动画，没有实物板。</div>
+<h2 style="margin-top:18px">可以拿它做什么？（用途不是已部署成果）</h2>
+<ol>
+<li><b>无板预验收：</b>把 merge 后的固件先在模拟器里看启动日志和串口，再决定买哪块芯片。</li>
+<li><b>CI 冒烟：</b>用 <code>--exit-on</code> / <code>--timeout</code> / <code>--max-seconds</code> 把 “Hello world!” 或按键边沿做成可退出的检查。</li>
+<li><b>按键与虚拟零件：</b>官方 examples 的 GPIO 按键可在 esp-emu 里用控制通道按/放，验证中断路径。</li>
+<li><b>镜像格式教学：</b>区分应用分区 .bin、merge-bin、以及 QEMU 要求的 2/4/8/16MB 填充。</li>
+<li><b>选型清单：</b>先问芯片（尤其经典 ESP32）、外设、是否要联网、是否要开源核心、网页还是 CLI。</li>
+</ol>
+<p class="small">2026-11-11 · Asia/Shanghai（UTC+8）｜本批只保存候选，不提交Git、不勾选任务。沿用旧指南的圆角问答卡、渐变标题、强调字与SVG，配色为鲜艳青/蓝/橙。HTML 不内嵌字体和大图。</p>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 06 <b>ESP 模拟器选型</b></header>
+<h1>02 / 从疑问走进盘点</h1>
+<article class="qcard">
+<h2><span>Q01</span> 原帖到底在荐什么？那张配图是对照表吗？</h2>
+<p>正文选出三款：<b>Velxio</b>（浏览器画电路，ESP 系列在服务器上跑 QEMU）、<b>esp32sim</b>（从芯片 ROM 启动，S3 最成熟）、<b>esp-emulator</b>（官方，芯片与协议最全）。作者称用自己的固件在官方模拟器上跑通点灯、双核、NVS、PSRAM、LVGL，但外设还要等。帖末预告自研「试板 TryBoard」。附件图片实看是 TryBoard 界面：ESP32-S3-DevKitC-1、GC9A01 圆屏、串口 <code>TRYBOARD_OK</code> / <code>BLINK</code>，不是三款开源工具的对照表。[S1]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="正文三款仓库 → 配图是试板 → 不能把预告当实测"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">正文：三款仓库</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">配图：试板界面</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">预告 ≠ 本批实测</text></svg>
+<p class="tip">帖中星标是 2026-10-19 的快照：3.3k / 364 / 190。本批读取日（2026-11-11）GitHub 为 3679 / 1126 / 536，另加 qemu 367。不要把旧星标写成当前规模。</p>
+</article>
+<article class="qcard">
+<h2><span>Q02</span> 乐鑫不是早就有 QEMU 吗？和官方模拟器是一回事吗？</h2>
+<p>不是。评论区有人问「官方不是有个 qemu」，作者回答「官方是第三个」，对方随即贴出 espressif/qemu。esp-emulator 是 2026 年新的 Rust 二进制模拟器，支持 C3/C5/C6/H2/P4/S3/S31，带网页版和 GDB；espressif/qemu 是带乐鑫补丁的 QEMU 叉，本批预编译 9.2.2 在 xtensa 上提供 esp32/esp32s3，在 riscv32 上提供 c3/c5/c6/c61/h2/h4/p4。二者都是乐鑫维护，但仓库、许可形态和机器模型都不同。[S1][S3][S4]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="评论：官方QEMU？ → 作者：官方是第三个 → 实为两个项目"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">评论：官方 QEMU？</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">作者：官方是第三</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="14" font-weight="bold">实为两个仓库</text></svg>
+<p class="tip">选型时把「乐鑫官方」拆成两行：要经典 ESP32 或开源机器模型，优先看 qemu；要官方文档里的芯片/协议清单和网页仪表盘，看 esp-emulator。</p>
+</article>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 06 <b>ESP 模拟器选型</b></header>
+<h1>深入一层 / 芯片与镜像</h1>
+<article class="qcard">
+<h2><span>Q03</span> 经典 ESP32 为什么进不了官方模拟器？</h2>
+<p>esp-emu 的 <code>--chip</code> 合法值只有 esp32c3/c5/c6/h2/p4/s3/s31。我们实跑 <code>--chip esp32</code>，退出码 2，提示 invalid value，并建议相近的 esp32s3。这不是猜，是当前 v1.0.0-rc2 的 CLI 行为。对比：同一份公开经典 hello_world，在 QEMU <code>-machine esp32</code> 和 esp32sim <code>--chip esp32</code> 上都能打印「This is esp32 chip with 2 CPU core(s)」。esp32sim 作者也在回复里强调他们支持经典 ESP32 且核心开源。[S3][E2][E6]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="esp-emu 拒绝 esp32 → QEMU 经典机器可跑 → esp32sim 早期支持"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">esp-emu：拒绝 esp32</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">QEMU：esp32 可跑</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">esp32sim：早期支持</text></svg>
+<p class="tip">手里是 ESP32-WROOM / DevKit V1 这类经典芯片，就不要把 esp-emulator 当第一选择。S3 和 C3 才是它的主场。</p>
+</article>
+<article class="qcard">
+<h2><span>Q04</span> 为什么不能把应用分区 .bin 直接丢给模拟器？</h2>
+<p>ESP-IDF 默认至少有三块：bootloader、分区表、app。esp-emu 要的是 <b>merge-bin 后的整片 flash</b>；评论也提醒过网页版同样如此。QEMU 还更严：镜像尺寸只能是 2/4/8/16MB。我们把 222224 字节的官方按键固件直接喂给 QEMU，报 <code>Drive size error</code>；用 0xFF 填到 4MB 后即可启动。C3 常见布局是 0x0 / 0x8000 / 0x10000，经典 ESP32 的 bootloader 在 0x1000。应用分区的 0xE9 魔数正确，也不等于整片镜像可用。[S3][S4][E4]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="app.bin 不够 → merge-bin 整片 → QEMU 还要填到 2/4/8/16MB"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">app.bin 不够</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">merge-bin 整片</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="14" font-weight="bold">QEMU：填到 2/4/8/16MB</text></svg>
+<p class="tip">本批 esp-emu 可以直接吃 222224 字节的未填充合并镜像；QEMU 不行。同一份固件换工具，先看镜像契约，再谈「能不能跑」。</p>
+</article>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 06 <b>ESP 模拟器选型</b></header>
+<h1>深入一层 / 网络、开源与保真</h1>
+<article class="qcard">
+<h2><span>Q05</span> 网页版是不是和本地版一样能上网？</h2>
+<p>原帖已经写清：官方网页版不联网，本地版可以连真实互联网。文档补充：浏览器构建把固件留在本机标签页，若要上网需另装 <code>esp-emu-relay</code>。esp32sim 网页版同样没有套接字，只能连虚拟 AP；本地可用 <code>--net nat</code> 访问真实网络。Velxio 的 ESP 系列本就在服务器端 QEMU 上跑。本批在 Linux 上启动 esp-emu 时，TAP 设备 <code>tap0</code> 没有权限，工具自动回退到 user-mode NAT（网关 192.168.4.1）。这次没有做 HTTP/Wi-Fi 接通测试，不能把「后端已就绪」写成「固件已经访问外网」。[S2][S3][E3]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="网页：默认不上外网 → 本地：user/TAP/NAT → TAP 失败会回退"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">网页：默认不上外网</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">本地：user / TAP</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">TAP 失败会回退</text></svg>
+<p class="tip">要验 Wi-Fi 重连或 HTTPS，选本地后端并单独设计实验。点灯、NVS、LVGL 这类用例碰不到网页版的联网限制。</p>
+</article>
+<article class="qcard">
+<h2><span>Q06</span> 官方模拟器开源了吗？LICENSE 文件算不算已经开源？</h2>
+<p>仓库有 Apache-2.0 的 LICENSE，但发行物主要是预编译二进制、安装脚本、文档和 examples。issue #10 问源码会不会公布；乐鑫维护者 mahavirj 在 2026-09-07 20:28:17（Asia/Shanghai）回复：<b>尚未决定是否公布源码</b>，可先提功能或缺陷 issue。到 2026-11-01 仍有人追问时间表，issue 保持 open。因此「有 LICENSE」不等于「核心源码可构建、可贡献外设模型」。相对地，esp32sim 是 MIT 源码，Velxio 是 AGPL（另有商业许可），qemu 整体为 GPL-2.0。[S3]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="仓库有 LICENSE → 发行以二进制为主 → 官方尚未决定公布源码"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">仓库有 LICENSE</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">发行以二进制为主</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="14" font-weight="bold">官方：尚未决定</text></svg>
+<p class="tip">若你的目标是给缺失外设写模型并向上游合并，esp-emulator 目前不能当开源基础；qemu / esp32sim 更合适。</p>
+</article>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 06 <b>ESP 模拟器选型</b></header>
+<h1>深入一层 / 实测对照</h1>
+<article class="qcard">
+<h2><span>Q07</span> 同一份按键固件，为什么默认电平不一样？</h2>
+<p>官方 examples 的 <code>gpio_button-esp32c3.bin</code> 在 esp-emu 里配合虚拟上拉按键零件，串口是 <b>BUTTON: ready level=1</b>；通过控制通道发送 press/release 后，依次出现 pressed 与 released，退出码 0。把同一镜像填充到 4MB 后交给 QEMU，应用同样启动，但变成 <b>BUTTON: ready level=0</b>——QEMU 没有这份 board.json 里的上拉零件。能启动 ≠ 外设默认状态一致。这正好呼应原帖「外设这块还得等等」，也说明虚拟零件是官方模拟器相对 QEMU 的实际加分项。[E3][E4]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="同一固件 → esp-emu 有上拉：电平1 → QEMU 无零件：电平0"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">同一按键固件</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">esp-emu：电平 1</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">QEMU：电平 0</text></svg>
+<p class="tip">不要把「串口出现 BUTTON: ready」直接等同于「和真板一样」。先核对上拉、复位strapping 和未建模的 I2C 器件。</p>
+</article>
+<article class="qcard">
+<h2><span>Q08</span> 芯片版本号对不上，是不是固件坏了？</h2>
+<p>同一份公开 C3 hello_world（ELF SHA 前缀 4812b1c53，IDF v5.5.4，堆 331296 字节）在三个模拟器里都打印了 <b>Hello world!</b>。但硅版本不同：esp-emu 与 QEMU 报 v0.3，esp32sim 报 v0.4；闪存芯片分别是 gd / gd / generic。经典 ESP32 同一份镜像（SHA 前缀 262a8b0a1，堆 303972）在 QEMU 报 v0.0，在 esp32sim 报 v2.0 并出现 XTAL 警告（Bogus XTAL freq: 8MHz），应用仍跑通。这些是默认 eFuse/时钟模型差异，不是「固件坏了」。esp32sim 自己把经典芯片标成 early，警告应当保留在记录里。[E5][E6]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="同一 hello ELF → 堆大小一致 → 默认修订号可以不同"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">同一 hello ELF</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">堆大小一致</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">默认修订号不同</text></svg>
+<p class="tip">若业务代码依赖特定芯片修订或 eFuse，要先用工具提供的 eFuse 镜像对齐，再比较行为；不要默认「模拟器里的 rev 就是你手上那颗硅」。</p>
+</article>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 06 <b>ESP 模拟器选型</b></header>
+<h1>深入一层 / 怎么选、还缺什么</h1>
+<article class="qcard">
+<h2><span>Q09</span> 许可和部署方式会怎样限制使用？</h2>
+<p>Velxio 核心是 AGPL-3.0，另提供商业许可；自建 Docker 镜像覆盖 Arduino / Pico / ESP32 家族，但文档写明 STM32、树莓派 Linux、ESP32-C6 和部分合作厂商板只在 velxio.dev（有的还要付费桌面版）。esp32sim 核心 MIT，演示资源各有许可，mask ROM 来自乐鑫 Apache-2.0 的 esp-rom-elfs，不在发布包内。esp-emulator 二进制按仓库 LICENSE 使用，源码政策未定。qemu 整体 GPL-2.0。本批未部署 Velxio，也没有把这些许可翻译成法律意见。[S2][S3][S4]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="AGPL 可自建但板子有缺口 → MIT 核心需另下 ROM → 官方二进制源码未定"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="58" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Velxio：AGPL</text><text x="109" y="76" text-anchor="middle" fill="white" font-size="12">自建板子有缺口</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="58" text-anchor="middle" fill="white" font-size="14" font-weight="bold">esp32sim：MIT</text><text x="329" y="76" text-anchor="middle" fill="white" font-size="12">ROM 需另下</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="58" text-anchor="middle" fill="white" font-size="14" font-weight="bold">esp-emu：二进制</text><text x="549" y="76" text-anchor="middle" fill="white" font-size="12">源码未定</text></svg>
+<p class="tip">「能在浏览器打开」和「能离线自建全部 40 块板」不是同一句话。先读自建镜像的板卡清单。</p>
+</article>
+<article class="qcard">
+<h2><span>Q10</span> 作者说的点灯、双核、NVS、PSRAM、LVGL，我们复现了吗？</h2>
+<p>没有。那是作者用<b>自己的验收固件</b>对官方模拟器的报告，原帖未给出该固件或仓库。本批跑的是：官方 examples 按键固件（C3，单核日志写 Unicore app）、公开 hello_world（C3 单核、经典 ESP32 双核）。经典双核 hello 出现在 QEMU 与 esp32sim，而不是 esp-emu。没有跑 NVS 读写、PSRAM 分配或 LVGL 刷新，不能把作者清单升级为本批实测。作者关于时序/采集精度模拟不了、网络可模拟重连的回复，也未点名具体工具，只能当访谈线索。[S1]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="作者私有验收固件 → 本批公开 examples → 不得冒充复现"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">作者私有验收固件</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">本批：公开 examples</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">不得冒充复现</text></svg>
+<p class="tip">双核在经典 ESP32 与 S3 上才是默认故事；C3 本来就是单核。看「双核通过」时先确认芯片。</p>
+</article>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 06 <b>ESP 模拟器选型</b></header>
+<h1>深入一层 / 怎么选、还缺什么</h1>
+<article class="qcard">
+<h2><span>Q11</span> 没有板子时，怎样按需求初选？</h2>
+<p>先写四列：芯片、外设、联网、部署。经典 ESP32 → qemu 或 esp32sim（或 Velxio 的 ESP32 板），不要选 esp-emu。要面包板/示波器/拖线 → Velxio（或等待 TryBoard，后者本批未运行）。要屏幕/触摸/摄像头/音频且偏 S3 → esp32sim。要 C6/H2 Thread、GDB、官方协议文档 → esp-emu 或 qemu（按外设清单逐项核对）。要进 CI、只要串口断言 → esp-emu 与 esp32sim 的超时/退出开关都可用。最后才看星标和网页截图。[S2][S3]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="先写芯片和外设 → 再看联网与部署 → 最后才看星标"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">先写芯片和外设</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">再看联网与部署</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="64" text-anchor="middle" fill="white" font-size="15" font-weight="bold">最后才看星标</text></svg>
+<p class="tip">总览里没有 ESP 模拟器专条；相邻的是 zigbee2mqtt 智能家居，以及并行批次可能出现的 ESP32/Tailscale 网络笔记。本批补的是模拟器选型，不重写家庭组网。</p>
+</article>
+<article class="qcard">
+<h2><span>Q12</span> 哪些问题仍然必须上真板，或至少再做网页实验？</h2>
+<p>供电、上拉电阻误差、天线与认证、接触不良、时序边沿、未建模的 I2C/SPI 器件，都不是本批串口实验能签字的。本批也没有：Velxio 画布交互、三个官方网页 playground、作者私有固件、PSRAM/LVGL/NVS 专项、真实 Wi-Fi 关联。QEMU 预编译依赖 libslirp；本机 apt 源异常，我们从 Ubuntu 包提取了 libslirp.so.0 才启动，这是环境事实，不是 QEMU 缺陷本身。云端不能访问用户本机磁盘，不构成停工理由。[E1][E4]</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 118" role="img" aria-label="模拟器能看启动与逻辑 → 真板才能验电源与射频 → 网页交互仍待验证"><rect x="8" y="25" width="202" height="65" rx="14" fill="#00acc8"/><text x="109" y="58" text-anchor="middle" fill="white" font-size="14" font-weight="bold">模拟器：启动与逻辑</text><text x="109" y="76" text-anchor="middle" fill="white" font-size="12">本批已跑</text><path d="M212 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="228" y="25" width="202" height="65" rx="14" fill="#1769ff"/><text x="329" y="58" text-anchor="middle" fill="white" font-size="14" font-weight="bold">真板：电源与射频</text><text x="329" y="76" text-anchor="middle" fill="white" font-size="12">待验证</text><path d="M432 57h13m-6 -5 6 5-6 5" stroke="#183552" stroke-width="3" fill="none"/><rect x="448" y="25" width="202" height="65" rx="14" fill="#ff7900"/><text x="549" y="58" text-anchor="middle" fill="white" font-size="14" font-weight="bold">网页画布交互</text><text x="549" y="76" text-anchor="middle" fill="white" font-size="12">待验证</text></svg>
+<p class="tip">把模拟器当预验收和 CI，把真板当签约测试。两者都需要同一份固定固件哈希，才能比较。</p>
+</article>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 06 <b>ESP 模拟器选型</b></header>
+<h1>03 / 主实验：从环境到按键</h1>
+<p>教学脚本在解压 exercise ZIP 后运行：<code>python3 exercise/lab.py env|matrix|flash|verify</code>。它不启动模拟器。下面 E2–E6 的命令在本批云端真实执行，工具版本已固定；完整标准输出见 experiment-log.md。</p>
+<div class="step">
+<h3>E1 环境、校验和能力边界</h3>
+<b>目的：</b>记下 Python/CPU、校验预编译包，并承认没有 Docker、没有 NVIDIA、没有实物板。<pre>python3 exercise/lab.py env
+sha256sum -c SHA256SUMS          # 各发布页提供
+qemu-system-riscv32 --version    # 本批：9.2.2 (esp_develop_9.2.2_20261109)
+esp-emu --version                # 本批：1.0.0-rc2
+./esp32sim --version             # 本批：0.3.0</pre>
+<b>真实结果：</b>Python 3.13.5，x86_64，无 Docker。三个预编译包与官方 SHA256 一致。QEMU 因缺少 libslirp.so.0 无法启动；从 Ubuntu <code>libslirp0_4.7.0-1ubuntu3_amd64.deb</code> 抽出库后，用 <code>LD_LIBRARY_PATH</code> 启动成功。本机 apt 源返回 500，没有用它安装。<br>
+<b>验证：</b>核对版本字符串与校验和；库workaround 必须写进日志，不能假装「解压即可运行」。
+</div>
+<div class="step">
+<h3>E2 官方模拟器拒绝经典 ESP32，并启动按键固件</h3>
+<b>目的：</b>用 CLI 证实芯片缺口，再用官方 examples 固件看到真实 ROM 启动串口。<pre>esp-emu --chip esp32 --firmware gpio_button-esp32c3.bin --timeout 1s
+# exit=2, invalid value 'esp32'
+esp-emu --chip esp32c3 --firmware gpio_button-esp32c3.bin \
+    --cosim-board board.json --timeout 8s --exit-on "BUTTON: ready"</pre>
+<b>真实结果：</b>拒绝经典芯片。第二次启动打印 ESP-ROM:esp32c3-api1-20210207、IDF v6.1 引导、Project name: gpio_button，然后 <code>BUTTON: ready level=1</code>，退出码 0。TAP 无权限，自动回退 user-net。<br>
+<b>验证：</b>退出码与串口关键字；这是官方 examples，不是作者私有固件。
+</div>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 06 <b>ESP 模拟器选型</b></header>
+<h1>03 / 主实验：对照比“能启动”重要</h1>
+<div class="step">
+<h3>E3 虚拟按键的按下与释放</h3>
+<b>目的：</b>证明控制通道能驱动固件自己的 GPIO 中断路径。<pre>esp-emu --chip esp32c3 --firmware gpio_button-esp32c3.bin \
+    --cosim-board board.json --control-tcp 127.0.0.1:5556 \
+    --timeout 20s --exit-on "BUTTON: released"
+# 另一进程在 ready 之后发送：
+# part list / part button input press / part button input release</pre>
+<b>真实结果：</b>控制通道依次回答 <code>ok button</code>、<code>ok</code>、<code>ok</code>。串口顺序为 ready → pressed → released，退出码 0。<br>
+<b>验证：</b>三种字符串都出现且顺序正确。未与真板按键抖动或上拉电阻对比。
+</div>
+<div class="step">
+<h3>E4 同一镜像在 QEMU 上：先失败，再填充，再看默认电平</h3>
+<b>目的：</b>验证尺寸契约，并对照没有虚拟零件时的 GPIO 默认值。<pre>qemu-system-riscv32 -nographic -icount 3 -machine esp32c3 \
+    -drive file=gpio_button-esp32c3.bin,if=mtd,format=raw
+# Drive size error: only 2, 4, 8, and 16MB images are supported
+# 将镜像 0xFF 填充到 4MB 后再跑同一条命令</pre>
+<b>真实结果：</b>未填充退出码 1。填充后启动到 <code>BUTTON: ready level=0</code>（不是 1），并警告检测到 4096k 大于镜像头 2048k。因 QEMU 不会按字符串自动退出，本批用 timeout 结束（124）。<br>
+<b>验证：</b>同一哈希固件、两种工具、两种默认电平。这是外设模型差异，不是「其中一个没跑起来」。
+</div>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 06 <b>ESP 模拟器选型</b></header>
+<h1>03 / 主实验：公开 hello 与经典芯片</h1>
+<div class="step">
+<h3>E5 同一份公开 C3 hello_world，三工具对照</h3>
+<b>目的：</b>用仓库内公开分段镜像（bootloader+ptable+app，IDF v5.5.4）检查「Hello world!」。C3 拼到 0x0/0x8000/0x10000 并填 4MB；esp32sim 直接吃三段。<pre>qemu-system-riscv32 -nographic -icount 3 -machine esp32c3 \
+    -drive file=c3-hello-merged-4mb.bin,if=mtd,format=raw
+esp-emu --chip esp32c3 --firmware c3-hello-merged-4mb.bin \
+    --timeout 6s --exit-on "Hello world!"
+esp32sim-c3 --boot rom --rom esp32c3_rev3_rom.elf \
+    --bootloader c3-hello-bootloader.bin --ptable c3-hello-ptable.bin \
+    --app c3-hello_world.bin --max-seconds 8 --no-dump</pre>
+<b>真实结果：</b>三份都打印 Hello world!，堆均为 331296。修订号：esp-emu/QEMU = v0.3，esp32sim = v0.4。闪存标识 gd / gd / generic。<br>
+<b>验证：</b>同一 ELF 前缀 4812b1c53。这是公开示例，不是本批现编译的 IDF 工程（本机无 Docker/IDF 工具链）。
+</div>
+
+<div class="step">
+<h3>E6 经典 ESP32 hello_world：QEMU 与 esp32sim</h3>
+<b>目的：</b>在 esp-emu 无法接受 <code>--chip esp32</code> 的前提下，验证另外两个工具能跑经典双核示例。镜像布局为 bootloader@0x1000。<pre>qemu-system-xtensa -nographic -icount 3 -machine esp32 \
+    -drive file=classic-hello-merged-4mb.bin,if=mtd,format=raw
+esp32sim --chip esp32 --board esp32dev --boot rom \
+    --rom esp32_rev300_rom.elf \
+    --bootloader classic-hello-bootloader.bin \
+    --ptable classic-hello-ptable.bin \
+    --app classic-hello_world.bin --max-seconds 8 --no-dump</pre>
+<b>真实结果：</b>两者都打印 Hello world! 和「esp32 chip with 2 CPU core(s)」，堆 303972。QEMU 报硅版本 v0.0；esp32sim 报 v2.0，并出现 XTAL 警告（Bogus XTAL freq: 8MHz），应用仍继续。esp32sim 报告两个核都执行了指令。<br>
+<b>验证：</b>同一 ELF 前缀 262a8b0a1。警告必须保留，不能把 early 支持写成与硅片完全一致。
+</div>
+</section>
+
+<section class="page">
+<header>REMINDER · 增量学习 06 <b>ESP 模拟器选型</b></header>
+<h1>04 / 合入候选与待验证清单</h1>
+<div class="warn">主实验使用的是公开预编译固件和官方 examples，不是上游测试套件、不是作者私有验收包，也没有 ESP-IDF Docker 现编译。数字不能用来推断 LVGL 帧率、Wi-Fi 吞吐或真板时序。verify 的 8 组检查是同一 worker 自写脚本，不能称独立审核。</div>
+
+
+<h2>增量，而非重写旧知识库</h2>
+<p>总览固定在 <code>a8674777e18302b8804b137212b1396cbfe5a747</code>（2026-11-04 17:42:58，Asia/Shanghai）。已检索树和总览：没有 Velxio / esp32sim / esp-emulator / 乐鑫 QEMU 专条；命中的相近领域是物联网/zigbee2mqtt，主题不重叠。本批只建议新增模拟器选型笔记，不改历史累计数量。</p>
+<h2>版本固定</h2>
+<table>
+<tr><th>来源</th><th>固定版本与范围</th></tr>
+<tr><td>原帖</td><td>x.com/wquguru/status/2112084878842085436，2026-10-19 15:34:10（Asia/Shanghai）；note_tweet 全文+配图实看+作者回复。</td></tr>
+<tr><td>Velxio</td><td>master <code>8a254109afe4cd17e91fb0aeaabf14ab42c46c4a</code>，2026-11-10 11:29:12（Asia/Shanghai）。读 README/LICENSE/自建说明。未运行。</td></tr>
+<tr><td>esp32sim</td><td>源码 main <code>3d049f5c4df9efefb76406601db7a38661c328b6</code>；运行的是发布包 v0.3.0。ROM：esp-rom-elfs 20260528。</td></tr>
+<tr><td>esp-emulator</td><td>源码/文档 <code>f77b06d76ec1c8323c21d3543ec86bf426567f22</code>；运行 v1.0.0-rc2 官方二进制与 examples。</td></tr>
+<tr><td>espressif/qemu</td><td>文档 <code>cdee381dce7b88b5207ec48c72984ca31d495dd3</code>；运行预编译 9.2.2_20261109。</td></tr>
+</table>
+<h2>待验证（不属于已执行主实验）</h2>
+<p>Velxio 自建/网页画布；三个官方 playground 的交互操作；作者私有验收固件（点灯/NVS/PSRAM/LVGL）；真实 Wi-Fi/BLE/Thread；与实物板的逐项对照。若要补编译，需独立的 ESP-IDF 工具链或 Docker 环境。</p>
+<ul class="small">
+<li>[S1] https://x.com/wquguru/status/2112084878842085436 及作者回复 2112222077671673864、2112118583698526573</li>
+<li>[S2] https://github.com/davidmonterocrespo24/velxio/tree/8a254109afe4cd17e91fb0aeaabf14ab42c46c4a</li>
+<li>[S3] https://github.com/mikroverk/esp32sim/tree/3d049f5c4df9efefb76406601db7a38661c328b6 ；https://github.com/espressif/esp-emulator/tree/f77b06d76ec1c8323c21d3543ec86bf426567f22 ；issue #10</li>
+<li>[S4] https://github.com/espressif/qemu ；https://github.com/espressif/esp-toolchain-docs/blob/cdee381dce7b88b5207ec48c72984ca31d495dd3/qemu/esp32c3/README.md</li>
+</ul>
+<p class="small">详细 URL、SHA、日期与本地指纹见 sources.md；合入建议见 knowledge-proposal.md；完整真实输出见 experiment-log.md。本文由同一 worker 自查，不声称独立审核。未更改共享 vault、用户任务或日程。</p>
+</section>
+</body></html>

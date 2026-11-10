@@ -1,0 +1,35 @@
+{
+  "类型": "真实公开API快照，前端未接入",
+  "坐标用途": "固定上海演示点，不是用户定位",
+  "requested_coordinates": [
+    31.23,
+    121.47
+  ],
+  "saved_at": "2026-11-11T01:41:46.525809+08:00",
+  "response": {
+    "latitude": 31.247803,
+    "longitude": 121.5,
+    "generationtime_ms": 0.08440017700195312,
+    "utc_offset_seconds": 28800,
+    "timezone": "Asia/Shanghai",
+    "timezone_abbreviation": "GMT+8",
+    "elevation": 3.0,
+    "current_units": {
+      "time": "iso8601",
+      "interval": "seconds",
+      "temperature_2m": "°C",
+      "is_day": "",
+      "precipitation": "mm",
+      "weather_code": "wmo code"
+    },
+    "current": {
+      "time": "2026-11-11T01:30",
+      "interval": 900,
+      "temperature_2m": 6.9,
+      "is_day": 0,
+      "precipitation": 0.0,
+      "weather_code": 3
+    }
+  },
+  "归属": "Open-Meteo，CC-BY4.0；字段未改，外层增加说明"
+}

@@ -1,0 +1,7 @@
+{
+  "mode": "gates",
+  "early_travel_blocked": true,
+  "duplicate_item_prevented": true,
+  "second_gate_blocked": true,
+  "place": "ridge"
+}

@@ -1,0 +1,21 @@
+{
+  "item": 4,
+  "status": "待验证",
+  "completed": [
+    "实读原帖完整长文与作者线程",
+    "固定React Bits源码与知识库SHA",
+    "12问SVG中文HTML",
+    "原创网页5步真实Chrome实验"
+  ],
+  "pending": [
+    "Step/WorkBuddy生成",
+    "真实3D人物",
+    "完整视频观看",
+    "上游组件运行",
+    "真机/上线/用户效果"
+  ],
+  "pdf": "已用Chrome实际打印10页A4，page-01至page-10逐页查看，12张问答卡不跨页，无裁切；自检非独立审核",
+  "knowledge_sha": "a8674777e18302b8804b137212b1396cbfe5a747",
+  "source_sha": "9d9c687dc4f55b23539aa5417b703078047efa74",
+  "zip_replay": "exercise.zip全新解压，npm ci和5步完整命令已成功执行，输出在replay-check-log.txt"
+}

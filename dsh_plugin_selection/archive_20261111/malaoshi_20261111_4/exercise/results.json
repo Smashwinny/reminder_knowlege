@@ -1,0 +1,38 @@
+[
+  {
+    "step": "1 固定身份与文件指纹",
+    "command": "python3 identity.py",
+    "output": "SiriLee/dsh-rewind f5668ded87eb5c230916e288f26a887c633b4154 dsh-rewind-plugin@0.21.2\nHan-1413141/dsh-cost-meter c876735d80760fc89d88fa99c19c90c56e984c23 dsh-cost-meter@1.9.64\nMichengAI/dsh-code-review 89cc7166972e4d3c8bf482ee505d8d58c106fa13 @michengai/dsh-code-review@1.0.10\nf-e-n-g-0531/dsh-code-review 0d3f6b03f9080153cc01fb8b75a79ddcbcae86d4 @feng0531/dsh-code-review@0.92.3\ntt-a1i/archify 7e45f36c66de1254d5ad6ba1d878f6499ea269fd @tt-a1i/archify-dsh@1.1.0\nPASS: 5 repository identities; 21 unmodified upstream files hash-verified\n",
+    "exit": 0
+  },
+  {
+    "step": "2 四桶 Token 计费",
+    "command": "node --import ./network-guard.mjs buckets.mjs",
+    "output": "{\"label\":\"four buckets\",\"tokens\":{\"input\":100000,\"cacheRead\":50000,\"cacheWrite\":10000,\"output\":20000},\"got\":0.415,\"want\":0.415}\n{\"label\":\"one million input\",\"tokens\":{\"input\":1000000},\"got\":2,\"want\":2}\n{\"label\":\"fallback write rate\",\"tokens\":{\"cacheWrite\":1000000},\"got\":0.5,\"want\":0.5}\n{\"label\":\"invalid token amounts\",\"tokens\":{\"input\":-2,\"output\":null,\"cacheRead\":null},\"got\":0,\"want\":0}\nPASS: 4 synthetic cost scenarios; network attempts=0; rates are fixtures, not market prices\n",
+    "exit": 0
+  },
+  {
+    "step": "3 长上下文边界与聚合反例",
+    "command": "node --import ./network-guard.mjs threshold.mjs",
+    "output": "{\"label\":\"exactly threshold\",\"got\":0.4,\"want\":0.4}\n{\"label\":\"one above\",\"got\":0.800004,\"want\":0.800004}\n{\"label\":\"cache participates\",\"got\":0.600002,\"want\":0.600002}\n{\"label\":\"output excluded from threshold\",\"got\":2.400002,\"want\":2.400002}\n{\"counterexample\":\"sum two per-call charges, not aggregate tokens then charge\",\"separate\":0.5,\"aggregated\":1}\nPASS: 4 boundaries + aggregation counterexample; network attempts=0\n",
+    "exit": 0
+  },
+  {
+    "step": "4 币种倍率与未知价格",
+    "command": "node --import ./network-guard.mjs currency.mjs",
+    "output": "multiplier: raw input=2; factor=.8; effective cost=1.6; renormalize unchanged\ncurrency: synthetic CNY 7.2 -> USD 1 -> display ¥7.2\nunknown price: {} -> null; explicit unpriced retained (not evidence of free use)\nnegative/infinite/string multipliers rejected; explicit factor=0 computes 0\nPASS: multiplier/currency/unknown validation; network attempts=0; not a bill or quota test\n",
+    "exit": 0
+  },
+  {
+    "step": "5 回退快照格式与拒绝分支",
+    "command": "node --import ./network-guard.mjs --experimental-transform-types rewind-format.mjs",
+    "output": "{\"label\":\"session-dot\",\"got\":\"session\",\"want\":\"session\"}\n{\"label\":\"session-slashes\",\"got\":\".._x\",\"want\":\".._x\"}\n{\"label\":\"link-valid\",\"got\":true,\"want\":true}\n{\"label\":\"link-traversal\",\"got\":false,\"want\":false}\n{\"label\":\"link-absolute\",\"got\":false,\"want\":false}\n{\"label\":\"backup-valid\",\"got\":true,\"want\":true}\n{\"label\":\"rescue-valid\",\"got\":true,\"want\":true}\n{\"label\":\"backup-traversal\",\"got\":false,\"want\":false}\n{\"label\":\"backup-backslash\",\"got\":false,\"want\":false}\n{\"label\":\"plain-utf8\",\"got\":\"text\",\"want\":\"text\"}\n{\"label\":\"lossy-utf8\",\"got\":\"lossyText\",\"want\":\"lossyText\"}\n(node:160089) ExperimentalWarning: Transform Types is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\nfuture store=99: UnknownStoreVersionError (fail closed)\ncorrupt JSON: undefined (not guessed into a delete)\ninconsistent absent-file marker with size=2: rejected\nPASS: 11 validators/byte classifications + 3 codec cases; network attempts=0; no real restore\n",
+    "exit": 0
+  },
+  {
+    "step": "6 审查模型发送授权门",
+    "command": "node --import ./network-guard.mjs approval.mjs",
+    "output": "allowed-once -> accepted\n{\"result\":\"rejected\",\"accepted\":false}\n{\"result\":\"cancelled\",\"accepted\":false}\n{\"result\":\"unavailable\",\"accepted\":false}\n{\"result\":true,\"accepted\":false}\n{\"result\":\"<undefined>\",\"accepted\":false}\nmissing approval service -> rejected\nPASS: 7 mock-host approval outcomes; network attempts=0; not real host authorization or code review\n",
+    "exit": 0
+  }
+]

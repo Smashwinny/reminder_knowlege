@@ -1,0 +1,19 @@
+{
+  "replace_first": {
+    "path": "/workspace/reminder-batch/worker-689b81da/item03/scratch/demo.txt",
+    "action": "edited"
+  },
+  "read_after_replace": {
+    "file_path": "/workspace/reminder-batch/worker-689b81da/item03/scratch/demo.txt",
+    "content": "beta alpha\n"
+  },
+  "missing_old": {
+    "path": "/workspace/reminder-batch/worker-689b81da/item03/scratch/demo.txt",
+    "action": "old_str not found"
+  },
+  "empty_old": {
+    "path": "/workspace/reminder-batch/worker-689b81da/item03/scratch/demo.txt",
+    "action": "created_file"
+  },
+  "final_content": "fresh\n"
+}

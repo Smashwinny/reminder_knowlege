@@ -1,0 +1,29 @@
+{
+  "compiler": {
+    "command": [
+      "node",
+      "/workspace/reminder-batch/worker-689b81da/item06/exercise/node_modules/typescript/bin/tsc",
+      "--strict",
+      "--target",
+      "ES2022",
+      "--module",
+      "commonjs",
+      "--outDir",
+      "/workspace/reminder-batch/worker-689b81da/item06/results/compiled",
+      "legacy.ts"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "runtime": {
+    "command": [
+      "node",
+      "/workspace/reminder-batch/worker-689b81da/item06/results/compiled/legacy.js"
+    ],
+    "exit": 0,
+    "stdout": "{\"approved\":false,\"sent\":true}\n",
+    "stderr": ""
+  },
+  "meaning": "逻辑非法组合在宽松结构里可编译，负对照"
+}

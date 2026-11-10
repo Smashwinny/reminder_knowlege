@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>出海工具按阶段选，不要一次买齐 56 个 · 小白指南</title>
+<style>
+:root{--cyan:#06b6d4;--blue:#2563eb;--orange:#ea580c;--ink:#163044;--bg:#ecfeff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans CJK SC","Microsoft YaHei","PingFang SC",sans-serif;line-height:1.7;font-size:15.5px}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 48px}
+.hero{background:linear-gradient(135deg,#06b6d4 0%,#2563eb 60%,#ea580c 140%);color:#fff;border-radius:20px;padding:30px 24px;margin-bottom:18px}
+.hero .kicker{letter-spacing:.1em;font-size:.82em;opacity:.92}
+.hero h1{font-size:1.9em;line-height:1.3;margin:8px 0 10px}
+.badge{display:inline-block;background:#ffedd5;color:#9a3412;font-weight:900;border-radius:999px;padding:3px 12px;margin:3px 6px 0 0;font-size:.88em}
+.badge.cyan{background:#cffafe;color:#155e75}
+.key{font-size:1.22em;font-weight:900;background:#fff7ed;color:#9a3412;border-left:10px solid #ea580c;border-radius:12px;padding:14px 16px;margin:16px 0}
+.q,.uses,.step{background:#fff;border-radius:16px;padding:18px 18px 14px;margin:16px 0;border-left:10px solid #06b6d4;break-inside:avoid}
+.q.blue{border-left-color:#2563eb} .q.orange{border-left-color:#ea580c}
+.q h2{margin:0 0 8px;font-size:1.2em;color:#0e7490}
+.q.blue h2{color:#2563eb} .q.orange h2{color:#c2410c}
+.num{display:inline-block;background:#06b6d4;color:#fff;font-size:1.35em;font-weight:900;border-radius:10px;padding:0 10px;margin-right:8px}
+.q.blue .num{background:#2563eb} .q.orange .num{background:#ea580c}
+svg.fig{display:block;width:100%;height:auto;margin:10px 0 4px;background:#f0fdff;border-radius:12px}
+.uses,.step{border:2px solid #67e8f9;border-left:10px solid #06b6d4}
+.step{border-color:#fb923c;border-left-color:#ea580c}
+.step h3{margin:0 0 6px;color:#c2410c}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0f2742;color:#d9f9ff;padding:10px 12px;border-radius:10px;font-size:12px;line-height:1.5;font-family:"Noto Sans Mono CJK SC",ui-monospace,monospace}
+.result{background:#e0f2fe;color:#0c4a6e;border:1px solid #38bdf8;border-radius:10px;padding:10px 12px;margin:8px 0}
+.small{font-size:.86em;color:#475569}
+.foot{font-size:.78em;color:#475569;border-top:2px solid #67e8f9;margin-top:14px;padding-top:8px;break-inside:avoid}
+h1.sec{font-size:1.45em;color:#0e7490;break-after:avoid}
+table{width:100%;border-collapse:collapse;font-size:.9em;margin:8px 0}
+th,td{border:1px solid #a5f3fc;padding:5px 7px;text-align:left}
+th{background:#0891b2;color:#fff}
+.endblock{break-inside:avoid}
+a{color:#2563eb;overflow-wrap:anywhere}
+ul.big li{margin:6px 0}
+@media print{
+  body{background:#fff}
+  .wrap{max-width:none;padding:0}
+  .hero,.q,.uses,.step,.key,.endblock{break-inside:avoid}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{size:A4;margin:12mm}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+  <div class="kicker">REMINDER 增量学习 · 第 8 项 · 状态：待验证</div>
+  <h1>出海工具按阶段选，不要一次买齐 56 个</h1>
+  <p>实读夏林果的长文目录，记录编号缺陷，并在云电脑上对官方地址做只读 HTTP 探测。官网能打开，不等于工具已经验证。</p>
+  <span class="badge">待验证</span>
+  <span class="badge cyan">七章和总结都读到了</span>
+  <span class="badge cyan">52/57 个官网本次可达</span>
+</section>
+
+<div class="key">重点：本次实际读到的 9776 字正文里，七个章节和总结是完整的，增长章节并没有在中途断掉。真正的问题是编号乱了：缺 14，53 号用了两次，Fiverr 和 Adsy 跑到了 SEO 章。作者所说「56 个经过实战验证的工具」仍是自述。</div>
+
+<h1 class="sec">实读结论</h1>
+<ul class="big">
+  <li>入口：<a href="https://x.com/momo_peggy/status/2110301714876346822">https://x.com/momo_peggy/status/2110301714876346822</a>，夏林果的出海日记 @momo_peggy，2026-10-14 17:28:30 Asia/Shanghai（API 时间为 2026-10-14T09:28:30.000Z）。</li>
+  <li>文章标题：靠Web出海赚美刀，7大核心方向精选56个宝藏工具，帮你把想法变成收益。完整清单在 article.plain_text，不是短帖那 69 个字。</li>
+  <li>独立文章链接 https://x.com/i/article/2110257071849603072 在 API 里是 Not Found / entities.status=404。只读 GET 得到 HTTP 200，但跳到登录引导页，不能当成正文可匿名打开。</li>
+  <li>查重基线 <code>a8674777e18302b8804b137212b1396cbfe5a747</code>。总览没有这份工具清单的现成笔记。</li>
+</ul>
+
+<h1 class="sec">13 个由浅入深的问题</h1>
+
+<article class="q">
+<h2><span class="num">01</span> 这条长文是谁写的，它被拆成了哪几部分？</h2>
+<p>作者是 @momo_peggy，显示名「夏林果的出海日记」。短帖说这是「夏林果自用工具清单」。正文按七个方向展开：市场机会与竞品调研，SEO 与内容资产，产品设计、AI 能力与演示，建站、本地化与基础设施，支付、跨境资金与合规，增长获客与渠道分发，数据分析与用户反馈，最后有总结。每个工具通常有一句定位，再加上作者自己的用法。</p>
+<svg class="fig" viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="七个章节">
+  <rect x="8" y="30" width="92" height="60" rx="10" fill="#06b6d4"/><text x="54" y="65" text-anchor="middle" fill="#fff" font-size="13">调研</text>
+  <rect x="108" y="30" width="92" height="60" rx="10" fill="#2563eb"/><text x="154" y="65" text-anchor="middle" fill="#fff" font-size="13">SEO</text>
+  <rect x="208" y="30" width="92" height="60" rx="10" fill="#0e7490"/><text x="254" y="65" text-anchor="middle" fill="#fff" font-size="13">设计AI</text>
+  <rect x="308" y="30" width="92" height="60" rx="10" fill="#0284c7"/><text x="354" y="65" text-anchor="middle" fill="#fff" font-size="13">部署</text>
+  <rect x="408" y="30" width="92" height="60" rx="10" fill="#ea580c"/><text x="454" y="65" text-anchor="middle" fill="#fff" font-size="13">支付</text>
+  <rect x="508" y="30" width="92" height="60" rx="10" fill="#f97316"/><text x="554" y="65" text-anchor="middle" fill="#fff" font-size="13">增长</text>
+  <rect x="608" y="30" width="104" height="60" rx="10" fill="#0f766e"/><text x="660" y="65" text-anchor="middle" fill="#fff" font-size="13">分析</text>
+</svg>
+</article>
+
+<article class="q blue">
+<h2><span class="num">02</span> 作者声称 56 个工具，实际读到的编号是怎样的？</h2>
+<p>plain_text 里确实有 56 条「数字、名称」条目，但序列不是 1 到 56。13（Ahrefs）之后直接是 15（Linkhouse），<strong>缺 14</strong>。16（Collaborator）之后突然出现 <strong>53 Fiverr 和 54 Adsy</strong>，然后才进入第 3 章的 17 Figma。到了第 7 章，53 又被用来写 Feedlog，接着跳到 55 Crisp、56 Cursorful，没有第二次出现 54。所以「56」是条目条数，不是干净的编号目录。</p>
+<svg class="fig" viewBox="0 0 720 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="编号缺陷">
+  <rect x="20" y="24" width="200" height="64" rx="12" fill="#06b6d4"/><text x="120" y="62" text-anchor="middle" fill="#fff" font-size="16">缺 14</text>
+  <rect x="250" y="24" width="210" height="64" rx="12" fill="#ea580c"/><text x="355" y="50" text-anchor="middle" fill="#fff" font-size="15">53、54 出现在 SEO 章</text>
+  <text x="355" y="72" text-anchor="middle" fill="#fff" font-size="14">Fiverr / Adsy</text>
+  <rect x="490" y="24" width="210" height="64" rx="12" fill="#2563eb"/><text x="595" y="50" text-anchor="middle" fill="#fff" font-size="15">53 再次用于 Feedlog</text>
+  <text x="595" y="72" text-anchor="middle" fill="#fff" font-size="14">然后跳到 55</text>
+</svg>
+</article>
+
+<article class="q orange">
+<h2><span class="num">03</span> 任务摘要说「增长章节中途截断」，这次读到了什么？</h2>
+<p>以本次 API 返回的 9776 字为准：第 6 章标题存在，内容从 38 Product Hunt 连续写到 48 Loops，随后进入第 7 章和总结「祝你项目顺利！！！」。因此<strong>不能再把「增长章节中途截断」写成已读事实</strong>。若其他渠道看到过更短的文本，那是另一份摘录，需要单独标注来源，不能和这次 plain_text 混为一谈。</p>
+</article>
+
+<article class="q">
+<h2><span class="num">04</span> 独立文章链接为什么不能当正文来源？</h2>
+<p>母帖把文章指向 <code>x.com/i/article/2110257071849603072</code>。X API 按这个 id 查询返回 Not Found，entities 里也标了 404。本批对该 URL 做 GET，状态码是 200，但最终地址跳到登录引导页。HTTP 200 在这里只说明「跳转后的登录页打开了」，并不等于文章正文对未登录访问可读。可靠来源仍是母帖字段里的 article.plain_text。</p>
+<svg class="fig" viewBox="0 0 720 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="文章链接跳到登录">
+  <rect x="20" y="22" width="200" height="66" rx="12" fill="#94a3b8"/><text x="120" y="62" text-anchor="middle" fill="#fff" font-size="16">API Not Found</text>
+  <rect x="250" y="22" width="200" height="66" rx="12" fill="#f97316"/><text x="350" y="50" text-anchor="middle" fill="#fff" font-size="16">GET = 200</text>
+  <text x="350" y="72" text-anchor="middle" fill="#fff" font-size="13">却跳到登录页</text>
+  <rect x="480" y="22" width="220" height="66" rx="12" fill="#06b6d4"/><text x="590" y="62" text-anchor="middle" fill="#fff" font-size="16">正文来自 plain_text</text>
+</svg>
+</article>
+
+<article class="q blue">
+<h2><span class="num">05</span> 市场调研工具作者是怎么组合的？</h2>
+<p>她先用沉浸式翻译做双语对照，避免谷歌翻译把原文覆盖掉。再用 AITDK 做竞品初筛，SiteData 被她写成「升级版」，Similarweb 看流量来源结构，Wayback 对比历史快照（尤其是改价格或换用户的时点），Wappalyzer 还原技术栈，Trends 看季节性，Exploding Topics 只负责发现候选方向，还要放回 Trends 和 Similarweb 复核。作者明确写了：<strong>趋势曲线不能当成需求证明</strong>。</p>
+</article>
+
+<article class="q orange">
+<h2><span class="num">06</span> 为什么 Semrush 和 Ahrefs 说「选一个就行」？</h2>
+<p>第 2 章把 Screaming Frog 和 SEO Minion 用于检查自己的页面，把 Semrush、Moz Link Explorer 和 Ahrefs 用于竞品词库与外链。写到 Ahrefs 时，作者说和 Semrush 比「两个里面选择一个就行」。这是选型纪律，不是对两家产品的评测结论。文中 Semrush 被写成 senrush，是原文拼写，引用时不要改成「作者官方拼法」。关键词套件很贵，先用免费抓取工具修本站问题，通常更划算。</p>
+</article>
+
+<article class="q">
+<h2><span class="num">07</span> 外链相关工具的质量标准是什么？</h2>
+<p>Linkhouse、Collaborator，以及错位出现在本章的 Fiverr、Adsy，在原文里都被当成外链或内容合作渠道。作者反复强调：不要批量堆数量，要看相关性、真实自然流量、是否被收录、历史文章是不是只靠卖链接维持；DR 或 AS 高但没有真实用户、且和业务不匹配的，不值得采购。这些是检查标准，不是让读者立刻去买链接。本批没有购买、也没有注册这些平台。</p>
+</article>
+
+<article class="q blue">
+<h2><span class="num">08</span> 设计与 AI 工具里，哪些是「先验证再开发」？</h2>
+<p>Figma 被用来先连通落地页、注册、首次输入、结果页和升级付费五个页面。OpenRouter 用真实任务比较质量、速度、上下文和成本，并把模型成本算进单次任务。Dify 用来先验证工作流有没有价值；Replicate 先看输出稳定性和单次成本；n8n 把重复运营自动化。Framer 被明确限制为小型或垂直站点，不适合复杂大型 SaaS。Ideogram 生成带文字的图以后，必须人工校对。</p>
+</article>
+
+<article class="q orange">
+<h2><span class="num">09</span> 建站和本地化怎么分流？</h2>
+<p>Cloudflare 管域名、DNS、CDN 和 SSL，先排除「其实是访问问题」。Vercel 用 Git 自动部署官网和 MVP。DeepL 出第一版译文，关键页仍要熟悉目标市场的人看一遍。Weglot 适合低成本先加一个语言版本做市场测试；Lokalise 则是文案变多、多端复用时再上的集中管理工具。作者的顺序是：先让站点能访问和上线，再试一个语言市场，而不是一次翻译十个国家。</p>
+</article>
+
+<article class="q">
+<h2><span class="num">10</span> 支付工具怎么选？本批做了什么、没做什么？</h2>
+<p>Lemon Squeezy 被写成可用 Checkout Link 先验证愿不愿意付钱；Paddle 适合让平台处理收款、订阅和部分税务；Stripe 适合想自己控制支付和订阅数据的团队，并且作者强调要用测试模式走完付款、退款、升级、取消和失败重试。Termly 用来生成政策草稿，不是法律意见。Starryblu 是资金账户工具，原文末尾带推荐码。本批<strong>只探测了官网是否打开，没有注册，没有发起测试或真实支付，也没有使用推荐码</strong>。</p>
+<svg class="fig" viewBox="0 0 720 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="支付研究边界">
+  <rect x="20" y="22" width="330" height="66" rx="12" fill="#06b6d4"/><text x="185" y="62" text-anchor="middle" fill="#fff" font-size="17">只读：官网是否可达</text>
+  <rect x="370" y="22" width="330" height="66" rx="12" fill="#ea580c"/><text x="535" y="62" text-anchor="middle" fill="#fff" font-size="17">未做：支付测试与开户</text>
+</svg>
+</article>
+
+<article class="q blue">
+<h2><span class="num">11</span> 增长工具怎样避免「提交了就算验证成功」？</h2>
+<p>Product Hunt 被写成一场公开的定位测试，评论往往比榜单位置更有价值。Uneed、Microlaunch、BetaList 都要单独记录访问、注册或邮箱，区分围观者和真正试用的人；「提交成功不等于产品验证成功」。Discord + Disboard 强调先参与讨论，进群直接发广告常被踢。Typefully 和 Beehiiv、Loops 把内容与邮件名单当成自己的获客资产。Customer 在原文只有简称，本批按功能推断为 Customer.io，即使该站可达也不能单独证明作者指的就是它。</p>
+</article>
+
+<article class="q orange">
+<h2><span class="num">12</span> 分析和反馈工具怎样接到漏斗？Feedlog 为什么要单独标注？</h2>
+<p>GSC 看搜索词和点击，GA4 看来源与转化，PostHog 建立从注册到付费的漏斗：如果大量注册却没有第一份结果，应该先改首次使用，而不是继续投放。Clarity 用热图和录屏找用户说不清的问题。Crisp 记录咨询原话。Cursorful 用来录一段完整演示。53 号在第 7 章是 Feedlog，作者写「哈哈哈哈夹带私货，这是我自己的产品」，并提到知识库客服和 MCP。推荐自己的产品不等于造假，但必须标明利益关系，不能写成中立目录里的普通一项。</p>
+</article>
+
+<article class="q">
+<h2><span class="num">13</span> 怎样按阶段只选少数工具，而不是一次采购全部？</h2>
+<p>把 56 个名字当成购物车，会迅速变成费用和配置负担。更稳妥的是每个环节先选能回答当前问题的少数工具：例如先用翻译 + 历史快照 + Trends 做调研，用免费 SEO 抓取修本站，用 Figma 跑通五个关键页，用一个部署栈上线，用一种收款方式先验证愿付，再用 GSC/GA4/PostHog 看是不是真有用户。官方地址能打开，只是最低核验；效果、价格和是否仍符合作者写法，都还待验证。</p>
+<svg class="fig" viewBox="0 0 720 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="先少量组合">
+  <rect x="16" y="22" width="160" height="66" rx="12" fill="#ea580c"/><text x="96" y="62" text-anchor="middle" fill="#fff" font-size="16">不要一次买齐</text>
+  <rect x="196" y="22" width="160" height="66" rx="12" fill="#06b6d4"/><text x="276" y="62" text-anchor="middle" fill="#fff" font-size="16">按阶段先用</text>
+  <rect x="376" y="22" width="160" height="66" rx="12" fill="#2563eb"/><text x="456" y="62" text-anchor="middle" fill="#fff" font-size="16">用数据再加购</text>
+  <rect x="556" y="22" width="148" height="66" rx="12" fill="#0e7490"/><text x="630" y="62" text-anchor="middle" fill="#fff" font-size="16">随时可停</text>
+</svg>
+</article>
+
+<h1 class="sec">可以用来做什么</h1>
+<div class="uses">
+<ul class="big">
+  <li>按七个业务环节做「先用 / 按需再加」的选型清单，而不是一次采购全部服务。</li>
+  <li>用官方 URL 的只读探测，做最低限度的「这个名字是否还指向一个能打开的网站」。</li>
+  <li>把编号缺号、错位和重复记录下来，避免把「56」当成精确目录。</li>
+  <li>把支付异常测试、外链采购和推荐码留在检查清单里，不在本批执行。</li>
+  <li>阅读或转述时标明 Feedlog 是作者自述的自己的产品。</li>
+</ul>
+</div>
+
+<h1 class="sec">主实验：清单 + 官网可达探测</h1>
+<p>工作目录 <code>/workspace/reminder-batch-2026-11-11/item-8-haiwai-tools/exercise</code>。探测时间 2026-11-11 01:22:18 Asia/Shanghai。只做 GET，不登录、不付款、不带推荐码。</p>
+
+<div class="step">
+<h3>步骤 1 · 审计本次实际读到的编号与章节</h3>
+<p>目的：用已保存的 article.plain_text 核对章节、总结和编号，而不是沿用「增长章节中途截断」的摘要。</p>
+<pre>cd /workspace/reminder-batch-2026-11-11/item-8-haiwai-tools/exercise
+# 见 experiment-log.md 步骤 1 的完整命令
+python3 审计脚本</pre>
+<div class="result">真实结果：退出码 0。plain_text 9776 字；七个章节都在；含总结；56 条编号；缺号 [14]；重复编号 {53: 2}；第 6 章读到 Loops 为 True。</div>
+<p><b>验证：</b>与原文快照一致，摘要中的截断说法不被采用。</p>
+</div>
+
+<div class="step">
+<h3>步骤 2 · 按阶段打印选型清单</h3>
+<p>目的：把工具分成「先用」和「按需再加」，并标出编号错位、推断网址和作者自有产品。</p>
+<pre>python3 checklist.py</pre>
+<div class="result">退出码 0。七章都有先用建议，例如调研先用沉浸式翻译、Wayback、Trends、Wappalyzer、AITDK；SEO 先用 Screaming Frog 与 SEO Minion，关键词套件二选一；支付先考虑验证愿付的方案，并把「不注册、不采购、不用推荐码」写进全局纪律。</div>
+<p><b>验证：</b>清单已写入 checklist-stages.json。</p>
+</div>
+
+<div class="step">
+<h3>步骤 3 · 对官方 URL 做只读 HTTP GET</h3>
+<p>目的：记录每个已填官网的状态码和最终地址。原文缺号不探测。独立文章链接一并探测。</p>
+<pre>python3 check_urls.py --sleep 0.2</pre>
+<div class="result">退出码 0。探测时间 2026-11-11 01:22:18 Asia/Shanghai。已填官网 57 个（Discord 与 Disboard 拆开）。其中 <b>52 个可达</b>，5 个返回 403：Fiverr、Midjourney、Product Hunt、Toolify、There's An AI For That。403 记为「本环境被拦截」，不写成网站不存在。SEO Minion 最终跳到 keywordseverywhere.com/seominion/。</div>
+<p><b>验证：</b>url-probe-results.json 已生成，含时区时间戳。</p>
+</div>
+
+<div class="step">
+<h3>步骤 4 · 汇总并单独看待特殊项</h3>
+<p>目的：把可达、拦截、缺号和登录跳转分开，避免把 200 写成「文章可读」。 </p>
+<pre>python3 汇总脚本  # 完整命令见日志</pre>
+<div class="result">分类计数：可达 53（含独立文章链接那次 200）、被拦截 5、原文缺号未探测 1。独立文章链接最终跳到 X 登录引导页，故不能算正文可读。Customer.io 可达，但仍是推断。SiteData（sitedata.dev）、Starryblu、Feedlog、Collaborator、IconPark 本次均为 200。</div>
+<table>
+  <tr><th>分类</th><th>数量</th><th>说明</th></tr>
+  <tr><td>已填官网可达</td><td>52 / 57</td><td>HTTP 成功，不等于产品已验证</td></tr>
+  <tr><td>403 拦截</td><td>5</td><td>Fiverr、Midjourney、Product Hunt、Toolify、TAAFT</td></tr>
+  <tr><td>原文缺号</td><td>1</td><td>第 14 号未出现，未探测</td></tr>
+  <tr><td>文章链接</td><td>200→登录页</td><td>不能当作正文可匿名打开</td></tr>
+</table>
+<p><b>验证：</b>特殊项都被单独列出。</p>
+</div>
+
+<div class="step">
+<h3>步骤 5 · 目录纪律单元测试</h3>
+<p>目的：锁住缺号、重复的 53、Adsy 错位、Customer 为推断、探测 URL 不含推荐码。</p>
+<pre>python3 -m unittest test_catalog.py -v</pre>
+<div class="result">Ran 6 tests in 0.002s，全部 OK。</div>
+<p><b>验证：</b>退出码 0，6/6 通过。</p>
+</div>
+
+<section class="endblock">
+<h1 class="sec">待验证与未做事项</h1>
+<ul>
+  <li>各工具的付费计划、作者是否仍在使用、以及「经过实战验证」均为待验证或自述。</li>
+  <li>Customer 与 SiteData 的对应官网是检索或推断，存在指错对象的可能。</li>
+  <li>5 个 403 只说明本次探测被拦截，未用登录浏览器复核。</li>
+  <li>没有注册、没有支付测试、没有采购外链、没有使用推荐码。</li>
+  <li>本文由同一批次完成，不是第三方独立审核。</li>
+</ul>
+<div class="foot">
+  Reminder 增量学习候选成果 · 第 8 项 · 2026-11-11 Asia/Shanghai · 状态：待验证 · SHA a8674777e18302b8804b137212b1396cbfe5a747 · 日志 experiment-log.md · 代码 exercise.zip<br>
+  来源：S1 <a href="https://x.com/momo_peggy/status/2110301714876346822">x.com/momo_peggy/status/2110301714876346822</a>
+</div>
+</section>
+</div>
+</body>
+</html>

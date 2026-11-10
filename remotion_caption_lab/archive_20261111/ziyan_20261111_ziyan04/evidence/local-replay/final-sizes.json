@@ -1,0 +1,42 @@
+{
+  "artifacts": [
+    {
+      "file": "guide.html",
+      "bytes": 134901,
+      "sha256": "da47079a56ee03abbd24eea13f96967fd6283d8ac6b88ff586b86c0d989db838"
+    },
+    {
+      "file": "exercise.zip",
+      "bytes": 41363,
+      "sha256": "7b509e1106f49e5f76671327bf43af18a46f8e2f48829a323b49291cf1f786c7"
+    },
+    {
+      "file": "exercise/README.md",
+      "bytes": 6778,
+      "sha256": "19b61574114c992c21291d3fdcbf64b92e0e10705cc6c29f404367990a3c542e"
+    },
+    {
+      "file": "experiment-log.md",
+      "bytes": 9714,
+      "sha256": "d503b7f359165e6e7adb3fa5ec7c09e890fe84ce8300026afc11db7dfd6bce94"
+    },
+    {
+      "file": "knowledge-proposal.md",
+      "bytes": 3612,
+      "sha256": "a5ad494813eb5152c40c75454064f23b0b1a12aa686ddb1ac9d2e242aca6d86a"
+    },
+    {
+      "file": "sources.md",
+      "bytes": 3529,
+      "sha256": "15c3f952ed83fbc5768ffe96082f50dabfbc45153d33d0ee46f5252e9e1e0c08"
+    },
+    {
+      "file": "change-log.md",
+      "bytes": 5751,
+      "sha256": "36eed093e5796fea02fde289cee299865b490dafdbc72f7313b8f2f1ee46370e"
+    }
+  ],
+  "total_bytes": 205648,
+  "guide_under_200KB": true,
+  "pdf_generated": false
+}

@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "currency": "CNY",
+    "created": "2026-11-11",
+    "timezone": "Asia/Shanghai",
+    "purpose": "教学用单位经济与漏斗模型。所有数字都是模型输入，不是本批实测成交、也不是经审计的财务报表。",
+    "source_tags": {
+      "author_claim": "来自原帖或引用长文的作者自述原文，未经独立核实，禁止当作实测。",
+      "author_claim_derived": "由一条或多条自述粗略推算得到，推算过程透明，结论仍未核实。",
+      "teaching_assumption": "为了让模型能跑而设定的教学假设，不是作者数据，也不是市场调查结果。"
+    }
+  },
+  "funnel_teaching": {
+    "impressions": {"value": 20000, "source": "teaching_assumption", "label": "展示次数"},
+    "ctr": {"value": 0.03, "source": "teaching_assumption", "label": "点击率"},
+    "inquiry_rate": {"value": 0.08, "source": "teaching_assumption", "label": "点击到咨询转化率"},
+    "close_rate_custom": {"value": 0.15, "source": "teaching_assumption", "label": "咨询到定制成交率"},
+    "close_rate_course": {"value": 0.04, "source": "teaching_assumption", "label": "咨询到课程成交率"},
+    "cpc": {"value": 1.5, "source": "teaching_assumption", "label": "单次点击成本", "note": "作者只说「秘诀就是投流」，未给出 CPC、CPM 或 CAC。"}
+  },
+  "economics": {
+    "test_sku_price": {"value": 5, "source": "author_claim", "label": "测试商品标价", "quote": "上架了一个5块钱帮别人用AI修图的商品"},
+    "platform_fee_rate": {"value": 0.06, "source": "teaching_assumption", "label": "平台扣点率", "note": "闲鱼等平台费率因类目而异，此处仅为教学占位，待验证。"},
+    "payment_fee_rate": {"value": 0.006, "source": "teaching_assumption", "label": "支付通道费率", "note": "教学占位。"},
+    "custom_aov_teaching": {"value": 3000, "source": "teaching_assumption", "label": "定制单客单价（教学）"},
+    "custom_aov_from_claim": {"value": 5000, "source": "author_claim_derived", "label": "定制单客单价（自述粗除）", "note": "由自述「上百单、GMV大概50万」按订单数=100 粗除得到；「上百」不是精确计数。"},
+    "delivery_cost_ratio_solo": {"value": 0.25, "source": "teaching_assumption", "label": "独自交付成本占净收入比", "note": "含自己时间的机会成本占位，不是作者工时记录。"},
+    "delivery_cost_ratio_outsourced": {"value": 0.55, "source": "teaching_assumption", "label": "外包交付成本占净收入比", "note": "教学占位。作者提到找朋友和团队合作，但未披露分成。"},
+    "refund_rate_custom": {"value": 0.05, "source": "teaching_assumption", "label": "定制单退款率"},
+    "course_price": {"value": 2980, "source": "author_claim", "label": "课程标价", "quote": "第一个知识付费的产品定价是2980"},
+    "course_fulfillment_cost": {"value": 200, "source": "teaching_assumption", "label": "单份课程履约成本", "note": "平台、答疑、工具与退款准备的占位成本。"},
+    "course_refund_rate": {"value": 0.08, "source": "teaching_assumption", "label": "课程退款率"},
+    "claimed_year_orders": {"value": 100, "source": "author_claim_derived", "label": "2025年订单数下沿", "quote": "25年一整年做了上百单", "note": "取「上百」的下沿 100，仍是自述。"},
+    "claimed_year_gmv": {"value": 500000, "source": "author_claim", "label": "2025年GMV", "quote": "GMV大概50万"},
+    "claimed_video_course_revenue": {"value": 100000, "source": "author_claim_derived", "label": "单条视频课程收入下沿", "quote": "直接给我带来了十几万的课程收入", "note": "「十几万」取下沿 10 万做演示，仍是自述。"},
+    "claimed_investment": {"value": 10000000, "source": "author_claim", "label": "融资额", "quote": "拿到了千万投资", "note": "未给出轮次、估值、到账与稀释，不能纳入经营单位经济。"}
+  }
+}

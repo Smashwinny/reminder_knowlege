@@ -1,0 +1,77 @@
+$ python3 fetch.py (fresh ZIP extraction)
+{
+  "commit": "286d56ccbbb924c10812fc5e6cabb11906454afc",
+  "files": 18,
+  "bytes": 15705996
+}
+$ python3 assets.py
+{
+  "files": [
+    {
+      "file": "upstream/kestrel-k1/assets/body/head.glb",
+      "bytes": 2888184,
+      "nodes": 8,
+      "meshes": 8,
+      "skins": 0,
+      "animations": 0,
+      "generator": "Khronos glTF Blender I/O v5.2.40",
+      "sha256": "b2abd480f7310646f28d20958c12f9bf99966cea102a95f97858a711e1efb317"
+    },
+    {
+      "file": "upstream/kestrel-k1/assets/body/limbs.glb",
+      "bytes": 3349064,
+      "nodes": 40,
+      "meshes": 40,
+      "skins": 0,
+      "animations": 0,
+      "generator": "Khronos glTF Blender I/O v5.2.40",
+      "sha256": "f1bd6997a65fd634c6ef4e3112535cf673639c75bc9debbe050fe2e299665265"
+    },
+    {
+      "file": "upstream/kestrel-k1/assets/body/torso.glb",
+      "bytes": 4248928,
+      "nodes": 9,
+      "meshes": 9,
+      "skins": 0,
+      "animations": 0,
+      "generator": "Khronos glTF Blender I/O v5.2.40",
+      "sha256": "d36f3fd1174eccdaa2e551f3f573a71415a3966173f55203834bd6643d340ea1"
+    },
+    {
+      "file": "upstream/kestrel-k1/assets/shells.glb",
+      "bytes": 2865440,
+      "nodes": 90,
+      "meshes": 90,
+      "skins": 0,
+      "animations": 0,
+      "generator": "glTF-Transform v4.5.1",
+      "sha256": "2f069fe278003bd44e7bf3022a4e929e17bc6e41fff2301545f5648d69ef48f4"
+    }
+  ],
+  "total_nodes": 147,
+  "total_meshes": 147
+}
+$ node clock.cjs
+{
+  "source": "exact extracted class T5; synthetic inputs, NOT measured FPS",
+  "rows": [
+    {
+      "synthetic_interval_ms": 16.666666666666668,
+      "reciprocal_hz": 59.99999999999999,
+      "reported_hud_fps": 90,
+      "simulation_dt": 0.01666666666666663
+    },
+    {
+      "synthetic_interval_ms": 100,
+      "reciprocal_hz": 10,
+      "reported_hud_fps": 120,
+      "simulation_dt": 0.05
+    },
+    {
+      "synthetic_interval_ms": 1000,
+      "reciprocal_hz": 1,
+      "reported_hud_fps": 120,
+      "simulation_dt": 0.05
+    }
+  ]
+}

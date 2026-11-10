@@ -1,0 +1,33 @@
+test_frequency (unittest.loader._FailedTest.test_frequency) ... ERROR
+
+======================================================================
+ERROR: test_frequency (unittest.loader._FailedTest.test_frequency)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_frequency
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/usr/lib/python3.13/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/workspace/learn-batch/05-wechat-tools/upstream/TrendRadar/tests/test_frequency.py", line 5, in <module>
+    from trendradar.core.frequency import load_frequency_words, matches_word_groups
+  File "/workspace/learn-batch/05-wechat-tools/upstream/TrendRadar/trendradar/__init__.py", line 10, in <module>
+    from trendradar.context import AppContext
+  File "/workspace/learn-batch/05-wechat-tools/upstream/TrendRadar/trendradar/context.py", line 12, in <module>
+    from trendradar.utils.time import (
+    ...<8 lines>...
+    )
+  File "/workspace/learn-batch/05-wechat-tools/upstream/TrendRadar/trendradar/utils/__init__.py", line 6, in <module>
+    from trendradar.utils.time import (
+    ...<5 lines>...
+    )
+  File "/workspace/learn-batch/05-wechat-tools/upstream/TrendRadar/trendradar/utils/time.py", line 11, in <module>
+    import pytz
+ModuleNotFoundError: No module named 'pytz'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

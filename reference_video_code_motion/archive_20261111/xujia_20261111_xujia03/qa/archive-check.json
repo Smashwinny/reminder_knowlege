@@ -1,0 +1,16 @@
+{
+  "exercise_crc": "PASS",
+  "extracted_zip_smoke": [
+    {
+      "command": "python3 lab.py timeline",
+      "exit_code": 0,
+      "stdout": "{\"out_of_order_seek_identical\": true, \"max_boundary_delta\": 1.6874999998917062e-05, \"linear_light_black_white_average\": 188, \"gamma_space_average\": 128, \"frames\": 312, \"samples_audio\": 624000, \"duration_ratio\": 4.166666666666667, \"note\": \"continuous parameters only; not proof of subjective shot continuity or GPU rendering\"}"
+    },
+    {
+      "command": "python3 lab.py audio",
+      "exit_code": 0,
+      "stdout": "{\"samples\": 624000, \"duration_seconds\": 13.0, \"peak\": 0.4526826221393474, \"clipped_samples\": 0, \"event_marks\": [{\"event\": \"enter\", \"sample\": 19200, \"time\": 0.4, \"error\": 0.0, \"nearest_video_frame\": 10, \"nearest_frame_error_seconds\": 0.016666666666666663}, {\"event\": \"land\", \"sample\": 76800, \"time\": 1.6, \"error\": 0.0, \"nearest_video_frame\": 38, \"nearest_frame_error_seconds\": 0.01666666666666683}, {\"event\": \"orbit\", \"sample\": 168000, \"time\": 3.5, \"error\": 0.0, \"nearest_video_frame\": 84, \"nearest_frame_error_seconds\": 0.0}, {\"event\": \"reframe\", \"sample\": 408000, \"time\": 8.5, \"error\": 0.0, \"nearest_video_frame\": 204, \"nearest_frame_error_seconds\": 0.0}, {\"event\": \"settle\", \"sample\": 537600, \"time\": 11.2, \"error\": 0.0, \"nearest_video_frame\": 269, \"nearest_frame_error_seconds\": 0.008333333333334636}]}"
+    }
+  ],
+  "note": "Extracted ZIP only reran timeline/audio; full five-step run evidence is experiment-log.md, not an extra full ZIP replay."
+}

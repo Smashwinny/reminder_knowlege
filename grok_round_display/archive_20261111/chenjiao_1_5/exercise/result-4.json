@@ -1,0 +1,9 @@
+{
+  "reply_file_valid": true,
+  "subtitle": "环回测试成功",
+  "audio_generated": false,
+  "timeout_seconds_example": 300,
+  "automatic_resubmissions": 0,
+  "hardware": "待验证",
+  "real_bot": "未调用"
+}

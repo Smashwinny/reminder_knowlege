@@ -1,0 +1,10 @@
+{
+  "out_of_order_seek_identical": true,
+  "max_boundary_delta": 1.6874999998917062e-05,
+  "linear_light_black_white_average": 188,
+  "gamma_space_average": 128,
+  "frames": 312,
+  "samples_audio": 624000,
+  "duration_ratio": 4.166666666666667,
+  "note": "continuous parameters only; not proof of subjective shot continuity or GPU rendering"
+}

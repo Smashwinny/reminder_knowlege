@@ -1,0 +1,16 @@
+{
+  "command": [
+    "gcc",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Iupstream/components/story_core/include",
+    "-Iupstream/host",
+    "-Iupstream/host/stubs",
+    "upstream/host/test_arena.c",
+    "upstream/components/story_core/story_arena.c",
+    "-o",
+    "test_arena"
+  ],
+  "compile_exit": 0
+}

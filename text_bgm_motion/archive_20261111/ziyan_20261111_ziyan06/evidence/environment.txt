@@ -1,0 +1,79 @@
+v24.22.1
+@remotion/cli 4.0.542
+© 2026 Remotion AG
+
+Available commands:
+
+remotion studio <entry-point>?
+Start the Remotion Studio.
+https://www.remotion.dev/docs/cli/studio
+
+remotion render [<entry-point|serve-url>] [<composition-id>] [<output-location>]
+Render video, audio or an image sequence.
+https://www.remotion.dev/docs/cli/render
+
+remotion still <serve-url|entry-point>? [<composition-id>] [<output-location>]
+Render a still frame and save it as an image.
+https://www.remotion.dev/docs/cli/still
+
+remotion compositions <serve-url|entry-file>?
+Print the available compositions.
+https://www.remotion.dev/docs/cli/compositions
+
+remotion lambda <command>
+Control Remotion Lambda.
+https://www.remotion.dev/docs/lambda/cli
+
+remotion bundle <serve-url|entry-file>?
+Create a Remotion bundle to be deployed to the web.
+https://www.remotion.dev/docs/cli/bundle
+
+remotion browser <command>
+Ensure Remotion has a browser it can use for rendering.
+https://www.remotion.dev/docs/cli/browser
+
+remotion cloudrun <command>
+Control Remotion Cloud Run.
+https://www.remotion.dev/docs/cloudrun/cli
+
+remotion benchmark [<entry-point>] [composition-ids]
+Benchmark rendering one or more compositions.
+https://www.remotion.dev/docs/cli/benchmark
+
+remotion skills <add | update>
+Install or update skills from remotion-dev/skills.
+https://www.remotion.dev/docs/cli/skills
+
+remotion versions
+Print and validate versions of all Remotion packages.
+https://www.remotion.dev/docs/cli/versions
+
+remotion upgrade
+Ensure Remotion is on the newest version.
+https://www.remotion.dev/docs/cli/upgrade
+
+remotion add <package-name...>
+Add Remotion packages with the correct version.
+https://www.remotion.dev/docs/cli/add
+
+remotion elements <command>
+Install Elements from Element Libraries.
+https://www.remotion.dev/docs/cli/elements
+
+remotion gpu
+Print information about how Chrome uses the GPU.
+https://www.remotion.dev/docs/cli/gpu
+
+remotion ffmpeg <arguments...>
+Execute FFmpeg with all arguments forwarded.
+https://www.remotion.dev/docs/cli/ffmpeg
+
+remotion ffprobe <arguments...>
+Execute FFprobe with all arguments forwarded.
+https://www.remotion.dev/docs/cli/ffprobe
+
+remotion help <command...>
+Print available commands and flags for the Remotion CLI.
+https://www.remotion.dev/docs/cli/help
+
+Visit https://www.remotion.dev/docs/cli for browsable CLI documentation.

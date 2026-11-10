@@ -1,0 +1,27 @@
+{
+  "synthetic_only": true,
+  "order": [
+    "cached",
+    "uncached_input",
+    "output"
+  ],
+  "USD_per_million": [
+    0.2,
+    1.0,
+    4.0
+  ],
+  "tokens_small": [
+    700,
+    200,
+    100
+  ],
+  "cost_small_USD": 0.00074,
+  "tokens_large": [
+    700,
+    200,
+    1000
+  ],
+  "cost_large_USD": 0.00434,
+  "missing_price": null,
+  "warning": "自选虚构价格与token，不是任何真实供应商报价或AA复测；缓存token只算一次"
+}

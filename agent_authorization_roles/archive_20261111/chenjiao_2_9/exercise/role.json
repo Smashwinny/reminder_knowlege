@@ -1,0 +1,1 @@
+{"owns": "公开资料对比报告", "inputs": ["三条公开资料"], "may": ["read", "draft"], "must_ask": ["send", "delete"], "done": ["来源齐全", "缺口明确"]}

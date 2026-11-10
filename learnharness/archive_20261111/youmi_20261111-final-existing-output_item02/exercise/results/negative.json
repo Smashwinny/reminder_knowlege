@@ -1,0 +1,21 @@
+[
+  {
+    "id": "cycle",
+    "stage": "DAG",
+    "error": "Edge \"b\" → \"a\" would create a cycle: \"a\" already leads (directly or transitively) back to \"b\". \"from\" must be understood before \"to\" — the tree is a DAG."
+  },
+  {
+    "id": "invalid-slug",
+    "stage": "parse",
+    "problems": [
+      "line 2: node id `Bad.id` must be a lowercase slug (a-z, 0-9, joined by hyphens or underscores — e.g. `chain-rule-intuition`); ids are permanent and checks reference them."
+    ]
+  },
+  {
+    "id": "missing-header",
+    "stage": "parse",
+    "problems": [
+      "line 1: expected the header `graph TD` (or flowchart TD/TB) first, got `a --> b`."
+    ]
+  }
+]

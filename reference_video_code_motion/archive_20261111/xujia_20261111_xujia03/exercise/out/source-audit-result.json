@@ -1,0 +1,16 @@
+{
+  "source_tokens": [
+    "window.__seek",
+    "window.__ready",
+    "SRGB_TO_LIN",
+    "__motion",
+    "--workers",
+    "--gpu"
+  ],
+  "tokens_verified": 6,
+  "sha": "abb6d17279cdc749e27e99aa534a062d8fd01ced",
+  "license": "PolyForm Noncommercial 1.0.0",
+  "upstream_renderer_executed": false,
+  "blender_executed": false,
+  "paid_model_calls": 0
+}

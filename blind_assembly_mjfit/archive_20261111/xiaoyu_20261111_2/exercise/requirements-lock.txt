@@ -1,0 +1,16 @@
+glfw==2.11.0
+iniconfig==2.3.1
+mapbox_earcut==2.1.0
+mjfit @ https://github.com/younghyopark/mjfit/archive/5833f465896e1e06bc4be4f003be847f5183a4db.zip#sha256=f9ce190f7e6b906b0ea84a58feae4661cc6410ec2d89a9f6481ba058f7b97f12
+mujoco==4.0.0
+mujoco-core==4.0.0
+mujoco-studio==4.0.0
+numpy==2.5.4
+packaging==26.3
+pillow==13.0.0
+pluggy==1.7.0
+Pygments==2.21.0
+PyOpenGL==3.1.10
+pytest==9.2.0
+PyYAML==6.0.3
+websockets==17.4

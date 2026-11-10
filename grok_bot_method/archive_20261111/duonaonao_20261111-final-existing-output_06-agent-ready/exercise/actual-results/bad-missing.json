@@ -1,0 +1,12 @@
+{
+  "sha": "3bde3879a823a88184a42af24a59c660e6a698e1",
+  "changed": [
+    "docs/new.md"
+  ],
+  "eligible": false,
+  "reasons": [
+    "required check not green: lint"
+  ],
+  "review_is_synthetic": true,
+  "merged": false
+}

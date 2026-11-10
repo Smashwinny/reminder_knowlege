@@ -1,0 +1,1075 @@
+{
+  "checked_at": "2026-11-11 01:22:18 Asia/Shanghai",
+  "method": "HTTP GET, follow redirects, no auth, no POST, no referral parameters",
+  "user_agent": "ReminderLearnBot/1.0 (read-only URL probe; +https://github.com/Smashwinny/reminder_knowlege)",
+  "timeout_sec": 20,
+  "counts": {
+    "可达": 53,
+    "原文缺号未探测": 1,
+    "被拦截或需登录（站点存在但未放行）": 5
+  },
+  "rows": [
+    {
+      "article_no": "1",
+      "name": "沉浸式翻译",
+      "chapter": "一、市场机会与竞品调研",
+      "confidence": "search_confirmed",
+      "official_url": "https://immersivetranslate.com/",
+      "url_note": "官方站点",
+      "result": {
+        "requested_url": "https://immersivetranslate.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://immersivetranslate.com/en/",
+        "elapsed_ms": 332,
+        "error": null,
+        "redirected": true
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "2",
+      "name": "AITDK",
+      "chapter": "一、市场机会与竞品调研",
+      "confidence": "search_confirmed",
+      "official_url": "https://aitdk.com/",
+      "url_note": "插件页为 /extension，本批探测官网根路径",
+      "result": {
+        "requested_url": "https://aitdk.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://aitdk.com/",
+        "elapsed_ms": 1070,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "3",
+      "name": "SiteData",
+      "chapter": "一、市场机会与竞品调研",
+      "confidence": "search_confirmed",
+      "official_url": "https://sitedata.dev/",
+      "url_note": "检索得到 sitedata.dev；名称有歧义，若作者指其他产品则待验证",
+      "result": {
+        "requested_url": "https://sitedata.dev/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://sitedata.dev/",
+        "elapsed_ms": 1339,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "4",
+      "name": "Similarweb",
+      "chapter": "一、市场机会与竞品调研",
+      "confidence": "official_known",
+      "official_url": "https://www.similarweb.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.similarweb.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.similarweb.com/",
+        "elapsed_ms": 479,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "5",
+      "name": "Wayback Machine",
+      "chapter": "一、市场机会与竞品调研",
+      "confidence": "official_known",
+      "official_url": "https://web.archive.org/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://web.archive.org/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://web.archive.org/",
+        "elapsed_ms": 172,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "6",
+      "name": "Wappalyzer",
+      "chapter": "一、市场机会与竞品调研",
+      "confidence": "official_known",
+      "official_url": "https://www.wappalyzer.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.wappalyzer.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.wappalyzer.com/",
+        "elapsed_ms": 72,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "7",
+      "name": "Google Trends",
+      "chapter": "一、市场机会与竞品调研",
+      "confidence": "official_known",
+      "official_url": "https://trends.google.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://trends.google.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://trends.google.com/trends/",
+        "elapsed_ms": 229,
+        "error": null,
+        "redirected": true
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "8",
+      "name": "Exploding Topics",
+      "chapter": "一、市场机会与竞品调研",
+      "confidence": "official_known",
+      "official_url": "https://explodingtopics.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://explodingtopics.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://explodingtopics.com/",
+        "elapsed_ms": 631,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "9",
+      "name": "Screaming Frog SEO Spider",
+      "chapter": "二、SEO 与内容资产",
+      "confidence": "official_known",
+      "official_url": "https://www.screamingfrog.co.uk/seo-spider/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.screamingfrog.co.uk/seo-spider/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.screamingfrog.co.uk/seo-spider/",
+        "elapsed_ms": 121,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "10",
+      "name": "SEO Minion",
+      "chapter": "二、SEO 与内容资产",
+      "confidence": "official_known",
+      "official_url": "https://seominion.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://seominion.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://keywordseverywhere.com/seominion/",
+        "elapsed_ms": 630,
+        "error": null,
+        "redirected": true
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "11",
+      "name": "Semrush",
+      "chapter": "二、SEO 与内容资产",
+      "confidence": "official_known",
+      "official_url": "https://www.semrush.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.semrush.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.semrush.com/",
+        "elapsed_ms": 303,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "12",
+      "name": "Moz Link Explorer",
+      "chapter": "二、SEO 与内容资产",
+      "confidence": "official_known",
+      "official_url": "https://moz.com/link-explorer",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://moz.com/link-explorer",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://moz.com/link-explorer",
+        "elapsed_ms": 125,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "13",
+      "name": "Ahrefs",
+      "chapter": "二、SEO 与内容资产",
+      "confidence": "official_known",
+      "official_url": "https://ahrefs.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://ahrefs.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://ahrefs.com/",
+        "elapsed_ms": 120,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "14",
+      "name": "（原文缺号）",
+      "chapter": "二、SEO 与内容资产",
+      "confidence": "missing",
+      "official_url": null,
+      "url_note": "原文缺号，不探测",
+      "result": {
+        "requested_url": null,
+        "ok": false,
+        "status": null,
+        "final_url": null,
+        "elapsed_ms": 0,
+        "error": "missing_from_article",
+        "redirected": false
+      },
+      "classification": "原文缺号未探测"
+    },
+    {
+      "article_no": "15",
+      "name": "Linkhouse",
+      "chapter": "二、SEO 与内容资产",
+      "confidence": "search_confirmed",
+      "official_url": "https://linkhouse.net/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://linkhouse.net/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://linkhouse.net/",
+        "elapsed_ms": 90,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "16",
+      "name": "Collaborator",
+      "chapter": "二、SEO 与内容资产",
+      "confidence": "official_known",
+      "official_url": "https://collaborator.pro/",
+      "url_note": "域名按常见官方站填写，探测时核验",
+      "result": {
+        "requested_url": "https://collaborator.pro/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://collaborator.pro/",
+        "elapsed_ms": 633,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "53-early",
+      "name": "Fiverr",
+      "chapter": "二、SEO 与内容资产",
+      "confidence": "official_known",
+      "official_url": "https://www.fiverr.com/",
+      "url_note": "编号错位，不是第 7 章的 53",
+      "result": {
+        "requested_url": "https://www.fiverr.com/",
+        "ok": false,
+        "status": 403,
+        "final_url": "https://www.fiverr.com/",
+        "elapsed_ms": 100,
+        "error": "HTTPError 403 Forbidden",
+        "redirected": false
+      },
+      "classification": "被拦截或需登录（站点存在但未放行）"
+    },
+    {
+      "article_no": "54-early",
+      "name": "Adsy",
+      "chapter": "二、SEO 与内容资产",
+      "confidence": "official_known",
+      "official_url": "https://www.adsy.com/",
+      "url_note": "编号错位，出现在第 2 章末",
+      "result": {
+        "requested_url": "https://www.adsy.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://adsy.com/",
+        "elapsed_ms": 1025,
+        "error": null,
+        "redirected": true
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "17",
+      "name": "Figma",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "confidence": "official_known",
+      "official_url": "https://www.figma.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.figma.com/",
+        "ok": true,
+        "status": 202,
+        "final_url": "https://www.figma.com/",
+        "elapsed_ms": 94,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "18",
+      "name": "Framer",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "confidence": "official_known",
+      "official_url": "https://www.framer.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.framer.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.framer.com/",
+        "elapsed_ms": 132,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "19",
+      "name": "IconPark",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "confidence": "official_known",
+      "official_url": "https://iconpark.oceanengine.com/",
+      "url_note": "字节跳动 IconPark 官方站",
+      "result": {
+        "requested_url": "https://iconpark.oceanengine.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://iconpark.oceanengine.com/",
+        "elapsed_ms": 796,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "20",
+      "name": "OpenRouter",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "confidence": "official_known",
+      "official_url": "https://openrouter.ai/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://openrouter.ai/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://openrouter.ai/",
+        "elapsed_ms": 84,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "21",
+      "name": "Dify",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "confidence": "official_known",
+      "official_url": "https://dify.ai/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://dify.ai/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://dify.ai/",
+        "elapsed_ms": 88,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "22",
+      "name": "Replicate",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "confidence": "official_known",
+      "official_url": "https://replicate.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://replicate.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://replicate.com/",
+        "elapsed_ms": 661,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "23",
+      "name": "n8n",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "confidence": "official_known",
+      "official_url": "https://n8n.io/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://n8n.io/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://n8n.io/",
+        "elapsed_ms": 139,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "24",
+      "name": "Midjourney",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "confidence": "official_known",
+      "official_url": "https://www.midjourney.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.midjourney.com/",
+        "ok": false,
+        "status": 403,
+        "final_url": "https://www.midjourney.com/",
+        "elapsed_ms": 1800,
+        "error": "HTTPError 403 Forbidden",
+        "redirected": false
+      },
+      "classification": "被拦截或需登录（站点存在但未放行）"
+    },
+    {
+      "article_no": "25",
+      "name": "Ideogram",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "confidence": "official_known",
+      "official_url": "https://ideogram.ai/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://ideogram.ai/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://ideogram.ai/",
+        "elapsed_ms": 111,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "26",
+      "name": "Loom",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "confidence": "official_known",
+      "official_url": "https://www.loom.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.loom.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.loom.com/",
+        "elapsed_ms": 85,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "27",
+      "name": "Screen Studio",
+      "chapter": "三、产品设计、AI 能力与演示",
+      "confidence": "official_known",
+      "official_url": "https://screen.studio/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://screen.studio/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://screen.studio/",
+        "elapsed_ms": 120,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "28",
+      "name": "Cloudflare",
+      "chapter": "四、建站、本地化与基础设施",
+      "confidence": "official_known",
+      "official_url": "https://www.cloudflare.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.cloudflare.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.cloudflare.com/",
+        "elapsed_ms": 212,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "29",
+      "name": "Vercel",
+      "chapter": "四、建站、本地化与基础设施",
+      "confidence": "official_known",
+      "official_url": "https://vercel.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://vercel.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://vercel.com/",
+        "elapsed_ms": 161,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "30",
+      "name": "DeepL",
+      "chapter": "四、建站、本地化与基础设施",
+      "confidence": "official_known",
+      "official_url": "https://www.deepl.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.deepl.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.deepl.com/en",
+        "elapsed_ms": 183,
+        "error": null,
+        "redirected": true
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "31",
+      "name": "Weglot",
+      "chapter": "四、建站、本地化与基础设施",
+      "confidence": "official_known",
+      "official_url": "https://www.weglot.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.weglot.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.weglot.com/",
+        "elapsed_ms": 201,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "32",
+      "name": "Lokalise",
+      "chapter": "四、建站、本地化与基础设施",
+      "confidence": "official_known",
+      "official_url": "https://lokalise.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://lokalise.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://lokalise.com/",
+        "elapsed_ms": 587,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "33",
+      "name": "Stripe",
+      "chapter": "五、支付、跨境资金与合规",
+      "confidence": "official_known",
+      "official_url": "https://stripe.com/",
+      "url_note": "本批只探测官网，不发起测试支付",
+      "result": {
+        "requested_url": "https://stripe.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://stripe.com/",
+        "elapsed_ms": 1583,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "34",
+      "name": "Paddle",
+      "chapter": "五、支付、跨境资金与合规",
+      "confidence": "official_known",
+      "official_url": "https://www.paddle.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.paddle.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.paddle.com/",
+        "elapsed_ms": 1809,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "35",
+      "name": "Lemon Squeezy",
+      "chapter": "五、支付、跨境资金与合规",
+      "confidence": "official_known",
+      "official_url": "https://www.lemonsqueezy.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.lemonsqueezy.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.lemonsqueezy.com/",
+        "elapsed_ms": 2512,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "36",
+      "name": "Starryblu",
+      "chapter": "五、支付、跨境资金与合规",
+      "confidence": "search_confirmed",
+      "official_url": "https://www.starryblu.com/",
+      "url_note": "只探测官网根路径，不打开邀请链接，不使用原文推荐码",
+      "result": {
+        "requested_url": "https://www.starryblu.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.starryblu.com/",
+        "elapsed_ms": 954,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "37",
+      "name": "Termly",
+      "chapter": "五、支付、跨境资金与合规",
+      "confidence": "official_known",
+      "official_url": "https://termly.io/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://termly.io/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://termly.io/",
+        "elapsed_ms": 126,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "38",
+      "name": "Product Hunt",
+      "chapter": "六、增长获客与渠道分发",
+      "confidence": "official_known",
+      "official_url": "https://www.producthunt.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.producthunt.com/",
+        "ok": false,
+        "status": 403,
+        "final_url": "https://www.producthunt.com/",
+        "elapsed_ms": 95,
+        "error": "HTTPError 403 Forbidden",
+        "redirected": false
+      },
+      "classification": "被拦截或需登录（站点存在但未放行）"
+    },
+    {
+      "article_no": "39",
+      "name": "Uneed",
+      "chapter": "六、增长获客与渠道分发",
+      "confidence": "search_confirmed",
+      "official_url": "https://www.uneed.best/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.uneed.best/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.uneed.best/",
+        "elapsed_ms": 153,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "40",
+      "name": "Microlaunch",
+      "chapter": "六、增长获客与渠道分发",
+      "confidence": "search_confirmed",
+      "official_url": "https://microlaunch.net/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://microlaunch.net/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://microlaunch.net/",
+        "elapsed_ms": 164,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "41",
+      "name": "BetaList",
+      "chapter": "六、增长获客与渠道分发",
+      "confidence": "official_known",
+      "official_url": "https://betalist.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://betalist.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://betalist.com/",
+        "elapsed_ms": 242,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "42a",
+      "name": "Discord",
+      "chapter": "六、增长获客与渠道分发",
+      "confidence": "official_known",
+      "official_url": "https://discord.com/",
+      "url_note": "原文 42 是 Discord + Disboard，拆成两个官方地址探测",
+      "result": {
+        "requested_url": "https://discord.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://discord.com/",
+        "elapsed_ms": 109,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "42b",
+      "name": "Disboard",
+      "chapter": "六、增长获客与渠道分发",
+      "confidence": "official_known",
+      "official_url": "https://disboard.org/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://disboard.org/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://disboard.org/",
+        "elapsed_ms": 350,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "43",
+      "name": "Toolify",
+      "chapter": "六、增长获客与渠道分发",
+      "confidence": "official_known",
+      "official_url": "https://www.toolify.ai/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.toolify.ai/",
+        "ok": false,
+        "status": 403,
+        "final_url": "https://www.toolify.ai/",
+        "elapsed_ms": 60,
+        "error": "HTTPError 403 Forbidden",
+        "redirected": false
+      },
+      "classification": "被拦截或需登录（站点存在但未放行）"
+    },
+    {
+      "article_no": "44",
+      "name": "There's An AI For That",
+      "chapter": "六、增长获客与渠道分发",
+      "confidence": "official_known",
+      "official_url": "https://theresanaiforthat.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://theresanaiforthat.com/",
+        "ok": false,
+        "status": 403,
+        "final_url": "https://theresanaiforthat.com/",
+        "elapsed_ms": 105,
+        "error": "HTTPError 403 Forbidden",
+        "redirected": false
+      },
+      "classification": "被拦截或需登录（站点存在但未放行）"
+    },
+    {
+      "article_no": "45",
+      "name": "Typefully",
+      "chapter": "六、增长获客与渠道分发",
+      "confidence": "official_known",
+      "official_url": "https://typefully.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://typefully.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://typefully.com/",
+        "elapsed_ms": 150,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "46",
+      "name": "Beehiiv",
+      "chapter": "六、增长获客与渠道分发",
+      "confidence": "official_known",
+      "official_url": "https://www.beehiiv.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://www.beehiiv.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://www.beehiiv.com/",
+        "elapsed_ms": 444,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "47",
+      "name": "Customer",
+      "chapter": "六、增长获客与渠道分发",
+      "confidence": "inferred",
+      "official_url": "https://customer.io/",
+      "url_note": "名称简写存在歧义，URL 是推断，探测结果不能单独证明作者指的就是这家",
+      "result": {
+        "requested_url": "https://customer.io/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://customer.io/",
+        "elapsed_ms": 121,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "48",
+      "name": "Loops",
+      "chapter": "六、增长获客与渠道分发",
+      "confidence": "official_known",
+      "official_url": "https://loops.so/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://loops.so/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://loops.so/",
+        "elapsed_ms": 146,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "49",
+      "name": "Google Search Console",
+      "chapter": "七、数据分析与用户反馈",
+      "confidence": "official_known",
+      "official_url": "https://search.google.com/search-console/about",
+      "url_note": "探测公开介绍页，不登录控制台",
+      "result": {
+        "requested_url": "https://search.google.com/search-console/about",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://search.google.com/search-console/about",
+        "elapsed_ms": 104,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "50",
+      "name": "Google Analytics 4",
+      "chapter": "七、数据分析与用户反馈",
+      "confidence": "official_known",
+      "official_url": "https://marketingplatform.google.com/about/analytics/",
+      "url_note": "探测公开介绍页，不登录账户",
+      "result": {
+        "requested_url": "https://marketingplatform.google.com/about/analytics/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://marketingplatform.google.com/about/analytics/",
+        "elapsed_ms": 82,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "51",
+      "name": "PostHog",
+      "chapter": "七、数据分析与用户反馈",
+      "confidence": "official_known",
+      "official_url": "https://posthog.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://posthog.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://posthog.com/",
+        "elapsed_ms": 184,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "52",
+      "name": "Microsoft Clarity",
+      "chapter": "七、数据分析与用户反馈",
+      "confidence": "official_known",
+      "official_url": "https://clarity.microsoft.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://clarity.microsoft.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://clarity.microsoft.com/",
+        "elapsed_ms": 154,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "53",
+      "name": "Feedlog",
+      "chapter": "七、数据分析与用户反馈",
+      "confidence": "search_confirmed",
+      "official_url": "https://feedlog.ai/",
+      "url_note": "官网写作 FeedLog；作者夹带私货，需单独标明",
+      "result": {
+        "requested_url": "https://feedlog.ai/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://feedlog.ai/",
+        "elapsed_ms": 162,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "55",
+      "name": "Crisp",
+      "chapter": "七、数据分析与用户反馈",
+      "confidence": "official_known",
+      "official_url": "https://crisp.chat/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://crisp.chat/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://crisp.chat/en/",
+        "elapsed_ms": 674,
+        "error": null,
+        "redirected": true
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "56",
+      "name": "Cursorful",
+      "chapter": "七、数据分析与用户反馈",
+      "confidence": "search_confirmed",
+      "official_url": "https://cursorful.com/",
+      "url_note": "",
+      "result": {
+        "requested_url": "https://cursorful.com/",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://cursorful.com/",
+        "elapsed_ms": 139,
+        "error": null,
+        "redirected": false
+      },
+      "classification": "可达"
+    },
+    {
+      "article_no": "article-id",
+      "name": "X 独立文章链接",
+      "chapter": "访问核验",
+      "confidence": "api_404",
+      "official_url": "https://x.com/i/article/2110257071849603072",
+      "url_note": "帖子 entities 里该文章链接 status=404；X API 按 id 查询返回 Not Found。正文是从母帖 article.plain_text 读到的。",
+      "result": {
+        "requested_url": "https://x.com/i/article/2110257071849603072",
+        "ok": true,
+        "status": 200,
+        "final_url": "https://x.com/i/jf/onboarding/web?redirect_after_login=%2Fi%2Farticle%2F2110257071849603072&mode=login",
+        "elapsed_ms": 230,
+        "error": null,
+        "redirected": true
+      },
+      "classification": "可达"
+    }
+  ]
+}

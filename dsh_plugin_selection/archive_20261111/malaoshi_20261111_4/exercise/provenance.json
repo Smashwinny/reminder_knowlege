@@ -1,0 +1,107 @@
+{
+  "upstream/dsh-cost-meter/lib/pricing.js": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/lib/pricing.js",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "fe84d028f97c39421efbf94d80d887079eafa50f1a0eb8d358829ecab39f2c5b"
+  },
+  "upstream/dsh-cost-meter/lib/peak-schedule.js": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/lib/peak-schedule.js",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "2932d18fb121ed61749ca0ef87d323c454548101bd6ea6d981a2053047644681"
+  },
+  "upstream/dsh-cost-meter/lib/price-multiplier.js": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/lib/price-multiplier.js",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "5e6c7d91774efd3caf18e144c863854a3787e6dcc42c4d4f5d1046d8aee57b21"
+  },
+  "upstream/dsh-cost-meter/lib/provider-prices.js": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/lib/provider-prices.js",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "3d510bca85ed8c8afdc2323d4f1e71930d4f476c4cc7b7eeb875dd91f953eee3"
+  },
+  "upstream/dsh-cost-meter/lib/provider-prices-2026-11-05.js": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/lib/provider-prices-2026-11-05.js",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "e22b5a84ff1f1138b02165d608b639030518461c3e0d9b0ec5a97a093f0cf839"
+  },
+  "upstream/dsh-cost-meter/lib/provider-prices-2026-10-28.js": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/lib/provider-prices-2026-10-28.js",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "e6d48eb2e57bf89d1b08c1c9a207e2fb7a441deabaad7d8bc308b118b9be385a"
+  },
+  "upstream/dsh-cost-meter/lib/provider-prices-2026-10-15.js": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/lib/provider-prices-2026-10-15.js",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "3c89da9d0740384b6cba5e3a073ea3512c3ccabf033101f08f9c7267fc117764"
+  },
+  "upstream/dsh-cost-meter/lib/stepfun-prices.js": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/lib/stepfun-prices.js",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "bec4f7bca5bca1d304d828095e1c532d511368c147c075b88d57fc7ebf8f1afe"
+  },
+  "upstream/dsh-cost-meter/lib/opendesign-prices.js": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/lib/opendesign-prices.js",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "5a85410b29886353443c925defc33846a0f57312003dfe7d98b5ad50f2c531c3"
+  },
+  "upstream/dsh-cost-meter/lib/opendesign.js": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/lib/opendesign.js",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "657d984e34d8a8c5263e7de6f955aeb7cb8b20102f777619afa6c6e8fe04f23f"
+  },
+  "upstream/dsh-cost-meter/lib/net.js": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/lib/net.js",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "842073711ecce794ac981b02be9ff529dd039fae8b1fe970533c2da0a318c502"
+  },
+  "upstream/dsh-rewind/src/snapshot-format.ts": {
+    "source": "https://github.com/SiriLee/dsh-rewind/blob/f5668ded87eb5c230916e288f26a887c633b4154/src/snapshot-format.ts",
+    "sha": "f5668ded87eb5c230916e288f26a887c633b4154",
+    "sha256": "3eefa493cc2c82a59ac2ba074a8610384075269a9639a4ff4136417c7bb14f37"
+  },
+  "upstream/dsh-rewind/package.json": {
+    "source": "https://github.com/SiriLee/dsh-rewind/blob/f5668ded87eb5c230916e288f26a887c633b4154/package.json",
+    "sha": "f5668ded87eb5c230916e288f26a887c633b4154",
+    "sha256": "d1f90e0a69b4f5516bc6e3c6c489c95c71846ca2e094f1c983170a9ba6bccfe0"
+  },
+  "upstream/dsh-rewind/LICENSE": {
+    "source": "https://github.com/SiriLee/dsh-rewind/blob/f5668ded87eb5c230916e288f26a887c633b4154/LICENSE",
+    "sha": "f5668ded87eb5c230916e288f26a887c633b4154",
+    "sha256": "895417849e28e3f191601428d25f184ff9fe0926558015e1c99e2e7197570a52"
+  },
+  "upstream/review-feng/src/model-approval.mjs": {
+    "source": "https://github.com/f-e-n-g-0531/dsh-code-review/blob/0d3f6b03f9080153cc01fb8b75a79ddcbcae86d4/src/model-approval.mjs",
+    "sha": "0d3f6b03f9080153cc01fb8b75a79ddcbcae86d4",
+    "sha256": "d5621f638f273523910c36366ac687cb56eca987868cf3149f70ae9fdb7be5af"
+  },
+  "upstream/review-feng/LICENSE": {
+    "source": "https://github.com/f-e-n-g-0531/dsh-code-review/blob/0d3f6b03f9080153cc01fb8b75a79ddcbcae86d4/LICENSE",
+    "sha": "0d3f6b03f9080153cc01fb8b75a79ddcbcae86d4",
+    "sha256": "d86c8a38b01c771a423401b51cb8316f48ef8119bdcc7c4823de9e72ac9eb15b"
+  },
+  "upstream/review-feng/package.json": {
+    "source": "https://github.com/f-e-n-g-0531/dsh-code-review/blob/0d3f6b03f9080153cc01fb8b75a79ddcbcae86d4/package.json",
+    "sha": "0d3f6b03f9080153cc01fb8b75a79ddcbcae86d4",
+    "sha256": "40b0c222461f369fbca8594f5aa57a411e0458842d31a98350887336f78f86ce"
+  },
+  "upstream/dsh-cost-meter/LICENSE": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/LICENSE",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "ed6b8056b839e90e46fe185a75fd83a6d687f22a846f68137bfa1ef0f2b233c1"
+  },
+  "upstream/dsh-cost-meter/package.json": {
+    "source": "https://github.com/Han-1413141/dsh-cost-meter/blob/c876735d80760fc89d88fa99c19c90c56e984c23/package.json",
+    "sha": "c876735d80760fc89d88fa99c19c90c56e984c23",
+    "sha256": "a96abd4ead9f3d1d5a19634f57456a0087fd8728e85ff594b1ca6b8f24a7470d"
+  },
+  "upstream/review-micheng/package.json": {
+    "source": "https://github.com/MichengAI/dsh-code-review/blob/89cc7166972e4d3c8bf482ee505d8d58c106fa13/package.json",
+    "sha": "89cc7166972e4d3c8bf482ee505d8d58c106fa13",
+    "sha256": "d4761de1b20006642414b78090b6e7320ec85a49544a995d768911aba32e4d10"
+  },
+  "upstream/archify/integrations/deepseek-harness/package.json": {
+    "source": "https://github.com/tt-a1i/archify/blob/7e45f36c66de1254d5ad6ba1d878f6499ea269fd/integrations/deepseek-harness/package.json",
+    "sha": "7e45f36c66de1254d5ad6ba1d878f6499ea269fd",
+    "sha256": "aadb56b730eea4f6641d3b7d2c7b7b886f76fb2322687068a2baad432d7fd8a8"
+  }
+}

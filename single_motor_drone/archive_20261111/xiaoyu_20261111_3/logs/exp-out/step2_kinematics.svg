@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" width="640" height="240" font-family="sans-serif">
+<rect width="640" height="240" fill="#f7fcff"/>
+<text x="320.0" y="18" text-anchor="middle" font-size="13" fill="#0866ca" font-weight="700">斜置铰链：8° 滞后换成多少变距（θ = ζ tan α；45° 处为 8°）</text>
+<line x1="58" y1="28" x2="58" y2="200" stroke="#9bb8c9"/>
+<line x1="58" y1="200" x2="624" y2="200" stroke="#9bb8c9"/>
+<line x1="58" y1="200.0" x2="624" y2="200.0" stroke="#e3eef4"/>
+<text x="52" y="204.0" text-anchor="end" font-size="10" fill="#577288">-0.0734</text>
+<line x1="58" y1="157.0" x2="624" y2="157.0" stroke="#e3eef4"/>
+<text x="52" y="161.0" text-anchor="end" font-size="10" fill="#577288">7.96</text>
+<line x1="58" y1="114.0" x2="624" y2="114.0" stroke="#e3eef4"/>
+<text x="52" y="118.0" text-anchor="end" font-size="10" fill="#577288">16</text>
+<line x1="58" y1="71.0" x2="624" y2="71.0" stroke="#e3eef4"/>
+<text x="52" y="75.0" text-anchor="end" font-size="10" fill="#577288">24</text>
+<line x1="58" y1="28.0" x2="624" y2="28.0" stroke="#e3eef4"/>
+<text x="52" y="32.0" text-anchor="end" font-size="10" fill="#577288">32.1</text>
+<text x="58.0" y="216" text-anchor="middle" font-size="10" fill="#577288">15</text>
+<text x="199.5" y="216" text-anchor="middle" font-size="10" fill="#577288">30</text>
+<text x="341.0" y="216" text-anchor="middle" font-size="10" fill="#577288">45</text>
+<text x="482.5" y="216" text-anchor="middle" font-size="10" fill="#577288">60</text>
+<text x="624.0" y="216" text-anchor="middle" font-size="10" fill="#577288">75</text>
+<text x="320.0" y="234" text-anchor="middle" font-size="11" fill="#17324d">铰链倾角 α (度)</text>
+<text x="14" y="114.0" text-anchor="middle" font-size="11" fill="#17324d" transform="rotate(-90 14 114.0)">变距角 (°)</text>
+<polyline fill="none" stroke="#ff7900" stroke-width="2.4" points="58.00,188.14 105.17,184.03 152.33,179.65 199.50,174.89 246.67,169.64 293.83,163.69 341.00,156.80 388.17,148.60 435.33,138.48 482.50,125.47 529.67,107.81 576.83,82.01 624.00,39.86"/>
+<rect x="66" y="32" width="10" height="10" fill="#ff7900"/>
+<text x="80" y="41" font-size="11" fill="#17324d">滞后 8° 时的变距 (°)</text>
+</svg>

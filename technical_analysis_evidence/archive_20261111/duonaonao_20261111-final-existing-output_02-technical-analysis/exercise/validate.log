@@ -1,0 +1,1 @@
+PASS 5 checks: OHLC invariant, warmup, future mutation prefix, fee monotonic, lag contract

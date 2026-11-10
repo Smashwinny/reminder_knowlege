@@ -1,0 +1,144 @@
+[
+  {
+    "id": "apple",
+    "name": "App Store",
+    "builds": [
+      "ios"
+    ],
+    "modes": [
+      "paid",
+      "iap",
+      "ads"
+    ],
+    "once_usd": 0,
+    "annual_usd": 99,
+    "per_app_usd": 0,
+    "sources": [
+      "S01",
+      "S13"
+    ],
+    "web_exclusive": false,
+    "curated": true
+  },
+  {
+    "id": "play",
+    "name": "Google Play",
+    "builds": [
+      "android"
+    ],
+    "modes": [
+      "paid",
+      "iap",
+      "ads"
+    ],
+    "once_usd": 25,
+    "annual_usd": 0,
+    "per_app_usd": 0,
+    "sources": [
+      "S02",
+      "S12"
+    ],
+    "web_exclusive": false,
+    "curated": true
+  },
+  {
+    "id": "steam",
+    "name": "Steam",
+    "builds": [
+      "desktop"
+    ],
+    "modes": [
+      "paid",
+      "iap"
+    ],
+    "once_usd": 0,
+    "annual_usd": 0,
+    "per_app_usd": 100,
+    "sources": [
+      "S03"
+    ],
+    "web_exclusive": false,
+    "curated": true
+  },
+  {
+    "id": "itch-download",
+    "name": "itch 下载",
+    "builds": [
+      "desktop",
+      "android",
+      "html5"
+    ],
+    "modes": [
+      "paid",
+      "donation"
+    ],
+    "once_usd": 0,
+    "annual_usd": 0,
+    "per_app_usd": 0,
+    "sources": [
+      "S04",
+      "S06"
+    ],
+    "web_exclusive": false,
+    "curated": false
+  },
+  {
+    "id": "itch-html5",
+    "name": "itch 浏览器",
+    "builds": [
+      "html5"
+    ],
+    "modes": [
+      "donation"
+    ],
+    "once_usd": 0,
+    "annual_usd": 0,
+    "per_app_usd": 0,
+    "sources": [
+      "S04",
+      "S05",
+      "S06"
+    ],
+    "web_exclusive": false,
+    "curated": false
+  },
+  {
+    "id": "poki",
+    "name": "Poki",
+    "builds": [
+      "html5"
+    ],
+    "modes": [
+      "ads"
+    ],
+    "once_usd": null,
+    "annual_usd": null,
+    "per_app_usd": null,
+    "sources": [
+      "S07"
+    ],
+    "web_exclusive": true,
+    "curated": true
+  },
+  {
+    "id": "wechat",
+    "name": "微信小游戏",
+    "builds": [
+      "wechat"
+    ],
+    "modes": [
+      "ads"
+    ],
+    "once_usd": null,
+    "annual_usd": null,
+    "per_app_usd": null,
+    "sources": [
+      "S08",
+      "S09",
+      "S10",
+      "S11"
+    ],
+    "web_exclusive": false,
+    "curated": true
+  }
+]

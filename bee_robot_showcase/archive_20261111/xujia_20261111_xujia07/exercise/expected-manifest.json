@@ -1,0 +1,92 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 6383,
+    "sha256": "d26d055e8fcd9d11b29f3e7fda9b2a553c4162db06b49da368cda37552cc4bcd"
+  },
+  {
+    "path": "LICENSE",
+    "bytes": 19861,
+    "sha256": "d20737d09140d33bafb7deaaecfa93fc58fda452a67c5faadda984b2be058920"
+  },
+  {
+    "path": "kestrel-k1/README.md",
+    "bytes": 1035,
+    "sha256": "5043058047e0dfbbafbec6ccf81e8fa894cf2f31e17c297be539861913e20c19"
+  },
+  {
+    "path": "kestrel-k1/index.html",
+    "bytes": 1621,
+    "sha256": "905e4347904cd978613fe98de7c216b19c9156ceb4571b15f7490ed44080f93a"
+  },
+  {
+    "path": "kestrel-k1/assets/index-BWjJCO7Y.js",
+    "bytes": 2141869,
+    "sha256": "40b363691862d06275d086c6900c023351fc99f4b6fe257bb498c43d01e76c02"
+  },
+  {
+    "path": "kestrel-k1/assets/index-CqPE8GzT.css",
+    "bytes": 8435,
+    "sha256": "0cfc7ff8a5bbd5fd8e000e6ff0b785af4c35567d6ef5230c3afbe86d94285590"
+  },
+  {
+    "path": "kestrel-k1/assets/body/head.glb",
+    "bytes": 2888184,
+    "sha256": "b2abd480f7310646f28d20958c12f9bf99966cea102a95f97858a711e1efb317"
+  },
+  {
+    "path": "kestrel-k1/assets/body/limbs.glb",
+    "bytes": 3349064,
+    "sha256": "f1bd6997a65fd634c6ef4e3112535cf673639c75bc9debbe050fe2e299665265"
+  },
+  {
+    "path": "kestrel-k1/assets/body/torso.glb",
+    "bytes": 4248928,
+    "sha256": "d36f3fd1174eccdaa2e551f3f573a71415a3966173f55203834bd6643d340ea1"
+  },
+  {
+    "path": "kestrel-k1/assets/shells.glb",
+    "bytes": 2865440,
+    "sha256": "2f069fe278003bd44e7bf3022a4e929e17bc6e41fff2301545f5648d69ef48f4"
+  },
+  {
+    "path": "kestrel-k1/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2",
+    "bytes": 14708,
+    "sha256": "08949f728dc52d528e69b1667d15c89a5686a4ee9a296ff90983985f99c380f7"
+  },
+  {
+    "path": "kestrel-k1/assets/ibm-plex-mono-latin-500-normal-DSY6xOcd.woff2",
+    "bytes": 14888,
+    "sha256": "01d285447409c8a588692162439a038b8cbd7871309ee20267b0d2d91c6e8e22"
+  },
+  {
+    "path": "kestrel-k1/assets/ibm-plex-mono-latin-ext-400-normal-BmRBH3aV.woff2",
+    "bytes": 13348,
+    "sha256": "6bc0f226a5b7884a8170e3f62c63d7675609d4631bdc5931b5cdab81821f00eb"
+  },
+  {
+    "path": "kestrel-k1/assets/ibm-plex-mono-latin-ext-500-normal-CAhNIIs5.woff2",
+    "bytes": 13432,
+    "sha256": "6bb06407c97584b0867a959e05e8874693bfeb8c317de190811c51598f2d99ea"
+  },
+  {
+    "path": "kestrel-k1/assets/inter-tight-latin-400-normal-iW8qmuJY.woff2",
+    "bytes": 22016,
+    "sha256": "6f32da94d4f26e98cb6ccd97034d306aa38945322c816f54a93c7d15dc0905b8"
+  },
+  {
+    "path": "kestrel-k1/assets/inter-tight-latin-600-normal-BgSTtRxb.woff2",
+    "bytes": 22660,
+    "sha256": "db1a039d03ed646ef6a899f9ff92bf2f6fe382a49f1b0992066e85caf88b5be9"
+  },
+  {
+    "path": "kestrel-k1/assets/inter-tight-latin-ext-400-normal-DN7wyBvd.woff2",
+    "bytes": 36220,
+    "sha256": "947ebce4da81e210b247cdc5eb7ab968eaa6bd12ad2ace2f21681e3756415f34"
+  },
+  {
+    "path": "kestrel-k1/assets/inter-tight-latin-ext-600-normal-BgMgWFts.woff2",
+    "bytes": 37904,
+    "sha256": "0bc08fdb02baa81e9379b64afba2b34bbe8bf34e2112f9bdd2ab9c30aa778060"
+  }
+]

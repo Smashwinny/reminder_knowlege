@@ -1,0 +1,16 @@
+{
+  "generated_compiled_stepped": 8,
+  "steps_each": 20,
+  "seed_prefix_reproducible": true,
+  "geom_counts": [
+    24,
+    56,
+    33,
+    31,
+    25,
+    46,
+    29,
+    29
+  ],
+  "scope": "real mjfit.sample_pegs/build/compile/step, not learned insertion"
+}

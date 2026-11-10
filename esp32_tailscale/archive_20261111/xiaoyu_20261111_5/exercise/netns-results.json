@@ -1,0 +1,86 @@
+{
+  "when": "2026-11-11 01:19:22 UTC+08:00",
+  "e4_cross_before_line": "E4_CROSS_BEFORE FAIL TimeoutError: timed out rtt_ms=1003.8",
+  "e4_cross_after_line": "E4_CROSS_AFTER OK b'PONG:PING' rtt_ms=3.6",
+  "e4_reverse_line": "E4_REVERSE E4_REVERSE OK b'PONG:PING' rtt_ms=4.4",
+  "e4_cross_before_exit": "1",
+  "e4_cross_after_exit": "0",
+  "e4_reverse_exit": "0",
+  "e5_overlay_line": "E5_OVERLAY OK b'PONG:PING' rtt_ms=5.4",
+  "e5_overlay_exit": "0",
+  "a_pub": "324eb81916b6d7d82cf4d2040c2270d4231f111f3bd6e6ed8ade19dfe6d62f5e",
+  "b_pub": "4af3c50904d5b20818747014b71c9dc56b20bcd07bf5ecd3b1e36e7cbf91e248",
+  "host_ip_forward_before": "1",
+  "host_ip_forward_after": "1",
+  "router_fwd_start": "0",
+  "router_fwd_now": "1",
+  "sniff": {
+    "counts": {
+      "udp_51820": 13,
+      "other_udp": 0,
+      "tcp": 0,
+      "icmp": 0,
+      "other": 0,
+      "bytes_udp_51820": 1842
+    },
+    "samples": [
+      {
+        "src": "192.168.10.20",
+        "dst": "192.168.20.30",
+        "sport": 51820,
+        "dport": 51820,
+        "len": 190
+      },
+      {
+        "src": "192.168.20.30",
+        "dst": "192.168.10.20",
+        "sport": 51820,
+        "dport": 51820,
+        "len": 134
+      },
+      {
+        "src": "192.168.10.20",
+        "dst": "192.168.20.30",
+        "sport": 51820,
+        "dport": 51820,
+        "len": 138
+      },
+      {
+        "src": "192.168.20.30",
+        "dst": "192.168.10.20",
+        "sport": 51820,
+        "dport": 51820,
+        "len": 138
+      },
+      {
+        "src": "192.168.10.20",
+        "dst": "192.168.20.30",
+        "sport": 51820,
+        "dport": 51820,
+        "len": 138
+      },
+      {
+        "src": "192.168.10.20",
+        "dst": "192.168.20.30",
+        "sport": 51820,
+        "dport": 51820,
+        "len": 138
+      },
+      {
+        "src": "192.168.20.30",
+        "dst": "192.168.10.20",
+        "sport": 51820,
+        "dport": 51820,
+        "len": 138
+      },
+      {
+        "src": "192.168.20.30",
+        "dst": "192.168.10.20",
+        "sport": 51820,
+        "dport": 51820,
+        "len": 138
+      }
+    ]
+  },
+  "host_unchanged_forward": true
+}

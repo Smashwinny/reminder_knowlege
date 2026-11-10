@@ -1,0 +1,37 @@
+$ uname -a
+MINGW64_NT-10.0-26200 GeniusQJH 3.6.9-b4195d69.x86_64 2026-06-06 17:49 UTC x86_64 Msys
+exit=0
+$ node --version
+v24.21.0
+exit=0
+$ npm --version
+11.19.0
+exit=0
+$ python --version
+Python 3.14.7
+exit=0
+$ command -v ffmpeg
+exit=1
+$ command -v ffprobe
+exit=1
+$ command -v fc-list
+exit=1
+$ powershell.exe -NoProfile -Command Chrome version
+156.0.8078.80
+exit=0
+$ powershell.exe -NoProfile -Command installed CJK font match
+Microsoft YaHei UI
+Microsoft YaHei UI Light
+Noto Sans SC
+Noto Sans SC Black
+Noto Sans SC DemiLight
+Noto Sans SC Light
+Noto Sans SC Medium
+Noto Sans SC Thin
+Noto Serif SC
+Noto Serif SC Black
+Noto Serif SC ExtraLight
+Noto Serif SC Light
+Noto Serif SC Medium
+Noto Serif SC SemiBold
+exit=0

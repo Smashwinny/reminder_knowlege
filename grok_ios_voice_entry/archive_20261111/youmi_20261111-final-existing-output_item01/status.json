@@ -1,0 +1,9 @@
+{
+  "status": "部分待验证",
+  "html": "/workspace/reminder-batch/worker-689b81da/item01/guide.html",
+  "pdf": "/workspace/reminder-batch/worker-689b81da/item01/guide.pdf",
+  "questions": 12,
+  "inline_svg": 12,
+  "pdf_pages": 8,
+  "note": "iPhone/锁屏/音频识别未实测；仅五步离线证据实验与5单测"
+}

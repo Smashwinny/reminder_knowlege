@@ -1,0 +1,73 @@
+{
+  "pages": 10,
+  "page_size": "A4",
+  "questions": 12,
+  "svg": 12,
+  "external_dependencies": 0,
+  "replacement_characters": 0,
+  "extracted_characters": 11255,
+  "question_page_map": [
+    {
+      "question": 1,
+      "pdf_page": 2
+    },
+    {
+      "question": 2,
+      "pdf_page": 2
+    },
+    {
+      "question": 3,
+      "pdf_page": 3
+    },
+    {
+      "question": 4,
+      "pdf_page": 3
+    },
+    {
+      "question": 5,
+      "pdf_page": 4
+    },
+    {
+      "question": 6,
+      "pdf_page": 4
+    },
+    {
+      "question": 7,
+      "pdf_page": 5
+    },
+    {
+      "question": 8,
+      "pdf_page": 5
+    },
+    {
+      "question": 9,
+      "pdf_page": 6
+    },
+    {
+      "question": 10,
+      "pdf_page": 6
+    },
+    {
+      "question": 11,
+      "pdf_page": 7
+    },
+    {
+      "question": 12,
+      "pdf_page": 7
+    }
+  ],
+  "visually_reviewed_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "reviewer": "same-author self-check; NOT independent review",
+  "reviewed_at": "2026-11-11T01:03:59.030748+08:00"
+}

@@ -1,0 +1,12 @@
+{
+  "sha": "2f11f03b8decb8bee5227be5e9e3d7d44ff28ca7",
+  "changed": [
+    ".github/workflows/ci.yml"
+  ],
+  "eligible": false,
+  "reasons": [
+    "protected or unknown path"
+  ],
+  "review_is_synthetic": true,
+  "merged": false
+}

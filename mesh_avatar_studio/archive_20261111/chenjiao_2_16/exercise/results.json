@@ -1,0 +1,22 @@
+[
+  {
+    "command": "node exercise/lab.mjs version",
+    "output": "0.7.2\n",
+    "exit": 0
+  },
+  {
+    "command": "node exercise/lab.mjs validate",
+    "output": "rig_errors= []\nfile_errors= []\n",
+    "exit": 0
+  },
+  {
+    "command": "node exercise/lab.mjs pack",
+    "output": "roundtrip files= 14 archive bytes= 10500\n",
+    "exit": 0
+  },
+  {
+    "command": "node exercise/lab.mjs negative",
+    "output": "avatar.json.format: expected \"mesh-avatar\"\navatar.json.version: unsupported version 999 (expected 1)\navatar.json.name: expected a non-empty string\ninvalid_manifests_rejected= 3\n",
+    "exit": 0
+  }
+]

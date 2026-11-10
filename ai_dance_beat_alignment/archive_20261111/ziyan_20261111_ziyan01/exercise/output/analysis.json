@@ -1,0 +1,19 @@
+{
+  "detected_pulses": 25,
+  "estimated_BPM": 132.49907986750094,
+  "max_onset_error_ms": 0.020833333333333332,
+  "beat_s": 0.4528301886792453,
+  "bar_s": 1.8113207547169812,
+  "phrase_s": 3.6226415094339623,
+  "phrase_anchors": [
+    0.0,
+    3.622642,
+    7.245283,
+    10.867925
+  ],
+  "audio_duration": 10.876,
+  "nearest_24fps_frames": 261,
+  "nearest_24fps_duration": 10.875,
+  "duration_error_ms": -0.9999999999994458,
+  "scope": "threshold onset detector on isolated synthetic clicks only; not a music beat tracker"
+}

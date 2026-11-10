@@ -1,0 +1,30 @@
+{
+  "run": {
+    "command": [
+      "node",
+      "/workspace/reminder-batch/worker-689b81da/item06/results/compiled/fixed.js"
+    ],
+    "exit": 0,
+    "stdout": "{\"synthetic_only\":true,\"accepted\":1,\"rejected\":3,\"receipt\":{\"kind\":\"sent\",\"text\":\"hello\",\"approvalId\":\"fixture-consent\"}}\n",
+    "stderr": ""
+  },
+  "mutant_compiler": {
+    "command": [
+      "node",
+      "/workspace/reminder-batch/worker-689b81da/item06/exercise/node_modules/typescript/bin/tsc",
+      "--strict",
+      "--target",
+      "ES2022",
+      "--module",
+      "commonjs",
+      "--noEmit",
+      "mutant.ts"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "local_static_scan_mutant_rejected": true,
+  "fixed_scan_rejected": false,
+  "note": "静态扫描为自写单规则，不称ESLint；receipt完全合成无transport"
+}

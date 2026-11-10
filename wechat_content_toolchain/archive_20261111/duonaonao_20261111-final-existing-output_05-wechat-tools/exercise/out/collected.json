@@ -1,0 +1,27 @@
+[
+  {
+    "guid": "1",
+    "title": "AI开源编辑器更新",
+    "link": "https://example.org/a"
+  },
+  {
+    "guid": "2",
+    "title": "AI开源资料 广告",
+    "link": "https://example.org/b"
+  },
+  {
+    "guid": "3",
+    "title": "AI摄影技巧",
+    "link": "https://example.org/c"
+  },
+  {
+    "guid": "4",
+    "title": "开源RSS更新",
+    "link": "https://example.org/d"
+  },
+  {
+    "guid": "5",
+    "title": "AI开源发布",
+    "link": "https://example.org/e"
+  }
+]

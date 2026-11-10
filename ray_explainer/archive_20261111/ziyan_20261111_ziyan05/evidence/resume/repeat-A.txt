@@ -1,0 +1,4 @@
+ready { duration: 12, scenes: 'hook:kit proof:kit gate:kit' }
+/workspace/reminder-batch/item05/exercise/2026-11-11-resume-local/stills
+
+exit_code=0

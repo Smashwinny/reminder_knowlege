@@ -1,0 +1,6 @@
+[GLOBAL_FILTER]
+广告
+
+[WORD_GROUPS]
++AI
+开源

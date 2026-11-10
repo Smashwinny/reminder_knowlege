@@ -1,0 +1,55 @@
+{
+  "segment": 1,
+  "duration": 10.876,
+  "fps": 24,
+  "aspect": "9:16",
+  "identity_slot": "Image 1",
+  "pose_slot": "Image 2",
+  "audio_slot": "Audio 1",
+  "pose_transfers_identity": false,
+  "lyric_actions": false,
+  "anchors": [
+    0,
+    3.623,
+    7.245,
+    10.868
+  ],
+  "phases": [
+    {
+      "start": 0,
+      "end": 2.15,
+      "camera": "signature_close_pass",
+      "full_body": false
+    },
+    {
+      "start": 2.15,
+      "end": 3.62,
+      "camera": "full_body_hold",
+      "full_body": true
+    },
+    {
+      "start": 3.62,
+      "end": 5.43,
+      "camera": "full_body_hold",
+      "full_body": true
+    },
+    {
+      "start": 5.43,
+      "end": 7.25,
+      "camera": "short_lateral_then_settle",
+      "full_body": true
+    },
+    {
+      "start": 7.25,
+      "end": 9.06,
+      "camera": "hold_during_pivot",
+      "full_body": true
+    },
+    {
+      "start": 9.06,
+      "end": 10.876,
+      "camera": "full_body_settle",
+      "full_body": true
+    }
+  ]
+}

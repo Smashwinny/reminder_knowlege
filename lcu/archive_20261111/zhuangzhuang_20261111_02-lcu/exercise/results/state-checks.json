@@ -1,0 +1,59 @@
+[
+  {
+    "name": "首次JS返回值",
+    "pass": true,
+    "observed": 42
+  },
+  {
+    "name": "跨调用保留变量",
+    "pass": true,
+    "observed": 41
+  },
+  {
+    "name": "先发现模拟应用",
+    "pass": true,
+    "observed": "demo.notes"
+  },
+  {
+    "name": "单次调用组合读写保存",
+    "pass": true,
+    "observed": {
+      "kind": "SIMULATED_APP",
+      "appId": "demo.notes",
+      "text": "学习MCP",
+      "saved": true,
+      "revision": 1,
+      "cursor": {
+        "x": 0,
+        "y": 0
+      },
+      "elements": [
+        {
+          "id": "editor",
+          "role": "textbox"
+        },
+        {
+          "id": "save",
+          "role": "button",
+          "name": "保存"
+        }
+      ]
+    }
+  },
+  {
+    "name": "后续调用复用app句柄",
+    "pass": true,
+    "observed": null
+  },
+  {
+    "name": "截图仅模拟元数据",
+    "pass": true,
+    "observed": {
+      "kind": "SYNTHETIC_DESCRIPTOR",
+      "actualCapture": false,
+      "width": 800,
+      "height": 600,
+      "note": "仅模拟元数据，无真实截图像素"
+    }
+  }
+]

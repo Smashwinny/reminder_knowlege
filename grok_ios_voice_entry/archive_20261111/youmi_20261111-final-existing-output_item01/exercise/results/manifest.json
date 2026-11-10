@@ -1,0 +1,17 @@
+[
+  {
+    "file": "source-post-raw.txt",
+    "bytes": 5405,
+    "sha256": "06ba9679ce0b96c025f551cf91a533312f50b57e148828e045043935754fa450"
+  },
+  {
+    "file": "apple-vocal.html",
+    "bytes": 1451091,
+    "sha256": "7edffb40ed061aaeb1395595248fea4fda79fd51a5e71317a3950e85e46fc61f"
+  },
+  {
+    "file": "apple-shortcuts.html",
+    "bytes": 644106,
+    "sha256": "3ef2709667960caf877f53fc45cb43a45b2bc24984f9b1accc64c9031440e6b8"
+  }
+]

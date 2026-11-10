@@ -1,0 +1,1 @@
+fingerprinted 33 files; no GPU generation, no face/sound synthesis, no external writes
