@@ -1,0 +1,43 @@
+{
+  "task_id": "84e16939-fb85-42df-a274-f2627a983a2b",
+  "topic": "REA（Reverse Engineer Anything）：逆向工程 MCP 总调度台",
+  "project_dir": "rea",
+  "classification": "开源项目类",
+  "source_urls": [
+    "https://x.com/shijianzhongg/status/2107979591348543520",
+    "https://github.com/morluto/rea"
+  ],
+  "upstream": {
+    "repo": "https://github.com/morluto/rea",
+    "version": "6.8.0",
+    "commit": "b9d1a61",
+    "license": "MIT",
+    "stars": 395400
+  },
+  "pdf": "rea/REA逆向工程智能体-小白指南.pdf",
+  "html": "rea/rea-guide.html",
+  "exercise_dir": "rea/exercise",
+  "experiment_log": "rea/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/rea-proposal-pending.md",
+  "deliverables": [
+    "rea/rea-guide.html",
+    "rea/REA逆向工程智能体-小白指南.pdf",
+    "rea/exercise/sample-app/main.js",
+    "rea/exercise/sample-app/renderer.js",
+    "rea/exercise/sample-app/renderer.html",
+    "rea/exercise/sample-app/package.json",
+    "rea/exercise/evidence/run1",
+    "rea/exercise/evidence/run1-summary.json",
+    "rea/exercise/experiment-log.md",
+    "rea/rea-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "REA v6.8.0 源码构建跑通（npm ci --force + npm run compile），CLI 输出 6.8.0",
+    "doctor 输出 healthy:false，17 项检查含 Node 版本/hopper/ghidra/ida 状态",
+    "analyze-javascript-application 对自建样本产出 309KB 证据包：162 节点/105 关系/63 unknowns",
+    "隐藏快捷键 ctrl+shift+k 定位 main.js:5；checkLicense 函数定位 main.js:7；IPC 通道 license:unlocked 双向端点（main.js 发送 / renderer.js:18 接收）全部命中",
+    "limitations 原文确认运行时行为标记为 unproven（三态证据框架实测）"
+  ],
+  "blocked_items": [],
+  "notes": "repo/ 为克隆的上游代码（gitignore 排除）；exercise/tarball/ 内为 npm 包解包临时文件，不提交"
+}

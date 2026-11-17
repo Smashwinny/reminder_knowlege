@@ -1,0 +1,36 @@
+{
+  "task_id": "96550ce7-aea2-4c8d-93a4-c7386d7fcb0d",
+  "topic": "Awesome AI Motion：AI 动效作品四级验证编目库",
+  "project_dir": "awesome_ai_motion",
+  "classification": "开源项目类（编目方法论）",
+  "source_urls": [
+    "https://x.com/liyue_ai (长文引用帖)",
+    "https://github.com/guanmo-ai/awesome-ai-motion"
+  ],
+  "upstream": {
+    "repo": "https://github.com/guanmo-ai/awesome-ai-motion",
+    "commit": "8733ddf",
+    "license": "MIT (仅覆盖原创脚本)"
+  },
+  "pdf": "awesome_ai_motion/Awesome-AI-Motion动效编目库-小白指南.pdf",
+  "html": "awesome_ai_motion/awesome-ai-motion-guide.html",
+  "exercise_dir": "awesome_ai_motion/exercise",
+  "experiment_log": "awesome_ai_motion/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/awesome_ai_motion-proposal-pending.md",
+  "deliverables": [
+    "awesome_ai_motion/awesome-ai-motion-guide.html",
+    "awesome_ai_motion/Awesome-AI-Motion动效编目库-小白指南.pdf",
+    "awesome_ai_motion/exercise/experiment-log.md",
+    "awesome_ai_motion/awesome_ai_motion-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "data/cases.json 实测 1728 条案例（README 宣称 441，严重滞后）",
+    "verification 四字段全量统计：videoAttachment 100% / authorClaim 98.1% / independentlyReproduced 0 / fullReview 0",
+    "prompt 三态分布：original 244 / brief 233 / unknown 1251",
+    "stage 分布：discovery 1635 / catalogued 61"
+  ],
+  "blocked_items": [
+    "25 个附源码案例未逐项核实",
+    "未复现任何案例的生成过程"
+  ]
+}

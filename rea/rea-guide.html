@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>REA 逆向工程智能体 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#fff8ef; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#ff6b1a 0%,#ff2e88 55%,#7c4dff 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.4em;margin:0 0 10px;letter-spacing:1px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;opacity:.96;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-orange));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-orange));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-orange));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-orange));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.tag{display:inline-block;border-radius:6px;padding:1px 8px;font-size:.8em;font-weight:700;color:#fff;margin-right:4px;}
+.seen{background:var(--c-green);} .inferred{background:var(--c-blue);} .unknown{background:#9aa3b5;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>REA：让 AI 智能体逆向工程一切</h1>
+  <p>Reverse Engineer Anything —— 从应用行为到原生二进制，一个 MCP 服务器把整套逆向工具交给你的 Agent</p>
+  <p>
+    <span class="badge">GitHub 395K★</span><span class="badge">MIT 协议</span>
+    <span class="badge">TypeScript / Node 22+</span><span class="badge">本指南实测 v6.8.0</span>
+  </p>
+  <p style="font-size:.9em;opacity:.85;">仓库：github.com/morluto/rea ｜ 学习日期：2026-10-27 ｜ 全部命令本机真实执行过</p>
+</div>
+
+<div class="wrap">
+
+<!-- ================= Q1 ================= -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q1</div>
+<h2>REA 是什么？一句话能说清吗？</h2>
+<p><span class="big">REA 是一个"逆向工程工具的总调度台"：它本身不做逆向，而是把 Ghidra、Hopper、IDA、JADX 等专业逆向工具统一包装成一个 MCP 服务器 + 命令行，让 AI 编程 Agent（Claude Code、Codex、Cursor……）能够直接"审问"一个闭源程序：你是怎么工作的？</span></p>
+<p>典型场景：你在某个 App 里看到一个好用的功能，想知道它的实现原理。过去要自己拖进反编译器啃几天；现在你对 Agent 说"用 REA 看看这个功能怎么实现的"，Agent 会自己调用工具链、收集证据、给出带出处结论的分析报告。</p>
+<div class="svgbox">
+<svg width="720" height="230" viewBox="0 0 720 230">
+  <rect x="20" y="80" width="150" height="70" rx="12" fill="#7c4dff"/>
+  <text x="95" y="112" fill="#fff" font-size="16" text-anchor="middle" font-weight="bold">你</text>
+  <text x="95" y="132" fill="#e6dcff" font-size="12" text-anchor="middle">"这功能咋实现的？"</text>
+  <rect x="250" y="70" width="200" height="90" rx="14" fill="#ff6b1a"/>
+  <text x="350" y="105" fill="#fff" font-size="18" text-anchor="middle" font-weight="bold">REA（MCP 服务器）</text>
+  <text x="350" y="128" fill="#ffe8d6" font-size="12" text-anchor="middle">证据框架 · 工具路由 · 结果校验</text>
+  <rect x="530" y="8" width="170" height="44" rx="10" fill="#00b8a9"/>
+  <text x="615" y="34" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">Ghidra / Hopper / IDA</text>
+  <rect x="530" y="62" width="170" height="44" rx="10" fill="#00b8a9"/>
+  <text x="615" y="88" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">JADX（安卓 APK）</text>
+  <rect x="530" y="116" width="170" height="44" rx="10" fill="#00b8a9"/>
+  <text x="615" y="142" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">内置 JS/.NET 静态分析</text>
+  <rect x="530" y="170" width="170" height="44" rx="10" fill="#00b8a9"/>
+  <text x="615" y="196" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">Binwalk / 浏览器 / 抓包</text>
+  <path d="M170 115 L250 115" stroke="#333" stroke-width="2.5" marker-end="url(#a1)"/>
+  <path d="M450 95 L530 30" stroke="#333" stroke-width="2"/>
+  <path d="M450 115 L530 84" stroke="#333" stroke-width="2"/>
+  <path d="M450 130 L530 138" stroke="#333" stroke-width="2"/>
+  <path d="M450 145 L530 192" stroke="#333" stroke-width="2"/>
+  <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+<div class="tipbox"><b>关键认知：</b>REA 是<span class="hl">路由层不是引擎</span>。就像电梯调度系统本身不载客，它决定哪部电梯（哪个逆向引擎）去接哪个乘客（哪类分析目标）。官方原话："One MCP for reverse engineering across binaries, applications, and runtime behavior."</div>
+</div>
+
+<!-- ================= Q2 ================= -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q2</div>
+<h2>为什么需要它？没有它之前人们怎么做逆向？</h2>
+<p><span class="big">逆向工程历来是"专家手艺"：工具贵、学习曲线陡、全程手动。</span>传统流程是把二进制拖进反编译器，人肉阅读伪代码，在几千个函数里大海捞针。分析一个小功能可能要几天，而且结论全靠专家脑子记，<b>无法复查、无法复现、容易幻觉</b>（"我觉得这个函数是干这个的"）。</p>
+<p>REA 带来的变化有三层：</p>
+<table>
+<tr><th>维度</th><th>没有 REA</th><th>有了 REA</th></tr>
+<tr><td><b>谁操作工具</b></td><td>逆向工程师手动点 GUI</td><td>AI Agent 通过 MCP 工具调用自动操作</td></tr>
+<tr><td><b>结论形式</b></td><td>专家口头/文档描述</td><td>结构化 Evidence（证据包），每条结论带文件哈希+行列号</td></tr>
+<tr><td><b>可信度</b></td><td>"专家说如此"，无法机检</td><td>三态标签 SEEN/INFERRED/UNKNOWN，机器可审计</td></tr>
+</table>
+<p>还有一个更根本的驱动力：<span class="hl">M×N 集成问题</span>。AI Agent 有十几种（Claude Code/Codex/Cursor/Gemini…），逆向工具有十几种（Ghidra/Hopper/IDA/JADX…），两两对接是 M×N 的组合爆炸。MCP 协议把它收敛成 M+N——这正是知识库里 [[MCP协议]] 笔记讲过的经济学，REA 是它在逆向工程域的落地。</p>
+<div class="svgbox">
+<svg width="720" height="240" viewBox="0 0 720 240">
+  <text x="180" y="24" fill="#ef476f" font-size="15" text-anchor="middle" font-weight="bold">没有 REA：M×N = 两两对接</text>
+  <g font-size="12">
+  <rect x="20" y="40" width="90" height="30" rx="6" fill="#7c4dff"/><text x="65" y="59" fill="#fff" text-anchor="middle">Claude</text>
+  <rect x="20" y="80" width="90" height="30" rx="6" fill="#7c4dff"/><text x="65" y="99" fill="#fff" text-anchor="middle">Codex</text>
+  <rect x="20" y="120" width="90" height="30" rx="6" fill="#7c4dff"/><text x="65" y="139" fill="#fff" text-anchor="middle">Cursor</text>
+  <rect x="20" y="160" width="90" height="30" rx="6" fill="#7c4dff"/><text x="65" y="179" fill="#fff" text-anchor="middle">Gemini</text>
+  <rect x="250" y="40" width="90" height="30" rx="6" fill="#00b8a9"/><text x="295" y="59" fill="#fff" text-anchor="middle">Ghidra</text>
+  <rect x="250" y="80" width="90" height="30" rx="6" fill="#00b8a9"/><text x="295" y="99" fill="#fff" text-anchor="middle">Hopper</text>
+  <rect x="250" y="120" width="90" height="30" rx="6" fill="#00b8a9"/><text x="295" y="139" fill="#fff" text-anchor="middle">IDA</text>
+  <rect x="250" y="160" width="90" height="30" rx="6" fill="#00b8a9"/><text x="295" y="179" fill="#fff" text-anchor="middle">JADX</text>
+  </g>
+  <g stroke="#ef476f" stroke-width="1" opacity=".55">
+  <line x1="110" y1="55" x2="250" y2="55"/><line x1="110" y1="55" x2="250" y2="95"/><line x1="110" y1="55" x2="250" y2="135"/><line x1="110" y1="55" x2="250" y2="175"/>
+  <line x1="110" y1="95" x2="250" y2="55"/><line x1="110" y1="95" x2="250" y2="95"/><line x1="110" y1="95" x2="250" y2="135"/><line x1="110" y1="95" x2="250" y2="175"/>
+  <line x1="110" y1="135" x2="250" y2="55"/><line x1="110" y1="135" x2="250" y2="95"/><line x1="110" y1="135" x2="250" y2="135"/><line x1="110" y1="135" x2="250" y2="175"/>
+  <line x1="110" y1="175" x2="250" y2="55"/><line x1="110" y1="175" x2="250" y2="95"/><line x1="110" y1="175" x2="250" y2="135"/><line x1="110" y1="175" x2="250" y2="175"/>
+  </g>
+  <text x="560" y="24" fill="#06d6a0" font-size="15" text-anchor="middle" font-weight="bold">有 REA：M+N，全部走 MCP</text>
+  <g font-size="12">
+  <rect x="470" y="40" width="90" height="30" rx="6" fill="#7c4dff"/><text x="515" y="59" fill="#fff" text-anchor="middle">Claude</text>
+  <rect x="470" y="80" width="90" height="30" rx="6" fill="#7c4dff"/><text x="515" y="99" fill="#fff" text-anchor="middle">Codex</text>
+  <rect x="470" y="120" width="90" height="30" rx="6" fill="#7c4dff"/><text x="515" y="139" fill="#fff" text-anchor="middle">Cursor</text>
+  <rect x="470" y="160" width="90" height="30" rx="6" fill="#7c4dff"/><text x="515" y="179" fill="#fff" text-anchor="middle">Gemini</text>
+  <rect x="610" y="90" width="90" height="46" rx="8" fill="#ff6b1a"/>
+  <text x="655" y="110" fill="#fff" text-anchor="middle" font-weight="bold">REA</text>
+  <text x="655" y="126" fill="#ffe8d6" text-anchor="middle" font-size="10">MCP 总线</text>
+  </g>
+  <g stroke="#06d6a0" stroke-width="2">
+  <line x1="560" y1="55" x2="610" y2="100"/><line x1="560" y1="95" x2="610" y2="108"/><line x1="560" y1="135" x2="610" y2="118"/><line x1="560" y1="175" x2="610" y2="126"/>
+  </g>
+</svg>
+</div>
+</div>
+
+<!-- ================= Q3 ================= -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q3</div>
+<h2>它是怎么做到的？核心架构是什么？</h2>
+<p><span class="big">三层架构：MCP 工具接口层 → 证据框架层 → 分析引擎适配层。</span></p>
+<h3>① MCP 工具接口层（对上）</h3>
+<p>REA 向 Agent 暴露一百多个细粒度工具（本机实测 <code>--help</code> 列出上百个命令，如 <code>analyze</code>、<code>decompile</code>、<code>analyze-javascript-application</code>、<code>capture-browser-scenario</code>）。Agent 通过 MCP 协议（stdio 或 HTTP）发现和调用它们。一条命令即可注册：<code>npx rea-agents setup</code>。</p>
+<h3>② 证据框架层（核心，REA 的灵魂）</h3>
+<p>每一次分析产出一份 <b>Evidence Bundle</b>（证据包）：JSON 结构，包含被分析物的 <span class="hl">SHA-256 指纹</span>、每个结论的<span class="hl">源码行列号</span>、局限性和未知项清单。这让它和"AI 口嗨分析"彻底区分——结论可回溯、可机检、可比较（<code>compare</code> 系列命令支持两份证据包 diff）。</p>
+<h3>③ 分析引擎适配层（对下）</h3>
+<p>按目标类型路由到不同引擎：原生二进制→Hopper/Ghidra/IDA（三选一即可）；APK→JADX；JS/Electron/.NET→内置静态分析（<b>不需要任何外部引擎</b>）；固件→Binwalk；网页→Chrome 家族浏览器；抓包→HAR/TShark。运行时检测哪些引擎可用（<code>rea doctor</code>），不可用的给出修复指引。</p>
+<div class="svgbox">
+<svg width="720" height="200" viewBox="0 0 720 200">
+  <rect x="40" y="60" width="180" height="80" rx="14" fill="#7c4dff"/>
+  <text x="130" y="92" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">MCP 工具接口</text>
+  <text x="130" y="114" fill="#e6dcff" font-size="11" text-anchor="middle">100+ 细粒度命令</text>
+  <rect x="270" y="60" width="180" height="80" rx="14" fill="#ff6b1a"/>
+  <text x="360" y="88" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">证据框架</text>
+  <text x="360" y="108" fill="#ffe8d6" font-size="11" text-anchor="middle">SHA-256 · 行列号</text>
+  <text x="360" y="124" fill="#ffe8d6" font-size="11" text-anchor="middle">SEEN / INFERRED / UNKNOWN</text>
+  <rect x="500" y="60" width="180" height="80" rx="14" fill="#00b8a9"/>
+  <text x="590" y="88" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">引擎适配层</text>
+  <text x="590" y="108" fill="#d8fffb" font-size="11" text-anchor="middle">Ghidra · Hopper · IDA</text>
+  <text x="590" y="124" fill="#d8fffb" font-size="11" text-anchor="middle">JADX · 内置 JS · Binwalk</text>
+  <path d="M220 100 L270 100" stroke="#333" stroke-width="2.5" marker-end="url(#a3)"/>
+  <path d="M450 100 L500 100" stroke="#333" stroke-width="2.5" marker-end="url(#a3)"/>
+  <defs><marker id="a3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+  <text x="245" y="88" font-size="11" text-anchor="middle" fill="#555">工具调用</text>
+  <text x="475" y="88" font-size="11" text-anchor="middle" fill="#555">按需路由</text>
+</svg>
+</div>
+</div>
+
+<!-- ================= Q4 ================= -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q4</div>
+<h2>关键术语都是什么意思？</h2>
+<table>
+<tr><th>术语</th><th>一句话解释</th></tr>
+<tr><td><b>MCP 服务器</b></td><td>Model Context Protocol 服务器：给 AI Agent 提供"工具菜单"的标准化进程，见知识库 [[MCP服务器]]</td></tr>
+<tr><td><b>Evidence / 证据包</b></td><td>一份带 SHA-256 指纹和源码坐标的结构化分析结果 JSON，REA 的核心交付物</td></tr>
+<tr><td><b>SEEN / INFERRED / UNKNOWN</b></td><td>三态证据标签：<span class="tag seen">SEEN</span>直接从工件里读到的；<span class="tag inferred">INFERRED</span>从证据推导的；<span class="tag unknown">UNKNOWN</span>无法确定的（诚实记录，不猜）</td></tr>
+<tr><td><b>分析引擎</b></td><td>真正干活的反编译器：Ghidra（免费开源）、Hopper（付费）、IDA（付费），深度原生分析三选一</td></tr>
+<tr><td><b>反编译 / Decompile</b></td><td>把机器码翻译回类高级语言伪代码，让人（和 AI）能读</td></tr>
+<tr><td><b>ASAR</b></td><td>Electron 应用的打包格式，相当于 JS 应用的"压缩包"</td></tr>
+<tr><td><b>Provider / Capability</b></td><td>REA 内部对每个引擎的抽象：能做什么（capability）、有什么副作用（side effect），可用 <code>rea capabilities</code> 查询</td></tr>
+<tr><td><b>doctor</b></td><td>环境体检命令：17 项检查报告每个依赖/引擎的状态和修复指引</td></tr>
+</table>
+</div>
+
+<!-- ================= Q5 ================= -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q5</div>
+<h2>三态证据框架到底重要在哪？</h2>
+<p><span class="big">这是 REA 与"让 AI 直接读反编译代码"的本质区别：它逼 AI 诚实。</span></p>
+<p>LLM 最大的风险是幻觉——分析二进制时它可能"自信地"编出一个不存在的函数调用。REA 的 Tri-State Evidence Framework 规定每条结论必须打三个标签之一：</p>
+<ul>
+<li><span class="tag seen">SEEN</span> 在工件里<b>直接观测到</b>的事实（如：字符串 <code>ctrl+shift+k</code> 出现在 main.js 第 5 行）——附 source-range 坐标，任何人都能复查；</li>
+<li><span class="tag inferred">INFERRED</span> 从 SEEN 证据<b>推导</b>出来的（如：该字符串被传给 globalShortcut.register，<i>推测</i>是快捷键）——允许错，但血缘清晰；</li>
+<li><span class="tag unknown">UNKNOWN</span> <b>无法确定</b>的（如：运行时这个快捷键是否真的注册了）——不猜，如实记账。</li>
+</ul>
+<p>本机实测（见动手实验）：对一个 4 文件样本做分析，产出 162 个节点、105 条关系，同时诚实记录 <span class="hl">63 条 unknowns</span>，limitations 里明确写着"运行时注册、可达性仍未被证明"。这和知识库里 [[证据优先质检ProofOverClaims]]（验收看跑起来的画面不看宣称）完全是同一套哲学：<b>证据分层 + 局限性亮出来</b>。</p>
+<div class="svgbox">
+<svg width="720" height="180" viewBox="0 0 720 180">
+  <rect x="30" y="50" width="200" height="80" rx="12" fill="#06d6a0"/>
+  <text x="130" y="82" fill="#fff" font-size="16" text-anchor="middle" font-weight="bold">SEEN 已见</text>
+  <text x="130" y="104" fill="#eafff8" font-size="11" text-anchor="middle">语法里读得到 · 带行列号</text>
+  <rect x="260" y="50" width="200" height="80" rx="12" fill="#2d9cdb"/>
+  <text x="360" y="82" fill="#fff" font-size="16" text-anchor="middle" font-weight="bold">INFERRED 推断</text>
+  <text x="360" y="104" fill="#e8f4fd" font-size="11" text-anchor="middle">从证据推导 · 血缘可追溯</text>
+  <rect x="490" y="50" width="200" height="80" rx="12" fill="#9aa3b5"/>
+  <text x="590" y="82" fill="#fff" font-size="16" text-anchor="middle" font-weight="bold">UNKNOWN 未知</text>
+  <text x="590" y="104" fill="#eef1f6" font-size="11" text-anchor="middle">不猜 · 如实记账可复查</text>
+  <path d="M130 50 C 200 10, 300 10, 360 50" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <path d="M360 50 C 430 10, 520 10, 590 50" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="360" y="20" font-size="11" text-anchor="middle" fill="#888">确定性递减 · 诚实度要求递增</text>
+</svg>
+</div>
+</div>
+
+<!-- ================= Q6 ================= -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>它和知识库里已有的概念是什么关系？</h2>
+<p>REA 不是全新物种，它是好几条已学概念线的交汇点：</p>
+<table>
+<tr><th>已有概念</th><th>REA 中的体现</th></tr>
+<tr><td>[[MCP协议]] / [[MCP服务器]]</td><td>REA 就是一个超大型 MCP 服务器（100+ 工具），M×N→M+N 的标准战例</td></tr>
+<tr><td>[[工具目录膨胀]]</td><td>反向教材：工具极多但按域拆分（analyze / capture / compare / decompile…），且支持 <code>--llms</code> 输出 LLM 可读清单压缩上下文</td></tr>
+<tr><td>[[能力层与后端路由]]（agent-reach）</td><td>同构：每个分析目标有有序后端列表，第一个可用者当选；doctor 就是"健康探测三态"的满配版（missing / broken / timeout）</td></tr>
+<tr><td>[[证据优先质检ProofOverClaims]]</td><td>三态证据框架 = 该哲学在逆向域的强制执行：没有证据链的结论不允许出现</td></tr>
+<tr><td>[[提示注入]] 防线</td><td>被分析对象是不可信输入，REA 把分析放在本地沙箱、以 inert 方式解析（"JS 和 HTML 按惰性文本解析，从不执行"）</td></tr>
+<tr><td>agent-reach / artemis（安卓 GUI Agent）</td><td>同域项目：REA 也覆盖安卓 APK 分析与 adb 设备取证，可与这两个项目的笔记互链</td></tr>
+</table>
+<div class="tipbox"><b>学习定位：</b>REA = "把 MCP 协议 + 能力路由 + 证据纪律"这三件已学武器，在<strong>逆向工程</strong>这个高难度领域打的组合拳。学它主要学<b>架构思想</b>，不是学逆向本身。</div>
+</div>
+
+<!-- ================= Q7 ================= -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q7</div>
+<h2>它能分析哪些目标？需要什么条件？</h2>
+<table>
+<tr><th>目标类型</th><th>后端引擎</th><th>是否需要外部工具</th></tr>
+<tr><td>JavaScript / Electron 应用</td><td><b>内置静态分析</b></td><td>❌ 不需要（本机实验就是用这条路径）</td></tr>
+<tr><td>.NET 程序集</td><td><b>内置静态分析</b></td><td>❌ 不需要</td></tr>
+<tr><td>原生二进制（PE/ELF/Mach-O）</td><td>Hopper / Ghidra / IDA 三选一</td><td>✅ 至少装一个（Ghidra 免费）</td></tr>
+<tr><td>安卓 APK</td><td>JADX + JDK</td><td>✅ 需 Java 环境</td></tr>
+<tr><td>固件</td><td>Binwalk / Unblob</td><td>✅ Linux 最佳</td></tr>
+<tr><td>网站 / Web 应用</td><td>Chrome 家族浏览器（Playwright 式抓取）</td><td>✅ 需安装浏览器</td></tr>
+<tr><td>网络抓包</td><td>HAR / SAZ / mitmdump / TShark</td><td>✅ 任选其一</td></tr>
+<tr><td>GPU 代码（CUDA PTX/CUBIN）</td><td><b>内置</b></td><td>❌</td></tr>
+<tr><td>模型文件（GGUF/safetensors）</td><td><b>内置头部检查</b></td><td>❌</td></tr>
+<tr><td>WASM / EVM / SQLite / Rust / Go…</td><td>内置或调用方提供工具</td><td>部分需要</td></tr>
+</table>
+<p><span class="hl">入门建议：从 JS/Electron 路径开始——零外部依赖、分析本地目录、免费、且足以体验完整证据框架。</span>本机实验正是这条路。</p>
+</div>
+
+<!-- ================= Q8 ================= -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>法律与安全边界在哪？</h2>
+<div class="warnbox"><b>红线：只对授权目标做逆向。</b>REA 仓库自带 DISCLAIMER，明确建议仅用于授权目标、互操作性研究或安全研究。商业引擎（IDA/Hopper/JEB）必须合法持有许可。分析行为发生在<b>本地</b>，代码不外传——这是隐私优势，但不改变合法性责任。</div>
+<p>另一个有趣的真实细节：多家技术媒体报道，部分大模型（如 Claude Opus 5.5）会在逆向分析中途因安全策略<b>拒绝继续</b>，而 DeepSeek、Kimi 等模型则无此问题。这不是 REA 的缺陷，而是"用 AI 做安全研究"时的现实约束：<span class="hl">模型自身的安全护栏也是流水线的一环</span>，选模型时要考虑这一点。</p>
+<p>防御性用途同样明确：检查自家软件是否被植入后门、审计供应链、学习优秀软件的架构思路（"学大厂代码思路"），都是项目点名的合法场景。</p>
+</div>
+
+<!-- ================= Q9 ================= -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q9</div>
+<h2>它的爆发为什么这么快？有没有水分？</h2>
+<p>REA 于 2026 年 10 月初爆发：star 数从 10 月 7 日的不足 1 万飙到 10 月 20 日的 34 万+，成为 GitHub 史上增长最快的仓库之一（本指南写作时已达 <span class="hl">39.5 万★</span>）。</p>
+<p>为什么会爆？三点共振：</p>
+<ul>
+<li><b>时机</b>：AI Agent 普及后，"让 Agent 替我逆向"是自然涌现的刚需；</li>
+<li><b>架构正确</b>：不重复造引擎，只做路由+证据层——轻、稳、能借力所有成熟工具；</li>
+<li><b>故事好讲</b>："逆向工程一切"一句话就能传播。</li>
+</ul>
+<p>水分也要心里有数：媒体报道指出部分演示案例有夸张成分；34 万 star 里有大量"先 star 再说"的围观群众；深度原生分析依然依赖你本地装好专业引擎——<b>REA 降低的是门槛，不是取消专业技能</b>。</p>
+</div>
+
+<!-- ================= Q10 ================= -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>实际怎么装、怎么用？（含本机实测的坑）</h2>
+<h3>安装（三选一）</h3>
+<pre><code># 方式一：给 Agent 注册（推荐）
+npx rea-agents setup
+
+# 方式二：一次性 CLI
+npx -y rea-agents@latest &lt;command&gt; --json
+
+# 方式三：全局安装
+npm install --global rea-agents</code></pre>
+<p class="big">硬性要求：Node.js 22.23.4+ / 24.22.1+ / 26.12.1+（注意是补丁版本级的要求！）</p>
+<div class="warnbox"><b>本机实测坑 1</b>：本机 Node v24.21.0 差一个小版本，<code>npm ci</code> 直接拒绝（engine 检查），需 <code>npm ci --force</code>。doctor 也会把它标为 missing_dependency 并要求升级。</div>
+<div class="warnbox"><b>本机实测坑 2</b>：从 git 源码构建时，Windows 原生控件（native/windows/build/ 两个文件）<b>不在仓库里</b>，JS 应用分析会报 capability_unavailable；官方错误文案即修复说明书——从 rea-agents@6.8.0 的 npm tarball 里把两个文件拷回来即可。</div>
+<h3>日常使用闭环</h3>
+<pre><code>rea doctor                                  # ① 体检：17 项检查
+rea analyze-javascript-application &lt;路径&gt;    # ② 免引擎分析 JS/Electron
+rea inspect &lt;目标&gt;                           # ③ 带证据的概览
+rea decompile --procedure &lt;名&gt;              # ④ 反编译单个函数
+rea compare &lt;证据A&gt; &lt;证据B&gt;                 # ⑤ 版本对比（找改动）</code></pre>
+<p>所有分析在本机完成，产出的证据包（Evidence Bundle）就是可存档、可 diff、可审计的分析资产。</p>
+</div>
+
+<!-- ================= 能力清单 ================= -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个项目给我什么能力？（我能用它干什么）</h2>
+<ol>
+<li><b>挖 App 隐藏功能</b>：想知道一个软件藏着什么快捷键/调试入口/暗门，让 Agent 跑一遍静态分析，证据带行列号；</li>
+<li><b>查可疑软件有没有后门</b>：供应链审计场景——拿到二进制先看它到底会做什么网络/进程行为；</li>
+<li><b>学习优秀软件的实现思路</b>：看到一个交互效果，逆向它的 JS bundle 学架构（合法边界内的互操作性研究）；</li>
+<li><b>给自己的软件做"红队体检"</b>：发布前用 REA 自查敏感字符串、硬编码密钥暴露面；</li>
+<li><b>版本升级 diff</b>：两个版本各出一份证据包，<code>rea compare</code> 自动找出行为变化（补丁分析）；</li>
+<li><b>安卓应用分析入门</b>：APK 丢给 JADX 路径，配合 agent-reach / artemis 的安卓知识形成组合拳。</li>
+</ol>
+</div>
+
+<!-- ================= 实验 ================= -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">动手</div>
+<h2>实验：自己埋谜题，让 REA 来解（约 15 分钟）</h2>
+<p>为了验证 REA 的真实能力，我<b>自己写了一个带隐藏功能的模拟 Electron 应用</b>（日记 App 外壳），埋入 3 处谜题，再完全不读源码地用 REA 分析，看它能否挖出来。</p>
+<div class="step"><b class="s">步骤 1 ｜ 准备样本。</b>创建 4 个文件：<code>main.js</code>（主进程，埋谜题）、<code>renderer.js</code>、<code>renderer.html</code>、<code>package.json</code>。埋入：① 隐藏快捷键 <code>ctrl+shift+k</code> 解锁会员；② <code>checkLicense()</code> 假装联网验证实际永远 true；③ 主进程与渲染进程间的 IPC 通道 <code>license:unlocked</code>。
+<div class="expect">✅ 预期结果：<code>exercise\sample-app\</code> 下 4 个文件就位，能看懂每个谜题在哪几行。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 构建 REA（源码路线）。</b>
+<pre><code>git clone --depth 1 https://github.com/morluto/rea repo
+npm ci --force          # 本机 Node 24.21.0 差补丁版本，需 --force
+npm run compile         # build:cached 不编译 TS，必须 compile
+node scripts/rea.mjs --version   # → 6.8.0</code></pre>
+<div class="expect">✅ 预期结果：版本号正常输出。若报 "compiled runtime is missing"，说明漏了 compile 这步。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 体检与修复。</b>
+<pre><code>node scripts/rea.mjs doctor
+node scripts/rea.mjs analyze-javascript-app ..\exercise\sample-app --detail summary --evidence_output ..\exercise\evidence\run1</code></pre>
+<div class="expect">✅ 预期结果：doctor 报 healthy:false（Node 版本 + 缺引擎，正常现象）。分析若报 capability_unavailable 指向缺 Windows 原生控件 → 从 npm tarball 恢复 <code>native/windows/build/</code> 两个文件后重跑成功。</div></div>
+<div class="step"><b class="s">步骤 4 ｜ 验证挖出全部谜题。</b>在 309 KB 证据包 JSON 中检索，与埋入清单逐项对照：
+<div class="expect">✅ 预期结果（本机真实输出）：<b>①</b> 节点 label=<code>"ctrl+shift+k"</code>，定位 main.js 第 5 行 ✅；<b>②</b> 函数节点 <code>checkLicense</code>，定位 main.js 第 7 行 ✅；<b>③</b> 事件名 <code>license:unlocked</code> 在主进程（发送）与 renderer.js 第 18 行（接收）各出现一次，双向端点都对上 ✅。共 162 节点 / 105 关系 / <b>63 条 unknowns 如实记账</b>。</div></div>
+<div class="step"><b class="s">步骤 5 ｜ 读局限性，感受三态证据。</b>打开证据包 limitations 字段，原文写道："Electron relationships are derived from inert syntax; <b>runtime registration ... remain unproven</b>"。
+<div class="expect">✅ 预期结果：明确意识到——REA 证明了"代码里写了注册快捷键"，但诚实地声明"运行时是否真的生效仍是 UNKNOWN"。这正是它比"AI 直接读代码给结论"强的地方：<span class="hl">不编造确定性</span>。</div></div>
+<div class="okbox"><b>实验结论：</b>免商业引擎即可完成 JS/Electron 静态分析；自埋 3 谜题全部命中且证据可回溯；63 条未知项与局限性如实记录，三态证据框架真实有效。完整日志见 <code>rea\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- ================= 一页总结 ================= -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>REA = 逆向工具的 MCP 总调度台</b>：本身不逆向，路由 Ghidra/Hopper/IDA/JADX/内置分析到 100+ 个 MCP 工具；</li>
+<li><b>灵魂是三态证据框架</b>：SEEN 带行列号 / INFERRED 血缘清晰 / UNKNOWN 如实记账——防幻觉的结构性方案；</li>
+<li><b>入门走 JS/Electron 内置分析</b>：零外部引擎、免费、本机实测全流程跑通（含 2 个真实坑的修复）；</li>
+<li><b>它是已学概念的组合拳</b>：[[MCP协议]] + [[能力层与后端路由]] + [[证据优先质检ProofOverClaims]] 在逆向域的落地；</li>
+<li><b>边界清醒</b>：只对授权目标分析；深度原生分析仍要专业引擎；部分模型会因安全策略拒答——架构正确不等于万能。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">REA 小白指南 · 2026-10-27 · 基于 morluto/rea v6.8.0 实测 · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

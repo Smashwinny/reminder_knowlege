@@ -1,0 +1,38 @@
+{
+  "task_id": "f9051c75-4321-4ba6-b914-9bac6dad9a20",
+  "topic": "开源安全工具清单：浏览器权限与防御性来源审核",
+  "project_dir": "browser_security_tools",
+  "classification": "知识学习类（防御性安全）",
+  "source_urls": [
+    "https://x.com/goan999999 (原帖)",
+    "https://github.com/thewhiteh4t/seeker",
+    "https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition"
+  ],
+  "upstream_checked": {
+    "seeker_commit": "7bf501a",
+    "note": "仅静态阅读源码，未运行任何采集/钓鱼流程"
+  },
+  "pdf": "browser_security_tools/浏览器安全工具清单-防御视角-小白指南.pdf",
+  "html": "browser_security_tools/browser-security-tools-guide.html",
+  "exercise_dir": "browser_security_tools/exercise",
+  "experiment_log": "browser_security_tools/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/browser_security_tools-proposal-pending.md",
+  "deliverables": [
+    "browser_security_tools/browser-security-tools-guide.html",
+    "browser_security_tools/浏览器安全工具清单-防御视角-小白指南.pdf",
+    "browser_security_tools/exercise/permission-test.html",
+    "browser_security_tools/exercise/experiment-log.md",
+    "browser_security_tools/browser_security_tools-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "Seeker js/location.js：先 POST 设备指纹（平台/浏览器/核数/内存/显卡/屏幕，无授权），再请求 geolocation（需授权，含 PERMISSION_DENIED 分支）",
+    "权限测试页 headless 实测：权限状态 prompt；定位请求被拒 error code=1 User denied Geolocation",
+    "Edge 视 file:// 为安全上下文（isSecureContext=true）",
+    "Zphisher 为仿冒登录页钓鱼工具，防御核心在域名核对+官方入口+2FA"
+  ],
+  "blocked_items": [
+    "SayCheese 无确切仓库地址，身份未核实",
+    "摄像头一行 headless 未捕获完整输出（virtual-time 截断）",
+    "未运行任何工具的攻击流程（合规边界）"
+  ]
+}

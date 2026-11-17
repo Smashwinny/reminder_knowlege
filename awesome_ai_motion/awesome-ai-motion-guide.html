@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Awesome AI Motion 动效编目库 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#fff8f0; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#ff6b1a 0%,#ff2e88 50%,#7c4dff 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-orange));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-orange));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-orange));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-orange));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Awesome AI Motion：给 AI 动效作品做"可信编目"</h1>
+  <p>1728 个动效案例、每条带四级证据标注——它不是代码库，是"AI 作品时代"的编目方法论范本</p>
+  <p>
+    <span class="badge">实测 main@8733ddf</span><span class="badge">1728 案例</span>
+    <span class="badge">98.1% 原文核对</span><span class="badge">0 条复现也照写</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">仓库：github.com/guanmo-ai/awesome-ai-motion ｜ 来源：X 长文 (@liyue_ai) ｜ 学习日期 2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q1</div>
+<h2>这个项目是什么？一句话能说清吗？</h2>
+<p><span class="big">一个"AI 动效作品编目库"：把散落在 X 上的优秀 AI 生成动效/视频作品收集起来，逐条核对来源、提取提示词、标注使用的模型和验证状态，形成可检索、可分级的参考资料库。</span></p>
+<p>注意三个"不是"：<b>不是</b> 1728 套可运行代码；<b>不是</b> 1728 篇教程；<b>不是</b> 转载授权库（来源链接 ≠ 授权，MIT 只覆盖仓库原创脚本）。它的价值是<b>编目与分级方法</b>本身。</p>
+<div class="svgbox">
+<svg width="720" height="160" viewBox="0 0 720 160">
+  <rect x="20" y="45" width="150" height="70" rx="12" fill="#2d9cdb"/>
+  <text x="95" y="75" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">X 上的作品</text>
+  <text x="95" y="94" fill="#e8f4fd" font-size="10" text-anchor="middle">作者+视频+主张</text>
+  <rect x="230" y="35" width="220" height="90" rx="14" fill="#ff6b1a"/>
+  <text x="340" y="65" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">编目流水线</text>
+  <text x="340" y="86" fill="#ffe8d6" font-size="11" text-anchor="middle">发现池 1635 → 编目 61</text>
+  <text x="340" y="104" fill="#ffe8d6" font-size="11" text-anchor="middle">四级验证逐条标注</text>
+  <rect x="510" y="45" width="190" height="70" rx="12" fill="#06d6a0"/>
+  <text x="605" y="70" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">cases.json 真源</text>
+  <text x="605" y="88" fill="#eafff8" font-size="10" text-anchor="middle">1728 条结构化记录</text>
+  <text x="605" y="103" fill="#eafff8" font-size="10" text-anchor="middle">+ 112 提示词原文 + 浏览页</text>
+  <path d="M170 80 L230 80" stroke="#333" stroke-width="2.5" marker-end="url(#m1)"/>
+  <path d="M450 80 L510 80" stroke="#333" stroke-width="2.5" marker-end="url(#m1)"/>
+  <defs><marker id="m1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q2</div>
+<h2>为什么需要编目？直接收藏帖子不行吗？</h2>
+<p><span class="big">AI 动效正处于"作品爆炸、经验失传"阶段：每天都有神作刷屏，但两周后没人记得它用的什么模型、提示词是什么、有没有水分。</span>散装收藏的三个死穴：</p>
+<ul>
+<li><b>不可检索</b>：收藏夹只有标题，无法按"模型/技法/时长/验证状态"过滤；</li>
+<li><b>不可信</b>：截图可能是摆拍，"我用某模型做的"可能是蹭热度——没有核对记录；</li>
+<li><b>不可传承</b>：作者删帖就没了；提示词藏在评论区，没人提取。</li>
+</ul>
+<p>编目库把每条作品变成一条<b>结构化记录</b>（作者/来源/模型+证据引文/媒体/提示词状态/验证四字段），这就是知识库 [[原子笔记与双链]] 在"AI 作品"领域的落地。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q3</div>
+<h2>它的编目体系是怎么设计的？（实测数据）</h2>
+<p>主数据 <code>data/cases.json</code> 共 <b>1728</b> 条（本机实测解析），每条 17 个字段，核心是四层验证：</p>
+<table>
+<tr><th>验证字段</th><th>含义</th><th>实测命中率</th></tr>
+<tr><td>videoAttachmentConfirmed</td><td>原帖确实带视频附件</td><td><b>1728 / 100%</b></td></tr>
+<tr><td>authorClaimConfirmed</td><td>作者"用什么模型做的"主张经原文核对</td><td><b>1696 / 98.1%</b></td></tr>
+<tr><td>independentlyReproduced</td><td>编目者独立复现成功</td><td><b>0 / 0%</b>（诚实照写）</td></tr>
+<tr><td>fullReview</td><td>完整人工复核</td><td><b>0 / 0%</b>（诚实照写）</td></tr>
+</table>
+<p>提示词三态状态机：<span class="hl">original 244（原帖公开）/ brief 233（简介级）/ unknown 1251</span>——"有简介"不等于"拿到原提示词"，三级分明。</p>
+<p>阶段流水线：discovery（发现池）1635 → catalogued（已编目）61 →（未来 fullReview）。</p>
+<div class="tipbox">这套四级验证正是知识库 [[证据状态机]] 的兄弟实现：它把"信源说"和"我复现"彻底分开，0 复现就标 0，不用"编目完成"冒充"验证完成"。</div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q4</div>
+<h2>README 的数字能信吗？（宣称 vs 实测）</h2>
+<table>
+<tr><th>README 宣称</th><th>data/cases.json 实测</th><th>结论</th></tr>
+<tr><td>441 个作品</td><td>1728 条（最新 commit 又补 311 个）</td><td>严重滞后，实际远超</td></tr>
+<tr><td>69 份公开提示词</td><td>244 original + 233 brief</td><td>口径不同，量级翻倍</td></tr>
+<tr><td>25 个案例附源码</td><td>未逐项核</td><td>保留待核</td></tr>
+<tr><td>36 条已编目 / 405 待完善</td><td>catalogued 61 / discovery 1635</td><td>宣称滞后</td></tr>
+</table>
+<div class="warnbox"><b>教训</b>：快速膨胀的仓库，README 永远是滞后的——引用数字前先查 <code>data/cases.json</code> 真源。这也复现了 [[证据优先质检ProofOverClaims]] 的教训："自己的文档也是待核实来源"。</div>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q5</div>
+<h2>原帖说的"让 Codex 多轮学习/强化学习"是真的吗？</h2>
+<p><span class="big">不是。文章给的步骤是"读案例→提炼规律→用参考上下文"——这是提示词工程与上下文学习，没有训练数据、没有训练运行、没有权重更新。</span></p>
+<p>正确的理解方式：这个仓库是<b>给 Agent 的"风格语料库"</b>——把 AGENTS.md 指向它，Agent 创作前先检索同类作品的提示词与技法（接 [[RAG检索增强生成]] / [[第二大脑LLMWiki]] 模式）。声称"强化学习"是传播中的夸大。</p>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q6</div>
+<h2>它和已有概念是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本项目体现</th></tr>
+<tr><td>[[证据状态机]]（codex-claude-resets）</td><td>verification 四字段=采集侧四态的镜像：原文核对≠复现，预告≠完成</td></tr>
+<tr><td>[[中继交叉印证]]</td><td>发现靠 X 原帖、逐条核对 authorClaim+videoAttachment，聚合页只当索引</td></tr>
+<tr><td>[[原子笔记与双链]]</td><td>一条作品一条结构化记录，作者/来源/模型可互链</td></tr>
+<tr><td>[[提示词逆向工程]]</td><td>244 条 original 提示词提取就是该流水线的成品素材</td></tr>
+<tr><td>[[第二大脑LLMWiki]]</td><td>发现池→编目→复核 = Ingest/Query/Lint 的同构</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q7</div>
+<h2>作为动效学习资源，它怎么用价值最大？</h2>
+<ol>
+<li><b>按模型过滤</b>：案例带 model 字段（最新一批 311 个全是 Claude Opus 5.5 案例）——想看某模型的能力边界，直接检索；</li>
+<li><b>只信 original 级提示词</b>：244 条可放心复用；brief/unknown 级当灵感不当配方；</li>
+<li><b>把证据引文当教学</b>：model 字段带 evidenceQuote（作者原话），学习"作者如何描述自己的做法"；</li>
+<li><b>喂给自己的 Agent</b>：AGENTS.md 指向 cases/ 目录，Agent 创作前检索参考（"先查库再动手"）。</li>
+</ol>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q8</div>
+<h2>边界与风险是什么？</h2>
+<ul>
+<li><b>0 条独立复现</b>：编目可信到"原帖确实存在这个作品"，但"作品真的由所称模型做出"只有作者主张+原文核对，没有技术复现；</li>
+<li><b>来源链接 ≠ 授权</b>：引用要回原文看作者声明；MIT 只管仓库原创脚本；</li>
+<li><b>README 数字滞后</b>：以 data/cases.json 为准；</li>
+<li><b>偏动效/演示向</b>：叙事长片、商业广告类案例占比小；</li>
+<li><b>更新极快</b>：clone 要常拉新，否则你的"1728"很快又过时。</li>
+</ul>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q9</div>
+<h2>这类"awesome 编目"项目通用的学习价值在哪？</h2>
+<p><span class="big">它的真正资产不是 1728 条记录，而是四条可复制的编目纪律：</span></p>
+<ul>
+<li><b>每条记录必有来源与核对时间戳</b>（sourceReadAt）；</li>
+<li><b>作者主张与独立验证分字段存放</b>，永不混装；</li>
+<li><b>提示词分三态</b>（原文/简介/未知），不拿简介冒充原文；</li>
+<li><b>承认 0 复现</b>——可信度声明写在数据里而不是宣传里。</li>
+</ul>
+<p>给自己的任何"收藏夹/知识库"项目立这四条规矩，可信度立刻超过 90% 的同类仓库。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>实际怎么用？（三条最小路径）</h2>
+<pre><code># ① 当检索库用
+git clone https://github.com/guanmo-ai/awesome-ai-motion
+python -c "import json;d=json.load(open('data/cases.json')); \
+  print([c['title'] for c in d['cases'] if c.get('prompt',{}).get('status')=='original'][:10])"
+
+# ② 当浏览库用：直接打开 index.html（自带图库播放器）
+
+# ③ 当 Agent 语料用：在项目的 AGENTS.md 里指向 cases/ 目录，
+#    让 Agent 创作前先检索同类作品提示词</code></pre>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个项目给我什么能力？</h2>
+<ol>
+<li><b>动效灵感检索器</b>：1728 个案例按模型/分类/验证状态过滤；</li>
+<li><b>244 条原装提示词库</b>：original 级提示词可直接复用学习；</li>
+<li><b>编目方法论模板</b>：四级验证+三态提示词+阶段流水线，直接抄给自建知识库；</li>
+<li><b>模型能力观察窗</b>：看 311 个 Opus 5.5 案例能做什么，判断该模型的动效上限；</li>
+<li><b>Agent 参考上下文源</b>：给自己的创作 Agent 挂上当 RAG 语料。</li>
+</ol>
+</div>
+
+<!-- 实验 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">动手</div>
+<h2>实验：宣称 vs 实测的核账（约 10 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 克隆并定位真源。</b>
+<pre><code>git clone --depth 1 https://github.com/guanmo-ai/awesome-ai-motion repo
+ls repo/data repo/cases repo/prompts</code></pre>
+<div class="expect">✅ 预期结果：cases.json 主数据 + 1728 个单条 md + 112 个提示词 txt。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 解析主数据统计。</b>
+<pre><code>python -c "import json;d=json.load(open('repo/data/cases.json'));print(len(d['cases']))"</code></pre>
+<div class="expect">✅ 预期结果（本机）：1728（对照 README 的 441——宣称严重滞后）。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 四级验证全量统计。</b>逐条统计 verification 四字段。
+<div class="expect">✅ 预期结果（本机）：videoAttachment 100% / authorClaim 98.1% / independentlyReproduced <b>0</b> / fullReview <b>0</b>。</div></div>
+<div class="step"><b class="s">步骤 4 ｜ 提示词三态分布。</b>
+<div class="expect">✅ 预期结果（本机）：original 244 / brief 233 / unknown 1251——只有 original 级可当配方用。</div></div>
+<div class="okbox"><b>实验结论</b>：编目系统真实且诚实（0 复现照写）；README 数字严重滞后须以 cases.json 为准。全部统计脚本真实执行，日志见 <code>awesome_ai_motion\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>它是 AI 动效作品的可信编目库</b>：1728 案例、四级验证、三态提示词；</li>
+<li><b>编目纪律比内容更值得学</b>：来源+时间戳、主张与验证分字段、承认 0 复现；</li>
+<li><b>README 数字严重滞后</b>：引用必查 data/cases.json 真源；</li>
+<li><b>244 条 original 提示词</b>是可直接复用的核心资产；</li>
+<li><b>给自己的收藏夹立四条编目规矩</b>，可信度立刻超 90% 同类仓库。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">Awesome AI Motion 小白指南 · 2026-10-27 · 实测 main@8733ddf · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta charset="UTF-8"><title>浏览器权限机制实测页</title></head>
+<body>
+<h1>权限机制实测</h1>
+<pre id="log">加载完成。逐项测试：\n</pre>
+<script>
+const log = m => document.getElementById('log').textContent += m + "\n";
+// ① 非安全上下文检测（file:// 下应直接拒绝）
+log('① isSecureContext = ' + window.isSecureContext);
+// ② 定位权限状态查询（不请求，先看状态机）
+if (navigator.permissions) {
+  navigator.permissions.query({name:'geolocation'}).then(r=>{
+    log('② geolocation 权限状态（请求前）: ' + r.state);
+  }).catch(e=>log('② 查询失败: '+e.message));
+} else log('② Permissions API 不可用');
+// ③ 实际请求定位（预期：弹权限框；拒绝后走 error 回调，拿不到数据）
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    p => log('③ 定位成功(用户已授权): ' + p.coords.latitude.toFixed(4) + ',' + p.coords.longitude.toFixed(4)),
+    e => log('③ 定位被拒/失败(正常防御行为): code=' + e.code + ' ' + e.message),
+    {timeout: 8000}
+  );
+  log('③ 已发起定位请求，等待用户决定…');
+} else log('③ Geolocation API 不存在');
+// ④ 摄像头/麦克风（预期：需授权，且会亮指示灯）
+if (navigator.mediaDevices) {
+  navigator.mediaDevices.getUserMedia({video:true})
+    .then(s => log('④ 摄像头已授权打开（硬件指示灯应亮起）'))
+    .catch(e => log('④ 摄像头被拒/失败(正常防御行为): ' + e.name + ' ' + e.message));
+} else log('④ MediaDevices 不存在（非安全上下文）');
+</script>
+</body>
+</html>

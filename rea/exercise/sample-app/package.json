@@ -1,0 +1,7 @@
+{
+  "name": "little-diary",
+  "version": "1.0.0",
+  "main": "main.js",
+  "description": "A tiny diary app (with a hidden feature to be discovered)",
+  "license": "MIT"
+}

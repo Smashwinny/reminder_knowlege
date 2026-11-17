@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>浏览器安全工具清单 · 防御视角小白指南</title>
+<style>
+:root{
+  --c-bg:#f0f7ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#2d9cdb 0%,#7c4dff 55%,#ef476f 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-blue));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-blue));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-blue));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-blue));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>浏览器安全工具清单：防御视角解读</h1>
+  <p>Storm-Breaker / Seeker / Zphisher / HackingTool——源码级事实核对 + 浏览器权限机制实测，分清"真能做什么"与"夸大宣称"</p>
+  <p>
+    <span class="badge">纯防御性学习</span><span class="badge">Seeker 源码 @7bf501a 核对</span>
+    <span class="badge">权限机制实测</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖子 (@goan999999) ｜ 学习日期 2026-10-27 ｜ 本指南不提供任何攻击操作</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q1</div>
+<h2>这些工具是什么？一句话逐个说清</h2>
+<table>
+<tr><th>工具</th><th>类型</th><th>README 自述</th></tr>
+<tr><td>Storm-Breaker</td><td>社工采集框架</td><td>设备信息、定位、摄像头、麦克风（页面诱导授权）</td></tr>
+<tr><td>Seeker</td><td>定位采集</td><td><b>明写</b>：定位必须在访问者允许网页定位权限后取得</td></tr>
+<tr><td>Zphisher</td><td>钓鱼框架</td><td>仿冒登录页（假 QQ/微信/支付宝…）诱导输入账号密码</td></tr>
+<tr><td>HackingTool</td><td>测试集合</td><td>授权安全测试工具大杂烩（All-in-one）</td></tr>
+<tr><td>SayCheese</td><td>—</td><td>⚠️ 帖中只有名字无仓库地址，身份未核实</td></tr>
+</table>
+<div class="warnbox"><b>红线声明</b>：这些工具的合法用途是<b>授权安全测试与自己设备的防御研究</b>。对他人使用属于违法行为（非法获取计算机信息系统数据、侵犯公民个人信息等）。本指南只做机制理解与防御。</div>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q2</div>
+<h2>"点击链接就被精确定位/偷拍"是真的吗？</h2>
+<p><span class="big">半真半假——这正是最需要祛魅的地方。把采集分成两类，防御策略完全不同：</span></p>
+<table>
+<tr><th>类别</th><th>例子</th><th>需要授权？</th><th>防御</th></tr>
+<tr><td><b>被动指纹</b></td><td>浏览器类型、CPU 核数、内存、显卡型号、屏幕尺寸、系统版本</td><td>❌ 不需要，进页面即泄露</td><td>反指纹插件/浏览器加固</td></tr>
+<tr><td><b>敏感权限</b></td><td>GPS 精确定位、摄像头、麦克风</td><td>✅ 必须用户点"允许"</td><td>一律拒绝 + 检查权限图标</td></tr>
+<tr><td><b>主动输入</b></td><td>仿冒登录页的账号密码</td><td>—（被骗输入）</td><td>核对域名/官方客户端</td></tr>
+</table>
+<p>Seeker 源码（本机克隆核对）证实了这个二分：location.js 先把 UA 解析出的平台/浏览器/核数/内存/显卡 POST 给服务器（<b>无授权弹窗</b>），然后才调用 <code>navigator.geolocation.getCurrentPosition()</code> 请求定位——并且源码明确处理 <code>PERMISSION_DENIED</code> 分支（"User denied the request"）。</p>
+<p><span class="hl">结论：不点"允许"，GPS 坐标拿不到；但你的设备指纹已经走了。</span>宣传里"点链接即定位"把两类混为一谈。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q3</div>
+<h2>浏览器权限机制到底怎么保护我？（本机实测）</h2>
+<p>自建测试页 <code>exercise/permission-test.html</code> 在 Headless Edge 真实运行：</p>
+<pre><code>① isSecureContext = true
+② geolocation 权限状态（请求前）: prompt     ← 浏览器先问，绝不默认放行
+③ 定位被拒: code=1 User denied Geolocation    ← 拒绝即拿不到坐标</code></pre>
+<ul>
+<li><b>安全上下文</b>：Geolocation/getUserMedia 只在 HTTPS（或 localhost）可用，HTTP 裸站直接被拒；</li>
+<li><b>权限状态机</b>：每个敏感权限三态 prompt → granted / denied，默认 prompt；</li>
+<li><b>拒绝即失效</b>：denied 后 API 走 error 回调，页面拿不到数据（实测 code=1）；</li>
+<li><b>摄像头额外有硬件指示灯</b>：被调用时物理灯亮，这是最后一道肉眼可验的证据（[[证据优先质检ProofOverClaims]] 的硬件版）。</li>
+</ul>
+<div class="tipbox">实测还发现一个口径细节：Edge 把 <code>file://</code> 也视为安全上下文（isSecureContext=true）。所以"安全上下文"不等于"HTTPS 网站"，评估风险时别只看协议。</div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q4</div>
+<h2>Zphisher 这类钓鱼页怎么防？</h2>
+<p><span class="big">钓鱼页不依赖任何高级技术——它依赖你"没看域名"。</span>Zphisher 生成与官方登录页几乎一样的仿冒页，唯一破绽是<b>域名</b>。</p>
+<ul>
+<li><b>域名三查</b>：官方域名是否完全一致（注意仿冒拼写如 wechat-login.com）、是否 HTTPS、是否从官方 App 内跳转而来；</li>
+<li><b>习惯防线</b>：重要账号只在官方 App/收藏夹入口登录，从不点短信/私信里的链接；</li>
+<li><b>输入前停顿</b>：任何要输密码的页面，先看地址栏——这一秒值你所有账号；</li>
+<li><b>双重验证兜底</b>：即使密码被骗，2FA 也能挡住多数接管。</li>
+</ul>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>被动指纹泄露有多大危害？</h2>
+<p>单次泄露看似无害（"知道我用 Chrome 怎么了"），但组合起来：<b>浏览器+系统+屏幕+显卡+核数+内存</b>的组合在你的设备群里大概率唯一，可用于<b>跨站追踪</b>（不依赖 Cookie）和<b>欺诈画像</b>。Seeker 把它作为"第一道菜"正是因为它零成本。</p>
+<p>防御：反指纹插件（改 UA/混淆屏幕与硬件报告）、Tor Browser（统一指纹）、日常与敏感操作分浏览器。</p>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q6</div>
+<h2>夸大宣称本身为什么也是防御素材？</h2>
+<p>"点一下就被定位/偷拍"的恐吓式传播随处可见。用本指南的三问拆穿：<b>①哪类数据？（被动/授权/主动输入）②浏览器权限机制允许吗？③源码或文档有没有证据？</b>拆完你会发现：绝大多数"黑科技" = 被动指纹 + 诱导授权 + 钓鱼输入的组合拳，没有一项是魔法。<span class="hl">理解机制的人不会被机制吓唬。</span></p>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q7</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[文档渲染与XSS净化]]</td><td>不可信页面=不可信输入，权限请求也要"白名单思维"</td></tr>
+<tr><td>[[本地MCP端点安全四道门]]</td><td>浏览器权限状态机是同类"最小授权"门禁</td></tr>
+<tr><td>[[证据优先质检ProofOverClaims]]</td><td>"摄像头开着"的证据是硬件指示灯不是弹窗宣称</td></tr>
+<tr><td>[[提示注入]]</td><td>诱导授权与钓鱼页本质是"对人的提示注入"</td></tr>
+</table>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q8</div>
+<h2>日常使用浏览器的好习惯清单</h2>
+<ol>
+<li>网站要定位/摄像头/麦克风权限——<b>默认拒绝</b>，真需要再单独开；</li>
+<li>定期检查浏览器"网站设置"里的 granted 列表，清掉不再信的站；</li>
+<li>重要账号密码只在官方入口输入，<b>看域名再输</b>；</li>
+<li>敏感账号开 2FA；</li>
+<li>装反指纹/广告拦截插件，降低被动画像精度；</li>
+<li>看到"点链接即被定位"的说法——用 Q6 三问拆它。</li>
+</ol>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q9</div>
+<h2>这套防御框架能平移到哪里？</h2>
+<p><span class="big">"采集分级 + 权限状态机 + 证据核验"是通用防御三件套。</span>平移示例：审查手机 App 权限（通讯录/相册/定位同样是 prompt→granted/denied）；审查桌面软件的网络请求；审查任何"能看你一切"类产品的宣称。凡是不能说出<b>数据类别+授权路径+证据</b>的能力宣传，一律按夸大处理。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>我想自己动手验证，安全的最小实验是什么？</h2>
+<pre><code># ① 跑本指南的权限测试页（无任何风险，只观察自己浏览器的行为）
+#    打开 exercise/permission-test.html，看 ①②③④ 四行输出
+
+# ② 自查被动指纹（访问 fingerprint 检测类网站，看暴露了多少字段）
+
+# ③ 浏览器设置 → 隐私与安全 → 网站设置：审查每个 granted 权限</code></pre>
+<div class="warnbox"><b>不要做的事</b>：不要对他人部署 Seeker/Storm-Breaker/Zphisher 的任何流程；不要测试非授权目标。这些行为在多数司法辖区违法。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>宣称拆解力</b>：三问分清被动指纹/授权权限/钓鱼输入，不再被"黑科技"吓唬；</li>
+<li><b>权限审查习惯</b>：看懂浏览器权限状态机，定期清理 granted 列表；</li>
+<li><b>钓鱼免疫</b>：域名三查 + 官方入口 + 2FA 兜底；</li>
+<li><b>给家人讲得清</b>：一句话版——"不点允许找不到你，但你不设防会泄露设备信息，密码只在官方页面输"。</li>
+</ol>
+</div>
+
+<!-- 实验 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">动手</div>
+<h2>实验：权限机制实测 + 源码核对（约 15 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 跑权限测试页。</b>打开 <code>exercise/permission-test.html</code>（或 headless 运行）。
+<div class="expect">✅ 预期结果（本机实测）：权限状态 prompt → 请求 → 拒绝后 error code=1；页面拿不到坐标。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 克隆 Seeker 只做静态阅读。</b>
+<pre><code>git clone --depth 1 https://github.com/thewhiteh4t/seeker repo
+# 读 js/location.js：先 POST 设备指纹（无授权），再请求 geolocation（需授权）</code></pre>
+<div class="expect">✅ 预期结果：确认"被动指纹无授权可得、精确定位必须用户允许"的二分。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 对照 MDN。</b>查 Geolocation/getUserMedia 的安全上下文与授权约束。
+<div class="expect">✅ 预期结果：与源码、实测三方吻合。</div></div>
+<div class="okbox"><b>实验结论</b>：宣传夸大被机制实测拆穿；防御三件套（采集分级+权限状态机+证据核验）成立。全部真实执行，日志见 <code>browser_security_tools\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>宣称分三类</b>：被动指纹（无授权）/ 敏感权限（必授权）/ 钓鱼输入（骗你输）；</li>
+<li><b>浏览器是防线</b>：权限状态机默认 prompt，拒绝即失效（实测 code=1）；</li>
+<li><b>"点链接即定位"是夸大</b>：不点允许拿不到 GPS，但设备指纹已泄露；</li>
+<li><b>钓鱼唯一破绽是域名</b>：官方入口 + 2FA 兜底；</li>
+<li><b>三问拆宣称</b>：数据类别？授权路径？证据在哪？</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">浏览器安全工具清单 · 防御视角 · 2026-10-27 · 实测 Seeker@7bf501a · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>
