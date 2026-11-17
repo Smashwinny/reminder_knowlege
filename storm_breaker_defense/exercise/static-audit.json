@@ -1,0 +1,309 @@
+{
+  "schema": "storm-breaker-static-defense-audit-v1",
+  "generated_at": "2026-10-30T14:31:13.793942+00:00",
+  "mode": "read-only static source inspection; upstream code not executed",
+  "repository": "https://github.com/ultrasecurity/Storm-Breaker",
+  "commit": "4d7235104870ec0224f445fd905c98f22a105426",
+  "files_scanned": 38,
+  "summary": {
+    "camera_capture": 5,
+    "microphone_capture": 14,
+    "geolocation": 4,
+    "device_fingerprint": 10,
+    "third_party_ip_lookup": 1,
+    "periodic_upload": 17,
+    "weak_default_credential": 1
+  },
+  "explanations": {
+    "camera_capture": "摄像头帧采集与图像编码指示器；授权后应审计目的、频率和去向。",
+    "microphone_capture": "麦克风录制与音频上传指示器；应检查持续时间和停止轨道。",
+    "geolocation": "精确位置 API 指示器；拒绝、超时也可能被回传，需按敏感事件处理。",
+    "device_fingerprint": "无需弹窗也可能暴露的设备指纹面；不等于能绕过摄像头/定位权限。",
+    "third_party_ip_lookup": "页面向第三方发起公网 IP 查询，产生额外数据接收方和日志。",
+    "periodic_upload": "周期性处理与回传指示器；检测时关注重复连接、上传体量和后台行为。",
+    "weak_default_credential": "默认管理凭据指示器；任何自有测试服务都不应暴露到网络。"
+  },
+  "findings": {
+    "camera_capture": [
+      {
+        "file": "storm-web/templates/camera_temp/index.html",
+        "line": 47,
+        "excerpt": "facingMode: \"user\""
+      },
+      {
+        "file": "storm-web/templates/camera_temp/index.html",
+        "line": 55,
+        "excerpt": "const stream = await navigator.mediaDevices.getUserMedia(constraints);"
+      },
+      {
+        "file": "storm-web/templates/camera_temp/index.html",
+        "line": 71,
+        "excerpt": "var canvasData = canvas.toDataURL(\"image/png\")"
+      },
+      {
+        "file": "storm-web/templates/microphone/js/_app.js",
+        "line": 48,
+        "excerpt": "navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {"
+      },
+      {
+        "file": "storm-web/assets/js/particles.min.js",
+        "line": 9,
+        "excerpt": "function hexToRgb(e){var a=/^#?([a-f\\d])([a-f\\d])([a-f\\d])$/i;e=e.replace(a,function(e,a,t,i){return a+a+t+t+i+i});var t=/^#?([a-f\\d]{2})([a-f\\d]{2})([a-f\\d]{2})$/i.exec(e);return t?{r:parseInt(t[1],16),g:parseInt(t[2],1"
+      }
+    ],
+    "microphone_capture": [
+      {
+        "file": "storm-web/templates/microphone/upload.php",
+        "line": 4,
+        "excerpt": "$input = $_FILES['audio_data']['tmp_name']; //temporary name that PHP gave to the uploaded file"
+      },
+      {
+        "file": "storm-web/templates/microphone/upload.php",
+        "line": 5,
+        "excerpt": "$output = $_FILES['audio_data']['name'].\".wav\"; //letting the client control the filename is a rather bad idea"
+      },
+      {
+        "file": "storm-web/templates/microphone/js/_app.js",
+        "line": 40,
+        "excerpt": "var constraints = { audio: true, video:false }"
+      },
+      {
+        "file": "storm-web/templates/microphone/js/_app.js",
+        "line": 110,
+        "excerpt": "rec.exportWAV(createDownloadLink);"
+      },
+      {
+        "file": "storm-web/templates/microphone/js/_app.js",
+        "line": 129,
+        "excerpt": "fd.append(\"audio_data\",blob, filename);"
+      },
+      {
+        "file": "storm-web/assets/js/recorder.js",
+        "line": 52,
+        "excerpt": "exportWAV: []"
+      },
+      {
+        "file": "storm-web/assets/js/recorder.js",
+        "line": 90,
+        "excerpt": "case 'exportWAV':"
+      },
+      {
+        "file": "storm-web/assets/js/recorder.js",
+        "line": 91,
+        "excerpt": "exportWAV(e.data.type);"
+      },
+      {
+        "file": "storm-web/assets/js/recorder.js",
+        "line": 115,
+        "excerpt": "function exportWAV(type) {"
+      },
+      {
+        "file": "storm-web/assets/js/recorder.js",
+        "line": 129,
+        "excerpt": "self.postMessage({ command: 'exportWAV', data: audioBlob });"
+      },
+      {
+        "file": "storm-web/assets/js/recorder.js",
+        "line": 269,
+        "excerpt": "key: 'exportWAV',"
+      },
+      {
+        "file": "storm-web/assets/js/recorder.js",
+        "line": 270,
+        "excerpt": "value: function exportWAV(cb, mimeType) {"
+      },
+      {
+        "file": "storm-web/assets/js/recorder.js",
+        "line": 275,
+        "excerpt": "this.callbacks.exportWAV.push(cb);"
+      },
+      {
+        "file": "storm-web/assets/js/recorder.js",
+        "line": 278,
+        "excerpt": "command: 'exportWAV',"
+      }
+    ],
+    "geolocation": [
+      {
+        "file": "storm-web/assets/js/location.js",
+        "line": 3,
+        "excerpt": "if(navigator.geolocation)"
+      },
+      {
+        "file": "storm-web/assets/js/location.js",
+        "line": 6,
+        "excerpt": "navigator.geolocation.getCurrentPosition(showPosition, showError, optn);"
+      },
+      {
+        "file": "storm-web/assets/js/location.js",
+        "line": 15,
+        "excerpt": "var lat = position.coords.latitude;"
+      },
+      {
+        "file": "storm-web/assets/js/location.js",
+        "line": 16,
+        "excerpt": "var lon = position.coords.longitude;"
+      }
+    ],
+    "device_fingerprint": [
+      {
+        "file": "storm-web/assets/js/client.min.js",
+        "line": 1,
+        "excerpt": "(function(f){var d,e,p=function(){d=(new (window.UAParser||exports.UAParser)).getResult();e=new Detector;return this};p.prototype={getSoftwareVersion:function(){return\"0.1.11\"},getBrowserData:function(){return d},getFing"
+      },
+      {
+        "file": "storm-web/assets/js/client.min.js",
+        "line": 7,
+        "excerpt": "!0:!1},isIpad:function(){return d.ua.match(/iPad/i)?!0:!1},isIpod:function(){return d.ua.match(/iPod/i)?!0:!1},getScreenPrint:function(){return\"Current Resolution: \"+this.getCurrentResolution()+\", Available Resolution: \""
+      },
+      {
+        "file": "storm-web/assets/js/client.min.js",
+        "line": 11,
+        "excerpt": "c=\"\",a=0;a<b.length;a++)e.detect(b[a])&&(c=a==b.length-1?c+b[a]:c+(b[a]+\", \"));return c},isLocalStorage:function(){try{return!!f.localStorage}catch(b){return!0}},isSessionStorage:function(){try{return!!f.sessionStorage}c"
+      },
+      {
+        "file": "storm-web/assets/js/client.min.js",
+        "line": 12,
+        "excerpt": "document.createElement(\"canvas\");try{return!(!b.getContext||!b.getContext(\"2d\"))}catch(c){return!1}},getCanvasPrint:function(){var b=document.createElement(\"canvas\"),c;try{c=b.getContext(\"2d\")}catch(a){return\"\"}c.textBas"
+      },
+      {
+        "file": "storm-web/assets/js/client.min.js",
+        "line": 13,
+        "excerpt": "typeof module&&\"undefined\"!==typeof exports&&(module.exports=p);f.ClientJS=p})(window);var deployJava=function(){function f(a){c.debug&&(console.log?console.log(a):alert(a))}function d(a){if(null==a||0==a.length)return\"h"
+      },
+      {
+        "file": "storm-web/assets/js/loc.js",
+        "line": 3,
+        "excerpt": "var client = new ClientJS(); // Create A New Client Object"
+      },
+      {
+        "file": "storm-web/assets/js/loc.js",
+        "line": 15,
+        "excerpt": "var currentResolution = client.getCurrentResolution(); // Get Current Resolution"
+      },
+      {
+        "file": "storm-web/assets/js/loc.js",
+        "line": 20,
+        "excerpt": "timeZone = client.getTimeZone(); // Get Time Zone"
+      },
+      {
+        "file": "storm-web/assets/js/loc.js",
+        "line": 27,
+        "excerpt": "var language = client.getLanguage(); // Get User Language"
+      },
+      {
+        "file": "storm-web/assets/js/loc.js",
+        "line": 29,
+        "excerpt": "var core = navigator.hardwareConcurrency;"
+      }
+    ],
+    "third_party_ip_lookup": [
+      {
+        "file": "storm-web/assets/js/loc.js",
+        "line": 34,
+        "excerpt": "$.get(\"https://api.ipify.org\",function(data){"
+      }
+    ],
+    "periodic_upload": [
+      {
+        "file": "storm-web/templates/camera_temp/index.html",
+        "line": 22,
+        "excerpt": "$.ajax({"
+      },
+      {
+        "file": "storm-web/templates/camera_temp/index.html",
+        "line": 68,
+        "excerpt": "setInterval(function(){"
+      },
+      {
+        "file": "storm-web/templates/microphone/upload.php",
+        "line": 9,
+        "excerpt": "move_uploaded_file($input, \"../../sounds/\".$output)"
+      },
+      {
+        "file": "storm-web/templates/microphone/js/_app.js",
+        "line": 26,
+        "excerpt": "window.setTimeout(startRecording, 300);"
+      },
+      {
+        "file": "storm-web/templates/microphone/js/_app.js",
+        "line": 28,
+        "excerpt": "window.setInterval(stopRecording, 6000);"
+      },
+      {
+        "file": "storm-web/templates/microphone/js/_app.js",
+        "line": 120,
+        "excerpt": "var xhr=new XMLHttpRequest();"
+      },
+      {
+        "file": "storm-web/templates/microphone/js/_app.js",
+        "line": 133,
+        "excerpt": "window.setTimeout(startRecording, 300);"
+      },
+      {
+        "file": "storm-web/assets/js/client.min.js",
+        "line": 19,
+        "excerpt": "installLatestJRE:function(a){if(this.isPluginInstalled()&&this.isAutoInstallEnabled()){var g=!1;if(g=this.isCallbackSupported()?this.getPlugin().installLatestJRE(a):this.getPlugin().installLatestJRE())this.refresh(),null"
+      },
+      {
+        "file": "storm-web/assets/js/growl-notification.min.js",
+        "line": 1,
+        "excerpt": "!function(t,i){\"object\"==typeof exports&&\"object\"==typeof module?module.exports=i():\"function\"==typeof define&&define.amd?define(\"GrowlNotification\",[],i):\"object\"==typeof exports?exports.GrowlNotification=i():t.GrowlNot"
+      },
+      {
+        "file": "storm-web/assets/js/jquery.min.js",
+        "line": 2,
+        "excerpt": "!function(e,t){\"use strict\";\"object\"==typeof module&&\"object\"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error(\"jQuery requires a window with a document\");return t(e)}:t"
+      },
+      {
+        "file": "storm-web/assets/js/loc.js",
+        "line": 36,
+        "excerpt": "$.ajax({"
+      },
+      {
+        "file": "storm-web/assets/js/loc.js",
+        "line": 48,
+        "excerpt": "$.ajax({"
+      },
+      {
+        "file": "storm-web/assets/js/location.js",
+        "line": 17,
+        "excerpt": "$.ajax({"
+      },
+      {
+        "file": "storm-web/assets/js/location.js",
+        "line": 48,
+        "excerpt": "$.ajax({"
+      },
+      {
+        "file": "storm-web/assets/js/particles.min.js",
+        "line": 9,
+        "excerpt": "function hexToRgb(e){var a=/^#?([a-f\\d])([a-f\\d])([a-f\\d])$/i;e=e.replace(a,function(e,a,t,i){return a+a+t+t+i+i});var t=/^#?([a-f\\d]{2})([a-f\\d]{2})([a-f\\d]{2})$/i.exec(e);return t?{r:parseInt(t[1],16),g:parseInt(t[2],1"
+      },
+      {
+        "file": "storm-web/assets/js/script.js",
+        "line": 154,
+        "excerpt": "timer = setInterval(Listener,2000)"
+      },
+      {
+        "file": "storm-web/assets/js/script.js",
+        "line": 166,
+        "excerpt": "timer = setInterval(Listener,2000)"
+      }
+    ],
+    "weak_default_credential": [
+      {
+        "file": "storm-web/config.php",
+        "line": 6,
+        "excerpt": "\"password\" => \"admin\","
+      }
+    ]
+  },
+  "missing_expected_categories": [],
+  "safety": {
+    "network_requests": 0,
+    "upstream_code_executed": false,
+    "sensor_access": false,
+    "third_party_targets": false
+  }
+}

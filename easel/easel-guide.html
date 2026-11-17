@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Easel 自媒体智能体 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#fff5f8; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#ff2e88 0%,#ff6b1a 55%,#ffd60a 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:#fff;color:#b3005e;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-pink));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-pink));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-pink));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-pink));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Easel：浙大开源的自媒体智能体，从找热点到发布复盘</h1>
+  <p>OpenClaw 底座 + 账号画像 + 113 个内容技能 + 五段工作流——AI 全包，但发布前有一道 fail-closed 安全闸门</p>
+  <p>
+    <span class="badge">GitHub 4.1K★</span><span class="badge">Apache-2.0</span>
+    <span class="badge">浙大 REAL Lab</span><span class="badge">实测 main@5a597e5</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">仓库：github.com/ZJU-REAL/Easel ｜ 来源：微信公众号"雷霆大思考" ｜ 学习日期 2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q1</div>
+<h2>Easel 是什么？一句话能说清吗？</h2>
+<p><span class="big">一个开源的社交媒体运营智能体：把"发现热点→策划选题→创作内容→多平台发布→数据归因"这条自媒体全流程交给 AI，产出的不是建议而是可以直接发布的图文/视频成品。</span></p>
+<p>它由浙江大学 REAL Lab（联合北大 OpenDCAI Lab）开发，底层是 OpenClaw agent 底座，上挂 <b>113 个内容技能</b>（实测 skills 目录 114 个）和 <b>账号画像系统</b>，覆盖小红书、抖音、快手、知乎、B站、视频号、公众号七个平台。定位句：不是聊天顾问，是"能交出成品的 content workbench"。</p>
+<div class="svgbox">
+<svg width="720" height="175" viewBox="0 0 720 175">
+  <g font-size="12">
+  <rect x="20" y="60" width="120" height="55" rx="10" fill="#2d9cdb"/><text x="80" y="83" fill="#fff" text-anchor="middle" font-weight="bold">发现</text><text x="80" y="100" fill="#e8f4fd" font-size="10" text-anchor="middle">热点/竞品</text>
+  <rect x="155" y="60" width="120" height="55" rx="10" fill="#7c4dff"/><text x="215" y="83" fill="#fff" text-anchor="middle" font-weight="bold">策划</text><text x="215" y="100" fill="#e6dcff" font-size="10" text-anchor="middle">选题/标题/日历</text>
+  <rect x="290" y="60" width="120" height="55" rx="10" fill="#ff6b1a"/><text x="350" y="83" fill="#fff" text-anchor="middle" font-weight="bold">创作</text><text x="350" y="100" fill="#ffe8d6" font-size="10" text-anchor="middle">图文/卡片/音视频</text>
+  <rect x="425" y="60" width="120" height="55" rx="10" fill="#06d6a0"/><text x="485" y="83" fill="#fff" text-anchor="middle" font-weight="bold">发布</text><text x="485" y="100" fill="#eafff8" font-size="10" text-anchor="middle">适配+安全闸门</text>
+  <rect x="560" y="60" width="140" height="55" rx="10" fill="#ff2e88"/><text x="630" y="83" fill="#fff" text-anchor="middle" font-weight="bold">归因</text><text x="630" y="100" fill="#ffe0ee" font-size="10" text-anchor="middle">数据→写回画像</text>
+  </g>
+  <path d="M630 115 C 630 150, 80 150, 80 118" fill="none" stroke="#ff2e88" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#e1)"/>
+  <text x="357" y="148" font-size="12" text-anchor="middle" fill="#ff2e88" font-weight="bold">经验沉淀回账号画像（自进化的真实含义）</text>
+  <defs><marker id="e1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#ff2e88"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q2</div>
+<h2>为什么需要它？自媒体运营的痛点是什么？</h2>
+<p><span class="big">自媒体是"高频率、多平台、重复盘"的苦力活：一个人运营一个号每天要经历找选题、写稿、做图、适配各平台格式、发布、看数据——而通用聊天 AI 只会"给建议"，最后动手还得是人。</span></p>
+<p>Easel 的判断：自媒体流程高度模式化，恰是 Agent 最擅长接管的类型。它的增量不在某个单点技术，而在<b>把整个工作流产品化</b>：113 个技能覆盖从 SEO 检查到爆款复盘的每个工序，账号画像保证"同一个号风格稳定"，归因阶段把数据教训写回画像让输出越用越准。</p>
+<div class="tipbox">与知识库已学的 [[AI热点长视频生产流水线]]（Simon 的 Skill 方案）对照：那是"单点 deep workflow"，Easel 是"全家桶 workbench"——选题、图文、多平台、复盘全部内置。</div>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q3</div>
+<h2>它是怎么做到的？核心机制拆解</h2>
+<h3>① 账号画像（六维模板，实测存在）</h3>
+<p>每个账号一个目录 <code>profiles/&lt;name&gt;/</code>，实测模板含六个文件：</p>
+<table>
+<tr><th>文件</th><th>维度</th><th>实测内容要点</th></tr>
+<tr><td>identity.md</td><td>定位</td><td>账号是谁、做什么</td></tr>
+<tr><td>style.md</td><td>风格</td><td>语言调性、视觉风格</td></tr>
+<tr><td>audience.md</td><td>受众</td><td>读者画像</td></tr>
+<tr><td>platforms.md</td><td>平台</td><td>各平台差异化策略</td></tr>
+<tr><td>preferences.md</td><td>偏好与红线</td><td>要做的 / 不做的 / <b>合规底线</b>三栏</td></tr>
+<tr><td>memory.md</td><td>长期记忆</td><td>内容洞察 / 踩过的坑，带"不是每次做完任务都写"的更新纪律</td></tr>
+</table>
+<h3>② 技能分层（SKILL-SPEC 规范）</h3>
+<p>技能说明（SKILL.md frontmatter：name/description/<b>layer</b>）+ 按需参考资料 + 可执行脚本三层分离；layer 标注五段归属（discover/plan/create/publish/attribute）。产物统一落 <code>outputs/&lt;主题&gt;/</code>，决策层产物（创作简报）与执行层产物分开归档。</p>
+<h3>③ 发布安全闸门（本指南实测重点）</h3>
+<p><code>docs/SKILL-SPEC.md</code> 规定：一切发布类脚本真发前必须过 <code>content_guard.py</code> 的 <code>guard_or_die()</code>：<b>BLOCK 级</b>（API key、内部 URL、env 真值）→ fail-closed 退出码 7；<b>WARN 级</b>（"AI 生成"字样、模型名）→ 只提醒不拦；显式 <code>--allow-unsafe</code> 才放行。</p>
+<div class="svgbox">
+<svg width="720" height="170" viewBox="0 0 720 170">
+  <rect x="30" y="45" width="150" height="80" rx="12" fill="#2d9cdb"/>
+  <text x="105" y="78" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">发布脚本</text>
+  <text x="105" y="98" fill="#e8f4fd" font-size="11" text-anchor="middle">xhs/douyin/公众号…</text>
+  <rect x="250" y="45" width="200" height="80" rx="14" fill="#ef476f"/>
+  <text x="350" y="72" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">content_guard 闸门</text>
+  <text x="350" y="94" fill="#ffe0e8" font-size="11" text-anchor="middle">BLOCK 命中 → exit 7 拦死</text>
+  <text x="350" y="110" fill="#ffe0e8" font-size="11" text-anchor="middle">WARN → 提醒放行</text>
+  <rect x="520" y="45" width="170" height="80" rx="12" fill="#06d6a0"/>
+  <text x="605" y="78" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">平台发布</text>
+  <text x="605" y="98" fill="#eafff8" font-size="11" text-anchor="middle">真实账号登录态</text>
+  <path d="M180 85 L250 85" stroke="#333" stroke-width="2.5" marker-end="url(#e3)"/>
+  <path d="M450 85 L520 85" stroke="#333" stroke-width="2.5" marker-end="url(#e3)"/>
+  <path d="M350 125 L350 145 L105 145 L105 128" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="230" y="142" font-size="11" fill="#888">被拦 → 打回修改</text>
+  <defs><marker id="e3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q4</div>
+<h2>关键术语都是什么意思？</h2>
+<table>
+<tr><th>术语</th><th>一句话解释</th></tr>
+<tr><td><b>OpenClaw</b></td><td>Easel 依赖的开源 Agent 底座（安装器会建隔离的 easel profile，不动你已有配置）</td></tr>
+<tr><td><b>账号画像 (profile)</b></td><td>六维 Markdown 模板，一个账号一个目录，可跨平台/跨会话复用</td></tr>
+<tr><td><b>技能 (skill)</b></td><td>SKILL.md 说明 + 参考文档 + 可执行脚本的三层包，frontmatter 标 layer</td></tr>
+<tr><td><b>五段 (layer)</b></td><td>discover 发现 / plan 策划 / create 创作 / publish 发布 / attribute 归因</td></tr>
+<tr><td><b>content_guard</b></td><td>发布前安全闸门：BLOCK 级敏感信息 fail-closed 退出 7，WARN 级只提醒</td></tr>
+<tr><td><b>outputs/ 归档</b></td><td>所有产物按主题落盘：brief.md（决策）与成品（执行）分离</td></tr>
+<tr><td><b>easel doctor / ping</b></td><td>安装后自检命令，诊断写到 outputs/_install/last-install.json</td></tr>
+</table>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q5</div>
+<h2>"自进化"是真的吗？归因写回到底怎么运作？</h2>
+<p><span class="big">文章里的"自进化"需要祛魅：它不是模型权重在更新，而是"外部记忆 + 上下文适应"。</span></p>
+<p>机制链条：发布后用 <code>skill-publish-analytics</code> 读数据 → <code>skill-content-postmortem</code> 做证据化复盘（实测其 SKILL.md 要求输入内容原文/平台/数据指标/发布时间/<b>同期对照基线</b>）→ 提炼出的规律写进画像 memory.md 的"内容洞察"，坑写进"踩过的坑" → 下次创作时画像作为上下文注入。<b>模型本身一个参数都没变</b>——这正是知识库 [[三层记忆]]/[[决策记忆结算反思闭环]] 的同类结构：经验沉淀在记忆层，不进权重层。</p>
+<p>而且 memory.md 模板自带反膨胀纪律："此文件记录真正有价值的洞察，不是每次做完任务都写……不要堆流水账。"——比很多商业产品的记忆系统克制。</p>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>它和已有概念是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>Easel 中的体现</th></tr>
+<tr><td>[[AgentSkills技能包]] / [[分层按需加载]]</td><td>113 技能就是超大技能库，SKILL.md frontmatter + references 按需读</td></tr>
+<tr><td>[[技能路由器与授权硬门]] / [[护栏模式Guardrails]]</td><td>content_guard 闸门 = 授权硬门的发布域特化版：BLOCK 必拦/WARN 提醒/--allow-unsafe 显式绕过</td></tr>
+<tr><td>[[决策记忆结算反思闭环]]（TradingAgents）</td><td>归因写回画像 = 同款"决策落盘→结算→浓缩回注"闭环，换到内容运营域</td></tr>
+<tr><td>[[质量标准死卡与执行手段放开]]（ai-video-pipeline）</td><td>brief.md 管决策标准、技能管执行手段，两流分离同款</td></tr>
+<tr><td>[[Agent网关与消息通道]]（微信 Hermes）</td><td>OpenClaw 底座同族：常驻 Agent + 通道接入</td></tr>
+<tr><td>[[证据优先质检ProofOverClaims]]</td><td>复盘技能要求数据指标+同期对照基线，拒绝无基线的"爆款归因"玄学</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q7</div>
+<h2>实测：不装环境能验证什么？（本机实验）</h2>
+<p>完整安装要 OpenClaw + LLM key + Playwright，本机实验选择"不花钱即可验证"的部分，结果全部真实执行（详见 <code>easel\exercise\experiment-log.md</code>）：</p>
+<table>
+<tr><th>宣称</th><th>验证方法</th><th>结果</th></tr>
+<tr><td>账号画像六维</td><td>读 profiles/_template</td><td>✅ 六文件齐备，preferences 含合规底线三栏</td></tr>
+<tr><td>113 个技能</td><td>find skills -name SKILL.md 计数</td><td>✅ 实测 114-115，口径差异，非虚标</td></tr>
+<tr><td>五段分层</td><td>抽查技能 frontmatter layer 字段</td><td>✅ skill-content-postmortem: layer=attribute</td></tr>
+<tr><td>发布前安全闸门</td><td>直接跑 content_guard.py</td><td>✅ WARN 退出 0 只提醒 / BLOCK 退出 7 拦死 / selftest 12 正例必拦</td></tr>
+</table>
+<pre><code># 闸门实测三命令（本机真实输出）
+python skills/shared/scripts/content_guard.py scan --text "这篇文章由 Claude 大模型生成，教你轻松月入十万"
+# → ⚠️ AI 措辞 [low]，仅提醒不拦截   exit=0
+
+python skills/shared/scripts/content_guard.py scan --text "请联系内部 API 网关 https://api.internal.example.com，密钥在 .env 的 ANTHROPIC_API_KEY=sk-xxx"
+# → ❌ 检出敏感信息 [med]，发布会被拦截   exit=7
+
+python skills/shared/scripts/content_guard.py selftest
+# → selftest 通过（BLOCK 正例 12 必拦 / WARN 正例 7 只提醒 / 反例 6 放行）</code></pre>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>边界与风险是什么？</h2>
+<ul>
+<li><b>不是装上就能跑</b>：需要 Python 3.10+、Node 24.16+（25.x 与 26.0 明确不兼容）、OpenClaw、LLM key、Playwright/Chromium；FFmpeg 缺失时音视频技能降级；</li>
+<li><b>Windows 全链路兼容"进行中"</b>：官方自述 Windows 原生安装可用但完整链路仍在完善；</li>
+<li><b>发布是真实账号行为</b>：登录态在你自己的社媒账号上，发错内容是真发错——content_guard 是最后一道闸，但不是免死金牌；</li>
+<li><b>小红书明确提示"可能检测自动化"</b>：README 建议小红书人工预览确认后手动发布；</li>
+<li><b>文章陈述 ≠ 实测</b>："一个月星数增长""爆款原因分析"是文章说法，本实验未核对；七平台文档支持 ≠ 每平台都已稳定发布成功；</li>
+<li><b>归因准确性未验证</b>：复盘质量取决于数据读取与 LLM 分析，没有客观基准。</li>
+</ul>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q9</div>
+<h2>这类"自媒体全家桶 Agent"值不值得跟进？</h2>
+<p><span class="big">值得研究架构，谨慎托付账号。</span></p>
+<p>值得学：①<b>画像即配置</b>——把"账号是谁"从 prompt 里抽出来变成文件资产，换号即换目录；②<b>闸门模式</b>——发布类操作统一过确定性安全检查，AI 措辞只提醒、真敏感必拦，分级设计非常成熟；③<b>记忆纪律</b>——"不是每次做完任务都写"反膨胀设计。</p>
+<p>谨慎用：社媒账号是稀缺资产（封禁成本高），发布链路建议长期保持"AI 草稿 + 人工点发"，把 Easel 用在发现/策划/创作/归因四段，发布段只做预检。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>实际怎么装、怎么用？</h2>
+<pre><code># 安装（Linux/macOS/Windows PowerShell）
+git clone https://github.com/ZJU-REAL/Easel && cd Easel
+bash setup.sh          # 或 Windows: .\setup.ps1
+# 安装器建隔离 easel profile，不动 ~/.openclaw
+
+# 配置：web UI（localhost:7860）里填 LLM key（Anthropic 或 OpenAI 兼容）
+
+# 日常
+easel doctor           # 体检（读 outputs/_install/last-install.json）
+easel web              # 打开工作台
+easel chat             # 命令行对话</code></pre>
+<div class="tipbox">嵌入 API 可选：不配时"显式使用关键词记忆检索"，不会偷偷反复调 chat 端点的 embedding——这种"降级显式化"设计值得抄。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个项目给我什么能力？</h2>
+<ol>
+<li><b>给自己的账号建画像资产</b>：六维模板直接可抄，任何内容工作都能用"定位/风格/受众/平台/红线/记忆"描述清楚一个账号；</li>
+<li><b>抄发布安全闸门设计</b>：content_guard 的 BLOCK/WARN 分级 + exit 7 fail-closed + 显式绕过，可平移到任何"AI 出站内容"管道；</li>
+<li><b>抄记忆更新纪律</b>："有价值的洞察才写、不堆流水账"——给自己的 vault/记忆系统立规矩；</li>
+<li><b>证据化复盘模板</b>：skill-content-postmortem 的输入契约（指标+基线对照）可用于任何"事后归因"场景；</li>
+<li><b>五段工作流分工</b>：发现/策划/创作/发布/归因的工序切分，可直接映射到自己的内容生产流水线。</li>
+</ol>
+</div>
+
+<!-- 实验 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">动手</div>
+<h2>实验：核实宣称 + 实测发布闸门（约 20 分钟，零花费）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 克隆并核实画像六维。</b>
+<pre><code>git clone --depth 1 https://github.com/ZJU-REAL/Easel repo
+ls repo/profiles/_template
+cat repo/profiles/_template/preferences.md</code></pre>
+<div class="expect">✅ 预期结果：identity/style/audience/platforms/preferences/memory 六文件；preferences 含"要做的/不做的/合规底线"。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 技能计数。</b>
+<pre><code>find repo/skills/builtin -maxdepth 2 -name SKILL.md | wc -l</code></pre>
+<div class="expect">✅ 预期结果（本机）：114-115，与 README 徽章 113 同数量级。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 实测 WARN 级放行。</b>
+<pre><code>python repo/skills/shared/scripts/content_guard.py scan --text "本文由 Claude 大模型生成"</code></pre>
+<div class="expect">✅ 预期结果：⚠️ 提醒 ai-disclosure，exit=0 不拦截。</div></div>
+<div class="step"><b class="s">步骤 4 ｜ 实测 BLOCK 级拦截。</b>
+<pre><code>python repo/skills/shared/scripts/content_guard.py scan --text "密钥在 .env 的 ANTHROPIC_API_KEY=sk-xxx"</code></pre>
+<div class="expect">✅ 预期结果：❌ 检出敏感信息，exit=7 拦死。</div></div>
+<div class="step"><b class="s">步骤 5 ｜ 跑官方自测。</b>
+<pre><code>python repo/skills/shared/scripts/content_guard.py selftest</code></pre>
+<div class="expect">✅ 预期结果：selftest 通过（12 BLOCK 正例必拦 / 7 WARN 正例只提醒 / 6 反例放行）。</div></div>
+<div class="warnbox"><b>如实声明</b>：完整安装（OpenClaw/Playwright/模型调用）、真实平台发布、视频技能（需 ffmpeg）均未验证。已验证部分全部真实执行，日志见 <code>easel\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>它是自媒体全流程 Agent 工作台</b>：浙大 REAL Lab 出品，OpenClaw + 113 技能 + 七平台；</li>
+<li><b>画像六维是核心资产</b>：一个账号一套 Markdown，偏好红线合规底线分层，记忆有反膨胀纪律；</li>
+<li><b>发布闸门实测有效</b>：BLOCK 必拦 exit 7 / WARN 提醒 / 显式绕过——可平移的设计；</li>
+<li><b>"自进化"=记忆写回非权重更新</b>：归因复盘进 memory.md，越用越准但模型不变；</li>
+<li><b>建议用法</b>：发现/策划/创作/归因交给它，发布保持人工点发。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">Easel 小白指南 · 2026-10-27 · 实测 main@5a597e5 · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

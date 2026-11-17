@@ -1,0 +1,1 @@
+请联系内部 API 网关 https://api.internal.example.com，密钥 sk-abc123SECRET 在 .env 的 ANTHROPIC_API_KEY

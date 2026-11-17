@@ -1,0 +1,26 @@
+{
+  "schema": "storm-breaker-defense-verification-v1",
+  "generated_at": "2026-10-30T14:35:50.229834+00:00",
+  "checks": {
+    "static_commit_pinned": true,
+    "static_all_indicator_classes_present": true,
+    "upstream_never_executed": true,
+    "no_real_sensor_or_location": true,
+    "loopback_secure_context": true,
+    "denial_branch_understood": true,
+    "cleanup_stops_track": true,
+    "network_canary_blocked": true,
+    "only_loopback_clients": true,
+    "local_server_stopped": true,
+    "temporary_browser_profiles_removed": true
+  },
+  "passed": 11,
+  "total": 11,
+  "all_passed": true,
+  "limits": [
+    "Permissions API queries were real browser calls but did not open prompts or grant access.",
+    "Media and geolocation success/denial branches used explicit synthetic mocks, not hardware.",
+    "No upstream PHP/Python server, tunnel, collector, lure, or third-party target was run.",
+    "This is a local mechanism demonstration, not a cross-browser or enterprise detection certification."
+  ]
+}

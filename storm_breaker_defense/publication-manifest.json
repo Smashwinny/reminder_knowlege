@@ -1,0 +1,34 @@
+{
+  "topic": "Storm-Breaker 防御性学习：钓鱼页权限采集的机制、识别、防护、撤权与事件响应",
+  "project_dir": "storm_breaker_defense",
+  "pdf": "storm_breaker_defense/storm_breaker_defense-小白指南.pdf",
+  "html": "storm_breaker_defense/storm-breaker-defense-guide.html",
+  "exercise_dir": "storm_breaker_defense/exercise",
+  "experiment_log": "storm_breaker_defense/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/storm_breaker_defense.md",
+  "source_urls": [
+    "https://x.com/0xGky/status/2107045631726326016",
+    "https://github.com/ultrasecurity/Storm-Breaker",
+    "https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia",
+    "https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts",
+    "https://developer.mozilla.org/en-US/docs/Web/API/Permissions_API",
+    "https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API",
+    "https://support.google.com/chrome/answer/114662?hl=en",
+    "https://www.cisa.gov/news-events/news/avoiding-social-engineering-and-phishing-attacks"
+  ],
+  "report_path": "完成/分析报告/d605f8e5-94e8-455d-a5d8-00d423a64f2c.md",
+  "experiment_files": [
+    "storm_breaker_defense/exercise/audit_upstream.py",
+    "storm_breaker_defense/exercise/lab_page.html",
+    "storm_breaker_defense/exercise/run_browser_lab.py",
+    "storm_breaker_defense/exercise/verify_defense.py",
+    "storm_breaker_defense/exercise/static-audit.json",
+    "storm_breaker_defense/exercise/browser-results.json",
+    "storm_breaker_defense/exercise/verification.json",
+    "storm_breaker_defense/exercise/browser-dom.html",
+    "storm_breaker_defense/exercise/browser-stdout.txt",
+    "storm_breaker_defense/exercise/browser-stderr.txt",
+    "storm_breaker_defense/exercise/guide-preview.png",
+    "storm_breaker_defense/exercise/experiment-log.md"
+  ]
+}

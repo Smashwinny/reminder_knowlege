@@ -1,0 +1,94 @@
+{
+  "schema": "local-browser-defense-lab-v1",
+  "started_at": "2026-10-30T14:31:56.749Z",
+  "safety": {
+    "real_sensor_access": false,
+    "real_geolocation_access": false,
+    "synthetic_coordinates_only": true,
+    "test_scope": "127.0.0.1 loopback only"
+  },
+  "secure_context": {
+    "isSecureContext": true,
+    "protocol": "http:",
+    "hostname": "127.0.0.1",
+    "loopback": true,
+    "mediaDevicesExposed": true,
+    "geolocationExposed": true
+  },
+  "permission_queries": {
+    "camera": {
+      "supported": true,
+      "state": "prompt",
+      "prompt_shown": false
+    },
+    "microphone": {
+      "supported": true,
+      "state": "prompt",
+      "prompt_shown": false
+    },
+    "geolocation": {
+      "supported": true,
+      "state": "prompt",
+      "prompt_shown": false
+    }
+  },
+  "media_denial": {
+    "passed": true,
+    "error_name": "NotAllowedError",
+    "frames_created": 0,
+    "uploads": 0
+  },
+  "track_cleanup": {
+    "passed": true,
+    "stop_calls": 1,
+    "final_state": "ended",
+    "track_label": "SYNTHETIC_TRACK_NO_HARDWARE",
+    "uploads": 0
+  },
+  "geolocation_guard": {
+    "passed": true,
+    "synthetic": true,
+    "latitude": 0,
+    "longitude": 0,
+    "note": "0,0 is a fixed synthetic marker, not a device location"
+  },
+  "csp_network_guard": {
+    "passed": true,
+    "blocked_by_browser": true,
+    "error": "TypeError: Failed to fetch",
+    "server_endpoint_reached": false
+  },
+  "finished_at": "2026-10-30T14:31:56.781Z",
+  "status": "DONE",
+  "run": {
+    "started_at": "2026-10-30T14:31:56.053963+00:00",
+    "finished_at": "2026-10-30T14:31:58.132852+00:00",
+    "edge_path": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "edge_exit_code": 0,
+    "url": "http://127.0.0.1:10921/lab_page.html",
+    "command_redacted_profile": [
+      "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "--headless",
+      "--disable-gpu",
+      "--no-first-run",
+      "--no-default-browser-check",
+      "--dump-dom",
+      "--virtual-time-budget=5000",
+      "--user-data-dir=<temporary-local-profile>",
+      "http://127.0.0.1:10921/lab_page.html"
+    ],
+    "loopback_requests": [
+      {
+        "method": "GET",
+        "path": "/lab_page.html",
+        "client": "127.0.0.1"
+      },
+      {
+        "method": "GET",
+        "path": "/favicon.ico",
+        "client": "127.0.0.1"
+      }
+    ],
+    "upstream_executed": false
+  }
+}

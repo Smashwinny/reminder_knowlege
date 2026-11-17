@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1.0",
+  "upstreamCommit": "638ae84f97a04474cb63c6098eacfc6c83b813af",
+  "upstreamVersion": "0.1.11",
+  "python": "3.14.7",
+  "passed": 15,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "pinned upstream version",
+      "passed": true,
+      "evidence": "commit=638ae84f97a04474cb63c6098eacfc6c83b813af; VERSION=0.1.11"
+    },
+    {
+      "name": "ebbinghaus first-pass batches",
+      "passed": true,
+      "evidence": "[[1, 2, 3], [4, 5, 6], [7, 8]]"
+    },
+    {
+      "name": "day 2 combines new and day+1 review",
+      "passed": true,
+      "evidence": "{\"day\": 2, \"new\": [4, 5, 6], \"review\": [1, 2, 3], \"all\": [1, 2, 3, 4, 5, 6]}"
+    },
+    {
+      "name": "day 4 combines offset+1 and offset+2 reviews",
+      "passed": true,
+      "evidence": "{\"day\": 4, \"new\": [], \"review\": [4, 5, 6, 7, 8], \"all\": [4, 5, 6, 7, 8]}"
+    },
+    {
+      "name": "new coverage and five reviews per item",
+      "passed": true,
+      "evidence": "new=[1, 2, 3, 4, 5, 6, 7, 8]; review_events=40; last_day=18"
+    },
+    {
+      "name": "hulu first-pass-only grouping",
+      "passed": true,
+      "evidence": "[[1, 2], [3, 4], [5]]"
+    },
+    {
+      "name": "hulu 80 percent page gate",
+      "passed": true,
+      "evidence": "4/5=80% passes; 3/5=60% does not"
+    },
+    {
+      "name": "LCS spelling threshold",
+      "passed": true,
+      "evidence": "{\"quiet/quite\": 0.8, \"cat/cut\": 0.666667, \"planet/planeta\": 0.923077}"
+    },
+    {
+      "name": "stable normalized word IDs",
+      "passed": true,
+      "evidence": "word=w_98c1eb4ee93476743763; words=w_dba36bffa5cab0f922d0"
+    },
+    {
+      "name": "static source: documented review offsets",
+      "passed": true,
+      "evidence": "spaced_repetition.py contains (1, 2, 4, 7, 15)"
+    },
+    {
+      "name": "static source: integer-exact LCS threshold",
+      "passed": true,
+      "evidence": "2*LCS/(len(a)+len(b)) >= 3/4 is implemented as 8*LCS >= 3*total"
+    },
+    {
+      "name": "static source: deterministic shuffle and optimistic revisions",
+      "passed": true,
+      "evidence": "planId+round+day seeds shuffle; updates check expected_revision"
+    },
+    {
+      "name": "static source: loopback API and origin gate",
+      "passed": true,
+      "evidence": "API binds 127.0.0.1 and rejects non-loopback Origin"
+    },
+    {
+      "name": "static source: graph and study limitations",
+      "passed": true,
+      "evidence": "README states 500-node first-screen cap and 80% Hulu gate"
+    },
+    {
+      "name": "frontend manifest",
+      "passed": true,
+      "evidence": "React=^19.1.1; Vite=^6.3.5"
+    }
+  ],
+  "scope": "Independent reference tests plus static source checks; not an upstream runtime smoke test."
+}

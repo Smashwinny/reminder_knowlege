@@ -25,3 +25,7 @@ tags: [概念]
 - [[零依赖编程]]：shim 实验的实现方式
 
 **首次接触于**：[[项目笔记/agent-kernel]]（note 02《38 家大模型，11 个实现就够了》）
+
+## CLIProxyAPI：Translator × Executor 的真实协议证据（2026-10-30）
+
+[[项目笔记/cli_proxy_api]] 将 Translator 负责入站/出站格式转换，ProviderExecutor 负责真实 HTTP、凭证注入与 provider 细节。实测 Claude system/content 转 OpenAI messages，OpenAI content/finish_reason/usage 转回 Claude content/stop_reason/usage；Claude SSE 还覆盖 message_start、content_block 生命周期、message_delta、message_stop。协议兼容必须逐特性验收，不能仅凭“OpenAI compatible”推断工具调用、多模态和错误语义等价。

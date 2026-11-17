@@ -1,0 +1,18 @@
+Independent vocabulary learning model experiment
+Python: 3.14.7 (isolated mode -I; stdlib only)
+PASS | pinned upstream version | commit=638ae84f97a04474cb63c6098eacfc6c83b813af; VERSION=0.1.11
+PASS | ebbinghaus first-pass batches | [[1, 2, 3], [4, 5, 6], [7, 8]]
+PASS | day 2 combines new and day+1 review | {"day": 2, "new": [4, 5, 6], "review": [1, 2, 3], "all": [1, 2, 3, 4, 5, 6]}
+PASS | day 4 combines offset+1 and offset+2 reviews | {"day": 4, "new": [], "review": [4, 5, 6, 7, 8], "all": [4, 5, 6, 7, 8]}
+PASS | new coverage and five reviews per item | new=[1, 2, 3, 4, 5, 6, 7, 8]; review_events=40; last_day=18
+PASS | hulu first-pass-only grouping | [[1, 2], [3, 4], [5]]
+PASS | hulu 80 percent page gate | 4/5=80% passes; 3/5=60% does not
+PASS | LCS spelling threshold | {"quiet/quite": 0.8, "cat/cut": 0.666667, "planet/planeta": 0.923077}
+PASS | stable normalized word IDs | word=w_98c1eb4ee93476743763; words=w_dba36bffa5cab0f922d0
+PASS | static source: documented review offsets | spaced_repetition.py contains (1, 2, 4, 7, 15)
+PASS | static source: integer-exact LCS threshold | 2*LCS/(len(a)+len(b)) >= 3/4 is implemented as 8*LCS >= 3*total
+PASS | static source: deterministic shuffle and optimistic revisions | planId+round+day seeds shuffle; updates check expected_revision
+PASS | static source: loopback API and origin gate | API binds 127.0.0.1 and rejects non-loopback Origin
+PASS | static source: graph and study limitations | README states 500-node first-screen cap and 80% Hulu gate
+PASS | frontend manifest | React=^19.1.1; Vite=^6.3.5
+SUMMARY | 15 passed, 0 failed | results=F:\reminder\vocab_learning_app\exercise\experiment-results.json

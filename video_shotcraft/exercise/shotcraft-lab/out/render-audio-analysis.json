@@ -1,0 +1,14 @@
+[
+  {
+    "file": "baseline.wav",
+    "sampleRate": 48000,
+    "channels": 1,
+    "durationSeconds": 6.016,
+    "samplePeakDb": -6.9,
+    "overallRmsDb": -27.141,
+    "peak10msRmsDb": -11.395,
+    "peakLagSeconds": 2.315,
+    "peakLagFrames30fps": 69.45,
+    "note": "10 ms RMS/sample peak are not LUFS or true peak; semantic landing still needs listening."
+  }
+]

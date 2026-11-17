@@ -1,0 +1,41 @@
+{
+  "task_id": "2d0c56c5-2401-4371-b440-0fea9196ae5e",
+  "related_task": "a39cd206-d1d3-4ece-adb1-2a81097557ba (same project, initial analysis)",
+  "topic": "Easel：浙大开源自媒体智能体（账号画像+五段工作流+发布安全闸门）",
+  "project_dir": "easel",
+  "classification": "开源项目类（知识学习）",
+  "source_urls": [
+    "https://mp.weixin.qq.com (雷霆大思考《浙大开源了一个自媒体智能体》)",
+    "https://github.com/ZJU-REAL/Easel"
+  ],
+  "upstream": {
+    "repo": "https://github.com/ZJU-REAL/Easel",
+    "commit": "5a597e5",
+    "license": "Apache-2.0",
+    "stars": 4100
+  },
+  "pdf": "easel/Easel自媒体智能体-小白指南.pdf",
+  "html": "easel/easel-guide.html",
+  "exercise_dir": "easel/exercise",
+  "experiment_log": "easel/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/easel-proposal-pending.md",
+  "deliverables": [
+    "easel/easel-guide.html",
+    "easel/Easel自媒体智能体-小白指南.pdf",
+    "easel/exercise/experiment-log.md",
+    "easel/exercise/test_post.txt",
+    "easel/exercise/test_leak.txt",
+    "easel/easel-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "profiles/_template 六维齐备：identity/style/audience/platforms/preferences/memory",
+    "preferences.md 含 要做的/不做的/合规底线 三栏；memory.md 含反膨胀写入纪律",
+    "技能计数实测 114-115（README 徽章 113，口径差异非虚标）",
+    "skill-content-postmortem frontmatter layer=attribute，输入契约要求数据指标+同期对照基线",
+    "content_guard.py scan WARN 样例 exit=0 仅提醒；BLOCK 样例 exit=7 拦截；selftest 12 BLOCK 正例必拦通过"
+  ],
+  "blocked_items": [
+    "完整安装（OpenClaw/Playwright/LLM key）与真实平台发布未验证",
+    "视频类技能（需 ffmpeg）未验证"
+  ]
+}

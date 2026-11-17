@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Qwen-Image-2.1 云端部署 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f5f3ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#7c4dff 0%,#2d9cdb 55%,#06d6a0 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-purple));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-purple));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-purple));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-purple));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Qwen-Image-2.1 云端部署：版本、磁盘、费用与许可</h1>
+  <p>阿里统一图像生成与编辑模型（原生 RGBA 透明层）——部署前的四笔账，本指南用官方 API 逐一算给你看</p>
+  <p>
+    <span class="badge">HF 月下载 19.6 万</span><span class="badge">BF16 / Safetensors</span>
+    <span class="badge">Qwen Research License</span><span class="badge">2026-10-27 数据实测</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 长文《手把手教你云端部署阿里 Qwen-Image-2.1》(@SUOHA_AI) ｜ 官方模型卡核实</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q1</div>
+<h2>Qwen-Image-2.1 是什么？一句话能说清吗？</h2>
+<p><span class="big">阿里 Qwen 家族的统一图像模型：文生图和图像编辑共用一条管道，原生支持 RGBA 透明背景生成与"透明图层编辑"，最高可喂 10 张参考图做局部修改（画圈/涂鸦/蒙版指定修改区域），并保留了人物身份。</span></p>
+<p>规格亮点：32 层单流 DiT；最高分辨率 2048×2048（1:1）、2752×1536（16:9）、1536×2752（9:16）；强项是<b>排版文字渲染、人像打光、材质质感</b>。官方示例用法是 <code>QwenImage21Pipeline</code> + BF16 + CUDA，显存紧张时开 <code>enable_model_cpu_offload()</code>。</p>
+<div class="svgbox">
+<svg width="720" height="150" viewBox="0 0 720 150">
+  <rect x="20" y="35" width="130" height="80" rx="12" fill="#2d9cdb"/>
+  <text x="85" y="68" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">文本提示词</text>
+  <text x="85" y="88" fill="#e8f4fd" font-size="10" text-anchor="middle">+ 最多 10 张参考图</text>
+  <rect x="200" y="35" width="160" height="80" rx="12" fill="#7c4dff"/>
+  <text x="280" y="62" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">Text Encoder</text>
+  <text x="280" y="82" fill="#e6dcff" font-size="10" text-anchor="middle">≈8.7B 参数(实测)</text>
+  <rect x="410" y="35" width="140" height="80" rx="12" fill="#ff6b1a"/>
+  <text x="480" y="62" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">DiT 视觉生成器</text>
+  <text x="480" y="82" fill="#ffe8d6" font-size="10" text-anchor="middle">官方宣称 7B</text>
+  <rect x="600" y="35" width="100" height="80" rx="12" fill="#06d6a0"/>
+  <text x="650" y="68" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">图像/RGBA</text>
+  <text x="650" y="88" fill="#eafff8" font-size="10" text-anchor="middle">VAE 解码</text>
+  <path d="M150 75 L200 75" stroke="#333" stroke-width="2.5" marker-end="url(#q1)"/>
+  <path d="M360 75 L410 75" stroke="#333" stroke-width="2.5" marker-end="url(#q1)"/>
+  <path d="M550 75 L600 75" stroke="#333" stroke-width="2.5" marker-end="url(#q1)"/>
+  <defs><marker id="q1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q2</div>
+<h2>为什么要云端部署？本地跑不行吗？</h2>
+<p><span class="big">因为这套管道的真实体格（实测 31.76GB 权重）远超消费级显卡容量，而"7B"的宣传数字会让人严重低估预算。</span></p>
+<table>
+<tr><th>环境</th><th>可行性</th><th>代价</th></tr>
+<tr><td>本地 24GB（4090/3090）</td><td>⚠️ 可跑但须 CPU offload</td><td>出图慢（权重反复换入换出）</td></tr>
+<tr><td>本地 48GB+（A6000/双卡）</td><td>✅ 全量装载</td><td>硬件数万元</td></tr>
+<tr><td>云端按量（AutoDL 等）</td><td>✅ 开机即用</td><td>1.6~2.5 元/小时 + 生命周期管理</td></tr>
+<tr><td>官方 API 调用</td><td>✅ 零部署</td><td>按张计费（本指南未核价）</td></tr>
+</table>
+<p>云端部署的真实卖点不是"便宜"，而是<b>把一次性资本开支（买卡）变成运营开支（租卡）</b>；但运营开支有个陷阱——见 Q6 的计费机制。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q3</div>
+<h2>"7B"到底指什么？全模型多大？（本指南实测）</h2>
+<p>通过 HuggingFace 官方 tree API 逐个分片查询（原始回执存 <code>qwen_image_21\exercise\</code>）：</p>
+<table>
+<tr><th>组件</th><th>分片</th><th>实测大小</th><th>推算参数量（BF16）</th></tr>
+<tr><td>text_encoder</td><td>4 个 safetensors</td><td>17.54 GB</td><td>≈8.7B（模型卡从不宣传）</td></tr>
+<tr><td>transformer（视觉生成器）</td><td>2 个 safetensors</td><td>14.23 GB</td><td>≈7.1B ✅ 与"7B"自洽</td></tr>
+<tr><td>VAE</td><td>1 个文件</td><td>数百 MB 级</td><td>—</td></tr>
+<tr><td><b>权重合计</b></td><td></td><td><b>≈31.8 GB</b></td><td><b>全管道 ≈16B 参数</b></td></tr>
+</table>
+<div class="warnbox"><b>营销文常见误导</b>：拿"7B"推算"显存 14GB 够了"。真相：模型卡的 7B 只是视觉组件；<span class="hl">磁盘和显存预算都要按 32GB 权重计</span>——这还没算激活值、缓存和输出。</div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q4</div>
+<h2>显存到底要多少？24GB 能不能跑？</h2>
+<p><span class="big">裸装必爆；CPU offload 能跑，但"31 秒出图"之类的数字别当真。</span></p>
+<ul>
+<li>BF16 权重全量驻留显存 ≈ <b>63.5 GiB</b> 量级（31.76GB 按 2 字节/参数换算 + 激活只会更多）；</li>
+<li>24GB 卡唯一出路是官方示例的 <code>enable_model_cpu_offload()</code>：当前活跃组件驻留 GPU、其余留内存，需要时换入换出——<b>峰值显存可压到 24GB 内，但每次切换都花时间</b>；</li>
+<li>原帖"32GB 保证不爆显存"：<b>仅 offload 前提下成立</b>；裸装 32GB 同样不够；</li>
+<li>想舒服全量装载：48GB（A6000/魔改 4090 类）或双卡环境。</li>
+</ul>
+<div class="tipbox">这与知识库 [[KV缓存与上下文]] 的"显存账单"思维同构：权重是固定账，激活/离屏是浮动账——算预算两项都要列。</div>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>许可允许商用吗？</h2>
+<p><span class="big">默认不允许。Qwen Research License 把标准授权限定于"非商业研究或评估"，商业用途需向阿里单独申请许可。</span></p>
+<p>原帖"无需授权许可"的说法与官方 LICENSE 直接矛盾。HF 页面 license 标签也只标 "other"。</p>
+<table>
+<tr><th>用途</th><th>是否可用</th></tr>
+<tr><td>个人学习、研究、评测</td><td>✅ 标准授权覆盖</td></tr>
+<tr><td>自媒体配图（有收益）</td><td>⚠️ 灰色地带，建议按商用对待</td></tr>
+<tr><td>商业产品/客户交付</td><td>❌ 需单独商业许可</td></tr>
+</table>
+<div class="warnbox">营销文最爱省去的恰恰是这段。部署前先想清楚用途——免费的是研究许可，不是商业许可。</div>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>云端计费怎么算？钱会从哪里漏走？</h2>
+<p>AutoDL 官方计费规则（文档直读）：</p>
+<ul>
+<li>按量实例<b>从开机到关机持续计费</b>，与你的 Python 是否在跑无关；</li>
+<li>默认 50GB 免费本地数据盘；<b>付费扩容的磁盘关机后仍计费</b>；</li>
+<li>无卡模式（仅 CPU）便宜，适合下载权重/装环境。</li>
+</ul>
+<p>实测权重 31.76GB → 50GB 免费盘<b>刚好够用但余量紧张</b>（pip 缓存、模型缓存、输出图会吃空间）。</p>
+<p>价格行情（2026-10 检索）：AutoDL 4090 约 1.61–2.50 元/小时，原帖"1.58 元/小时"是特定时刻个案。<span class="hl">算账：每天玩 2 小时约 4 元；忘关机一天 = 约 48 元——费用大头是生命周期管理不是单价。</span></p>
+<div class="svgbox">
+<svg width="720" height="160" viewBox="0 0 720 160">
+  <g font-size="11">
+  <rect x="40" y="40" width="140" height="55" rx="10" fill="#06d6a0"/>
+  <text x="110" y="63" fill="#fff" text-anchor="middle" font-weight="bold">无卡开机</text>
+  <text x="110" y="81" fill="#eafff8" text-anchor="middle">下载 32GB 权重</text>
+  <rect x="230" y="40" width="140" height="55" rx="10" fill="#2d9cdb"/>
+  <text x="300" y="63" fill="#fff" text-anchor="middle" font-weight="bold">有卡开机</text>
+  <text x="300" y="81" fill="#e8f4fd" text-anchor="middle">推理调试</text>
+  <rect x="420" y="40" width="140" height="55" rx="10" fill="#ef476f"/>
+  <text x="490" y="63" fill="#fff" text-anchor="middle" font-weight="bold">关机！！</text>
+  <text x="490" y="81" fill="#ffe0e8" text-anchor="middle">停止时租计费</text>
+  <rect x="610" y="40" width="90" height="55" rx="10" fill="#ffd60a"/>
+  <text x="655" y="63" fill="#5a3d00" text-anchor="middle" font-weight="bold">释放磁盘</text>
+  <text x="655" y="81" fill="#5a3d00" text-anchor="middle">才停盘费</text>
+  </g>
+  <path d="M180 67 L230 67" stroke="#333" stroke-width="2" marker-end="url(#q6)"/>
+  <path d="M370 67 L420 67" stroke="#333" stroke-width="2" marker-end="url(#q6)"/>
+  <path d="M560 67 L610 67" stroke="#333" stroke-width="2" marker-end="url(#q6)"/>
+  <text x="357" y="130" font-size="12" text-anchor="middle" fill="#ef476f" font-weight="bold">漏钱点：① 暂停≠关机 ② 关机≠磁盘费停 ③ 涨价时段抢卡</text>
+  <defs><marker id="q6" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q7</div>
+<h2>部署代码本身要注意什么？</h2>
+<ul>
+<li><b>依赖版本</b>：官方要求 <code>torch>=2.4.0</code>、<code>transformers>=5.17</code>、git 版 diffusers、accelerate——版本错配是云端部署第一大坑，装完先记 <code>pip freeze</code>；</li>
+<li><b>Pipeline 类</b>：官方示例用 <code>QwenImage21Pipeline</code>，原帖通用 <code>DiffusionPipeline</code> + <code>torch.accelerator</code> 临时替代类的写法未经验证，建议照官方走；</li>
+<li><b>镜像源</b>：国内云主机 HF 下载慢，模型卡同时挂了 ModelScope 同名模型——国内优先 ModelScope；</li>
+<li><b>验收口径</b>：首跑用普通物体或文字海报，记录依赖版本/显存峰值/输出通道（RGBA?)/生成时间/实际费用——五项留痕才能复现（[[证据优先质检ProofOverClaims]]）。</li>
+</ul>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q8</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[量化与GGUF]]</td><td>图像模型同样可量化瘦身（社区 GGUF/FP8），但官方管道先按 BF16 预算</td></tr>
+<tr><td>[[KV缓存与上下文]] / 显存账单思维</td><td>权重固定账 + 激活浮动账，图像 DiT 同构</td></tr>
+<tr><td>[[付费调用回执与预算熔断]]</td><td>云端租赁版预算纪律：开机时长记录 + 关机确认 + 磁盘释放回执</td></tr>
+<tr><td>[[混合模型分工流水线]]</td><td>出图走 API 还是自部署 = 每道工序选生产者的同类决策</td></tr>
+</table>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q9</div>
+<h2>原帖的可信度如何？哪些能信哪些要打折？</h2>
+<table>
+<tr><th>原帖说法</th><th>本指南核实</th></tr>
+<tr><td>型号 Qwen/Qwen-Image-2.1、ModelScope/Diffusers/BF16/Gradio</td><td>✅ 与官方一致</td></tr>
+<tr><td>"7B"模型</td><td>⚠️ 仅视觉组件；全管道实测 ≈31.8GB 权重</td></tr>
+<tr><td>"无需授权许可"</td><td>❌ 与 LICENSE 矛盾：非商用研究限定</td></tr>
+<tr><td>"32GB 保证不爆显存""31 秒出图""1.58 元/小时"</td><td>⚠️ 均为作者单点条件下的陈述，未独立复现</td></tr>
+<tr><td>AutoDL 按开机计费机制</td><td>✅ 与官方计费文档一致</td></tr>
+</table>
+<div class="tipbox">通用心法：教程类内容永远先核"许可 + 账单"两项——这两处最常被营销化处理。</div>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>我现在就想部署，最小可行步骤是什么？</h2>
+<pre><code># ① 注册 AutoDL，选卡：预算紧→4090 24GB（offload 慢速跑）
+#                  体验好→48GB 卡全量装载
+# ② 无卡模式开机（便宜），装环境：
+pip install "torch>=2.4.0" "transformers>=5.17" accelerate pillow
+pip install git+https://github.com/huggingface/diffusers
+# ③ 从 ModelScope 下载模型（国内快）→ 存数据盘
+# ④ 有卡开机，官方示例脚本首跑，记录五项：版本/显存峰值/通道/时间/费用
+# ⑤ 用完：关机 → 释放付费磁盘 → 对账</code></pre>
+<div class="warnbox"><b>用途红线再强调</b>：有商业收益的场景先申请 Qwen 商业许可，或改用 API 计费版/其他商用许可模型。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>营销文免疫</b>：看到"7B""无需许可""保证不爆显存"自动触发三问——哪个组件？哪条许可条款？什么前提条件？</li>
+<li><b>部署预算速算</b>：HF tree API 查分片大小 → 磁盘/显存/时租三分钟算清；</li>
+<li><b>云端生命周期纪律</b>：无卡下载/有卡推理/关机/释放磁盘四步防漏钱；</li>
+<li><b>留痕验收习惯</b>：版本、显存峰值、通道、耗时、费用五项回执（接 [[付费调用回执与预算熔断]]）。</li>
+</ol>
+</div>
+
+<!-- 实验 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">动手</div>
+<h2>实验：不租 GPU 把部署账单算清楚（约 15 分钟，零花费）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 查型号与许可。</b>
+<pre><code>curl -s https://huggingface.co/api/models/Qwen/Qwen-Image-2.1 | python -m json.tool | grep -i license</code></pre>
+<div class="expect">✅ 预期结果：license=other（Qwen Research License）；标准授权限非商业研究/评估。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 查分片体积。</b>
+<pre><code>curl -s https://huggingface.co/api/models/Qwen/Qwen-Image-2.1/tree/main/text_encoder
+curl -s https://huggingface.co/api/models/Qwen/Qwen-Image-2.1/tree/main/transformer</code></pre>
+<div class="expect">✅ 预期结果（本机实测）：text_encoder 17.54GB + transformer 14.23GB = <b>31.76GB</b>。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 算显存账。</b>BF16 权重全量驻留 ≈ 63.5 GiB 量级；24GB 卡必须 CPU offload；32GB 裸装不够。
+<div class="expect">✅ 预期结果：得出"7B≠全模型"的结论。</div></div>
+<div class="step"><b class="s">步骤 4 ｜ 算费用账。</b>50GB 免费盘装 31.76GB 权重余量紧张；4090 时租行情 1.61–2.50 元；忘关机一天≈48 元。
+<div class="expect">✅ 预期结果：明确"生命周期管理 &gt; 单价"。</div></div>
+<div class="okbox"><b>实验结论</b>：四笔账（版本/磁盘/显存/费用+许可）全部用官方 API 真实回执算清。原始数据存 <code>qwen_image_21\exercise\</code>。未租用实例/未下载权重（如实声明）。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>"7B"只是视觉组件</b>：全管道实测 31.76GB 权重，磁盘显存都按 32GB 预算；</li>
+<li><b>24GB 能跑靠 offload</b>：速度换空间，"保证不爆"都是有条件真；</li>
+<li><b>许可默认非商用</b>：研究免费、商用需单独授权——营销文"无需许可"不可信；</li>
+<li><b>云端漏钱点在生命周期</b>：暂停≠关机、关机≠盘费停；</li>
+<li><b>部署先留痕</b>：版本/显存峰值/通道/耗时/费用五项回执才算验收。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">Qwen-Image-2.1 云端部署指南 · 2026-10-27 · HF API 数据实测 · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

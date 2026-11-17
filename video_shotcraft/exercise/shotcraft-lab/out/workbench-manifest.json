@@ -1,0 +1,180 @@
+{
+  "name": "Shotcraft learning lab",
+  "fps": 30,
+  "width": 960,
+  "height": 540,
+  "total": 180,
+  "shots": [
+    {
+      "id": "hero",
+      "label": "S1 单主角产品镜头",
+      "from": 0,
+      "duration": 90,
+      "props": {
+        "product": "NOVA Focus",
+        "kicker": "A CALMER WORKSPACE",
+        "accent": "#ffb703",
+        "fontSize": 42
+      },
+      "schema": [
+        {
+          "type": "text",
+          "key": "product",
+          "label": "产品名",
+          "default": "NOVA Focus"
+        },
+        {
+          "type": "text",
+          "key": "kicker",
+          "label": "眉题",
+          "default": "A CALMER WORKSPACE"
+        },
+        {
+          "type": "color",
+          "key": "accent",
+          "label": "强调色",
+          "default": "#ffb703"
+        },
+        {
+          "type": "slider",
+          "key": "fontSize",
+          "label": "产品名字号",
+          "default": 42,
+          "min": 14,
+          "max": 80,
+          "step": 1,
+          "unit": "px"
+        }
+      ],
+      "component": "HeroShot"
+    },
+    {
+      "id": "features",
+      "label": "S2 功能落点",
+      "from": 90,
+      "duration": 90,
+      "props": {
+        "title": "Everything lands\nright on beat.",
+        "items": "Capture the real product\nPin motion to frames\nEdit every layer",
+        "accent": "#ff4d8d",
+        "fontSize": 46,
+        "duration": 90
+      },
+      "durationProp": "duration",
+      "schema": [
+        {
+          "type": "textarea",
+          "key": "title",
+          "label": "标题",
+          "default": "Everything lands\nright on beat."
+        },
+        {
+          "type": "textarea",
+          "key": "items",
+          "label": "功能（每行一条）",
+          "default": "Capture the real product\nPin motion to frames\nEdit every layer"
+        },
+        {
+          "type": "color",
+          "key": "accent",
+          "label": "强调色",
+          "default": "#ff4d8d"
+        },
+        {
+          "type": "slider",
+          "key": "fontSize",
+          "label": "标题字号",
+          "default": 46,
+          "min": 14,
+          "max": 80,
+          "step": 1,
+          "unit": "px"
+        }
+      ],
+      "component": "FeatureShot"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "flash-0",
+      "label": "跨切点暖白闪",
+      "from": 85,
+      "duration": 10,
+      "durationProp": "duration",
+      "cardId": "flash-cut",
+      "cardName": "暖白闪转场",
+      "component": "FlashCut"
+    }
+  ],
+  "captions": [
+    {
+      "id": "caption-0",
+      "label": "ONE TIMELINE · EVERY BEAT EDITABLE",
+      "from": 108,
+      "duration": 48,
+      "props": {
+        "text": "ONE TIMELINE · EVERY BEAT EDITABLE",
+        "color": "#ffffff",
+        "accent": "#ffb703",
+        "fontSize": 18,
+        "duration": 48,
+        "from": 108
+      },
+      "durationProp": "duration",
+      "schema": [
+        {
+          "type": "text",
+          "key": "text",
+          "label": "字幕",
+          "default": "ONE TIMELINE · EVERY BEAT EDITABLE"
+        },
+        {
+          "type": "color",
+          "key": "color",
+          "label": "文字色",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "key": "accent",
+          "label": "方点色",
+          "default": "#ffb703"
+        },
+        {
+          "type": "slider",
+          "key": "fontSize",
+          "label": "字号",
+          "default": 18,
+          "min": 14,
+          "max": 80,
+          "step": 1,
+          "unit": "px"
+        }
+      ],
+      "cardId": "caption",
+      "cardName": "解说字幕条",
+      "component": "Caption"
+    }
+  ],
+  "sfx": [
+    {
+      "from": 14,
+      "duration": 90,
+      "src": "audio/whoosh-fast.mp3",
+      "volume": 0.45
+    },
+    {
+      "from": 53,
+      "duration": 90,
+      "src": "audio/impact-cine.mp3",
+      "volume": 0.5
+    },
+    {
+      "from": 100,
+      "duration": 90,
+      "src": "audio/transition-soft.mp3",
+      "volume": 0.4
+    }
+  ],
+  "note": "The real TS manifest was bundled and evaluated. This is not a browser-UI or pixel-parity test."
+}

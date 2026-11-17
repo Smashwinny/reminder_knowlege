@@ -1,0 +1,43 @@
+config-version: 8
+server:
+  host: "127.0.0.1"
+  port: 19317
+  response-compression:
+    enabled: false
+management:
+  allow-remote: false
+  secret-key: ""
+  disable-control-panel: true
+access:
+  api-keys:
+    - "local-client-key"
+oauth:
+  auth-dir: "auths"
+routing:
+  strategy: "fill-first"
+  retry:
+    request-retry: 0
+    max-retry-credentials: 0
+    max-retry-interval: 0
+requests:
+  proxy-url: "direct"
+api-keys:
+  openai-compatibility:
+    - name: "local-mock"
+      base-url: "http://127.0.0.1:19001/v1"
+      keys:
+        - api-key: "upstream-A"
+        - api-key: "upstream-B"
+      models:
+        - name: "mock-model"
+          alias: "demo-alias"
+          display-name: "Local deterministic mock"
+          input-modalities: [text]
+          output-modalities: [text]
+observability:
+  logs:
+    debug: false
+    logging-to-file: false
+    request-log: false
+  usage:
+    usage-statistics-enabled: false

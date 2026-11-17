@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>钓鱼页权限采集：机制与防护</title>
+<style>
+:root{--ink:#17203a;--blue:#1256ff;--cyan:#00c8e8;--pink:#f72585;--orange:#ff641e;--yellow:#ffe45e;--green:#00b879;--purple:#7737e8;--paper:#fffdf7;--soft:#eef7ff;--red:#d90429}
+*{box-sizing:border-box}html{background:#dff5ff}body{margin:0 auto;max-width:1060px;background:var(--paper);color:var(--ink);font-family:"Microsoft YaHei","Segoe UI",Arial,sans-serif;line-height:1.68;font-size:16px}main{padding:34px 46px 60px}h1,h2,h3{line-height:1.25;margin:.25em 0 .55em}h1{font-size:46px;letter-spacing:-1px}h2{font-size:29px}h3{font-size:21px}p{margin:.55em 0}a{color:#0645d8;text-decoration-thickness:2px;overflow-wrap:anywhere}.cover{border-radius:30px;padding:38px;color:#fff;background:linear-gradient(125deg,#371bb4 0%,#1256ff 44%,#00bfe8 100%);box-shadow:0 14px 0 #b8efff;position:relative;overflow:hidden}.cover:after{content:"";position:absolute;width:260px;height:260px;border:42px solid #ffe45e;border-radius:50%;right:-120px;top:-120px;opacity:.9}.cover h1{max-width:780px;position:relative;z-index:1}.cover .subtitle{font-size:22px;max-width:780px}.badge{display:inline-block;padding:6px 14px;border-radius:999px;background:var(--yellow);color:#342000;font-weight:900;margin:4px 8px 4px 0}.warning{border:4px solid var(--red);border-left:16px solid var(--red);background:#fff0f2;border-radius:18px;padding:18px 22px;margin:26px 0}.warning strong{color:#b00020}.big-point{font-size:23px;font-weight:900;background:linear-gradient(transparent 58%,#ffe45e 58%);display:inline}.toc{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}.toc a{display:flex;gap:12px;align-items:center;background:#e9f4ff;border:2px solid #8fc9ff;border-radius:14px;padding:11px 14px;text-decoration:none;color:var(--ink);font-weight:800}.toc b{display:grid;place-items:center;min-width:48px;height:48px;border-radius:12px;background:var(--blue);color:#fff;font-size:23px}.question{margin:30px 0;padding:25px 27px;border:3px solid #b8d9ff;border-radius:24px;background:#fff;break-inside:avoid-page;box-shadow:0 7px 0 #dceeff}.qhead{display:flex;align-items:flex-start;gap:17px}.qnum{font-size:48px;font-weight:1000;color:#fff;background:var(--pink);padding:4px 15px;border-radius:17px;line-height:1.15;flex:none}.question:nth-of-type(3n+1) .qnum{background:var(--purple)}.question:nth-of-type(3n+2) .qnum{background:var(--orange)}.answer{border-left:7px solid var(--cyan);padding-left:17px;margin:14px 0}.term{font-weight:900;color:#6c23c8}.note{background:#e9fff6;border:2px solid #67dfaf;border-radius:14px;padding:13px 17px;margin:14px 0}.myth{background:#fff3cd;border:2px solid #ffc940;border-radius:14px;padding:13px 17px}.source-ref{font-size:13px;color:#4a5673}.diagram{width:100%;height:auto;background:#f4f8ff;border:2px solid #d4e4ff;border-radius:17px;margin:16px 0}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.mini{border-radius:15px;padding:15px 17px;background:#f0f5ff;border:2px solid #c6d7ff}.mini.good{background:#eafff5;border-color:#63dca8}.mini.bad{background:#fff0f2;border-color:#ff9dad}table{border-collapse:collapse;width:100%;margin:15px 0;font-size:14px}th{background:#2336a2;color:#fff;text-align:left}th,td{padding:10px 11px;border:2px solid #d7def5;vertical-align:top}tr:nth-child(even) td{background:#f3f7ff}code{font-family:Consolas,monospace;background:#e9edff;border-radius:4px;padding:2px 5px;color:#3c2173}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#15213e;color:#e8fbff;padding:16px 18px;border-radius:13px;font:13px/1.55 Consolas,monospace;border-left:8px solid var(--cyan)}.checklist{list-style:none;padding:0}.checklist li{margin:8px 0;padding-left:29px;position:relative}.checklist li:before{content:"";position:absolute;left:2px;top:8px;width:13px;height:13px;background:var(--green);border-radius:3px}.checklist.stop li:before{background:var(--red);border-radius:50%}.step{border:3px solid #b8a4ff;border-radius:18px;padding:18px 20px;margin:16px 0;break-inside:avoid-page;background:#fbf9ff}.step h3{color:#5723bd}.expected{background:#e6fff3;border:2px solid #2ecb8b;padding:11px 15px;border-radius:12px;font-weight:800}.cap{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.cap div{padding:17px;border-radius:15px;background:#fff5d6;border:2px solid #ffd23f;font-weight:800}.section-title{margin-top:38px;padding:13px 20px;border-radius:16px;background:var(--ink);color:#fff}.small{font-size:13px}.footer{margin-top:34px;padding:22px;border-radius:18px;background:#e9f4ff;border:2px solid #8fc9ff}.page-break{break-before:page}svg text{font-family:"Microsoft YaHei","Segoe UI",sans-serif;fill:#17203a}svg .white{fill:#fff}svg .small-svg{font-size:15px}svg .mid-svg{font-size:19px;font-weight:700}svg .big-svg{font-size:24px;font-weight:900}@media(max-width:720px){main{padding:20px 16px}h1{font-size:35px}.toc,.grid2,.cap{grid-template-columns:1fr}.question{padding:18px}.qnum{font-size:35px}h2{font-size:24px}}@page{size:A4;margin:12mm}@media print{html,body{background:#fff}body{max-width:none;font-size:13px}main{padding:0}.cover{box-shadow:none;padding:28px}h1{font-size:37px}.question{box-shadow:none;margin:18px 0;padding:18px 20px}.toc a{padding:7px 10px}.toc b{height:38px;min-width:38px;font-size:18px}pre{font-size:10.5px}.diagram{max-height:175px}*{print-color-adjust:exact;-webkit-print-color-adjust:exact}a{color:#0645d8;text-decoration:none}.page-break{break-before:page}}
+</style>
+</head>
+<body><main>
+<section class="cover">
+  <span class="badge">防御性学习</span><span class="badge">本地合成实验</span><span class="badge">源码提交 4d72351</span>
+  <h1>钓鱼页权限采集：<br>机制与防护</h1>
+  <p class="subtitle">从 ultrasecurity/Storm-Breaker 源码逆向理解浏览器权限、社会工程与数据回传，再把知识变成识别清单、撤权流程和事件响应。</p>
+  <p><strong>本指南不是工具使用教程。</strong>不包含部署、诱导、秘密采集、隐蔽监控或针对第三方的操作。</p>
+</section>
+<div class="warning"><strong>先纠正一个危险误解：</strong>“点开链接就会无提示开启摄像头”不是现代浏览器的通用事实。真正需要防的是：<b>陌生页面诱导你主动授权、旧授权被复用、无需敏感权限的设备指纹收集，以及授权后的持续回传。</b>浏览器弹窗不是多余打扰，而是关键安全边界。</div>
+
+<h2 class="section-title">疑问式目录：先问对问题，才能守住权限</h2>
+<nav class="toc">
+<a href="#q1"><b>Q1</b>点链接就等于摄像头被悄悄打开吗？</a>
+<a href="#q2"><b>Q2</b>敏感设备前到底有几道门？</a>
+<a href="#q3"><b>Q3</b>HTTPS 与 localhost 证明了什么？</a>
+<a href="#q4"><b>Q4</b>源码揭示了哪些采集与伪装？</a>
+<a href="#q5"><b>Q5</b>为什么“拒绝”不是事件终点？</a>
+<a href="#q6"><b>Q6</b>怎样识别钓鱼页的社工特征？</a>
+<a href="#q7"><b>Q7</b>个人、浏览器、网络、主机怎么查？</a>
+<a href="#q8"><b>Q8</b>怀疑已授权或泄露，怎么响应？</a>
+<a href="#q9"><b>Q9</b>怎样撤权并建立长期审计？</a>
+<a href="#q10"><b>Q10</b>本地实验证明了什么、没证明什么？</a>
+</nav>
+
+<article class="question" id="q1">
+<div class="qhead"><div class="qnum">Q1</div><h2>点开链接，就等于摄像头被悄悄打开吗？</h2></div>
+<p class="answer"><span class="big-point">不等于。</span><span class="term">getUserMedia</span> 是网页请求摄像头/麦克风的标准接口。首次使用通常必须取得用户许可；浏览器还要显示设备使用指示。定位也有独立许可。权限已被保存、企业策略配置或用户误点时，可能不会再次出现同样的弹窗，这才是“无再次提示”的正确语境。</p>
+<div class="grid2"><div class="mini bad"><h3>原帖式夸大</h3><p>“访问 URL”直接等于“摄像头、麦克风、定位全部秘密泄露”。它把页面加载、API 请求、用户授权、数据回传四个阶段压成一句话。</p></div><div class="mini good"><h3>可核验的事实</h3><p>设备型号、浏览器、分辨率、时区、CPU 线程数等指纹可能无需敏感权限；摄像头、麦克风和精确定位仍受权限模型约束。两种风险要分开评估。</p></div></div>
+<svg class="diagram" viewBox="0 0 760 185" role="img" aria-label="页面加载到数据采集的四个阶段">
+<rect x="15" y="50" width="145" height="70" rx="16" fill="#1256ff"/><text x="87" y="79" text-anchor="middle" class="white mid-svg">1 页面加载</text><text x="87" y="104" text-anchor="middle" class="white small-svg">可读普通内容</text>
+<path d="M165 85H205" stroke="#17203a" stroke-width="5"/><path d="M198 75L212 85L198 95" fill="none" stroke="#17203a" stroke-width="5"/>
+<rect x="215" y="50" width="145" height="70" rx="16" fill="#7737e8"/><text x="287" y="79" text-anchor="middle" class="white mid-svg">2 请求权限</text><text x="287" y="104" text-anchor="middle" class="white small-svg">浏览器安全门</text>
+<path d="M365 85H405" stroke="#17203a" stroke-width="5"/><path d="M398 75L412 85L398 95" fill="none" stroke="#17203a" stroke-width="5"/>
+<rect x="415" y="50" width="145" height="70" rx="16" fill="#ff641e"/><text x="487" y="79" text-anchor="middle" class="white mid-svg">3 用户决定</text><text x="487" y="104" text-anchor="middle" class="white small-svg">允许 / 拒绝</text>
+<path d="M565 85H605" stroke="#17203a" stroke-width="5"/><path d="M598 75L612 85L598 95" fill="none" stroke="#17203a" stroke-width="5"/>
+<rect x="615" y="50" width="130" height="70" rx="16" fill="#00a875"/><text x="680" y="79" text-anchor="middle" class="white mid-svg">4 才有数据</text><text x="680" y="104" text-anchor="middle" class="white small-svg">仍需审计去向</text>
+<text x="380" y="158" text-anchor="middle" class="mid-svg">点击只是入口，不是绕过权限的魔法</text>
+</svg>
+<p class="source-ref">依据：[S2] getUserMedia 权限与指示器；[S4] Geolocation 用户同意。</p>
+</article>
+
+<article class="question" id="q2">
+<div class="qhead"><div class="qnum">Q2</div><h2>摄像头、麦克风、定位前到底有几道门？</h2></div>
+<p class="answer">可以把浏览器想成多道独立闸门：<span class="term">安全上下文</span>决定敏感 API 是否可用；<span class="term">Permissions Policy</span>限制顶层页面和 iframe；站点权限记录用户选择；操作系统还可能另有应用级开关。任一层拒绝，都可能让请求失败。</p>
+<table><tr><th>层级</th><th>防御问题</th><th>用户/管理员动作</th></tr>
+<tr><td>安全上下文</td><td>页面是否 HTTPS 或可信回环地址？</td><td>不在普通 HTTP 页面输入敏感信息；不要把回环信任等同于页面善意。</td></tr>
+<tr><td>iframe / Permissions Policy</td><td>权限是否被嵌入页面继承或转授？</td><td>自有网站按最小权限设置 camera、microphone、geolocation。</td></tr>
+<tr><td>浏览器站点权限</td><td>当前源是 prompt、granted 还是 denied？</td><td>陌生请求拒绝；定期清除不再需要的允许项。</td></tr>
+<tr><td>操作系统</td><td>浏览器这个应用是否能访问设备？</td><td>检查 Windows 相机、麦克风、定位及最近活动。</td></tr></table>
+<svg class="diagram" viewBox="0 0 760 190" role="img" aria-label="四层权限闸门">
+<rect x="25" y="25" width="710" height="140" rx="22" fill="#e4eeff" stroke="#1256ff" stroke-width="3"/>
+<rect x="55" y="48" width="140" height="85" rx="14" fill="#1256ff"/><text x="125" y="83" text-anchor="middle" class="white mid-svg">安全上下文</text><text x="125" y="110" text-anchor="middle" class="white small-svg">API 可用性</text>
+<path d="M205 90H230" stroke="#17203a" stroke-width="5"/>
+<rect x="235" y="48" width="140" height="85" rx="14" fill="#7737e8"/><text x="305" y="83" text-anchor="middle" class="white mid-svg">嵌入策略</text><text x="305" y="110" text-anchor="middle" class="white small-svg">iframe 边界</text>
+<path d="M385 90H410" stroke="#17203a" stroke-width="5"/>
+<rect x="415" y="48" width="140" height="85" rx="14" fill="#ff641e"/><text x="485" y="83" text-anchor="middle" class="white mid-svg">站点权限</text><text x="485" y="110" text-anchor="middle" class="white small-svg">用户选择</text>
+<path d="M565 90H590" stroke="#17203a" stroke-width="5"/>
+<rect x="595" y="48" width="115" height="85" rx="14" fill="#00a875"/><text x="652" y="83" text-anchor="middle" class="white mid-svg">系统权限</text><text x="652" y="110" text-anchor="middle" class="white small-svg">应用级开关</text>
+</svg>
+<div class="note"><b>停止也是权限生命周期的一部分：</b>自有 Web 应用结束采集时，要对每条 MediaStreamTrack 调用 <code>stop()</code>；关闭弹窗或隐藏视频元素不必然等于释放硬件。</div>
+</article>
+
+<article class="question" id="q3">
+<div class="qhead"><div class="qnum">Q3</div><h2>HTTPS 与 localhost 的“安全上下文”证明了什么？</h2></div>
+<p class="answer"><span class="big-point">它证明传输/来源满足敏感 API 的门槛，不证明网站诚实。</span>HTTPS 保护浏览器到站点之间的传输；鱼叉钓鱼站同样能申请证书。锁形图标不是“内容可信”徽章，也不是对方有权采集数据的证明。</p>
+<p><span class="term">localhost / 127.0.0.1 / ::1</span> 是开发便利的例外：回环流量不离开本机，因此可被视为可信来源。但本机恶意或配置错误的服务也能利用这个例外；回环地址仍需 Host/Origin 校验、访问控制和端口审计。</p>
+<svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="HTTPS 和 localhost 的信任边界">
+<rect x="20" y="25" width="340" height="145" rx="20" fill="#e6f0ff" stroke="#1256ff" stroke-width="3"/><text x="190" y="56" text-anchor="middle" class="big-svg">HTTPS</text><text x="190" y="88" text-anchor="middle" class="mid-svg">传输加密 + 证书对应域名</text><text x="190" y="122" text-anchor="middle" class="mid-svg" fill="#d90429">不证明内容善意</text><text x="190" y="150" text-anchor="middle" class="small-svg">钓鱼站也能有锁形图标</text>
+<rect x="400" y="25" width="340" height="145" rx="20" fill="#eafff5" stroke="#00a875" stroke-width="3"/><text x="570" y="56" text-anchor="middle" class="big-svg">localhost / 127.0.0.1</text><text x="570" y="88" text-anchor="middle" class="mid-svg">回环开发被视作可信来源</text><text x="570" y="122" text-anchor="middle" class="mid-svg">不离开本机 ≠ 无风险</text><text x="570" y="150" text-anchor="middle" class="small-svg">仍需本机服务与端口审计</text>
+</svg>
+<div class="myth"><b>现场判断：</b>看到 HTTPS 只回答“链路是否加密”，还要继续问“域名是否完全正确、权限是否必要、请求者身份是否经独立渠道核实”。</div>
+<p class="source-ref">依据：[S3] Secure Contexts；关联知识库“本地MCP端点安全四道门”。</p>
+</article>
+
+<article class="question" id="q4">
+<div class="qhead"><div class="qnum">Q4</div><h2>源码揭示了哪些采集链路与社工伪装？</h2></div>
+<p class="answer">本次只读审计固定在上游提交 <code>4d7235104870ec0224f445fd905c98f22a105426</code>。静态扫描 38 个源码/文档文件，七类预期指示器全部命中；<b>没有执行上游 PHP、Python、隧道或采集服务。</b></p>
+<table><tr><th>链路</th><th>源码证据（相对 repo）</th><th>防御性解读</th></tr>
+<tr><td>设备指纹</td><td><code>storm-web/assets/js/loc.js:1-55</code></td><td>读取 OS、浏览器、分辨率、时区、语言、CPU 线程数，并请求第三方公网 IP 服务后回传。无需摄像头权限不等于无害。</td></tr>
+<tr><td>摄像头</td><td><code>templates/camera_temp/index.html:43-80</code></td><td>请求前置摄像头，定时把视频帧画到 canvas、编码并 POST。应检测隐藏媒体元素、周期性大上传和权限用途不符。</td></tr>
+<tr><td>麦克风</td><td><code>templates/microphone/js/_app.js:26-40,48-75,99-133</code></td><td>自动进入录制流程，周期性导出 WAV 并上传；拒绝分支还包含重新加载行为，可能形成反复施压。</td></tr>
+<tr><td>精确定位</td><td><code>assets/js/location.js:1-55</code></td><td>请求高精度位置，把经纬度转成地图链接回传；拒绝、不可用、超时也进入回传逻辑。</td></tr>
+<tr><td>界面伪装</td><td><code>templates/nearyou/index.html</code>、<code>weather/index.html</code></td><td>“附近的人”“天气”给定位权限一个看似合理的叙事。判断依据应是权限与核心功能是否相称，而非界面是否精美。</td></tr>
+<tr><td>结果读取</td><td><code>storm-web/receiver.php:8-17</code></td><td>结果文件被读取后清空。事件响应不能假设没有页面提示就没有数据离开。</td></tr></table>
+<svg class="diagram" viewBox="0 0 760 205" role="img" aria-label="静态源码揭示的采集数据流">
+<rect x="20" y="25" width="150" height="135" rx="18" fill="#ffe45e"/><text x="95" y="55" text-anchor="middle" class="big-svg">访客页面</text><text x="95" y="88" text-anchor="middle" class="small-svg">天气 / 附近的人</text><text x="95" y="115" text-anchor="middle" class="small-svg">普通界面 + 指纹</text><text x="95" y="142" text-anchor="middle" class="small-svg">敏感 API 请求</text>
+<path d="M180 92H230" stroke="#17203a" stroke-width="5"/><path d="M220 80L235 92L220 104" fill="none" stroke="#17203a" stroke-width="5"/>
+<rect x="240" y="25" width="155" height="135" rx="18" fill="#ff8ab3"/><text x="317" y="55" text-anchor="middle" class="big-svg">浏览器</text><text x="317" y="88" text-anchor="middle" class="small-svg">权限门 + 指示器</text><text x="317" y="115" text-anchor="middle" class="small-svg">拒绝也是信号</text><text x="317" y="142" text-anchor="middle" class="small-svg">轨道需要停止</text>
+<path d="M405 92H455" stroke="#17203a" stroke-width="5"/><path d="M445 80L460 92L445 104" fill="none" stroke="#17203a" stroke-width="5"/>
+<rect x="465" y="25" width="130" height="135" rx="18" fill="#8a70ff"/><text x="530" y="55" text-anchor="middle" class="white big-svg">回传</text><text x="530" y="88" text-anchor="middle" class="white small-svg">同源 POST</text><text x="530" y="115" text-anchor="middle" class="white small-svg">第三方 IP 查询</text><text x="530" y="142" text-anchor="middle" class="white small-svg">周期上传</text>
+<path d="M605 92H640" stroke="#17203a" stroke-width="5"/>
+<rect x="645" y="25" width="95" height="135" rx="18" fill="#00b879"/><text x="692" y="78" text-anchor="middle" class="white mid-svg">存储</text><text x="692" y="110" text-anchor="middle" class="white small-svg">结果文件</text>
+<text x="380" y="190" text-anchor="middle" class="mid-svg">源码用于识别与防护，不用于复现诱导或采集</text>
+</svg>
+<p class="source-ref">完整机器可读证据：<code>exercise/static-audit.json</code>；上游入口：[S1]。</p>
+</article>
+
+<article class="question" id="q5">
+<div class="qhead"><div class="qnum">Q5</div><h2>为什么“拒绝”不是事件终点？</h2></div>
+<p class="answer">拒绝能阻止这一次敏感 API 调用，却不能抹去已经发生的事实：你访问过某个源、页面可能已收集普通指纹、站点可能记录拒绝事件，并尝试用刷新、假错误信息或“无法继续”的话术再次施压。<b>正确反应是结束交互并核查来源，不是在反复提示下妥协。</b></p>
+<ul class="checklist stop"><li>不要因为页面声称“拒绝后无法修复/无法领奖/账号异常”就改选允许。</li><li>不要按陌生页面指引关闭浏览器防护、系统隐私开关或安全软件。</li><li>关闭标签页；若页面劫持界面，用浏览器任务管理器或系统方式结束对应浏览器进程。</li><li>记录时间、完整 URL、来源渠道和权限截图；不要把疑似恶意链接再次发给他人“帮忙试试”。</li></ul>
+<svg class="diagram" viewBox="0 0 760 205" role="img" aria-label="权限拒绝后的安全决策">
+<rect x="30" y="55" width="150" height="75" rx="17" fill="#7737e8"/><text x="105" y="88" text-anchor="middle" class="white mid-svg">陌生权限请求</text><text x="105" y="114" text-anchor="middle" class="white small-svg">先问是否必要</text>
+<path d="M185 92H245" stroke="#17203a" stroke-width="5"/>
+<rect x="250" y="55" width="125" height="75" rx="17" fill="#00b879"/><text x="312" y="88" text-anchor="middle" class="white big-svg">拒绝</text><text x="312" y="114" text-anchor="middle" class="white small-svg">本次访问被挡</text>
+<path d="M380 92H440" stroke="#17203a" stroke-width="5"/>
+<rect x="445" y="20" width="280" height="65" rx="15" fill="#fff0f2" stroke="#d90429" stroke-width="3"/><text x="585" y="47" text-anchor="middle" class="mid-svg">若刷新/恐吓/假报错</text><text x="585" y="72" text-anchor="middle" class="small-svg">结束交互，不被重复施压改变决定</text>
+<rect x="445" y="105" width="280" height="65" rx="15" fill="#e6fff3" stroke="#00a875" stroke-width="3"/><text x="585" y="132" text-anchor="middle" class="mid-svg">无论是否再次提示</text><text x="585" y="157" text-anchor="middle" class="small-svg">核查域名、已有权限、最近活动并报告</text>
+</svg>
+</article>
+
+<article class="question" id="q6">
+<div class="qhead"><div class="qnum">Q6</div><h2>怎样识别钓鱼页的社会工程特征？</h2></div>
+<p class="answer">社会工程的核心不是“技术绕过”，而是让人在安全提示出现时做出错误决定。把页面话术和权限请求逐项对照，比单看界面专业程度更可靠。</p>
+<table><tr><th>高风险信号</th><th>为什么值得停</th><th>安全替代动作</th></tr>
+<tr><td>权限与功能不相称</td><td>看天气未必需要精确定位；普通文章不需要摄像头/麦克风。</td><td>拒绝；手动输入城市或使用官方应用。</td></tr>
+<tr><td>紧迫、恐吓、稀缺奖励</td><td>压缩思考时间，诱使用户忽略来源与权限。</td><td>离开页面，通过既有官方联系方式独立核实。</td></tr>
+<tr><td>短链、拼写近似、显示文本与真实地址不符</td><td>掩盖最终源和域名边界。</td><td>不点；从收藏夹或手动输入官方域名。</td></tr>
+<tr><td>要求关闭防护或开启全局设备访问</td><td>把单站请求扩大为系统级长期暴露。</td><td>拒绝并报告；不要按页面教程改安全设置。</td></tr>
+<tr><td>反复刷新、连续弹窗、假系统报错</td><td>用交互疲劳促使误点。</td><td>结束页面/浏览器，随后审查站点权限。</td></tr></table>
+<svg class="diagram" viewBox="0 0 760 195" role="img" aria-label="社会工程压力与安全判断">
+<circle cx="180" cy="96" r="75" fill="#ff641e"/><text x="180" y="74" text-anchor="middle" class="white big-svg">压力包</text><text x="180" y="104" text-anchor="middle" class="white small-svg">紧迫 + 权威 + 奖励</text><text x="180" y="129" text-anchor="middle" class="white small-svg">漂亮界面 + 假错误</text>
+<path d="M265 96H350" stroke="#d90429" stroke-width="8"/><path d="M335 78L357 96L335 114" fill="none" stroke="#d90429" stroke-width="8"/>
+<rect x="365" y="28" width="150" height="136" rx="22" fill="#ffe45e" stroke="#17203a" stroke-width="3"/><text x="440" y="75" text-anchor="middle" class="big-svg">暂停</text><text x="440" y="106" text-anchor="middle" class="mid-svg">核对源</text><text x="440" y="136" text-anchor="middle" class="mid-svg">核对必要性</text>
+<path d="M525 96H590" stroke="#00a875" stroke-width="8"/><path d="M575 78L597 96L575 114" fill="none" stroke="#00a875" stroke-width="8"/>
+<rect x="605" y="45" width="130" height="100" rx="20" fill="#00b879"/><text x="670" y="88" text-anchor="middle" class="white big-svg">拒绝</text><text x="670" y="120" text-anchor="middle" class="white small-svg">独立核实 / 报告</text>
+</svg>
+<p class="source-ref">依据：[S6] CISA 社会工程与钓鱼识别建议。</p>
+</article>
+
+<article class="question" id="q7">
+<div class="qhead"><div class="qnum">Q7</div><h2>个人、浏览器、网络、主机分别怎么检测？</h2></div>
+<p class="answer">检测要多通道互证。任何单一信号都可能误报：摄像头指示灯和浏览器图标很重要，但不能代替权限记录与网络审计；一个陌生域名也不自动证明恶意。对不确定事件标记“待核实”，不要补齐想象。</p>
+<div class="grid2"><div class="mini"><h3>个人与来源</h3><ul><li>原始消息、发送者、完整 URL、时间</li><li>是否有独立渠道核实</li><li>权限请求是否与功能匹配</li></ul></div><div class="mini"><h3>浏览器</h3><ul><li>地址栏站点信息：相机/麦克风/定位</li><li>站点设置中的允许/阻止列表</li><li>自有测试页的 DevTools 网络与控制台</li></ul></div><div class="mini"><h3>网络与 DNS</h3><ul><li>新注册/拼写近似域名、短链最终目的地</li><li>周期性 POST、大体量上传、异常第三方接收方</li><li>代理由组织授权的团队审计，遵守隐私政策</li></ul></div><div class="mini"><h3>操作系统与主机</h3><ul><li>Windows 相机/麦克风最近活动</li><li>意外下载、扩展、常驻进程与新监听端口</li><li>EDR/杀软告警与浏览器历史交叉印证</li></ul></div></div>
+<svg class="diagram" viewBox="0 0 760 205" role="img" aria-label="四通道检测证据汇合">
+<rect x="30" y="20" width="160" height="60" rx="13" fill="#1256ff"/><text x="110" y="57" text-anchor="middle" class="white mid-svg">来源与话术</text>
+<rect x="570" y="20" width="160" height="60" rx="13" fill="#7737e8"/><text x="650" y="57" text-anchor="middle" class="white mid-svg">浏览器权限</text>
+<rect x="30" y="125" width="160" height="60" rx="13" fill="#ff641e"/><text x="110" y="162" text-anchor="middle" class="white mid-svg">网络与 DNS</text>
+<rect x="570" y="125" width="160" height="60" rx="13" fill="#00a875"/><text x="650" y="162" text-anchor="middle" class="white mid-svg">系统与主机</text>
+<path d="M195 55L300 88M565 55L460 88M195 155L300 118M565 155L460 118" stroke="#17203a" stroke-width="4"/>
+<circle cx="380" cy="103" r="82" fill="#ffe45e" stroke="#17203a" stroke-width="3"/><text x="380" y="91" text-anchor="middle" class="big-svg">交叉印证</text><text x="380" y="122" text-anchor="middle" class="mid-svg">事实 / 推断分开</text><text x="380" y="148" text-anchor="middle" class="small-svg">信号不是最终定罪</text>
+</svg>
+</article>
+
+<article class="question" id="q8">
+<div class="qhead"><div class="qnum">Q8</div><h2>怀疑已经授权或泄露，事件响应怎么做？</h2></div>
+<p class="answer">目标是先止损，再保存够用的证据，最后恢复与复盘。不要为“确认它是否真的会采集”而再次访问或授权，也不要把可疑链接交给第三方测试。</p>
+<table><tr><th>顺序</th><th>动作</th><th>完成判据</th></tr>
+<tr><td>1 停止暴露</td><td>关闭页面；必要时结束浏览器；断开正在进行的通话/共享。</td><td>不再有相关标签页或活动会话。</td></tr>
+<tr><td>2 撤销权限</td><td>站点设置中阻止/重置相机、麦克风、定位；检查系统应用权限。</td><td>权限回到 prompt/denied；不再需要的允许项删除。</td></tr>
+<tr><td>3 保全证据</td><td>记录 URL、时间、来源、权限截图和告警；保留原始消息。</td><td>证据只给授权人员，敏感内容脱敏，不公开传播。</td></tr>
+<tr><td>4 评估影响</td><td>区分仅访问、已授权、已上传、下载文件、输入凭据五种情形。</td><td>每种结论都有对应证据；未知项保持未知。</td></tr>
+<tr><td>5 恢复与报告</td><td>按组织流程报告；若输入密码，从干净设备修改并检查复用；下载则扫描/隔离。</td><td>负责人收到事件，凭据与终端处置有记录。</td></tr>
+<tr><td>6 复盘</td><td>清除旧授权、更新检测规则、培训相关用户。</td><td>形成可执行改进，而非只写“以后小心”。</td></tr></table>
+<svg class="diagram" viewBox="0 0 760 190" role="img" aria-label="事件响应六步时间线">
+<path d="M60 95H700" stroke="#1256ff" stroke-width="8"/>
+<g><circle cx="70" cy="95" r="28" fill="#d90429"/><text x="70" y="104" text-anchor="middle" class="white big-svg">1</text><text x="70" y="145" text-anchor="middle" class="mid-svg">停止</text><circle cx="190" cy="95" r="28" fill="#ff641e"/><text x="190" y="104" text-anchor="middle" class="white big-svg">2</text><text x="190" y="55" text-anchor="middle" class="mid-svg">撤权</text><circle cx="310" cy="95" r="28" fill="#7737e8"/><text x="310" y="104" text-anchor="middle" class="white big-svg">3</text><text x="310" y="145" text-anchor="middle" class="mid-svg">证据</text><circle cx="430" cy="95" r="28" fill="#1256ff"/><text x="430" y="104" text-anchor="middle" class="white big-svg">4</text><text x="430" y="55" text-anchor="middle" class="mid-svg">评估</text><circle cx="550" cy="95" r="28" fill="#00a875"/><text x="550" y="104" text-anchor="middle" class="white big-svg">5</text><text x="550" y="145" text-anchor="middle" class="mid-svg">报告</text><circle cx="670" cy="95" r="28" fill="#17203a"/><text x="670" y="104" text-anchor="middle" class="white big-svg">6</text><text x="670" y="55" text-anchor="middle" class="mid-svg">复盘</text></g>
+</svg>
+<div class="warning"><b>法律/伦理：</b>未经同意录制、定位、拦截通信或持续监控，在不同司法辖区可能触及隐私、通信秘密、 stalking、计算机滥用、劳动与未成年人保护等规则；开源代码可读不等于获得对他人的授权。授权测试必须有明确主体、范围、时间、数据处置和退出机制；本指南只支持自有环境中的防御验证。</div>
+</article>
+
+<article class="question" id="q9">
+<div class="qhead"><div class="qnum">Q9</div><h2>怎样关闭权限，并建立长期审计？</h2></div>
+<p class="answer">撤销要在正确层级完成。<code>navigator.permissions.query()</code> 只能查询 <code>granted / denied / prompt</code>，<b>不能替用户编程撤权</b>。站点权限与操作系统权限也要分别检查。</p>
+<div class="grid2"><div class="mini good"><h3>Chrome / Edge 站点层</h3><ol><li>打开可疑站点或浏览器设置。</li><li>Chrome：设置 → 隐私和安全 → 网站设置；也可点地址栏左侧站点信息。</li><li>Edge：设置 → Cookie 和网站权限；或站点信息 → 此网站的权限。</li><li>相机、麦克风、定位改为“阻止”或“重置权限”。</li><li>删除不再使用的允许项；默认保持访问前询问。</li></ol></div><div class="mini good"><h3>Windows 11 系统层</h3><ol><li>设置 → 隐私和安全性。</li><li>分别进入相机、麦克风、位置。</li><li>检查设备访问、应用访问及桌面应用开关。</li><li>查看相机/麦克风“最近活动”，对照自己的使用时间。</li><li>异常桌面应用活动结合进程、扩展和告警核查。</li></ol></div></div>
+<h3>可执行的审计节奏</h3><ul class="checklist"><li>每月审查一次浏览器允许列表；高风险事件后立即审查。</li><li>工作、个人、测试使用不同浏览器配置文件，减少旧授权复用。</li><li>自有网站以 Permissions-Policy 默认关闭不必要能力，只给必需 iframe 开口。</li><li>自有代码结束采集时停止全部轨道，并测试拒绝、超时、撤权与退出路径。</li><li>把权限变更、异常上传和最近活动纳入事件复盘；不要只清除历史记录就宣布完成。</li></ul>
+<svg class="diagram" viewBox="0 0 760 195" role="img" aria-label="权限审计循环">
+<circle cx="380" cy="98" r="76" fill="#7737e8"/><text x="380" y="91" text-anchor="middle" class="white big-svg">最小授权</text><text x="380" y="122" text-anchor="middle" class="white small-svg">默认询问 / 用完撤销</text>
+<path d="M380 15A83 83 0 0 1 463 98" fill="none" stroke="#1256ff" stroke-width="12"/><path d="M450 77L466 101L480 75" fill="none" stroke="#1256ff" stroke-width="8"/>
+<path d="M380 180A83 83 0 0 1 297 98" fill="none" stroke="#00a875" stroke-width="12"/><path d="M310 118L294 94L280 120" fill="none" stroke="#00a875" stroke-width="8"/>
+<rect x="30" y="35" width="210" height="55" rx="14" fill="#ffe45e"/><text x="135" y="69" text-anchor="middle" class="mid-svg">审查站点允许列表</text><rect x="520" y="105" width="210" height="55" rx="14" fill="#7cf1c5"/><text x="625" y="139" text-anchor="middle" class="mid-svg">核对系统最近活动</text>
+</svg>
+<p class="source-ref">依据：[S5] Chrome 站点权限；[S7] Windows 11 相机/麦克风隐私；[S8] Permissions API 不能撤权。</p>
+</article>
+
+<article class="question" id="q10">
+<div class="qhead"><div class="qnum">Q10</div><h2>本地实验证明了什么、没证明什么？</h2></div>
+<p class="answer"><span class="big-point">11/11 项检查通过。</span>Edge 无头浏览器在 <code>http://127.0.0.1:&lt;随机端口&gt;</code> 上实测 <code>isSecureContext=true</code>；camera、microphone、geolocation 查询均为 <code>prompt</code>，且没有显示权限提示。合成媒体拒绝返回 <code>NotAllowedError</code>，合成轨道停止后为 <code>ended</code>；CSP 拦截了回传金丝雀，服务器未收到该 POST。</p>
+<div class="grid2"><div class="mini good"><h3>真实执行证据</h3><ul><li>固定提交并静态扫描 38 个文件</li><li>真实 Edge 进程、真实 Permissions API 查询</li><li>真实回环 HTTP 服务与请求日志</li><li>真实 CSP 网络拦截与停止/清理检查</li><li>服务器关闭、临时浏览器目录删除</li></ul></div><div class="mini bad"><h3>不能外推的结论</h3><ul><li>未访问真实摄像头、麦克风或定位</li><li>成功/拒绝媒体与定位分支使用显式 mock</li><li>未运行上游服务、隧道、收集器或诱导页</li><li>未测试第三方目标、其他浏览器或移动系统</li><li>不构成企业检测覆盖率或法律意见</li></ul></div></div>
+<svg class="diagram" viewBox="0 0 760 205" role="img" aria-label="实验事实与限制分开">
+<rect x="25" y="25" width="330" height="150" rx="20" fill="#e6fff3" stroke="#00a875" stroke-width="3"/><text x="190" y="60" text-anchor="middle" class="big-svg">事实 11 / 11</text><text x="190" y="94" text-anchor="middle" class="mid-svg">本地回环 + 真实 Edge</text><text x="190" y="125" text-anchor="middle" class="small-svg">prompt / ended / CSP blocked</text><text x="190" y="153" text-anchor="middle" class="small-svg">无真实传感器与第三方目标</text>
+<rect x="405" y="25" width="330" height="150" rx="20" fill="#fff0f2" stroke="#d90429" stroke-width="3"/><text x="570" y="60" text-anchor="middle" class="big-svg">边界</text><text x="570" y="94" text-anchor="middle" class="mid-svg">合成成功/拒绝分支</text><text x="570" y="125" text-anchor="middle" class="small-svg">不是跨浏览器认证</text><text x="570" y="153" text-anchor="middle" class="small-svg">不是隐蔽采集复现</text>
+</svg>
+<p class="source-ref">证据：<code>exercise/browser-results.json</code>、<code>exercise/verification.json</code>、<code>exercise/experiment-log.md</code>。</p>
+</article>
+
+<h2 class="section-title page-break">这个项目给防御者什么能力</h2>
+<div class="cap"><div>读懂敏感 Web API 与回传链</div><div>纠正“点链接即无提示采集”的误传</div><div>识别权限不相称与重复施压</div><div>按站点和系统双层撤权</div><div>用多通道证据做事件分诊</div><div>在本机搭建无传感器安全实验</div></div>
+<div class="note"><b>最小记忆公式：</b>来源独立核实 × 权限必要性 × 最小授权 × 可撤销 × 可审计。任何一项说不清，都先拒绝而不是继续。</div>
+
+<h2 class="section-title">主实验：在本机证明权限边界，而不是复现钓鱼</h2>
+<p>以下命令均在 Windows 11 当前项目目录实际执行。实验只扫描静态源码、启动随机端口回环测试页、使用合成媒体/定位，不访问真实设备或第三方目标。</p>
+<section class="step"><h3>第 1 步：固定源码版本</h3><p><b>目的：</b>确保源码行号和结论能复核。<b>操作：</b></p><pre>git -C "F:\reminder\storm_breaker_defense\repo" log --oneline -1</pre><p class="expected">预期结果：显示 4d72351 Merge pull request #363 from jalalsaberi/main。完整哈希同时写入 static-audit.json。</p></section>
+<section class="step"><h3>第 2 步：只读扫描七类防御指示器</h3><p><b>目的：</b>不运行上游代码，也能定位敏感 API、第三方 IP 查询、周期上传和弱默认配置。<b>操作：</b></p><pre>$env:PYTHONUTF8='1'; python -I "F:\reminder\storm_breaker_defense\exercise\audit_upstream.py" "F:\reminder\storm_breaker_defense\repo" --output "F:\reminder\storm_breaker_defense\exercise\static-audit.json"</pre><p class="expected">预期结果：files=38；camera=5、microphone=14、geolocation=4、fingerprint=10、third_party_ip=1、periodic_upload=17、default_credential=1；missing=0，退出码 0。</p></section>
+<section class="step"><h3>第 3 步：运行随机端口回环浏览器实验</h3><p><b>目的：</b>真实观察安全上下文与权限状态；用 mock 安全走通拒绝、成功、停止轨道，不碰硬件。<b>操作：</b></p><pre>$env:PYTHONUTF8='1'; python -I "F:\reminder\storm_breaker_defense\exercise\run_browser_lab.py"</pre><p class="expected">预期结果：status=DONE、edge_exit=0；isSecureContext=True；三个权限均 prompt；九项脚本内检查 PASS；请求日志只有 /lab_page.html 与 /favicon.ico。</p></section>
+<section class="step"><h3>第 4 步：独立脚本复核结果与资源清理</h3><p><b>目的：</b>将安全边界、CSP 金丝雀、服务器停止和临时配置目录删除变成机器可检查条件。<b>操作：</b></p><pre>$env:PYTHONUTF8='1'; python -I "F:\reminder\storm_breaker_defense\exercise\verify_defense.py"</pre><p class="expected">预期结果：RESULT=11/11 PASS；local_server_stopped=PASS；temporary_browser_profiles_removed=PASS。</p></section>
+<section class="step"><h3>第 5 步：给证据文件计算 SHA-256</h3><p><b>目的：</b>把本次结论绑定到确定文件版本，便于后续独立审核。<b>操作：</b></p><pre>Get-FileHash -Algorithm SHA256 "F:\reminder\storm_breaker_defense\exercise\static-audit.json","F:\reminder\storm_breaker_defense\exercise\browser-results.json","F:\reminder\storm_breaker_defense\exercise\verification.json" | ForEach-Object { "$($_.Hash)  $($_.Path)" }</pre><p class="expected">预期结果：三份 JSON 各输出 64 位 SHA-256。当前值已写入 experiment-log.md；文件若被合理更新，哈希应随版本重算，不伪称不变。</p></section>
+
+<h2 class="section-title">一分钟检测清单：打印后可放在工位</h2>
+<div class="grid2"><div class="mini"><h3>点击前</h3><ul class="checklist"><li>消息是否意外、紧迫或利诱？</li><li>真实域名是否逐字符核对？</li><li>能否通过官方收藏夹/既有电话独立核实？</li><li>是否可避免把链接转发给他人试？</li></ul></div><div class="mini"><h3>权限弹出时</h3><ul class="checklist"><li>核心功能真的需要相机/麦克风/定位吗？</li><li>当前顶层域名是否与预期服务一致？</li><li>能否选择仅本次、近似位置或手动输入？</li><li>说不清就先拒绝，结束后审查。</li></ul></div><div class="mini"><h3>怀疑暴露后</h3><ul class="checklist"><li>停止页面与会话，不再次授权验证。</li><li>站点和系统两层撤权。</li><li>保存 URL/时间/来源/截图，不公开敏感证据。</li><li>按“访问/授权/上传/下载/凭据”分开评估。</li></ul></div><div class="mini"><h3>恢复后</h3><ul class="checklist"><li>检查最近活动、下载、扩展与异常进程。</li><li>泄露凭据则从干净设备修改并处理复用。</li><li>向组织授权人员报告，遵守当地法律。</li><li>复盘并删除不再需要的允许项。</li></ul></div></div>
+
+<h2 class="section-title">来源与证据等级</h2>
+<ol class="small">
+<li id="s1">[S1] 上游源码（固定提交见实验）：<a href="https://github.com/ultrasecurity/Storm-Breaker">https://github.com/ultrasecurity/Storm-Breaker</a>。源码只作静态防御审计，不代表认可其用途。</li>
+<li>[S2] MDN, MediaDevices.getUserMedia()：<a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia">https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia</a>。</li>
+<li>[S3] MDN, Secure contexts：<a href="https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts">https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts</a>。</li>
+<li>[S4] MDN, Geolocation API：<a href="https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API">https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API</a>。</li>
+<li>[S5] Google Chrome Help, Use your camera and microphone / change site permissions：<a href="https://support.google.com/chrome/answer/114662?hl=en">https://support.google.com/chrome/answer/114662?hl=en</a>。</li>
+<li>[S6] CISA, Avoiding Social Engineering and Phishing Attacks：<a href="https://www.cisa.gov/news-events/news/avoiding-social-engineering-and-phishing-attacks">https://www.cisa.gov/news-events/news/avoiding-social-engineering-and-phishing-attacks</a>。</li>
+<li>[S7] Microsoft Support, Windows 11 camera, microphone, and privacy：<a href="https://support.microsoft.com/en-us/windows/windows-11-camera-microphone-and-privacy-4e70c196-5b0b-1b8c-4c3c-95dd13d0d7f1">官方检索结果</a>；本环境直接 WebFetch 返回 404，因此 Windows 路径未当作本次网页抓取成功证据。</li>
+<li>[S8] MDN, Permissions API：<a href="https://developer.mozilla.org/en-US/docs/Web/API/Permissions_API">https://developer.mozilla.org/en-US/docs/Web/API/Permissions_API</a>。</li>
+</ol>
+<div class="footer"><b>证据纪律：</b>上游源码说明“代码写了什么”；本地实验说明“这台机器的 Edge 这次观察到什么”；官方文档解释“平台机制如何定义”。三者不能互相替代。法律部分仅为风险提示，不构成法律意见。</div>
+</main></body></html>

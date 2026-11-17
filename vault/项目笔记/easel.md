@@ -71,3 +71,9 @@ Easel 是组织创作者画像、内容技能、产物索引与发布相关流�
 - [素材索引实现](https://github.com/ZJU-REAL/Easel/blob/6c049ceb73b1b74a73448664dcd4dbc7e051442a/skills/openclaw/asset-manager/scripts/assets.py)：扫描、标签、检索与路径识别
 
 阅读方法：[原 learn-project 方法](https://github.com/Smashwinny/reminder_knowlege/blob/109ffa9763c24f6ff05d2b7f1b1d9ed14e7d79e0/.claude/skills/learn-project/SKILL.md)。本次以该方法的第 8 步合并同义概念、项目笔记与 MOC；不把有限查重范围写成全库无重复，也不把笔记存在视为本人已掌握。
+
+## 增补：六维画像与发布分级闸门的第二次实测（2026-10-27）
+
+本次交接批次固定 main@5a597e5，补充验证六维画像文件、技能计数和 `content_guard.py` 的实际行为，不重复认定为首次完整学习。实测 `profiles/_template` 六文件齐备，preferences 含要做的/不做的/合规底线，memory 明确“不是每次做完任务都写”；技能目录 114–115 个，与 README 徽章 113 属统计口径差异。`content_guard.py` 的 WARN exit=0、BLOCK exit=7 与 selftest 均实际执行，印证 [[出站内容分级闸门]] 是代码 Gate，不是文案承诺。
+
+新增关联概念：[[账号画像六维模板]]、[[出站内容分级闸门]]。完整安装、真实平台发布、归因数据读取和视频技能仍未验证；本段不推翻前一批组件级证据与范围。

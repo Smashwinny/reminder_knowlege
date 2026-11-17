@@ -1,0 +1,21 @@
+{
+  "topic": "Hytidel 词汇星图：可追溯词条、LCS 词汇关系与两种复习排程",
+  "project_dir": "vocab_learning_app",
+  "pdf": "vocab_learning_app/vocab_learning_app-小白指南.pdf",
+  "html": "vocab_learning_app/guide.html",
+  "exercise_dir": "vocab_learning_app/exercise",
+  "experiment_log": "vocab_learning_app/exercise/experiment-log.txt",
+  "vault_note": "vault/项目笔记/vocab_learning_app.md",
+  "source_urls": [
+    "https://x.com/HytidelLegend/status/2106009248610292069",
+    "https://github.com/HytidelLegend/htd-ai-augmented-education",
+    "https://github.com/HytidelLegend/ai-aug-edu",
+    "https://github.com/HytidelLegend/ai-aug-edu/tree/638ae84f97a04474cb63c6098eacfc6c83b813af"
+  ],
+  "report_path": "完成/分析报告/f35703ee-838d-413b-a389-0bf557432534.md",
+  "experiment_files": [
+    "vocab_learning_app/exercise/verify_learning_model.py",
+    "vocab_learning_app/exercise/experiment-results.json",
+    "vocab_learning_app/exercise/experiment-log.txt"
+  ]
+}

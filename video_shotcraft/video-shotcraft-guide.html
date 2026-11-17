@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>video-shotcraft 小白指南</title>
+<style>
+:root{--purple:#6425d0;--blue:#087cf0;--pink:#f42c7c;--orange:#ff8a00;--yellow:#ffd91a;--teal:#00a98f;--ink:#17213b;--paper:#f7f5ff;--soft:#ece6ff;--white:#fff;--red:#e92f45}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;line-height:1.62}@page{size:A4;margin:11mm 12mm}@media print{body{background:#fff}.question{break-before:page}.no-break,.keep{break-inside:avoid}a{color:inherit;text-decoration:none}}
+.cover{min-height:260mm;padding:18mm 14mm;color:#fff;border-radius:28px;background:radial-gradient(circle at 85% 15%,#ff4d8d 0 9%,transparent 30%),radial-gradient(circle at 10% 85%,#00d6b4 0 5%,transparent 28%),linear-gradient(140deg,#34107c,#6725d0 48%,#087cf0);position:relative;overflow:hidden}.cover:after{content:"";position:absolute;width:110mm;height:110mm;border:4px solid #ffd91a;border-radius:50%;right:-45mm;bottom:-35mm;opacity:.65}.eyebrow{font-size:12px;letter-spacing:3px;font-weight:900;color:var(--yellow)}h1{font-size:43px;line-height:1.12;margin:20px 0 12px;letter-spacing:-1px}.cover h2{font-size:23px;line-height:1.35;max-width:155mm;margin:0 0 22px}.cover .big{font-size:20px;font-weight:900;background:#fff;color:var(--purple);padding:14px 18px;border-left:9px solid var(--yellow);border-radius:12px;max-width:160mm}.chips{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.chip{background:#ffffff22;border:1px solid #ffffff66;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:800}.cover-note{position:absolute;left:14mm;right:14mm;bottom:18mm;font-size:12px;background:#160a38aa;padding:12px 15px;border-radius:12px}.question{padding-top:2mm}.qhead{display:flex;align-items:center;gap:14px;border-bottom:4px solid var(--ink);padding-bottom:8px;margin-bottom:12px}.qnum{flex:0 0 auto;font-size:42px;line-height:1;font-weight:1000;color:#fff;background:linear-gradient(135deg,var(--pink),var(--orange));padding:10px 13px;border-radius:15px;transform:rotate(-2deg)}h2{font-size:24px;line-height:1.28;margin:0}h3{font-size:17px;margin:14px 0 6px;color:var(--purple)}p{margin:7px 0;font-size:13px}.lead{font-size:16px;font-weight:800}.highlight{background:linear-gradient(transparent 45%,#ffe868 45%);font-weight:900}.answer{border-left:7px solid var(--blue);padding:8px 12px;background:#eaf5ff;border-radius:8px;margin:10px 0}.warning{border-left:7px solid var(--pink);padding:8px 12px;background:#ffedf4;border-radius:8px;margin:10px 0}.success{border-left:7px solid var(--teal);padding:8px 12px;background:#e7fff8;border-radius:8px;margin:10px 0}.diagram{width:100%;height:auto;margin:8px 0;border-radius:15px;background:#fff;box-shadow:0 3px 0 #dcd3f4}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mini{border:2px solid #ddd2fa;border-radius:12px;padding:9px;background:#fff;font-size:12px}.mini b{color:var(--purple)}table{border-collapse:collapse;width:100%;font-size:11px;background:#fff;margin:8px 0}th{background:var(--purple);color:#fff;text-align:left}th,td{padding:6px 7px;border:1px solid #d9cef4;vertical-align:top}tr:nth-child(even) td{background:#f3efff}code{font-family:Consolas,monospace;background:#20133b;color:#fff;border-radius:4px;padding:1px 4px;font-size:.9em}pre{white-space:pre-wrap;word-break:break-all;background:#171028;color:#f6f1ff;padding:10px 12px;border-radius:10px;font:10px/1.55 Consolas,monospace;border-left:5px solid var(--yellow);margin:7px 0}.tag{display:inline-block;padding:2px 7px;border-radius:5px;background:var(--yellow);font-weight:900;font-size:11px}.small{font-size:10px;color:#4e5871}.footer{margin-top:12px;padding-top:7px;border-top:2px dashed #c9bde8;font-size:9px;color:#59627a}.steps{counter-reset:step}.step{position:relative;padding:9px 10px 9px 48px;background:#fff;border:2px solid #ddd2fa;border-radius:12px;margin:8px 0;break-inside:avoid}.step:before{counter-increment:step;content:counter(step);position:absolute;left:10px;top:10px;width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:var(--pink);color:#fff;font-weight:900}.expected{background:#e6fff5;border:1px solid #00a98f;padding:6px 9px;border-radius:8px;font-size:11px}.frames{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:8px 0}.frames figure{margin:0;background:#fff;border-radius:9px;padding:5px;border:2px solid #ddd2fa}.frames img{width:100%;display:block;border-radius:5px}.frames figcaption{font-size:9px;text-align:center;font-weight:800;margin-top:3px}.toc{columns:2;margin:12px 0;padding:0;list-style:none}.toc li{break-inside:avoid;background:#ffffff18;border:1px solid #ffffff44;border-radius:8px;padding:6px 9px;margin:0 0 6px;font-size:12px}.sources{font-size:10px;word-break:break-all}.sources li{margin-bottom:4px}
+</style>
+</head>
+<body>
+<section class="cover">
+  <div class="eyebrow">OPEN-SOURCE LEARNING · 2026-10-31</div>
+  <h1>video-shotcraft<br>小白指南</h1>
+  <h2>把真实产品界面，拍成有镜头语言、有声音落点、还能继续编辑的代码宣传片</h2>
+  <div class="chips"><span class="chip">124 张配方卡</span><span class="chip">150 个镜头</span><span class="chip">10 类产品镜头</span><span class="chip">Motion Workbench</span><span class="chip">实测 commit 1266a3e</span></div>
+  <div class="big">它不是“提示词进、神秘视频出”的生成模型，而是<b>真实截图 + 镜头配方 + Remotion 代码 + 帧级验收</b>的制作系统。</div>
+  <ol class="toc">
+    <li>Q1　它到底是什么？</li><li>Q2　镜头卡怎样变成镜头？</li><li>Q3　产品特写的电影感从哪来？</li><li>Q4　三种转场怎样选？</li><li>Q5　音效为什么要减两项偏移？</li>
+    <li>Q6　BGM 卡点与声音资产怎么管？</li><li>Q7　Workbench 为何不只是播放器？</li><li>Q8　可编辑、无损与边界是什么？</li><li>Q9　它能给我哪些能力？</li><li>Q10　6 秒实验怎样真实跑通？</li>
+  </ol>
+  <div class="cover-note"><b>来源核验：</b>原 X 页面本轮直连返回 HTTP 402；FxTwitter 镜像读到同作者主帖及其引用的开源帖，被引用帖明确出链到 <b>Vincentwei1021/video-shotcraft</b>。历史 404 已变化：本轮成功克隆该精确仓库并读取源码，没有把搜索到的同名项目绑定为目标。星数与“模型无需 skill 更强”均只视为作者陈述。</div>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">Q1</div><h2>它到底是什么？与 AI 视频生成模型差在哪？</h2></div>
+<p class="answer lead">video-shotcraft 是给 Claude Code / Codex 的<b>视频制作 skill 与资产库</b>：Agent 读取真实产品，选镜头、排分镜、写 Remotion 组件、配声音、做 QA，最后交付 MP4 与可继续修改的工程。</p>
+<svg class="diagram" viewBox="0 0 760 245" role="img" aria-label="真实产品到可编辑成片的流程">
+<defs><marker id="a1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#6425d0"/></marker></defs>
+<rect x="15" y="45" width="125" height="110" rx="18" fill="#eaf5ff" stroke="#087cf0" stroke-width="3"/><text x="77" y="78" text-anchor="middle" font-size="18" font-weight="900" fill="#17213b">真实产品</text><text x="77" y="105" text-anchor="middle" font-size="13" fill="#17213b">截图 · 文案 · tokens</text><rect x="42" y="120" width="70" height="18" rx="5" fill="#087cf0" opacity=".25"/>
+<path d="M145 100H190" stroke="#6425d0" stroke-width="4" marker-end="url(#a1)"/><rect x="198" y="30" width="150" height="140" rx="18" fill="#f1eaff" stroke="#6425d0" stroke-width="3"/><text x="273" y="64" text-anchor="middle" font-size="18" font-weight="900" fill="#6425d0">镜头配方库</text><text x="273" y="91" text-anchor="middle" font-size="13" fill="#17213b">124 卡 / 150 镜头</text><text x="273" y="117" text-anchor="middle" font-size="13" fill="#17213b">分镜 · 转场 · 音效</text><text x="273" y="145" text-anchor="middle" font-size="12" fill="#f42c7c">demo 是参数真相</text>
+<path d="M353 100H398" stroke="#6425d0" stroke-width="4" marker-end="url(#a1)"/><rect x="406" y="45" width="145" height="110" rx="18" fill="#fff6d9" stroke="#ff8a00" stroke-width="3"/><text x="478" y="80" text-anchor="middle" font-size="18" font-weight="900" fill="#17213b">确定性制作</text><text x="478" y="107" text-anchor="middle" font-size="13" fill="#17213b">React / Remotion</text><text x="478" y="132" text-anchor="middle" font-size="13" fill="#17213b">逐帧渲染与抽帧 QA</text>
+<path d="M556 100H601" stroke="#6425d0" stroke-width="4" marker-end="url(#a1)"/><rect x="609" y="22" width="135" height="158" rx="18" fill="#e7fff8" stroke="#00a98f" stroke-width="3"/><text x="676" y="56" text-anchor="middle" font-size="18" font-weight="900" fill="#007c6a">可编辑交付</text><text x="676" y="87" text-anchor="middle" font-size="14" fill="#17213b">MP4</text><text x="676" y="113" text-anchor="middle" font-size="14" fill="#17213b">Remotion 源码</text><text x="676" y="139" text-anchor="middle" font-size="14" fill="#17213b">Workbench / 剪映</text>
+<text x="380" y="215" text-anchor="middle" font-size="17" font-weight="900" fill="#f42c7c">每一帧来自你自己的素材与代码，不是模型凭空想象的产品画面</text>
+</svg>
+<div class="grid2"><div class="mini"><b>生成模型路线</b><br>擅长生成新画面与运动素材；产品文字、界面结构与品牌一致性需要另外控制。</div><div class="mini"><b>shotcraft 路线</b><br>擅长把已有 Web / 桌面产品拍清楚；镜头、文字、色彩和声音都能定位到代码与帧。</div></div>
+<p>它与已有知识库里的 <b>React 逐帧视频渲染</b>共用渲染地基，但本项目的增量是：<span class="highlight">产品镜头语言、制作纪律、声音工程和交付后编辑</span>，不是再讲一遍 Composition/Sequence。</p>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">Q2</div><h2>124 张卡、150 个镜头：怎样选，怎样不“凭卡名重写”？</h2></div>
+<p class="answer">一张卡是一类动效意图，可含多个实现变体，所以卡数不等于镜头数。当前版本保留 <b>124 卡 / 150 镜头 / 10 类</b>；先按功能与能量选卡，再读卡片全文和准确 demo，不能只复制一个名字让模型自由发挥。</p>
+<svg class="diagram" viewBox="0 0 760 280" role="img" aria-label="镜头卡到准确实现的三读流程">
+<rect x="22" y="28" width="200" height="195" rx="18" fill="#f1eaff" stroke="#6425d0" stroke-width="3"/><text x="122" y="58" text-anchor="middle" font-size="19" font-weight="900" fill="#6425d0">① Gallery 索引</text><rect x="45" y="80" width="154" height="30" rx="7" fill="#fff"/><text x="122" y="101" text-anchor="middle" font-size="13" fill="#17213b">卡名 + style-key</text><rect x="45" y="122" width="154" height="30" rx="7" fill="#fff"/><text x="122" y="143" text-anchor="middle" font-size="13" fill="#17213b">分类 / 时长 / 预览</text><text x="122" y="190" text-anchor="middle" font-size="13" fill="#f42c7c">先确认“是哪一张”</text>
+<path d="M230 125H270" stroke="#6425d0" stroke-width="4"/><path d="M263 117L273 125L263 133" fill="none" stroke="#6425d0" stroke-width="4"/><rect x="280" y="28" width="200" height="195" rx="18" fill="#fff6d9" stroke="#ff8a00" stroke-width="3"/><text x="380" y="58" text-anchor="middle" font-size="19" font-weight="900" fill="#b25b00">② 配方卡全文</text><text x="305" y="92" font-size="13" fill="#17213b">意图 / 能量 / 时长</text><text x="305" y="122" font-size="13" fill="#17213b">参数表 / 声音</text><text x="305" y="152" font-size="13" fill="#17213b">已知坑 / 命门</text><text x="380" y="190" text-anchor="middle" font-size="13" fill="#f42c7c">质量只允许升档</text>
+<path d="M488 125H528" stroke="#6425d0" stroke-width="4"/><path d="M521 117L531 125L521 133" fill="none" stroke="#6425d0" stroke-width="4"/><rect x="538" y="28" width="200" height="195" rx="18" fill="#e7fff8" stroke="#00a98f" stroke-width="3"/><text x="638" y="58" text-anchor="middle" font-size="19" font-weight="900" fill="#007c6a">③ 准确 demo TSX</text><text x="563" y="92" font-size="13" fill="#17213b">缓动曲线</text><text x="563" y="122" font-size="13" fill="#17213b">时值配比</text><text x="563" y="152" font-size="13" fill="#17213b">遮罩 / 相机细节</text><text x="638" y="190" text-anchor="middle" font-size="13" fill="#f42c7c">调校过的参数真相</text>
+<text x="380" y="255" text-anchor="middle" font-size="16" font-weight="900" fill="#17213b">功能清单 → 首选/备选卡 → 全片能量曲线；一种手法只当一次主角</text>
+</svg>
+<table><tr><th>类别</th><th>卡数</th><th>典型任务</th><th>类别</th><th>卡数</th><th>典型任务</th></tr><tr><td>开场与品牌</td><td>11</td><td>立主角、品牌揭示</td><td>运镜与空间</td><td>13</td><td>2.5D 推近、环绕</td></tr><tr><td>转场</td><td>19</td><td>镜头交棒</td><td>文字与字卡</td><td>25</td><td>标题、字标、隧道</td></tr><tr><td>界面登场</td><td>22</td><td>卡片、面板入场</td><td>交互演示</td><td>13</td><td>点击、筛选、换主题</td></tr><tr><td>数据与指标</td><td>9</td><td>图表与数字叙事</td><td>光效与强调</td><td>23</td><td>聚光、扫描、落地</td></tr><tr><td>节奏与蒙太奇</td><td>8</td><td>卡点、并行场景</td><td>收尾</td><td>7</td><td>合影、logo 收束</td></tr></table>
+<p class="small">数量来自当前 README；不是历史搜索摘要。镜头卡本身也可单独抽出来用于其他视频。</p>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">Q3</div><h2>产品特写的“电影感”从哪来？为何不是特效越多越好？</h2></div>
+<p class="answer">核心是<b>一个主角 + 一条完整动作弧 + 可读停留</b>。以 <code>spotlight-hero-card</code> 为例：聚光找到一张卡，相机斜侧推进，卡片弹起、悬浮、扫描，再贴回页面；光只给主角，落定后留出真正静止的阅读时间。</p>
+<svg class="diagram" viewBox="0 0 760 285" role="img" aria-label="单主角产品镜头动作弧">
+<defs><linearGradient id="bg3" x2="1" y2="1"><stop stop-color="#171028"/><stop offset="1" stop-color="#263b78"/></linearGradient><radialGradient id="spot3"><stop stop-color="#ffd91a" stop-opacity=".8"/><stop offset="1" stop-color="#ffd91a" stop-opacity="0"/></radialGradient></defs>
+<rect x="0" y="0" width="760" height="220" rx="16" fill="url(#bg3)"/><ellipse cx="390" cy="105" rx="210" ry="125" fill="url(#spot3)"/>
+<rect x="250" y="45" width="250" height="125" rx="18" fill="#f7f5ff" stroke="#ffd91a" stroke-width="4"/><rect x="275" y="70" width="120" height="15" rx="6" fill="#6425d0"/><rect x="275" y="100" width="190" height="10" rx="5" fill="#b9addd"/><rect x="275" y="123" width="150" height="10" rx="5" fill="#b9addd"/><circle cx="467" cy="74" r="12" fill="#f42c7c"/>
+<path d="M215 195H545" stroke="#6574a0" stroke-width="3"/><path d="M270 188V202M375 188V202M500 188V202" stroke="#fff" stroke-width="3"/><text x="270" y="218" text-anchor="middle" font-size="12" fill="#fff">锁定 / 推进</text><text x="375" y="218" text-anchor="middle" font-size="12" fill="#fff">弹起 / 扫描</text><text x="500" y="218" text-anchor="middle" font-size="12" fill="#fff">归位 / HOLD</text>
+<path d="M90 105H190" stroke="#ff8a00" stroke-width="4"/><path d="M180 95L195 105L180 115" fill="none" stroke="#ff8a00" stroke-width="4"/><text x="90" y="82" text-anchor="middle" font-size="15" font-weight="900" fill="#ffd91a">观众视线</text>
+<text x="380" y="258" text-anchor="middle" font-size="15" font-weight="900" fill="#17213b">PageCam：2x 页面纹理 + layout.json 坐标 + 2.5D 相机 + 页面空间 overlay</text>
+</svg>
+<div class="grid3"><div class="mini"><b>真实素材三件套</b><br>全页 2x 截图、元素 cutout、layout.json。复刻既有页面优先真实截图，不手搓一个“差不多”的 UI。</div><div class="mini"><b>视觉从产品生长</b><br>字体、栅格、圆角、色彩先提 tokens；卡片只继承运动语法，不把模板皮肤硬套到新产品。</div><div class="mini"><b>呼吸位也是帧预算</b><br>品牌落定 hold ≥1 秒，批量动作后留 0.5 秒；开场主体动作给足约 3 秒。</div></div>
+<div class="warning"><b>常见反模式：</b>每张卡都闪、相机一直漂、推近后文字发糊。文字糊先查 2x/4x 纹理与栅格化路径，不要先加景深；结尾让相机锁死。</div>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">Q4</div><h2>转场怎样选？为什么“一个接缝只用一个招式”？</h2></div>
+<p class="answer">转场是<b>镜头之间的语义交棒</b>，不是独立于内容的装饰。shotcraft 把常用接缝归纳为推进流白、whip-pan 急刹、mask-wipe 穿窗三式；在分镜阶段就分配帧预算，不能做完镜头再硬塞。</p>
+<svg class="diagram" viewBox="0 0 760 300" role="img" aria-label="三种转场及适用接缝">
+<rect x="18" y="25" width="224" height="225" rx="18" fill="#fff6d9" stroke="#ff8a00" stroke-width="3"/><text x="130" y="57" text-anchor="middle" font-size="18" font-weight="900" fill="#b25b00">A · 推进流白</text><rect x="45" y="85" width="75" height="65" rx="8" fill="#6425d0"/><rect x="140" y="85" width="75" height="65" rx="8" fill="#00a98f"/><circle cx="130" cy="117" r="37" fill="#fff" opacity=".85"/><text x="130" y="178" text-anchor="middle" font-size="13" fill="#17213b">切点前后各 5f</text><text x="130" y="203" text-anchor="middle" font-size="12" fill="#17213b">页面 → 页面</text><text x="130" y="226" text-anchor="middle" font-size="12" fill="#f42c7c">能量相近 / 交互穿透</text>
+<rect x="268" y="25" width="224" height="225" rx="18" fill="#f1eaff" stroke="#6425d0" stroke-width="3"/><text x="380" y="57" text-anchor="middle" font-size="18" font-weight="900" fill="#6425d0">B · 甩镜急刹</text><path d="M292 125C335 65 406 180 466 105" fill="none" stroke="#f42c7c" stroke-width="8"/><path d="M300 155H454" stroke="#b9addd" stroke-width="14" opacity=".55"/><text x="380" y="190" text-anchor="middle" font-size="13" fill="#17213b">糊段换景 + 长尾落定</text><text x="380" y="216" text-anchor="middle" font-size="12" fill="#f42c7c">高能连打 / 落点要可读</text>
+<rect x="518" y="25" width="224" height="225" rx="18" fill="#e7fff8" stroke="#00a98f" stroke-width="3"/><text x="630" y="57" text-anchor="middle" font-size="18" font-weight="900" fill="#007c6a">C · 穿窗纵深</text><rect x="547" y="82" width="70" height="85" rx="9" fill="#6425d0"/><rect x="590" y="70" width="120" height="110" rx="12" fill="#087cf0" opacity=".75"/><rect x="612" y="92" width="76" height="65" rx="8" fill="#fff"/><text x="630" y="203" text-anchor="middle" font-size="13" fill="#17213b">卡片长成详情世界</text><text x="630" y="226" text-anchor="middle" font-size="12" fill="#f42c7c">总览 → 该功能详情</text>
+<text x="380" y="278" text-anchor="middle" font-size="16" font-weight="900" fill="#17213b">不要在甩镜或穿窗途中再叠白闪；穿窗的新景必须与点开的内容有语义关系</text>
+</svg>
+<p>本实验采用 A 式：<code>from = SHOTS.features.from - 5</code>、总长 <code>10f</code>，让暖白闪跨骑第 90 帧硬切。真实抽出的第 89 帧显示前镜被暖白覆盖，证明它不是“写在表里但没出现”的转场。</p>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">Q5</div><h2>音效为什么不能直接写 <code>from = 动作帧</code>？</h2></div>
+<p class="answer lead">因为“音源文件开始”不等于“观众听到的重音”，而“渲染时间线”也可能与最终 MP4 音轨存在封装偏移。正确目标是<b>音源峰值落到动作峰值帧</b>。</p>
+<pre>Sequence.from = 目标峰值帧 − 音源峰值滞后帧 − 输出音轨偏移帧</pre>
+<svg class="diagram" viewBox="0 0 760 255" role="img" aria-label="音效钉帧的两项偏移">
+<path d="M50 145H710" stroke="#17213b" stroke-width="3"/><rect x="90" y="65" width="250" height="80" rx="14" fill="#f1eaff" stroke="#6425d0" stroke-width="3"/><path d="M105 125L130 120L155 126L180 115L205 122L230 75L255 120L280 110L320 125" fill="none" stroke="#f42c7c" stroke-width="4"/><path d="M230 55V160" stroke="#f42c7c" stroke-width="3" stroke-dasharray="6 5"/><text x="230" y="45" text-anchor="middle" font-size="13" font-weight="900" fill="#f42c7c">音源内部峰值</text><text x="90" y="177" font-size="12" fill="#17213b">文件头</text>
+<path d="M475 55V160" stroke="#087cf0" stroke-width="3" stroke-dasharray="6 5"/><text x="475" y="45" text-anchor="middle" font-size="13" font-weight="900" fill="#087cf0">动作目标帧</text><path d="M245 185H460" stroke="#ff8a00" stroke-width="4"/><path d="M450 177L465 185L450 193" fill="none" stroke="#ff8a00" stroke-width="4"/><text x="352" y="211" text-anchor="middle" font-size="13" font-weight="900" fill="#b25b00">提前启动，而不是把文件头钉在落点</text><text x="595" y="105" text-anchor="middle" font-size="14" font-weight="900" fill="#17213b">再按当前渲染管线</text><text x="595" y="130" text-anchor="middle" font-size="14" font-weight="900" fill="#17213b">实测输出偏移</text>
+</svg>
+<table><tr><th>本实验音源</th><th>10ms RMS 峰值滞后</th><th>目标帧</th><th>Sequence.from</th></tr><tr><td>whoosh-fast.mp3</td><td>21.75f</td><td>36f</td><td>14f</td></tr><tr><td>impact-cine.mp3</td><td>16.65f</td><td>70f</td><td>53f</td></tr><tr><td>transition-soft.mp3</td><td>13.65f</td><td>114f</td><td>100f</td></tr></table>
+<p>三条音源先由 Remotion 自带 ffmpeg 解码为 48kHz PCM，再由实际脚本测量。三探针交叉相关测得当前 <b>Remotion 4.0.532 + AAC 48kHz + MP4</b> 输出偏移为 <b>+0.01 / +0.01 / −0.01f</b>，因此没有照搬上游历史 1.28f。</p>
+<div class="warning"><b>测量边界：</b>10ms RMS、sample peak 不是 LUFS / true peak，也不自动等于语义落点；多段敲击、渐强素材仍需在成片语境中试听。本实验有波形与交叉相关证据，但不冒称完成主观听感验收。</div>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">Q6</div><h2>BGM 卡点、SFX 选材与许可，怎样进入同一条时间线？</h2></div>
+<p class="answer">强节奏音乐先分析再分镜：用真实 beat 序列拟合 BPM 与相位，镜头边界写 <code>beatF(n)</code>；稀疏重音钉真实瞬态。画面锁定后再精确钉 SFX，所有轨道从同一张 <code>SHOTS</code> 表派生。</p>
+<svg class="diagram" viewBox="0 0 760 285" role="img" aria-label="音乐画面音效共享时间线">
+<rect x="25" y="25" width="710" height="52" rx="12" fill="#27104f"/><text x="45" y="58" font-size="16" font-weight="900" fill="#fff">BGM · beatF(n)</text><path d="M225 64L245 43L265 64L285 43L305 64L325 43L345 64L365 43L385 64L405 43L425 64L445 43L465 64L485 43L505 64L525 43L545 64L565 43L585 64L605 43L625 64L645 43L665 64" fill="none" stroke="#ffd91a" stroke-width="3"/>
+<rect x="25" y="94" width="710" height="52" rx="12" fill="#eaf5ff"/><text x="45" y="127" font-size="16" font-weight="900" fill="#17213b">镜头 · SHOTS</text><rect x="225" y="107" width="185" height="26" rx="6" fill="#087cf0"/><rect x="418" y="107" width="120" height="26" rx="6" fill="#6425d0"/><rect x="546" y="107" width="140" height="26" rx="6" fill="#f42c7c"/>
+<rect x="25" y="163" width="710" height="52" rx="12" fill="#fff6d9"/><text x="45" y="196" font-size="16" font-weight="900" fill="#17213b">SFX · 相对钉帧</text><circle cx="285" cy="189" r="12" fill="#ff8a00"/><circle cx="450" cy="189" r="12" fill="#ff8a00"/><circle cx="625" cy="189" r="12" fill="#ff8a00"/><path d="M285 145V176M450 145V176M625 145V176" stroke="#f42c7c" stroke-width="2" stroke-dasharray="4 4"/>
+<text x="380" y="250" text-anchor="middle" font-size="15" font-weight="900" fill="#17213b">改镜头起点，声音随表移动；改镜头内部动作，仍必须逐条复核</text>
+</svg>
+<div class="grid2"><div class="mini"><b>新片选音</b><br>按动作、材质、时长、攻击与尾音写搜索需求；Freesound 默认 CC0，允许署名时可选 CC BY。下载到工程本地，保存 manifest、credits、哈希与实测分析。</div><div class="mini"><b>混音与交付</b><br>BGM 定能量骨架，SFX 只补画面独有动作；连发用不同样本和递减音量。配 BGM 时从同一时间线交付带 BGM / 无 BGM（保留 SFX）两版。</div></div>
+<p class="small">本实验三条音频是模板中授权记录可回查的 Mixkit 历史回归素材，原 attribution 已保留；没有把它们说成新片从 Freesound 精选。MP3 预览转 WAV 也不会变成“原始无损素材”。</p>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">Q7</div><h2>Motion Workbench 为何不只是“再给你一个播放器”？</h2></div>
+<p class="answer">它把成片重新拆成<b>镜头 / 转场 / 字幕 / 音效多轨工程</b>：既能挪、裁、分割、复制、变速，也能通过 props + schema 改镜头内部的文案、字号和颜色，最后用 Remotion 导出。</p>
+<svg class="diagram" viewBox="0 0 760 320" role="img" aria-label="同源时间表驱动原片和工作台">
+<rect x="245" y="15" width="270" height="55" rx="14" fill="#6425d0"/><text x="380" y="49" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">唯一事实源：SHOTS / SFX / CAPTIONS</text><path d="M280 75L160 110M480 75L600 110" stroke="#6425d0" stroke-width="4"/>
+<rect x="35" y="115" width="275" height="165" rx="16" fill="#eaf5ff" stroke="#087cf0" stroke-width="3"/><text x="172" y="146" text-anchor="middle" font-size="18" font-weight="900" fill="#087cf0">Main.tsx 原片</text><text x="65" y="180" font-size="14" fill="#17213b">Sequence 按帧组合</text><text x="65" y="208" font-size="14" fill="#17213b">节奏命门保持常量</text><text x="65" y="236" font-size="14" fill="#17213b">纯函数 / 固定种子</text>
+<rect x="450" y="115" width="275" height="165" rx="16" fill="#e7fff8" stroke="#00a98f" stroke-width="3"/><text x="587" y="146" text-anchor="middle" font-size="18" font-weight="900" fill="#007c6a">src/workbench.ts 清单</text><text x="480" y="180" font-size="14" fill="#17213b">component + props + schema</text><text x="480" y="208" font-size="14" fill="#17213b">shots / transitions / captions</text><text x="480" y="236" font-size="14" fill="#17213b">sfx + original 对照组件</text>
+<text x="380" y="307" text-anchor="middle" font-size="14" font-weight="900" fill="#f42c7c">开放“内容与样式”，收起“弹入时长 / 缓动 / 相机路径”——可改，但不容易调坏</text>
+</svg>
+<table><tr><th>区域</th><th>能做什么</th><th>工程前提</th></tr><tr><td>素材库</td><td>成片单元、public 素材、150 个 demo、音频上轨</td><td>生成索引；素材路径相对 public</td></tr><tr><td>属性面板</td><td>文本、颜色、滑杆、开关、时间与图层</td><td>语境参数有默认值 props 与 schema</td></tr><tr><td>多轨时间线</td><td>挪动、裁边、分割、复制、变速、层序</td><td>组件对帧纯函数，tween clamp</td></tr><tr><td>顶栏导出</td><td>JSON 存档、导入、撤销/重做、导出 MP4</td><td>dev server 调 Remotion 渲染</td></tr></table>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">Q8</div><h2>“可编辑”与“无损”如何验证？边界在哪里？</h2></div>
+<p class="answer">不是界面能拖动就算成功。官方接入契约要求：清单与 Main 共享时间表， untouched import 与原片做同帧 PNG 比对；差异像素 &lt;0.1% 才视为一致。浏览器存档在 localStorage，清单哈希变化才重新导入。</p>
+<svg class="diagram" viewBox="0 0 760 265" role="img" aria-label="原片与导入工程逐帧对照">
+<rect x="28" y="35" width="210" height="135" rx="16" fill="#eaf5ff" stroke="#087cf0" stroke-width="3"/><text x="133" y="67" text-anchor="middle" font-size="18" font-weight="900" fill="#087cf0">ProjOriginal</text><text x="133" y="102" text-anchor="middle" font-size="14" fill="#17213b">原 Main.tsx</text><text x="133" y="132" text-anchor="middle" font-size="14" fill="#17213b">渲染同一组帧</text>
+<rect x="522" y="35" width="210" height="135" rx="16" fill="#e7fff8" stroke="#00a98f" stroke-width="3"/><text x="627" y="67" text-anchor="middle" font-size="18" font-weight="900" fill="#007c6a">ProjImported</text><text x="627" y="102" text-anchor="middle" font-size="14" fill="#17213b">清单拆解再合成</text><text x="627" y="132" text-anchor="middle" font-size="14" fill="#17213b">渲染同一组帧</text>
+<path d="M245 102H340M515 102H420" stroke="#6425d0" stroke-width="4"/><circle cx="380" cy="102" r="43" fill="#ffd91a"/><text x="380" y="98" text-anchor="middle" font-size="14" font-weight="900" fill="#17213b">像素</text><text x="380" y="119" text-anchor="middle" font-size="14" font-weight="900" fill="#17213b">DIFF</text><text x="380" y="205" text-anchor="middle" font-size="17" font-weight="900" fill="#f42c7c">不是“文件存在”，而是“画面没有变”</text><text x="380" y="237" text-anchor="middle" font-size="13" fill="#17213b">官方 parity：差异像素 &lt;0.1%；缺 Pillow / 未比对会返回无法得出结论</text>
+</svg>
+<div class="grid2"><div class="mini"><b>本实验真正验证</b><br>实际 TS 清单经 esbuild 执行：2 镜头 + 1 转场 + 1 字幕 + 3 音效；帧号与 <code>[14,53,100]</code> 断言通过，props/schema 默认键完整。</div><div class="mini"><b>本实验没有冒充</b><br>依赖安装被权限层拒绝，未启动完整 Workbench UI，也未跑官方像素 parity。因此这里只称“清单可执行、结构通过”，不称“官方无损验收通过”。</div></div>
+<p><b>与剪映的分工：</b>Workbench 适合本机改几处并保留镜头内部参数；剪映草稿适合在外部剪辑软件继续剪，底片按镜头切段、字幕重建为原生文本、SFX/BGM 分轨。上游只记录了 Mac 剪映 11.2 实测，Windows 导出未验证。</p>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">Q9</div><h2>学完它，我能真正增加哪些能力？</h2></div>
+<p class="answer lead">你得到的不只是 150 个“好看动画”，而是一套把产品信息转成镜头、把镜头变成可验收工程、把工程交给非程序员继续修改的生产方法。</p>
+<svg class="diagram" viewBox="0 0 760 300" role="img" aria-label="video-shotcraft 六项能力">
+<g font-family="Microsoft YaHei,Arial" text-anchor="middle"><rect x="25" y="25" width="220" height="105" rx="18" fill="#f1eaff" stroke="#6425d0" stroke-width="3"/><text x="135" y="65" font-size="18" font-weight="900" fill="#6425d0">产品镜头选型</text><text x="135" y="96" font-size="13" fill="#17213b">功能 → 镜头语法 → 能量曲线</text><rect x="270" y="25" width="220" height="105" rx="18" fill="#fff6d9" stroke="#ff8a00" stroke-width="3"/><text x="380" y="65" font-size="18" font-weight="900" fill="#b25b00">可复现产品特写</text><text x="380" y="96" font-size="13" fill="#17213b">真实纹理 + 2.5D 相机 + QA</text><rect x="515" y="25" width="220" height="105" rx="18" fill="#ffedf4" stroke="#f42c7c" stroke-width="3"/><text x="625" y="65" font-size="18" font-weight="900" fill="#f42c7c">音画工程</text><text x="625" y="96" font-size="13" fill="#17213b">卡点 + 钉帧 + 许可证据</text>
+<rect x="25" y="160" width="220" height="105" rx="18" fill="#eaf5ff" stroke="#087cf0" stroke-width="3"/><text x="135" y="200" font-size="18" font-weight="900" fill="#087cf0">快速模板复用</text><text x="135" y="231" font-size="13" fill="#17213b">Ink Press 换素材、文案与品牌</text><rect x="270" y="160" width="220" height="105" rx="18" fill="#e7fff8" stroke="#00a98f" stroke-width="3"/><text x="380" y="200" font-size="18" font-weight="900" fill="#007c6a">交付后协作</text><text x="380" y="231" font-size="13" fill="#17213b">Workbench 多轨微调与导出</text><rect x="515" y="160" width="220" height="105" rx="18" fill="#f1eaff" stroke="#6425d0" stroke-width="3"/><text x="625" y="200" font-size="18" font-weight="900" fill="#6425d0">质量守门</text><text x="625" y="231" font-size="13" fill="#17213b">静帧、整片、音画与独立终检</text></g>
+</svg>
+<div class="grid2"><div class="mini"><b>适合你的 5 个具体用途</b><br>① 给开源仓库做发布片；② 把 SaaS 新功能做成 6–30 秒产品预告；③ 从 Gallery 抽一个镜头升级现有视频；④ 给已有片子补统一的声音设计；⑤ 把代码成片交给同伴在 Workbench 改文案。</div><div class="mini"><b>三种创作模式</b><br><b>Ink Press 模板</b>：最快复刻已验收结构。<br><b>自主自由创作</b>：Agent 记录判断并连续推进。<br><b>共同创作</b>：在产品简报、视觉方向、镜头映射和分镜处由人确认。</div></div>
+<h3>八阶段流水线：方向性错误不要带进昂贵渲染</h3>
+<p><span class="tag">0 产品理解</span> → <span class="tag">1 styleframe</span> → <span class="tag">2 功能到镜头</span> → <span class="tag">3 分镜放行</span> → <span class="tag">4 最终采集</span> → <span class="tag">5 逐镜头+静帧</span> → <span class="tag">6 声音</span> → <span class="tag">7 独立终检</span></p>
+<p class="small">当前任务遵照 worker 约束不 spawn 子代理，因此本轮没有执行“独立 reviewer”步骤；最后只进入 ready，等待协调者做真实独立审核。</p>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">Q10</div><h2>动手实验：6 秒产品片怎样真实跑通？</h2></div>
+<p class="answer">实验不是重讲 Remotion，而是把本项目的四个增补组合起来：<b>产品镜头动作弧 + 跨切点闪白 + 实测钉帧 + Workbench 同源清单</b>。全部源码在 <code>exercise/shotcraft-lab/</code>。</p>
+<div class="steps">
+<div class="step"><b>取得精确上游与版本</b><pre>git clone https://github.com/Vincentwei1021/video-shotcraft.git F:\reminder\video_shotcraft\repo
+git -C F:\reminder\video_shotcraft\repo log --oneline -1</pre><div class="expected">✅ 实测输出：1266a3e Source project SFX from Freesound and acknowledge vibe-motion/sound (#123)</div></div>
+<div class="step"><b>准备实际运行依赖</b><p>权限层拒绝 npm 安装后，本轮用目录联接复用本机已有 Remotion 4.0.532；没有假称上游 4.0.484 模板被原样验证。</p><pre>cmd /c "mklink /J F:\reminder\video_shotcraft\exercise\shotcraft-lab\node_modules F:\reminder\ai-video-pipeline\exercise\remotion_app\node_modules"
+node node_modules\@remotion\cli\remotion-cli.js versions</pre><div class="expected">✅ 实测：CLI 与 Remotion 各包均为 4.0.532。</div></div>
+<div class="step"><b>解码并测量三条音源</b><pre>node node_modules\@remotion\cli\remotion-cli.js ffmpeg -y -i public/audio/whoosh-fast.mp3 -ac 1 -ar 48000 -acodec pcm_s16le out/whoosh-fast.wav
+python -I scripts/analyze_wav.py out/whoosh-fast.wav out/impact-cine.wav out/transition-soft.wav</pre><div class="expected">✅ 实测峰值滞后：21.75f / 16.65f / 13.65f；其余两条 ffmpeg 解码命令与完整输出见 experiment-log。</div></div>
+<div class="step"><b>渲染 180 帧真实成片</b><pre>node node_modules\@remotion\cli\remotion-cli.js render src/index.ts ShotcraftLab out/baseline.mp4 --concurrency=2</pre><div class="expected">✅ 实测：Rendered 180/180、Encoded 180/180；H.264 + AAC、960×540、30fps、6.016 秒、753133 字节。</div></div>
+<div class="step"><b>抽帧、测输出偏移、验清单</b><pre>node node_modules\@remotion\cli\remotion-cli.js still src/index.ts ShotcraftLab out/qa/hero-f36.png --frame=36
+python -I scripts/measure_av_offset.py out/baseline.wav whoosh=out/whoosh-fast.wav=14 impact=out/impact-cine.wav=53 transition=out/transition-soft.wav=100
+node scripts/validate-manifest.cjs</pre><div class="expected">✅ 三探针输出偏移约 0；清单 2+1+1+3 轨断言通过。官方 Workbench UI / parity 未运行。</div></div>
+</div>
+<div class="frames"><figure><img src="exercise/shotcraft-lab/out/qa/hero-f36.png"><figcaption>f36 · 产品主角抬升</figcaption></figure><figure><img src="exercise/shotcraft-lab/out/qa/transition-f89.png"><figcaption>f89 · 暖白闪跨骑切点</figcaption></figure><figure><img src="exercise/shotcraft-lab/out/qa/features-f140.png"><figcaption>f140 · 三行功能落定</figcaption></figure></div>
+<p class="small">最终解码 PCM sample peak 为 −6.90dBFS；这只能说明本次样本峰值余量，不能代替 LUFS / true peak 或听感结论。命令均在 <code>F:\reminder\video_shotcraft\exercise\shotcraft-lab</code> 执行，完整记录见 <code>exercise/experiment-log.md</code>。</p>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">✓</div><h2>结论与一手来源</h2></div>
+<p class="answer lead"><b>最值得带走的不是“Agent 会自动做视频”，而是四个可复用工程契约：</b>镜头卡与 demo 的三读契约、真实产品素材契约、声音双偏移与同源时间线契约、Workbench props/schema/parity 契约。</p>
+<div class="success"><b>本指南的实测边界：</b>仓库恢复可读并克隆成功；独立 6 秒实验真实渲染、抽帧、音频测量与清单执行完成。未验证完整 Ink Press 原片、Freesound 在线下载、浏览器 Workbench UI、官方 parity、Windows 剪映导出、主观试听与任何模型效果比较。</div>
+<h3>来源（按证据角色区分）</h3>
+<ul class="sources">
+<li>原帖：https://x.com/VincentWei93/status/2105259624593260656 （本轮直连 HTTP 402）</li>
+<li>原帖镜像与引用关系：https://api.fxtwitter.com/VincentWei93/status/2105259624593260656</li>
+<li>被引用开源帖：https://x.com/VincentWei93/status/2079118667074376114</li>
+<li>精确目标仓库：https://github.com/Vincentwei1021/video-shotcraft （commit 1266a3e）</li>
+<li>制作规则：https://github.com/Vincentwei1021/video-shotcraft/blob/main/SKILL.md</li>
+<li>镜头卡：https://github.com/Vincentwei1021/video-shotcraft/tree/main/references/shots</li>
+<li>声音设计：https://github.com/Vincentwei1021/video-shotcraft/blob/main/references/sound-design.md</li>
+<li>Workbench 契约：https://github.com/Vincentwei1021/video-shotcraft/blob/main/references/workbench.md</li>
+<li>Gallery：https://vincentwei1021.github.io/video-shotcraft/</li>
+</ul>
+<p class="footer">学习产物：video_shotcraft · owner main-k3-w5 · task 07d43cf1-75a2-4c0d-a7d3-4f5cbdb4f160 · 仅 ready，未 review / release / publish / Git 操作。</p>
+</section>
+</body>
+</html>

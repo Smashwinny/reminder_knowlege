@@ -1,0 +1,43 @@
+{
+  "task_id": "22164bd2-5da1-4e03-bd14-270aa84991da",
+  "related_task": "bf1dceaf-5604-4afa-a577-ed4ed85fe9df (same project, initial analysis)",
+  "topic": "Qwen-Image-2.1 云端部署：版本、磁盘、费用与许可核对",
+  "project_dir": "qwen_image_21",
+  "classification": "知识学习类",
+  "source_urls": [
+    "https://x.com/SUOHA_AI/status/2105924888288547143",
+    "https://huggingface.co/Qwen/Qwen-Image-2.1",
+    "https://api.autodl.com/docs/price/"
+  ],
+  "upstream": {
+    "model": "Qwen/Qwen-Image-2.1",
+    "license": "Qwen Research License (non-commercial research/evaluation)",
+    "hf_downloads_monthly": 196152
+  },
+  "pdf": "qwen_image_21/Qwen-Image-2.1云端部署-小白指南.pdf",
+  "html": "qwen_image_21/qwen-image-21-guide.html",
+  "exercise_dir": "qwen_image_21/exercise",
+  "experiment_log": "qwen_image_21/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/qwen_image_21-proposal-pending.md",
+  "deliverables": [
+    "qwen_image_21/qwen-image-21-guide.html",
+    "qwen_image_21/Qwen-Image-2.1云端部署-小白指南.pdf",
+    "qwen_image_21/exercise/hf_model_meta.json",
+    "qwen_image_21/exercise/hf_root_tree.json",
+    "qwen_image_21/exercise/hf_te_tree.json",
+    "qwen_image_21/exercise/hf_tf_tree.json",
+    "qwen_image_21/exercise/experiment-log.md",
+    "qwen_image_21/qwen_image_21-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "HF API 实测：text_encoder 17.54GB + transformer 14.23GB = 31.76GB 权重（BF16）",
+    "transformer ≈7.1B 参数与官方 7B 宣称自洽；text_encoder 另有 ≈8.7B 参数",
+    "LICENSE 限定非商业研究/评估，商用需单独许可（原帖'无需许可'不成立）",
+    "BF16 全量驻留显存 ≈63.5GiB；24GB 卡需 CPU offload；'32GB 保证不爆'仅 offload 前提成立",
+    "AutoDL 按开机计费、付费盘关机仍计费；50GB 免费盘装 31.76GB 余量紧张"
+  ],
+  "blocked_items": [
+    "未租用实例/未下载权重/未实际推理（零花费边界）",
+    "原帖 31 秒出图与 1.58 元/小时为作者个案，未独立复现"
+  ]
+}

@@ -1,0 +1,10 @@
+# Local executables, downloaded archives, credentials and render/test environments
+bin/
+runtime/download/
+runtime/auths/
+runtime/edge-profile/
+runtime/pdf-preview/
+runtime/pdfcheck/
+runtime/logs/
+__pycache__/
+*.pyc

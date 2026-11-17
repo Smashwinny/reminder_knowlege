@@ -1,0 +1,38 @@
+[
+  {
+    "file": "whoosh-fast.wav",
+    "sampleRate": 48000,
+    "channels": 1,
+    "durationSeconds": 1.756729,
+    "samplePeakDb": -6.064,
+    "overallRmsDb": -28.738,
+    "peak10msRmsDb": -14.165,
+    "peakLagSeconds": 0.725,
+    "peakLagFrames30fps": 21.75,
+    "note": "10 ms RMS/sample peak are not LUFS or true peak; semantic landing still needs listening."
+  },
+  {
+    "file": "impact-cine.wav",
+    "sampleRate": 48000,
+    "channels": 1,
+    "durationSeconds": 4.063125,
+    "samplePeakDb": -0.867,
+    "overallRmsDb": -20.127,
+    "peak10msRmsDb": -5.159,
+    "peakLagSeconds": 0.555,
+    "peakLagFrames30fps": 16.65,
+    "note": "10 ms RMS/sample peak are not LUFS or true peak; semantic landing still needs listening."
+  },
+  {
+    "file": "transition-soft.wav",
+    "sampleRate": 48000,
+    "channels": 1,
+    "durationSeconds": 1.27475,
+    "samplePeakDb": -0.946,
+    "overallRmsDb": -21.96,
+    "peak10msRmsDb": -9.803,
+    "peakLagSeconds": 0.455,
+    "peakLagFrames30fps": 13.65,
+    "note": "10 ms RMS/sample peak are not LUFS or true peak; semantic landing still needs listening."
+  }
+]

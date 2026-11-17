@@ -1,0 +1,79 @@
+{
+  "success": true,
+  "html": {
+    "path": "cli_proxy_api-guide.html",
+    "sha256": "b8fb9174238870716d4b7b0362876d0a5a787dc245fdbb73cf4f2406972f24bb",
+    "questions": {
+      "Q1": {
+        "svg_count": 1,
+        "has_answer": true
+      },
+      "Q2": {
+        "svg_count": 1,
+        "has_answer": true
+      },
+      "Q3": {
+        "svg_count": 1,
+        "has_answer": true
+      },
+      "Q4": {
+        "svg_count": 1,
+        "has_answer": true
+      },
+      "Q5": {
+        "svg_count": 1,
+        "has_answer": true
+      },
+      "Q6": {
+        "svg_count": 1,
+        "has_answer": true
+      },
+      "Q7": {
+        "svg_count": 1,
+        "has_answer": true
+      },
+      "Q8": {
+        "svg_count": 1,
+        "has_answer": true
+      },
+      "Q9": {
+        "svg_count": 1,
+        "has_answer": true
+      },
+      "Q10": {
+        "svg_count": 1,
+        "has_answer": true
+      }
+    }
+  },
+  "pdf": {
+    "path": "cli_proxy_api-小白指南.pdf",
+    "bytes": 990386,
+    "sha256": "ee8f3ebf141df78979b9192e47b4fdde3b4e0e1d41ce50324160abff250161bb",
+    "header": "%PDF-1.4",
+    "page_objects": 22,
+    "has_eof": true
+  },
+  "experiment": {
+    "success": true,
+    "upstream_captures": 6,
+    "external_model_calls": 0,
+    "assertions": {
+      "release_sha256_verified": true,
+      "client_auth_401_then_200": true,
+      "alias_mapped_to_upstream_model": true,
+      "claude_system_and_user_translated": true,
+      "claude_nonstream_response_translated": true,
+      "claude_sse_lifecycle_observed": true,
+      "round_robin_A_B_A_B_observed": true,
+      "fill_first_A_A_observed_after_restart": true,
+      "upstream_request_count": 6
+    }
+  },
+  "visual_check": {
+    "html_cover_rendered_by_edge": true,
+    "screenshot": "exercise/runtime/pdf-preview/html-cover.png",
+    "pdf_pixel_review": "not_available_pdftoppm_missing_and_pymupdf_install_denied",
+    "pdf_structure_checked": true
+  }
+}

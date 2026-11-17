@@ -1,0 +1,25 @@
+{
+  "topic": "cobalt：公开媒体保存工具的架构、API、本地处理与签名隧道",
+  "project_dir": "cobalt_tools",
+  "pdf": "cobalt_tools/cobalt_tools-小白指南.pdf",
+  "html": "cobalt_tools/cobalt-guide.html",
+  "exercise_dir": "cobalt_tools/exercise",
+  "experiment_log": "cobalt_tools/exercise/experiment-log.txt",
+  "experiment_files": [
+    "cobalt_tools/exercise/contract-lab.mjs",
+    "cobalt_tools/exercise/api-smoke.mjs",
+    "cobalt_tools/exercise/experiment-log.txt"
+  ],
+  "vault_note": "vault/项目笔记/cobalt_tools.md",
+  "source_urls": [
+    "https://x.com/0xCzyan/status/2106228061213736964",
+    "https://github.com/imputnet/cobalt/tree/a636575b09de1fc55d9b8cd98cac88f5f2f16b42",
+    "https://github.com/imputnet/cobalt/blob/a636575b09de1fc55d9b8cd98cac88f5f2f16b42/docs/api.md",
+    "https://github.com/imputnet/cobalt/blob/a636575b09de1fc55d9b8cd98cac88f5f2f16b42/docs/run-an-instance.md",
+    "https://github.com/imputnet/cobalt/blob/a636575b09de1fc55d9b8cd98cac88f5f2f16b42/docs/protect-an-instance.md",
+    "https://cobalt.tools/",
+    "https://tiktokio.bio/",
+    "https://greenvideo.cc/"
+  ],
+  "report_path": "完成/分析报告/eb718d22-5026-44e2-af3d-86385cb4db84.md"
+}

@@ -1,0 +1,8 @@
+MOCK_READY http://127.0.0.1:19001/health log=F:\reminder\cli_proxy_api\exercise\runtime\upstream_requests.jsonl
+[mock] 127.0.0.1 "GET /health HTTP/1.1" 200 -
+[mock] 127.0.0.1 "POST /v1/chat/completions HTTP/1.1" 200 -
+[mock] 127.0.0.1 "POST /v1/chat/completions HTTP/1.1" 200 -
+[mock] 127.0.0.1 "POST /v1/chat/completions HTTP/1.1" 200 -
+[mock] 127.0.0.1 "POST /v1/chat/completions HTTP/1.1" 200 -
+[mock] 127.0.0.1 "POST /v1/chat/completions HTTP/1.1" 200 -
+[mock] 127.0.0.1 "POST /v1/chat/completions HTTP/1.1" 200 -

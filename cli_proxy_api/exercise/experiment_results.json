@@ -1,0 +1,247 @@
+{
+  "schema": "cliproxyapi-local-experiment-v1",
+  "started_at": "2026-10-30T14:38:33.859687+00:00",
+  "real_external_model_calls": 0,
+  "fake_credentials_only": true,
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+    "proxy_port": 19317,
+    "mock_port": 19001,
+    "listeners": "127.0.0.1 only"
+  },
+  "release": {
+    "version": "8.0.47",
+    "archive": "CLIProxyAPI_8.0.47_windows_amd64.zip",
+    "sha256": "8e23cbb2f9f695411b7df46320855820b352fb886c3c3bdf45ab4634f2f14632",
+    "matches_github_release_digest": true
+  },
+  "unauthorized_models": {
+    "status": 401,
+    "response": {
+      "error": "Missing API key"
+    }
+  },
+  "authorized_models": {
+    "status": 200,
+    "response": {
+      "data": [
+        {
+          "created": 1793371114,
+          "id": "demo-alias",
+          "object": "model",
+          "owned_by": "local-mock"
+        }
+      ],
+      "object": "list"
+    },
+    "matching_model": [
+      {
+        "created": 1793371114,
+        "id": "demo-alias",
+        "object": "model",
+        "owned_by": "local-mock"
+      }
+    ]
+  },
+  "claude_to_openai": {
+    "status": 200,
+    "response": {
+      "id": "chatcmpl-local-001",
+      "type": "message",
+      "role": "assistant",
+      "model": "mock-model",
+      "content": [
+        {
+          "type": "text",
+          "text": "mock-A 已收到: Claude 口径进，OpenAI 口径出"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 11,
+        "output_tokens": 7
+      }
+    }
+  },
+  "round_robin_chat_1": {
+    "status": 200,
+    "response": {
+      "id": "chatcmpl-local-002",
+      "object": "chat.completion",
+      "created": 1760000002,
+      "model": "mock-model",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "mock-B 已收到: round-1"
+          },
+          "finish_reason": "stop"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 11,
+        "completion_tokens": 7,
+        "total_tokens": 18
+      }
+    }
+  },
+  "round_robin_chat_2": {
+    "status": 200,
+    "response": {
+      "id": "chatcmpl-local-003",
+      "object": "chat.completion",
+      "created": 1760000003,
+      "model": "mock-model",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "mock-A 已收到: round-2"
+          },
+          "finish_reason": "stop"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 11,
+        "completion_tokens": 7,
+        "total_tokens": 18
+      }
+    }
+  },
+  "round_robin_observation": [
+    "mock-A 已收到: Claude 口径进，OpenAI 口径出",
+    "mock-B 已收到: round-1",
+    "mock-A 已收到: round-2"
+  ],
+  "claude_stream": {
+    "status": 200,
+    "response": "event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"chatcmpl-local-004\",\"type\":\"message\",\"role\":\"assistant\",\"model\":\"mock-model\",\"content\":[],\"stop_reason\":null,\"stop_sequence\":null,\"usage\":{\"input_tokens\":9,\"output_tokens\":0}}}\n\nevent: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":0,\"content_block\":{\"type\":\"text\",\"text\":\"\"}}\n\nevent: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"mock-B 已收到: 流式事件也要翻译\"}}\n\nevent: content_block_stop\ndata: {\"type\":\"content_block_stop\",\"index\":0}\n\nevent: message_delta\ndata: {\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"end_turn\",\"stop_sequence\":null},\"usage\":{\"input_tokens\":11,\"output_tokens\":7}}\n\nevent: message_stop\ndata: {\"type\":\"message_stop\"}\n\n"
+  },
+  "fill_first_chat_1": {
+    "status": 200,
+    "response": {
+      "id": "chatcmpl-local-005",
+      "object": "chat.completion",
+      "created": 1760000005,
+      "model": "mock-model",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "mock-A 已收到: fill-1"
+          },
+          "finish_reason": "stop"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 11,
+        "completion_tokens": 7,
+        "total_tokens": 18
+      }
+    }
+  },
+  "fill_first_chat_2": {
+    "status": 200,
+    "response": {
+      "id": "chatcmpl-local-006",
+      "object": "chat.completion",
+      "created": 1760000006,
+      "model": "mock-model",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "mock-A 已收到: fill-2"
+          },
+          "finish_reason": "stop"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 11,
+        "completion_tokens": 7,
+        "total_tokens": 18
+      }
+    }
+  },
+  "fill_first_observation": [
+    "mock-A 已收到: fill-1",
+    "mock-A 已收到: fill-2"
+  ],
+  "upstream_summary": [
+    {
+      "sequence": 1,
+      "account": "A",
+      "model": "mock-model",
+      "stream": false,
+      "roles": [
+        "system",
+        "user"
+      ]
+    },
+    {
+      "sequence": 2,
+      "account": "B",
+      "model": "mock-model",
+      "stream": false,
+      "roles": [
+        "user"
+      ]
+    },
+    {
+      "sequence": 3,
+      "account": "A",
+      "model": "mock-model",
+      "stream": false,
+      "roles": [
+        "user"
+      ]
+    },
+    {
+      "sequence": 4,
+      "account": "B",
+      "model": "mock-model",
+      "stream": true,
+      "roles": [
+        "user"
+      ]
+    },
+    {
+      "sequence": 5,
+      "account": "A",
+      "model": "mock-model",
+      "stream": false,
+      "roles": [
+        "user"
+      ]
+    },
+    {
+      "sequence": 6,
+      "account": "A",
+      "model": "mock-model",
+      "stream": false,
+      "roles": [
+        "user"
+      ]
+    }
+  ],
+  "assertions": {
+    "release_sha256_verified": true,
+    "client_auth_401_then_200": true,
+    "alias_mapped_to_upstream_model": true,
+    "claude_system_and_user_translated": true,
+    "claude_nonstream_response_translated": true,
+    "claude_sse_lifecycle_observed": true,
+    "round_robin_A_B_A_B_observed": true,
+    "fill_first_A_A_observed_after_restart": true,
+    "upstream_request_count": 6
+  },
+  "success": true,
+  "finished_at": "2026-10-30T14:38:35.746762+00:00"
+}

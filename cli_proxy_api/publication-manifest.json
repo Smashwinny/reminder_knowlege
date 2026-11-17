@@ -1,0 +1,29 @@
+{
+  "topic": "CLIProxyAPI v8 本地多协议模型网关：Claude/OpenAI 翻译、SSE 与多凭据路由实测",
+  "project_dir": "cli_proxy_api",
+  "pdf": "cli_proxy_api/cli_proxy_api-小白指南.pdf",
+  "html": "cli_proxy_api/cli_proxy_api-guide.html",
+  "exercise_dir": "cli_proxy_api/exercise",
+  "experiment_log": "cli_proxy_api/exercise/experiment_log.txt",
+  "vault_note": "vault/项目笔记/cli_proxy_api.md",
+  "source_urls": [
+    "https://x.com/0xlangeai/status/2106264636198908382",
+    "https://github.com/router-for-me/CLIProxyAPI",
+    "https://github.com/router-for-me/CLIProxyAPI/releases/tag/v8.0.47",
+    "https://help.router-for.me/"
+  ],
+  "report_path": "完成/分析报告/25d21668-50fc-44f5-8b4f-3d527c12d6a6.md",
+  "experiment_files": [
+    "cli_proxy_api/exercise/.gitignore",
+    "cli_proxy_api/exercise/mock_upstream.py",
+    "cli_proxy_api/exercise/run_experiment.py",
+    "cli_proxy_api/exercise/validate_artifacts.py",
+    "cli_proxy_api/exercise/experiment_log.txt",
+    "cli_proxy_api/exercise/experiment_results.json",
+    "cli_proxy_api/exercise/artifact_validation.json",
+    "cli_proxy_api/exercise/runtime/config.yaml",
+    "cli_proxy_api/exercise/runtime/upstream_requests.jsonl",
+    "cli_proxy_api/exercise/runtime/proxy_stdout.log",
+    "cli_proxy_api/exercise/runtime/mock_stdout.log"
+  ]
+}

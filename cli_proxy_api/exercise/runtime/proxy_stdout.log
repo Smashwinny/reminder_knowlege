@@ -1,0 +1,30 @@
+CLIProxyAPI Version: 8.0.47, Commit: 90c447d3, BuiltAt: 2026-10-29T00:28:05Z
+[2026-10-30 22:38:34] [--------] [info ] [main.go:641] CLIProxyAPI Version: 8.0.47, Commit: 90c447d3, BuiltAt: 2026-10-29T00:28:05Z
+[2026-10-30 22:38:34] [--------] [info ] [main.go:752] Local model mode: using embedded catalogs unless an explicit catalog source is configured
+[2026-10-30 22:38:34] [--------] [info ] [antigravity_version.go:71] periodic antigravity version refresh started (interval=3h0m0s)
+[2026-10-30 22:38:34] [--------] [info ] [service_lifecycle.go:103] core auth auto-refresh started (interval=15m0s)
+API server started successfully on: 127.0.0.1:19317
+server clients and configuration updated: 2 clients (0 auth entries + 0 Gemini API keys + 0 Interactions API keys + 0 Claude API keys + 0 Codex keys + 0 xAI keys + 0 Meta API keys + 0 Vertex-compat + 2 OpenAI-compat)
+[2026-10-30 22:38:34] [--------] [info ] [clients.go:224] full client load complete - 2 clients (0 auth files + 0 Gemini API keys + 0 Vertex API keys + 0 Claude API keys + 0 Codex keys + 0 xAI keys + 0 Meta API keys + 2 OpenAI-compat)
+[2026-10-30 22:38:34] [--------] [info ] [service_lifecycle.go:227] file watcher started for config and auth directory changes
+[2026-10-30 22:38:34] [--------] [warn ] [service_executors.go:477] model registration for auth openai-compatibility:local-mock:d54c0a538d03 was superseded during computation; discarded the stale publication instead of overwriting the latest auth state provider=openai-compatible-local-mock auth_id="openai-compatibility:local-mock:d54c0a538d03"
+[2026-10-30 22:38:35] [--------] [info ] [gin_logger.go:113] 200 |            0s |       127.0.0.1 | GET     "/"
+[2026-10-30 22:38:35] [3968c6df] [warn ] [gin_logger.go:111] 401 |            0s |       127.0.0.1 | GET     "/v1/models"
+[2026-10-30 22:38:35] [7608935d] [info ] [gin_logger.go:113] 200 |            0s |       127.0.0.1 | GET     "/v1/models"
+[2026-10-30 22:38:35] [156cad8f] [info ] [gin_logger.go:113] 200 |           2ms |       127.0.0.1 | POST    "/v1/messages"
+[2026-10-30 22:38:35] [6226aa3f] [info ] [gin_logger.go:113] 200 |           2ms |       127.0.0.1 | POST    "/v1/chat/completions"
+[2026-10-30 22:38:35] [b840c7b9] [info ] [gin_logger.go:113] 200 |          11ms |       127.0.0.1 | POST    "/v1/chat/completions"
+[2026-10-30 22:38:35] [d8360722] [info ] [gin_logger.go:113] 200 |          18ms |       127.0.0.1 | POST    "/v1/messages"
+CLIProxyAPI Version: 8.0.47, Commit: 90c447d3, BuiltAt: 2026-10-29T00:28:05Z
+[2026-10-30 22:38:35] [--------] [info ] [main.go:641] CLIProxyAPI Version: 8.0.47, Commit: 90c447d3, BuiltAt: 2026-10-29T00:28:05Z
+[2026-10-30 22:38:35] [--------] [info ] [main.go:752] Local model mode: using embedded catalogs unless an explicit catalog source is configured
+[2026-10-30 22:38:35] [--------] [info ] [antigravity_version.go:71] periodic antigravity version refresh started (interval=3h0m0s)
+[2026-10-30 22:38:35] [--------] [info ] [service_lifecycle.go:103] core auth auto-refresh started (interval=15m0s)
+API server started successfully on: 127.0.0.1:19317
+server clients and configuration updated: 2 clients (0 auth entries + 0 Gemini API keys + 0 Interactions API keys + 0 Claude API keys + 0 Codex keys + 0 xAI keys + 0 Meta API keys + 0 Vertex-compat + 2 OpenAI-compat)
+[2026-10-30 22:38:35] [--------] [info ] [clients.go:224] full client load complete - 2 clients (0 auth files + 0 Gemini API keys + 0 Vertex API keys + 0 Claude API keys + 0 Codex keys + 0 xAI keys + 0 Meta API keys + 2 OpenAI-compat)
+[2026-10-30 22:38:35] [--------] [info ] [service_lifecycle.go:227] file watcher started for config and auth directory changes
+[2026-10-30 22:38:35] [--------] [warn ] [service_executors.go:477] model registration for auth openai-compatibility:local-mock:d54c0a538d03 was superseded during computation; discarded the stale publication instead of overwriting the latest auth state provider=openai-compatible-local-mock auth_id="openai-compatibility:local-mock:d54c0a538d03"
+[2026-10-30 22:38:35] [--------] [info ] [gin_logger.go:113] 200 |            0s |       127.0.0.1 | GET     "/"
+[2026-10-30 22:38:35] [5dd50a4b] [info ] [gin_logger.go:113] 200 |           3ms |       127.0.0.1 | POST    "/v1/chat/completions"
+[2026-10-30 22:38:35] [3ed64621] [info ] [gin_logger.go:113] 200 |           2ms |       127.0.0.1 | POST    "/v1/chat/completions"

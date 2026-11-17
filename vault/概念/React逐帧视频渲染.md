@@ -24,3 +24,7 @@ tags: [概念]
 **实测坑**：
 - `--props` 传参必须按组件 props 的形状包一层（如 `{"timeline": {...}}`）；key 缺失会静默回退 defaultProps，渲染"成功"但画面是占位符——要靠抽帧检查才能发现
 - 渲染引擎自动下载 Chrome Headless Shell，首跑要联网
+
+## video-shotcraft 增补层（2026-10-31）
+
+[[项目笔记/video_shotcraft]] 在逐帧渲染地基上增补镜头配方三读、音画双偏移钉帧与同源可编辑 Workbench 清单。其价值不在通用 Remotion 入门，而在真实产品片的资产组织和交付验收。

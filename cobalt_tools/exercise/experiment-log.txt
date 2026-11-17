@@ -1,0 +1,149 @@
+cobalt_tools experiment log
+Task: eb718d22-5026-44e2-af3d-86385cb4db84
+Date: 2026-10-30
+Scope: official modules and loopback API only; no third-party media requests
+Upstream: a636575b09de1fc55d9b8cd98cac88f5f2f16b42
+
+$ node --version
+v24.21.0
+
+$ pnpm --version
+12.8.1
+
+$ pnpm --dir repo/api test get-services
+
+> @imput/cobalt-api@11.7.1 test F:\reminder\cobalt_tools\repo\api
+> node src/util/test "get-services"
+
+["bilibili","bsky","dailymotion","facebook","instagram","loom","ok","pinterest","newgrounds","reddit","rutube","snapchat","soundcloud","streamable","tiktok","tumblr","twitch","twitter","vimeo","vk","youtube"]
+(node:36868) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+$ node exercise/contract-lab.mjs
+{
+  "suite": "cobalt official modules + local no-network fixtures",
+  "checks": 21,
+  "results": {
+    "normalized": {
+      "url": "https://youtube.com/watch?v=ABCDEFGHIJK",
+      "defaults": {
+        "audioBitrate": "128",
+        "audioFormat": "mp3",
+        "downloadMode": "auto",
+        "videoQuality": "1080",
+        "localProcessing": "disabled"
+      }
+    },
+    "strictUnknownOptionRejected": true,
+    "parameterChange": {
+      "localProcessing": {
+        "disabled": {
+          "status": "tunnel",
+          "filename": "Public Fixture - Local Lab (1080p, h264).mp4"
+        },
+        "preferred": {
+          "status": "local-processing",
+          "type": "merge",
+          "tunnelCount": 2,
+          "outputType": "video/mp4"
+        }
+      }
+    },
+    "alwaysProxy": {
+      "false": "redirect",
+      "true": "tunnel"
+    },
+    "pickerItems": 2,
+    "signedTunnel": {
+      "parameterNames": [
+        "exp",
+        "id",
+        "iv",
+        "sec",
+        "sig"
+      ],
+      "validService": "local-fixture",
+      "tamperedStatus": 401
+    }
+  }
+}
+PASS: 21 assertions; 0 external media requests
+
+$ node exercise/api-smoke.mjs
+{
+  "suite": "official cobalt API on loopback; no third-party media requests",
+  "getRoot": {
+    "version": "11.7.1",
+    "commit": "a636575b09de1fc55d9b8cd98cac88f5f2f16b42",
+    "serviceCount": 21,
+    "services": [
+      "bilibili",
+      "bluesky",
+      "dailymotion",
+      "facebook",
+      "instagram",
+      "loom",
+      "ok",
+      "pinterest",
+      "newgrounds",
+      "reddit",
+      "rutube",
+      "snapchat",
+      "soundcloud",
+      "streamable",
+      "tiktok",
+      "tumblr",
+      "twitch clips",
+      "twitter",
+      "vimeo",
+      "vk",
+      "youtube"
+    ]
+  },
+  "postMissingURL": {
+    "httpStatus": 400,
+    "body": {
+      "status": "error",
+      "error": {
+        "code": "error.api.link.missing"
+      }
+    }
+  },
+  "postWrongAccept": {
+    "httpStatus": 400,
+    "body": {
+      "status": "error",
+      "error": {
+        "code": "error.api.header.accept"
+      }
+    }
+  },
+  "postUnsupportedDomain": {
+    "httpStatus": 400,
+    "body": {
+      "status": "error",
+      "error": {
+        "code": "error.api.link.invalid"
+      }
+    }
+  }
+}
+PASS: official API started and 10 HTTP/schema assertions passed
+--- official API startup output ---
+(node:41236) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1m[36mcobalt [0m[0m[1mAPI ^ω^[0m
+~~~~~~
+[1mversion: [0m11.7.1
+[1mcommit: [0ma636575b09de1fc55d9b8cd98cac88f5f2f16b42
+[1mbranch: [0mmain
+[1mremote: [0mimputnet/cobalt
+[1mstart time: [0mFri, 30 Oct 2026 14:53:31 GMT
+~~~~~~
+[1murl: [0m[1m[36mhttp://127.0.0.1:19100/[0m[0m
+[1mport: [0m19100
+
+[32m[✓][0m internal tunnel handler running on 127.0.0.1:13878
+
+Initial run note: contract-lab.mjs first failed with "no package root found" when launched outside repo/api; fixed by chdir to repo/api before official imports, then all final checks passed.

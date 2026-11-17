@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LOCAL DEFENSIVE PERMISSION LAB</title>
+  <style>
+    body{font-family:Consolas,"Microsoft YaHei",sans-serif;background:#10152b;color:#fff;padding:24px}
+    h1{color:#58f5c3} .notice{background:#fff3a3;color:#291b00;padding:14px;border-left:8px solid #ff5a36}
+    pre{white-space:pre-wrap;background:#fff;color:#17203a;padding:18px;border-radius:12px}
+  </style>
+</head>
+<body data-status="DONE">
+  <h1>本地防御性权限实验</h1>
+  <p class="notice">仅合成数据：媒体与定位成功/拒绝分支均为 mock；不会访问真实摄像头、麦克风或位置。CSP connect-src 'none' 用于验证意外回传会被浏览器拦截。</p>
+  <pre id="results">{
+  "schema": "local-browser-defense-lab-v1",
+  "started_at": "2026-10-30T14:31:56.749Z",
+  "safety": {
+    "real_sensor_access": false,
+    "real_geolocation_access": false,
+    "synthetic_coordinates_only": true,
+    "test_scope": "127.0.0.1 loopback only"
+  },
+  "secure_context": {
+    "isSecureContext": true,
+    "protocol": "http:",
+    "hostname": "127.0.0.1",
+    "loopback": true,
+    "mediaDevicesExposed": true,
+    "geolocationExposed": true
+  },
+  "permission_queries": {
+    "camera": {
+      "supported": true,
+      "state": "prompt",
+      "prompt_shown": false
+    },
+    "microphone": {
+      "supported": true,
+      "state": "prompt",
+      "prompt_shown": false
+    },
+    "geolocation": {
+      "supported": true,
+      "state": "prompt",
+      "prompt_shown": false
+    }
+  },
+  "media_denial": {
+    "passed": true,
+    "error_name": "NotAllowedError",
+    "frames_created": 0,
+    "uploads": 0
+  },
+  "track_cleanup": {
+    "passed": true,
+    "stop_calls": 1,
+    "final_state": "ended",
+    "track_label": "SYNTHETIC_TRACK_NO_HARDWARE",
+    "uploads": 0
+  },
+  "geolocation_guard": {
+    "passed": true,
+    "synthetic": true,
+    "latitude": 0,
+    "longitude": 0,
+    "note": "0,0 is a fixed synthetic marker, not a device location"
+  },
+  "csp_network_guard": {
+    "passed": true,
+    "blocked_by_browser": true,
+    "error": "TypeError: Failed to fetch",
+    "server_endpoint_reached": false
+  },
+  "finished_at": "2026-10-30T14:31:56.781Z",
+  "status": "DONE"
+}</pre>
+<script>
+(async () => {
+  const out = {
+    schema: "local-browser-defense-lab-v1",
+    started_at: new Date().toISOString(),
+    safety: {
+      real_sensor_access: false,
+      real_geolocation_access: false,
+      synthetic_coordinates_only: true,
+      test_scope: "127.0.0.1 loopback only"
+    }
+  };
+  const show = () => { document.getElementById("results").textContent = JSON.stringify(out, null, 2); };
+  try {
+    out.secure_context = {
+      isSecureContext: window.isSecureContext,
+      protocol: location.protocol,
+      hostname: location.hostname,
+      loopback: ["127.0.0.1", "localhost", "::1"].includes(location.hostname),
+      mediaDevicesExposed: Boolean(navigator.mediaDevices),
+      geolocationExposed: Boolean(navigator.geolocation)
+    };
+
+    out.permission_queries = {};
+    for (const name of ["camera", "microphone", "geolocation"]) {
+      try {
+        const status = await navigator.permissions.query({name});
+        out.permission_queries[name] = {supported: true, state: status.state, prompt_shown: false};
+      } catch (error) {
+        out.permission_queries[name] = {supported: false, error: String(error), prompt_shown: false};
+      }
+    }
+
+    const mediaDevices = navigator.mediaDevices;
+    const originalGetUserMedia = mediaDevices && mediaDevices.getUserMedia;
+    let stopCalls = 0;
+    const fakeTrack = {
+      kind: "video", readyState: "live", label: "SYNTHETIC_TRACK_NO_HARDWARE",
+      stop() { stopCalls += 1; this.readyState = "ended"; }
+    };
+    const fakeStream = {getTracks: () => [fakeTrack]};
+    let mode = "deny";
+    if (mediaDevices) {
+      Object.defineProperty(mediaDevices, "getUserMedia", {
+        configurable: true,
+        value: async () => {
+          if (mode === "deny") throw new DOMException("Synthetic denial", "NotAllowedError");
+          return fakeStream;
+        }
+      });
+      try {
+        await mediaDevices.getUserMedia({video: true, audio: false});
+        out.media_denial = {passed: false, reason: "mock unexpectedly resolved"};
+      } catch (error) {
+        out.media_denial = {passed: error.name === "NotAllowedError", error_name: error.name, frames_created: 0, uploads: 0};
+      }
+      mode = "allow";
+      const stream = await mediaDevices.getUserMedia({video: true, audio: false});
+      const track = stream.getTracks()[0];
+      track.stop();
+      out.track_cleanup = {
+        passed: stopCalls === 1 && track.readyState === "ended",
+        stop_calls: stopCalls,
+        final_state: track.readyState,
+        track_label: track.label,
+        uploads: 0
+      };
+      Object.defineProperty(mediaDevices, "getUserMedia", {configurable: true, value: originalGetUserMedia});
+    } else {
+      out.media_denial = {passed: false, reason: "mediaDevices unavailable"};
+      out.track_cleanup = {passed: false, reason: "mediaDevices unavailable"};
+    }
+
+    const originalGeolocation = navigator.geolocation;
+    Object.defineProperty(navigator, "geolocation", {
+      configurable: true,
+      value: {getCurrentPosition(success) { success({coords: {latitude: 0, longitude: 0, accuracy: 1}, synthetic: true}); }}
+    });
+    const syntheticPosition = await new Promise(resolve => navigator.geolocation.getCurrentPosition(resolve));
+    out.geolocation_guard = {
+      passed: syntheticPosition.synthetic === true && syntheticPosition.coords.latitude === 0 && syntheticPosition.coords.longitude === 0,
+      synthetic: syntheticPosition.synthetic,
+      latitude: syntheticPosition.coords.latitude,
+      longitude: syntheticPosition.coords.longitude,
+      note: "0,0 is a fixed synthetic marker, not a device location"
+    };
+    Object.defineProperty(navigator, "geolocation", {configurable: true, value: originalGeolocation});
+
+    try {
+      await fetch("/should-not-run", {method: "POST", body: "synthetic-canary"});
+      out.csp_network_guard = {passed: false, reason: "unexpected request was not blocked"};
+    } catch (error) {
+      out.csp_network_guard = {passed: true, blocked_by_browser: true, error: String(error), server_endpoint_reached: false};
+    }
+    out.finished_at = new Date().toISOString();
+    out.status = "DONE";
+  } catch (error) {
+    out.status = "ERROR";
+    out.fatal_error = String(error);
+  }
+  show();
+  document.body.dataset.status = out.status;
+})();
+</script>
+
+
+</body></html>
