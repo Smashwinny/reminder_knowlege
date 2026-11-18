@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>ChatSEO 六技能 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f2fbff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#00b8a9 0%,#2d9cdb 50%,#7c4dff 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-teal));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-teal));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-teal));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-teal));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>ChatSEO 六技能：让 Agent 当"SEO 主管"的纪律手册</h1>
+  <p>情报层（ChatSEO MCP）+ 执行层（Claude Code）+ 审批层（人）——最有价值的不是工具，是六条确定性纪律</p>
+  <p>
+    <span class="badge">实测 DIFF GATE 复刻 3/3</span><span class="badge">ChatSEO Pro €49/月起</span>
+    <span class="badge">示例数据练习</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 长文《My chief of SEO, claude code opus 5.5》(@NicholasDulait) ｜ 学习日期 2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q1</div>
+<h2>这套东西是什么？一句话能说清吗？</h2>
+<p><span class="big">一套"SEO Agent 工作流"：Claude Code（Opus 5.5）扮演 SEO 主管负责规划、改写和例行工作；ChatSEO MCP 提供搜索控制台数据、搜索量、SERP 分析等情报；任何触碰线上页面的动作都要人审批。</span>六个技能文件（money-keywords / page-brief / ship-page / geo-rankings / pattern-drip / weekly-seo）定义了全部纪律，作者强调它们是"免费给的规则"，但数据服务并不免费。</p>
+<div class="svgbox">
+<svg width="720" height="180" viewBox="0 0 720 180">
+  <rect x="20" y="50" width="150" height="80" rx="12" fill="#2d9cdb"/>
+  <text x="95" y="80" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">ChatSEO MCP</text>
+  <text x="95" y="98" fill="#e8f4fd" font-size="10" text-anchor="middle">情报层(38 工具)</text>
+  <text x="95" y="113" fill="#e8f4fd" font-size="10" text-anchor="middle">GSC/搜索量/SERP</text>
+  <rect x="240" y="40" width="200" height="100" rx="14" fill="#7c4dff"/>
+  <text x="340" y="70" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">Claude Code = SEO 主管</text>
+  <text x="340" y="92" fill="#e6dcff" font-size="11" text-anchor="middle">规划 / 写页 / 例行复盘</text>
+  <text x="340" y="110" fill="#e6dcff" font-size="11" text-anchor="middle">六技能 = 岗位纪律</text>
+  <rect x="510" y="50" width="190" height="80" rx="12" fill="#ff6b1a"/>
+  <text x="605" y="80" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">人（审批层）</text>
+  <text x="605" y="98" fill="#ffe8d6" font-size="10" text-anchor="middle">一切上线操作需批准</text>
+  <text x="605" y="113" fill="#ffe8d6" font-size="10" text-anchor="middle">diff 清单逐项确认</text>
+  <path d="M170 90 L240 90" stroke="#333" stroke-width="2.5" marker-end="url(#s1)"/>
+  <path d="M440 90 L510 90" stroke="#333" stroke-width="2.5" marker-end="url(#s1)"/>
+  <path d="M510 130 C 480 165, 280 165, 245 132" fill="none" stroke="#ef476f" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#s1)"/>
+  <text x="377" y="163" font-size="11" text-anchor="middle" fill="#ef476f">不批准 → 打回（草稿/分支状态）</text>
+  <defs><marker id="s1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q2</div>
+<h2>为什么 SEO 适合 Agent 化？难点在哪？</h2>
+<p><span class="big">SEO 是"数据密集 + 高纪律 + 长周期"的苦活：每周要看 Search Console 环比、判断改旧页还是新建、控制改动别弄丢老内容——全是重复性决策，恰是 Agent 的主场。</span></p>
+<p>但难点也同样清楚：①需要真实搜索数据（Agent 自己编不出搜索量）；②改线上页面有风险（作者亲述：Claude 曾静默删掉排名页面的表格）；③排名有观察期，"改完就有效"是幻觉。六技能全是围绕这三点立的纪律。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q3</div>
+<h2>六个技能各自管什么？纪律是什么？</h2>
+<table>
+<tr><th>技能</th><th>干什么</th><th>核心纪律</th></tr>
+<tr><td>money-keywords</td><td>找商业价值关键词</td><td>只要商业意图词；top3 是落地页才留；<b>没量的写 n/a，绝不编数字</b></td></tr>
+<tr><td>page-brief</td><td>单个词的页面简报</td><td>已有 URL 在获点击→停手改旧页，<b>不新建重复页</b></td></tr>
+<tr><td>ship-page</td><td>安全写页/发布</td><td><b>DIFF GATE</b>：上线前列出旧版有新版丢的全部元素；草稿/分支先行；人批准后发</td></tr>
+<tr><td>geo-rankings</td><td>AI 搜索引用规划</td><td>"best X 年份"查询谁被 AI 引用；只能经简报流程改标题，不直接改</td></tr>
+<tr><td>pattern-drip</td><td>规模化产出</td><td><b>一次一页</b>；只换城市名的页不发；diff 通过才放行</td></tr>
+<tr><td>weekly-seo</td><td>周一复盘</td><td>28 天环比；<b>60 天内动过的页不碰</b>；90 天无起色列外链候选；输出 5 个动作按业务价值排序</td></tr>
+</table>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q4</div>
+<h2>DIFF GATE 为什么是整个体系的灵魂？（本机实测）</h2>
+<p><span class="big">因为它治的是"AI 静默破坏"——作者亲身踩过：Claude 改写时把线上页面的排名表格悄悄删了。</span>这与知识库 [[证据优先质检ProofOverClaims]] 完全同构："改写完成"的宣称不算证据，<b>新旧 diff 清单才是</b>。</p>
+<p>本机用示例数据复刻了该闸门（<code>chatseo_skills\exercise\diff_gate.py</code>，零依赖），三轮实测全部符合预期：</p>
+<pre><code>① 旧版有 pricing 表格、改写版静默删掉 →
+   ❌ DIFF GATE 拦截：- 表格 pricing   exit=7
+② 同页对比 → ✅ 通过  exit=0（无误报）
+③ 把表格补回再比 → ✅ 通过  exit=0（修复即放行）</code></pre>
+<div class="okbox"><b>结论</b>：闸门机制 3/3 验证。设计要点：fail-closed（有丢失即退出码 7，与 content_guard 同款）、清单化（逐项列出而非"有改动"）、人工确认后才放行。</div>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q5</div>
+<h2>ChatSEO 数据层的真实门槛是什么？</h2>
+<p>chatseo.app/mcp 官方文档直读：<code>https://api.chatseo.app/mcp</code>（Streamable HTTP），38 个工具（GSC 读取/审核/简报/Shopify 发布等），认证用 <b>OAuth 2.1 + RFC 9728</b>（免贴 Key 自动引导——正是知识库 [[OAuth资源发现]] 的实例）。</p>
+<p><span class="hl">门槛：Pro 及以上，€49/月起，页面无免费试用说明。</span>所以"技能文件免费"≠"整套方案免费"：规则可白嫖，数据要付费。评估方案时记住这条拆分。</p>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>合规边界在哪？</h2>
+<p>Google 搜索垃圾政策明确：购买链接、排名交换、无用户价值的大规模生成内容都是垃圾行为。<b>"每天只发一页"不构成质量或合规保证</b>。pattern-drip 的"只换城市名的页不发"正是把这条政策翻译成了 Agent 纪律——值得抄这个"政策→纪律"的翻译手法。</p>
+<p>作者也坦承：新域名即使用这套流程打竞争大词，照样排名 40 开外——<b>技能不创造权重</b>，只让有权重的站更高效。</p>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q7</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[证据优先质检ProofOverClaims]]</td><td>DIFF GATE = 该哲学在"线上内容改写"域的机械化</td></tr>
+<tr><td>[[事实与判断分离]]</td><td>搜索量 n/a 不编 = 数据事实是数据事实，缺失就是缺失</td></tr>
+<tr><td>[[技能路由器与授权硬门]]</td><td>人审批上线 = 授权硬门的 SEO 版</td></tr>
+<tr><td>[[OAuth资源发现]]</td><td>ChatSEO MCP 的 RFC 9728 认证是其实战实例</td></tr>
+<tr><td>[[付费调用回执与预算熔断]]</td><td>€49/月订阅 + credits 余额查询工具 = 订阅版预算纪律</td></tr>
+<tr><td>[[质量标准死卡与执行手段放开]]</td><td>简报（标准）与写页（手段）分离，验收标准前置</td></tr>
+</table>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q8</div>
+<h2>"规划-执行-审批"三层分工为什么重要？</h2>
+<p><span class="big">因为 SEO 的错误成本不对称：写 100 页简报很便宜，弄丢一个排名页很昂贵。</span>三层分工让便宜的动作自动化（找词、写简报、复盘），让昂贵的动作过人（上线、删内容、改标题）。这也是 [[代码管边界提示词管判断]] 的财务版：回不了的（线上损坏）归审批，回得了的（草稿改写）归 Agent。</p>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q9</div>
+<h2>不订阅 ChatSEO，这套方法还能用吗？</h2>
+<p><span class="big">能，纪律全部可用，数据层找替代。</span></span></p>
+<ul>
+<li>六条纪律（n/a 不编/先查旧页/diff 后上线/一次一页/60 天观察期/周复盘）不依赖任何付费服务；</li>
+<li>数据替代：自己的 GSC 导出 CSV + 搜索量用免费额度工具 + SERP 手动抽样；</li>
+<li>DIFF GATE 已在本指南本地复刻（diff_gate.py），直接可接入你自己的发布流程；</li>
+<li>周复盘用任何表格软件都能跑 28 天环比。</li>
+</ul>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>上手路径是什么？</h2>
+<pre><code># ① 不花钱版（今天就能做）
+# 把六条纪律写成自己的 SKILL.md；把 diff_gate.py 接进发布脚本
+
+# ② 付费版（有站点且有预算）
+# ChatSEO Pro €49/月起 → https://api.chatseo.app/mcp
+# Claude Code 里 /mcp 登录一次 → 挂 GSC → 按六技能跑周循环
+
+# ③ 周循环
+周一 weekly-seo（28 天环比）→ 平日 pattern-drip（一天一页）
+→ 任何页面改动走 page-brief → ship-page（diff gate + 人审批）</code></pre>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>六条可白嫖的 Agent 纪律</b>：写进自己的内容工作流立即生效；</li>
+<li><b>DIFF GATE 复刻件</b>：diff_gate.py 可直接平移到"AI 改写任何线上内容"场景；</li>
+<li><b>政策→纪律翻译手法</b>：把 Google 垃圾政策翻成"只换城市不发"式的 Agent 规则；</li>
+<li><b>付费情报层评估框架</b>：技能免费≠数据免费，算总账时拆开看；</li>
+<li><b>SEO 周复盘模板</b>：28 天环比 + 60 天冷却期 + 5 动作排序。</li>
+</ol>
+</div>
+
+<!-- 实验 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">动手</div>
+<h2>实验：示例数据跑通核心闸门（约 15 分钟，零花费）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 准备示例页面。</b>old-page.html 含定价表格/表单/图片/3 链接；new-page.html 模拟"Agent 改写时静默删表格"（明确标注的示例，非真实页面）。
+<div class="expect">✅ 预期结果：两文件就位。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 跑闸门抓丢失。</b>
+<pre><code>python exercise/diff_gate.py old-page.html new-page.html</code></pre>
+<div class="expect">✅ 预期结果（本机实测）：❌ 拦截"表格 pricing"，exit=7。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 同页对比验证无误报。</b>
+<pre><code>python exercise/diff_gate.py old-page.html old-page.html</code></pre>
+<div class="expect">✅ 预期结果：✅ 通过，exit=0。</div></div>
+<div class="step"><b class="s">步骤 4 ｜ 修复后放行。</b>把表格补回 new-fixed.html 再跑 → ✅ 通过。
+<div class="expect">✅ 预期结果：修复即放行，不误杀。</div></div>
+<div class="okbox"><b>实验结论</b>：DIFF GATE 三轮 3/3 符合预期，核心机制验证成立。未接入 ChatSEO/未编辑真实页面（如实声明）。日志见 <code>chatseo_skills\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>价值在纪律不在工具</b>：n/a 不编、先查旧页、diff 后上线、一次一页、60 天冷却、周复盘；</li>
+<li><b>DIFF GATE 治静默破坏</b>：本机复刻 3/3 验证，可平移；</li>
+<li><b>数据层 €49/月起</b>：技能免费≠数据免费；</li>
+<li><b>合规自带红线</b>：买链接/群发垃圾页 Google 明令禁止；</li>
+<li><b>三层分工</b>：便宜动作自动化，昂贵动作过人审批。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">ChatSEO 六技能小白指南 · 2026-10-27 · DIFF GATE 实测复刻 · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

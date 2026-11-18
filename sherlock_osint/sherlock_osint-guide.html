@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sherlock 公开用户名检索：原理、判定与误报</title>
+<style>
+:root{--ink:#17203a;--blue:#175cff;--cyan:#00c2ff;--pink:#ff3d9a;--orange:#ff7a00;--yellow:#ffe45e;--green:#00b876;--purple:#7838ff;--red:#ef3158;--paper:#fffdf7;--soft:#eef5ff}
+@page{size:A4;margin:12mm 12mm 14mm}
+*{box-sizing:border-box}html{background:var(--paper)}body{margin:0;color:var(--ink);font-family:"Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif;line-height:1.62;font-size:14px;background:var(--paper)}
+a{color:#064bcc;text-decoration:none;word-break:break-all}.cover{min-height:250mm;padding:22mm 14mm 14mm;position:relative;overflow:hidden;color:white;background:linear-gradient(145deg,#4822d9 0%,#175cff 48%,#00c2ff 100%);border-radius:24px}
+.cover:before{content:"";position:absolute;width:120mm;height:120mm;border:18px solid #ffdc4a;border-radius:50%;right:-52mm;top:-42mm;opacity:.9}.cover:after{content:"";position:absolute;width:78mm;height:78mm;background:#ff3d9a;transform:rotate(28deg);left:-45mm;bottom:-34mm;border-radius:18px}
+.eyebrow{font-weight:900;letter-spacing:2px;color:var(--yellow);font-size:15px}.cover h1{font-size:43px;line-height:1.15;margin:20mm 0 8mm;max-width:155mm;position:relative}.cover .subtitle{font-size:22px;font-weight:800;max-width:150mm}.cover .promise{margin-top:18mm;background:white;color:var(--ink);padding:7mm;border-left:10px solid var(--yellow);font-size:19px;font-weight:900;box-shadow:10px 10px 0 #17203a55}.cover .meta{position:absolute;bottom:18mm;left:14mm;right:14mm;font-size:13px;z-index:2;background:#17203acc;padding:4mm;border-radius:10px}.chip{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:900;background:var(--yellow);color:var(--ink);margin:2px}
+.toc,.capabilities,.sources{padding:5mm 2mm}.toc h2,.capabilities h2,.sources h2,.experiment h2{font-size:30px;color:var(--purple);margin:0 0 6mm}.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:4mm}.toc-item{padding:4mm;border:3px solid var(--blue);border-radius:14px;background:white;font-weight:800}.toc-item b{color:var(--pink);font-size:20px;margin-right:5px}
+.notice{border:4px solid var(--orange);background:#fff2ce;padding:5mm;border-radius:15px;margin:5mm 0;font-weight:800}.notice strong{background:var(--yellow);font-size:18px}.question{break-before:page;break-inside:avoid;padding:5mm 5mm 6mm;border-radius:22px;border:4px solid var(--blue);background:linear-gradient(180deg,#fff 0%,#f3f8ff 100%);position:relative}.question:nth-of-type(3n){border-color:var(--pink);background:linear-gradient(180deg,#fff 0%,#fff1f8 100%)}.question:nth-of-type(3n+1){border-color:var(--purple)}
+.qhead{display:flex;gap:5mm;align-items:center;border-bottom:3px dashed #9fb9ff;padding-bottom:3mm}.qnum{font-size:48px;font-weight:1000;line-height:1;color:var(--pink);min-width:24mm}.question h2{font-size:24px;line-height:1.28;margin:0;color:#142e85}.answer{font-size:18px;font-weight:900;background:linear-gradient(transparent 55%,var(--yellow) 55%);display:inline;margin:4mm 0 2mm;line-height:1.8}
+svg{display:block;width:100%;height:auto;margin:3mm 0;background:#fff;border-radius:14px;border:2px solid #dbe7ff}h3{font-size:18px;color:var(--purple);margin:4mm 0 2mm}p{margin:2.5mm 0}ul,ol{margin:2mm 0 2mm 6mm;padding-left:5mm}li{margin:1.5mm 0}.key{font-weight:900;color:#d9276f}.term{font-weight:900;color:#064bcc}.small{font-size:12px;color:#384568}.truth{width:100%;border-collapse:collapse;margin:3mm 0;background:white;font-size:12.5px}.truth th{background:var(--purple);color:white;padding:2.5mm;text-align:left}.truth td{padding:2.3mm;border:2px solid #dce6ff;vertical-align:top}.truth tr:nth-child(even) td{background:#eff6ff}.good{color:#007a54;font-weight:900}.bad{color:#d9214e;font-weight:900}.unknown{color:#8b4d00;font-weight:900}
+pre{white-space:pre-wrap;word-break:break-word;background:#111b3b;color:#e9f4ff;padding:4mm;border-radius:12px;font:11.5px/1.55 Consolas,"Courier New",monospace;border-left:7px solid var(--cyan);margin:3mm 0}code{font-family:Consolas,"Courier New",monospace;background:#e6edff;color:#142e85;padding:1px 4px;border-radius:4px}pre code{background:none;color:inherit;padding:0}.callout{padding:4mm 5mm;border-left:8px solid var(--pink);background:#fff0f7;border-radius:8px;margin:3mm 0}.callout.blue{border-color:var(--blue);background:#eaf4ff}.callout.green{border-color:var(--green);background:#e8fff5}.callout.orange{border-color:var(--orange);background:#fff4dd}
+.cap-grid{display:grid;grid-template-columns:1fr 1fr;gap:4mm}.cap{border:3px solid var(--cyan);border-radius:16px;padding:4mm;background:white}.cap b{display:block;font-size:18px;color:#0753d8}.experiment{break-before:page}.step{break-inside:avoid;border:3px solid var(--blue);border-radius:16px;padding:4mm 5mm;margin:5mm 0;background:#f7faff}.step h3{margin-top:0}.stepnum{display:inline-block;background:var(--pink);color:white;font-size:23px;font-weight:1000;border-radius:9px;padding:1px 10px;margin-right:8px}.expected{border:3px solid var(--green);background:#e5fff3;padding:3mm 4mm;border-radius:10px;font-weight:800}.experiment-note{break-before:page}.source-list li{margin:3mm 0}.footer-note{margin-top:6mm;border-top:3px solid var(--yellow);padding-top:3mm;font-size:12px}
+@media print{body{print-color-adjust:exact;-webkit-print-color-adjust:exact}.cover{border-radius:0}a{color:inherit}.question,.step,.cap,.toc-item{box-shadow:none}}
+</style>
+</head>
+<body>
+<section class="cover">
+<div class="eyebrow">SHERLOCK / OSINT / HTTP EVIDENCE</div>
+<h1>公开用户名检索<br>不是“找到一个人全部账户”</h1>
+<div class="subtitle">从站点 JSON 到 HTTP 判定：看懂 Sherlock，也看懂它什么时候会错</div>
+<div class="promise">10 个疑问 + 10 张原理 SVG + 28 条可复核判定<br>全部实验只用 127.0.0.1 本地桩</div>
+<div style="margin-top:10mm"><span class="chip">v0.16.2</span><span class="chip">e40a45e</span><span class="chip">Python 3.14.7</span></div>
+<div class="meta">学习对象：sherlock-project/sherlock（用户选择的独立候选）<br>主题边界：公开账户检索原理、站点规则、HTTP 判定、误报、限流与输出</div>
+</section>
+
+<section class="toc">
+<h2>先读结论，再按疑问拆机</h2>
+<div class="notice"><strong>来源边界：</strong>原 X 帖正文与出链仍不可核验，不能宣称原帖就是 Sherlock。本指南是用户明确选择候选 Sherlock 后的独立学习成果。</div>
+<div class="toc-grid">
+<div class="toc-item"><b>Q1</b>它到底能发现什么？</div><div class="toc-item"><b>Q2</b>原帖与项目绑定了吗？</div>
+<div class="toc-item"><b>Q3</b>一次查询怎么跑？</div><div class="toc-item"><b>Q4</b>站点规则写了什么？</div>
+<div class="toc-item"><b>Q5</b>状态码为何会说谎？</div><div class="toc-item"><b>Q6</b>正文与重定向怎么判？</div>
+<div class="toc-item"><b>Q7</b>五种结果各代表什么？</div><div class="toc-item"><b>Q8</b>误报、限流如何失控？</div>
+<div class="toc-item"><b>Q9</b>输出怎样用于审计？</div><div class="toc-item"><b>Q10</b>怎样安全地自查？</div>
+</div>
+<div class="callout blue"><b>一句话总线：</b>用户名 → URL 模板 → 请求 → 站点规则 → 启发式状态 → 输出线索。最后两步都不是“身份认证”。</div>
+<h3>实测速览</h3>
+<table class="truth"><tr><th>证据</th><th>实际结果</th><th>能证明什么</th></tr>
+<tr><td>26 条主 CSV 判定</td><td class="good">全部符合本地真值</td><td>受控分支按预期运行</td></tr>
+<tr><td>429 对照</td><td><span class="bad">Available</span> 与 <span class="good">Claimed</span> 同时出现</td><td>规则不同会对同一响应给出相反结论</td></tr>
+<tr><td>timeout A/B</td><td>0.4 秒 Unknown；2 秒 Claimed</td><td>超时参数改变证据窗口</td></tr>
+<tr><td>请求日志</td><td>27 次探测；非法名零请求</td><td>环回夹具与正则短路可复核</td></tr></table>
+</section>
+
+<section class="question" id="q1">
+<div class="qhead"><div class="qnum">01</div><h2>Sherlock 到底能发现什么，不能证明什么？</h2></div>
+<p class="answer">它发现的是“符合站点规则的公开用户名页面线索”，不是一个人的全部账户，更不是账户归属证明。</p>
+<svg viewBox="0 0 900 210" role="img" aria-label="用户名匹配与身份归属的区别">
+<rect x="20" y="30" width="190" height="120" rx="20" fill="#175cff"/><text x="115" y="78" text-anchor="middle" fill="white" font-size="24" font-weight="bold">输入用户名</text><text x="115" y="115" text-anchor="middle" fill="#ffe45e" font-size="20">learner_demo</text>
+<path d="M220 90H300" stroke="#7838ff" stroke-width="8" marker-end="url(#a1)"/><defs><marker id="a1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L9 3L0 6Z" fill="#7838ff"/></marker></defs>
+<rect x="310" y="20" width="250" height="160" rx="20" fill="#e6f5ff" stroke="#00a6d6" stroke-width="4"/><circle cx="375" cy="85" r="35" fill="none" stroke="#175cff" stroke-width="10"/><path d="M402 112L440 150" stroke="#175cff" stroke-width="12"/><text x="490" y="65" text-anchor="middle" font-size="22" font-weight="bold" fill="#17203a">公开 URL 线索</text><text x="490" y="100" text-anchor="middle" font-size="18" fill="#17203a">状态码 / 正文 / 重定向</text><text x="490" y="135" text-anchor="middle" font-size="18" fill="#d9276f">同名 ≠ 同人</text>
+<text x="610" y="105" font-size="58" font-weight="bold" fill="#ef3158">≠</text><rect x="680" y="30" width="195" height="120" rx="20" fill="#ffdf69"/><text x="777" y="78" text-anchor="middle" font-size="23" font-weight="bold">身份归属结论</text><text x="777" y="115" text-anchor="middle" font-size="18">需要额外证据</text>
+</svg>
+<p><span class="term">OSINT</span> 指公开来源情报。Sherlock 的输入是用户名，站点清单负责告诉它“去哪里看、怎样解释响应”。如果两个网站都有 <code>learner_demo</code>，结果只说明两个 URL 都呈现命中信号；它们可能属于不同人，也可能是他人抢先注册。</p>
+<div class="callout"><b>夸张宣传纠偏：</b>“找到所有账户”遗漏了公开可访问、清单覆盖、规则有效、未受 WAF/限流影响、同名归属五个前提。把输出当线索清单，不当人物档案。</div>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">02</div><h2>原帖与 Sherlock 绑定了吗？本次学习范围怎么来的？</h2></div>
+<p class="answer">没有绑定成功。候选项目由用户明确选择为独立学习对象，不能把候选倒写成原帖事实。</p>
+<svg viewBox="0 0 900 210" role="img" aria-label="原帖与候选项目之间证据链断开">
+<rect x="25" y="40" width="200" height="110" rx="18" fill="#175cff"/><text x="125" y="85" text-anchor="middle" fill="white" font-size="24" font-weight="bold">原 X 帖</text><text x="125" y="120" text-anchor="middle" fill="#ffe45e" font-size="18">正文 / 出链未读通</text>
+<path d="M240 95H355" stroke="#ef3158" stroke-width="7" stroke-dasharray="14 10"/><path d="M282 65L320 125M320 65L282 125" stroke="#ef3158" stroke-width="9"/>
+<rect x="370" y="25" width="210" height="140" rx="18" fill="#fff0f7" stroke="#ff3d9a" stroke-width="4"/><text x="475" y="72" text-anchor="middle" font-size="23" font-weight="bold">候选 Sherlock</text><text x="475" y="108" text-anchor="middle" font-size="18">官方仓库与 Usage 可核验</text><text x="475" y="140" text-anchor="middle" font-size="18" fill="#d9276f">不能反推原帖出链</text>
+<path d="M595 95H680" stroke="#00b876" stroke-width="8"/><path d="M670 80L690 95L670 110" fill="none" stroke="#00b876" stroke-width="8"/><rect x="700" y="40" width="175" height="110" rx="18" fill="#00b876"/><text x="787" y="85" text-anchor="middle" fill="white" font-size="22" font-weight="bold">用户重新定范围</text><text x="787" y="120" text-anchor="middle" fill="white" font-size="18">独立学习对象</text>
+</svg>
+<table class="truth"><tr><th>核查通道</th><th>实际结果</th><th>可得结论</th></tr><tr><td>X 直接页 / oEmbed</td><td>HTTP 402，未获得正文</td><td>无法确认作者所述项目</td></tr><tr><td>公开 syndication</td><td>空对象 <code>{}</code></td><td>不能补充实体链接</td></tr><tr><td>精确公开搜索</td><td>未得到可验证原帖出链</td><td>第三方转述不作绑定证据</td></tr><tr><td>官方仓库 / Usage</td><td>可克隆、可读、可运行</td><td>候选本身适合独立学习</td></tr></table>
+<p>这与知识库中的 <b>事实与判断分离</b>、<b>中继交叉印证</b> 一致：网站摘要只是线索，官方项目文档只能证明项目能力，不能证明原帖指向。</p>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">03</div><h2>一次查询从命令行到结果，内部经过哪些步骤？</h2></div>
+<p class="answer">核心是一条“清单驱动的并发 HTTP 判定流水线”，不是一个能理解人物身份的搜索引擎。</p>
+<svg viewBox="0 0 900 225" role="img" aria-label="Sherlock 查询流水线">
+<defs><marker id="a3" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0 0L9 3L0 6Z" fill="#175cff"/></marker></defs>
+<g font-size="17" font-weight="bold" text-anchor="middle"><rect x="15" y="55" width="120" height="75" rx="14" fill="#7838ff"/><text x="75" y="88" fill="white">加载站点</text><text x="75" y="113" fill="white">JSON</text><rect x="160" y="55" width="120" height="75" rx="14" fill="#175cff"/><text x="220" y="88" fill="white">筛选站点</text><text x="220" y="113" fill="white">正则检查</text><rect x="305" y="55" width="120" height="75" rx="14" fill="#00a6d6"/><text x="365" y="88" fill="white">替换 {}</text><text x="365" y="113" fill="white">生成 URL</text><rect x="450" y="55" width="120" height="75" rx="14" fill="#ff7a00"/><text x="510" y="88" fill="white">并发请求</text><text x="510" y="113" fill="white">HEAD / GET</text><rect x="595" y="55" width="120" height="75" rx="14" fill="#ff3d9a"/><text x="655" y="88" fill="white">规则判定</text><text x="655" y="113" fill="white">五态结果</text><rect x="740" y="55" width="140" height="75" rx="14" fill="#00b876"/><text x="810" y="88" fill="white">终端 / 文件</text><text x="810" y="113" fill="white">线索输出</text></g>
+<g stroke="#175cff" stroke-width="5" marker-end="url(#a3)"><path d="M137 92H153"/><path d="M282 92H298"/><path d="M427 92H443"/><path d="M572 92H588"/><path d="M717 92H733"/></g><text x="450" y="180" text-anchor="middle" font-size="20" fill="#17203a">请求池最多 20 workers；timeout 限制等待，不等于限速</text>
+</svg>
+<ol><li>读取本地或在线 JSON，移除排除项与默认 NSFW 项；<code>--site</code> 可缩小范围。</li><li><code>regexCheck</code> 不匹配时直接记 <b>ILLEGAL</b>，不发 HTTP。</li><li>把用户名替换进 <code>url</code> 或独立 <code>urlProbe</code>，空格转为 <code>%20</code>。</li><li>根据规则选择 HEAD、GET 或显式方法，使用 requests-futures 并发。</li><li>把响应映射为状态，通知终端，再按选项写 TXT/CSV/XLSX。</li></ol>
+<p class="small">源码锚点：<code>sherlock_project/sherlock.py</code> 的 <code>sherlock()</code> 与 <code>main()</code>；<code>sites.py</code> 负责清单，<code>result.py</code> 定义状态。</p>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">04</div><h2>一个站点规则到底写了什么？为什么还要 urlProbe？</h2></div>
+<p class="answer">站点清单是“探测适配器”：展示 URL、探测 URL、用户名约束和响应判据都可以分别配置。</p>
+<svg viewBox="0 0 900 220" role="img" aria-label="站点 JSON 规则组成">
+<rect x="30" y="25" width="280" height="165" rx="18" fill="#111b3b"/><text x="55" y="62" fill="#00c2ff" font-size="20" font-family="monospace">url: /user/{}</text><text x="55" y="96" fill="#ffe45e" font-size="20" font-family="monospace">urlProbe: /api/{}</text><text x="55" y="130" fill="#ff7ac0" font-size="20" font-family="monospace">regexCheck</text><text x="55" y="164" fill="#75f0bd" font-size="20" font-family="monospace">errorType</text>
+<path d="M330 105H410" stroke="#7838ff" stroke-width="8"/><path d="M400 88L422 105L400 122" fill="none" stroke="#7838ff" stroke-width="8"/><rect x="435" y="25" width="195" height="75" rx="15" fill="#e7f3ff" stroke="#175cff" stroke-width="4"/><text x="532" y="57" text-anchor="middle" font-size="20" font-weight="bold">展示地址</text><text x="532" y="83" text-anchor="middle" font-size="17">给人打开的页面</text><rect x="435" y="115" width="195" height="75" rx="15" fill="#fff0f7" stroke="#ff3d9a" stroke-width="4"/><text x="532" y="147" text-anchor="middle" font-size="20" font-weight="bold">探测地址</text><text x="532" y="173" text-anchor="middle" font-size="17">给程序判断的端点</text><rect x="680" y="55" width="185" height="105" rx="18" fill="#ffe45e"/><text x="772" y="98" text-anchor="middle" font-size="22" font-weight="bold">响应解释器</text><text x="772" y="132" text-anchor="middle" font-size="18">存在 / 不存在信号</text>
+</svg>
+<pre><code>"LocalMessage": {
+  "url": "http://127.0.0.1:8765/message/{}",
+  "urlMain": "http://127.0.0.1:8765/",
+  "errorType": "message",
+  "errorMsg": "PROFILE_NOT_FOUND",
+  "username_claimed": "learner_demo"
+}</code></pre>
+<ul><li><code>url</code> 是用户名资料页模板；<code>urlMain</code> 是站点主页。</li><li><code>urlProbe</code> 可让程序检查另一个端点，同时保留给人看的资料 URL。</li><li><code>regexCheck</code> 先排除站点不允许的用户名，减少无意义请求。</li><li><code>errorType</code> 决定用状态码、错误正文还是重定向响应解释结果；<code>request_method</code> 与 <code>request_payload</code> 支持更复杂端点。</li></ul>
+<div class="callout orange"><b>维护成本就在这里：</b>网站改 URL、改文案、改跳转或加 WAF 后，旧规则仍可能运行，却开始稳定地产出错误结论。</div>
+</section>
+
+<section class="question" id="q5">
+<div class="qhead"><div class="qnum">05</div><h2>status_code 判定怎样工作，为什么 429 不能叫“未找到”？</h2></div>
+<p class="answer">当前实现先倾向 Claimed；命中 errorCode 或落到非 2xx 时可改判 Available。429 因而可能被误写成“未找到”。</p>
+<svg viewBox="0 0 900 220" role="img" aria-label="状态码判定分支">
+<rect x="25" y="65" width="160" height="80" rx="16" fill="#175cff"/><text x="105" y="98" text-anchor="middle" fill="white" font-size="22" font-weight="bold">收到 HTTP</text><text x="105" y="127" text-anchor="middle" fill="#ffe45e" font-size="18">默认 HEAD</text><path d="M190 105H275" stroke="#7838ff" stroke-width="7"/>
+<rect x="290" y="20" width="175" height="65" rx="14" fill="#d9ffe9"/><text x="377" y="49" text-anchor="middle" font-size="21" font-weight="bold">2xx</text><text x="377" y="73" text-anchor="middle" font-size="18" fill="#007a54">通常 Claimed</text><rect x="290" y="135" width="175" height="65" rx="14" fill="#ffe2e9"/><text x="377" y="164" text-anchor="middle" font-size="21" font-weight="bold">404 / 429</text><text x="377" y="188" text-anchor="middle" font-size="18" fill="#d9214e">均可能 Available</text><path d="M275 105L290 55M275 105L290 165" stroke="#7838ff" stroke-width="6"/>
+<rect x="520" y="45" width="340" height="125" rx="18" fill="#fff2ce" stroke="#ff7a00" stroke-width="4"/><text x="690" y="82" text-anchor="middle" font-size="22" font-weight="bold">本地实测 limited_demo</text><text x="690" y="118" text-anchor="middle" font-size="19">真实夹具：账户存在，但响应 429</text><text x="690" y="151" text-anchor="middle" font-size="24" font-weight="bold" fill="#d9214e">LocalStatus = Available</text>
+</svg>
+<p>代码还允许 <code>errorCode</code> 指定单个或多个“未找到”状态；未指定时，非 2xx 会进入 Available 分支。这是<b>站点规则启发式</b>，不是 HTTP 标准对账户状态的保证。</p>
+<table class="truth"><tr><th>响应</th><th>常见含义</th><th>不能直接推出</th></tr><tr><td>200</td><td>服务器成功返回内容</td><td>一定是目标用户资料页</td></tr><tr><td>404</td><td>当前路由未找到资源</td><td>用户名一定可注册</td></tr><tr><td>429</td><td>请求过多或触发配额</td><td>账户不存在 / 可注册</td></tr><tr><td>403</td><td>拒绝访问，可能是权限或 WAF</td><td>账户不存在</td></tr></table>
+<div class="callout"><b>实验结论：</b>429 是“我无法在这次请求中可靠判断”的强信号。更诚实的报告应把它单独列为受限/未知，而不是 Available。</div>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">06</div><h2>message 与 response_url 又怎样判？200 为什么也会“未找到”？</h2></div>
+<p class="answer">message 看错误文案是否出现；response_url 禁止跟随重定向后看原始响应。两者都与只看状态码不同。</p>
+<svg viewBox="0 0 900 225" role="img" aria-label="正文和重定向两种判定">
+<rect x="25" y="25" width="400" height="170" rx="20" fill="#eaf4ff" stroke="#175cff" stroke-width="4"/><text x="225" y="58" text-anchor="middle" font-size="24" font-weight="bold" fill="#175cff">message：GET 正文</text><rect x="55" y="80" width="150" height="75" rx="12" fill="#fff"/><text x="130" y="110" text-anchor="middle" font-size="18">包含</text><text x="130" y="138" text-anchor="middle" font-size="18" fill="#d9214e">PROFILE_NOT_FOUND</text><rect x="240" y="80" width="150" height="75" rx="12" fill="#ffe2e9"/><text x="315" y="120" text-anchor="middle" font-size="24" font-weight="bold" fill="#d9214e">Available</text>
+<rect x="475" y="25" width="400" height="170" rx="20" fill="#fff0f7" stroke="#ff3d9a" stroke-width="4"/><text x="675" y="58" text-anchor="middle" font-size="24" font-weight="bold" fill="#d9276f">response_url：不跟随跳转</text><rect x="505" y="80" width="150" height="75" rx="12" fill="#fff"/><text x="580" y="110" text-anchor="middle" font-size="18">302 Location</text><text x="580" y="138" text-anchor="middle" font-size="18">/login</text><rect x="690" y="80" width="150" height="75" rx="12" fill="#ffe2e9"/><text x="765" y="120" text-anchor="middle" font-size="24" font-weight="bold" fill="#d9214e">Available</text>
+</svg>
+<ul><li><b>message：</b>如果 <code>errorMsg</code> 出现在正文，判 Available；没有出现则判 Claimed。本站实验里，missing 页虽然 HTTP 200，但含 <code>PROFILE_NOT_FOUND</code>，所以正确识别“软 404”。</li><li><b>response_url：</b>当前核心实现关闭重定向，2xx 判 Claimed，其他状态判 Available。missing 夹具返回 302 到登录页，所以判 Available。</li><li><b>组合规则：</b><code>errorType</code> 可为数组，代码依次评估 message、status_code、response_url，后评估的特定分支可修订先前结果。</li></ul>
+<div class="callout orange"><b>脆弱点：</b>message 的“没有错误文案”不等于“有目标资料”。本地 429 页面只有 <code>RATE_LIMIT</code>，因此报 Claimed；由于夹具真值为存在，这次是碰巧命中而非可靠证明。真正误报也在实验中出现：missing_demo 的 LocalWaf 返回 404，却因正文不含指定 errorMsg 而报 Claimed。</div>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">07</div><h2>Claimed、Available、Unknown、ILLEGAL、WAF 各是什么意思？</h2></div>
+<p class="answer">五种状态描述“本次规则探测的结果”，不是五种账户所有权结论。</p>
+<svg viewBox="0 0 900 225" role="img" aria-label="Sherlock 五种查询状态">
+<g text-anchor="middle"><rect x="20" y="45" width="155" height="105" rx="18" fill="#00b876"/><text x="97" y="88" fill="white" font-size="22" font-weight="bold">Claimed</text><text x="97" y="123" fill="white" font-size="17">命中规则线索</text><rect x="190" y="45" width="155" height="105" rx="18" fill="#ef3158"/><text x="267" y="88" fill="white" font-size="22" font-weight="bold">Available</text><text x="267" y="123" fill="white" font-size="17">未命中规则</text><rect x="360" y="45" width="155" height="105" rx="18" fill="#ff7a00"/><text x="437" y="88" fill="white" font-size="22" font-weight="bold">Unknown</text><text x="437" y="123" fill="white" font-size="17">请求/规则未知</text><rect x="530" y="45" width="155" height="105" rx="18" fill="#7838ff"/><text x="607" y="88" fill="white" font-size="22" font-weight="bold">ILLEGAL</text><text x="607" y="123" fill="white" font-size="17">用户名不合规</text><rect x="700" y="45" width="175" height="105" rx="18" fill="#175cff"/><text x="787" y="88" fill="white" font-size="22" font-weight="bold">WAF</text><text x="787" y="123" fill="white" font-size="17">命中防护指纹</text></g><text x="450" y="190" text-anchor="middle" font-size="22" font-weight="bold" fill="#17203a">输出状态 ≠ 身份结论 ≠ 注册可用性</text>
+</svg>
+<table class="truth"><tr><th>状态</th><th>本次实测</th><th>正确解读</th></tr><tr><td>Claimed</td><td>learner_demo 返回 200</td><td>该 URL 满足命中规则，仍需复核页面</td></tr><tr><td>Available</td><td>404、302，也有 429</td><td>只表示未命中；不能一律翻译成“可注册”</td></tr><tr><td>Unknown</td><td>0.4 秒 timeout</td><td>证据不足，保留上下文与错误类型</td></tr><tr><td>ILLEGAL</td><td><code>bad name</code> 不匹配 <code>^[a-z_]+$</code></td><td>站点规则不允许；本次没有发请求</td></tr><tr><td>WAF</td><td>403 + challenge 指纹</td><td>机器人防护干扰判断，不应强行判有/无</td></tr></table>
+<p>这与 <b>可逆派生状态</b> 相通：新证据到来时应能修订启发式结论，尤其不能让“未命中”覆盖 Unknown 或 WAF。</p>
+</section>
+
+<section class="question" id="q8">
+<div class="qhead"><div class="qnum">08</div><h2>误报、漏报、限流与 WAF 为什么必须一起学？</h2></div>
+<p class="answer">因为同一次受限响应会沿不同规则走向相反结论；“程序有输出”与“输出可信”是两件事。</p>
+<svg viewBox="0 0 900 235" role="img" aria-label="同一429在不同规则下产生相反结果">
+<rect x="30" y="65" width="205" height="100" rx="18" fill="#ff7a00"/><text x="132" y="103" text-anchor="middle" fill="white" font-size="25" font-weight="bold">429 RATE_LIMIT</text><text x="132" y="139" text-anchor="middle" fill="white" font-size="18">本地真值：账户存在</text><path d="M245 115H330M330 115L385 55M330 115L385 175" stroke="#7838ff" stroke-width="7" fill="none"/>
+<rect x="400" y="20" width="215" height="75" rx="15" fill="#ffe2e9"/><text x="507" y="51" text-anchor="middle" font-size="20" font-weight="bold">status_code</text><text x="507" y="79" text-anchor="middle" font-size="22" fill="#d9214e">Available：漏报</text><rect x="400" y="140" width="215" height="75" rx="15" fill="#e2ffef"/><text x="507" y="171" text-anchor="middle" font-size="20" font-weight="bold">message</text><text x="507" y="199" text-anchor="middle" font-size="22" fill="#007a54">Claimed：碰巧命中</text><rect x="665" y="65" width="205" height="100" rx="18" fill="#111b3b"/><text x="767" y="102" text-anchor="middle" fill="#ffe45e" font-size="22" font-weight="bold">应报告：受限</text><text x="767" y="137" text-anchor="middle" fill="white" font-size="18">保留 429 与上下文</text>
+</svg>
+<p><b>误报</b>是把不存在或无法判断的页报成 Claimed；<b>漏报</b>是把存在的页报成 Available。常见根因包括软 404、错误文案变化、登录墙、地区差异、WAF、限流、超时和规则过期。</p>
+<ul><li>在本次核对的 <code>sherlock.py</code> 主请求路径中，未见根据 <code>Retry-After</code> 自动退避或站点级 QPS 限速；<code>timeout</code> 只限制等待。</li><li>WAF 检测依赖代码中的特定响应指纹，而且需要能读到正文；它不是通用防护识别器。</li><li>工程上应缩小站点、降低并发与频率、遵守站点规则、保存原始状态，无法判断就标 Unknown，而不是用代理绕过防护。</li></ul>
+<div class="callout"><b>不要“修”成盲目重试：</b>对 429 立即高频重试会加重限流。先停止、记录、按站点允许的方式等待或稍后人工作自查。</div>
+</section>
+
+<section class="question">
+<div class="qhead"><div class="qnum">09</div><h2>TXT、CSV、XLSX 输出怎样选择，怎样保留审计证据？</h2></div>
+<p class="answer">给人快速看用 TXT；逐站复核用 CSV + --print-all；表格交付用 XLSX。审计还需要命令、版本和原始日志。</p>
+<svg viewBox="0 0 900 225" role="img" aria-label="查询结果输出到不同文件">
+<rect x="25" y="60" width="190" height="100" rx="18" fill="#175cff"/><text x="120" y="100" text-anchor="middle" fill="white" font-size="23" font-weight="bold">QueryResult</text><text x="120" y="135" text-anchor="middle" fill="#ffe45e" font-size="17">状态 + URL + 耗时</text><path d="M225 110H300M300 110L350 45M300 110H350M300 110L350 175" stroke="#7838ff" stroke-width="6" fill="none"/>
+<g text-anchor="middle" font-weight="bold"><rect x="365" y="15" width="150" height="60" rx="12" fill="#ffe45e"/><text x="440" y="53" font-size="22">TXT 线索</text><rect x="365" y="80" width="150" height="60" rx="12" fill="#00c2ff"/><text x="440" y="118" font-size="22">CSV 审计</text><rect x="365" y="145" width="150" height="60" rx="12" fill="#ff8ac2"/><text x="440" y="183" font-size="22">XLSX 交付</text></g><rect x="565" y="40" width="305" height="140" rx="18" fill="#111b3b"/><text x="590" y="72" fill="#00c2ff" font-size="17" font-family="monospace">username, name, url_user</text><text x="590" y="103" fill="#ffe45e" font-size="17" font-family="monospace">exists, http_status</text><text x="590" y="134" fill="#75f0bd" font-size="17" font-family="monospace">response_time_s</text><text x="590" y="165" fill="white" font-size="16">再附版本 / 命令 / 请求日志</text>
+</svg>
+<p>本版本 CSV 字段为 <code>username,name,url_main,url_user,exists,http_status,response_time_s</code>。默认偏向只输出 Claimed；本实验加 <code>--print-all</code>，所以 Available、Unknown、ILLEGAL、WAF 也进入 CSV。</p>
+<table class="truth"><tr><th>选项</th><th>本版本实测/代码行为</th><th>审计提醒</th></tr><tr><td><code>--txt</code></td><td>启用文本文件，写 Claimed URL 与计数</td><td>丢失未命中与错误上下文</td></tr><tr><td><code>--csv</code></td><td>写逐站结构化行</td><td>配合 <code>--print-all</code> 保留负例</td></tr><tr><td><code>--xlsx</code></td><td>生成 Excel，URL 用 HYPERLINK</td><td>不应把表格当身份背书</td></tr><tr><td><code>--output / --folderoutput</code></td><td>分别控制单用户名文件/多用户名目录</td><td>CSV 目录与 TXT 选项需一起核对</td></tr></table>
+<div class="callout green"><b>本实验证据链：</b>上游提交 + 本地规则 + 命令输出 + CSV + 环回请求日志 + 自动断言。只有“找到一个 URL”远远不够。</div>
+</section>
+
+<section class="question" id="q10">
+<div class="qhead"><div class="qnum">10</div><h2>怎样把它用于自己的公开账户自查，而不越界？</h2></div>
+<p class="answer">把范围锁在自有账户或本地桩，少请求、看原始页面、尊重站点规则；不批量枚举他人，不绕过防护。</p>
+<svg viewBox="0 0 900 230" role="img" aria-label="安全自查边界">
+<path d="M180 25L320 75V145C320 195 250 215 180 225C110 215 40 195 40 145V75Z" fill="#175cff" transform="scale(.8) translate(40 5)"/><path d="M125 110L165 150L240 65" fill="none" stroke="#ffe45e" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+<g font-size="19" font-weight="bold"><rect x="330" y="20" width="245" height="75" rx="15" fill="#d9ffe9"/><text x="350" y="50" fill="#007a54">允许：自己的公开用户名</text><text x="350" y="78" fill="#007a54">允许：127.0.0.1 教学桩</text><rect x="610" y="20" width="260" height="75" rx="15" fill="#ffe2e9"/><text x="630" y="50" fill="#d9214e">不做：第三方批量枚举</text><text x="630" y="78" fill="#d9214e">不做：绕过 WAF / 登录墙</text><rect x="330" y="125" width="540" height="75" rx="15" fill="#fff2ce"/><text x="350" y="157" fill="#8b4d00">输出只作线索；公开分享前最小化用户名与 URL</text><text x="350" y="185" fill="#8b4d00">站点条款、频率限制与适用法律优先</text></g>
+</svg>
+<ol><li><b>明确对象：</b>只列自己的公开用户名；研究规则时使用本指南的本地 JSON 与桩。</li><li><b>缩小范围：</b>用 <code>--site</code> 选必要站点，不为了“数量好看”扩大请求面。</li><li><b>保存证据：</b>记录版本、时间、站点、HTTP 状态和判定，保留 Unknown/WAF。</li><li><b>人工复核：</b>打开自己的公开页面确认；同名页面仍不自动等于本人。</li><li><b>尊重限制：</b>遇 429、WAF、登录墙就停止或按站点允许方式稍后处理，不绕过、不攻击。</li></ol>
+<div class="callout"><b>能力边界：</b>Sherlock 可帮助你整理自有公开账户线索、学习 HTTP 适配器和维护站点规则；它不能证明人物身份、发现私密账户或保证清单完整。</div>
+</section>
+
+<section class="capabilities">
+<h2>这个项目给我什么：5 项可带走能力</h2>
+<div class="cap-grid">
+<div class="cap"><b>1. 自有账户公开面清单</b>在合法授权与站点规则内，对自己的公开用户名做小范围核对；结果只作复查入口。</div>
+<div class="cap"><b>2. 读懂站点适配器</b>能解释 URL 模板、正则、状态码、正文与重定向规则，知道规则为何需要维护。</div>
+<div class="cap"><b>3. 用本地桩做回归</b>无需触达真实网站，即可构造 200/404/429/WAF/超时，验证程序分支与测试敏感度。</div>
+<div class="cap"><b>4. 识别误报与漏报</b>不会把 200 当存在、404 当可注册、429 当未找到，也不会把 Claimed 当同一人。</div>
+<div class="cap"><b>5. 留下可审计输出</b>用 CSV、终端日志、请求日志和版本号还原“为何得出这个状态”，而不是只交一张命中截图。</div>
+<div class="cap"><b>不能带走的能力</b>没有身份归属证明、全互联网覆盖、私密信息访问、真实站点准确率认证或防护绕过能力。</div>
+</div>
+<div class="notice"><strong>建议定位：</strong>把 Sherlock 当作“清单驱动的公开 URL 探测框架”来学习，比把它当“一键人物搜索器”更准确，也更能复用其中的工程知识。</div>
+</section>
+
+<section class="experiment" id="experiment">
+<h2>主实验：只用本地桩，让六类判定现形</h2>
+<div class="notice"><strong>实验对象：</strong><code>learner_demo</code> 等均为本地虚构夹具。所有账户探测 URL 都是 <code>127.0.0.1:8765</code>；不要替换成第三方用户名清单。</div>
+<div class="step"><h3><span class="stepnum">1</span>安装并确认真实版本</h3><p><b>目的：</b>隔离依赖，确认后续结果对应哪个上游提交。</p><pre><code>python --version
+python -m venv /f/reminder/sherlock_osint/exercise/.venv
+PYTHONUTF8=1 /f/reminder/sherlock_osint/exercise/.venv/Scripts/python.exe -m pip install --disable-pip-version-check -e /f/reminder/sherlock_osint/repo
+PYTHONUTF8=1 NO_PROXY=127.0.0.1,localhost /f/reminder/sherlock_osint/exercise/.venv/Scripts/sherlock.exe --version</code></pre><div class="expected">预期且实测：Python 3.14.7；Sherlock v0.16.2。仓库提交 e40a45e。</div></div>
+<div class="step"><h3><span class="stepnum">2</span>启动环回服务并检查健康</h3><p><b>目的：</b>让目标网站完全处于自己的机器上。服务只绑定 127.0.0.1，启动后另开终端执行后续命令。</p><pre><code>PYTHONUTF8=1 /f/reminder/sherlock_osint/exercise/.venv/Scripts/python.exe /f/reminder/sherlock_osint/exercise/local_stub.py
+curl --noproxy '*' --fail --silent http://127.0.0.1:8765/health</code></pre><div class="expected">预期且实测：健康检查返回 OK。实验结束后停止该服务；本次最终健康检查超时，确认已无响应。</div></div>
+<div class="step"><h3><span class="stepnum">3</span>一次跑出正常、软404、限流与超时</h3><p><b>目的：</b>观察三类规则与负例，并生成 TXT/CSV。</p><pre><code>PYTHONUTF8=1 NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost /f/reminder/sherlock_osint/exercise/.venv/Scripts/sherlock.exe --json /f/reminder/sherlock_osint/exercise/local_sites.json --timeout 0.4 --print-all --no-color --csv --txt --folderoutput /f/reminder/sherlock_osint/exercise/results learner_demo missing_demo limited_demo slow_demo</code></pre><div class="expected">预期且实测：learner 全命中；missing 的 Status/Message/Redirect 未命中；limited 的 Status=Available、Message=Claimed；slow 显示 Timeout Error。原始输出见 cli-main.txt。</div></div>
+<div class="step"><h3><span class="stepnum">4</span>单独验证 WAF 与“非法名零请求”</h3><p><b>目的：</b>证明 WAF 不会被误当普通命中，正则不匹配会在网络前停止。</p><pre><code>PYTHONUTF8=1 NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost /f/reminder/sherlock_osint/exercise/.venv/Scripts/sherlock.exe --json /f/reminder/sherlock_osint/exercise/local_sites.json --site LocalWaf --timeout 2 --print-all --no-color --csv --txt --folderoutput /f/reminder/sherlock_osint/exercise/results waf_demo
+PYTHONUTF8=1 NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost /f/reminder/sherlock_osint/exercise/.venv/Scripts/sherlock.exe --json /f/reminder/sherlock_osint/exercise/local_sites.json --site LocalRegex --timeout 2 --print-all --no-color --csv --txt --folderoutput /f/reminder/sherlock_osint/exercise/results "bad name"</code></pre><div class="expected">预期且实测：WAF 显示 Blocked by bot detection；bad name 显示 Illegal Username Format；请求日志没有 bad name 的 HTTP 事件。</div></div>
+</section>
+
+<section class="experiment experiment-note">
+<h2>主实验续：改一个参数，看见结果改变</h2>
+<div class="step"><h3><span class="stepnum">5</span>对同一慢响应做 timeout A/B</h3><p><b>目的：</b>固定用户名、站点和约 1.2 秒响应，只改变等待上限，观察 Unknown 与 Claimed 的差异。</p><pre><code>PYTHONUTF8=1 NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost /f/reminder/sherlock_osint/exercise/.venv/Scripts/sherlock.exe --json /f/reminder/sherlock_osint/exercise/local_sites.json --site LocalSlow --timeout 0.4 --print-all --no-color --csv --folderoutput /f/reminder/sherlock_osint/exercise/results-timeout-04 slow_demo
+PYTHONUTF8=1 NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost /f/reminder/sherlock_osint/exercise/.venv/Scripts/sherlock.exe --json /f/reminder/sherlock_osint/exercise/local_sites.json --site LocalSlow --timeout 2 --print-all --no-color --csv --folderoutput /f/reminder/sherlock_osint/exercise/results-timeout-2 slow_demo</code></pre><table class="truth"><tr><th>timeout</th><th>CSV exists</th><th>HTTP</th><th>响应时间</th></tr><tr><td>0.4 秒</td><td class="unknown">Unknown</td><td>?</td><td>空</td></tr><tr><td>2 秒</td><td class="good">Claimed</td><td>200</td><td>约 1.2040351 秒</td></tr></table><div class="expected">预期且实测：只改 timeout，终端从 Timeout Error 变为命中。说明结果依赖观测窗口，不是永恒事实。</div></div>
+<div class="step"><h3><span class="stepnum">6</span>运行确定性断言，核对 CSV 与请求日志</h3><p><b>目的：</b>让测试不仅能跑，还能抓错；同时检查非法名没有网络请求。</p><pre><code>PYTHONUTF8=1 /f/reminder/sherlock_osint/exercise/.venv/Scripts/python.exe -I /f/reminder/sherlock_osint/exercise/verify_results.py</code></pre><div class="expected">最终实测输出：<br>PASS: 26 CSV verdicts match local ground truth<br>PASS: timeout A/B changed slow_demo from Unknown (0.4s) to Claimed (2s)<br>PASS: 27 probes were emitted only by the loopback fixture<br>PASS: 429, HEAD/GET, timeout, WAF and zero-request ILLEGAL cases verified</div></div>
+<h3>结果计数别混口径</h3><p>26 条主 CSV 判定 + 2 条 A/B 判定 = 28 条结果断言；27 次账户探测 + 1 次健康检查 = 28 条请求日志事件。它们不是同一个“28”。</p>
+<div class="callout orange"><b>证据边界：</b>测试通过证明本地受控实现符合预期，不证明真实站点当前规则有效，更不证明检索准确率或身份归属。</div>
+</section>
+
+<section class="sources" id="sources">
+<h2>来源、源码锚点与限制</h2>
+<ol class="source-list">
+<li>原始记录（未读通，不能绑定项目）：<a href="https://x.com/Caijingtianxia/status/2101193075976802508">https://x.com/Caijingtianxia/status/2101193075976802508</a></li>
+<li>独立学习对象官方仓库：<a href="https://github.com/sherlock-project/sherlock">https://github.com/sherlock-project/sherlock</a>，本地实测提交 <code>e40a45e</code>。</li>
+<li>官方 Usage：<a href="https://sherlockproject.xyz/usage">https://sherlockproject.xyz/usage</a>，用于核对 CLI 选项与输出说明。</li>
+<li>核心判定：<code>repo/sherlock_project/sherlock.py</code>；清单加载：<code>sites.py</code>；状态定义：<code>result.py</code>；终端显示：<code>notify.py</code>。</li>
+<li>站点字段契约：<code>repo/sherlock_project/resources/data.schema.json</code>；本地实验规则：<code>exercise/local_sites.json</code>。</li>
+<li>实测证据：<code>exercise/experiment-log.md</code>、<code>verification.txt</code>、<code>request-log.jsonl</code>、<code>results*/</code>。</li>
+</ol>
+<h3>明确未验证</h3>
+<ul><li>原 X 帖正文、作者真实出链及“82400 星”在原帖时点是否准确。</li><li>真实第三方站点当前可用性、规则覆盖率、误报率、漏报率与账户归属。</li><li>代理、Tor、WAF 绕过、第三方批量枚举、攻击或任何非公开信息访问；这些均不在本次学习范围。</li></ul>
+<div class="notice"><strong>最终记忆钩子：</strong>HTTP 响应是事实，Sherlock 状态是规则判断，账户归属是另一层证据问题。三者不要混写。</div>
+<div class="footer-note">生成方式：本地 HTML → Edge 无头打印 PDF。全部 SVG 内联，无外部图片依赖。学习日期与实验时间以原始日志为准。</div>
+</section>
+<script>
+// Optional local QA view: ?section=q1 isolates one authored section in Edge.
+const qaSection = new URLSearchParams(location.search).get('section');
+if (qaSection) {
+  document.querySelectorAll('body > section').forEach(section => {
+    if (section.id !== qaSection) section.style.display = 'none';
+  });
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+username,name,url_main,url_user,exists,http_status,response_time_s
+limited_demo,LocalStatus,http://127.0.0.1:8765/,http://127.0.0.1:8765/status/limited_demo,Available,429,0.003269600001658546
+limited_demo,LocalMessage,http://127.0.0.1:8765/,http://127.0.0.1:8765/message/limited_demo,Claimed,429,0.00370180000027176
+limited_demo,LocalRedirect,http://127.0.0.1:8765/,http://127.0.0.1:8765/redirect/limited_demo,Available,429,0.00370909999946889
+limited_demo,LocalRegex,http://127.0.0.1:8765/,http://127.0.0.1:8765/regex/limited_demo,Available,429,0.002889700001105666
+limited_demo,LocalSlow,http://127.0.0.1:8765/,http://127.0.0.1:8765/slow/limited_demo,Available,429,0.0038209000013011973
+limited_demo,LocalWaf,http://127.0.0.1:8765/,http://127.0.0.1:8765/waf/limited_demo,Claimed,429,0.004155399999945075

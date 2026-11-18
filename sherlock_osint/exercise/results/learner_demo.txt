@@ -1,0 +1,7 @@
+http://127.0.0.1:8765/status/learner_demo
+http://127.0.0.1:8765/message/learner_demo
+http://127.0.0.1:8765/redirect/learner_demo
+http://127.0.0.1:8765/regex/learner_demo
+http://127.0.0.1:8765/slow/learner_demo
+http://127.0.0.1:8765/waf/learner_demo
+Total Websites Username Detected On : 6

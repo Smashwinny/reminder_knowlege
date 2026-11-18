@@ -1,0 +1,36 @@
+{
+  "task_id": "310d587b-b014-4ab0-8c33-59f25a733f27",
+  "topic": "Grok Bot：雇 AI 员工方法论（岗位契约/试运行/权限分层/共享边界）",
+  "project_dir": "grok_bot_method",
+  "classification": "知识学习类",
+  "source_urls": [
+    "https://x.com/i/article/2105262478535847936",
+    "https://docs.x.ai/grok-bot/faq",
+    "https://docs.x.ai/grok-bot/computers"
+  ],
+  "official_docs_verified": [
+    "云电脑按用户不按 Bot 分配；共享文件/浏览器会话/登录；'Do not use separate Bots as a security boundary'",
+    "skill=方法 / routine=定时指派工作流；skill 先真任务试跑再变 routine",
+    "密码/2FA/验证码走 computer takeover；Ask first 建议覆盖 send/publish/delete/purchase",
+    "terminate 保留持久盘但不等于收权（需移出团队+IdP 撤销）；30 天无使用自动终止休眠机"
+  ],
+  "pdf": "grok_bot_method/GrokBot雇AI员工方法论-小白指南.pdf",
+  "html": "grok_bot_method/grok-bot-guide.html",
+  "exercise_dir": "grok_bot_method/exercise",
+  "experiment_log": "grok_bot_method/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/grok_bot_method-proposal-pending.md",
+  "deliverables": [
+    "grok_bot_method/grok-bot-guide.html",
+    "grok_bot_method/GrokBot雇AI员工方法论-小白指南.pdf",
+    "grok_bot_method/exercise/sample-job-contract.md",
+    "grok_bot_method/exercise/experiment-log.md",
+    "grok_bot_method/grok_bot_method-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "官方 FAQ/Computers 文档四组机制直读确认（共享电脑/skill vs routine/computer takeover/terminate 语义）",
+    "契约样例六项安全对照全部通过"
+  ],
+  "blocked_items": [
+    "未创建真实 Bot、未验证账号资格与视频业绩陈述"
+  ]
+}

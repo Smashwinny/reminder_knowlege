@@ -1,0 +1,7 @@
+username,name,url_main,url_user,exists,http_status,response_time_s
+missing_demo,LocalStatus,http://127.0.0.1:8765/,http://127.0.0.1:8765/status/missing_demo,Available,404,0.0034696000002440996
+missing_demo,LocalMessage,http://127.0.0.1:8765/,http://127.0.0.1:8765/message/missing_demo,Available,200,0.0036724000001413515
+missing_demo,LocalRedirect,http://127.0.0.1:8765/,http://127.0.0.1:8765/redirect/missing_demo,Available,302,0.004225399999995716
+missing_demo,LocalRegex,http://127.0.0.1:8765/,http://127.0.0.1:8765/regex/missing_demo,Available,404,0.004347100000813953
+missing_demo,LocalSlow,http://127.0.0.1:8765/,http://127.0.0.1:8765/slow/missing_demo,Available,404,0.00503000000026077
+missing_demo,LocalWaf,http://127.0.0.1:8765/,http://127.0.0.1:8765/waf/missing_demo,Claimed,404,0.004428199999892968

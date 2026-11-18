@@ -1,0 +1,12 @@
+{
+  "sha": "94aa9c0ef58f621ebc509af3be56f7dd1b18e33f",
+  "changed": [
+    "docs/new.md"
+  ],
+  "eligible": false,
+  "reasons": [
+    "stale CI SHA"
+  ],
+  "review_is_synthetic": true,
+  "merged": false
+}

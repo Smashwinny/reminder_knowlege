@@ -1,0 +1,43 @@
+LOCAL_STUB_ONLY：不调用 IDA、idalib、Hex-Rays 反编译器或未知二进制。
+Python: 3.14.7; platform: win32
+$ gcc --version
+gcc (MinGW.org GCC-6.3.0-1) 6.3.0
+Copyright (C) 2016 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+exit=0
+$ objdump --version
+GNU objdump (GNU Binutils) 2.28
+Copyright (C) 2017 Free Software Foundation, Inc.
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License version 3 or (at your option) any later version.
+This program has absolutely no warranty.
+exit=0
+$ gcc -O0 -g -fno-inline -fno-omit-frame-pointer F:\reminder\ida_pro_mcp\exercise\demo.c -o F:\reminder\ida_pro_mcp\exercise\demo.exe
+exit=0
+SELF_COMPILED_SHA256=b1b330389e3c5b2c9d744167f1f0887797893d8dd66f4aed4fe8da38ac193560
+$ F:\reminder\ida_pro_mcp\exercise\demo.exe 7
+input=7 decision=1 token=66
+exit=0
+$ F:\reminder\ida_pro_mcp\exercise\demo.exe 27
+input=27 decision=0 token=0
+exit=2
+$ objdump -d --no-show-raw-insn F:\reminder\ida_pro_mcp\exercise\demo.exe
+exit=0
+OBJDUMP_SAVED=disassembly.txt; lines=3661
+$ C:\Python314\python.exe -I F:\reminder\ida_pro_mcp\exercise\local_ida_stub.py --binary F:\reminder\ida_pro_mcp\exercise\demo.exe --disassembly F:\reminder\ida_pro_mcp\exercise\disassembly.txt --query F:\reminder\ida_pro_mcp\exercise\ida_queries.py --trace F:\reminder\ida_pro_mcp\exercise\mcp_trace.jsonl  # stdio MCP 子进程
+MCP initialize id=1: OK
+MCP tools/list id=2: OK
+TOOLS=open_database,execute_python,reference,list_databases,save_database,close_database
+MCP tools/call id=3: OK
+MCP tools/call id=4: OK
+MCP tools/call id=5: OK
+MCP tools/call id=6: OK
+EVIDENCE authorize->check @ 0x401499: call   401471 <_check>
+EVIDENCE authorize->mix @ 0x4014b2: call   401460 <_mix>
+EVIDENCE check->mix @ 0x40147d: call   401460 <_mix>
+EVIDENCE main->authorize @ 0x4014ef: call   40148d <_authorize>
+MCP tools/call id=7: OK
+MCP stdio EOF: exit=0
+PASS: 6 工具发现；4/4 预期直接调用边有地址证据；5 次工具调用均有结果追踪。
+LIMIT: 仅本地桩和 Objdump 实测；未验证 IDA 实机、反编译、自动分析或 Nexus 租约。

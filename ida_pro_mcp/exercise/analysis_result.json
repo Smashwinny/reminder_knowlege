@@ -1,0 +1,86 @@
+{
+  "input_sha256": "b1b330389e3c5b2c9d744167f1f0887797893d8dd66f4aed4fe8da38ac193560",
+  "functions": [
+    {
+      "name": "mix",
+      "start_ea": "0x401460"
+    },
+    {
+      "name": "check",
+      "start_ea": "0x401471"
+    },
+    {
+      "name": "authorize",
+      "start_ea": "0x40148d"
+    },
+    {
+      "name": "main",
+      "start_ea": "0x4014b9"
+    }
+  ],
+  "calls": [
+    {
+      "from": "authorize",
+      "to": "check",
+      "call_ea": "0x401499",
+      "target_ea": "0x401471",
+      "instruction": "call   401471 <_check>"
+    },
+    {
+      "from": "authorize",
+      "to": "mix",
+      "call_ea": "0x4014b2",
+      "target_ea": "0x401460",
+      "instruction": "call   401460 <_mix>"
+    },
+    {
+      "from": "check",
+      "to": "mix",
+      "call_ea": "0x40147d",
+      "target_ea": "0x401460",
+      "instruction": "call   401460 <_mix>"
+    },
+    {
+      "from": "main",
+      "to": "authorize",
+      "call_ea": "0x4014ef",
+      "target_ea": "0x40148d",
+      "instruction": "call   40148d <_authorize>"
+    }
+  ],
+  "conclusion": {
+    "text": "main 直接调用 authorize；authorize 直接调用 check 和 mix；check 直接调用 mix。",
+    "supported": true,
+    "scope": "仅证明自建二进制中的直接静态调用边，不证明运行时必达、数据流或语义正确性。",
+    "evidence": [
+      {
+        "from": "authorize",
+        "to": "check",
+        "call_ea": "0x401499",
+        "target_ea": "0x401471",
+        "instruction": "call   401471 <_check>"
+      },
+      {
+        "from": "authorize",
+        "to": "mix",
+        "call_ea": "0x4014b2",
+        "target_ea": "0x401460",
+        "instruction": "call   401460 <_mix>"
+      },
+      {
+        "from": "check",
+        "to": "mix",
+        "call_ea": "0x40147d",
+        "target_ea": "0x401460",
+        "instruction": "call   401460 <_mix>"
+      },
+      {
+        "from": "main",
+        "to": "authorize",
+        "call_ea": "0x4014ef",
+        "target_ea": "0x40148d",
+        "instruction": "call   40148d <_authorize>"
+      }
+    ]
+  }
+}

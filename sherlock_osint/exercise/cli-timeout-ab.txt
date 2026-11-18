@@ -1,0 +1,16 @@
+[*] Checking username slow_demo on:
+
+[-] LocalSlow: Timeout Error 
+
+[*] Search completed with 0 results
+
+Go deeper than a username. Explore public profiles and export your findings.
+Try OSINTSearch: ]8;;https://osintsearch.org/go/sherlock\https://osintsearch.org]8;;\
+[*] Checking username slow_demo on:
+
+[+] LocalSlow: http://127.0.0.1:8765/slow/slow_demo
+
+[*] Search completed with 1 results
+
+Go deeper than a username. Explore public profiles and export your findings.
+Try OSINTSearch: ]8;;https://osintsearch.org/go/sherlock\https://osintsearch.org]8;;\

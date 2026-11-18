@@ -1,0 +1,4 @@
+PASS: 26 CSV verdicts match local ground truth
+PASS: timeout A/B changed slow_demo from Unknown (0.4s) to Claimed (2s)
+PASS: 27 probes were emitted only by the loopback fixture
+PASS: 429, HEAD/GET, timeout, WAF and zero-request ILLEGAL cases verified

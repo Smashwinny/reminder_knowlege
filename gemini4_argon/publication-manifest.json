@@ -1,0 +1,38 @@
+{
+  "task_id": "838a516a-6f32-4713-bee0-30bfd05c3aa8",
+  "topic": "Gemini 4 Argon 长输出：令牌上限、可用条件与小说一致性",
+  "project_dir": "gemini4_argon",
+  "classification": "知识学习类",
+  "source_urls": [
+    "https://x.com/mjjwiki (原帖)",
+    "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/"
+  ],
+  "facts_verified": {
+    "announced": "2026-09-30",
+    "ga": "2026-10-13",
+    "output_limit": "1M tokens (64K→1M)",
+    "context_window": "1,048,576 unified (input+output combined)",
+    "pricing": "$2/$10 per 1M intro (till 2026-11-30), then $4/$20; cached input 95% off",
+    "channels": "Gemini API / AI Studio / Gemini App / Antigravity (no free tier)"
+  },
+  "pdf": "gemini4_argon/Gemini4Argon长输出-小白指南.pdf",
+  "html": "gemini4_argon/gemini4-argon-guide.html",
+  "exercise_dir": "gemini4_argon/exercise",
+  "experiment_log": "gemini4_argon/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/gemini4_argon-proposal-pending.md",
+  "deliverables": [
+    "gemini4_argon/gemini4-argon-guide.html",
+    "gemini4_argon/Gemini4Argon长输出-小白指南.pdf",
+    "gemini4_argon/exercise/experiment-log.md",
+    "gemini4_argon/gemini4_argon-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "tiktoken 实测：0.87 汉字/token（21,478 字样本）→ 1M 输出 ≈ 87 万字",
+    "统一窗口核算：输出贴 1M 时输入余量仅 ~48K token",
+    "成本核算：$10（优惠期）/$20（正常）/重试×3 = $30-60"
+  ],
+  "blocked_items": [
+    "未真实调用 Argon；生成质量/截断率/一致性未验证",
+    "账号权限与番茄小说收益未核实"
+  ]
+}

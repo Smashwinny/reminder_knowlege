@@ -1,0 +1,7 @@
+username,name,url_main,url_user,exists,http_status,response_time_s
+learner_demo,LocalStatus,http://127.0.0.1:8765/,http://127.0.0.1:8765/status/learner_demo,Claimed,200,0.0048831000003701774
+learner_demo,LocalMessage,http://127.0.0.1:8765/,http://127.0.0.1:8765/message/learner_demo,Claimed,200,0.004840399999011424
+learner_demo,LocalRedirect,http://127.0.0.1:8765/,http://127.0.0.1:8765/redirect/learner_demo,Claimed,200,0.004438399999344256
+learner_demo,LocalRegex,http://127.0.0.1:8765/,http://127.0.0.1:8765/regex/learner_demo,Claimed,200,0.004771999998411047
+learner_demo,LocalSlow,http://127.0.0.1:8765/,http://127.0.0.1:8765/slow/learner_demo,Claimed,200,0.004585900000165566
+learner_demo,LocalWaf,http://127.0.0.1:8765/,http://127.0.0.1:8765/waf/learner_demo,Claimed,200,0.003553200000169454

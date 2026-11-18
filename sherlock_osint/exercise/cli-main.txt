@@ -1,0 +1,40 @@
+[*] Checking username learner_demo on:
+
+[+] LocalStatus: http://127.0.0.1:8765/status/learner_demo
+[+] LocalMessage: http://127.0.0.1:8765/message/learner_demo
+[+] LocalRedirect: http://127.0.0.1:8765/redirect/learner_demo
+[+] LocalRegex: http://127.0.0.1:8765/regex/learner_demo
+[+] LocalSlow: http://127.0.0.1:8765/slow/learner_demo
+[+] LocalWaf: http://127.0.0.1:8765/waf/learner_demo
+
+[*] Checking username missing_demo on:
+
+[-] LocalStatus: Not Found!
+[-] LocalMessage: Not Found!
+[-] LocalRedirect: Not Found!
+[-] LocalRegex: Not Found!
+[-] LocalSlow: Not Found!
+[+] LocalWaf: http://127.0.0.1:8765/waf/missing_demo
+
+[*] Checking username limited_demo on:
+
+[-] LocalStatus: Not Found!
+[+] LocalMessage: http://127.0.0.1:8765/message/limited_demo
+[-] LocalRedirect: Not Found!
+[-] LocalRegex: Not Found!
+[-] LocalSlow: Not Found!
+[+] LocalWaf: http://127.0.0.1:8765/waf/limited_demo
+
+[*] Checking username slow_demo on:
+
+[-] LocalStatus: Timeout Error 
+[-] LocalMessage: Timeout Error 
+[-] LocalRedirect: Timeout Error 
+[-] LocalRegex: Timeout Error 
+[-] LocalSlow: Timeout Error 
+[-] LocalWaf: Timeout Error 
+
+[*] Search completed with 9 results
+
+Go deeper than a username. Explore public profiles and export your findings.
+Try OSINTSearch: ]8;;https://osintsearch.org/go/sherlock\https://osintsearch.org]8;;\

@@ -1,0 +1,40 @@
+{
+  "task_id": "2b6b9a2f-5da4-4d5c-b0cb-cbe3930453ce",
+  "topic": "ChatSEO 六技能：SEO Agent 工作流与上线差异闸门",
+  "project_dir": "chatseo_skills",
+  "classification": "知识学习类",
+  "source_urls": [
+    "https://x.com/NicholasDulait/status/2104488222575190439",
+    "https://chatseo.app/mcp",
+    "https://developers.google.com/search/docs/essentials/spam-policies"
+  ],
+  "service_checked": {
+    "chatseo_mcp_endpoint": "https://api.chatseo.app/mcp",
+    "access": "Pro+ €49/month",
+    "auth": "OAuth 2.1 + RFC 9728"
+  },
+  "pdf": "chatseo_skills/ChatSEO六技能-小白指南.pdf",
+  "html": "chatseo_skills/chatseo-guide.html",
+  "exercise_dir": "chatseo_skills/exercise",
+  "experiment_log": "chatseo_skills/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/chatseo_skills-proposal-pending.md",
+  "deliverables": [
+    "chatseo_skills/chatseo-guide.html",
+    "chatseo_skills/ChatSEO六技能-小白指南.pdf",
+    "chatseo_skills/exercise/diff_gate.py",
+    "chatseo_skills/exercise/old-page.html",
+    "chatseo_skills/exercise/new-page.html",
+    "chatseo_skills/exercise/new-fixed.html",
+    "chatseo_skills/exercise/experiment-log.md",
+    "chatseo_skills/chatseo_skills-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "ChatSEO MCP：38 工具，Pro+ €49/月起，OAuth 2.1 + RFC 9728 认证",
+    "六技能规则完整提取（money-keywords/page-brief/ship-page/geo-rankings/pattern-drip/weekly-seo）",
+    "DIFF GATE 本地复刻三轮实测：丢表格 exit=7 拦截 / 同页 exit=0 无误报 / 修复后 exit=0 放行"
+  ],
+  "blocked_items": [
+    "未接入 ChatSEO（付费门槛）/未连接 GSC/未编辑真实页面",
+    "真实排名提升未验证（需站点+观察期）"
+  ]
+}

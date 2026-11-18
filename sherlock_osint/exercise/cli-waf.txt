@@ -1,0 +1,8 @@
+[*] Checking username waf_demo on:
+
+[-] LocalWaf: Blocked by bot detection (proxy may help)
+
+[*] Search completed with 0 results
+
+Go deeper than a username. Explore public profiles and export your findings.
+Try OSINTSearch: ]8;;https://osintsearch.org/go/sherlock\https://osintsearch.org]8;;\

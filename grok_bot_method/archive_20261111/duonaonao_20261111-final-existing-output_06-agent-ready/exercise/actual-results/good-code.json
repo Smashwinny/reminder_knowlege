@@ -1,0 +1,10 @@
+{
+  "sha": "8af55c9f902a2d58dbceb566f5bafddf6bcc34d9",
+  "changed": [
+    "src/calc.py"
+  ],
+  "eligible": true,
+  "reasons": [],
+  "review_is_synthetic": true,
+  "merged": false
+}

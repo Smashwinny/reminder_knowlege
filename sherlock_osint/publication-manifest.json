@@ -1,0 +1,15 @@
+{
+  "topic": "Sherlock 公开用户名检索原理、站点规则、HTTP 判定与误报边界（用户选择的独立候选学习）",
+  "project_dir": "sherlock_osint",
+  "pdf": "sherlock_osint/sherlock_osint-小白指南.pdf",
+  "html": "sherlock_osint/sherlock_osint-guide.html",
+  "exercise_dir": "sherlock_osint/exercise",
+  "experiment_log": "sherlock_osint/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/sherlock_osint.md",
+  "source_urls": [
+    "https://x.com/Caijingtianxia/status/2101193075976802508",
+    "https://github.com/sherlock-project/sherlock",
+    "https://sherlockproject.xyz/usage"
+  ],
+  "report_path": "完成/分析报告/1414100f-ce46-4b2d-9c34-e87a98dd7b05.md"
+}

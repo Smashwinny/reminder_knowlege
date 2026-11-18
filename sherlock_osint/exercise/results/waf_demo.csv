@@ -1,0 +1,2 @@
+username,name,url_main,url_user,exists,http_status,response_time_s
+waf_demo,LocalWaf,http://127.0.0.1:8765/,http://127.0.0.1:8765/waf/waf_demo,WAF,403,0.021595399999569054

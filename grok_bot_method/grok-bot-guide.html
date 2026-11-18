@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Grok Bot 雇 AI 员工方法论 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f7f4ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#1d2433 0%,#7c4dff 70%,#2d9cdb 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-purple));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-purple));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-purple));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-purple));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Grok Bot：把 AI 当"员工"雇，而不是当"聊天框"用</h1>
+  <p>岗位契约 + 三次试运行 + 五次通过 + 权限分层——官方文档核实：同账户 Bot 共享一台云电脑，屏幕不是隔离边界</p>
+  <p>
+    <span class="badge">官方 FAQ/Computers 直读核验</span><span class="badge">契约样例 6/6 符合</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：@distortgeekin《Grok Bot: How to Hire Your First AI Employee》+ docs.x.ai 官方文档 ｜ 学习日期 2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q1</div>
+<h2>Grok Bot 是什么？和普通聊天有什么区别？</h2>
+<p><span class="big">xAI 的常驻 AI 员工：它拥有一台持久的云电脑（文件、浏览器、登录态都留着），后台持续工作，能与其他 Bot 协作——关掉手机它也不停。</span></p>
+<p>官方 FAQ 定义了它与"聊天"的三个本质差异：<b>①有电脑</b>（持久云主机，按用户分配）<b>②能后台</b>（routine 定时触发，关 App 不中断）<b>③能协作</b>（多 Bot 并行，文件和会话可交接）。这是从"问答工具"到"岗位载体"的形态变化。</p>
+<div class="warnbox"><b>最重要的一条官方警告</b>：云电脑<b>按用户分配、不按 Bot 分配</b>——同账户所有 Bot 共享同一台机器的文件、浏览器会话和登录态。原文："Do not use separate Bots as a security boundary."（不要把不同 Bot 当成安全隔离。）每个 Bot 的"屏幕"只是视图，不是边界。</div>
+</div>
+
+<!-- Q2 -->
+<div class="qnum"></div>
+<!-- Q2 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q2</div>
+<h2>"雇 AI 员工"和普通用 Agent 的区别在哪？</h2>
+<p><span class="big">区别在于"雇佣关系"的三个文件化：岗位职责写清楚、验收标准可检查、红线行为明令禁止。</span>作者（@distortgeekin）的方法把"聊天"变成"雇佣"：</p>
+<table>
+<tr><th>雇佣要素</th><th>具体做法</th></tr>
+<tr><td>岗位契约</td><td>职责≤3条且每条可验收；写明"不在职责内"的红线；定义"什么算失败"</td></tr>
+<tr><td>试用期</td><td>三次试运行，人工旁站检查输出</td></tr>
+<tr><td>转正条件</td><td>五次连续通过→才扩大自主（不是一次通过就放权）</td></tr>
+<tr><td>权限分层</td><td>自动 / 每日例行 / 每次询问 / 永远人工接管 四级</td></tr>
+<tr><td>交接</td><td>岗位上下文落盘（ROLE.md），换 Bot 读文件即上岗</td></tr>
+</table>
+<p>这和知识库 [[Agent指令文件AgentMd]]（员工守则）+ [[代码管边界提示词管判断]]（红线归代码）完全同构——只是载体从项目目录变成了云电脑上的常驻 Bot。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q3</div>
+<h2>skill 和 routine 有什么区别？（官方定义）</h2>
+<p><span class="big">skill 是"做事的方法"，routine 是"把方法排上班表"。</span>官方 FAQ：skill 描述如何做某类任务；routine 把工作流指派给一个 Bot 并按时间表或事件触发。官方强调的顺序很关键：<b>先把 skill 在真实一次性任务上试跑成功，再固化成 routine</b>——未经真任务验证的方法直接自动化，等于把未知风险放大成每日定时风险。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q4</div>
+<h2>权限应该怎么分层？（官方机制 + 作者分层）</h2>
+<table>
+<tr><th>层</th><th>动作例子</th><th>官方/作者姿态</th></tr>
+<tr><td>L0 自动</td><td>读网页、读共享盘、写指定目录</td><td>直接放行</td></tr>
+<tr><td>L1 例行</td><td>每日定时触发的已验证 routine</td><td>放行（但 skill 先真任务试跑）</td></tr>
+<tr><td>L2 每次询问</td><td>发消息@人、打开登录态网站、外发内容</td><td>官方建议收窄"Ask first"规则覆盖 send/publish/delete/purchase</td></tr>
+<tr><td>L3 永远接管</td><td>密码 / 2FA / 验证码 / 付款</td><td>官方机制：computer takeover，Bot 停下换人</td></tr>
+</table>
+<div class="tipbox">官方还有一个细节：敏感动作是否暂停审批取决于"工具×动作风险×Auto-review 规则"三者；网站也可主动拦自动化或要求人工确认——所以连接器（connectors）优先于浏览器模拟。</div>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q5</div>
+<h2>共享电脑带来哪些安全真相？（官方 Computers 文档）</h2>
+<ul>
+<li>一台托管电脑服务该成员的<b>所有团队</b>：任何团队 recreate/terminate 都影响它；</li>
+<li><b>持久盘</b>：Bot/文件/登录在重建后保留；你自装的软件会被清掉（Team Setup Scripts 装的会还原）；</li>
+<li><b>terminate ≠ 移除访问</b>：终止只停当前工作，要真正收回权限还得移出团队 + IdP 撤销会话；</li>
+<li>30 天无使用的休眠机会被自动终止（Enterprise 可选开关，默认关、无宽限）；</li>
+<li>删除类操作要键入 <code>DELETE</code> 确认、全量进审计日志、每团队同时只允许一个操作。</li>
+</ul>
+<p><span class="hl">实践推论：敏感文件别放共享盘；不同信任级别的"员工"应该分账户（而不是分 Bot）。</span></p>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q6</div>
+<h2>"三次试运行、五次通过"科学吗？</h2>
+<p><span class="big">它不是统计学，是纪律工程：用小额重复样本换信任累积，用明确回退条件防止渐进失控。</span>三次试运行抓的是"能不能稳定做对"；五次连续通过防的是"偶尔对一次就放权"；红线触发即回退重计，防止信任只升不降。对照官方"skill 先真任务试跑再变 routine"，尺度不同（一次性 vs 连续五次）但方向一致：<b>信任只能挣，不能默认</b>。</p>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q7</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[AgentHarness智能体挽具]]</td><td>Grok Bot 的 harness 由 xAI 托管；岗位契约=挽具七职责中的"契约+最小权限"</td></tr>
+<tr><td>[[Agent指令文件AgentMd]]</td><td>ROLE.md 岗位上下文=员工守则的常驻云电脑版</td></tr>
+<tr><td>[[沙箱与审批正交]]（agent-kernel）</td><td>能力(能做)×审批(该不该)两轴的官方落地：Auto-review 规则+computer takeover</td></tr>
+<tr><td>[[多Agent协作乱序竞态]]</td><td>多 Bot 共享一台机器=共享状态的新形态，交接即状态传递</td></tr>
+<tr><td>[[人机协同Interrupt]]</td><td>computer takeover 是它的产品化形态</td></tr>
+</table>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q8</div>
+<h2>这套方法离开 Grok Bot 还能用吗？</h2>
+<p><span class="big">完全能——四件套与载体无关。</span>对任何常驻 Agent（本机 Claude Code、OpenClaw、Easel 之类）：写岗位契约（≤3条可验收职责+红线）、小样本试运行、连续通过才放权、红线即回退。本指南实验部分产出了一个通用契约样例（每日行业情报员），六项安全对照全部通过，可直接改用到你自己的 Agent 上。</p>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q9</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实结果</th></tr>
+<tr><td>Bots 有持久云电脑、后台运行、协作</td><td>✅ 官方 FAQ 确认</td></tr>
+<tr><td>skill vs routine 区别</td><td>✅ 官方 FAQ 确认</td></tr>
+<tr><td>同账户共享文件/会话/登录，屏幕非边界</td><td>✅ 官方 FAQ 原话确认</td></tr>
+<tr><td>某工程师运行六个 Bot / 每天的效果</td><td>⚠️ 视频作者陈述，未复现，官方不背书</td></tr>
+<tr><td>三次试运行/五次通过</td><td>⚠️ 作者经验建议，非官方可靠性保证（但设计合理）</td></tr>
+</table>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>最小上手路径</h2>
+<pre><code># ① 照抄契约模板：grok_bot_method\exercise\sample-job-contract.md
+#    改三条职责、红线、验收条件 → 给你的任意 Agent 用
+# ② 试运行：人工旁站三次，记录偏差
+# ③ 五次连续通过后逐项放权；红线触发即回退
+# ④ 若真用 Grok Bot：skill 真任务试跑 → 再变 routine；敏感动作收窄 Ask first</code></pre>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>岗位契约写作模板</b>：职责/红线/失败定义三段式，任何 Agent 岗位可复用；</li>
+<li><b>信任累积流程</b>：试运行→连续通过→放权→红线回退的完整闭环；</li>
+<li><b>共享环境安全意识</b>：屏幕≠隔离、terminate≠收权、敏感文件不进共享盘；</li>
+<li><b>skill→routine 上线纪律</b>：先真任务试跑再定时自动化；</li>
+<li><b>官方文档核读能力</b>：产品机制以官方文档为准，视频业绩打折听。</li>
+</ol>
+</div>
+
+<!-- 实验 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">动手</div>
+<h2>实验：产出契约样例 + 官方安全对照（约 20 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 读官方文档。</b>docs.x.ai/grok-bot/faq 与 /computers，摘出安全相关原文（本指南 Q1/Q5 已列）。
+<div class="expect">✅ 预期结果：拿到"共享电脑""computer takeover""terminate≠收权"等一手表述。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 写契约。</b>为一个虚构岗位写完整契约（职责/红线/权限四层/验收/交接）。
+<div class="expect">✅ 预期结果（本指南）：sample-job-contract.md 成文。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 六项安全对照。</b>逐条检查契约是否符合官方建议。
+<div class="expect">✅ 预期结果（本指南）：6/6 通过（不以 Bot 为边界/先问覆盖高危/登录走接管/routine 前试跑/决策查当前来源/屏幕≠隔离）。</div></div>
+<div class="okbox"><b>如实声明</b>：未创建真实 Bot、未验证账号资格与视频业绩。契约样例与对照表真实产出，见 <code>grok_bot_method\exercise\</code>。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>雇 AI 员工=契约化</b>：职责≤3条可验收、红线明确、失败定义具体；</li>
+<li><b>信任只能挣</b>：三次试运行→五次连续通过→放权；红线触发即回退；</li>
+<li><b>屏幕不是隔离</b>：同账户 Bot 共享云电脑，分信任级别要分账户；</li>
+<li><b>skill 先试跑再 routine</b>：官方纪律，防定时放大未知风险；</li>
+<li><b>机制以官方文档为准</b>，视频业绩是陈述不是证据。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">Grok Bot 方法论小白指南 · 2026-10-27 · 官方文档直读核验 · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

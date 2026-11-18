@@ -1,0 +1,9 @@
+{
+  "questions": 10,
+  "svgs_in_every_question": true,
+  "pdf_pages": 17,
+  "pdf_bytes": 970845,
+  "pdf_sha256": "7ddcd8fa9d3962bc781c8cbd898b0d7393450404011844a4b772d7605f8ce613",
+  "html_sha256": "5b6e2a4415fa03f9a0b68e7220b84f619ddd2ed2cbc895fd67f508331f36a24d",
+  "required_files": "PASS"
+}

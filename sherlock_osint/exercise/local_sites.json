@@ -1,0 +1,43 @@
+{
+  "LocalStatus": {
+    "errorType": "status_code",
+    "url": "http://127.0.0.1:8765/status/{}",
+    "urlMain": "http://127.0.0.1:8765/",
+    "username_claimed": "learner_demo"
+  },
+  "LocalMessage": {
+    "errorType": "message",
+    "errorMsg": "PROFILE_NOT_FOUND",
+    "url": "http://127.0.0.1:8765/message/{}",
+    "urlMain": "http://127.0.0.1:8765/",
+    "username_claimed": "learner_demo"
+  },
+  "LocalRedirect": {
+    "errorType": "response_url",
+    "errorUrl": "http://127.0.0.1:8765/login",
+    "url": "http://127.0.0.1:8765/redirect/{}",
+    "urlMain": "http://127.0.0.1:8765/",
+    "username_claimed": "learner_demo"
+  },
+  "LocalRegex": {
+    "errorType": "status_code",
+    "regexCheck": "^[a-z_]+$",
+    "url": "http://127.0.0.1:8765/regex/{}",
+    "urlMain": "http://127.0.0.1:8765/",
+    "username_claimed": "learner_demo"
+  },
+  "LocalSlow": {
+    "errorType": "status_code",
+    "url": "http://127.0.0.1:8765/slow/{}",
+    "urlMain": "http://127.0.0.1:8765/",
+    "username_claimed": "learner_demo"
+  },
+  "LocalWaf": {
+    "errorType": "message",
+    "errorMsg": "PROFILE_NOT_FOUND",
+    "request_method": "GET",
+    "url": "http://127.0.0.1:8765/waf/{}",
+    "urlMain": "http://127.0.0.1:8765/",
+    "username_claimed": "learner_demo"
+  }
+}

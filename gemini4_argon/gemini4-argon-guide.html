@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Gemini 4 Argon 长输出 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f0f5ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#2d9cdb 0%,#7c4dff 55%,#ff2e88 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-blue));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-blue));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-blue));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-blue));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Gemini 4 Argon：1M 输出 token 的超长生成，怎么算这笔账</h1>
+  <p>官方 2026-09-30 发布、10-13 GA——本指南用分词实测告诉你：1M token 到底是多少字、统一窗口的预算陷阱、以及一次百万字成形的真实成本</p>
+  <p>
+    <span class="badge">实测 0.87 汉字/token</span><span class="badge">1M ≈ 87 万字</span>
+    <span class="badge">$10–20/次</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖 (@mjjwiki) ｜ Google 公告 2026-09-30 ｜ 学习日期 2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q1</div>
+<h2>Gemini 4 Argon 是什么？长输出是什么概念？</h2>
+<p><span class="big">Google 2026-09-30 发布的旗舰模型，最大卖点：单次输出从 64K 暴涨到 100 万 token——一次响应可以写完一部长篇小说。</span></p>
+<p>原帖的用法：在 Antigravity 里先让 Claude Opus 4.6 写大纲，再让 Argon 一次生成百万字小说，最后传番茄小说平台。这条链路牵出三个真问题：①1M token 到底是多少字？②上下文窗口怎么算？③一次成型失败了怎么办？</p>
+<div class="svgbox">
+<svg width="720" height="150" viewBox="0 0 720 150">
+  <rect x="20" y="40" width="170" height="70" rx="12" fill="#7c4dff"/>
+  <text x="105" y="68" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">Opus 4.6 写大纲</text>
+  <text x="105" y="88" fill="#e6dcff" font-size="10" text-anchor="middle">输入预算吃这里</text>
+  <rect x="260" y="30" width="200" height="90" rx="14" fill="#2d9cdb"/>
+  <text x="360" y="62" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">Argon 一次生成</text>
+  <text x="360" y="84" fill="#e8f4fd" font-size="11" text-anchor="middle">1,048,576 token 统一窗口</text>
+  <text x="360" y="101" fill="#e8f4fd" font-size="11" text-anchor="middle">输入+输出 此消彼长！</text>
+  <rect x="530" y="40" width="170" height="70" rx="12" fill="#06d6a0"/>
+  <text x="615" y="68" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">人工审读修订</text>
+  <text x="615" y="88" fill="#eafff8" font-size="10" text-anchor="middle">一致性/质量验收</text>
+  <path d="M190 75 L260 75" stroke="#333" stroke-width="2.5" marker-end="url(#g1)"/>
+  <path d="M460 75 L530 75" stroke="#333" stroke-width="2.5" marker-end="url(#g1)"/>
+  <defs><marker id="g1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q2</div>
+<h2>1M token 到底能写多少中文字？（本指南实测）</h2>
+<p>用 tiktoken (cl100k_base) 对 21,478 个真实汉字分词实测：</p>
+<pre><code>每 token 汉字数: 0.87
+→ 1M 输出 token ≈ 874,868 汉字
+英文对照: 4.5 字符/token → 1M token ≈ 450 万字符</code></pre>
+<p><span class="hl">"百万字小说"按 token 口径约 87 万字</span>（Gemini 自家分词器会有 ±10-20% 偏差，但量级不变）。原帖的"百万字"是约数不是承诺；且官方明说输出上限是能力边界不是完成篇幅保证——生成可能提前结束。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q3</div>
+<h2>统一窗口的预算陷阱是什么？</h2>
+<p><span class="big">Argon 的 1,048,576 token 窗口是输入+输出合计。</span>想输出接近 1M，输入侧（大纲+人物卡+设定集）就只剩 ~48K token。换算：</p>
+<table>
+<tr><th>大纲体积</th><th>可用输出预算</th><th>后果</th></tr>
+<tr><td>≤10K token</td><td>~1M</td><td>✅ 完整成形</td></tr>
+<tr><td>48K token</td><td>~1M 上限边缘</td><td>⚠️ 贴顶，可能截断</td></tr>
+<tr><td>200K token 细纲</td><td>只剩 ~850K</td><td>❌ 输出被挤占</td></tr>
+</table>
+<p>所以"Opus 写大纲"环节的交接契约是：<b>大纲必须浓缩在 ≤48K token</b>——这正是知识库 [[混合模型分工流水线]] 里"工序间交接要有契约"的硬数字版本，也呼应 [[上下文接力]]（规划现场到执行现场的物料管道）。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q4</div>
+<h2>一次百万字成形的成本是多少？</h2>
+<table>
+<tr><th>项目</th><th>价格</th><th>单次成本</th></tr>
+<tr><td>1M 输出（优惠期至 2026-11-30）</td><td>$10 / 1M token</td><td><b>≈ $10</b></td></tr>
+<tr><td>1M 输出（2026-12-01 起）</td><td>$20 / 1M token</td><td><b>≈ $20</b></td></tr>
+<tr><td>输入侧（大纲 48K）</td><td>$2 / 1M（优惠期）</td><td>≈ $0.1（可忽略）</td></tr>
+<tr><td>失败重试 ×3</td><td>—</td><td>$30–60</td></tr>
+</table>
+<p>对比：87 万字人工写作是数千小时。生成端便宜到可以忽略——<span class="hl">真正的成本是失败与质量：提前截断、人物漂移、时间线崩坏后的重试与人工修订</span>。</p>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>超长生成的真正难点不在"能写长"，而在"不散架"</h2>
+<p>单次生成 87 万字，到后半段模型"记得"开头吗？难点清单：</p>
+<ul>
+<li><b>一致性</b>：人物名/称谓/关系在 87 万字中不漂移；时间线前后不自相矛盾；</li>
+<li><b>提前截断</b>：官方明说上限≠保证，可能在任何位置停止；</li>
+<li><b>结构塌缩</b>：后期节奏崩坏、反复灌水——长输出模型通病；</li>
+<li><b>验收不可自动化</b>：谁读完 87 万字？抽查+程序性检查（人名表对账、时间线提取）是务实路径（[[事实与判断分离]]：程序查事实，人读抽样）。</li>
+</ul>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>可用条件是什么？原帖路径可行吗？</h2>
+<table>
+<tr><th>问题</th><th>核实结果</th></tr>
+<tr><td>发布时间/GA</td><td>2026-09-30 发布（早期限 Fairwind 网络安全计划）；<b>2026-10-13 GA</b></td></tr>
+<tr><td>渠道</td><td>Gemini API / AI Studio / Gemini App / <b>Antigravity</b>；免费档不含</td></tr>
+<tr><td>原帖"Antigravity 调用"路径</td><td>渠道存在 ✅，但本指南未实测账号权限</td></tr>
+<tr><td>性能宣称</td><td>官方引用 DeepSWE 77.9% 等；第三方独立复现有限</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q7</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[BPE分词器]]</td><td>实测中文 0.87 字/token——token 与"字"的换算有了本项目口径</td></tr>
+<tr><td>[[混合模型分工流水线]]</td><td>大纲模型 vs 正文模型的交接契约：≤48K token 硬约束</td></tr>
+<tr><td>[[上下文接力]]</td><td>规划现场到执行现场的物料管道有了容量上限的数字案例</td></tr>
+<tr><td>[[付费调用回执与预算熔断]]</td><td>$10-20/次 + 重试成本主导——预算熔断点应设在重试次数</td></tr>
+<tr><td>[[KV缓存与上下文]]</td><td>统一窗口 1,048,576 = 输入+输出合计的账单思维</td></tr>
+</table>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q8</div>
+<h2>不想花 $20，能低成本体验"超长输出"吗？</h2>
+<ul>
+<li><b>先小窗试</b>：用 100K 输出档位（若开放）验证一致性表现，再决定是否上 1M；</li>
+<li><b>程序性验收先行</b>：写好"人名表对账+时间线提取"脚本，用它决定续写/重试，不凭感觉；</li>
+<li><b>分段+续写策略</b>：若 1M 性价比不佳，"每卷 200K × 5 卷 + 交接契约"可能质量更稳（[[Checkpoint存档与持久执行]] 思路）；</li>
+<li><b>别为优惠期冲动</b>：11-30 前 $10 与之后 $20，对实验成本都不是主要矛盾——重试才是。</li>
+</ul>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q9</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>1M 输出 token 上限</td><td>✅ 官方公告确认（原帖没混淆输入/输出，这点是对的）</td></tr>
+<tr><td>"一次生成百万字小说"</td><td>⚠️ 1M token ≈ 87 万字（实测），"百万字"是约数；且上限≠保证完成</td></tr>
+<tr><td>Antigravity 可用</td><td>✅ 渠道存在；账号权限未实测</td></tr>
+<tr><td>番茄小说收益</td><td>❓ 帖中无凭据，不在本指南范围</td></tr>
+</table>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>最小验证路径</h2>
+<pre><code># ① 小窗验证一致性：100K 输出写一章，跑人名对账脚本
+# ② 估算交接契约：大纲压到 ≤48K token（用分词器实测体积）
+# ③ 预算熔断：设重试上限（如 3 次），超即停
+# ④ 满意后再上一次 1M 全量；全程记录输出 token 数与截断位置</code></pre>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>token-字数换算口径</b>：中文 0.87 字/token，看到"1M token"立刻换算成"87 万字"；</li>
+<li><b>统一窗口预算思维</b>：输入+输出合计，大纲与正文此消彼长；</li>
+<li><b>交接契约硬约束</b>：大纲 ≤48K token 的量化上限；</li>
+<li><b>超长生成验收法</b>：程序性检查（人名/时间线）+ 人工抽样；</li>
+<li><b>成本主导因素判断</b>：单价便宜，重试与修订才是大头。</li>
+</ol>
+</div>
+
+<!-- 实验 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">动手</div>
+<h2>实验：不调用模型把这笔账算清（约 10 分钟，零花费）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 核实官方信息。</b>公告发布日期、GA 日期、价格档、渠道清单。
+<div class="expect">✅ 预期结果：2026-09-30 发布 / 10-13 GA / $10→$20 每 1M 输出 / Antigravity 在列。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 分词实测。</b>pip install tiktoken；对本地中文样本（≥2 万字）测 字/token。
+<div class="expect">✅ 预期结果（本机）：0.87 汉字/token → 1M ≈ 87 万字。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 窗口预算核算。</b>1,048,576 − 目标输出 = 可用输入上限。
+<div class="expect">✅ 预期结果：输出贴 1M 时输入仅 ~48K——大纲契约硬约束。</div></div>
+<div class="step"><b class="s">步骤 4 ｜ 成本核算。</b>按优惠期/正常价/重试×3 三档列表。
+<div class="expect">✅ 预期结果：$10 / $20 / $30-60——重试主导成本。</div></div>
+<div class="okbox"><b>如实声明</b>：未真实调用 Argon；质量/截断率/一致性未验证。核算全部真实执行，日志见 <code>gemini4_argon\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>1M token ≈ 87 万汉字</b>（实测），不是"百万字"整；</li>
+<li><b>统一窗口此消彼长</b>：输出贴满 1M 时大纲只剩 48K；</li>
+<li><b>单次 $10-20，重试才是成本大头</b>；</li>
+<li><b>难点是一致性不是长度</b>：人名对账+时间线提取+人工抽样；</li>
+<li><b>上限≠保证完成</b>：官方原文，提前截断要预案。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">Gemini 4 Argon 长输出指南 · 2026-10-27 · 分词实测 · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

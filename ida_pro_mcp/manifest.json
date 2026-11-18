@@ -1,0 +1,32 @@
+{
+  "topic": "重新定范围学习官方 HexRaysSA/ida-mcp：六工具架构、IDA Domain 函数与 xrefs 查询、直接静态调用结论的地址证据回溯",
+  "project_dir": "ida_pro_mcp",
+  "pdf": "ida_pro_mcp/ida_pro_mcp-小白指南.pdf",
+  "html": "ida_pro_mcp/ida-pro-mcp-guide.html",
+  "exercise_dir": "ida_pro_mcp/exercise",
+  "experiment_log": "ida_pro_mcp/exercise/experiment_log.txt",
+  "vault_note": "vault/项目笔记/ida_pro_mcp.md",
+  "source_urls": [
+    "https://x.com/realNyarime/status/2104608677772804580",
+    "https://publish.twitter.com/oembed?url=https%3A%2F%2Fx.com%2FrealNyarime%2Fstatus%2F2104608677772804580&omit_script=true",
+    "https://api.fxtwitter.com/realNyarime/status/2104608677772804580",
+    "https://hex-rays.com/blog/hex-rays-ida-mcp-server",
+    "https://github.com/HexRaysSA/ida-mcp/tree/391c2f0606a773050fbafcd3ff62942688a0713b",
+    "https://github.com/HexRaysSA/ida-nexus",
+    "https://github.com/HexRaysSA/ida-domain/blob/main/docs/migration-guide.md",
+    "https://github.com/mrexodia/ida-pro-mcp"
+  ],
+  "report_path": "完成/分析报告/f7eeae1f-8a5a-4a22-8fa5-fb6e9c41c1e7.md",
+  "experiment_files": [
+    "ida_pro_mcp/exercise/demo.c",
+    "ida_pro_mcp/exercise/run_experiment.py",
+    "ida_pro_mcp/exercise/local_ida_stub.py",
+    "ida_pro_mcp/exercise/ida_queries.py",
+    "ida_pro_mcp/exercise/disassembly.txt",
+    "ida_pro_mcp/exercise/analysis_result.json",
+    "ida_pro_mcp/exercise/mcp_trace.jsonl",
+    "ida_pro_mcp/exercise/experiment_log.txt"
+  ],
+  "verification_scope": "自编译程序、Objdump 和本地 MCP 教学桩实测；4/4 直接调用边有地址证据，5/5 工具调用有结果追踪；未验证 IDA 实机或官方 Nexus。",
+  "review_limits": "PDF 18 页且完成文本层/结构回读；HTML 封面浏览器截图正常。本机不能直接逐页渲染 PDF，逐页视觉验收与内容审核仍须独立 reviewer 完成。"
+}

@@ -1,0 +1,12 @@
+{
+  "sha": "d5ace674203001ecc14dbb31bf4df53fc514645d",
+  "changed": [
+    "src/calc.py"
+  ],
+  "eligible": false,
+  "reasons": [
+    "required check not green: tests"
+  ],
+  "review_is_synthetic": true,
+  "merged": false
+}
