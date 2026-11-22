@@ -1,0 +1,43 @@
+{
+  "task_id": "8655de21-9712-491d-8fcc-9e9f35222139",
+  "topic": "数字请柬：真实可编辑样品与需求验证边界",
+  "project_dir": "digital_invitation_case",
+  "classification": "知识学习类（需求验证方法论）",
+  "source_urls": [
+    "https://x.com/Missle8z/status/2105208703330963962"
+  ],
+  "pdf": "digital_invitation_case/数字请柬案例-小白指南-v2.pdf",
+  "html": "digital_invitation_case/digital-invitation-guide.html",
+  "exercise_dir": "digital_invitation_case/exercise",
+  "experiment_log": "digital_invitation_case/exercise/experiment-log.md",
+  "experiment_files": [
+    "digital_invitation_case/exercise/samples/wedding-sample.html",
+    "digital_invitation_case/exercise/samples/baby100-sample.html",
+    "digital_invitation_case/exercise/test_samples.py",
+    "digital_invitation_case/exercise/sample-validation-kit.md",
+    "digital_invitation_case/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/digital_invitation_case.md",
+  "vault_note_proposal": "digital_invitation_case/digital_invitation_case-vault-note-proposal.md",
+  "deliverables": [
+    "digital_invitation_case/digital-invitation-guide.html",
+    "digital_invitation_case/数字请柬案例-小白指南-v2.pdf",
+    "digital_invitation_case/exercise/samples/wedding-sample.html",
+    "digital_invitation_case/exercise/samples/baby100-sample.html",
+    "digital_invitation_case/exercise/test_samples.py",
+    "digital_invitation_case/exercise/sample-validation-kit.md",
+    "digital_invitation_case/exercise/experiment-log.md",
+    "digital_invitation_case/digital_invitation_case-vault-note-proposal.md",
+    "vault/项目笔记/digital_invitation_case.md"
+  ],
+  "verified_facts": [
+    "婚礼6个、百日宴4个contenteditable字段真实可编辑，初版虚线span不可编辑及5字段误计数已修复",
+    "5项结构unittest通过；两枚样品以430x850 Edge实际截图并人工查看",
+    "场景/阈值/时效均为示例，模板溢价未验证；标价×销量不等于净收益",
+    "审核版PDF从修订HTML重印并逐页渲染"
+  ],
+  "blocked_items": [
+    "未上架未获真实反馈或订单，未验证素材完整授权链和平台规则",
+    "原帖销量数据为作者自述未核实"
+  ]
+}

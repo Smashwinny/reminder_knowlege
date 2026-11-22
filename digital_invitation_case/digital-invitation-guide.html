@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>数字请柬案例 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#fff5f7; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#ff6b1a 0%,#ff2e88 55%,#7c4dff 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-pink));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-pink));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-pink));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-pink));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>数字请柬：按使用场景做样品，用反馈验证需求</h1>
+  <p>两枚真正可编辑的单页请柬：婚礼 6 字段、百日宴 4 字段，移动端实渲染+5 项结构测试；反馈数字仍不伪造</p>
+  <p>
+    <span class="badge">6+4真实可编辑字段</span><span class="badge">移动端渲染已看</span><span class="badge">2026-11-22 审核修订</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖 @Missle8z｜初学 2026-10-28｜审核修订 2026-11-22</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q1</div>
+<h2>这套方法是什么？一句话能说清吗？</h2>
+<p><span class="big">先找"反复发生"的场景，做少量样品让人看到，写清可修改范围与交付方式，看收藏和点击的反馈，再决定要不要打包成商品。</span>它把商品化决策从"我觉得能做"变成"数据说值得做"。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q2</div>
+<h2>本指南实验：样品套件实做</h2>
+<table>
+<tr><th>组件</th><th>内容</th><th>状态</th></tr>
+<tr><td>场景筛选表</td><td>婚礼(高频红海✅)/百日宴(✅)/乔迁(候选)/年会(暂缓)</td><td>完成</td></tr>
+<tr><td>婚礼样品</td><td>6 个 `contenteditable` 字段，移动端渲染已人工查看</td><td>完成</td></tr>
+<tr><td>百日宴样品</td><td>4 个 `contenteditable` 字段，移动端渲染已人工查看</td><td>完成</td></tr>
+<tr><td>商品说明模板</td><td>可编辑范围/交付物/时效/修改轮次/素材授权五项</td><td>完成</td></tr>
+<tr><td>反馈记分卡</td><td>曝光→点击→收藏→咨询→成交+退款阈值</td><td>模板就绪（数据需上架）</td></tr>
+</table>
+<div class="tipbox">审核修复：初版字段只是虚线 `<span>`，并不能编辑，且婚礼误写为 5 个。现已改成真正 `contenteditable`，6+4 字段经 5 项结构测试。固定项用于保持风格一致和限定交付范围，<b>是否有“模板溢价”仍需市场验证</b>。</div>
+<div class="svgbox"><svg viewBox="0 0 720 150" width="100%" role="img" aria-label="可编辑字段和固定模板"><rect x="50" y="25" width="250" height="85" rx="15" fill="#ff2e88"/><rect x="420" y="25" width="250" height="85" rx="15" fill="#7c4dff"/><text x="175" y="60" text-anchor="middle" fill="white" font-size="21">可编辑 6+4 字段</text><text x="175" y="88" text-anchor="middle" fill="white" font-size="17">姓名/日期/地点等</text><text x="545" y="60" text-anchor="middle" fill="white" font-size="21">固定模板项</text><text x="545" y="88" text-anchor="middle" fill="white" font-size="17">配色/字体/版式</text><text x="360" y="140" text-anchor="middle" font-size="17">一致性与交付范围≠已证明溢价</text></svg></div>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q3</div>
+<h2>反馈指标怎么读？（记分卡纪律）</h2>
+<table>
+<tr><th>指标</th><th>含义</th><th>常见误读</th></tr>
+<tr><td>点击</td><td>首图吸引力</td><td>≠想买</td></tr>
+<tr><td>收藏</td><td>初步兴趣</td><td>≠付费意愿</td></tr>
+<tr><td>咨询</td><td>付费前信号</td><td>≠成交</td></tr>
+<tr><td>成交</td><td>真需求</td><td>≠盈利（未扣时间/退款）</td></tr>
+</table>
+<p>记分卡中的 3%/8%/15%/20%/5% 均为自定示例阈值，不是行业基准或本轮实测。<span class="hl">原帖"已售 1956×9.9 元"推不出净收益</span>——平台扣点、制作工时、退款率、改稿轮次全在账外（[[完整单位收益口径]] 的数字商品版）。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q4</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[完整单位收益口径]]</td><td>数字商品版：标价×销量≠净收益</td></tr>
+<tr><td>[[规格书先行SpecDriven]]</td><td>"可修改范围+交付方式"=商品规格书</td></tr>
+<tr><td>[[情绪脱水测试]]</td><td>场景筛选=需求脱水（滤掉一时兴起）</td></tr>
+<tr><td>[[质量标准死卡与执行手段放开]]</td><td>固定项死卡/可编辑项放开</td></tr>
+</table>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q5</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>方法步骤（场景→样品→反馈→商品化）</td><td>✅ 正文完整可复用</td></tr>
+<tr><td>1483 粉/9.9 元/已售 1956</td><td>⚠️ 作者自述，无后台凭据</td></tr>
+<tr><td>样品数/发帖数是最佳参数</td><td>❌ 建议值非对照结论</td></tr>
+<tr><td>模板可复制出售</td><td>❌ 字体/素材/授权未证实</td></tr>
+</table>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q6</div>
+<h2>最小验证的通用结构（不限请柬）</h2>
+<pre><code>①选反复发生的场景（需求池稳定）
+②做 1-2 个样品（能展示核心价值即可）
+③写清规格（什么可改/交付什么/多久/几轮）
+④挂出去看漏斗（点击/收藏/咨询分层看）
+⑤达标再商品化，不达标换场景——把首轮成本限定在少量样品与调研时间</code></pre>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q7</div>
+<h2>为什么"反复发生"是第一筛选条件？</h2>
+<p>要区分“单个客户只办一次”和“市场上持续有人办理”。婚礼、百日宴、生日、毕业都可能是后者，但需求频次、竞品密度和付费意愿仍需数据。反复发生只是候选筛选启发式，不保证模板可重复卖或单位成本一定下降。</p>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>素材授权红线</h2>
+<p>样品的字体/图案/照片必须原创或已授权；<b>不复制在售商品</b>（哪怕"看着差不多"）。原帖证据里不含任何授权链——这条得自己守，学方法不等于继承授权。</p>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q9</div>
+<h2>本班做到哪、没做到哪</h2>
+<p>做到：场景假设+两枚可编辑样品+规格模板+记分卡（可继续内部评审，不能宣称已满足平台上架条件）。<br>没做到：真实发布与反馈数据（需上架）；净收益核算（无真实订单）。<b>未伪造任何反馈数字。</b></p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q10</div>
+<h2>动手：做自己的最小验证（约 20 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 打开两枚样品。</b>点击虚线字段修改合成姓名、日期、地点，不输入真实个人信息。
+<div class="expect">✅ `contenteditable` 可直接编辑；固定配色和版式不变。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 在 <code>digital_invitation_case</code> 目录跑结构测试。</b><code>python -I exercise/test_samples.py</code>。
+<div class="expect">✅ 实测 5 项通过：婚礼 6、百日 4 个可编辑字段、移动端 viewport、无外部资源和固定项说明。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 查看移动端渲染。</b>本次用 430×850 Edge 实际截图并人工阅读两枚样品；再按真实平台规则评估，不直接上架。</div>
+<div class="okbox"><b>如实声明</b>：未上架未获真实反馈；原帖销量未核实，字体/图案授权仍需上架前逐项审查。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>最小验证五步法</b>（场景/样品/规格/漏斗/决策）；</li>
+<li><b>可编辑 vs 固定项分离设计</b>；</li>
+<li><b>五级转化记分卡</b>（含误读警示）；</li>
+<li><b>数字商品收益口径</b>；</li>
+<li><b>素材授权红线意识</b>。</li>
+</ol>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>先样品后商品</b>：让人看到，再定规格，再看漏斗；</li>
+<li><b>反复发生=第一筛选</b>；</li>
+<li><b>可编辑保定制/固定项保一致</b>，溢价仍需市场验证；</li>
+<li><b>收藏≠购买≠盈利</b>；</li>
+<li><b>授权链自己守</b>。</li>
+</ul>
+</div>
+
+<div class="card" style="--accent:#06d6a0;"><div class="qnum">↗</div><h2>来源</h2><ul><li><a href="https://x.com/Missle8z/status/2105208703330963962">原帖</a>（方法与作者自述数据，订单未独立核验）</li></ul></div>
+</div>
+<div class="footer">数字请柬案例 · 2026-11-22 审核修订 · 6+4真实可编辑字段与移动端渲染</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>婚礼请柬样品</title>
+<style>
+:root{--main:#c47ba4;--ink:#4a3340}
+body{margin:0;font-family:"Microsoft YaHei",serif;background:linear-gradient(160deg,#fff5f9,#fdf0e6);color:var(--ink);text-align:center}
+.card{max-width:420px;margin:24px auto;background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(196,123,164,.18);padding:40px 28px}
+.frame{border:1px solid var(--main);border-radius:10px;padding:24px 16px;position:relative}
+.frame::before{content:"囍";position:absolute;top:-18px;left:50%;transform:translateX(-50%);background:#fff;color:var(--main);font-size:22px;padding:0 10px}
+h1{font-size:22px;letter-spacing:4px;margin:8px 0}
+.names{font-size:26px;color:var(--main);margin:14px 0;letter-spacing:2px}
+.edit{border-bottom:2px dashed #e3b7cd;padding:0 6px;min-width:32px;display:inline-block}
+.edit:focus{outline:3px solid #7c4dff;background:#fff3a6}
+.meta{font-size:14px;line-height:2;margin-top:18px;color:#7a6572}
+.badge{display:inline-block;background:var(--main);color:#fff;border-radius:999px;font-size:11px;padding:2px 10px;margin-bottom:14px}
+.footer-note{font-size:11px;color:#b09aa6;margin-top:20px}
+</style></head>
+<body>
+<div class="card">
+<span class="badge">样品 v1 · 可修改范围见附单</span>
+<div class="frame">
+<h1>婚礼请柬</h1>
+<p class="names"><span class="edit" contenteditable="true" role="textbox">新&nbsp;郎</span> &amp; <span class="edit" contenteditable="true" role="textbox">新&nbsp;娘</span></p>
+<p class="meta">
+公历 <span class="edit" contenteditable="true" role="textbox">2027 年 5 月 20 日</span><br>
+农历 <span class="edit" contenteditable="true" role="textbox">四月十五</span> <span class="edit" contenteditable="true" role="textbox">星期X</span><br>
+<span class="edit" contenteditable="true" role="textbox">XX 酒店 X 层宴会厅</span><br>
+敬备喜筵 · 恭候光临
+</p>
+</div>
+<p class="footer-note">点击虚线字段可直接编辑（6 项）｜配色/字体/版式为固定模板项｜样品仅用于需求验证</p>
+</div>
+</body>
+</html>

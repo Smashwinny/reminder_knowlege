@@ -1,0 +1,44 @@
+{
+  "task_id": "11a3d01a-eed7-4af0-bf68-70e5822927e9",
+  "topic": "Awesome Muse Connectors：固定目录五段与成熟度静态审计",
+  "project_dir": "awesome_muse_connectors",
+  "classification": "开源项目类（工具目录审计）",
+  "source_urls": [
+    "https://x.com/0xlangeai",
+    "https://github.com/Anil-matcha/awesome-muse-connectors",
+    "https://github.com/Anil-matcha/awesome-muse-connectors/commit/0ffbcc02876c6fc1e3cc25c9f46356c49a7f11bf",
+    "https://www.meta.com/help/artificial-intelligence/1687253048996149/"
+  ],
+  "pdf": "awesome_muse_connectors/Awesome-Muse-Connectors-小白指南-v2.pdf",
+  "html": "awesome_muse_connectors/awesome-muse-connectors-guide.html",
+  "exercise_dir": "awesome_muse_connectors/exercise",
+  "experiment_log": "awesome_muse_connectors/exercise/experiment-log.md",
+  "experiment_files": [
+    "awesome_muse_connectors/exercise/audit_catalog.py",
+    "awesome_muse_connectors/exercise/test_audit_catalog.py",
+    "awesome_muse_connectors/exercise/catalog-audit-v2.json",
+    "awesome_muse_connectors/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/awesome_muse_connectors.md",
+  "vault_note_proposal": "awesome_muse_connectors/awesome_muse_connectors-vault-note-proposal.md",
+  "deliverables": [
+    "awesome_muse_connectors/awesome-muse-connectors-guide.html",
+    "awesome_muse_connectors/Awesome-Muse-Connectors-小白指南-v2.pdf",
+    "awesome_muse_connectors/exercise/audit_catalog.py",
+    "awesome_muse_connectors/exercise/test_audit_catalog.py",
+    "awesome_muse_connectors/exercise/catalog-audit-v2.json",
+    "awesome_muse_connectors/exercise/experiment-log.md",
+    "awesome_muse_connectors/awesome_muse_connectors-vault-note-proposal.md",
+    "vault/项目笔记/awesome_muse_connectors.md"
+  ],
+  "verified_facts": [
+    "固定commit0ffbcc0：159个SKILL=158连接器+1模板，五段结构完整159",
+    "154 Draft、4个Live-tested特定命令标签（Cohesivity/Lodestone/Mushare/Slack）；fal.ai为Draft，初日志归因已纠正",
+    "静态审计与7项unittest通过；Live-tested仅指所列命令，不证明整个连接器",
+    "审核版PDF从修订HTML重印并逐页渲染"
+  ],
+  "blocked_items": [
+    "无Muse运行时，本轮未执行任何连接器或真实API",
+    "结构完整和成熟度标签不等于安全、兼容或当前可用"
+  ]
+}

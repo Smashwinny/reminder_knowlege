@@ -1,0 +1,47 @@
+{
+  "task_id": "4e85eb0e-2d1a-4de4-a954-ec8faf1d5d13",
+  "topic": "Antigravity：当前第三方访问政策与固定源码数据流标记",
+  "project_dir": "antigravity_login",
+  "classification": "知识学习类（排查方法论+工具审计）",
+  "source_urls": [
+    "https://x.com/Delroy715/status/2102267215819296905",
+    "https://antigravity.google/docs/faq/",
+    "https://antigravity.google/terms",
+    "https://github.com/lbjlaq/Antigravity-Manager",
+    "https://github.com/lbjlaq/Antigravity-Manager/commit/0067fe045ddd77f4462ea8e2c25384839d869f32",
+    "https://github.com/anzaiyes/AntigravityBridge",
+    "https://github.com/anzaiyes/AntigravityBridge/commit/2c8c12d7f515873e011a8c7a8d40c3a250a4a1a0"
+  ],
+  "pdf": "antigravity_login/Antigravity登录排查-小白指南-v2.pdf",
+  "html": "antigravity_login/antigravity-login-guide.html",
+  "exercise_dir": "antigravity_login/exercise",
+  "experiment_log": "antigravity_login/exercise/experiment-log.md",
+  "experiment_files": [
+    "antigravity_login/exercise/static_dataflow_audit.py",
+    "antigravity_login/exercise/test_static_dataflow_audit.py",
+    "antigravity_login/exercise/dataflow-audit-v2.json",
+    "antigravity_login/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/antigravity_login.md",
+  "vault_note_proposal": "antigravity_login/antigravity_login-vault-note-proposal.md",
+  "deliverables": [
+    "antigravity_login/antigravity-login-guide.html",
+    "antigravity_login/Antigravity登录排查-小白指南-v2.pdf",
+    "antigravity_login/exercise/static_dataflow_audit.py",
+    "antigravity_login/exercise/test_static_dataflow_audit.py",
+    "antigravity_login/exercise/dataflow-audit-v2.json",
+    "antigravity_login/exercise/experiment-log.md",
+    "antigravity_login/antigravity_login-vault-note-proposal.md",
+    "vault/项目笔记/antigravity_login.md"
+  ],
+  "verified_facts": [
+    "2026-11-22官方FAQ/Terms第三方访问禁令、Antigravity和/或Gemini CLI处罚范围、AI Studio/Gemini Enterprise路径",
+    "封禁潮/全Google影响/通用封号申诉未冒充官方事实；资格含地区/年龄/账号类型",
+    "固定Manager端点9/10/3文件、token文件名5文件与CC-BY-NC-SA标记，6项unittest通过；Bridge保持README自述边界",
+    "审核版PDF从修订HTML重印并逐页渲染"
+  ],
+  "blocked_items": [
+    "未登录账号、读取真实token或运行Manager/Bridge；静态标记不证明完整数据流",
+    "社区封禁案例、价格与商家账号未独立核验"
+  ]
+}

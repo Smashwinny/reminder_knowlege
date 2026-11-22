@@ -18,3 +18,7 @@ tags: [概念]
 - 坑：若客户端配置里写了静态 `Authorization` 头，Claude Code 会视为显式头认证，401 后**不再回退** OAuth 发现流程（AgentKey 仓库 CLAUDE.md 明示）
 
 **首次接触于**：[[项目笔记/agentkey]]
+
+## 标准认证与产品授权边界（2026-11-22）
+
+[[项目笔记/antigravity_login]] 补充：OAuth 流程或技术可访问不代表产品条款授权。当前 Antigravity FAQ/Terms 明确第三方访问禁令，处罚范围为 Antigravity 和/或 Gemini CLI；FAQ 给 AI Studio/Gemini Enterprise 替代路径。不要把 RFC 9728 发现、本机登录态或会话 token 当成第三方访问许可，也不要把国家关联/年龄验证写成通用封号申诉。

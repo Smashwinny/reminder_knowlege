@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Antigravity 登录排查 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#eef2ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#1d2433 0%,#5b2ee5 60%,#2d9cdb 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-purple));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-purple));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-purple));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-purple));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Antigravity 登录排查：资格、代理与第三方中转边界</h1>
+  <p>登录分层 + 固定版本数据流标记审计——2026-11-22 官方 FAQ/Terms 复核：第三方访问违反 ToS；社区封禁潮与全账号影响不冒充官方事实</p>
+  <p>
+    <span class="badge">当前官方FAQ/Terms</span><span class="badge">固定源码6测试通过</span><span class="badge">未登录或读取真实token</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖 @Delroy715｜初学 2026-10-28｜审核修订 2026-11-22</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q1</div>
+<h2>Antigravity 是什么？登录为什么会失败？</h2>
+<p><span class="big">Google 的 AI 编程 IDE（类 Cursor 形态）。登录失败的表象一样（"进不去"），病根可能完全不同：</span>账号没资格、网络到不了授权回调、第三方工具访问史被封、额度用尽被限。把它们混成"打不开"就会病急乱投医——比如去买"便宜长期会员"。</p>
+<div class="svgbox">
+<svg width="720" height="150" viewBox="0 0 720 150">
+  <g font-size="11">
+  <rect x="15" y="45" width="150" height="60" rx="10" fill="#2d9cdb"/>
+  <text x="90" y="70" fill="#fff" text-anchor="middle" font-weight="bold">①账号资格层</text>
+  <text x="90" y="88" fill="#e8f4fd" text-anchor="middle">地区/年龄/账号</text>
+  <rect x="190" y="45" width="150" height="60" rx="10" fill="#00b8a9"/>
+  <text x="265" y="70" fill="#fff" text-anchor="middle" font-weight="bold">②授权流程层</text>
+  <text x="265" y="88" fill="#d8fffb" text-anchor="middle">OAuth 回调可达</text>
+  <rect x="365" y="45" width="150" height="60" rx="10" fill="#ff6b1a"/>
+  <text x="440" y="70" fill="#fff" text-anchor="middle" font-weight="bold">③额度权益层</text>
+  <text x="440" y="88" fill="#ffe8d6" text-anchor="middle">订阅档位/限流</text>
+  <rect x="540" y="45" width="165" height="60" rx="10" fill="#ef476f"/>
+  <text x="622" y="70" fill="#fff" text-anchor="middle" font-weight="bold">④服务限制层</text>
+  <text x="622" y="88" fill="#ffe0e8" text-anchor="middle">ToS 封禁/申诉</text>
+  </g>
+  <text x="357" y="30" font-size="12" text-anchor="middle" fill="#555">四层各自独立排查，症状相似病根不同</text>
+</svg>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q2</div>
+<h2>官方条款的硬边界（原话核实）</h2>
+<div class="warnbox"><b>官方 FAQ 原话</b>："Using third party software, tools, or services — e.g. Claude Code, OpenClaw, OpenCode — to access Antigravity is a violation of our Terms of Service. Such actions may be grounds for <b>suspension or termination</b> of your account."</div>
+<ul>
+<li>当前 FAQ 给的第三方编程代理替代路径：<b>Gemini Enterprise 或 Google AI Studio API key</b>；该页未提 Vertex，初稿已纠正。</li>
+<li>Terms §6 的处罚对象是 <b>Antigravity 和/或 Gemini CLI 账户</b>；不能由此证明“整个 Google 绝不受影响”或其他产品必然安全。</li>
+<li>“2026-02 封禁潮、AI Ultra 也封”等仅作社区报告，<b>不是当前官方 FAQ/Terms 的证据</b>。</li>
+<li>FAQ 提供国家关联纠错与年龄验证入口，但未给一般封号申诉流程；不能混写成已有通用申诉渠道。</li>
+<li>个人账号各档位可使用仍受支持地区、年龄（当前未满 18 不可用）与账号类型限制。</li>
+</ul>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q3</div>
+<h2>两个第三方工具审计：数据流完全不同（本指南源码实测）</h2>
+<table>
+<tr><th></th><th>Antigravity-Manager</th><th>AntigravityBridge</th></tr>
+<tr><td>本质</td><td><b>协议代理</b>：Web 会话→API</td><td>macOS 启动器：进程级代理注入</td></tr>
+<tr><td>上游端点（源码 grep）</td><td>daily-cloudcode-pa.googleapis.com 等</td><td>不接触</td></tr>
+<tr><td>OAuth token</td><td>固定源码含 `antigravity-oauth-token` 路径标记（5 个文件），未读取真实 token</td><td>README 称不读取/保存/转发登录凭据；本轮未全量源码或运行验证</td></tr>
+<tr><td>功能面</td><td>多账号调度/轮换/token 统计/多 CLI 同步</td><td>仅让 IDE 走对代理</td></tr>
+<tr><td>风险类别</td><td><b>与官方禁止的第三方访问定位冲突</b></td><td>README 定位为网络层工具，但仍需源码/权限/更新包独立审查</td></tr>
+<tr><td>许可</td><td>固定 LICENSE 为 CC-BY-NC-SA 4.0（非商业/相同方式共享限制）</td><td>MIT（按当前仓库 LICENSE）</td></tr>
+</table>
+<p><span class="hl">仓库真实存在 ≠ 推荐使用。</span>Manager 固定源码含上游端点和 OAuth token 文件标记，且涉及多账号调度；与官方第三方访问禁令冲突。Bridge README 将其定位为进程级网络代理，但这只是维护者声明，不能推出“已证明不碰凭据”或“天然安全”。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q4</div>
+<h2>登录排查决策树（交付物）</h2>
+<pre><code>症状：打不开登录页 / 授权回调失败
+ → 网络层：代理可达性、系统代理设置；（macOS）进程级注入桥
+症状：授权后 403 "ToS violation"
+ → 账号层：是否有第三方工具访问史 → 官方申诉渠道
+症状：能用但频繁限流
+ → 额度层：订阅档位（AI Pro 增强额度/优先流量）与产品额度上限
+需求：想在第三方客户端里用 Gemini
+ → 当前 FAQ 的 AI Studio/Gemini Enterprise 路径（其他企业路径另查官方文档）
+   不挖 Web 会话 token（Manager 类工具的数据流风险）</code></pre>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[OAuth资源发现]]</td><td>标准 OAuth 发现 vs 挖会话 token 的对立路线</td></tr>
+<tr><td>[[负载均衡与反向代理]]</td><td>代理/调度机制理解工具行为，但配额轮换≠合法额度</td></tr>
+<tr><td>[[事实与判断分离]]</td><td>官方资格/维护者功能描述/发帖人涨价预测三分开</td></tr>
+<tr><td>[[CleanRoom只读读取器]]</td><td>同族问题：能不能读 vs 授权读（会话 token 的授权边界）</td></tr>
+</table>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q6</div>
+<h2>教程类内容怎么读？（本案例方法）</h2>
+<p>这篇 X 长文混合了三层信息：官方可查的事实（FAQ/ToS）、维护者可查的功能描述（README/源码）、不可查的宣称（商家账号/低价会员/必涨价）。<span class="hl">三层分开；能否行动由官方条款和实际授权决定，维护者“能做”不等于允许做。</span></p>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q7</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>第三方工具访问违反 ToS</td><td>✅ 当前官方 FAQ+Terms §6；封禁潮仍是社区报告</td></tr>
+<tr><td>Bridge 仅进程级代理注入</td><td>✅ README 自述一致（未实机，macOS 限定）</td></tr>
+<tr><td>Manager 会话转 API</td><td>✅ 源码端点+token 文件路径实证</td></tr>
+<tr><td>商家账号/便宜长期会员</td><td>❌ 无官方证据，且与 ToS 风险叠加</td></tr>
+<tr><td>"新模型推出必涨价"</td><td>❌ 预测不是事实</td></tr>
+</table>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q8</div>
+<h2>本机可做的安全验证（无需账号）</h2>
+<ul>
+<li>用 <code>python -I exercise/static_dataflow_audit.py</code> 只扫描固定源码的端点/凭据文件名标记，不读真实凭据；</li>
+<li>核实当前官方 FAQ/Terms 原文，社区封禁/价格与账号影响另标来源；</li>
+<li>区分网络层与协议层工具——维护者定位仍需源码和运行证据复核。</li>
+</ul>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q9</div>
+<h2>如果我是 Antigravity 用户，正确的工具观</h2>
+<p>IDE 网络不通时先按官方支持排查；Bridge 类工具须另审源码、权限和发布包。想在脚本里用 Gemini，走当前官方 API/Enterprise 文档；多账号轮换绕过配额则不做。判断依据是实际数据流、条款和授权，不是“工具无罪”的口号。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q10</div>
+<h2>动手：第三方工具审计三件套（约 15 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 在 <code>antigravity_login</code> 目录跑固定源码审计。</b><code>python -I exercise/static_dataflow_audit.py</code>。
+<div class="expect">✅ 实测：端点命中 9/10/3 个文件、token 文件名 5 个文件、CC-BY-NC-SA=True；不读真实 token。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 跑 6 项测试。</b><code>python -I exercise/test_static_dataflow_audit.py</code>。
+<div class="expect">✅ 实测 6 项通过；只证明静态标记，不证明全部运行数据流。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 对照当前官方条款。</b>第三方访问不要试；Bridge 维护者声明与真实运行分开，账号资格与封禁另行核验。</div>
+<div class="okbox"><b>如实声明</b>：本机无 Antigravity 账号未登录；Bridge macOS 未运行；当前官方 FAQ/Terms 于 2026-11-22 复核。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>登录排查四层决策树</b>：资格/授权/额度/封禁对症；</li>
+<li><b>第三方工具数据流审计法</b>：端点+凭据路径+许可三查；</li>
+<li><b>网络层 vs 协议层工具区分</b>：修连通与动凭证的边界；</li>
+<li><b>教程三层分离阅读法</b>；</li>
+<li><b>官方替代路径</b>：API key 正道不走旁门。</li>
+</ol>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>登录失败分四层</b>：资格/授权网络/额度/ToS 封禁，病根不同；</li>
+<li><b>官方原话</b>：第三方工具访问 Antigravity=违反 ToS，可封号；</li>
+<li><b>两工具证据不同</b>：Manager 有会话/token 静态标记；Bridge 仅 README 定位，未全量验证；</li>
+<li><b>当前 FAQ 正路</b>：AI Studio/Gemini Enterprise；不在该页冒写 Vertex；</li>
+<li><b>审计三件套</b>：端点/凭据/许可。</li>
+</ul>
+</div>
+
+<div class="card" style="--accent:#06d6a0;"><div class="qnum">↗</div><h2>来源</h2><ul><li><a href="https://antigravity.google/docs/faq/">当前官方 FAQ</a></li><li><a href="https://antigravity.google/terms">当前官方 Terms</a></li><li><a href="https://github.com/lbjlaq/Antigravity-Manager">Manager</a>（固定 0067fe0）/ <a href="https://github.com/anzaiyes/AntigravityBridge">Bridge</a>（固定 2c8c12d）</li><li><a href="https://x.com/Delroy715/status/2102267215819296905">原帖</a></li></ul></div>
+</div>
+<div class="footer">Antigravity 登录排查 · 2026-11-22 审核修订 · 当前官方条款+固定源码6测试</div>
+</body>
+</html>

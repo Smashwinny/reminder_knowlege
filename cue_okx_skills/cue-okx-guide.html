@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Cue × OKX Skills · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f0fbf4; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#06d6a0 0%,#2d9cdb 50%,#5b2ee5 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-green));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-green));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-green));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-green));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Cue × OKX Skills：跨账户任务的授权、确认和回读</h1>
+  <p>固定 commit 0ea4378 技能文档审计 + 合成预检模型：占位符不算选择、API key 优先、OAuth 省略 --demo 即实盘；不连账户不交易</p>
+  <p>
+    <span class="badge">固定技能包审计</span><span class="badge">合成预检9测试通过</span><span class="badge">未执行资金操作</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖 @AYi_AInotes 引用教程 → okx/agent-skills｜初学 2026-10-28｜审核修订 2026-11-22</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q1</div>
+<h2>这条教程链路是什么？</h2>
+<p><span class="big">Cue（个人 Agent 应用）接入 OKX 官方技能包，走完"查资金→确认赎回与划转→确认买入方案→看回执→核对账单"的跨账户任务。</span>学习价值不在"AI 帮你炒币"（作者自己承认证明不了盈利），而在<b>agent 触达资金时的授权-确认-回读纪律</b>——这是可平移到任何资金场景的工程范文。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q2</div>
+<h2>审计发现①：OAuth 默认实盘（最大的坑）</h2>
+<div class="warnbox">官方 SKILL.md 原话："OAuth 用户只有单个隐式 oauth profile，<b>没有 demo 字段</b>；用 --demo 开启模拟盘，<b>省略则实盘（默认）</b>；不要用 --profile 切换模式。"——误以为"接了 OAuth 就有沙箱"的 agent，第一笔就可能在实盘花钱。</div>
+<p>对比：API Key 模式通过显式 profile 区分 demo/live。固定文档明确 OAuth 没有 demo 字段，省略 `--demo` 就是 live；这不是“接 OAuth 就有沙箱”。</p>
+<div class="svgbox"><svg viewBox="0 0 720 130" width="100%" role="img" aria-label="OAuth默认实盘"><rect x="45" y="25" width="250" height="60" rx="14" fill="#ef476f"/><rect x="425" y="25" width="250" height="60" rx="14" fill="#06d6a0"/><text x="170" y="62" text-anchor="middle" fill="white" font-size="20">省略 --demo：实盘</text><text x="550" y="62" text-anchor="middle" fill="white" font-size="20">显式 --demo：模拟</text><text x="360" y="120" text-anchor="middle" font-size="17">合成规则测试；未连接任何账户</text></svg></div>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q3</div>
+<h2>审计发现②③④⑤：pre-flight/占位符/确认矩阵/红线</h2>
+<table>
+<tr><th>发现</th><th>原文要点</th><th>平移价值</th></tr>
+<tr><td>强制 pre-flight</td><td>"任何情况下不得跳过 Step 0"；上游结论不替代亲自检查</td><td>信任边界=每步自己验证</td></tr>
+<tr><td>占位符陷阱</td><td>未登录时的 site 字段是默认占位符("global")，须当 absent</td><td>默认值的读者是程序不是人</td></tr>
+<tr><td>写操作确认矩阵</td><td>下单前逐项确认参数；USDT 金额须显式确认 quote_ccy/margin 模式；合约先核 ctVal 面值</td><td>参数确认清单化</td></tr>
+<tr><td>红线不自动处置</td><td>"不要自动撤单或停 bot——呈报发现让人决定"</td><td>agent 姿态=呈现选项</td></tr>
+</table>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q4</div>
+<h2>纪律的层次：提示词 vs 硬门</h2>
+<p><span class="big">关键纪律写在 SKILL.md；文档还引用部分 CLI guard 行为，但本轮未审计 CLI 源码或验证硬门。</span>提示词覆盖依赖 agent 遵守，真正的不可绕过性需机制测试。不能把“文档提到 guard”当作已证明底层强制，也不能把跨账户链当作原子事务。</p>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q5</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[技能路由器与授权硬门]]</td><td>OKX 提供确认矩阵案例；提示词要求不等于已验证硬门</td></tr>
+<tr><td>[[出站内容分级闸门]]（easel）</td><td>资金操作可参照 BLOCK 级硬门，但本轮未验证机制</td></tr>
+<tr><td>[[可逆派生状态]]</td><td>回执≠成交：看 fills 对账，pending 是铁证</td></tr>
+<tr><td>[[付费调用回执与预算熔断]]</td><td>账号会话、积分与真实资金动作都需留痕和回读</td></tr>
+</table>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>技能包结构与确认要求</td><td>✅ 源码 SKILL.md 直读一致</td></tr>
+<tr><td>OAuth 默认实盘</td><td>✅ 官方 auth SKILL.md 原话</td></tr>
+<tr><td>最优路径/十秒成交/决不越权</td><td>❌ 超出本轮证据</td></tr>
+<tr><td>赚钱机器/盈利策略</td><td>❌ 引用作者自己否认</td></tr>
+<tr><td>整条链路原子性/底层硬门</td><td>❓ 未审计 CLI 实现</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q7</div>
+<h2>资金操作四步纪律（交付物）</h2>
+<pre><code>① 授权模式二选一：OAuth 默认实盘（--demo 才模拟）/ API Key 显式 profile
+② 写操作逐项确认：参数确认矩阵 + 合约先核面值报总价
+③ 执行后回读对账：看 fills 与账单，回执≠成交
+④ 红线不自动处置：撤单/停机/平仓呈报人决定</code></pre>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>跨账户任务的两个结构陷阱</h2>
+<ul>
+<li><b>账户类型混说</b>：教程操作的是交易所 Earn/资金/交易账户，不是链上钱包——两者授权模型完全不同，转述时别合并；</li>
+<li><b>工作区幻觉</b>：安装回执里的 /workspace 只是 bot 的工作目录，推不出"代码跑在你本机"——执行位置的证据要单独拿。</li>
+</ul>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q9</div>
+<h2>给非交易场景的平移示例</h2>
+<p>同一四步纪律平移到：自动续费管理（授权→确认扣款项→回读账单→退款红线呈报）、广告投放 agent（授权→确认预算→回读消耗→超支红线）——凡 agent 碰钱，四步一个不能少。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q10</div>
+<h2>动手：审计你自己的资金类技能（约 15 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 在 <code>cue_okx_skills</code> 目录运行合成预检。</b><code>python -I exercise/audit_preflight.py</code>。
+<div class="expect">✅ 实测：未登录 global 占位符视为未选择；API key 优先；OAuth 默认 live，--demo 才 demo。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 跑 9 项测试。</b><code>python -I exercise/test_audit_preflight.py</code>。
+<div class="expect">✅ 实测 9 项通过：站点、优先级、默认实盘、pending/no-auth、写参数与 USDT 模式。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 真实资金另设授权验收。</b>不在本实验登录、下单、撤单或停 bot；CLI 硬门、fills 和链路原子性都另测。</div>
+<div class="okbox"><b>如实声明</b>：全部输入为合成；未连交易所未执行资金操作；教程成交与盈利宣称未核实。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>资金四步纪律</b>（授权/确认/回读/红线）；</li>
+<li><b>"默认实盘"陷阱免疫</b>；</li>
+<li><b>确认矩阵与面值核算</b>意识；</li>
+<li><b>提示词纪律 vs 机制硬门</b>的分层判断；</li>
+<li><b>跨账户/工作区两个结构陷阱</b>识别。</li>
+</ol>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>Omit --demo = 实盘</b>：接入交易技能第一问默认姿态；</li>
+<li><b>pre-flight 不可跳过</b>，上游结论不作数；</li>
+<li><b>写操作确认矩阵+合约核面值</b>；</li>
+<li><b>回执≠成交，红线不自动处置</b>；</li>
+<li><b>提示词纪律≠机制硬门</b>，CLI 实现要另审。</li>
+</ul>
+</div>
+
+<div class="card" style="--accent:#06d6a0;"><div class="qnum">↗</div><h2>来源</h2><ul><li><a href="https://github.com/okx/agent-skills">OKX Agent Skills</a>（固定 commit 0ea4378）</li><li><a href="https://x.com/AYi_AInotes/status/2105250949706977401">原帖</a>（教程线索，成交与盈利未核实）</li></ul></div>
+</div>
+<div class="footer">Cue × OKX Skills · 2026-11-22 审核修订 · 固定文档+合成预检9测试</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "manager_commit": "0067fe045ddd77f4462ea8e2c25384839d869f32",
+  "bridge_commit": "2c8c12d7f515873e011a8c7a8d40c3a250a4a1a0",
+  "matches": {
+    "daily-cloudcode-pa.googleapis.com": [
+      "CHANGELOG.md",
+      "CHANGELOG_EN.md",
+      "docs\\HAR_NATIVE_PROTOCOL_ALIGNMENT_AND_BUG_AUDIT.md",
+      "src\\utils\\harExport.ts",
+      "src-tauri\\src\\modules\\quota.rs",
+      "src-tauri\\src\\proxy\\cli_sync.rs",
+      "src-tauri\\src\\proxy\\project_resolver.rs",
+      "src-tauri\\src\\proxy\\token_manager.rs",
+      "src-tauri\\src\\proxy\\upstream\\client.rs"
+    ],
+    "cloudcode-pa.googleapis.com": [
+      "CHANGELOG.md",
+      "CHANGELOG_EN.md",
+      "docs\\HAR_NATIVE_PROTOCOL_ALIGNMENT_AND_BUG_AUDIT.md",
+      "src\\utils\\harExport.ts",
+      "src-tauri\\src\\modules\\quota.rs",
+      "src-tauri\\src\\proxy\\cli_sync.rs",
+      "src-tauri\\src\\proxy\\handlers\\common.rs",
+      "src-tauri\\src\\proxy\\project_resolver.rs",
+      "src-tauri\\src\\proxy\\token_manager.rs",
+      "src-tauri\\src\\proxy\\upstream\\client.rs"
+    ],
+    "cloudcode-pa.sandbox.googleapis.com": [
+      "src-tauri\\src\\modules\\quota.rs",
+      "src-tauri\\src\\proxy\\project_resolver.rs",
+      "src-tauri\\src\\proxy\\upstream\\client.rs"
+    ],
+    "antigravity-oauth-token": [
+      "CHANGELOG.md",
+      "CHANGELOG_EN.md",
+      "src-tauri\\src\\modules\\account.rs",
+      "src-tauri\\src\\modules\\integration.rs",
+      "src-tauri\\src\\proxy\\cli_sync.rs"
+    ]
+  },
+  "license_is_cc_by_nc_sa": true,
+  "scope": "只匹配源码标记与许可；不读取真实凭据，不证明运行行为或所有数据流"
+}

@@ -1,0 +1,45 @@
+{
+  "task_id": "7d734b42-782c-4281-a4a3-907c378a7c04",
+  "topic": "Cue × OKX Skills：固定预检文档与合成资金安全模型",
+  "project_dir": "cue_okx_skills",
+  "classification": "开源项目类（交易所技能包审计）",
+  "source_urls": [
+    "https://x.com/AYi_AInotes/status/2105250949706977401",
+    "https://github.com/okx/agent-skills",
+    "https://github.com/okx/agent-skills/commit/0ea4378645dfc212e9d58df9fc4ca4446398c9e3"
+  ],
+  "pdf": "cue_okx_skills/Cue-OKX-Skills-小白指南-v2.pdf",
+  "html": "cue_okx_skills/cue-okx-guide.html",
+  "exercise_dir": "cue_okx_skills/exercise",
+  "experiment_log": "cue_okx_skills/exercise/experiment-log.md",
+  "experiment_files": [
+    "cue_okx_skills/exercise/audit_preflight.py",
+    "cue_okx_skills/exercise/test_audit_preflight.py",
+    "cue_okx_skills/exercise/preflight-audit-v2.json",
+    "cue_okx_skills/exercise/fund-ops-discipline.md",
+    "cue_okx_skills/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/cue_okx_skills.md",
+  "vault_note_proposal": "cue_okx_skills/cue_okx_skills-vault-note-proposal.md",
+  "deliverables": [
+    "cue_okx_skills/cue-okx-guide.html",
+    "cue_okx_skills/Cue-OKX-Skills-小白指南-v2.pdf",
+    "cue_okx_skills/exercise/audit_preflight.py",
+    "cue_okx_skills/exercise/test_audit_preflight.py",
+    "cue_okx_skills/exercise/preflight-audit-v2.json",
+    "cue_okx_skills/exercise/fund-ops-discipline.md",
+    "cue_okx_skills/exercise/experiment-log.md",
+    "cue_okx_skills/cue_okx_skills-vault-note-proposal.md",
+    "vault/项目笔记/cue_okx_skills.md"
+  ],
+  "verified_facts": [
+    "固定commit0ea4378：Step0强制、未登录site占位、API key优先、OAuth省略demo即live、确认矩阵与红线",
+    "合成预检主程序与9项unittest通过：站点/优先级/默认实盘/pending/no-auth/写参数/USDT模式",
+    "提示词与文档guard不等于CLI机制硬门，链路原子性未证明",
+    "审核版PDF从修订HTML重印并逐页渲染"
+  ],
+  "blocked_items": [
+    "未运行CLI、连接账户或执行任何资金操作",
+    "教程成交、盈利、最优路径和十秒成交均未独立核实"
+  ]
+}

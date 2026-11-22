@@ -1,0 +1,40 @@
+{
+  "task_id": "a23f16a3-5f81-43e0-8ec2-b96a28d7d04a",
+  "topic": "AI 辅助外语对话：真人测试效应证据与参数模型边界",
+  "project_dir": "ai_language_dialogue",
+  "classification": "知识学习类（学习方法）",
+  "source_urls": [
+    "https://x.com/RealHanyaHu",
+    "https://learninglab.psych.purdue.edu/downloads/2008/2008_Karpicke_Roediger_Science.pdf"
+  ],
+  "pdf": "ai_language_dialogue/AI辅助外语对话-小白指南-v2.pdf",
+  "html": "ai_language_dialogue/ai-language-dialogue-guide.html",
+  "exercise_dir": "ai_language_dialogue/exercise",
+  "experiment_log": "ai_language_dialogue/exercise/experiment-log.md",
+  "experiment_files": [
+    "ai_language_dialogue/exercise/testing_effect_sim.py",
+    "ai_language_dialogue/exercise/test_testing_effect_sim.py",
+    "ai_language_dialogue/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/ai_language_dialogue.md",
+  "vault_note_proposal": "ai_language_dialogue/ai_language_dialogue-vault-note-proposal.md",
+  "deliverables": [
+    "ai_language_dialogue/ai-language-dialogue-guide.html",
+    "ai_language_dialogue/AI辅助外语对话-小白指南-v2.pdf",
+    "ai_language_dialogue/exercise/testing_effect_sim.py",
+    "ai_language_dialogue/exercise/test_testing_effect_sim.py",
+    "ai_language_dialogue/exercise/experiment-log.md",
+    "ai_language_dialogue/ai_language_dialogue-vault-note-proposal.md",
+    "vault/项目笔记/ai_language_dialogue.md"
+  ],
+  "verified_facts": [
+    "K&R 2008原文pp966-967：40个词对，一周后重复测试80% vs 无重复测试36%（跨后续学习条件平均）",
+    "玩具模型默认21.7% vs 33.0%仅参数输出；反向参数测试8.3%，8项unittest通过",
+    "产品身份未绑定，母语补位后重试与多指标练习纪律保留",
+    "审核版PDF从修订HTML重印并逐页渲染"
+  ],
+  "blocked_items": [
+    "产品语音识别/发音评分和真实口语提升未验证",
+    "玩具模型不是人类实验复现，参数方向和数值不可外推"
+  ]
+}

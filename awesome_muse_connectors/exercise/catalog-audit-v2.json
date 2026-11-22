@@ -1,0 +1,810 @@
+{
+  "schema": "muse-catalog-static-audit-v1",
+  "expected_commit": "0ffbcc02876c6fc1e3cc25c9f46356c49a7f11bf",
+  "skill_files": 159,
+  "connector_entries": 158,
+  "maturity_counts": {
+    "template": 1,
+    "draft": 154,
+    "live-tested-specific-commands": 4
+  },
+  "fully_structured": 159,
+  "records": [
+    {
+      "id": "_template",
+      "missing_sections": [],
+      "maturity": "template"
+    },
+    {
+      "id": "airtable",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "alphavantage",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "amadeus",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "anthropic",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "apollo",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "aqara",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "asana",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "ashby",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "attio",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "beatoven",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "beehiiv",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "black-forest-labs",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "bluesky",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "brave-search",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "buttondown",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "buzzsprout",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "calcom",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "calendly",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "canva",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "cartesia",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "clerk",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "clickup",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "cloudflare",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "cloudinary",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "coda",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "cohesivity",
+      "missing_sections": [],
+      "maturity": "live-tested-specific-commands"
+    },
+    {
+      "id": "datacircle",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "deepgram",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "deepl",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "deepseek",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "descript",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "devto",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "digitalocean",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "discord",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "docusign",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "dub",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "ecovacs",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "elai",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "elevenlabs",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "etsy",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "exa",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "fal-ai",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "figma",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "firecrawl",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "flyio",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "framer",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "front",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "fxmacrodata",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "gemini",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "github",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "gitlab",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "google-nest",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "gumroad",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "heygen",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "home-assistant",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "homey",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "html-docs",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "hubitat",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "hubspot",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "huggingface",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "hume-ai",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "ideogram",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "kit",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "kling",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "langfuse",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "leaf-agriculture",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "lemon-squeezy",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "letta",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "linear",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "lob",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "lodestone",
+      "missing_sections": [],
+      "maturity": "live-tested-specific-commands"
+    },
+    {
+      "id": "loops",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "luma",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "market-evidence-check",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "mastodon",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "mem0",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "mercury",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "mistral",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "monday",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "moonraker",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "musedin",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "mushare",
+      "missing_sections": [],
+      "maturity": "live-tested-specific-commands"
+    },
+    {
+      "id": "n8n",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "neon",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "netlify",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "newsapi",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "notion",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "octoprint",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "openai",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "openrouter",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "openweathermap",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "opusclip",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "oura",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "paddle",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "patreon",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "perplexity",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "pexels",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "philips-hue",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "pipedrive",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "plain",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "playht",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "podbean",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "polar",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "polymarket",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "posthog",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "postmark",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "printful",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "prusa-connect",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "rachio",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "railway",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "ramp",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "readwise",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "remove-bg",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "render",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "replicate",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "resend",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "restream",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "runway",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "sendgrid",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "sentry",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "shippo",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "shopify",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "slack",
+      "missing_sections": [],
+      "maturity": "live-tested-specific-commands"
+    },
+    {
+      "id": "smartcar",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "smartthings",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "spotify",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "square",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "stripe",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "supabase",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "supermemory",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "switchbot",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "tally",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "tavily",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "telegram",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "tesla-fleet-api",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "tesla-powerwall",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "ticktick",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "tiktok",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "todoist",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "transistor",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "triggerdev",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "tuya",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "twitch",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "typeform",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "uber-direct",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "unifi-protect",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "unsplash",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "upstash",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "vapi",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "veed",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "vercel",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "webflow",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "wise",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "x",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "xai",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "ynab",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "youtube",
+      "missing_sections": [],
+      "maturity": "draft"
+    },
+    {
+      "id": "zep",
+      "missing_sections": [],
+      "maturity": "draft"
+    }
+  ],
+  "scope": "静态结构/标签审计；Live-tested仅指条目列出的具体命令与环境，不证明整个连接器"
+}

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Awesome Muse Connectors · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f5f0ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#7c4dff 0%,#ff2e88 55%,#ff6b1a 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-purple));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-purple));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-purple));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-purple));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Awesome Muse Connectors：社区连接器目录的审查框架</h1>
+  <p>固定 commit 0ffbcc0：159 个 SKILL.md = 158 个连接器 + 1 个模板；154 Draft、4 个特定命令实测标签，全部五段结构静态核验</p>
+  <p>
+    <span class="badge">158连接器+1模板</span><span class="badge">离线审计7测试通过</span><span class="badge">未执行连接器</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖 @0xlangeai → Anil-matcha/awesome-muse-connectors｜初学 2026-10-28｜审核修订 2026-11-22</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q1</div>
+<h2>这个仓库是什么？一句话能说清吗？</h2>
+<p><span class="big">Muse（Meta 的个人 AI 助手）的社区连接器目录：固定版本中 158 个连接器条目加 1 个模板，给出能力描述、认证方式、允许主机、操作边界和成熟度——但它是独立社区目录，不隶属 Meta、不被 Meta 验证。</span>Meta 官方也明确：用户自定义连接器不由 Meta 审核。所以这份目录是"审查线索集合"，不是"可放心安装的商店"。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q2</div>
+<h2>审计实测：计数、来源、成熟度（本指南实验）</h2>
+<table>
+<tr><th>审计项</th><th>实测结果</th></tr>
+<tr><td>条目数</td><td>159 个 SKILL.md = 158 个连接器 + `_template`；初稿把模板也计入连接器</td></tr>
+<tr><td>固定版本</td><td>本次审计 commit <b>0ffbcc02876c6fc1e3cc25c9f46356c49a7f11bf</b>；来源说明另提 6e31fd44 复制历史</td></tr>
+<tr><td>Meta 内置表</td><td>自述"带日期的证据快照，非完整名单/可用性保证"</td></tr>
+<tr><td>成熟度分布</td><td>154 Draft；4 个 Live-tested 特定命令标签（Cohesivity/Lodestone/Mushare/Slack）</td></tr>
+<tr><td>初日志归因</td><td>Cohesivity 的 2026-10-04 实测曾被误记到 fal.ai；固定文件中 fal.ai 仍为 Draft，已纠正</td></tr>
+<tr><td>历史实跑</td><td>初学期 anthropic 抽样报需要 Muse 运行时；本轮只做静态审计，不重复执行</td></tr>
+</table>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q3</div>
+<h2>可复用的五段审查框架（抽样条目结构）</h2>
+<pre><code>每个连接器 SKILL.md 五段对齐法：
+①Auth：凭据类型/收集流程/HTTP 头细节（如 x-api-key ≠ Bearer）
+②catalog_hosts：允许主机白名单（越界主机=风险信号）
+③Operating Rules：写操作确认门（如 email_send 需 --confirm）
+④Files：文件清单与来源可核对
+⑤Maturity：Draft(照文档写) vs Live-tested(带日期+命令证据)</code></pre>
+<div class="tipbox">这套五段法不限于 Muse——审查任何社区 Agent 技能/MCP 工具包都适用（与 [[技能路由器与授权硬门]] 的授权硬门思想互证）。</div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q4</div>
+<h2>成熟度标签怎么读？（Draft vs Live-tested）</h2>
+<p><span class="big">"🧪 Draft: written from public API docs; not yet live-tested"=按文档写就、未做端到端实测；"✅ Live-tested on 日期: 命令清单"=条目声称在真实 API 上跑过列出的具体命令。</span>后者只证明所列命令与环境，不证明整个连接器、所有参数或今天的兼容性。Draft 先当待验证假设；Live-tested 也要复跑同一命令并核对当前版本。</p>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[健康探测三态]]（missing/broken/timeout）</td><td>成熟度是维护者声明，健康探测是运行观察；两者互补不可互相替代</td></tr>
+<tr><td>[[技能路由器与授权硬门]]</td><td>五段审查法=授权硬门的落地清单</td></tr>
+<tr><td>[[四级验证编目法]]（batch_1 awesome_ai_motion）</td><td>同族诚实标注：0 复现照写 / Draft 照标</td></tr>
+<tr><td>[[控制面与数据面]]</td><td>catalog_hosts 白名单=数据面的最小暴露面</td></tr>
+</table>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>159 个连接器</td><td>⚠️ 159 个 SKILL 文件含 1 模板；实际 158 个连接器</td></tr>
+<tr><td>Meta 内置连接器名单</td><td>⚠️ 自述证据快照非完整名单</td></tr>
+<tr><td>"免费替代品/unlimited"</td><td>❌ 宣传口径；技能绑定 Muse 运行时与账号配额</td></tr>
+<tr><td>有文案=能运行=兼容</td><td>❌ 本机实跑证实依赖 Muse 运行时</td></tr>
+<tr><td>Meta 审核自定义连接器</td><td>❌ 官方明确不审核，自担审查责任</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q7</div>
+<h2>装社区连接器前的五问（交付清单）</h2>
+<pre><code>①Maturity 是 Draft 还是 Live-tested（有日期证据）？
+②Auth 段凭据走什么流程？会不会经过第三方？
+③catalog_hosts 白名单是否最小？
+④写操作有没有确认门？（高风险写操作无硬门则拒绝或先补门）
+⑤它读到的数据会进谁的历史/记忆？断开连接删得掉吗？</code></pre>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>目录 vs 商店：社区目录的正确心态</h2>
+<p>应用商店可能有平台审核，但审核本身也不是绝对安全保证；社区目录更像线索集市。目录的价值是<b>省得你从零找</b>，审查责任一点没省。这个仓库把"非 Meta 验证/不审核自定义连接器"写得很清楚——读目录的人也要把这句话读进去。</p>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q9</div>
+<h2>这套审计法怎么用到自己的项目？</h2>
+<p>给自己的 Agent 引入任何外部技能/MCP 时：要求提供五段说明（Auth/Hosts/Rules/Files/Maturity），没有 Maturity 段的默认按 Draft 对待；高风险写操作无硬门则拒绝或先补门。把五段法写进项目 AGENTS.md，团队审查就有统一刻度。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q10</div>
+<h2>动手：审计三命令（约 10 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 在 <code>awesome_muse_connectors</code> 目录跑静态审计。</b><code>python -I exercise/audit_catalog.py</code>。
+<div class="expect">✅ 实测：159 SKILL=158 连接器+1 模板；154 Draft、4 个特定命令实测标签；输出 catalog-audit-v2.json。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 跑 7 项测试。</b><code>python -I exercise/test_audit_catalog.py</code>。
+<div class="expect">✅ 实测 7 项通过：计数、模板排除、五段、成熟度边界与敏感正文不复制。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 实跑只在授权环境另做。</b>初学期 anthropic 已证明需要 Muse 运行时；本轮不重复执行任何连接器或读取凭据。</div>
+<div class="okbox"><b>如实声明</b>：无 Muse 运行时；本轮是固定版本全量静态结构审计，不是 158 个连接器的真实 API 测试。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>五段审查框架</b>（Auth/Hosts/Rules/Files/Maturity）可复用到一切外部技能；</li>
+<li><b>成熟度标签判读</b>：Draft=假设，Live-tested=所列命令曾通过；</li>
+<li><b>社区目录心态</b>：线索集市不是商店，审查责任自担；</li>
+<li><b>审计三命令</b>：计数/成熟度/实跑；</li>
+<li><b>官方机制认知</b>：Meta 不审核自定义连接器，重要操作默认审批。</li>
+</ol>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>159 SKILL=158 连接器+1 模板</b>，固定 commit 0ffbcc0；</li>
+<li><b>多数 Draft 少数实测</b>——成熟度是硬通货；</li>
+<li><b>文案≠可运行</b>（依赖 Muse 运行时）；</li>
+<li><b>五段审查法</b>：Auth/Hosts/Rules/Files/Maturity；</li>
+<li><b>Meta 不审核自定义连接器</b>——装前自担审查。</li>
+</ul>
+</div>
+
+<div class="card" style="--accent:#06d6a0;"><div class="qnum">↗</div><h2>来源</h2><ul><li><a href="https://github.com/Anil-matcha/awesome-muse-connectors">上游目录</a>（固定 commit 0ffbcc0）</li><li><a href="https://www.meta.com/help/artificial-intelligence/1687253048996149/">Meta 自定义连接器说明</a></li><li><a href="https://x.com/0xlangeai">原帖作者入口</a></li></ul></div>
+</div>
+<div class="footer">Awesome Muse Connectors · 2026-11-22 审核修订 · 固定目录静态审计7测试</div>
+</body>
+</html>
