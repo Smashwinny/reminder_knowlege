@@ -1,0 +1,40 @@
+{
+  "task_id": "3a01ed34-e264-4096-bea1-f1c73a6daf39",
+  "topic": "世界模型四期合集：表征预测、想象训练与视频动作模型",
+  "project_dir": "world_models_series",
+  "classification": "知识学习类",
+  "source_urls": [
+    "https://www.douyin.com/video/7691368039417269540 (未观看)",
+    "https://worldmodels.github.io/"
+  ],
+  "projects_verified": [
+    "World Models 2018",
+    "DreamerV3",
+    "I-JEPA(JEPA)",
+    "NVIDIA Cosmos",
+    "DreamZero",
+    "LingBot-VA"
+  ],
+  "pdf": "world_models_series/世界模型-小白指南.pdf",
+  "html": "world_models_series/world-models-guide.html",
+  "exercise_dir": "world_models_series/exercise",
+  "experiment_log": "world_models_series/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/world_models_series-proposal-pending.md",
+  "deliverables": [
+    "world_models_series/world-models-guide.html",
+    "world_models_series/世界模型-小白指南.pdf",
+    "world_models_series/exercise/mini_world_model.py",
+    "world_models_series/exercise/experiment-log.md",
+    "world_models_series/world_models_series-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "六项目机制经一手资料（官方页/维护者仓库）逐一核对",
+    "迷你世界模型：单步预测 MSE 0.0109；想象滚动 11 步误差 0.013→0.018",
+    "训练顺序 bug 对照：想象 MSE 0.023→1.798 指数发散（误差复利实锤）",
+    "视频结构化时长 2h15m35s 与宣称'2小时16分'差 25 秒"
+  ],
+  "blocked_items": [
+    "未观看原视频（2h15m），具体论证/示例/版本未确认",
+    "机器狗'一小时学会走路'说法未独立核实"
+  ]
+}

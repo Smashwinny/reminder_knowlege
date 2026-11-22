@@ -37,3 +37,7 @@ OpenMuse 的 TaskWorker 是另一实现：compareAndSwap 领取任务，checkpoi
 guard 检查中止状态、身份和任务状态，不直接比较到期时刻；条件写回与随后外部效果并非同一原子操作，当前随机领取标识也不是外部强制的单调 fencing token。因此不能推导 exactly-once、取消能撤销已发送请求或所有处理器都安全。PGlite 正常 close/reopen 只覆盖受控持久化，不是断电/强杀；宿主不运行时状态保存也不等于任务继续推进。关联 [[消息队列与异步削峰]]、[[多Agent协作乱序竞态]]、[[产物留痕与状态外置]]。
 
 来源：[固定 LangGraph Checkpointers](https://github.com/langchain-ai/docs/blob/f17ce09ae2fc2b0bb30306b1ce78d874f3c0a77c/src/oss/langgraph/checkpointers.mdx)、[固定 TaskWorker](https://github.com/CopilotKit/openmuse/blob/b06caad7005ac5b6d2b451752a3794a6ae1759c1/apps/server/src/engine/worker.ts)、[SQL Store](https://github.com/CopilotKit/openmuse/blob/b06caad7005ac5b6d2b451752a3794a6ae1759c1/apps/server/src/db.ts)；[历史实验日志](../../openmuse/delivery/openmuse-experiment-log.md)。
+
+## LangGraph：checkpoint、interrupt、budget exhausted、verified success 四态分开（2026-11-22）
+
+[[项目笔记/graph_engineering_course]] 强调：checkpoint 是可恢复记录，interrupt 是等待人工，budget exhausted 是失败终态，verified success 才是成功终态。恢复点和人工暂停都不是任务完成；对应的 [[Outcome与Trajectory双层评测]] 证据必须分开记录。

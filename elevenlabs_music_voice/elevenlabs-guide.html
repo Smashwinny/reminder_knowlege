@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>ElevenLabs 配乐与自有音色 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f5f0ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#5b2ee5 0%,#7c4dff 50%,#2d9cdb 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-purple));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-purple));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-purple));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-purple));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>ElevenLabs 配乐与自有音色：视频条件生成、IVC/PVC 与混音验收</h1>
+  <p>"AI 自动给宣传片配乐并复刻我的声音"背后——接口契约、克隆路线选择、以及可机检的混音验收标准</p>
+  <p>
+    <span class="badge">官方文档直读</span><span class="badge">401 探针实测</span><span class="badge">混音 RMS 实验</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖 (@yupi996《面试鸭》宣传片) ｜ elevenlabs.io 官方文档 ｜ 学习日期 2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q1</div>
+<h2>原帖展示的能力，接口层面是什么？</h2>
+<p><span class="big">两件事拼成的一条流水线：①video-to-music——把视频文件作为条件生成背景音乐；②语音克隆——复刻作者自己的声音做旁白。</span>官方接口确认两者都存在且可检查，但<b>官方接口存在 ≠ 原帖流程被复现</b>——帖中无工程文件/请求记录，节奏与相似度无从证实。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q2</div>
+<h2>video-to-music 的真实契约是什么？</h2>
+<pre><code>POST https://api.elevenlabs.io/v1/music/video-to-music   (multipart)
+videos: ≤10 个 / ≤200MB / ≤600 秒
+description: ≤4100 字   tags: ≤10 个风格标签
+add_sfx: 从视频提取音效线索
+separate_tracks: true → 返回音乐/SFX 分轨 ZIP（默认是一整条混合音频）
+use_audio_as_reference: 用原片音频的流派/BPM/情绪做生成参考</code></pre>
+<p>档位与错误：192kbps mp3 需 Creator+、44.1kHz PCM 需 Pro+、零留痕限 Enterprise；403=订阅不足，422=参数错。<b>只读探针实测</b>：无 key 访问 <code>/v1/user</code> → 401 unauthorized（认证契约真实）。</p>
+<div class="warnbox"><b>关键认知</b>：该接口是<b>条件生成</b>不是"自动混音成片"——返回音乐轨，人声-音乐的比例、响度、对白避让，仍是你剪辑环节的责任。</div>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q3</div>
+<h2>复刻声音有两条路线：IVC 和 PVC 怎么选？</h2>
+<table>
+<tr><th></th><th>IVC 即时克隆</th><th>PVC 专业克隆</th></tr>
+<tr><td>机制</td><td>推理时挂参考音频，<b>不动模型权重</b></td><td><b>训练专属模型</b>（fine-tune）</td></tr>
+<tr><td>素材量</td><td>1-5 分钟（10 秒也能跑）</td><td>≥30 分钟，推荐 1-3 小时</td></tr>
+<tr><td>耗时</td><td>秒级</td><td>训练 3-6 小时</td></tr>
+<tr><td>相似度上限</td><td>高（多数场景够用）</td><td>呼吸/微停顿/情绪拐点都复刻</td></tr>
+<tr><td>门槛</td><td>Starter ≈$6/月</td><td>Creator+ ≈$22/月 + 严格声纹验证</td></tr>
+</table>
+<p><span class="hl">选型一句话：素材少/要快/临时用 → IVC；长期品牌声/有声书级还原 → PVC。</span>原帖没说是哪种——两者成本差一个量级，跟着宣称走之前先问清楚。</p>
+<div class="warnbox"><b>同意与权利</b>：官方创建指南要求确认对声音拥有权利与同意；PVC 只许克隆本人声音并需实时录音验证。克隆他人声音做内容有法律风险。</div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q4</div>
+<h2>混音验收：别再说"听着还行"（本指南实验）</h2>
+<p>用纯 Python 合成模拟人声与 BGM，真实测量 RMS 响度并生成三个混音版本：</p>
+<pre><code>人声 RMS: -22.0 dBFS   BGM RMS: -26.1 dBFS
+mix_3db.wav   人声领先 3dB  → 浑浊区
+mix_8db.wav   人声领先 8dB  → 清晰可懂区 ✅
+mix_15db.wav  人声领先 15dB → 音乐近乎消失区</code></pre>
+<p><span class="big">验收标准可机检：人声比 BGM 高 6~10dB 为常见清晰区；&lt;4dB 浑浊；&gt;15dB 配乐失存。</span>这就是 [[证据优先质检ProofOverClaims]] 在音频域的落地——分贝差是客观判据，不是听感玄学。混音公式：<code>g = 10^(目标差值/20)</code>。</p>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>一条完整的"AI 宣传片音频"流水线长什么样？</h2>
+<div class="svgbox">
+<svg width="720" height="140" viewBox="0 0 720 140">
+  <g font-size="11">
+  <rect x="15" y="40" width="130" height="60" rx="10" fill="#2d9cdb"/>
+  <text x="80" y="66" fill="#fff" text-anchor="middle" font-weight="bold">Claude 写脚本</text>
+  <text x="80" y="84" fill="#e8f4fd" text-anchor="middle">分镜/口播稿</text>
+  <rect x="175" y="40" width="130" height="60" rx="10" fill="#7c4dff"/>
+  <text x="240" y="66" fill="#fff" text-anchor="middle" font-weight="bold">TTS(克隆声)</text>
+  <text x="240" y="84" fill="#e6dcff" text-anchor="middle">IVC/PVC 旁白</text>
+  <rect x="335" y="40" width="150" height="60" rx="10" fill="#06d6a0"/>
+  <text x="410" y="66" fill="#fff" text-anchor="middle" font-weight="bold">video-to-music</text>
+  <text x="410" y="84" fill="#eafff8" text-anchor="middle">条件生成 BGM</text>
+  <rect x="515" y="40" width="190" height="60" rx="10" fill="#ff6b1a"/>
+  <text x="610" y="62" fill="#fff" text-anchor="middle" font-weight="bold">混音+RMS 验收</text>
+  <text x="610" y="80" fill="#ffe8d6" text-anchor="middle">人声领先 6~10dB</text>
+  <text x="610" y="95" fill="#ffe8d6" text-anchor="middle">对白避让 ducking</text>
+  </g>
+  <path d="M145 70 L175 70" stroke="#333" stroke-width="2.5" marker-end="url(#v1)"/>
+  <path d="M305 70 L335 70" stroke="#333" stroke-width="2.5" marker-end="url(#v1)"/>
+  <path d="M485 70 L515 70" stroke="#333" stroke-width="2.5" marker-end="url(#v1)"/>
+  <defs><marker id="v1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[级联语音管线]]</td><td>TTS 环节多了"克隆声"选项（IVC/PVC 选型）</td></tr>
+<tr><td>[[词锚定语义时间]]</td><td>音乐按对白节奏 ducking 是"事件锚定"的音频版</td></tr>
+<tr><td>[[证据优先质检ProofOverClaims]]</td><td>混音验收=RMS 分贝差，可机检</td></tr>
+<tr><td>[[混合模型分工流水线]]</td><td>编排(Claude)/生成(ElevenLabs)/验收(脚本)三段分工</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q7</div>
+<h2>成本速算</h2>
+<ul>
+<li>IVC 起步 ≈$6/月；PVC 起步 ≈$22/月 + 3-6 小时训练；</li>
+<li>video-to-music 需订阅（403 挡免费档），高音质格式要 Creator/Pro；</li>
+<li>隐性成本：<b>失败重试</b>（生成不满意就重新计费）与<b>素材整理</b>（干净单声道 1-3 小时录音不便宜）。</li>
+</ul>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>视频可条件生成配乐</td><td>✅ 官方接口确认（有大小/时长约束）</td></tr>
+<tr><td>可复刻自己声音</td><td>✅ IVC/PVC 两路线确认（门槛不同）</td></tr>
+<tr><td>《面试鸭》视频的实际效果</td><td>❓ 无工程文件/请求记录，未复现</td></tr>
+<tr><td>Opus 编排全流程</td><td>❓ 官方接口存在≠作者流程复现成功</td></tr>
+</table>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q9</div>
+<h2>先小规模验证再谈量产</h2>
+<pre><code># ① 30 秒样片：IVC 旁白 + video-to-music BGM
+# ② 混音验收脚本：算人声/BGM 的 RMS 差，不在 6~10dB 就打回
+# ③ 满意再升级：PVC 训练正式声 + separate_tracks 分轨精修</code></pre>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q10</div>
+<h2>动手实验：零花费混音验收（约 15 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 合成素材。</b>用实验日志里的 Python 脚本合成 voice.wav/bgm.wav。
+<div class="expect">✅ 预期结果：两个 4 秒 44.1kHz WAV。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 测 RMS。</b>计算两轨 RMS dBFS（本机实测 -22.0 / -26.1）。</div>
+<div class="step"><b class="s">步骤 3 ｜ 生成三档混音。</b>按 3/8/15dB 领先各输出一轨。
+<div class="expect">✅ 预期结果：mix_3db / mix_8db / mix_15db，亲耳对比浑浊/清晰/失存三态。</div></div>
+<div class="step"><b class="s">步骤 4 ｜ 记住验收线。</b>6~10dB。
+<div class="expect">✅ 预期结果：形成"分贝差验收"的肌肉记忆。</div></div>
+<div class="okbox"><b>如实声明</b>：未充值订阅，真实生成/克隆未执行；文档契约与 401 探针、混音实验均真实执行。日志见 <code>elevenlabs_music_voice\exercise\</code>。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>video-to-music 是条件生成</b>：返回音乐轨，混音责任在你；</li>
+<li><b>IVC=推理参考秒出 / PVC=训练级还原</b>，按素材量与时效选；</li>
+<li><b>混音验收可机检</b>：人声领先 BGM 6~10dB（RMS 实测实验）；</li>
+<li><b>声音权利与同意</b>是克隆前置条件；</li>
+<li><b>官方接口存在 ≠ 作者流程复现</b>，效果宣称要凭据。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">ElevenLabs 配乐与音色 · 2026-10-27 · 文档核实+RMS 实验 · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

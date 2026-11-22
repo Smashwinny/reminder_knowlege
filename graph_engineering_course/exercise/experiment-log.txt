@@ -1,0 +1,55 @@
+$ python --version
+Python 3.14.7
+
+$ python exercise/graph_eval_lab.py --scenario all
+{"attempt": 1, "claimed_done": true, "event": "draft", "fingerprint": "97cc6270002f", "scenario": "clean"}
+{"attempt": 1, "event": "gate", "hard_failures": [], "outcome_errors": [], "passed": true, "trajectory_errors": []}
+SUMMARY scenario=clean status=PASS stop=VERIFIED_SUCCESS attempts=1
+{"attempt": 1, "claimed_done": false, "event": "draft", "fingerprint": "e5faddb1c4c7", "scenario": "repair"}
+{"attempt": 1, "event": "gate", "hard_failures": [], "outcome_errors": ["MISSING_DATE", "MISSING_OWNER", "MISSING_SOURCE"], "passed": false, "trajectory_errors": []}
+{"attempt": 1, "event": "repair", "feedback": ["MISSING_DATE", "MISSING_OWNER", "MISSING_SOURCE"]}
+{"attempt": 2, "claimed_done": true, "event": "draft", "fingerprint": "97cc6270002f", "scenario": "repair"}
+{"attempt": 2, "event": "gate", "hard_failures": [], "outcome_errors": [], "passed": true, "trajectory_errors": []}
+SUMMARY scenario=repair status=PASS stop=VERIFIED_SUCCESS attempts=2
+{"attempt": 1, "claimed_done": true, "event": "draft", "fingerprint": "716787f7f710", "scenario": "stagnant"}
+{"attempt": 1, "event": "gate", "hard_failures": [], "outcome_errors": ["MISSING_OWNER", "MISSING_SOURCE"], "passed": false, "trajectory_errors": []}
+{"attempt": 1, "event": "repair", "feedback": ["MISSING_OWNER", "MISSING_SOURCE"]}
+{"attempt": 2, "claimed_done": true, "event": "draft", "fingerprint": "716787f7f710", "scenario": "stagnant"}
+{"attempt": 2, "event": "gate", "hard_failures": [], "outcome_errors": ["MISSING_OWNER", "MISSING_SOURCE"], "passed": false, "trajectory_errors": []}
+SUMMARY scenario=stagnant status=FAIL stop=STAGNANT attempts=2
+{"attempt": 1, "claimed_done": true, "event": "draft", "fingerprint": "50e0dfa2b198", "scenario": "budget"}
+{"attempt": 1, "event": "gate", "hard_failures": [], "outcome_errors": ["MISSING_OWNER", "MISSING_SOURCE"], "passed": false, "trajectory_errors": []}
+{"attempt": 1, "event": "repair", "feedback": ["MISSING_OWNER", "MISSING_SOURCE"]}
+{"attempt": 2, "claimed_done": true, "event": "draft", "fingerprint": "e437728d053a", "scenario": "budget"}
+{"attempt": 2, "event": "gate", "hard_failures": [], "outcome_errors": ["MISSING_OWNER", "MISSING_SOURCE"], "passed": false, "trajectory_errors": []}
+{"attempt": 2, "event": "repair", "feedback": ["MISSING_OWNER", "MISSING_SOURCE"]}
+{"attempt": 3, "claimed_done": true, "event": "draft", "fingerprint": "805ebe13a22b", "scenario": "budget"}
+{"attempt": 3, "event": "gate", "hard_failures": [], "outcome_errors": ["MISSING_OWNER", "MISSING_SOURCE"], "passed": false, "trajectory_errors": []}
+SUMMARY scenario=budget status=FAIL stop=BUDGET_EXHAUSTED attempts=3
+{"attempt": 1, "claimed_done": true, "event": "draft", "fingerprint": "e62885d4aa5d", "scenario": "tamper"}
+{"attempt": 1, "event": "gate", "hard_failures": ["EVALUATOR_TAMPERING"], "outcome_errors": [], "passed": false, "trajectory_errors": ["UNAPPROVED_PATH"]}
+SUMMARY scenario=tamper status=FAIL stop=HARD_FAILURE attempts=1
+
+$ python exercise/graph_eval_lab.py --scenario budget --max-attempts 2
+{"attempt": 1, "claimed_done": true, "event": "draft", "fingerprint": "50e0dfa2b198", "scenario": "budget"}
+{"attempt": 1, "event": "gate", "hard_failures": [], "outcome_errors": ["MISSING_OWNER", "MISSING_SOURCE"], "passed": false, "trajectory_errors": []}
+{"attempt": 1, "event": "repair", "feedback": ["MISSING_OWNER", "MISSING_SOURCE"]}
+{"attempt": 2, "claimed_done": true, "event": "draft", "fingerprint": "e437728d053a", "scenario": "budget"}
+{"attempt": 2, "event": "gate", "hard_failures": [], "outcome_errors": ["MISSING_OWNER", "MISSING_SOURCE"], "passed": false, "trajectory_errors": []}
+SUMMARY scenario=budget status=FAIL stop=BUDGET_EXHAUSTED attempts=2
+
+$ python -m unittest discover -s exercise -p "test_*.py" -v
+test_equal_revision_count_continues (test_graph_eval_lab.CourseStoppingRuleTests.test_equal_revision_count_continues) ... ok
+test_greater_revision_count_ends (test_graph_eval_lab.CourseStoppingRuleTests.test_greater_revision_count_ends) ... ok
+test_claimed_done_is_not_acceptance_evidence (test_graph_eval_lab.GraphEvaluationTests.test_claimed_done_is_not_acceptance_evidence) ... ok
+test_clean_stops_on_verified_success (test_graph_eval_lab.GraphEvaluationTests.test_clean_stops_on_verified_success) ... ok
+test_distinct_failures_exhaust_exact_budget (test_graph_eval_lab.GraphEvaluationTests.test_distinct_failures_exhaust_exact_budget) ... ok
+test_evaluator_tampering_is_immediate_hard_failure (test_graph_eval_lab.GraphEvaluationTests.test_evaluator_tampering_is_immediate_hard_failure) ... ok
+test_invalid_budget_is_rejected (test_graph_eval_lab.GraphEvaluationTests.test_invalid_budget_is_rejected) ... ok
+test_repairable_failure_converges_on_second_draft (test_graph_eval_lab.GraphEvaluationTests.test_repairable_failure_converges_on_second_draft) ... ok
+test_repeated_draft_stops_as_stagnant_before_budget (test_graph_eval_lab.GraphEvaluationTests.test_repeated_draft_stops_as_stagnant_before_budget) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.000s
+
+OK

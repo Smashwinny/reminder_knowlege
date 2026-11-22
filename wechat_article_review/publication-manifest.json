@@ -1,0 +1,31 @@
+{
+  "task_id": "3a940f42-db89-4784-8298-91df63615aa8",
+  "topic": "公众号热点文章复盘：选题、标题与收益证据",
+  "project_dir": "wechat_article_review",
+  "classification": "知识学习类（内容运营）",
+  "source_urls": [
+    "https://x.com/yuguo_aicn/status/2105181269198070206",
+    "https://tencentads.com/faqlist/detail?id=374"
+  ],
+  "pdf": "wechat_article_review/公众号热点文章复盘-小白指南.pdf",
+  "html": "wechat_article_review/wechat-article-guide.html",
+  "exercise_dir": "wechat_article_review/exercise",
+  "experiment_log": "wechat_article_review/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/wechat_article_review-proposal-pending.md",
+  "deliverables": [
+    "wechat_article_review/wechat-article-guide.html",
+    "wechat_article_review/公众号热点文章复盘-小白指南.pdf",
+    "wechat_article_review/exercise/experiment-log.md",
+    "wechat_article_review/wechat_article_review-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "作者案例隐含 CPM 2.50 元/千次；CPM 0.5-5 元区间收益 200-2000 元（8 倍敏感度）",
+    "腾讯广告官方确认流量主底部/文中广告与互选合作是三种不同机制",
+    "标题脱水实验：纯情绪型 26% ❌ / 身份反差型 0% ✅",
+    "涨粉转化率 200/400000 = 0.05%（爆文≠账号资产增长）"
+  ],
+  "blocked_items": [
+    "作者全部数据为自述无后台凭据",
+    "限流申诉时限官方文档未覆盖"
+  ]
+}

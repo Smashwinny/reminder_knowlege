@@ -1,0 +1,34 @@
+{
+  "session_id": "baseline",
+  "fixture_notice": "Synthetic learner fixture; not a human learning outcome.",
+  "metrics": {
+    "word_metrics": {
+      "reference_words": 31,
+      "transcript_words": 31,
+      "word_edits": 2,
+      "word_error_rate": 0.0645,
+      "word_accuracy_proxy": 0.9355
+    },
+    "retell": {
+      "hits": [
+        true,
+        true,
+        false
+      ],
+      "score_proxy": 0.6667
+    },
+    "recycling": {
+      "hits": {
+        "runs late": false,
+        "which task blocked me": false,
+        "makes the conversation clearer": false
+      },
+      "score_proxy": 0.0
+    },
+    "review_questions": [
+      "闭眼听原句：blocked 与 locked 的声音差异是什么？",
+      "闭眼听原句：clearer 与 clear 的声音差异是什么？",
+      "不看提示，用一个工作场景主动说出语块：runs late"
+    ]
+  }
+}

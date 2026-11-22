@@ -23,3 +23,7 @@ tags: [概念]
 - [[预执行安全网与执行事件]]：Trajectory 检查在执行前/中的版本
 
 **首次接触于**：[[项目笔记/agent-eval]]
+
+## graph_eval_lab：claimed_done 不参与验收、评估器篡改硬失败（2026-11-22）
+
+[[项目笔记/graph_engineering_course]] 的零依赖实验覆盖 clean/repair/stagnant/budget/tamper 五病例与 9 项单测。Outcome 查日期、负责人、来源，Trajectory 查允许路径与评估器完整性；claimed_done 不参与通过判定。该实验仅证明自建确定性运行时，不是生产评估或模型质量基准。

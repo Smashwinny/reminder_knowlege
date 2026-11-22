@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>世界模型 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#eef6ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#0f3460 0%,#2d9cdb 60%,#06d6a0 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-blue));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-blue));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-blue));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-blue));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>世界模型：压缩表征、想象训练与视频动作模型</h1>
+  <p>四期合集的知识路线（World Models→Dreamer→JEPA→Cosmos/DreamZero/LingBot-VA）——本指南用 64→48→64 的迷你 MLP 亲手复现"世界模型三要素"</p>
+  <p>
+    <span class="badge">六个项目一手资料核实</span><span class="badge">迷你世界模型实测</span><span class="badge">含误差发散对照</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：抖音四期合集（2h15m，未观看）｜ 学习日期 2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q1</div>
+<h2>世界模型是什么？一句话能说清吗？</h2>
+<p><span class="big">让 AI 在"脑内模拟器"里预演行动：不学直接反应，而学一个"环境接下来会怎样"的预测模型，然后在这个模型生成的想象轨迹里训练策略。</span></p>
+<p>类比：人类下棋不看遍所有走法，而是在脑子里推演几步。世界模型就是那个"脑子里"的可学习版本——<b>压缩的时空表征 + 想象 rollout</b>。这正是 [[Sim2Real与MuJoCo仿真]] 的"仿真器太贵/不存在"困境的出路：没有仿真器，就自己学一个。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q2</div>
+<h2>六个项目各解决什么问题？</h2>
+<table>
+<tr><th>项目</th><th>核心机制</th><th>解决的问题</th></tr>
+<tr><td>World Models (2018)</td><td>VAE 压缩表征 + MDN-RNN 预测</td><td>在模型生成的环境里训练策略（开山）</td></tr>
+<tr><td>Dreamer 系列</td><td>世界模型 + <b>想象轨迹</b>训 actor-critic</td><td>让想象训练稳定收敛（样本效率最高路线之一）</td></tr>
+<tr><td>JEPA / I-JEPA</td><td>在<b>表征空间</b>预测而非像素空间</td><td>像素预测浪费容量在细节上</td></tr>
+<tr><td>Cosmos (NVIDIA)</td><td>物理 AI 世界模型+模拟</td><td>为机器人/自动驾驶造可规模化的"物理脑内"</td></tr>
+<tr><td>DreamZero (GEAR)</td><td><b>联合预测动作和视频</b></td><td>预测与控制一体化</td></tr>
+<tr><td>LingBot-VA</td><td>交错序列统一视觉动态与动作推理</td><td>视觉-动作同源建模</td></tr>
+</table>
+<p>一条清晰的演进线：<b>学环境（2018）→ 用想象训策略（Dreamer）→ 在表征空间预测（JEPA）→ 落到物理与机器人（Cosmos/DreamZero/LingBot-VA）</b>。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q3</div>
+<h2>本指南实验：64 个神经元的世界模型</h2>
+<p>环境：8×8 网格弹跳球（确定、周期）；网络 64→48→64（把 64 维画面压进 48 维隐空间）；用模拟数据训 MLP 预测下一帧，再自回归"想象"滚动。</p>
+<pre><code>单步预测 MSE: 0.0109
+想象滚动逐步 MSE: 0.013 → 0.018（缓慢爬升）
+三要素复现：压缩表征(64→48) / 想象训练(自回归) / 误差随步数变化</code></pre>
+<div class="tipbox"><b>意外对照</b>：训练更新顺序写反的一版（模型变差）想象误差从 0.023 <b>指数发散到 1.798</b>——无意间复现世界模型经典痛点：<span class="hl">想象误差复利发散</span>。模型越不准，滚得越远偏得越狠。这就是 Dreamer 要想象力正则、Cosmos 要物理约束的原因。</div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q4</div>
+<h2>为什么 JEPA 说"别在像素空间预测"？</h2>
+<p>预测下一帧画面的每个像素，容量大量耗在"树叶怎么摆"这类对决策无用的细节上。JEPA 的思路：<b>先把画面编码成语义表征，只预测表征</b>——等价于问"画面里发生了什么"而不是"每个像素是什么颜色"。这与本实验的结构同构：48 维隐空间就是表征，预测隐空间的下一状态才是重点（本实验为演示简化为直接预测下一帧）。</p>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q5</div>
+<h2>视频预测 = 世界模型吗？</h2>
+<p><span class="big">不等于。视频预测、动作输出、闭环控制是三件事，要分别验收。</span>视频模型能生成逼真的物理画面，不代表它能<b>回答"如果我推它一下会怎样"</b>——世界模型需要动作条件（DreamZero 联合预测动作+视频正是为此）。同理，"机器狗一小时学会走路"这类说法需要看闭环控制的真实 rollout，不能凭视频生成效果推断。</p>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[Sim2Real与MuJoCo仿真]]</td><td>世界模型="没有仿真器就自己学一个"</td></tr>
+<tr><td>[[策略观测向量与动作契约]]</td><td>动作条件预测是契约的预测版</td></tr>
+<tr><td>[[漂移与回环闭合]]</td><td>想象发散=无回环的纯开环预测，误差无界累积</td></tr>
+<tr><td>[[量化与GGUF]]/[[KV缓存与上下文]]</td><td>压缩表征思想同族：有用的都是低维骨架</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q7</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>六项目知识路线</td><td>✅ 一手资料（官方页/维护者仓库）逐一核对</td></tr>
+<tr><td>视频时长"2小时16分"</td><td>⚠️ 结构化数据实为 2h15m35s（差 25 秒）</td></tr>
+<tr><td>机器狗一小时学会走路</td><td>❓ 未独立核实</td></tr>
+<tr><td>视频具体论证/示例/版本</td><td>❓ 未观看原视频，本指南只核项目机制</td></tr>
+</table>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q8</div>
+<h2>想象训练为什么省样本？</h2>
+<p>真实环境采样贵（机器人一次试错可能损坏硬件）。世界模型训好后，策略可以在想象里"摔一万次"——<b>数据从物理世界换成神经网络的计算</b>。这就是 Dreamer 系列样本效率碾压 model-free 方法的根源，也是本仓库 microduck 真机鸭子"先在仿真里摔一万次"的同款思想。</p>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q9</div>
+<h2>当前边界在哪？</h2>
+<ul>
+<li>长程想象仍不可靠：误差复利发散，几十步后面目全非；</li>
+<li>物理一致性（能量守恒/不可穿透）靠数据学，不保证；</li>
+<li>多模态真实环境（接触、流体、可变形体）远比网格球难；</li>
+<li>视频生成逼真 ≠ 动作可控 ≠ 闭环可用——三段验收缺一不可。</li>
+</ul>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>动手：10 行环境 400 轮训练跑通世界模型</h2>
+<div class="step"><b class="s">步骤 1 ｜ 跑迷你演示。</b><code>python exercise/mini_world_model.py</code>
+<div class="expect">✅ 预期结果（本机实测）：单步 MSE 0.0109，想象滚动 11 步缓慢爬升。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 制造发散。</b>把反向传播里 W2 更新挪到 gh 计算之前，重训重跑。
+<div class="expect">✅ 预期结果（本机实测）：想象 MSE 从 0.023 发散到 1.798——亲眼看到误差复利。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 改环境。</b>给球加随机风（env 里加随机扰动），观察单步精度下降与发散加速。
+<div class="expect">✅ 预期结果：随机性让想象更不可靠，理解物理约束的意义。</div></div>
+<div class="okbox"><b>如实声明</b>：未观看原视频；六项目机制经一手资料核实；实验为玩具环境概念验证。日志见 <code>world_models_series\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>世界模型心智模型</b>：压缩表征+想象训练+动作条件三要素；</li>
+<li><b>六项目坐标系</b>：World Models/Dreamer/JEPA/Cosmos/DreamZero/LingBot-VA 各自位置；</li>
+<li><b>像素 vs 表征预测</b>的取舍判断；</li>
+<li><b>三问拆宣称</b>：视频预测？动作输出？闭环控制？分别验收；</li>
+<li><b>亲手跑过想象发散</b>：误差复利有了具体手感。</li>
+</ol>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>世界模型=脑内模拟器</b>：压缩表征+想象 rollout 训策略；</li>
+<li><b>演进线清晰</b>：学环境→想象训策略→表征空间预测→物理与机器人；</li>
+<li><b>想象误差会复利发散</b>（本实验意外对照实锤）；</li>
+<li><b>像素预测≠表征预测</b>（JEPA 的核心主张）；</li>
+<li><b>视频生成≠可控模拟≠闭环有效</b>，三段验收。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">世界模型小白指南 · 2026-10-27 · 迷你世界模型实测 · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

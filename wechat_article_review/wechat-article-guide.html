@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>公众号热点文章复盘 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f0fff4; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#06d6a0 0%,#2d9cdb 55%,#7c4dff 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-green));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-green));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-green));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-green));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>公众号热点文章复盘：选题、标题与收益证据</h1>
+  <p>"单篇 40 万阅读、收益 1000 元"的完整拆解——隐含 CPM 实算、标题脱水测试、以及四条独立收益账</p>
+  <p>
+    <span class="badge">CPM 算术核验</span><span class="badge">标题脱水实验</span><span class="badge">收益四条账</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：@yuguo_aicn 文章（@liyue_ai 引用）｜ 学习日期 2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q1</div>
+<h2>这篇文章讲了什么方法？</h2>
+<p><span class="big">一篇有实质复盘的爆文复盘：追踪原始行业消息（时效）→ 结合人物身份差异构思标题 → AI 辅助标题讨论 → 选与自身知识匹配的方向持续写。</span>作者也讲了被限流后的等待与申诉经历。它不是纯炫耀文——方法部分可提取，数据部分是自述。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q2</div>
+<h2>"40万阅读=1000元"背后是什么算术？（本指南实验）</h2>
+<pre><code>隐含 CPM = 1000 元 ÷ 400,000 阅读 × 1000 = 2.50 元/千次
+敏感度：CPM 0.5 → 5 元  =  收益 200 → 2000 元（8 倍区间！）</code></pre>
+<p>腾讯广告官方说明确认：底部广告（CPC）/文中广告（CPM）/<b>互选合作（商单）</b>是三种不同机制，结算规则各不相同。<span class="hl">没有"固定千次阅读收益"这种东西</span>——作者另一个案例的比例就不同。收益公式：<code>收益 = 有效曝光 × eCPM ÷ 1000</code>，完读率直接影响有效曝光。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q3</div>
+<h2>阅读、传播、涨粉、收益是四本账</h2>
+<table>
+<tr><th>指标</th><th>作者自述</th><th>说明什么</th><th>别误读成</th></tr>
+<tr><td>阅读</td><td>40 万</td><td>触达规模</td><td>≠ 收入</td></tr>
+<tr><td>完读率</td><td>75%</td><td>内容质量信号</td><td>≠ 平台推荐保证</td></tr>
+<tr><td>分享</td><td>2500</td><td>传播意愿</td><td>≠ 涨粉</td></tr>
+<tr><td>涨粉</td><td>200</td><td>转化效率（0.05%）</td><td>≠ 变现</td></tr>
+<tr><td>流量主收益</td><td>1000 元</td><td>广告分成本次</td><td>≠ 商业价值总量</td></tr>
+</table>
+<p>商单/私域/产品转化是与流量主广告<b>并列的另外三条账</b>。200/400000=0.05% 的涨粉转化也提醒：爆文≠账号资产增长。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q4</div>
+<h2>标题方法实测：身份反差 vs 纯情绪（脱水实验）</h2>
+<pre><code>A(纯情绪): "震惊！这个AI功能杀疯了，所有人都哭了"
+   → 情绪词 x2，情绪密度 26% ❌ 信号非证据
+B(身份反差): "42岁裸辞程序员，用AI写公众号月入过万？我算了一笔账"
+   → 情绪词 0，事实密度高 ✅
+C(身份+脱水): "42岁裸辞程序员用AI写公众号：真实收入与成本核算"
+   → 情绪词 0，事实密度高 ✅</code></pre>
+<p><span class="big">作者的"人物身份差异"标题法与情绪脱水测试天然兼容：身份反差是事实层钩子，不靠情绪词。</span>而"标题决定九成"——作者自己承认是拍脑袋估计。标题要用 A/B 假设表小样本验证，不当统计规律用（[[AI味模式库与信号非证据]] 的标题版）。</p>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q5</div>
+<h2>被限流了怎么办？（作者经验 vs 平台事实）</h2>
+<ul>
+<li>作者说法：等待一段时间、个人申诉经历——<b>个人经验，不是平台规则</b>；</li>
+<li>官方核实：腾讯广告说明只覆盖流量主/互选机制，<b>不含申诉时限</b>；</li>
+<li>正确动作：<b>以后台给出的原因为准</b>，对照当时官方申诉流程，不把"限流假设"当已确认事实（[[可逆派生状态]]）。</li>
+</ul>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q6</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[情绪脱水测试]]</td><td>从选题阀扩展到标题层（同一公式两用）</td></tr>
+<tr><td>[[AI热点长视频生产流水线]]</td><td>选题五阀（时效72h/普适/一手料/脱水/轮换）同样适用图文热点</td></tr>
+<tr><td>[[完整单位收益口径]]（本批新增）</td><td>内容版：收益=有效曝光×eCPM，四条账分开</td></tr>
+<tr><td>[[可逆派生状态]]</td><td>限流归因以后台原因为准，假设可逆可复查</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q7</div>
+<h2>如何复用这套方法到自己的内容？</h2>
+<ol>
+<li><b>时效雷达</b>：追原始消息源，第一手写作；</li>
+<li><b>身份反差标题库</b>：每个选题写 3 个版本（身份反差/利益数字/悬念），过脱水测试后选；</li>
+<li><b>四账分记</b>：每篇记 阅读/分享/涨粉/收益 四个数，周报复盘各自趋势；</li>
+<li><b>申诉有据</b>：截图后台原因，按官方流程走；</li>
+<li><b>不承诺</b>：千次收益/商单转化不可移植，自己的账自己算。</li>
+</ol>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>选题/标题/写作方法</td><td>✅ 文章有实质复盘，可提取</td></tr>
+<tr><td>40万/75%完读/2500分享/200涨粉/1000元</td><td>⚠️ 全部自述，无后台凭据</td></tr>
+<tr><td>"标题决定九成"</td><td>❌ 作者自认拍脑袋估计</td></tr>
+<tr><td>流量主三种机制</td><td>✅ 腾讯广告官方说明确认</td></tr>
+<tr><td>限流申诉时限</td><td>❓ 官方文档未覆盖，个人经验</td></tr>
+</table>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q9</div>
+<h2>热点文 vs 常青文：这笔账怎么算？</h2>
+<p>热点文：时效红利大、衰减快（"40万"可能一周归零）、涨粉转化低（0.05%）；常青文：起量慢但搜索长尾持续。<b>组合策略</b>：用热点文练兵+测选题，把验证过的选题改写为常青版本沉淀——这就是文章"持续写作"建议背后的复利结构。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q10</div>
+<h2>动手：两个零花费实验（约 15 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 收益算术。</b>拿任何一篇爆文的"阅读+收益"自述，算隐含 CPM，对照 0.5-5 元区间判断合理性。
+<div class="expect">✅ 预期结果：算不出稳定千次价——明白收益不可移植。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 标题脱水。</b>给自己最近的 3 个标题跑情绪脱水测试。
+<div class="expect">✅ 预期结果：情绪密度>20% 的标题改成身份反差/利益数字型。</div></div>
+<div class="okbox"><b>如实声明</b>：作者数据未独立核实（无后台凭据）；官方机制经腾讯广告文档确认。日志见 <code>wechat_article_review\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>"40万=1000元"= CPM 2.5 的特定结算</b>，千次收益 0.5-5 元区间不可移植；</li>
+<li><b>阅读/传播/涨粉/收益四本账分开记</b>（涨粉转化仅 0.05%）；</li>
+<li><b>身份反差标题法兼容脱水测试</b>，"标题决定九成"是拍脑袋；</li>
+<li><b>限流处置以后台原因为准</b>，个人经验≠平台规则；</li>
+<li><b>热点练兵+常青沉淀</b>是复利结构。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">公众号热点文章复盘 · 2026-10-27 · CPM 算术+脱水实验 · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

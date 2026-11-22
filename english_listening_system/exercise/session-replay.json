@@ -1,0 +1,12 @@
+{
+  "session_id": "replay",
+  "date": "2026-11-18",
+  "level": "B1",
+  "topic": "work",
+  "transcript": "When a project runs late, I used to say I was busy. Now I explain which task blocked me and when I can finish. This small change makes the conversation clearer.",
+  "retell": "The project is late. A task blocked me. Explaining the delay makes the conversation clearer.",
+  "errors": [],
+  "scenario_responses": [
+    "In my next update, I explain which task blocked me."
+  ]
+}

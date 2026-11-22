@@ -1,0 +1,31 @@
+{
+  "task_id": "e196dbdc-7a7a-4227-a7d0-0e6f179d431f",
+  "topic": "商业中介与信息匹配：交易成本和真实单位收益",
+  "project_dir": "business_intermediary",
+  "classification": "知识学习类（经济学）",
+  "source_urls": [
+    "https://x.com/Fred834567 (原帖)",
+    "https://www.nobelprize.org/prizes/economic-sciences/1991/coase/lecture/"
+  ],
+  "pdf": "business_intermediary/商业中介与信息匹配-小白指南.pdf",
+  "html": "business_intermediary/business-intermediary-guide.html",
+  "exercise_dir": "business_intermediary/exercise",
+  "experiment_log": "business_intermediary/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/business_intermediary-proposal-pending.md",
+  "deliverables": [
+    "business_intermediary/business-intermediary-guide.html",
+    "business_intermediary/商业中介与信息匹配-小白指南.pdf",
+    "business_intermediary/exercise/unit_economics.py",
+    "business_intermediary/exercise/experiment-log.md",
+    "business_intermediary/business_intermediary-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "四场景单位收益核算实测（示例口径）：商品转售 -0.85 元 / 服务转售 +180 元 / 内容转售 -30.65 元 / 能力转售 +1750 元",
+    "Coase 1991 诺奖演讲交易成本定义核实（搜索/谈判/合同/检验/争议）"
+  ],
+  "blocked_items": [
+    "原帖销量/所得宣称无凭据，无法也不应采信",
+    "示例口径演算非市场实测"
+  ],
+  "note": "本指南为经济学知识学习，不构成投资建议"
+}

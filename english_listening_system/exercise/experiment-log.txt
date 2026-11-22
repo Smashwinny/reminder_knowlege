@@ -1,0 +1,77 @@
+english_listening_system 实验日志
+================================
+任务：de0b35c5-5165-42b6-a99d-4a0de8d62710
+owner：main-k3-w10
+实验日期：2026-11-18（后续排版不改变以下运行结果）
+运行环境：Windows 11、Python 3.14.7（-I 隔离模式）、Windows System.Speech SAPI
+范围声明：以下 transcript、retell 和 scenario_responses 均为预先写入的合成学习者夹具，不是真人练习记录。指标只验证确定性反馈工具，不证明人类听力提升、CEFR 升级或训练法效果。
+
+1. 真实生成英语语音
+-------------------
+命令（项目目录中执行）：
+& ".\exercise\make_audio.ps1" -InputPath ".\exercise\material.txt" -OutputPath ".\exercise\material.wav"
+
+实际终端输出：
+Created: F:\reminder\english_listening_system\exercise\material.wav
+Bytes: 669410
+
+材料为自编 31 词英文项目进度更新；音频由本机 SAPI 实际合成，不是空白 WAV。测试读取 RIFF/WAV 的声道、位深、帧数与 PCM RMS，验证为单声道、16-bit、帧数 >16000、RMS >100。
+
+2. 运行基线合成学习者夹具
+------------------------
+命令：
+python -I .\exercise\listening_loop.py --material .\exercise\material.txt --session .\exercise\session-baseline.json --out-dir .\exercise\out
+
+实际结果（完整机器结果见 out/baseline-result.json）：
+- reference_words = 31
+- word_edits = 2（blocked→locked、clearer→clear）
+- word_error_rate = 0.0645（6.45%）
+- word_accuracy_proxy = 0.9355（93.55%，仅为词面代理）
+- retell hits = [true, true, false]，score_proxy = 0.6667
+- 新场景目标语块命中 = 0/3
+- 自动生成复习问题 3 条
+- 自动生成 out/baseline-note.md，含 YAML 元数据、误听、语块、复述与复习题
+
+3. 修改输入并复跑，观察可见变化
+------------------------------
+命令：
+python -I .\exercise\listening_loop.py --material .\exercise\material.txt --session .\exercise\session-replay.json --out-dir .\exercise\out
+
+实际结果（完整机器结果见 out/replay-result.json）：
+- word_edits：2 → 0
+- word_error_rate：6.45% → 0%
+- retell score_proxy：66.67% → 100%
+- 新场景目标语块命中：0/3 → 1/3（33.33%）
+- 自动生成 out/replay-note.md
+- 已覆盖的复述关键点没有再次进入复习题；仍未调用的两个语块进入复习题
+
+注意：这里的变化来自我修改合成输入，不是同一个真人经过训练后的前后测。
+
+4. 自动检查与一次真实修复
+------------------------
+命令：
+python -I .\exercise\test_listening_loop.py
+
+首次运行结果：4 项通过、1 项 ERROR。Python 3.14 已移除 audioop，音频 RMS 检查出现：
+ModuleNotFoundError: No module named 'audioop'
+
+修复：改用标准库 array + math 计算 16-bit PCM RMS；同时修正复习题生成器误把“场景语块命中”当作“复述关键点覆盖”的耦合，新增回归检查。
+
+最终运行实际输出：
+Ran 6 tests in 0.031s
+OK
+
+六项：WAV 非空且有声音、语块回收、非法错误类别拒绝、关键点覆盖、已覆盖关键点不重复复习、词错误率计算。
+
+5. 文件证据
+----------
+- exercise/material.wav：真实 SAPI 音频
+- exercise/material.txt：自编训练文本
+- exercise/session-baseline.json、session-replay.json：合成输入
+- exercise/listening_loop.py：确定性指标与 Markdown 生成器
+- exercise/test_listening_loop.py：6 项检查
+- exercise/test-output.txt：最终测试原始输出
+- exercise/out/baseline-result.json、replay-result.json：机器结果
+- exercise/out/baseline-note.md、replay-note.md：Obsidian 风格复盘
+
+未验证：ChatGPT Live 实际对话、自动联网选材、真实 Obsidian 连接/写入、截图插件、真人盲听、发音质量、长期记忆或学习效果。

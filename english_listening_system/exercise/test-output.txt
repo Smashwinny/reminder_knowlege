@@ -1,0 +1,11 @@
+test_audio_is_real_nonempty_wav (__main__.ListeningLoopTests.test_audio_is_real_nonempty_wav) ... ok
+test_chunk_recycling (__main__.ListeningLoopTests.test_chunk_recycling) ... ok
+test_error_category_rejected (__main__.ListeningLoopTests.test_error_category_rejected) ... ok
+test_key_points (__main__.ListeningLoopTests.test_key_points) ... ok
+test_review_does_not_reteach_covered_key_points (__main__.ListeningLoopTests.test_review_does_not_reteach_covered_key_points) ... ok
+test_word_error_rate (__main__.ListeningLoopTests.test_word_error_rate) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.031s
+
+OK

@@ -1,0 +1,35 @@
+{
+  "topic": "ChatGPT + Obsidian 可回收英语听力训练系统",
+  "project_dir": "english_listening_system",
+  "pdf": "english_listening_system/english_listening_system-小白指南.pdf",
+  "html": "english_listening_system/guide.html",
+  "exercise_dir": "english_listening_system/exercise",
+  "experiment_log": "english_listening_system/exercise/experiment-log.txt",
+  "vault_note": "vault/项目笔记/english_listening_system.md",
+  "source_urls": [
+    "https://x.com/momoai_daily/status/2105541217975247073",
+    "https://api.fxtwitter.com/momoai_daily/status/2105541217975247073",
+    "https://pbs.twimg.com/media/HThhtygbkAAPMCR.jpg?name=orig",
+    "https://pbs.twimg.com/media/HThiPm4boAAsGNP.jpg?name=orig",
+    "https://x.com/momoai_daily/status/2104136225120772358",
+    "https://x.com/i/article/2104111173943828480",
+    "https://api.fxtwitter.com/momoai_daily/status/2104136225120772358",
+    "https://www.jxxy.net/ai/articles/chatgpt-obsidian-listening-training/"
+  ],
+  "report_path": "完成/分析报告/de0b35c5-5165-42b6-a99d-4a0de8d62710.md",
+  "experiment_files": [
+    "english_listening_system/exercise/material.txt",
+    "english_listening_system/exercise/material.wav",
+    "english_listening_system/exercise/make_audio.ps1",
+    "english_listening_system/exercise/listening_loop.py",
+    "english_listening_system/exercise/test_listening_loop.py",
+    "english_listening_system/exercise/session-baseline.json",
+    "english_listening_system/exercise/session-replay.json",
+    "english_listening_system/exercise/test-output.txt",
+    "english_listening_system/exercise/experiment-log.txt",
+    "english_listening_system/exercise/out/baseline-result.json",
+    "english_listening_system/exercise/out/replay-result.json",
+    "english_listening_system/exercise/out/baseline-note.md",
+    "english_listening_system/exercise/out/replay-note.md"
+  ]
+}

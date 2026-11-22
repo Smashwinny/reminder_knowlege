@@ -1,0 +1,33 @@
+{
+  "task_id": "e55165e3-957e-42dd-9cde-523cd6a5b663",
+  "topic": "PixStag 视频接口：多模态输入、异步任务与按秒用量",
+  "project_dir": "pixstag_api",
+  "classification": "知识学习类（API 契约）",
+  "source_urls": [
+    "https://x.com/tangpanqing (原帖)",
+    "https://pixstag.com/docs/api"
+  ],
+  "pdf": "pixstag_api/PixStag视频API-小白指南.pdf",
+  "html": "pixstag_api/pixstag-guide.html",
+  "exercise_dir": "pixstag_api/exercise",
+  "experiment_log": "pixstag_api/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/pixstag_api-proposal-pending.md",
+  "deliverables": [
+    "pixstag_api/pixstag-guide.html",
+    "pixstag_api/PixStag视频API-小白指南.pdf",
+    "pixstag_api/exercise/pixstag_client_sim.py",
+    "pixstag_api/exercise/experiment-log.md",
+    "pixstag_api/pixstag_api-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "官方文档契约：五态 queued/running/succeeded/failed/cancelled + webhook（最多3次推送）",
+    "content 数组：text 必填非空≤5000字；role=first_frame/last_frame/reference_image|video|audio",
+    "usage 字段按秒计量；user/me 返回 credit/credit_frozen/credit_valid_time",
+    "真实只读探针：GET /user/me 无 token → HTTP 401 + code 1004（与文档一致）",
+    "本地模拟：状态机 3 轮到 succeeded；对账一致放行/篡改拒付"
+  ],
+  "blocked_items": [
+    "POST 创建真实生成任务需本人授权未执行（付费写操作）",
+    "生成质量/速度/真实账单未验证"
+  ]
+}

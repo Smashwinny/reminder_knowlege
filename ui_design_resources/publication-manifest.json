@@ -1,0 +1,37 @@
+{
+  "task_id": "b7a65371-8ba1-44a0-9f05-d0c1a728061f",
+  "topic": "UI 设计四资源组合：设计规范、组件与审查工作流",
+  "project_dir": "ui_design_resources",
+  "classification": "开源项目类（设计工具链）",
+  "source_urls": [
+    "https://x.com/i/article/2104250645943619584",
+    "https://github.com/pbakaus/impeccable"
+  ],
+  "upstream_checked": {
+    "impeccable_commit": "d34c87e",
+    "note": "静态阅读源码，构建外部 Rust 引擎被权限层拒绝未执行"
+  },
+  "pdf": "ui_design_resources/UI设计四资源组合-小白指南.pdf",
+  "html": "ui_design_resources/ui-design-resources-guide.html",
+  "exercise_dir": "ui_design_resources/exercise",
+  "experiment_log": "ui_design_resources/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/ui_design_resources-proposal-pending.md",
+  "deliverables": [
+    "ui_design_resources/ui-design-resources-guide.html",
+    "ui_design_resources/UI设计四资源组合-小白指南.pdf",
+    "ui_design_resources/exercise/mini_ai_detector.py",
+    "ui_design_resources/exercise/ai-tells-sample.html",
+    "ui_design_resources/exercise/experiment-log.md",
+    "ui_design_resources/ui_design_resources-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "impeccable README 宣称 1 skill/24 命令/62 规则，与源码 crates/core/src/checks/rules.rs 一致",
+    "规则 ID 真实存在：ai-color-palette(紫 260-310°)/low-contrast/gradient-text/side-tab 等",
+    "PRODUCT.md 实测带 impeccable:product-schema 1 注释，四段结构齐全",
+    "自写迷你检测器对示例页 6/6 命中 AI 味（含 WCAG 对比度 2.85:1 实算）"
+  ],
+  "blocked_items": [
+    "官方引擎未构建运行（外部代码构建被拒）",
+    "getdesign.md/libraries.dev/open-design 实操效果未验证"
+  ]
+}

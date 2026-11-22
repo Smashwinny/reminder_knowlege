@@ -1,0 +1,37 @@
+{
+  "task_id": "27853f54-7fef-4326-92b8-9554d76f7cef",
+  "topic": "ElevenLabs 配乐与自有音色：视频条件、合成方式和混音验收",
+  "project_dir": "elevenlabs_music_voice",
+  "classification": "知识学习类（API+验收方法）",
+  "source_urls": [
+    "https://x.com/yupi996 (原帖)",
+    "https://elevenlabs.io/docs/api-reference/music/video-to-music",
+    "https://elevenlabs.io/blog/instant-vs-professional-voice-cloning"
+  ],
+  "pdf": "elevenlabs_music_voice/ElevenLabs配乐与音色-小白指南.pdf",
+  "html": "elevenlabs_music_voice/elevenlabs-guide.html",
+  "exercise_dir": "elevenlabs_music_voice/exercise",
+  "experiment_log": "elevenlabs_music_voice/exercise/experiment-log.md",
+  "vault_note": "vault/项目笔记/elevenlabs_music_voice-proposal-pending.md",
+  "deliverables": [
+    "elevenlabs_music_voice/elevenlabs-guide.html",
+    "elevenlabs_music_voice/ElevenLabs配乐与音色-小白指南.pdf",
+    "elevenlabs_music_voice/exercise/voice.wav",
+    "elevenlabs_music_voice/exercise/bgm.wav",
+    "elevenlabs_music_voice/exercise/mix_3db.wav",
+    "elevenlabs_music_voice/exercise/mix_8db.wav",
+    "elevenlabs_music_voice/exercise/mix_15db.wav",
+    "elevenlabs_music_voice/exercise/experiment-log.md",
+    "elevenlabs_music_voice/elevenlabs_music_voice-vault-note-proposal.md"
+  ],
+  "verified_facts": [
+    "video-to-music 契约：≤10视频/200MB/600秒、separate_tracks 分轨、Creator+/Pro+ 音质门槛、403/422 错误码",
+    "401 只读探针：无 key → authentication_error（认证契约真实）",
+    "IVC vs PVC：推理参考(秒级,1-5min) vs 训练(3-6h,≥30min)核实",
+    "混音实验：合成样本 RMS -22.0/-26.1 dBFS，三档 3/8/15dB 混音生成"
+  ],
+  "blocked_items": [
+    "未订阅，真实生成/克隆未执行",
+    "原帖视频实际效果无凭据"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "session_id": "baseline",
+  "date": "2026-11-18",
+  "level": "B1",
+  "topic": "work",
+  "transcript": "When a project runs late, I used to say I was busy. Now I explain which task locked me and when I can finish. This small change makes the conversation clear.",
+  "retell": "The project is late. A task blocked me.",
+  "errors": [
+    {
+      "original": "blocked",
+      "heard": "locked",
+      "category": "声音边界"
+    },
+    {
+      "original": "clearer",
+      "heard": "clear",
+      "category": "词尾与弱读"
+    }
+  ],
+  "scenario_responses": [
+    "I was busy."
+  ]
+}

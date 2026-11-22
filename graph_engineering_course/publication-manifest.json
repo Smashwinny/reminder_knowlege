@@ -1,0 +1,28 @@
+{
+  "topic": "AI Agents in LangGraph：课程身份核验、停止条件与双层评估实验",
+  "project_dir": "graph_engineering_course",
+  "pdf": "graph_engineering_course/graph_engineering_course-小白指南.pdf",
+  "html": "graph_engineering_course/graph_engineering_course-guide.html",
+  "exercise_dir": "graph_engineering_course/exercise",
+  "experiment_log": "graph_engineering_course/exercise/experiment-log.txt",
+  "experiment_files": [
+    "graph_engineering_course/exercise/graph_eval_lab.py",
+    "graph_engineering_course/exercise/test_graph_eval_lab.py",
+    "graph_engineering_course/exercise/experiment-log.txt"
+  ],
+  "vault_note": "vault/项目笔记/graph_engineering_course.md",
+  "knowledge_proposal": "graph_engineering_course/graph_engineering_course-vault-note-proposal.md",
+  "source_urls": [
+    "https://x.com/AYi_AInotes/status/2104542011642757330",
+    "https://x.com/res1dualedge/status/2104300857928098075/video/1",
+    "https://video.twimg.com/subtitles/amplify_video/2104187439287828480/0/bmbxEZeaIOpgRuCm.vtt",
+    "https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/",
+    "https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/c1l2c/build-an-agent-from-scratch",
+    "https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/l7rgk/langgraph-components",
+    "https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/m0x4m/essay-writer",
+    "https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/nj9ok/persistence-and-streaming",
+    "https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/k87e1/human-in-the-loop",
+    "https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/b43j5/conclusion"
+  ],
+  "report_path": "完成/分析报告/4cb2cca6-07d3-4226-b874-39e697682f40.md"
+}

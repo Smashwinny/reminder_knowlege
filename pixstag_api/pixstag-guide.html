@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>PixStag 视频 API · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f2fff8; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#06d6a0 0%,#00b8a9 50%,#2d9cdb 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-teal));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-teal));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-teal));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-teal));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>PixStag 视频 API：异步任务、多模态输入与按秒计费</h1>
+  <p>一个"对话即可做视频"背后的真实接口契约——本指南只读探针实测 401 错误契约，本地模拟验证状态机与用量对账</p>
+  <p>
+    <span class="badge">官方文档直读</span><span class="badge">401 探针实测</span><span class="badge">状态机模拟 3/3</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖 (@tangpanqing) ｜ pixstag.com/docs/api ｜ 学习日期 2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q1</div>
+<h2>PixStag 是什么？一句话能说清吗？</h2>
+<p><span class="big">一个视频生成服务的 API 层：把"对话做视频"翻译成标准异步接口——创建任务拿 task_id，轮询状态，成功后取回视频 URL 和按秒计费的 usage 账单。</span>底层是多模型（MiniMax-H3、即梦 Seedance 2/2.5），前端体验只是包装。</p>
+<p>对开发者的意义：它是"AI 视频服务"的标准形态样本——异步五态 + 多模态 content 数组 + 按秒对账。学通这一个，其他家的视频 API（可灵、Runway、Vidu）大同小异。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q2</div>
+<h2>异步任务五态是什么？为什么要异步？</h2>
+<p>视频生成动辄几十秒到几分钟，HTTP 请求不可能干等。所以契约是：<b>创建即返回 task_id</b>，之后由你轮询（或 webhook 推送）查状态：</p>
+<table>
+<tr><th>状态</th><th>含义</th><th>客户端动作</th></tr>
+<tr><td>queued</td><td>排队中</td><td>继续等</td></tr>
+<tr><td>running</td><td>生成中</td><td>继续等</td></tr>
+<tr><td>succeeded</td><td>成功</td><td>取 content.url 与 usage 对账</td></tr>
+<tr><td>failed</td><td>失败</td><td>读 error.code/message，决定重试</td></tr>
+<tr><td>cancelled</td><td>已取消</td><td>释放，不计成功</td></tr>
+</table>
+<p>这是知识库 [[任务票据与状态外置]]/[[可逆派生状态]] 的标准应用："排队中≠完成"，pending 是铁证、回执不是完成。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q3</div>
+<h2>多模态 content 数组怎么组织？</h2>
+<p><span class="big">content 是一个带"角色"的多模态数组——每个元素声明 type（text/image_url/audio_url/video_url）+ 可选 role（这个角色字段就是一致性控制的关键）。</span></p>
+<table>
+<tr><th>role</th><th>用途</th></tr>
+<tr><td>first_frame</td><td>图生视频的首帧（单图无 role 默认就是它）</td></tr>
+<tr><td>last_frame</td><td>尾帧，必须与 first_frame 配对做"首尾帧生成"</td></tr>
+<tr><td>reference_image / reference_video / reference_audio</td><td>多模态参考（角色长相/风格/音色）</td></tr>
+</table>
+<div class="warnbox">文档明确：<b>所有场景都要求非空 text</b>（≤5000 字）。所以"不用自己想提示词"只是产品层替你写了——底层提示词永远存在，而且 text 的质量仍影响结果。这呼应 [[PromptAsCode提示词即代码]]：提示词不会消失，只会被托管。</div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q4</div>
+<h2>按秒计费怎么对账？</h2>
+<p>成功响应带 usage 对象：<code>total_seconds / input_seconds / output_seconds / input_image_count / input_audio_seconds</code> + token 计数。<span class="hl">对账纪律：请求时长 × 单价 必须等于账单秒数，不符即拒付复核</span>（[[付费调用回执与预算熔断]]）。</p>
+<p>另有三个账外因素：①<b>积分有效期</b>（user/me 返回 credit_valid_time，充值的积分会过期）；②<b>失败重试也烧钱</b>（failed 后重试 = 新一轮计费）；③<b>分辨率/模型档位不同价</b>——"1 块钱做视频"是特定时长+档位+优惠的个案。</p>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q5</div>
+<h2>本指南实测了什么？</h2>
+<pre><code>① 真实只读探针：GET /api/v2/user/me（无 token）
+   → HTTP 401: login fail ... (1004)   ✅ 错误契约与文档一致
+
+② 本地模拟状态机：queued→running→succeeded，3 轮轮询到终态 ✅
+
+③ 用量对账：请求 6s vs 计费 6s → ✅；篡改 8s → ❌ 拒付 ✅</code></pre>
+<div class="warnbox"><b>如实声明</b>：POST 创建真实生成任务是付费写操作，需本人授权，本班未执行（被权限层正确拦截）；生成质量/速度/真实账单未验证。全部脚本见 <code>pixstag_api\exercise\</code>。</div>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[角色一致性锚定]]</td><td>first_frame/last_frame/reference 三 role 是其 API 化</td></tr>
+<tr><td>[[可逆派生状态]] / [[任务票据与状态外置]]</td><td>五态异步契约是其在视频生成域的标准实现</td></tr>
+<tr><td>[[付费调用回执与预算熔断]]</td><td>按秒 usage + 积分有效期 + 对账脚本</td></tr>
+<tr><td>[[能力层与后端路由]]</td><td>一个 API 聚合多模型（MiniMax/Seedance），路由在服务端</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q7</div>
+<h2>接入到自己视频流水线的最小设计</h2>
+<pre><code># ① 任务创建：POST /video_generation（非空 text + role 化的多模态数组）
+# ② 轮询或 callback_url webhook（最多 3 次推送，须回 SUCCESS）
+# ③ 终态处理：succeeded → 对账 usage；failed → error.code 分类重试
+# ④ 账单：记录每次 total_seconds，与 credit 余额/有效期联动熔断</code></pre>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q8</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>对话即可制作、多模态输入</td><td>✅ 文档确认（但底层仍需非空 text）</td></tr>
+<tr><td>异步任务 + 状态查询</td><td>✅ 文档确认（五态 + webhook）</td></tr>
+<tr><td>按秒用量</td><td>✅ usage 字段确认（文档未列每秒单价）</td></tr>
+<tr><td>"只花一块钱""20 万播放"</td><td>⚠️ 个案陈述，价格随时长/模型/分辨率变化，未实测</td></tr>
+<tr><td>速度/质量最优</td><td>⚠️ 服务商陈述，无独立测量</td></tr>
+</table>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q9</div>
+<h2>这类"API 中间层"值不值得学？</h2>
+<p><span class="big">值得——它是"模型时代的产品化标准层"。</span>单一模型 API 会直接过时，聚合层（多模型路由 + 统一异步契约 + 统一计费）有迁移价值。学它的接口设计比学某个按钮位置长寿得多。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>动手实验：零花费验证契约（约 15 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 读文档。</b>pixstag.com/docs/api，摘出五态/字段/usage 表。
+<div class="expect">✅ 预期结果：本指南 Q2-Q4 即摘要。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 401 探针。</b><code>curl https://pixstag.com/api/v2/user/me</code>（只读，无写操作）。
+<div class="expect">✅ 预期结果（本机实测）：HTTP 401 + code 1004。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 跑模拟。</b><code>python exercise/pixstag_client_sim.py</code>。
+<div class="expect">✅ 预期结果（本机实测）：状态机 3 轮到 succeeded；对账一致放行/篡改拒付。</div></div>
+<div class="okbox"><b>实验结论</b>：错误契约真实、状态机可走通、按秒对账逻辑成立。未花一分钱。日志见 <code>pixstag_api\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>标准异步契约</b>：task_id + 五态轮询/webhook + 终态取货；</li>
+<li><b>多模态 role 数组</b>：first/last frame 与 reference 三类是一致性的 API 化；</li>
+<li><b>按秒对账</b>：请求时长×单价必须等于 usage，不符拒付；积分有有效期；</li>
+<li><b>"不用提示词"是产品幻觉</b>：底层 text 必填；</li>
+<li><b>零花费可验证</b>：401 探针 + 本地模拟跑通全流程。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">PixStag API 小白指南 · 2026-10-27 · 官方文档直读 + 只读探针实测 · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Graph Engineering：课程真相、停止条件与评估实验</title>
+<style>
+:root{
+  --ink:#17203a; --muted:#536079; --paper:#fff; --page:#f5f7ff;
+  --violet:#6d28d9; --blue:#2563eb; --cyan:#06b6d4; --pink:#db2777;
+  --yellow:#facc15; --good:#0ca30c; --critical:#d03b3b; --warning:#fab219;
+  --line:#d8def0; --code:#111827;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--page);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;line-height:1.55;font-size:14px}
+a{color:#1d4ed8;text-decoration:none;overflow-wrap:anywhere} a:hover{text-decoration:underline}
+.hero{padding:44px 46px 34px;background:linear-gradient(125deg,#4c1d95,#2563eb 56%,#06b6d4);color:#fff;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:230px;height:230px;border:28px solid #facc15;border-radius:50%;right:-85px;top:-105px;opacity:.9}
+.eyebrow{font-size:12px;letter-spacing:.15em;text-transform:uppercase;font-weight:900;color:#fef08a}
+h1{font-size:38px;line-height:1.12;margin:12px 0 14px;max-width:760px;letter-spacing:-.03em}
+.hero .sub{font-size:18px;max-width:760px;font-weight:650}.hero .scope{margin-top:22px;background:#fff;color:#3b0764;border-left:8px solid var(--yellow);padding:13px 16px;border-radius:8px;max-width:800px}
+main{max-width:980px;margin:auto;padding:24px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 18px}.stat{background:#fff;border:2px solid var(--line);border-top:6px solid var(--cyan);border-radius:12px;padding:12px}.stat b{font-size:25px;display:block;line-height:1.1}.stat span{font-size:12px;color:var(--muted)}
+.notice{background:#fff7ed;border:2px solid #fb923c;border-radius:12px;padding:14px 17px;margin:14px 0}.notice strong{color:#9a3412}
+.toc{background:#fff;border-radius:14px;padding:18px 22px;border:2px solid #c4b5fd}.toc h2{margin:0 0 8px}.toc ol{columns:2;margin:8px 0;padding-left:24px}.toc li{margin:5px 0;break-inside:avoid}
+.question,.chapter{background:#fff;border:2px solid var(--line);border-radius:16px;padding:22px 25px;margin:22px 0;break-inside:avoid;position:relative}
+.question{break-before:page}.qnum{position:absolute;right:18px;top:5px;font-size:62px;font-weight:950;color:#ede9fe;line-height:1;z-index:0}
+h2{font-size:25px;line-height:1.25;margin:0 65px 12px 0;position:relative}h3{font-size:17px;margin:16px 0 7px;color:#4c1d95}p{margin:8px 0}.lead{font-size:16px;font-weight:650}.highlight{background:linear-gradient(transparent 48%,#fef08a 48%);font-weight:850}.fact{border-left:5px solid var(--blue);background:#eff6ff;padding:10px 13px;margin:12px 0}.increment{border-left:5px solid var(--pink);background:#fdf2f8;padding:10px 13px;margin:12px 0}.warning{border-left:5px solid var(--critical);background:#fef2f2;padding:10px 13px;margin:12px 0}.small{font-size:12px;color:var(--muted)}
+svg{display:block;width:100%;height:auto;max-height:205px;margin:12px 0;background:#fcfcfb;border:1px solid var(--line);border-radius:12px}svg text{font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;fill:#17203a}svg .white{fill:#fff}svg .muted{fill:#536079}svg .label{font-size:14px;font-weight:750}svg .tiny{font-size:11px}svg .title{font-size:16px;font-weight:850}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}th{background:#ede9fe;text-align:left}th,td{padding:7px 8px;border:1px solid #cbd5e1;vertical-align:top}tr:nth-child(even) td{background:#f8fafc}
+code{font-family:Consolas,"Cascadia Mono",monospace;background:#e0e7ff;border-radius:4px;padding:1px 4px;color:#312e81}pre{background:var(--code);color:#e5f4ff;border-radius:10px;padding:12px 14px;white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.48 Consolas,"Cascadia Mono",monospace;border-left:6px solid var(--cyan)}pre code{background:none;color:inherit;padding:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pill{display:inline-block;border-radius:99px;padding:2px 8px;font-size:11px;font-weight:850;margin-right:4px}.pill.source{background:#dbeafe;color:#1e40af}.pill.lab{background:#fce7f3;color:#9d174d}.pill.unknown{background:#fee2e2;color:#991b1b}
+.cap{background:linear-gradient(90deg,#ede9fe,#ecfeff);border-radius:12px;padding:14px 17px;margin:10px 0}.cap b{color:#4c1d95}.step{border:2px solid #a5f3fc;border-radius:12px;padding:13px 16px;margin:12px 0;break-inside:avoid}.step h3{margin-top:0}.expected{background:#ecfdf5;border:2px solid #6ee7b7;border-radius:8px;padding:9px 12px;margin-top:8px}.expected b{color:#065f46}
+.sources li{margin:8px 0}.footer{color:var(--muted);font-size:11px;text-align:center;margin:20px}.pagebreak{break-before:page}
+@media print{@page{size:A4;margin:11mm}body{background:#fff;font-size:11.2pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}.hero{min-height:250mm;padding-top:48px}main{max-width:none;padding:0}.stats{margin-top:12px}.question,.chapter{box-shadow:none;margin:0;border-radius:10px}.toc{margin-top:12px}.question{break-before:page}.chapter{break-before:page}.pagebreak{break-before:page}a{color:#1e40af;text-decoration:none}svg{max-height:185px}h1{font-size:32pt}h2{font-size:19pt}.footer{break-before:avoid}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="eyebrow">VERIFIED COURSE · INCREMENTAL GUIDE · REAL EXPERIMENT</div>
+  <h1>Graph Engineering<br>先纠正课程身份，再学会“何时停”</h1>
+  <div class="sub">DeepLearning.AI《AI Agents in LangGraph》字幕核验版：从真实停止逻辑，到 5 个可复跑评估病例。</div>
+  <div class="scope"><b>范围声明：</b>本指南学习的是转发视频实际对应的《AI Agents in LangGraph》。没有改选《Agentic AI》，也不把“吴恩达 2026 自修改新课”当事实。</div>
+</header>
+<main>
+<section class="stats" aria-label="核验与实验数字">
+  <div class="stat"><b>1:52:25.926</b><span>转发视频字幕末时刻 / 媒体时长</span></div>
+  <div class="stat"><b>3019</b><span>本轮解析的自动字幕 cues</span></div>
+  <div class="stat"><b>9 / 9</b><span>自建单元测试实际通过</span></div>
+  <div class="stat"><b>0</b><span>模型、API 与付费服务调用</span></div>
+</section>
+<div class="notice"><strong>一句话结论：</strong>这确实是一门有 Andrew Ng 开场的 LangGraph 课程，但主要教学由 Harrison Chase、Rotem Weiss 承担。<span class="highlight">视频没有“Agent 改写并升级自己代码”的课程段落；五个网传时间点也不能当章节目录。</span></div>
+<section class="toc">
+<h2>疑问即目录</h2>
+<ol>
+<li><a href="#q1">视频到底是什么，哪些宣传被证伪？</a></li>
+<li><a href="#q2">官方课程真正讲了哪些模块？</a></li>
+<li><a href="#q3">从零 Agent 的循环什么时候结束？</a></li>
+<li><a href="#q4">换成 LangGraph 后，结束判断变聪明了吗？</a></li>
+<li><a href="#q5">Agentic Search 与普通搜索差在哪里？</a></li>
+<li><a href="#q6">Checkpoint 是“完成”还是“可恢复”？</a></li>
+<li><a href="#q7">Human-in-the-loop 到底改变了什么？</a></li>
+<li><a href="#q8">Essay Writer 的停止条件有没有 off-by-one？</a></li>
+<li><a href="#q9">结尾真正介绍的五种图结构是什么？</a></li>
+<li><a href="#q10">“自修改 Agent”与本课的边界在哪里？</a></li>
+<li><a href="#q11">生产循环需要哪几类停止出口？</a></li>
+<li><a href="#q12">怎样用五个病例验证 Gate 没被骗？</a></li>
+</ol>
+<p class="small">标签说明：<span class="pill source">课程事实</span>有官方页或字幕支撑；<span class="pill lab">本实验增量</span>是自建代码验证；<span class="pill unknown">宣传未证</span>不归给课程。</p>
+</section>
+
+<section class="question" id="q1">
+<div class="qnum">01</div><h2>视频到底是什么，哪些宣传被证伪？</h2>
+<p class="lead"><span class="pill source">课程事实</span>正文与官方《AI Agents in LangGraph》逐段吻合：Andrew Ng 开场解释迭代式 Agent；Harrison Chase 讲 LangGraph；Rotem Weiss 讲 Agentic Search。</p>
+<svg viewBox="0 0 760 190" role="img" aria-label="宣传时间点与真实字幕内容对照">
+<title>五个宣传时间点与真实内容对照</title>
+<defs><marker id="a1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6d28d9"/></marker></defs>
+<text x="18" y="24" class="title">宣传时间戳</text><text x="230" y="24" class="title">字幕同处实际内容</text>
+<g class="tiny"><text x="18" y="56">09:14 · 第一个 Agent</text><text x="18" y="87">33:11 · Loop Engineering</text><text x="18" y="118">1:02:46 · Graph Engineering</text><text x="18" y="149">1:30:15 · 自修改代码</text><text x="18" y="180">1:49:05 · 最后 40 分钟</text></g>
+<g stroke="#6d28d9" stroke-width="2"><line x1="185" y1="51" x2="217" y2="51" marker-end="url(#a1)"/><line x1="185" y1="82" x2="217" y2="82" marker-end="url(#a1)"/><line x1="185" y1="113" x2="217" y2="113" marker-end="url(#a1)"/><line x1="185" y1="144" x2="217" y2="144" marker-end="url(#a1)"/><line x1="185" y1="175" x2="217" y2="175" marker-end="url(#a1)"/></g>
+<g class="tiny"><text x="235" y="56">约 09:25 已在回顾上节并转入 LangGraph</text><text x="235" y="87">约 33:41 是 interrupt 练习与 state 说明</text><text x="235" y="118">约 1:02:41 是 persistence / streaming 转场</text><text x="235" y="149">约 1:29:28 是 Essay Writer revision 状态</text><text x="235" y="180">约 1:49:09 是 supervisor；全片只剩约 3 分钟</text></g>
+</svg>
+<p>“约两小时”只是近似时长成立；<b>“刚发”“自修改”“最后四十分钟完整系统”都没有获得字幕或官方目录支持。</b>更合理的表述是：一段旧课程被重新包装成了 2026 年的 Graph Engineering 热门课。</p>
+<div class="fact"><b>证据固定：</b>本轮读取公开 VTT 共 515,900 字节，SHA-256 为 <code>db669ec5ab5faa6f8513c249c951bf0857fa329ccedd85e1ed6279328ca809a0</code>。自动字幕会有识别错字，因此术语以官方课程页交叉校正。</div>
+</section>
+
+<section class="question" id="q2">
+<div class="qnum">02</div><h2>官方课程真正讲了哪些模块？</h2>
+<p><span class="pill source">课程事实</span>官方当前页标注中级、约 1 小时 47 分、9 个视频课与 6 个代码示例。转发版约 112 分钟，且字幕显示部分转场重复，故下面采用<b>官方模块顺序</b>而非网传时间戳。</p>
+<svg viewBox="0 0 760 200" role="img" aria-label="官方课程模块地图">
+<title>官方课程模块地图</title>
+<g class="label" text-anchor="middle">
+<rect x="15" y="25" width="150" height="52" rx="12" fill="#6d28d9"/><text x="90" y="47" class="white">1  Introduction</text><text x="90" y="65" class="white tiny">迭代式 Agent 的价值</text>
+<rect x="190" y="25" width="170" height="52" rx="12" fill="#2563eb"/><text x="275" y="47" class="white">2  Agent from Scratch</text><text x="275" y="65" class="white tiny">Python + LLM + tools</text>
+<rect x="385" y="25" width="165" height="52" rx="12" fill="#06b6d4"/><text x="467" y="47" class="white">3  LangGraph</text><text x="467" y="65" class="white tiny">state / nodes / edges</text>
+<rect x="575" y="25" width="170" height="52" rx="12" fill="#db2777"/><text x="660" y="47" class="white">4  Agentic Search</text><text x="660" y="65" class="white tiny">机器可读检索结果</text>
+<rect x="60" y="115" width="185" height="52" rx="12" fill="#7c3aed"/><text x="152" y="137" class="white">5  Persistence + Stream</text><text x="152" y="155" class="white tiny">checkpoint / events</text>
+<rect x="285" y="115" width="185" height="52" rx="12" fill="#ea580c"/><text x="377" y="137" class="white">6  Human in the Loop</text><text x="377" y="155" class="white tiny">interrupt / edit / resume</text>
+<rect x="510" y="115" width="185" height="52" rx="12" fill="#0ca30c"/><text x="602" y="137" class="white">7–9  Essay → Conclusion</text><text x="602" y="155" class="white tiny">bounded revisions / patterns</text>
+</g>
+</svg>
+<p>学习主线不是“Prompt → Agent → Loop → Graph 的 2026 新理论”，而是：<b>先手写 Agent 认识循环，再用 LangGraph 显式化状态与路由，最后加入检索、持久化、人类介入和多节点写作。</b></p>
+<div class="increment"><b>与已有知识衔接：</b>State、Reducer、Checkpoint、Interrupt 已在 LangGraph 指南中学过，本指南不重复安装与 API 教学，集中追问“路由到 END 是否真的代表任务做对了”。</div>
+</section>
+
+<section class="question" id="q3">
+<div class="qnum">03</div><h2>从零 Agent 的循环什么时候结束？</h2>
+<p><span class="pill source">课程事实</span>从零实现的 <code>query(question, max_turns)</code> 有两个出口：正则找不到 Action 就 <code>return</code>；否则执行工具，把 Observation 喂回模型；达到 <code>max_turns</code> 也会退出。</p>
+<svg viewBox="0 0 760 185" role="img" aria-label="从零 Agent 的两个循环出口">
+<title>从零 Agent 的停止条件</title>
+<defs><marker id="a3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2563eb"/></marker></defs>
+<g class="label" text-anchor="middle"><rect x="20" y="58" width="110" height="48" rx="12" fill="#6d28d9"/><text x="75" y="88" class="white">调用模型</text><rect x="185" y="58" width="150" height="48" rx="12" fill="#2563eb"/><text x="260" y="88" class="white">正则找 Action</text><rect x="400" y="20" width="130" height="45" rx="10" fill="#06b6d4"/><text x="465" y="49">执行工具</text><rect x="400" y="110" width="130" height="45" rx="10" fill="#0ca30c"/><text x="465" y="139" class="white">无 Action：return</text><rect x="595" y="58" width="145" height="48" rx="12" fill="#fab219"/><text x="667" y="79">达到 max_turns</text><text x="667" y="97">循环也退出</text></g>
+<g stroke="#2563eb" stroke-width="2" fill="none"><line x1="130" y1="82" x2="180" y2="82" marker-end="url(#a3)"/><path d="M335 70 L390 45" marker-end="url(#a3)"/><path d="M335 94 L390 128" marker-end="url(#a3)"/><path d="M465 65 L465 82 L150 82" marker-end="url(#a3)"/><line x1="535" y1="82" x2="588" y2="82" marker-end="url(#a3)"/></g>
+</svg>
+<div class="warning"><b>关键边界：</b>“没有 Action”只说明模型没有再按格式请求工具，不等于答案正确；“达到 max_turns”只说明预算耗尽，更不等于完成。未知工具会抛异常，而不是被静默执行。</div>
+<p>这把停止条件分成两个正交问题：<b>控制流为什么结束</b>与<b>结果是否被验证</b>。课程代码回答前者；后者需要另加评估 Gate。</p>
+</section>
+
+<section class="question" id="q4">
+<div class="qnum">04</div><h2>换成 LangGraph 后，结束判断变聪明了吗？</h2>
+<p><span class="pill source">课程事实</span>核心结构是 <code>StateGraph(AgentState)</code>、<code>llm</code> 节点、<code>action</code> 节点和条件函数 <code>exists_action</code>。最新消息有 tool calls 就去 action，没有就去 <code>END</code>。</p>
+<svg viewBox="0 0 760 170" role="img" aria-label="LangGraph 条件边路由">
+<title>LangGraph 条件边并不评估答案质量</title>
+<defs><marker id="a4" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6d28d9"/></marker></defs>
+<g class="label" text-anchor="middle"><rect x="18" y="57" width="110" height="50" rx="12" fill="#6d28d9"/><text x="73" y="88" class="white">START → llm</text><rect x="185" y="57" width="155" height="50" rx="12" fill="#2563eb"/><text x="262" y="88" class="white">exists_action?</text><rect x="410" y="18" width="120" height="45" rx="10" fill="#06b6d4"/><text x="470" y="47">action</text><rect x="410" y="110" width="120" height="45" rx="10" fill="#0ca30c"/><text x="470" y="139" class="white">END</text><rect x="595" y="48" width="145" height="70" rx="10" fill="#fef2f2" stroke="#d03b3b"/><text x="667" y="76">没有质量评分</text><text x="667" y="98">也没有事实校验</text></g>
+<g stroke="#6d28d9" stroke-width="2" fill="none"><line x1="128" y1="82" x2="180" y2="82" marker-end="url(#a4)"/><path d="M340 70 L400 43" marker-end="url(#a4)"/><path d="M340 94 L400 128" marker-end="url(#a4)"/><path d="M470 63 L470 85 L145 85" marker-end="url(#a4)"/><line x1="530" y1="82" x2="588" y2="82" marker-end="url(#a4)"/></g>
+</svg>
+<p><b>没有变聪明，只是变得显式、可测、可插拔。</b>条件边仍然只判断“有没有工具调用”。这是好事：把简单路由与复杂质量评价分开，才能分别替换和测试。</p>
+<div class="fact"><b>State 细节：</b>课程用 <code>Annotated[Sequence[BaseMessage], operator.add]</code> 让消息追加；节点返回增量，框架更新共享状态。普通边负责固定转移，条件边负责运行时路由。</div>
+</section>
+
+<section class="question" id="q5">
+<div class="qnum">05</div><h2>Agentic Search 与普通搜索差在哪里？</h2>
+<p><span class="pill source">课程事实</span>普通搜索往往返回链接/摘要，Agent 还得抓网页、清 HTML、找相关段落。课程用 Tavily 演示把复杂问题拆成子查询、选择来源、提取与排序内容，返回更完整、结构化的机器输入。</p>
+<svg viewBox="0 0 760 180" role="img" aria-label="普通搜索与 Agentic Search 对比">
+<title>搜索工具需要返回机器可消费的结果</title>
+<g class="label" text-anchor="middle"><rect x="20" y="25" width="160" height="42" rx="10" fill="#64748b"/><text x="100" y="52" class="white">普通搜索</text><rect x="20" y="108" width="160" height="42" rx="10" fill="#db2777"/><text x="100" y="135" class="white">Agentic Search</text></g>
+<g class="label"><text x="220" y="51">链接 + snippets</text><text x="220" y="134">子问题 → 来源 → 提取 → 排序 → JSON</text></g>
+<g class="tiny"><text x="430" y="51">人再打开、阅读、判断</text><text x="430" y="83" class="muted">Agent 还要 scrape / clean / retrieve</text><text x="220" y="158" class="muted">目标：可用答案材料与可预测结构，而不只是链接列表</text></g>
+<rect x="625" y="25" width="110" height="45" rx="10" fill="#e0e7ff"/><text x="680" y="53" text-anchor="middle" class="label">人看结果页</text><rect x="625" y="108" width="110" height="45" rx="10" fill="#fce7f3"/><text x="680" y="136" text-anchor="middle" class="label">机器读内容</text>
+</svg>
+<p>对停止条件的启发是：<b>“搜索工具返回了”不是“证据够了”。</b>还要检查来源是否存在、是否支撑最终结论、格式是否符合下游契约。</p>
+<div class="warning"><b>本轮限制：</b>没有申请 Tavily key，也没有把实时搜索结果当实验事实；实验中的来源字段是固定字符串，用来验证 Gate 逻辑，不证明联网检索质量。</div>
+</section>
+
+<section class="question" id="q6">
+<div class="qnum">06</div><h2>Checkpoint 是“完成”还是“可恢复”？</h2>
+<p><span class="pill source">课程事实</span>课程把 checkpointer 传给 <code>graph.compile</code>，用 <code>thread_id</code> 区分会话；<code>.stream()</code> 发出节点更新，<code>.astream_events()</code> 可筛 <code>on_chat_model_stream</code> 逐 token 输出。</p>
+<svg viewBox="0 0 760 180" role="img" aria-label="Checkpoint 与完成状态的区别">
+<title>Checkpoint 保存状态而不是证明完成</title>
+<defs><marker id="a6" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6d28d9"/></marker></defs>
+<g class="label" text-anchor="middle"><rect x="25" y="55" width="125" height="48" rx="10" fill="#2563eb"/><text x="87" y="85" class="white">节点执行</text><rect x="210" y="55" width="140" height="48" rx="10" fill="#6d28d9"/><text x="280" y="85" class="white">状态快照</text><rect x="410" y="20" width="150" height="45" rx="10" fill="#06b6d4"/><text x="485" y="49">稍后 resume</text><rect x="410" y="110" width="150" height="45" rx="10" fill="#0ca30c"/><text x="485" y="139" class="white">另行验证完成</text><rect x="620" y="50" width="120" height="58" rx="10" fill="#fef2f2" stroke="#d03b3b"/><text x="680" y="75">snapshot ≠ done</text><text x="680" y="96">pause ≠ fail</text></g>
+<g stroke="#6d28d9" stroke-width="2" fill="none"><line x1="150" y1="79" x2="203" y2="79" marker-end="url(#a6)"/><path d="M350 67 L400 45" marker-end="url(#a6)"/><path d="M350 92 L400 128" marker-end="url(#a6)"/></g>
+</svg>
+<p><b>Checkpoint 是“保存当前事实”，不是“宣布任务成功”。</b>stream 也只是把过程事件暴露出来，不自动判断质量。内存 SQLite 在 Notebook 重置后消失；生产持久性需要外部数据库。</p>
+<div class="increment"><b>停止语义必须分型：</b><code>VERIFIED_SUCCESS</code> 是终态；<code>BUDGET_EXHAUSTED</code> 是失败终态；<code>WAITING_HUMAN</code> 是暂停；<code>CHECKPOINT_SAVED</code> 只是可恢复记录。混成同一个 done 布尔值，就会谎报完成。</div>
+</section>
+
+<section class="question" id="q7">
+<div class="qnum">07</div><h2>Human-in-the-loop 到底改变了什么？</h2>
+<p><span class="pill source">课程事实</span>在 compile 时设置 checkpointer 和 <code>interrupt_before="action"</code>，图会停在工具执行前。人可读 <code>get_state</code>、用 <code>update_state</code> 改工具参数，再以同一 thread 调 <code>stream(None, config)</code> 继续。</p>
+<svg viewBox="0 0 760 185" role="img" aria-label="人工审批与状态编辑流程">
+<title>Human-in-the-loop 是控制转移</title>
+<defs><marker id="a7" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6d28d9"/></marker></defs>
+<g class="label" text-anchor="middle"><rect x="15" y="65" width="105" height="48" rx="10" fill="#2563eb"/><text x="67" y="95" class="white">LLM 提议工具</text><rect x="160" y="65" width="135" height="48" rx="10" fill="#fab219"/><text x="227" y="95">interrupt_before</text><rect x="340" y="18" width="150" height="43" rx="10" fill="#06b6d4"/><text x="415" y="46">批准：原样继续</text><rect x="340" y="120" width="150" height="43" rx="10" fill="#db2777"/><text x="415" y="148" class="white">修改：update_state</text><rect x="545" y="65" width="190" height="48" rx="10" fill="#0ca30c"/><text x="640" y="95" class="white">stream(None) → action</text></g>
+<g stroke="#6d28d9" stroke-width="2" fill="none"><line x1="120" y1="89" x2="153" y2="89" marker-end="url(#a7)"/><path d="M295 76 L330 45" marker-end="url(#a7)"/><path d="M295 102 L330 137" marker-end="url(#a7)"/><path d="M490 40 L530 72" marker-end="url(#a7)"/><path d="M490 140 L530 106" marker-end="url(#a7)"/></g>
+</svg>
+<p>课程还演示历史快照、从旧 checkpoint “time travel”、编辑后形成分支，以及用 <code>as_node="action"</code> 人工补工具结果。<b>本质是把执行权暂时从图转交给人，而不是让另一个 LLM 说声“我看行”。</b></p>
+<div class="fact"><b>工程价值：</b>高风险动作前暂停、保留证据、允许修正与审计。暂停点应放在不可逆动作之前，而不是所有节点都打断人。</div>
+</section>
+
+<section class="question" id="q8">
+<div class="qnum">08</div><h2>Essay Writer 的停止条件有没有 off-by-one？</h2>
+<p><span class="pill source">课程事实</span>它使用 <code>revision_number</code> 与 <code>max_revisions</code>。每次 generate 后计数加一，随后判断：<code>revision_number &gt; max_revisions → END</code>，否则进入 reflect → research_critique → generate。</p>
+<svg viewBox="0 0 760 205" role="img" aria-label="Essay Writer 两次草稿与一次反思的停止轨迹">
+<title>严格大于号产生两稿一反思</title>
+<defs><marker id="a8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6d28d9"/></marker></defs>
+<g class="label" text-anchor="middle"><rect x="15" y="70" width="110" height="48" rx="10" fill="#6d28d9"/><text x="70" y="91" class="white">初始 count=1</text><text x="70" y="108" class="white tiny">max=2</text><rect x="165" y="20" width="130" height="48" rx="10" fill="#2563eb"/><text x="230" y="41" class="white">generate #1</text><text x="230" y="59" class="white tiny">count=2</text><rect x="340" y="20" width="145" height="48" rx="10" fill="#fab219"/><text x="412" y="41">2 &gt; 2？否</text><text x="412" y="59" class="tiny">reflect + research</text><rect x="165" y="130" width="130" height="48" rx="10" fill="#2563eb"/><text x="230" y="151" class="white">generate #2</text><text x="230" y="169" class="white tiny">count=3</text><rect x="340" y="130" width="145" height="48" rx="10" fill="#0ca30c"/><text x="412" y="151" class="white">3 &gt; 2？是</text><text x="412" y="169" class="white tiny">END</text></g>
+<g stroke="#6d28d9" stroke-width="2" fill="none"><path d="M125 82 L155 50" marker-end="url(#a8)"/><line x1="295" y1="44" x2="333" y2="44" marker-end="url(#a8)"/><path d="M412 68 L412 105 L240 105 L240 123" marker-end="url(#a8)"/><line x1="295" y1="154" x2="333" y2="154" marker-end="url(#a8)"/></g>
+</svg>
+<p>官方示例从 1 开始、上限为 2，结果是 <b>2 次生成 + 1 次反思/检索修订</b>。这里的 <code>&gt;</code> 与计数初值共同定义边界；换成 <code>&gt;=</code> 会少一轮。</p>
+<div class="warning"><b>更重要的问题：</b>它只看修订次数，不看文章是否达标。END 可能意味着“预算用完”，并非“质量通过”。本实验的两个专门单测实测 <code>(2,2)→reflect</code>、<code>(3,2)→end</code>，防止把边界讲错。</div>
+</section>
+
+<section class="question" id="q9">
+<div class="qnum">09</div><h2>结尾真正介绍的五种图结构是什么？</h2>
+<p><span class="pill source">课程事实</span>最后约四分钟是架构速览，不是“四十分钟完整图系统实战”。它把不同流程的信息流与控制权放在一起比较。</p>
+<svg viewBox="0 0 760 205" role="img" aria-label="五种 Agent 图架构速览">
+<title>课程结论中的五种结构</title>
+<g class="label" text-anchor="middle"><rect x="15" y="18" width="225" height="48" rx="10" fill="#6d28d9"/><text x="127" y="39" class="white">Multi-agent</text><text x="127" y="57" class="white tiny">多个 Agent 操作共享 state</text><rect x="267" y="18" width="225" height="48" rx="10" fill="#2563eb"/><text x="379" y="39" class="white">Supervisor</text><text x="379" y="57" class="white tiny">监督者路由子 Agent</text><rect x="520" y="18" width="225" height="48" rx="10" fill="#06b6d4"/><text x="632" y="39">Flow engineering</text><text x="632" y="57" class="tiny">定向 pipeline + 局部迭代环</text><rect x="140" y="115" width="225" height="48" rx="10" fill="#db2777"/><text x="252" y="136" class="white">Plan and execute</text><text x="252" y="154" class="white tiny">计划 → 执行 → 检查/重规划</text><rect x="405" y="115" width="225" height="48" rx="10" fill="#ea580c"/><text x="517" y="136" class="white">Language Agent Tree Search</text><text x="517" y="154" class="white tiny">行动树 + 反思 + 回跳</text></g>
+<g stroke="#94a3b8" stroke-width="2"><line x1="127" y1="70" x2="127" y2="94"/><line x1="379" y1="70" x2="379" y2="94"/><line x1="632" y1="70" x2="632" y2="94"/></g><text x="380" y="193" text-anchor="middle" class="tiny muted">LangGraph 的卖点：显式控制循环与非循环流程，而非一种固定“最强拓扑”</text>
+</svg>
+<p><b>Multi-agent 与 Supervisor 的区别在状态和控制：</b>前者围绕共享状态交接；后者由 supervisor 决定子 Agent 输入，子 Agent 可有独立状态。LATS 依赖历史状态回跳，因此 persistence 很重要。</p>
+<div class="increment"><b>选型纪律：</b>不要为了“图工程”把确定性的合并、去重、排序也交给模型。先用最简流程；只有分支、回退、恢复或并行需求真实出现时，才增加图复杂度。</div>
+</section>
+
+<section class="question" id="q10">
+<div class="qnum">10</div><h2>“自修改 Agent”与本课的边界在哪里？</h2>
+<p><span class="pill unknown">宣传未证</span>在约 1:30:15 的字幕中，讲师正在定义 Essay Writer 的修订计数；官方目录与结论都没有“Agent 修改并升级自己代码”的模块。因此不能把自修改能力记到这门课名下。</p>
+<svg viewBox="0 0 760 190" role="img" aria-label="修改产出与修改系统自身的边界">
+<title>修改草稿不等于修改 harness</title>
+<defs><marker id="a10" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6d28d9"/></marker></defs>
+<g class="label" text-anchor="middle"><rect x="20" y="28" width="280" height="120" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="160" y="55">本课：内循环修改产出</text><rect x="55" y="76" width="90" height="40" rx="8" fill="#2563eb"/><text x="100" y="101" class="white">draft v1</text><rect x="175" y="76" width="90" height="40" rx="8" fill="#06b6d4"/><text x="220" y="101">draft v2</text><rect x="350" y="28" width="390" height="120" rx="14" fill="#fdf2f8" stroke="#db2777" stroke-width="2"/><text x="545" y="55">另一个主题：外循环修改 harness</text><text x="545" y="80" class="tiny">提示词 / 控制流 / 工具 / 记忆 / 评估配置</text><rect x="405" y="98" width="280" height="34" rx="8" fill="#db2777"/><text x="545" y="121" class="white">候选 → 隔离 → 全套评估 → 晋级或回滚</text></g>
+<line x1="145" y1="96" x2="168" y2="96" stroke="#6d28d9" stroke-width="2" marker-end="url(#a10)"/>
+</svg>
+<p>修改作文、修复当前文件，与改写系统自身的提示词/控制流/评估器不是同一风险级。后者属于已有知识库的 <b>RRSI 正则化递归自我改进</b>：需要隔离候选、泄漏审查、独立评估、版本化与回滚。</p>
+<div class="warning"><b>本实验仅验证一条安全边界：</b>候选若写评估器或越出允许路径，立即 <code>HARD_FAILURE</code>，不进入“让它自己修修看”的循环。没有实现、也没有声称验证了真正的自修改 Agent。</div>
+</section>
+
+<section class="question" id="q11">
+<div class="qnum">11</div><h2>生产循环需要哪几类停止出口？</h2>
+<p><span class="pill lab">本实验增量</span>课程的“无 Action / END / max_turns / max_revisions / interrupt”不足以覆盖所有故障。本轮把出口拆成五类，并让每类都有可观察理由。</p>
+<svg viewBox="0 0 760 210" role="img" aria-label="五种停止与暂停出口">
+<title>停止条件状态图</title>
+<defs><marker id="a11" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6d28d9"/></marker></defs>
+<rect x="300" y="72" width="150" height="52" rx="12" fill="#2563eb"/><text x="375" y="103" text-anchor="middle" class="white label">draft → gate</text>
+<g class="label" text-anchor="middle"><rect x="15" y="15" width="190" height="48" rx="10" fill="#0ca30c"/><text x="110" y="45" class="white">VERIFIED_SUCCESS · 终态</text><rect x="555" y="15" width="190" height="48" rx="10" fill="#d03b3b"/><text x="650" y="45" class="white">HARD_FAILURE · 终态</text><rect x="15" y="145" width="190" height="48" rx="10" fill="#fab219"/><text x="110" y="175">STAGNANT · 失败终态</text><rect x="555" y="145" width="190" height="48" rx="10" fill="#ea580c"/><text x="650" y="175" class="white">BUDGET_EXHAUSTED · 失败</text><rect x="290" y="155" width="170" height="38" rx="10" fill="#6d28d9"/><text x="375" y="180" class="white">WAITING_HUMAN · 暂停</text></g>
+<g stroke="#6d28d9" stroke-width="2" fill="none"><path d="M300 82 L210 48" marker-end="url(#a11)"/><path d="M450 82 L550 48" marker-end="url(#a11)"/><path d="M300 112 L210 160" marker-end="url(#a11)"/><path d="M450 112 L550 160" marker-end="url(#a11)"/><line x1="375" y1="124" x2="375" y2="148" marker-end="url(#a11)"/></g>
+</svg>
+<table><thead><tr><th>出口</th><th>触发证据</th><th>能否自动重试</th></tr></thead><tbody>
+<tr><td>验证成功</td><td>Outcome 与 Trajectory 都通过</td><td>不需要；交付结果</td></tr>
+<tr><td>硬失败</td><td>篡改评估器、越权路径、不可逆危险</td><td>不能；先升级处理</td></tr>
+<tr><td>停滞</td><td>候选指纹与上一轮相同</td><td>原策略不应原样重试</td></tr>
+<tr><td>预算耗尽</td><td>达到明确轮数/成本上限</td><td>不能假装成功</td></tr>
+<tr><td>等待人工</td><td>interrupt / 审批需求</td><td>这是暂停，不是终止</td></tr></tbody></table>
+<p><b>重点不是“停得越早越好”，而是停止理由必须机器可查、语义不混淆。</b>停滞与硬失败是本实验额外增补，不应归到原课程。</p>
+</section>
+
+<section class="question" id="q12">
+<div class="qnum">12</div><h2>怎样用五个病例验证 Gate 没被骗？</h2>
+<p><span class="pill lab">本实验增量</span>固定候选让结果完全可复现。Gate 分开检查终态（日期、负责人、来源）与轨迹（允许路径、评估器完整性），并且忽略 <code>claimed_done</code>。</p>
+<svg viewBox="0 0 760 205" role="img" aria-label="五个实验病例的真实停止结果">
+<title>五病例实验结果；文字与颜色共同编码</title>
+<g class="tiny"><text x="25" y="24" class="title">病例</text><text x="250" y="24" class="title">实际轮数</text><text x="390" y="24" class="title">实际停止理由</text><text x="630" y="24" class="title">状态</text>
+<rect x="15" y="38" width="730" height="27" rx="5" fill="#ecfdf5"/><text x="25" y="56">clean</text><text x="250" y="56">1</text><text x="390" y="56">VERIFIED_SUCCESS</text><text x="630" y="56" fill="#006300">PASS</text>
+<rect x="15" y="70" width="730" height="27" rx="5" fill="#ecfdf5"/><text x="25" y="88">repair</text><text x="250" y="88">2</text><text x="390" y="88">VERIFIED_SUCCESS</text><text x="630" y="88">PASS</text>
+<rect x="15" y="102" width="730" height="27" rx="5" fill="#fff7ed"/><text x="25" y="120">stagnant</text><text x="250" y="120">2（上限设为 5）</text><text x="390" y="120">STAGNANT</text><text x="630" y="120">FAIL</text>
+<rect x="15" y="134" width="730" height="27" rx="5" fill="#fff7ed"/><text x="25" y="152">budget</text><text x="250" y="152">3（默认上限）</text><text x="390" y="152">BUDGET_EXHAUSTED</text><text x="630" y="152">FAIL</text>
+<rect x="15" y="166" width="730" height="27" rx="5" fill="#fef2f2"/><text x="25" y="184">tamper</text><text x="250" y="184">1</text><text x="390" y="184">HARD_FAILURE</text><text x="630" y="184">FAIL</text></g>
+</svg>
+<p>repair 第一轮返回三个具体错误 <code>MISSING_DATE / MISSING_OWNER / MISSING_SOURCE</code>，第二轮通过；stagnant 的候选 SHA-256 前缀连续两次都是 <code>716787f7f710</code>，所以在第 2 轮停滞退出；tamper 虽然答案字段齐全，仍因 <code>EVALUATOR_TAMPERING</code> 立即失败。</p>
+<div class="fact"><b>评估器也要被评估：</b>一个病例只证明一个机制。5 个病例 + 9 个单测不能推出生产系统可靠，更不能推出“同模型同 Token 完成度倍增”；它们只证明这份小型运行时的既定行为。</div>
+</section>
+
+<section class="chapter" id="abilities">
+<h2>这门课与实验真正给我什么</h2>
+<div class="grid2">
+<div class="cap"><b>1. 审计已有循环</b><br>把“无工具调用”“达到上限”“质量通过”拆开，不再用一个 done 含糊收尾。</div>
+<div class="cap"><b>2. 设计可恢复的图</b><br>知道 checkpoint、thread、stream、interrupt 各管什么，不把暂停误报为失败或完成。</div>
+<div class="cap"><b>3. 写停止条件测试</b><br>直接钉住 <code>&gt;</code> 与初值边界，避免升级代码时多一轮或少一轮。</div>
+<div class="cap"><b>4. 建双层 Gate</b><br>终态查交付物，轨迹查越权/成本/修复过程；模型自称完成不是证据。</div>
+<div class="cap"><b>5. 识别营销换壳</b><br>用官方目录 + 字幕时间点交叉核对，不把“自修改”“效率倍增”等宣传当学习成果。</div>
+<div class="cap"><b>6. 找到下一门课</b><br>若要研究真正自修改，应转到 RRSI 等独立材料，而不是继续在这段视频里寻找不存在的内容。</div>
+</div>
+</section>
+
+<section class="chapter" id="experiment">
+<h2>主实验：给图循环装上“可解释的刹车”</h2>
+<p class="lead">目标：不调用模型，用固定输入让五类停止路径全部真实触发。代码是自建教学复刻，不是官方 Notebook，也不依赖 LangGraph 包。</p>
+<div class="step"><h3>第 1 步 · 编译检查</h3><p><b>操作：</b>在项目根目录执行：</p><pre><code>python -m py_compile exercise/graph_eval_lab.py exercise/test_graph_eval_lab.py</code></pre><p><b>目的：</b>先排除语法错误。<b>实现：</b>Python 生成字节码检查。<b>验证：</b>本轮命令退出码 0。</p><div class="expected"><b>预期结果：</b>无错误输出；本轮附加打印 <code>py_compile: OK</code>。</div></div>
+<div class="step"><h3>第 2 步 · 一次跑完五病例</h3><p><b>操作：</b></p><pre><code>python exercise/graph_eval_lab.py --scenario all</code></pre><p><b>目的：</b>观察 draft → gate → repair/stop 的完整事件。<b>实现：</b>每轮输出指纹与 Outcome/Trajectory 错误，最后输出停止摘要。</p><div class="expected"><b>预期结果：</b>clean=1 轮 PASS；repair=2 轮 PASS；stagnant=2 轮 FAIL；budget=3 轮 FAIL；tamper=1 轮 HARD_FAILURE。</div></div>
+<div class="step"><h3>第 3 步 · 改一个参数，看见预算变化</h3><p><b>操作：</b></p><pre><code>python exercise/graph_eval_lab.py --scenario budget --max-attempts 2</code></pre><p><b>目的：</b>验证预算不是写死的日志。<b>实现：</b>每次失败候选都改变 retry 文本，避免提前触发停滞。</p><div class="expected"><b>预期结果：</b>最后一行变为 <code>stop=BUDGET_EXHAUSTED attempts=2</code>；本轮实际输出与此一致。</div></div>
+<div class="step"><h3>第 4 步 · 跑边界与回归测试</h3><p><b>操作：</b></p><pre><code>python -m unittest discover -s exercise -p "test_*.py" -v</code></pre><p><b>目的：</b>把口头规则变成回归合同。<b>实现：</b>两个课程边界测试 + 七个 Gate/停止测试。</p><div class="expected"><b>预期结果：</b><code>Ran 9 tests ... OK</code>。完整真实输出见 <a href="exercise/experiment-log.txt">experiment-log.txt</a>。</div></div>
+<p class="small">可复跑材料：<a href="exercise/graph_eval_lab.py">graph_eval_lab.py</a> · <a href="exercise/test_graph_eval_lab.py">test_graph_eval_lab.py</a> · <a href="exercise/experiment-log.txt">真实实验日志</a></p>
+</section>
+
+<section class="chapter" id="sources">
+<h2>来源、证据等级与限制</h2>
+<ol class="sources">
+<li><b>原始记录：</b><a href="https://x.com/AYi_AInotes/status/2104542011642757330">AYi 转发帖</a>；下游<a href="https://x.com/res1dualedge/status/2104300857928098075/video/1">视频帖</a>。它们是推荐/转发，不是官方课程公告。</li>
+<li><b>视频正文证据：</b><a href="https://video.twimg.com/subtitles/amplify_video/2104187439287828480/0/bmbxEZeaIOpgRuCm.vtt">公开英文自动字幕 VTT</a>。本轮实际读取并解析 3019 个 cues；术语识别可能与官方拼写不同。</li>
+<li><b>官方身份与目录：</b><a href="https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/">DeepLearning.AI — AI Agents in LangGraph</a>；<a href="https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/qyrpc/introduction">Introduction</a>。</li>
+<li><b>关键停止逻辑：</b><a href="https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/c1l2c/build-an-agent-from-scratch">Agent from Scratch</a>；<a href="https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/l7rgk/langgraph-components">LangGraph Components</a>；<a href="https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/m0x4m/essay-writer">Essay Writer</a>。</li>
+<li><b>恢复与人工控制：</b><a href="https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/nj9ok/persistence-and-streaming">Persistence and Streaming</a>；<a href="https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/k87e1/human-in-the-loop">Human in the Loop</a>；<a href="https://learn.deeplearning.ai/courses/ai-agents-in-langgraph/lesson/b43j5/conclusion">Conclusion</a>。</li>
+</ol>
+<div class="warning"><b>限制必须随指南一起阅读：</b>本轮没有观看每一帧画面、没有运行官方托管 Notebook、没有调用真实 LLM/Tavily、没有验证多进程恢复，也没有实现自修改 Agent。字幕与官方页面足以核实课程身份和文字中的代码逻辑，但不能替代对视频画面或生产系统的全面验收。</div>
+<p class="lead">最终记忆钩子：<span class="highlight">END 是图走到了出口，不是世界证明你做对了；真正的完成必须另有证据。</span></p>
+</section>
+<div class="footer">graph_engineering_course · verified source · deterministic experiment · 2026-11-18</div>
+</main>
+</body>
+</html>

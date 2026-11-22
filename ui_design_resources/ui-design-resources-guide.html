@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>UI 设计四资源组合 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#fdf5ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#7c4dff 0%,#ff2e88 55%,#ff6b1a 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-purple));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-purple));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-purple));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-purple));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>UI 设计四资源组合：规范、组件、审查与工作流</h1>
+  <p>拯救 vibe coding 审美的组合拳——本指南核实 impeccable 的 62 条确定性规则真实存在，并用自写迷你检测器 6/6 命中 AI 味</p>
+  <p>
+    <span class="badge">impeccable @d34c87e 源码核实</span><span class="badge">迷你检测器 6/6</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 文《两个网站和两个 Skills，拯救你的 vibe coding 审美》(@Ozp_sound) ｜ 学习日期 2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q1</div>
+<h2>这四个资源分别管什么？</h2>
+<table>
+<tr><th>资源</th><th>角色</th><th>一句话</th></tr>
+<tr><td>getdesign.md</td><td>视觉规范参考</td><td>设计参考站，给 AI 立审美标杆</td></tr>
+<tr><td>libraries.dev</td><td>局部组件</td><td>复制 prompt 接入现成组件（主要面向 React）</td></tr>
+<tr><td>impeccable</td><td>审查修改</td><td>1 skill/24 命令/<b>62 条确定性规则</b>，专抓"AI 味"</td></tr>
+<tr><td>OpenDesign</td><td>持续设计工作流</td><td>设计工作空间，接你自己的 agent 长期迭代</td></tr>
+</table>
+<p><span class="big">组合拳的逻辑：规范定方向（getdesign.md）→ 组件提效率（libraries.dev）→ 审查保底线（impeccable）→ 工作流管长期（OpenDesign）。</span>四者解决的是不同环节的问题，缺了审查环节，前两个只会让"丑得更快"。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q2</div>
+<h2>为什么 AI 生成的 UI"一眼假"？</h2>
+<p>每个模型都被同一批 SaaS 模板喂过，跳过规范引导就输出同一套"AI 味"：万物皆 Inter、紫到蓝渐变、卡片套卡片、彩底灰字、标题上方一个圆角图标砖。impeccable 的 README 把这些 tells 列为靶子，并用 <b>62 条确定性规则</b>（不需要 LLM、不需要 API key）逐个抓。</p>
+<div class="svgbox">
+<svg width="720" height="160" viewBox="0 0 720 160">
+  <rect x="20" y="35" width="180" height="90" rx="12" fill="#e8e4f5"/>
+  <text x="110" y="65" font-size="12" text-anchor="middle" fill="#666">AI 生成页面</text>
+  <text x="110" y="85" font-size="11" text-anchor="middle" fill="#999">Inter+紫渐变+灰字</text>
+  <rect x="270" y="30" width="190" height="100" rx="14" fill="#7c4dff"/>
+  <text x="365" y="62" fill="#fff" font-size="14" text-anchor="middle" font-weight="bold">62 条确定性规则</text>
+  <text x="365" y="84" fill="#e6dcff" font-size="11" text-anchor="middle">免 LLM · 免 Key</text>
+  <text x="365" y="102" fill="#e6dcff" font-size="11" text-anchor="middle">WCAG 对比度公式</text>
+  <rect x="530" y="35" width="170" height="90" rx="12" fill="#06d6a0"/>
+  <text x="615" y="70" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">命中清单+修复指令</text>
+  <text x="615" y="92" fill="#eafff8" font-size="10" text-anchor="middle">exit 非零 = 有 AI 味</text>
+  <path d="M200 80 L270 80" stroke="#333" stroke-width="2.5" marker-end="url(#u1)"/>
+  <path d="M460 80 L530 80" stroke="#333" stroke-width="2.5" marker-end="url(#u1)"/>
+  <defs><marker id="u1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#333"/></marker></defs>
+</svg>
+</div>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q3</div>
+<h2>impeccable 的 62 条规则是真的吗？（源码核实）</h2>
+<p>克隆仓库（@ d34c87e，4422 文件）静态阅读：</p>
+<ul>
+<li>规则引擎 <code>crates/core/src/checks/rules.rs</code>（2969 行），规则 ID 真实可查：<code>ai-color-palette</code>（紫色相 260-310° 判定/Tailwind from-purple 模式）、<code>low-contrast</code>、<code>gradient-text</code>、<code>gray-on-color</code>、<code>side-tab</code> 等；</li>
+<li>PRODUCT.md 带 schema 版本注释，实测含 Platform/Users/Purpose/Positioning；</li>
+<li>引擎是 Rust workspace（core 规则 + wasm 浏览器扩展），二进制不随仓库分发。</li>
+</ul>
+<div class="warnbox"><b>本班边界</b>：构建外部 Rust 引擎被权限层合理拒绝，故未跑官方二进制；以下实验用<b>自写迷你检测器</b>复刻概念。</div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q4</div>
+<h2>迷你检测器实测：6/6 命中 AI 味</h2>
+<p>写一个故意堆满 AI 味的示例页（Inter/紫蓝渐变/#999 灰字/嵌套卡片/图标砖），自写检测器实测输出：</p>
+<pre><code>检测完成：6 条 AI 味命中
+ - Inter 万能字体 / 紫蓝紫渐变 / 灰色辅助文字 #999
+ - 卡片套卡片 / 圆角图标砖+渐变底
+ - 低对比度正文 #999（2.85:1 < 4.5:1 WCAG AA）  ← 真实对比度公式
+exit=1（有命中即非零，fail-closed）</code></pre>
+<p>低对比度用 WCAG 亮度公式实算 <b>2.85:1</b>——"灰字看不清"从审美吐槽变成可机检数字。这正是 [[设计令牌DesignToken]]"主观审美变可校验数字"的路线。</p>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>PRODUCT.md 和 DESIGN.md 为什么要分开？</h2>
+<p><span class="big">产品事实（给谁用/解决什么/红线）是稳定层，视觉方向（这轮用什么风格）是易变层；混在一个文件里，改配色就会污染定位。</span>impeccable 的 init 流程先落 PRODUCT.md（访谈式收集 durable truth），DESIGN.md 按 surface 再生成。这与知识库 [[DESIGN.md规范文档]]+[[事实与判断分离]] 完全同构——该仓库自己就带着 schema 版本注释（product-schema 1）和过期字段告警机制。</p>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[DESIGN.md规范文档]] / [[设计令牌DesignToken]]</td><td>从"规范文本"升级为"规范+62 条机检规则+24 命令工作流"</td></tr>
+<tr><td>[[AI味模式库与信号非证据]]</td><td>同一思想跨域：写作 AI 味有 74 类检测器，UI AI 味有 62 条规则</td></tr>
+<tr><td>[[证据优先质检ProofOverClaims]]</td><td>"我觉得好看"→对比度 2.85:1 具体数字</td></tr>
+<tr><td>[[质检Gate与自我纠错循环]]</td><td>detect → 命中清单 → 修复指令 = 标准 Gate 循环</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q7</div>
+<h2>四个资源要一起装吗？</h2>
+<p><span class="big">不要。</span>分类阶段建议即本指南立场：先限定一个页面一个框架，保留相同文案与交互目标，<b>逐个引入</b>资源比较变化（响应式/对比度/操作反馈），再决定主工具。四个同时装只会把变量搞乱——对照实验纪律 [[规格书先行SpecDriven]]。</p>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q8</div>
+<h2>边界与风险</h2>
+<ul>
+<li>库代码免费 ≠ 模型调用/服务目录免费；</li>
+<li>命令和规则随版本变化（本指南核对的命令集以 @d34c87e 为准）；</li>
+<li>审美结论是作者经验；62 条规则抓"AI 味"不抓"丑得有个性"；</li>
+<li>官方引擎需构建或下载二进制（本班因权限未跑）。</li>
+</ul>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q9</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>1 skill / 24 命令 / 62 规则</td><td>✅ README+源码一致（24 命令表逐条在案）</td></tr>
+<tr><td>确定性规则免 LLM 免 Key</td><td>✅ 规则在 Rust 引擎本地执行（逻辑已读）</td></tr>
+<tr><td>PRODUCT/DESIGN 分离</td><td>✅ 自家仓库 PRODUCT.md 实测带 schema 注释</td></tr>
+<tr><td>"拯救审美"的效果</td><td>⚠️ 作者经验，需 A/B 自验</td></tr>
+</table>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>最小上手路径</h2>
+<pre><code># ① 零安装体验概念：跑本指南迷你检测器
+python exercise/mini_ai_detector.py 你的页面.html
+# ② 正式体验官方工具：npx impeccable install → /impeccable init
+# ③ 对照实验：同一页面，引入资源前后各跑一次 detect，比命中清单</code></pre>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>AI 味清单</b>：6 大 tells 一眼识别（Inter/紫渐变/灰字/嵌套卡片/图标砖/低对比）；</li>
+<li><b>确定性审查思维</b>：审美问题机检化（WCAG 公式/色相范围/正则模式）；</li>
+<li><b>PRODUCT/DESIGN 分离法</b>：稳定层与易变层分文件，带 schema 版本；</li>
+<li><b>迷你检测器</b>：可直接改用到自己的项目 CI；</li>
+<li><b>四资源分工图</b>：规范/组件/审查/工作流各就其位。</li>
+</ol>
+</div>
+
+<!-- 实验 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">动手</div>
+<h2>实验：迷你检测器抓 AI 味（约 10 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 准备示例页。</b><code>exercise/ai-tells-sample.html</code> 故意堆满 6 类 AI 味。
+<div class="expect">✅ 预期结果：文件就位，肉眼可辨认全部 tells。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 跑检测器。</b><code>python exercise/mini_ai_detector.py ai-tells-sample.html</code>
+<div class="expect">✅ 预期结果（本机实测）：6 条命中含对比度 2.85:1，exit=1。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 修复再跑。</b>把 #999 改 #595959、去掉 Inter 再跑 → 命中数下降。
+<div class="expect">✅ 预期结果：检测器如实反映修复（Gate 可闭环）。</div></div>
+<div class="okbox"><b>如实声明</b>：官方引擎未构建（权限拒绝），迷你检测器为原创复刻非官方实现。日志见 <code>ui_design_resources\exercise\experiment-log.md</code>。</div>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>四资源组合拳</b>：规范/组件/审查/工作流各司其职，审查不可缺；</li>
+<li><b>62 条规则真实存在</b>（源码核实），免 LLM 免 Key；</li>
+<li><b>AI 味可机检</b>：自写检测器 6/6 命中，对比度 2.85:1 实算；</li>
+<li><b>PRODUCT/DESIGN 分离</b>：事实层与视觉层分文件+schema 版本；</li>
+<li><b>逐个引入做对照</b>，别四个一起装。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">UI 设计四资源组合 · 2026-10-27 · 源码核实+迷你检测器实测 · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

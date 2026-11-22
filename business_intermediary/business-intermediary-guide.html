@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>商业中介与信息匹配 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#fffaf0; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#ffb800 0%,#ff6b1a 60%,#ff2e88 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:#fff;color:#b3541e;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-orange));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-orange));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-orange));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-orange));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>商业中介与信息匹配：交易成本与真实单位收益</h1>
+  <p>"知道哪里便宜 ≠ 赚到钱"——Coase 交易成本 + 四模式单位收益核算器实测，帮你拆穿"信息缺口躺赚"叙事</p>
+  <p>
+    <span class="badge">Coase 1991 诺奖演讲参照</span><span class="badge">四场景核算实测</span><span class="badge">示例口径·非投资建议</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖 (@Fred834567) ｜ 学习日期 2026-10-27</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q1</div>
+<h2>原帖说的"四种转售"是什么？</h2>
+<table>
+<tr><th>模式</th><th>本质</th><th>原帖暗示</th></tr>
+<tr><td>①商品转售</td><td>无货源：找到低价货源挂到自己的渠道</td><td>"搬运就赚差价"</td></tr>
+<tr><td>②服务转售</td><td>接单外包给 cheaper 交付方，赚中间差价</td><td>"撮合就赚差价"</td></tr>
+<tr><td>③内容转售</td><td>翻译/整理海外内容卖给国内读者</td><td>"信息差白捡钱"</td></tr>
+<tr><td>④能力转售</td><td>把自己的技能打包卖给需要的人</td><td>"一鱼多吃"</td></tr>
+</table>
+<p>帖中只有亲属故事和未具名案例，<b>没有商家链接、订单、成本表或交易记录</b>——销量与所得无法核实（[[证据优先质检ProofOverClaims]]：无凭据的获利宣称不采信）。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q2</div>
+<h2>中介的价值到底来自哪？Coase 怎么说</h2>
+<p><span class="big">诺贝尔经济学奖得主 Coase（1991 演讲）：寻找价格、谈判、拟定合同、检验商品、处理争议——这些"交易成本"无处不在。</span>当中介降低这些成本时，它创造价值并配拿差价；当差价只是"我知道而你不知道"的信息不对称时，这种价值随时会消失（信息被抹平后）。</p>
+<p>所以中介价值三件套是：<b>匹配</b>（找到对的供需）+ <b>交付</b>（把东西安全送到）+ <b>责任</b>（出问题有人兜底）。只有信息、没有三件套的模式最脆弱。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q3</div>
+<h2>销售额 ≠ 收入 ≠ 利润：完整单位收益口径</h2>
+<pre><code>净单价 = 售价
+       − 进货/交付成本
+       − 平台扣点
+       − 获客分摊（广告/推广 per 单）
+       − 退款损耗（退款率 × 售价）
+       − 时间成本（投入小时 × 你的时薪）</code></pre>
+<p><span class="hl">散户最常漏掉的两项：获客分摊和时间成本。</span>原帖类内容通常只算"售价−进货"，把利润夸大了 3-10 倍。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q4</div>
+<h2>四模式核算实测（本指南实验，示例口径）</h2>
+<table>
+<tr><th>场景</th><th>售价</th><th>净单价</th><th>净利率</th><th>判定</th></tr>
+<tr><td>①商品转售（无货源）</td><td>99</td><td><b>-0.85</b></td><td>-0.9%</td><td>⚠️ 不成立</td></tr>
+<tr><td>②服务转售（外包交付）</td><td>800</td><td>+180</td><td>22.5%</td><td>✅ 成立</td></tr>
+<tr><td>③内容转售（翻译合集）</td><td>39</td><td><b>-30.65</b></td><td>-78.6%</td><td>⚠️ 不成立</td></tr>
+<tr><td>④能力转售（代运营）</td><td>3000</td><td>+1750</td><td>58.3%</td><td>✅ 成立（重投入）</td></tr>
+</table>
+<p><span class="big">结论与直觉相反：门槛最低的①③账最难看，要真交付的②④才有净利。</span>③里时间成本 45 元 > 售价 39 元——"白捡钱"的模式把自己工钱搭进去还倒贴。注意：这是示例口径演算非市场实测，但公式可复用（<code>business_intermediary\exercise\unit_economics.py</code>）。</p>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>为什么"信息差"模式越来越脆弱？</h2>
+<ul>
+<li><b>信息被抹平</b>：平台比价的成本趋近于零，纯价差套利空间被压没；</li>
+<li><b>平台抽走大头</b>：流量在平台手里，获客成本跟着竞价上涨；</li>
+<li><b>信任不可复制</b>：低价货源谁都能找到，客户凭什么在你这买？答案是责任与交付——这才是护城河。</li>
+</ul>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>核算器还揭示了哪些反直觉点？</h2>
+<ul>
+<li><b>时间成本是隐形杀手</b>：低客单价模式里，投入 1-2 小时的时薪就可能吞掉全部差价；</li>
+<li><b>退款率是利润刺客</b>：10% 退款率在无货源模式下直接砍掉 10% 营收；</li>
+<li><b>高客单+重服务=健康结构</b>：④代运营的 58% 净利率来自"时间换信任"；</li>
+<li><b>算不清楚的单别接</b>：任何说不清单价口径的"赚钱机会"，按不成立处理。</li>
+</ul>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">Q7</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[交易成本与鞭打效应]]</td><td>旧笔记是金融口径（手续费/滑点）；本次补经济学口径（搜索/谈判/合同/争议成本）</td></tr>
+<tr><td>[[证据优先质检ProofOverClaims]]</td><td>"月入 X 万"宣称无凭据不采信；核算器是质证工具</td></tr>
+<tr><td>[[能力地板选型]]</td><td>时间成本=你的时薪，低价值动作应外包/不做</td></tr>
+<tr><td>[[预测市场与二元合约]]</td><td>都强调"先算期望值再动手"的纪律</td></tr>
+</table>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q8</div>
+<h2>如何评估一个"中介机会"是否真实？五问清单</h2>
+<ol>
+<li>价差/佣金里扣掉<b>获客、平台、退款、时间</b>后还剩多少？</li>
+<li>我的不可替代性是信息（易逝）还是<b>交付/信任</b>（可积累）？</li>
+<li>需求方为什么<b>不直接</b>找到供给方？这个阻隔会消失吗？</li>
+<li>出了纠纷谁兜底？我能承担吗？</li>
+<li>最小验证：能否用 ≤1000 元 + 2 周跑 10 单真实对账？</li>
+</ol>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q9</div>
+<h2>原帖宣称的可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>供需信息缺口存在且可获利</td><td>✅ Coase 理论支持交易成本存在</td></tr>
+<tr><td>四种转售具体赚了多少</td><td>❌ 无凭据（无订单/成本表/记录）</td></tr>
+<tr><td>"最快赚一百万"路径</td><td>❌ 无法推出；本实验显示低门槛模式净利可为负</td></tr>
+<tr><td>人口/排名数字</td><td>❌ 无来源</td></tr>
+</table>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q10</div>
+<h2>动手：给自己的点子算一单</h2>
+<pre><code># ① 打开 business_intermediary\exercise\unit_economics.py
+# ② 把四个场景的参数换成你的真实估计（售价/成本/退款率/小时数）
+# ③ 跑一遍；净单价≤0 的模式直接划掉
+# ④ 存一份"对账单"：哪怕先跑 10 单手工记账再决定要不要放大</code></pre>
+<div class="warnbox">本指南为经济学知识学习，不构成投资建议。任何商业决策请自行尽调。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>单位收益核算公式</b>：六因素口径，看到"赚钱故事"先心算；</li>
+<li><b>中介价值三件套</b>：匹配/交付/责任，判断自己的不可替代性；</li>
+<li><b>交易成本视角</b>：Coase 框架分析任何"中间商"模式；</li>
+<li><b>反营销免疫力</b>：无凭据的获利宣称按不采信处理；</li>
+<li><b>最小验证纪律</b>：≤1000 元 + 2 周 + 10 单真实对账再谈放大。</li>
+</ol>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>知道低价 ≠ 利润</b>：完整口径要扣获客/平台/退款/时间；</li>
+<li><b>门槛最低的生意账最难看</b>（本实验：①③转负，②④才为正）；</li>
+<li><b>中介价值=匹配+交付+责任</b>，纯信息差最脆弱；</li>
+<li><b>时间成本是隐形杀手</b>，时薪算进去低客单模式全崩；</li>
+<li><b>算不清口径的机会按不成立处理</b>。</li>
+</ul>
+</div>
+
+</div>
+<div class="footer">商业中介与信息匹配 · 2026-10-27 · 单位收益核算实测 · 学习产物归属 F:\reminder 学习仓库</div>
+</body>
+</html>

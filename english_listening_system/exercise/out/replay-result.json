@@ -1,0 +1,34 @@
+{
+  "session_id": "replay",
+  "fixture_notice": "Synthetic learner fixture; not a human learning outcome.",
+  "metrics": {
+    "word_metrics": {
+      "reference_words": 31,
+      "transcript_words": 31,
+      "word_edits": 0,
+      "word_error_rate": 0.0,
+      "word_accuracy_proxy": 1.0
+    },
+    "retell": {
+      "hits": [
+        true,
+        true,
+        true
+      ],
+      "score_proxy": 1.0
+    },
+    "recycling": {
+      "hits": {
+        "runs late": false,
+        "which task blocked me": true,
+        "makes the conversation clearer": false
+      },
+      "score_proxy": 0.3333
+    },
+    "review_questions": [
+      "不看提示，用一个工作场景主动说出语块：runs late",
+      "不看提示，用一个工作场景主动说出语块：makes the conversation clearer",
+      "半句预测：Now I explain which task ... 后半句是什么？"
+    ]
+  }
+}
