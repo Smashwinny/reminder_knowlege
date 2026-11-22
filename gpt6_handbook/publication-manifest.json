@@ -1,0 +1,41 @@
+{
+  "task_id": "586bf976-da85-49cf-b295-8d283dbc5b97",
+  "topic": "GPT-6 使用手册：选型复核与 API 提示词缓存成本模型",
+  "project_dir": "gpt6_handbook",
+  "classification": "知识学习类（API 成本工程）",
+  "source_urls": [
+    "https://x.com/ai_xiaomu/status/2104959406840688654",
+    "https://developers.openai.com/api/docs/guides/prompt-caching",
+    "https://developers.openai.com/api/docs/models",
+    "https://developers.openai.com/api/docs/models/gpt-6-sol",
+    "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+    "https://developers.openai.com/api/docs/models/gpt-6.2-sol"
+  ],
+  "pdf": "gpt6_handbook/GPT-6使用手册-小白指南-v2.pdf",
+  "html": "gpt6_handbook/gpt6-handbook-guide.html",
+  "exercise_dir": "gpt6_handbook/exercise",
+  "experiment_log": "gpt6_handbook/exercise/experiment-log.md",
+  "experiment_files": [
+    "gpt6_handbook/exercise/cache_economics.py",
+    "gpt6_handbook/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/gpt6_handbook.md",
+  "vault_note_proposal": "gpt6_handbook/gpt6_handbook-vault-note-proposal.md",
+  "deliverables": [
+    "gpt6_handbook/gpt6-handbook-guide.html",
+    "gpt6_handbook/GPT-6使用手册-小白指南-v2.pdf",
+    "gpt6_handbook/exercise/cache_economics.py",
+    "gpt6_handbook/exercise/experiment-log.md",
+    "gpt6_handbook/gpt6_handbook-vault-note-proposal.md",
+    "vault/项目笔记/gpt6_handbook.md"
+  ],
+  "verified_facts": [
+    "2026-11-22 官方缓存指南与模型页面复核：GPT-5.6+ 可见前缀门槛、断点/TTL/写入和型号相关读价分开表述",
+    "本地当前总览粗估 65,903 token；0.1x/0.05x 两种全命中假设下 10 次成本分别 $0.7187/$0.5704，节省 78.3%/82.7%，均 2 次平衡",
+    "修订 PDF 已从 HTML 重印，Windows.Data.Pdf 实际逐页渲染并纠正原文件页序"
+  ],
+  "blocked_items": [
+    "无 API key 未发真实计费请求；粗分词与全命中假设不是账单或命中率证据",
+    "原手册发布日期、基准数值、客户案例和灰度范围未逐项核实"
+  ]
+}

@@ -37,3 +37,7 @@ OpenMuse 使用自己的 ActionService。固定实现把输入、连接、目标
 [[项目笔记/mesh_avatar_studio]] 的 `tools/vision-check.py` 提供一种轻量 HITL 前置模式：agent 开工前先生成标定图并读取坐标，量化自身视觉定位能力；不达标就主动停下并告知用户，而不是做完全部素材后才让人返工。它校准的是模型能力资质，不是 [[Checkpoint存档与持久执行]] 的任务状态。
 
 与 interrupt 的串联方式：标定通过才进入机器备料；编辑器和 Pose test 留给人审核；最后再由 agent 做固定姿势自检。其价值是把"何时应该请人介入"从事后救火前移为十秒级能力门槛判断。该项目仅完成 102/107 单元测试，未验证端到端头像生成。
+
+## 分层工程接力与本地锁定协议（2026-11-22）
+
+[[项目笔记/manus_studio_workflow]] 补充另一种人机关系：Manus 官方 Video Editor 页面明确描述人工编辑同一分层项目后，AI 从修改继续；它不是 LangGraph 的 interrupt/checkpoint 机制。所读页面没有 locked 字段，项目内的 locked 仅是自写保守协议。详见 [[分层时间轴人机接力]]，官方行为与本地状态机不可互相冒充。

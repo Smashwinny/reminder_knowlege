@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>GPT-6 使用手册 · 小白指南</title>
+<style>
+:root{--bg:#f2f7ff;--ink:#1d2433;--card:#fff;--orange:#ff6b1a;--teal:#00b8a9;--purple:#7c4dff;--pink:#ff2e88;--yellow:#ffd60a;--blue:#2d9cdb;--green:#06d6a0;--red:#ef476f;--grad:linear-gradient(135deg,#2d9cdb 0%,#5b2ee5 60%,#7c4dff 100%)}
+@media print{@page{size:A4;margin:12mm}}*{box-sizing:border-box}body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}.hero{background:var(--grad);color:#fff;padding:56px 8% 48px}.hero h1{font-size:2.3em;margin:0 0 10px}.hero p{font-size:1.15em;margin:6px 0}.badge{display:inline-block;background:var(--yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em}.wrap{max-width:960px;margin:0 auto;padding:32px 5%}.card{background:var(--card);border-radius:18px;box-shadow:0 6px 24px #1d24331a;padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--blue))}.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--blue));line-height:1;margin-bottom:2px}h2{font-size:1.45em;margin:0 0 14px}.hl{background:linear-gradient(transparent 62%,var(--yellow) 62%);font-weight:800;padding:0 2px}.big{font-size:1.2em;font-weight:800}code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em}pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;white-space:pre-wrap}pre code{background:none;color:inherit;padding:0}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em}th{background:var(--accent,var(--blue));color:#fff;padding:9px 10px;text-align:left}td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top}.warnbox{background:#fff3f6;border-left:6px solid var(--red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0}.okbox{background:#eafff8;border-left:6px solid var(--green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0}.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center}.svgbox svg{max-width:100%;height:auto}.step{border:2px solid var(--teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd}.expect{background:#eafff8;border:2px dashed var(--green);border-radius:10px;padding:10px 16px;margin-top:8px}.footer{background:#141a2b;color:#aebdde;text-align:center;padding:26px;font-size:.85em}ul{margin:8px 0}li{margin:4px 0}a{color:#5b2ee5;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<div class="hero">
+<h1>GPT-6 使用手册：选型复核与 API 缓存账单实验</h1>
+<p>原手册负责提出方法，官方文档负责校准事实——本地用 65,903 token 粗估前缀核算两种缓存读价，绝不把估算当真实账单。</p>
+<p><span class="badge">2026-11-22 官方复核</span><span class="badge">65,903 token 本地重跑</span><span class="badge">0.1× / 0.05× 双口径</span></p>
+<p style="font-size:.9em">原记录：X 帖 @ai_xiaomu 引用《GPT-6 Astra、Sol、Luna 使用手册》(@ai_suxiaole)｜初学 2026-10-28｜审核修订 2026-11-22</p>
+</div>
+<div class="wrap">
+<div class="card" style="--accent:#2d9cdb"><div class="qnum">Q1</div><h2>手册的 Astra / Sol / Luna 该怎么理解？</h2>
+<p><span class="big">“旗舰 / 平衡 / 轻量”是原手册的选型思路，不是永久官方规格。</span>2026-11-22 官方模型索引列出 GPT-6.2 Astra、GPT-6.2 Sol、GPT-6.1 Terra、GPT-6 Luna、GPT-6 Cyber；旧 `gpt-6-sol` 与 `gpt-6.1-sol` 页面仍可读取，但后者未出现在当前索引。</p>
+<div class="svgbox"><svg viewBox="0 0 720 150" role="img" aria-label="先按任务再锁具体型号"><rect x="20" y="35" width="180" height="70" rx="16" fill="#2d9cdb"/><rect x="270" y="15" width="180" height="70" rx="16" fill="#7c4dff"/><rect x="520" y="35" width="180" height="70" rx="16" fill="#06d6a0"/><text x="110" y="65" text-anchor="middle" fill="white" font-size="20">任务与验收</text><text x="360" y="45" text-anchor="middle" fill="white" font-size="20">锁具体 model ID</text><text x="610" y="65" text-anchor="middle" fill="white" font-size="20">再谈参数与价格</text><path d="M200 70H265M450 50H515" stroke="#ff6b1a" stroke-width="6" marker-end="url(#a)"/><defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#ff6b1a"/></marker></defs><text x="360" y="130" text-anchor="middle" fill="#1d2433" font-size="17">例如 gpt-6-sol ≠ gpt-6.1-sol ≠ gpt-6.2-sol</text></svg></div>
+<p>具体差异：旧 `gpt-6-sol` 支持 reasoning effort `none`，`gpt-6.1-sol` 和当前 `gpt-6.2-sol` 页面均不接收 `none`。所以<span class="hl">复现必须锁型号和查询日期，不能静默替换。</span></p></div>
+
+<div class="card" style="--accent:#7c4dff"><div class="qnum">Q2</div><h2>提示词缓存的当前事实是什么？</h2>
+<table><tr><th>主题</th><th>2026-11-22 官方缓存文档口径</th></tr>
+<tr><td>最小前缀</td><td>GPT-5.6+ 为 1,024 个可见输入 token；更早模型按型号与请求配置而异。</td></tr>
+<tr><td>断点</td><td>GPT-5.6+ 隐式断点跟随最新合格消息，也支持显式断点；<b>不是固定每 128 token 一个断点</b>。128 是部分旧模型回执向下取整的粒度。</td></tr>
+<tr><td>变化影响</td><td>精确前缀决定复用边界；变化点之后不能复用，不能夸张成“任何一处变化都让全部缓存归零”。</td></tr>
+<tr><td>写入与 TTL</td><td>GPT-5.6+：30m 默认且为最短覆盖，写入 1.25×；Responses API 的 12h 为 2.5×。读取可延长覆盖，TTL 不是保证删除时刻。</td></tr>
+<tr><td>命中读价</td><td>多数 GPT-5.6+ 为 0.1×；6.2 Astra、6.2 Sol、6.1 Sol、6.1 Terra 为 0.05×。必须按型号查价。</td></tr>
+<tr><td>回执</td><td>OpenAI `usage.input_tokens_details.cached_tokens`；写入与 TTL 另有细分字段。真实命中还受路由等条件影响。</td></tr></table>
+<div class="svgbox"><svg viewBox="0 0 720 160" role="img" aria-label="缓存复用前缀而非整段盲目命中"><rect x="25" y="25" width="350" height="48" rx="10" fill="#7c4dff"/><rect x="375" y="25" width="150" height="48" rx="10" fill="#ff6b1a"/><text x="200" y="56" text-anchor="middle" fill="white" font-size="19">稳定前缀</text><text x="450" y="56" text-anchor="middle" fill="white" font-size="19">新问题</text><path d="M200 80V115H545" stroke="#00b8a9" stroke-width="5"/><rect x="545" y="92" width="150" height="48" rx="10" fill="#00b8a9"/><text x="620" y="123" text-anchor="middle" fill="white" font-size="19">可能命中</text><text x="200" y="140" text-anchor="middle" font-size="16">复用的是边界之前，不是保证全命中</text></svg></div></div>
+
+<div class="card" style="--accent:#06d6a0"><div class="qnum">Q3</div><h2>本地实验到底算出了什么？</h2>
+<p>样本是当前 `vault/00-总览.md`，粗估 65,903 token；每次新增 200 token、共 10 次，普通读价假设 $5/M，首次写入 1.25×，之后<b>假设全部命中</b>。这只是确定性成本模型。</p>
+<pre><code>0.1× 命中读：不缓存 $3.3052；缓存 $0.7187；省 78.3%；平衡 2 次
+0.05× 命中读：不缓存 $3.3052；缓存 $0.5704；省 82.7%；平衡 2 次</code></pre>
+<div class="svgbox"><svg viewBox="0 0 720 175" role="img" aria-label="两种缓存口径成本柱状图"><text x="20" y="30" font-size="18">不缓存</text><rect x="170" y="10" width="500" height="30" rx="8" fill="#ef476f"/><text x="675" y="32" font-size="18">$3.3052</text><text x="20" y="85" font-size="18">缓存 0.1×</text><rect x="170" y="65" width="109" height="30" rx="8" fill="#7c4dff"/><text x="290" y="87" font-size="18">$0.7187</text><text x="20" y="140" font-size="18">缓存 0.05×</text><rect x="170" y="120" width="86" height="30" rx="8" fill="#06d6a0"/><text x="267" y="142" font-size="18">$0.5704</text></svg></div>
+<p><span class="hl">“平衡 2 次”只属于这组全命中假设。</span>真实命中率、流量路由、TTL、输入价格和新增 token 改变时，都要重算；粗分词也不能替代真实 tokenizer 和账单。</p></div>
+
+<div class="card" style="--accent:#ff6b1a"><div class="qnum">Q4</div><h2>缓存使用的四条纪律</h2>
+<ol><li><b>稳定内容在前</b>：易变时间戳、随机 ID 放在稳定前缀之后；</li><li><b>回执验证</b>：看 cached/write tokens，不从“应该命中”推断“已经命中”；</li><li><b>写入入账</b>：预热有成本，低频调用不一定划算；</li><li><b>TTL 与路由</b>：把调用聚在覆盖窗口内，同时接受命中不是保证。</li></ol>
+<div class="svgbox"><svg viewBox="0 0 720 135" role="img" aria-label="缓存覆盖窗口"><path d="M45 75H675" stroke="#2d9cdb" stroke-width="6"/><circle cx="90" cy="75" r="15" fill="#7c4dff"/><circle cx="270" cy="75" r="15" fill="#06d6a0"/><circle cx="450" cy="75" r="15" fill="#06d6a0"/><circle cx="630" cy="75" r="15" fill="#ff6b1a"/><text x="90" y="40" text-anchor="middle" font-size="18">写入</text><text x="270" y="40" text-anchor="middle" font-size="18">读取</text><text x="450" y="40" text-anchor="middle" font-size="18">读取延长</text><text x="630" y="40" text-anchor="middle" font-size="18">回执核对</text><text x="360" y="120" text-anchor="middle" font-size="17">TTL 是最短覆盖口径，不是保证删除的倒计时</text></svg></div></div>
+
+<div class="card" style="--accent:#00b8a9"><div class="qnum">Q5</div><h2>和已有知识是什么关系？</h2>
+<table><tr><th>已有概念</th><th>本次增补</th></tr><tr><td>[[付费调用回执与预算熔断]]</td><td>cached/write tokens 是回执字段家族，成本阈值须看真实回执。</td></tr><tr><td>[[KV缓存与上下文]]</td><td>推理侧 KV 与 API 侧提示词缓存相关但不同层，不混为同一计费对象。</td></tr><tr><td>[[规划执行分账]]</td><td>重复前缀成本与每次新增问题分开记。</td></tr><tr><td>[[事实与判断分离]]</td><td>官方文档、估算模型、真实账单三层分开。</td></tr></table>
+<div class="svgbox"><svg viewBox="0 0 720 130" role="img" aria-label="三层证据"><rect x="35" y="25" width="180" height="65" rx="15" fill="#2d9cdb"/><rect x="270" y="25" width="180" height="65" rx="15" fill="#7c4dff"/><rect x="505" y="25" width="180" height="65" rx="15" fill="#06d6a0"/><text x="125" y="65" text-anchor="middle" fill="white" font-size="20">官方机制</text><text x="360" y="65" text-anchor="middle" fill="white" font-size="20">本地估算</text><text x="595" y="65" text-anchor="middle" fill="white" font-size="20">真实回执</text><text x="360" y="120" text-anchor="middle" font-size="17">三层互相校验，谁也不能冒充谁</text></svg></div></div>
+
+<div class="card" style="--accent:#ef476f"><div class="qnum">Q6</div><h2>原手册哪些话能信，哪些要重查？</h2>
+<table><tr><th>说法</th><th>审核结论</th></tr><tr><td>按任务选模型、锁推理参数</td><td>方法可保留；具体型号与能力以官方页面为准。</td></tr><tr><td>“1024 / 128 断点 / 差一 token 全 miss”</td><td>混合了新旧口径，已按当前文档纠正。</td></tr><tr><td>“九成优惠”</td><td>不是全型号统一：部分当前型号为 95%，其他型号也可能不同。</td></tr><tr><td>发布日期、基准、客户案例、灰度范围</td><td>未逐项取得原始公告，不当作已核实事实。</td></tr><tr><td>缓存折扣换算订阅消息数</td><td>两套产品账，不可直接换算。</td></tr></table>
+<div class="svgbox"><svg viewBox="0 0 720 125" role="img" aria-label="宣传需经官方证据过滤"><rect x="25" y="30" width="170" height="55" rx="12" fill="#ff2e88"/><path d="M215 58H325" stroke="#ff6b1a" stroke-width="7"/><polygon points="340,15 460,105 340,105" fill="#ffd60a" stroke="#1d2433"/><rect x="500" y="30" width="190" height="55" rx="12" fill="#06d6a0"/><text x="110" y="65" text-anchor="middle" fill="white" font-size="20">手册宣传</text><text x="385" y="70" text-anchor="middle" font-size="18">官方过滤</text><text x="595" y="65" text-anchor="middle" fill="white" font-size="20">可用结论</text></svg></div></div>
+
+<div class="card" style="--accent:#5a3d00"><div class="qnum">Q7</div><h2>选型实验的正确姿势</h2>
+<pre><code>① 锁 model ID 与文档日期
+② 同任务双跑：质量、返工、延迟和总账一起比
+③ 缓存设计：稳定前缀在前，易变内容在后
+④ 留 usage 回执；估算值与实付账单分开</code></pre>
+<div class="svgbox"><svg viewBox="0 0 720 140" role="img" aria-label="选型验收闭环"><circle cx="150" cy="70" r="48" fill="#2d9cdb"/><circle cx="360" cy="70" r="48" fill="#7c4dff"/><circle cx="570" cy="70" r="48" fill="#06d6a0"/><text x="150" y="77" text-anchor="middle" fill="white" font-size="19">锁型号</text><text x="360" y="77" text-anchor="middle" fill="white" font-size="19">同任务双跑</text><text x="570" y="77" text-anchor="middle" fill="white" font-size="19">回执复盘</text><path d="M200 70H305M410 70H515" stroke="#ff6b1a" stroke-width="6"/></svg></div></div>
+
+<div class="card" style="--accent:#b3005e"><div class="qnum">Q8</div><h2>订阅额度 ≠ API 缓存折扣</h2>
+<p>ChatGPT/Codex 套餐与 API token 计费是不同产品账。即使都出现“额度”或“缓存”，也不能直接建立汇率。<b>套餐看套餐规则，API 看模型价格与 usage。</b></p>
+<div class="svgbox"><svg viewBox="0 0 720 140" role="img" aria-label="两本独立账"><rect x="70" y="20" width="230" height="85" rx="16" fill="#7c4dff"/><rect x="420" y="20" width="230" height="85" rx="16" fill="#2d9cdb"/><text x="185" y="55" text-anchor="middle" fill="white" font-size="22">订阅产品账</text><text x="185" y="85" text-anchor="middle" fill="white" font-size="17">消息/额度规则</text><text x="535" y="55" text-anchor="middle" fill="white" font-size="22">API 账</text><text x="535" y="85" text-anchor="middle" fill="white" font-size="17">token/价格/usage</text><text x="360" y="72" text-anchor="middle" fill="#ef476f" font-size="30" font-weight="bold">≠</text></svg></div></div>
+
+<div class="card" style="--accent:#ff6b1a"><div class="qnum">Q9</div><h2>对本仓库有什么启示？</h2>
+<p>学习仓库是“大稳定资料 + 小新问题”的潜在缓存友好负载，但只有在同一 API 组织、型号、区域与合格前缀等条件满足时才可能命中。<b>不能为了缓存把总览无脑塞给每次调用；先证明收益，再控制上下文成本。</b></p>
+<div class="svgbox"><svg viewBox="0 0 720 145" role="img" aria-label="大稳定资料加小问题"><rect x="35" y="35" width="450" height="65" rx="14" fill="#7c4dff"/><rect x="485" y="35" width="110" height="65" rx="14" fill="#ff6b1a"/><text x="260" y="75" text-anchor="middle" fill="white" font-size="21">稳定资料（按需，不是越多越好）</text><text x="540" y="75" text-anchor="middle" fill="white" font-size="20">新问题</text><path d="M610 67H690" stroke="#06d6a0" stroke-width="8"/><text x="360" y="132" text-anchor="middle" font-size="17">先测命中与总账，再决定是否常驻</text></svg></div></div>
+
+<div class="card" style="--accent:#2d9cdb"><div class="qnum">Q10</div><h2>动手：算你的缓存账（约 10 分钟）</h2>
+<div class="step"><b>步骤 1｜在 <code>gpt6_handbook</code> 目录跑默认口径。</b><pre><code>python -I exercise/cache_economics.py</code></pre><div class="expect">✅ 2026-11-22 实测：65,903 token；0.1× 口径省 78.3%，平衡 2 次。</div></div>
+<div class="step"><b>步骤 2｜切换为部分当前型号的 0.05× 读价。</b><pre><code>python -I exercise/cache_economics.py --cached-read-multiplier 0.05</code></pre><div class="expect">✅ 实测：$0.5704，省 82.7%；这只是费率变化，不是另一笔真实账单。</div></div>
+<div class="step"><b>步骤 3｜换成自己的稳定前缀。</b><pre><code>python -I exercise/cache_economics.py --sample path/to/prefix.txt --read-price 2</code></pre><div class="expect">✅ 验证：程序打印你的样本路径、粗估 token 与平衡次数；再用真实 usage 校验，不以粗分词结账。</div></div>
+<div class="svgbox"><svg viewBox="0 0 720 105" role="img" aria-label="实验三步"><rect x="25" y="20" width="180" height="55" rx="12" fill="#2d9cdb"/><rect x="270" y="20" width="180" height="55" rx="12" fill="#7c4dff"/><rect x="515" y="20" width="180" height="55" rx="12" fill="#06d6a0"/><text x="115" y="55" text-anchor="middle" fill="white" font-size="20">跑默认</text><text x="360" y="55" text-anchor="middle" fill="white" font-size="20">改费率</text><text x="605" y="55" text-anchor="middle" fill="white" font-size="20">换样本</text><path d="M210 48H260M455 48H505" stroke="#ff6b1a" stroke-width="6"/></svg></div>
+<div class="okbox"><b>边界</b>：无 API key，未发计费请求；全部数字是本地模型输出。官方来源见下方，实验日志保留初跑与本次复跑。</div></div>
+
+<div class="card" style="--accent:#7c4dff"><div class="qnum">★</div><h2>这个主题给我什么能力？</h2><ol><li>锁具体型号与文档日期，识别静默换模；</li><li>区分缓存门槛、断点、TTL、写入与命中读价；</li><li>用可参数化脚本估算平衡次数；</li><li>用 usage 回执替代“应该命中”的想象；</li><li>把订阅、API 估算和真实账单分账。</li></ol></div>
+<div class="card" style="--accent:#ff2e88"><div class="qnum">◆</div><h2>一页总结</h2><ul><li><b>手册是线索，官方当前文档才是规格。</b></li><li><b>128 不是 GPT-5.6+ 的固定断点；变化点之后不能复用。</b></li><li><b>0.1× 与 0.05× 都存在，按型号查价。</b></li><li><b>本地 10 次估算省 78.3%/82.7%，全命中假设不等于真实账单。</b></li><li><b>订阅与 API 两本账，回执才是结算证据。</b></li></ul></div>
+<div class="card" style="--accent:#06d6a0"><div class="qnum">↗</div><h2>官方来源</h2><ul>
+<li><a href="https://developers.openai.com/api/docs/guides/prompt-caching">Prompt caching 当前指南</a></li>
+<li><a href="https://developers.openai.com/api/docs/models">当前模型索引</a></li>
+<li><a href="https://developers.openai.com/api/docs/models/gpt-6-sol">旧 GPT-6 Sol</a> / <a href="https://developers.openai.com/api/docs/models/gpt-6.1-sol">GPT-6.1 Sol</a> / <a href="https://developers.openai.com/api/docs/models/gpt-6.2-sol">GPT-6.2 Sol</a></li>
+<li>原记录：<a href="https://x.com/ai_xiaomu/status/2104959406840688654">X 帖</a>（手册线索，不替代官方规格）</li></ul></div>
+</div>
+<div class="footer">GPT-6 使用手册复核 · 2026-11-22 · 本地缓存成本模型实测 · F:\reminder</div>
+</body></html>

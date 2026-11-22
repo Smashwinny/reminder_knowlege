@@ -1,0 +1,38 @@
+{
+  "task_id": "ab9eb890-494c-4eb5-b014-33e36147b454",
+  "topic": "Manus Studio：官方分层人机接力与本地保守交接协议",
+  "project_dir": "manus_studio_workflow",
+  "classification": "知识学习类（视频工作流）",
+  "source_urls": [
+    "https://x.com/Nin19536",
+    "https://manus.im/blog/introducing-manus-2-0",
+    "https://manus.im/blog/introducing-video-editor"
+  ],
+  "pdf": "manus_studio_workflow/Manus-Studio视频工作流-小白指南-v2.pdf",
+  "html": "manus_studio_workflow/manus-studio-guide.html",
+  "exercise_dir": "manus_studio_workflow/exercise",
+  "experiment_log": "manus_studio_workflow/exercise/experiment-log.md",
+  "experiment_files": [
+    "manus_studio_workflow/exercise/timeline_relay.py",
+    "manus_studio_workflow/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/manus_studio_workflow.md",
+  "vault_note_proposal": "manus_studio_workflow/manus_studio_workflow-vault-note-proposal.md",
+  "deliverables": [
+    "manus_studio_workflow/manus-studio-guide.html",
+    "manus_studio_workflow/Manus-Studio视频工作流-小白指南-v2.pdf",
+    "manus_studio_workflow/exercise/timeline_relay.py",
+    "manus_studio_workflow/exercise/experiment-log.md",
+    "manus_studio_workflow/manus_studio_workflow-vault-note-proposal.md",
+    "vault/项目笔记/manus_studio_workflow.md"
+  ],
+  "verified_facts": [
+    "2026-11-22 官方页面复核：独立轨道、可编辑项目、人工修改和从修改继续有明确描述；locked 与具体导出工作流未见描述",
+    "本地保护/破坏双路径复跑通过：尊重锁定时保留人工值，删除保护时确实覆盖；默认与自定义合成素材各跑一次",
+    "修订指南删除 locked 官方化与品牌四项约束 80% 偏差的无依据口径，PDF 已从修订 HTML 重印"
+  ],
+  "blocked_items": [
+    "未登录 Manus Studio，真实产品锁定行为、AI 接力、视频生成和导出均未实测",
+    "播放量两口径不作审计，24 小时完成全流程无工程文件佐证"
+  ]
+}

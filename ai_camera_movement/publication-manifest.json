@@ -1,0 +1,37 @@
+{
+  "task_id": "bdffe7a8-8e5f-4ff2-8082-63a9e389cc45",
+  "topic": "AI 进阶运镜：结构化工单、真实正向改写与视频验收边界",
+  "project_dir": "ai_camera_movement",
+  "classification": "知识学习类（提示词工程）",
+  "source_urls": [
+    "https://x.com/goan999999/status/2105201441543696531",
+    "https://help.runwayml.com/hc/en-us/articles/39789879462419-Gen-4-Video-Prompting-Guide"
+  ],
+  "pdf": "ai_camera_movement/AI进阶运镜-小白指南-v2.pdf",
+  "html": "ai_camera_movement/ai-camera-guide.html",
+  "exercise_dir": "ai_camera_movement/exercise",
+  "experiment_log": "ai_camera_movement/exercise/experiment-log.md",
+  "experiment_files": [
+    "ai_camera_movement/exercise/shot_compiler.py",
+    "ai_camera_movement/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/ai_camera_movement.md",
+  "vault_note_proposal": "ai_camera_movement/ai_camera_movement-vault-note-proposal.md",
+  "deliverables": [
+    "ai_camera_movement/ai-camera-guide.html",
+    "ai_camera_movement/AI进阶运镜-小白指南-v2.pdf",
+    "ai_camera_movement/exercise/shot_compiler.py",
+    "ai_camera_movement/exercise/experiment-log.md",
+    "ai_camera_movement/ai_camera_movement-vault-note-proposal.md",
+    "vault/项目笔记/ai_camera_movement.md"
+  ],
+  "verified_facts": [
+    "默认与 FPV 两个本地示例均复跑通过：generic 保留负向，Gen-4 真正包含正向改写且无‘禁止’，缺失改写会进入 unresolved",
+    "默认 7 条、FPV 5 条验收项断言通过；Dolly Zoom 采用主体尺度与背景透视双条件",
+    "2026-11-22 Runway 官方页面复核为 403，指南明确区分初学期 web 读取与本次未重新取得正文"
+  ],
+  "blocked_items": [
+    "无 Runway 账号未实机生成，任何真实运镜效果、成功率和跨模型表现均未验证",
+    "Runway 官方指南本次 403，未冒称重新读取成功"
+  ]
+}

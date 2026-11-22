@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>AI 进阶运镜 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f5f3ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#7c4dff 0%,#2d9cdb 55%,#06d6a0 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-purple));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-purple));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-purple));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-purple));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>AI 进阶运镜：路径、视角、触发点与连续镜头验收</h1>
+  <p>把"高级运镜"写成 AI 能执行的工单——本指南实做运镜编译器：四要素结构+模型方言适配+Dolly Zoom 双条件验收</p>
+  <p>
+    <span class="badge">22段模板核实</span><span class="badge">正向改写断言通过</span><span class="badge">2026-11-22 审核修订</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖 @goan999999 转发《AI 视频运镜词典（下篇）》(@AdrianPunk115) ｜ 初学 2026-10-28 ｜ 审核修订 2026-11-22；未实测视频生成</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q1</div>
+<h2>为什么"高级运镜"提示词总翻车？</h2>
+<p><span class="big">自然语言的“感觉”缺少可检查参数，结构化工单让意图更明确。</span>稳定方式（手持/稳定器）、空间路径（推/拉/摇/移/环绕）、观看视角（POV/FPV/俯瞰）和时间结构（时长与交接）可以减少歧义，但不能保证模型执行。</p>
+<div class="svgbox"><svg viewBox="0 0 720 125" width="100%" role="img" aria-label="感觉转工单再验收"><rect x="25" y="25" width="170" height="55" rx="12" fill="#ff2e88"/><rect x="275" y="25" width="170" height="55" rx="12" fill="#7c4dff"/><rect x="525" y="25" width="170" height="55" rx="12" fill="#06d6a0"/><text x="110" y="60" text-anchor="middle" fill="white" font-size="20">电影感</text><text x="360" y="60" text-anchor="middle" fill="white" font-size="20">结构化工单</text><text x="610" y="60" text-anchor="middle" fill="white" font-size="20">真实视频验收</text><path d="M200 52H265M450 52H515" stroke="#ff6b1a" stroke-width="6"/></svg></div>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q2</div>
+<h2>四要素+触发点：运镜工单的完整结构</h2>
+<table>
+<tr><th>要素</th><th>取值示例</th><th>不写清楚的后果</th></tr>
+<tr><td>稳定方式</td><td>手持/稳定器/固定机位</td><td>抖不抖全靠模型心情</td></tr>
+<tr><td>空间路径</td><td>推近→环绕半圈→Dolly Zoom 收尾</td><td>运动方向随机</td></tr>
+<tr><td>观看视角</td><td>POV/FPV/俯瞰/跟拍</td><td>人称混乱</td></tr>
+<tr><td>时间结构</td><td>单镜头连续 8 秒无剪辑</td><td>被偷偷剪成两段</td></tr>
+<tr><td>触发点</td><td>主体抬手时镜头上摇</td><td>动作与镜头不同步</td></tr>
+</table>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q3</div>
+<h2>模型方言：负向约束要真正改写成正向目标</h2>
+<p>原学习记录称 Runway Gen-4 官方指南不支持负向措辞、建议直接描述希望发生的运动并逐项迭代；2026-11-22 复核该页返回 403，因此这里保留历史读取口径，不冒称本次重新读到正文。编译器对同一工单输出两版：</p>
+<pre><code>generic: "…单镜头连续8秒无剪辑，禁止切镜，禁止穿模"
+gen4:   "…单镜头连续8秒无剪辑，从起始动作到结束动作保持同一个连续镜头，
+         主体与场景保持合理空间关系，结构完整稳定"</code></pre>
+<p>断言实际检查：generic 含“禁止切镜/禁止穿模”；Gen-4 不含“禁止”，且包含全部正向改写。未提供改写的约束会进入 `unresolved`，不能静默算成功。</p>
+<div class="warnbox"><b>审核修复</b>：初稿只删除负向词并附上一句“已改写”，没有真的输出正向目标；现已修正代码、指南和实验日志。</div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q4</div>
+<h2>连续镜头验收：五查 + Dolly Zoom 双条件</h2>
+<pre><code>连续镜头五查：起终点明确 / 路径节点可数 / 主体大小变化有指标
+             / 触发点动作可观察 / 数剪接口（全程无剪辑）
+Dolly Zoom 双条件（缺一不可）：
+ ① 主体在画面中的尺度基本恒定
+ ② 背景透视明显压缩或拉伸（只看出缩放不算过）</code></pre>
+<p>Dolly Zoom 的验收定义是<b>机位位移与焦距反向配合</b>：主体尺度大致稳定、背景透视改变。只写“zoom”有歧义，不能据此判定真实视频一定完成希区柯克效果。</p>
+<div class="svgbox"><svg viewBox="0 0 720 150" width="100%" role="img" aria-label="Dolly Zoom 双条件"><rect x="50" y="25" width="250" height="70" rx="14" fill="#06d6a0"/><rect x="420" y="25" width="250" height="70" rx="14" fill="#7c4dff"/><text x="175" y="55" text-anchor="middle" fill="white" font-size="20">主体尺度基本恒定</text><text x="175" y="82" text-anchor="middle" fill="white" font-size="17">条件 ①</text><text x="545" y="55" text-anchor="middle" fill="white" font-size="20">背景透视明显变化</text><text x="545" y="82" text-anchor="middle" fill="white" font-size="17">条件 ②</text><text x="360" y="70" text-anchor="middle" fill="#ff6b1a" font-size="30" font-weight="bold">+</text><text x="360" y="132" text-anchor="middle" font-size="17">两条都需真实视频证据</text></svg></div>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[动效描述词表]]（vibecoding_motion）</td><td>同一思想跨域：动效四要素→运镜四要素</td></tr>
+<tr><td>[[PromptAsCode提示词即代码]]</td><td>运镜工单=提示词的参数化</td></tr>
+<tr><td>[[规格书先行SpecDriven]]</td><td>验收清单=规格书的视频版</td></tr>
+<tr><td>[[证据优先质检ProofOverClaims]]</td><td>Dolly Zoom 双条件=可观察判据</td></tr>
+</table>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>四要素框架/触发点交接</td><td>✅ 正文+22 模板自洽</td></tr>
+<tr><td>Runway 不支持负向措辞</td><td>⚠️ 初学期 web 读取记录；2026-11-22 复核为 403，未重新取得正文</td></tr>
+<tr><td>Dolly Zoom 需位移+焦距配合</td><td>✅ 作为摄影定义与验收判据；真实生成效果未验</td></tr>
+<tr><td>模板全模型通用</td><td>❌ 方言适配必要，且改写后仍需视频验收</td></tr>
+<tr><td>主帖"专业水平/作者收益学历"</td><td>❌ 非方法有效性证据</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q7</div>
+<h2>短时长堆多个复杂动作怎么办？</h2>
+<p>拆。8 秒里塞“推近+环绕+上摇+Dolly Zoom”四个动作，会增加互相干扰和失败归因难度；没有实测依据时不能说模型“大概率只执行前两个”。<b>一镜头一主运动+一次交接</b>可作为保守起步策略而非硬性上限；复杂调度可切镜分段。</p>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>触发点：动作交接的锚</h2>
+<p>"当主体抬手时镜头上摇"把两个动作用事件锚关联——这是 [[词锚定语义时间]] 的运镜版：意图比只写秒数更明确，但重生成或改时长后仍须逐帧核对，不能宣称同步关系自动成立。</p>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q9</div>
+<h2>迭代策略：从简单提示逐项加</h2>
+<p>初学期读取的官方建议是从简单提示逐项迭代：先稳定方式+路径跑通，再加视角和触发点，最后才碰 Dolly Zoom。一次全给会增加归因难度——与 [[提示词爬山法PromptHillClimbing]] 的小步转向同一纪律。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q10</div>
+<h2>动手：编译你的运镜工单（约 10 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 在 <code>ai_camera_movement</code> 目录跑默认工单。</b><code>python -I exercise/shot_compiler.py</code>。
+<div class="expect">✅ 2026-11-22 实测：两方言提示词、7 条验收项；generic 含负向，Gen-4 含真实正向改写，断言 PASS。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 跑 FPV 示例。</b><code>python -I exercise/shot_compiler.py --example fpv</code>。
+<div class="expect">✅ 实测：穿窗→落地→跟拍提示词与 5 条验收项；断言 PASS。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 真实视频另做验收。</b>在获授权账号生成后逐条检查；没有账号时只能确认文本编译，不能确认运镜效果。
+<div class="expect">✅ 验收边界：文本 PASS ≠ 视频 PASS。</div></div>
+<div class="okbox"><b>如实声明</b>：无 Runway 账号未实机生成；2026-11-22 官方页面复核为 403；初学期 web 读取与本次结果分开记录。日志见 <code>ai_camera_movement\exercise\</code>。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>运镜四要素工单</b>（稳定/路径/视角/时间+触发点）；</li>
+<li><b>模型方言意识</b>（负向约束先查官方）；</li>
+<li><b>Dolly Zoom 双条件验收</b>；</li>
+<li><b>连续镜头五查</b>；</li>
+<li><b>运镜编译器</b>：工单→提示词→验收清单一键出。</li>
+</ol>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>感觉是感觉，工单是工单</b>：四要素+触发点；</li>
+<li><b>负向约束是方言不是通用语</b>；</li>
+<li><b>Dolly Zoom=主体恒定+透视变化</b>，只缩放不算；</li>
+<li><b>一镜头一主运动+一次交接</b>；</li>
+<li><b>逐项迭代，一次全给无法归因</b>。</li>
+</ul>
+</div>
+
+<div class="card" style="--accent:#06d6a0;"><div class="qnum">↗</div><h2>来源</h2><ul><li><a href="https://x.com/goan999999/status/2105201441543696531">原记录 X 帖</a>（运镜词典线索）</li><li><a href="https://help.runwayml.com/hc/en-us/articles/39789879462419-Gen-4-Video-Prompting-Guide">Runway Gen-4 Prompting Guide</a>（初学期 web 读取；本次复核 403）</li></ul></div>
+</div>
+<div class="footer">AI 进阶运镜 · 2026-11-22 审核修订 · 文本编译与断言实测 · 未实测视频生成</div>
+</body>
+</html>
