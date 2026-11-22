@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>ChatGPT Dots · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f2f0ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#7c4dff 0%,#2d9cdb 55%,#06d6a0 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-purple));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-purple));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-purple));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-purple));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>ChatGPT Dots：常驻工作、云/本机执行与控制权交接</h1>
+  <p>当前官方多模型、云端常驻与每线程一台电脑——本地 JSON 快照/落盘协议仅作对照，不冒充 Dots 的快照功能</p>
+  <p>
+    <span class="badge">2026-11-22 官方复核</span><span class="badge">持久状态机8测试通过</span><span class="badge">无Dot权限未实机</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 引用《ChatGPT Dots 深度实测与全流程指南》｜初学 2026-10-28｜审核修订 2026-11-22</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q1</div>
+<h2>ChatGPT Dots 是什么？一句话能说清吗？</h2>
+<p><span class="big">OpenAI 的常驻 Agent：每个 dot 有云端电脑和浏览器，个人设备离线时云端工作可继续。</span>2026-11-22 当前文档已非“只用 GPT-6 Astra”：不同任务部分可用不同前沿模型，GPT-6.1 Terra 正在加入。可连接多台个人电脑，但<b>每个线程一次使用一台</b>。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q2</div>
+<h2>任务到底在哪执行？三个位置要分清</h2>
+<table>
+<tr><th>执行位置</th><th>条件</th><th>边界</th></tr>
+<tr><td>云端电脑</td><td>无（默认常驻）</td><td>不自动继承本机登录态；离线继续工作</td></tr>
+<tr><td>本机电脑</td><td>每台需本机授权；使用时在线+ChatGPT 应用开启</td><td>可连接多台；每线程一次一台，云浏览器不继承本机登录</td></tr>
+<tr><td>派生任务（Work/Codex）</td><td>各自产品额度</td><td>Dot 对话不占 ChatGPT 限额，派生任务各自计费</td></tr>
+</table>
+<p>官方明确：消息渠道、插件权限、电脑连接<b>分别管理</b>——一个授权不代表另一个。这和 [[沙箱与审批正交]] 是同一架构语言。</p>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q3</div>
+<h2>本地交接协议：真实 JSON 快照与审计</h2>
+<div class="warnbox"><b>官方边界：</b>当前页面描述 Take over / Return control 和云端状态保留，但没有文档化快照创建、恢复或回滚。以下快照、红线与 JSON 落盘全部是本地自写协议。</div>
+<pre><code>DOT_WORKING → TAKEOVER_REQUESTED → HUMAN_CONTROL
+HUMAN_CONTROL → HANDBACK → DOT_WORKING
+每次转换写 handoff-audit-v2.json；重载后状态/历史/快照一致
+红线从 DOT_WORKING 或 HUMAN_CONTROL 均可到 STOPPED
+8 项测试通过</code></pre>
+<div class="svgbox"><svg viewBox="0 0 720 135" width="100%" role="img" aria-label="本地控制权交接"><rect x="30" y="30" width="190" height="55" rx="13" fill="#7c4dff"/><rect x="265" y="30" width="190" height="55" rx="13" fill="#2d9cdb"/><rect x="500" y="30" width="190" height="55" rx="13" fill="#06d6a0"/><text x="125" y="65" text-anchor="middle" fill="white" font-size="19">Dot 工作</text><text x="360" y="65" text-anchor="middle" fill="white" font-size="19">人工控制</text><text x="595" y="65" text-anchor="middle" fill="white" font-size="19">JSON 审计</text><path d="M225 57H255M460 57H490" stroke="#ff6b1a" stroke-width="6"/><text x="360" y="122" text-anchor="middle" font-size="17">本地快照≠Dots 官方快照功能</text></svg></div>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q4</div>
+<h2>与 Grok Bot 的同与异（对照 batch_1）</h2>
+<table>
+<tr><th>维度</th><th>Grok Bot</th><th>ChatGPT Dots</th></tr>
+<tr><td>常驻载体</td><td>云电脑按用户分配，多 Bot 共享</td><td>云端常驻+可授权多台个人电脑；每线程一次一台</td></tr>
+<tr><td>隔离</td><td>屏幕≠边界</td><td>每线程一台是执行粒度，不自动等于安全隔离边界</td></tr>
+<tr><td>接管</td><td>computer takeover</td><td>takeover/handback 成对</td></tr>
+<tr><td>授权面</td><td>Auto-review 分级</td><td>渠道/插件/连接分别管理</td></tr>
+</table>
+<div class="tipbox">两个产品互相印证：常驻 Agent 的设计焦点都是<b>执行位置、交接协议、停止条件</b>——模型能力是第二位的。学一个产品的协议，另一个自然懂。</div>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[岗位契约四件套]]</td><td>接管/交还/停止条件可作岗位协议；本地红线不是官方全部机制</td></tr>
+<tr><td>[[人机协同Interrupt]]</td><td>takeover/handback 可作类比，不等于 LangGraph interrupt/resume</td></tr>
+<tr><td>[[共享环境非隔离原则]]</td><td>每线程一台是执行粒度，不宣称安全隔离</td></tr>
+<tr><td>[[付费调用回执与预算熔断]]</td><td>Dot 不占限额但派生任务各自计费——预算要分账记</td></tr>
+</table>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>云端电脑/离线继续/接管交还</td><td>✅ 当前官方文档确认</td></tr>
+<tr><td>只用 GPT-6 Astra / 只能连接一台电脑</td><td>❌ 已过时：多模型；可连多台，每线程一次一台</td></tr>
+<tr><td>官方快照创建/恢复</td><td>❓ 当前文档未描述；本地 JSON 不补写成官方功能</td></tr>
+<tr><td>Xeon/9核/31.5GiB 等配置</td><td>⚠️ 作者样本实测，非官方固定承诺</td></tr>
+<tr><td>Education/Healthcare</td><td>✅ 当前合格工作区可用；2026-11-18 起默认开启除非退出（以官方条件为准）</td></tr>
+<tr><td>"首月深度工作全免"</td><td>❌ 官方是首月扩展额度，非全免</td></tr>
+<tr><td>Blender 实跑/账单</td><td>❓ 未核对</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q7</div>
+<h2>给常驻 Agent 岗位的三条通用纪律（跨产品可用）</h2>
+<ol>
+<li><b>执行位置声明</b>：每个任务标注在云还是本机跑，边界不同；</li>
+<li><b>交接留痕</b>：每次 takeover/handback 写一条审计记录；</li>
+<li><b>停止条件前置</b>：红线动作（付款/删除/外发）写进岗位契约，任何状态直达 STOP。</li>
+</ol>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>与 vault 定时分类职责的对照</h2>
+<p>本仓库的租约可用于对照“执行位置与控制权”，但规则不能写错：过期租约是保护/待续租状态，不等于任务完成；ready 项只能续租或自然过期，不能 release 清空。任务完成只由用户本人点击。产品形态不同，只能局部类比，不能把仓库协议说成 Dots 实现。</p>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q9</div>
+<h2>获取资格的正路</h2>
+<p>2026-11-22 当前官方 Access：Pro 100/200/500 有年龄和地区限制；Business Premium 需合格工作区；Enterprise/Edu/Healthcare 在合格工作区可用，且自 2026-11-18 起默认开启，除非工作区选择退出。资格、地区和管理员条件仍以官方实时页面为准，不用旧二手表。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q10</div>
+<h2>动手：跑交接状态机（约 5 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 在 <code>chatgpt_dots</code> 目录运行持久状态机。</b><code>python -I exercise/handoff_state_machine.py</code>
+<div class="expect">✅ 实测：生成并重载 handoff-audit-v2.json；4 步交接+红线 STOPPED。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 跑 8 项测试。</b><code>python -I exercise/test_handoff_state_machine.py</code>
+<div class="expect">✅ 实测 8 项通过：真实快照/重载、两种红线、非法交接和未知状态 fail-closed。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 产品行为另行验收。</b>当前官方只确认 takeover/return control；不要把本地快照当 Dots 功能。</div>
+<div class="okbox"><b>如实声明</b>：无 Dot 权限未实机；2026-11-22 当前官方文档已读；本地协议不证明官方快照恢复。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>常驻 Agent 协议三要素</b>：执行位置/交接/停止条件；</li>
+<li><b>云/本机边界判断</b>：登录态不继承、接管≠全访问；</li>
+<li><b>授权分面管理意识</b>：渠道/插件/连接各自独立；</li>
+<li><b>交接状态机模板</b>：可直接复用到自己的 Agent 设计；</li>
+<li><b>跨产品对照能力</b>：Grok Bot vs Dots 互为镜像。</li>
+</ol>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>Dots=多模型常驻 Agent</b>：云端常驻+可连多台本机，每线程一次一台；</li>
+<li><b>执行位置三分类</b>：云/本机/派生，边界与计费各不同；</li>
+<li><b>本地交接协议</b>：真实 JSON 留痕/快照，但不冒充官方快照功能；</li>
+<li><b>授权分面管理</b>：一个授权≠全部授权；</li>
+<li><b>纪律只能局部类比</b>：过期租约≠完成，ready 不 release，用户才点完成。</li>
+</ul>
+</div>
+<div class="card" style="--accent:#06d6a0;"><div class="qnum">↗</div><h2>来源</h2><ul><li><a href="https://learn.chatgpt.com/docs/dots">Dots 当前总览</a></li><li><a href="https://learn.chatgpt.com/docs/dots/computers-and-apps">电脑连接、接管与浏览器会话</a></li><li><a href="https://x.com/LiuweijiaVip">原引用帖作者入口</a></li></ul></div>
+</div>
+<div class="footer">ChatGPT Dots · 2026-11-22 审核修订 · 当前官方文档+本地持久状态机8测试</div>
+</body>
+</html>

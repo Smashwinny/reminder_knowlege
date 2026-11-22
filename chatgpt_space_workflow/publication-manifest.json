@@ -1,0 +1,45 @@
+{
+  "task_id": "9ab3f8bd-3512-4a6d-8be3-1340a9039c7a",
+  "topic": "ChatGPT Space：当前协作权限与本地静态快照边界",
+  "project_dir": "chatgpt_space_workflow",
+  "classification": "知识学习类（产品工作流）",
+  "source_urls": [
+    "https://x.com/gengdaJ",
+    "https://learn.chatgpt.com/docs/space",
+    "https://learn.chatgpt.com/docs/space/collaboration"
+  ],
+  "pdf": "chatgpt_space_workflow/ChatGPT-Space页面工作流-小白指南-v2.pdf",
+  "html": "chatgpt_space_workflow/chatgpt-space-guide.html",
+  "exercise_dir": "chatgpt_space_workflow/exercise",
+  "experiment_log": "chatgpt_space_workflow/exercise/experiment-log.md",
+  "experiment_files": [
+    "chatgpt_space_workflow/exercise/space-demo.html",
+    "chatgpt_space_workflow/exercise/space_export.py",
+    "chatgpt_space_workflow/exercise/test_space_export.py",
+    "chatgpt_space_workflow/exercise/space-demo-export-v2.md",
+    "chatgpt_space_workflow/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/chatgpt_space_workflow.md",
+  "vault_note_proposal": "chatgpt_space_workflow/chatgpt_space_workflow-vault-note-proposal.md",
+  "deliverables": [
+    "chatgpt_space_workflow/chatgpt-space-guide.html",
+    "chatgpt_space_workflow/ChatGPT-Space页面工作流-小白指南-v2.pdf",
+    "chatgpt_space_workflow/exercise/space-demo.html",
+    "chatgpt_space_workflow/exercise/space_export.py",
+    "chatgpt_space_workflow/exercise/test_space_export.py",
+    "chatgpt_space_workflow/exercise/space-demo-export-v2.md",
+    "chatgpt_space_workflow/exercise/experiment-log.md",
+    "chatgpt_space_workflow/chatgpt_space_workflow-vault-note-proposal.md",
+    "vault/项目笔记/chatgpt_space_workflow.md"
+  ],
+  "verified_facts": [
+    "2026-11-22当前官方Pages/Slides/表格/Sites与View/Comment/Edit、继承权限和来源权限复核",
+    "自定义单向导出新增v2 Markdown，6块顺序与三类降级标记，5项unittest通过",
+    "交互可视化/@块不再称当前官方确认，本地模拟不证明Space真实导出",
+    "审核版PDF从修订HTML重印并逐页渲染"
+  ],
+  "blocked_items": [
+    "无ChatGPT账号未实机创建Space、分享或导出",
+    "历史版本、真实页面交互、原位文件编辑和匿名公开状态未验证"
+  ]
+}

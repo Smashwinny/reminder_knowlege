@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Higgsfield × Codex 工作流 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f0f4ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#5b2ee5 0%,#2d9cdb 55%,#06d6a0 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-purple));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-purple));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-purple));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-purple));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Higgsfield × Codex：Computer Use 公告与 CLI/MCP 边界</h1>
+  <p>三条生成通路与账号责任——2026-11-22 官方复核：CLI/MCP 账号制、同一积分率、Unlimited 不适用；通用五态仅作本地实验</p>
+  <p>
+    <span class="badge">当前官方契约复核</span><span class="badge">离线8测试通过</span><span class="badge">未登录或真实生成</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：Higgsfield 公告与官方 CLI/帮助页｜初学 2026-10-28｜审核修订 2026-11-22</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q1</div>
+<h2>Higgsfield 是什么？这次公告新在哪？</h2>
+<p><span class="big">AI 视频/图像生成平台（模型有 Soul、Nano Banana Pro、Seedance、Kling、Veo）。这次公告的新意：视频生成能力接入了 ChatGPT/Codex 形态——既有结构化通路（CLI/MCP），也有 Computer Use 形式的 GUI 操作。</span>公告是维护者宣称，能验证的是官方文档里可读的契约。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q2</div>
+<h2>三条通路怎么选？（决策矩阵）</h2>
+<table>
+<tr><th>通路</th><th>谁用</th><th>适合</th><th>边界</th></tr>
+<tr><td><b>CLI + Skills</b></td><td>coding agent（Claude Code/OpenClaw 等）</td><td>批量、可编排</td><td>npm 安装+浏览器登录</td></tr>
+<tr><td><b>MCP</b></td><td>chat agent</td><td>对话内迭代</td><td>账号认证，无 API key</td></tr>
+<tr><td><b>Computer Use</b></td><td>GUI 操作</td><td>复杂一次性界面流</td><td>Windows 需目标应用可见</td></tr>
+</table>
+<div class="warnbox"><b>关键边界</b>：CLI 调用成功 ≠ GUI 完整复现；两者是不同证据。"在 Codex 里能用"有三种完全不同的技术含义，复现前先说清是哪一种。</div>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q3</div>
+<h2>费用与责任：官方原文级的三条红线</h2>
+<ul>
+<li><b>同一积分池</b>：CLI/MCP/网页同账号同费率——批量=成本放大器，先小额验证；</li>
+<li><b>Unlimited/免费生成不适用</b>：help 页原话 "don't apply to either"；</li>
+<li><b>Developer Terms</b>：agent 经你账号生成的内容由你负责——agent 闯祸算你的。</li>
+</ul>
+<p>另有一个同名陷阱：CLI Skills 与 Supercomputer 内置 Skill 是<b>两个同名不同体</b>的系统，不可互换。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q4</div>
+<h2>异步生成：会轮询，但具体状态值未公开</h2>
+<p>2026-11-22 当前 CLI 页明确“生成是异步的，agent 会轮询完成并返回结果”；帮助页说明产出落 Assets。两页仍未给出任务状态枚举、任务 ID 查询命令或完整状态机。<b>因此不能继续写“异步完全未文档化”，也不能把 PixStag 五态冒充 Higgsfield 状态。</b></p>
+<div class="svgbox"><svg viewBox="0 0 720 130" width="100%" role="img" aria-label="通用本地状态模型"><rect x="25" y="30" width="130" height="50" rx="11" fill="#7c4dff"/><rect x="205" y="30" width="130" height="50" rx="11" fill="#2d9cdb"/><rect x="385" y="30" width="130" height="50" rx="11" fill="#06d6a0"/><rect x="565" y="30" width="130" height="50" rx="11" fill="#ff6b1a"/><text x="90" y="62" text-anchor="middle" fill="white" font-size="18">queued</text><text x="270" y="62" text-anchor="middle" fill="white" font-size="18">running</text><text x="450" y="62" text-anchor="middle" fill="white" font-size="18">succeeded</text><text x="630" y="62" text-anchor="middle" fill="white" font-size="18">Assets验收</text><path d="M160 55H195M340 55H375M520 55H555" stroke="#ef476f" stroke-width="5"/><text x="360" y="118" text-anchor="middle" font-size="17">本地通用模型；failed/cancelled 另为终态，真实状态值未公开</text></svg></div>
+<p>本地 `route_contract.py` 只验证通用五态、预算熔断与三通路证据差异，8 项测试通过；真实 Higgsfield 任务仍需授权账号回读。</p>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[异步任务五态契约]]</td><td>通用五态仅作本地参考模型；官方已说明轮询，但状态枚举未公开</td></tr>
+<tr><td>[[能力层与后端路由]]</td><td>多模型（Soul/Seedance/Kling/Veo）自动选择=服务端路由</td></tr>
+<tr><td>[[工程文件自动化（File-format Automation）]]（capcut_cli）</td><td>账号制 CLI 是"无 API 产品的 agent 化"另一条路</td></tr>
+<tr><td>[[付费调用回执与预算熔断]]</td><td>同一积分池+批量放大器+责任条款</td></tr>
+</table>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>CLI 安装/账号登录/三技能</td><td>✅ 官方页面直读一致</td></tr>
+<tr><td>Unlimited 不适用/同积分池</td><td>✅ 帮助页原话</td></tr>
+<tr><td>Computer Use 集成（GPT-6.1 Sol）</td><td>⚠️ 公告宣称；当前账号可用性未验</td></tr>
+<tr><td>批量产生订单/自动盈利</td><td>❌ 无运行或收入证据</td></tr>
+<tr><td>30 秒演示视频效果</td><td>❓ 未观看</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q7</div>
+<h2>给批量场景的费控设计</h2>
+<pre><code>① 先 1 条小额验证（积分单价+质量+Assets 落点）
+② 批量=小步验证：示例每批 ≤5 条，批间人工抽查（阈值不是官方建议）
+③ 自定义余额熔断线：本地示例 500 点；真实阈值按账号价格与预算另算
+④ 内容责任：合规过滤（肖像/版权/平台规则）前置到 brief</code></pre>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>"full access"话术破译</h2>
+<p>营销里的 full access 指"功能可用"，不指"免费/无限/免责"。三问拆穿：扣什么（积分池）？上限多少（Unlimited 不适用）？谁负责（Developer Terms 你负责）。本案例三问都有官方答案，其他产品套用同样三问。</p>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q9</div>
+<h2>账号制 vs API key 制（顺带的分辨）</h2>
+<p>Higgsfield 的 CLI/MCP 走<b>账号登录与积分</b>；另一款 Higgsfield API 才是 key 制开发者产品。账号登录、API key 只是不同认证形态，权限大小仍取决于产品 scope、账号和配置，不能简单说哪一种天然更安全。这里应记录 agent 行为、积分消耗与内容责任，并保护会话。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q10</div>
+<h2>动手：三通路评估清单（约 10 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 在 <code>higgsfield_codex_workflow</code> 目录跑本地契约。</b><code>python -I exercise/route_contract.py</code>。
+<div class="expect">✅ 实测：三通路校验；预算 500→260 后拒绝 300；通用终态才验收 Assets。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 跑 8 项测试。</b><code>python -I exercise/test_route_contract.py</code>。
+<div class="expect">✅ 实测 8 项通过：Unlimited/未知通路拒绝、预算、终态、非法迁移。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 用决策矩阵规划真实验收。</b>先小额、记录积分和回执、逐步 GUI 截图；不得把本地五态当官方 API。</div>
+<div class="okbox"><b>如实声明</b>：无账号未安装 CLI 未实机生成；2026-11-22 已读官方当前两页；Computer Use 集成可用性未验。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>三通路分工判断</b>：CLI 批量/MCP 对话/GUI 兜底；</li>
+<li><b>账号制 agent 化的风险认知</b>：额度贴身+责任贴身；</li>
+<li><b>官方三红线</b>：同积分池/Unlimited 不适用/你负责；</li>
+<li><b>异步无文档自建五态</b>；</li>
+<li><b>full access 三问破译法</b>。</li>
+</ol>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>公告≠契约</b>：能直读的官方文档才是行动依据；</li>
+<li><b>三通路别混</b>：CLI 成功≠GUI 复现；</li>
+<li><b>三红线</b>：同积分池/Unlimited 不适用/你负责；</li>
+<li><b>同名不同体</b>：CLI Skills≠Supercomputer Skills；</li>
+<li><b>官方有轮询无状态枚举</b>：本地通用五态+四要素验收，不冒充官方。</li>
+</ul>
+</div>
+
+<div class="card" style="--accent:#06d6a0;"><div class="qnum">↗</div><h2>来源</h2><ul><li><a href="https://higgsfield.ai/cli">Higgsfield CLI 当前文档</a></li><li><a href="https://higgsfield.ai/creator-hub/help-center/integrations/how-do-i-access-higgsfield-via-cli">CLI 帮助页</a></li><li><a href="https://x.com/higgsfield/status/2105354097788412063">官方公告</a></li></ul></div>
+</div>
+<div class="footer">Higgsfield × Codex · 2026-11-22 审核修订 · 官方契约+本地契约8测试</div>
+</body>
+</html>

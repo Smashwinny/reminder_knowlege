@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>ChatGPT Space 页面工作流 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f0f7ff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#2d9cdb 0%,#06d6a0 55%,#7c4dff 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-blue));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-blue));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-blue));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-blue));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>ChatGPT Space 页面工作流：引用、可视化与协作权限</h1>
+  <p>当前官方 Pages/Slides/表格/Sites 与分享权限，对照本地自定义 viz/ref/file 导出模拟——模拟降级标记不冒充 Space 真实导出行为</p>
+  <p>
+    <span class="badge">2026-11-22 官方复核</span><span class="badge">单向导出5测试通过</span><span class="badge">产品能力未实机</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖 @gengdaJ｜learn.chatgpt.com｜初学 2026-10-28｜审核修订 2026-11-22</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q1</div>
+<h2>ChatGPT Space 是什么？一句话能说清吗？</h2>
+<p><span class="big">OpenAI 的协作工作区：Pages 可由人与 ChatGPT 共同编辑，官方当前还介绍 Slides、表格和 Sites。</span>2026-11-22 所读 Space 总览没有文档化初稿所述“四种块”、页面内交互可视化或 @ 块；这些只保留为原截图观察和本地模拟元素，不再称为当前官方确认能力。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q2</div>
+<h2>本地模拟：自定义块怎样显式降级</h2>
+<p>初稿把自定义 HTML→Markdown 称为“往返转换”，实际只有单向；且从项目根目录运行时相对路径会找不到输入。现已修复路径、明确单向模拟并加入 5 项测试。</p>
+<table>
+<tr><th>自定义块</th><th>本地静态导出标记</th><th>不能推出什么</th></tr>
+<tr><td>viz</td><td>仅保留占位</td><td>不能推出 Space 的交互或导出行为</td></tr>
+<tr><td>ref</td><td>不带实时聊天上下文</td><td>不能推出 @ 引用一定丢失什么</td></tr>
+<tr><td>file</td><td>未复制或修改原文件</td><td>不能推出 Space 附件的实际导出规则</td></tr>
+</table>
+<div class="svgbox"><svg viewBox="0 0 720 130" width="100%" role="img" aria-label="自定义活块到静态快照"><rect x="40" y="25" width="210" height="60" rx="14" fill="#7c4dff"/><rect x="470" y="25" width="210" height="60" rx="14" fill="#2d9cdb"/><text x="145" y="62" text-anchor="middle" fill="white" font-size="20">自定义 viz/ref/file</text><text x="575" y="62" text-anchor="middle" fill="white" font-size="20">静态 Markdown 标记</text><path d="M265 55H455" stroke="#ff6b1a" stroke-width="7"/><text x="360" y="42" text-anchor="middle" font-size="17">单向本地模拟</text><text x="360" y="115" text-anchor="middle" font-size="17">不是 Space 真实导出器</text></svg></div>
+<div class="tipbox">可学习的是“交付前检查格式能否承载状态”，不是所有导出都必然变成死快照；HTML 等活格式和平台在线分享需另行验证。</div>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q3</div>
+<h2>协作权限：分享的三个认知纠偏</h2>
+<ul>
+<li><b>邀请≠公开</b>：原截图为“仅限受邀请者”；当前协作页虽展示 Link access/Copy link，也未定义匿名公开状态；</li>
+<li><b>角色分层</b>：当前协作文档列出 View/Comment/Edit；Slides 为 View/Edit，权限会随 Space/父页继承；</li>
+<li><b>链接来源保留各自权限</b>：能读页面的人仍可能打不开来源；复制或摘要进页面的内容则可能对页面访问者可见；</li>
+<li><b>私人聊天/记忆</b>：当前 Space 总览明确分享页面不共享私人聊天或保存的记忆。</li>
+</ul>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q4</div>
+<h2>适合沉淀什么、不适合沉淀什么？</h2>
+<table>
+<tr><th>适合（对话→页面）</th><th>不适合</th></tr>
+<tr><td>有结论的复盘/方案（引用溯源）</td><td>强交互数据看板（静态交付需另做降级验收）</td></tr>
+<tr><td>多人协作的文档（角色权限）</td><td>当文件编辑器改原文件（附件≠编辑）</td></tr>
+<tr><td>引用聊天上下文的纪要</td><td>需要实时数据的新鲜看板</td></tr>
+</table>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[第二大脑LLMWiki]]</td><td>Space=产品化的"对话→wiki 沉淀"通道</td></tr>
+<tr><td>[[快照契约与不可变只读]]</td><td>静态导出是另一份快照；不能与原页面版本/权限混为一谈</td></tr>
+<tr><td>[[只读闸门三原则]]</td><td>分享页面可见≠可改，协作角色是闸门</td></tr>
+<tr><td>[[上下文接力]]</td><td>@聊天引用=跨会话上下文的标准化接力</td></tr>
+</table>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>宣称可信度核查（对照四张截图）</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>Pages/Slides/表格/Sites</td><td>✅ 2026-11-22 官方当前文档</td></tr>
+<tr><td>页面交互可视化/@块</td><td>⚠️ 原截图观察；当前总览未文档化，不称官方确认</td></tr>
+<tr><td>"互联网分享"</td><td>⚠️ 截图显示邀请制状态，未证公开已开</td></tr>
+<tr><td>历史版本恢复/Markdown 导出/原位改原文件</td><td>❓ 本轮未实机核对</td></tr>
+<tr><td>"取代其他软件"</td><td>❌ 作者判断，官方无此说法</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q7</div>
+<h2>本机可迁移的工作流（无账号也可用）</h2>
+<p>"块编辑+引用溯源+导出边界"三件套不依赖 Space：本地 Markdown + 引用注释 + 版本目录（vault 本身就是实例——本仓库 vault 的 [[原子笔记与双链]] 即"页面+引用"的本地版）。Space 的增量在<b>协同角色</b>与<b>@聊天</b>这两个产品化能力。</p>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>页面 vs 文档 vs 聊天：三个容器怎么选</h2>
+<ul>
+<li><b>聊天</b>：探索期，过程即价值；</li>
+<li><b>页面</b>：收敛期，结论+溯源，要协作；</li>
+<li><b>文件</b>：交付期，要脱离平台存活（导出后仍完整）。</li>
+</ul>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q9</div>
+<h2>分享前的三秒检查</h2>
+<pre><code>① 分享设置当前是邀请制还是公开？（截图里的默认≠你要的）
+② 页面里有没有 @ 了不该外泄的私人聊天/受限文件？
+③ 接收方拿到的格式能保留交互、来源和权限吗？（本地模拟不算产品实测）</code></pre>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q10</div>
+<h2>动手：本地复刻页面导出（约 10 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 在 <code>chatgpt_space_workflow</code> 目录运行单向模拟。</b><code>python -I exercise/space_export.py</code>。
+<div class="expect">✅ 实测：生成 space-demo-export-v2.md，viz/ref/file 都有本地降级标记。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 跑 5 项测试。</b><code>python -I exercise/test_space_export.py</code>。
+<div class="expect">✅ 实测 5 项通过：6 块顺序、三类标记、源文件不变。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 若要验证 Space，另做产品实验。</b>在授权账号中记录实际页面、分享角色与导出格式；不得把本地模拟当结果。</div>
+<div class="okbox"><b>如实声明</b>：无 ChatGPT 账号未实机；2026-11-22 已复核当前官方文档；本实验只验证自定义单向导出。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>对话→文档沉淀判断</b>：何时收敛成页面；</li>
+<li><b>三边界意识</b>：交互/引用/附件导出即走样；</li>
+<li><b>分享三秒检查</b>：邀请制/敏感引用/导出完整性；</li>
+<li><b>容器选择框架</b>：聊天/页面/文件各司其职；</li>
+<li><b>本地复刻能力</b>：导出脚本可直接改用自己项目。</li>
+</ol>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>Space=对话工作区</b>：块编辑+引用+协作，产品层能力；</li>
+<li><b>页面与静态快照分开</b>：本地三类降级标记不是 Space 真实导出证明；</li>
+<li><b>分享≠公开≠共享聊天</b>：以当前设置与官方边界为准；</li>
+<li><b>截图证据要读状态</b>：邀请制截图不证公开；</li>
+<li><b>"取代其他软件"是作者判断</b>。</li>
+</ul>
+</div>
+
+<div class="card" style="--accent:#06d6a0;"><div class="qnum">↗</div><h2>来源</h2><ul><li><a href="https://learn.chatgpt.com/docs/space">Space 当前总览</a></li><li><a href="https://learn.chatgpt.com/docs/space/collaboration">协作与分享</a></li><li><a href="https://x.com/gengdaJ">原帖作者入口</a>（截图与宣传线索）</li></ul></div>
+</div>
+<div class="footer">ChatGPT Space 工作流复核 · 2026-11-22 · 当前官方文档+本地单向导出5测试</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "state": "STOPPED",
+  "history": [
+    "DOT_WORKING → TAKEOVER_REQUESTED（人请求：我要自己改这一步）",
+    "TAKEOVER_REQUESTED → HUMAN_CONTROL（保存本地快照后让出控制）",
+    "HUMAN_CONTROL → HANDBACK（人交还控制并附交接说明）",
+    "HANDBACK → DOT_WORKING（读取本地快照继续）",
+    "DOT_WORKING → STOPPED（红线：涉及付款页面）"
+  ],
+  "snapshot": {
+    "from": "DOT_WORKING",
+    "reason": "我要自己改这一步",
+    "kind": "本地自写快照，非Dots功能"
+  }
+}

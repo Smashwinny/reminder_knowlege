@@ -1,0 +1,43 @@
+{
+  "task_id": "61eededa-7107-4f33-ad1c-a287c1520ce4",
+  "topic": "Higgsfield：CLI/MCP/GUI 契约与本地预算/通用异步实验",
+  "project_dir": "higgsfield_codex_workflow",
+  "classification": "知识学习类（集成契约）",
+  "source_urls": [
+    "https://x.com/higgsfield/status/2105354097788412063",
+    "https://higgsfield.ai/cli",
+    "https://higgsfield.ai/creator-hub/help-center/integrations/how-do-i-access-higgsfield-via-cli"
+  ],
+  "pdf": "higgsfield_codex_workflow/Higgsfield-Codex工作流-小白指南-v2.pdf",
+  "html": "higgsfield_codex_workflow/higgsfield-guide.html",
+  "exercise_dir": "higgsfield_codex_workflow/exercise",
+  "experiment_log": "higgsfield_codex_workflow/exercise/experiment-log.md",
+  "experiment_files": [
+    "higgsfield_codex_workflow/exercise/route_contract.py",
+    "higgsfield_codex_workflow/exercise/test_route_contract.py",
+    "higgsfield_codex_workflow/exercise/decision-matrix.md",
+    "higgsfield_codex_workflow/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/higgsfield_codex_workflow.md",
+  "vault_note_proposal": "higgsfield_codex_workflow/higgsfield_codex_workflow-vault-note-proposal.md",
+  "deliverables": [
+    "higgsfield_codex_workflow/higgsfield-guide.html",
+    "higgsfield_codex_workflow/Higgsfield-Codex工作流-小白指南-v2.pdf",
+    "higgsfield_codex_workflow/exercise/route_contract.py",
+    "higgsfield_codex_workflow/exercise/test_route_contract.py",
+    "higgsfield_codex_workflow/exercise/decision-matrix.md",
+    "higgsfield_codex_workflow/exercise/experiment-log.md",
+    "higgsfield_codex_workflow/higgsfield_codex_workflow-vault-note-proposal.md",
+    "vault/项目笔记/higgsfield_codex_workflow.md"
+  ],
+  "verified_facts": [
+    "2026-11-22官方账号登录/同积分率/Unlimited不适用/Developer Terms/Skills不同/Assets复核",
+    "官方当前已说明异步轮询，具体状态枚举与任务查询命令仍未公开；本地五态未冒充官方",
+    "本地三通路/预算/通用状态实验与8项unittest全部通过",
+    "审核版PDF从修订HTML重印并逐页渲染"
+  ],
+  "blocked_items": [
+    "无Higgsfield账号未安装CLI未实机生成或扣费",
+    "Computer Use可用性、真实任务状态、Assets和30秒演示未验证"
+  ]
+}
