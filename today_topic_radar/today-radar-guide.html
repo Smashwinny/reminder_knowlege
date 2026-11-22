@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Today 选题雷达工作流 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f0fbff; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#00b8a9 0%,#2d9cdb 55%,#7c4dff 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-teal));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-teal));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-teal));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-teal));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Today 选题雷达：候选理由、来源核对与只生成草稿</h1>
+  <p>候选理由、来源保留、只产草稿——原引用帖工作流与 Today 官方产品事实分开；新版五项各 1 分，默认合成夹具离线复现</p>
+  <p>
+    <span class="badge">历史真实API记录保留</span><span class="badge">五项7测试通过</span><span class="badge">只产草稿纪律</span><span class="badge">2026-11-22 审核修订</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖 @LufzzLiz 引用帖 → today.ai ｜ 初学 2026-10-28 ｜ 审核修订 2026-11-22</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q1</div>
+<h2>Today 是什么？这套工作流的核心是什么？</h2>
+<p><span class="big">2026-11-22 官网描述常驻 AI 助理：用户可控记忆、主动提示、计划与工具执行、连接器和云电脑。</span>原引用帖展示的选题流程是“近期内容+公开信号→候选与当日价值→人选择→只产草稿”。<b>官网没有单独承诺名为“选题雷达”的功能</b>，所以本指南学习的是引用帖工作流，不把它写成官方独立产品。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q2</div>
+<h2>五项启发式不是四个送分项</h2>
+<p>2026-10-28 历史实测曾从 GitHub/HN 取得 11 条候选，但初版只实现时效、受众、直接信号和标题脱水，未实现叙事轮换；HN 也被无条件送时效分。2026-11-22 修订为五项各 1 分，日期、目标受众、直接信号、标题初筛和近期历史分别计算。</p>
+<pre><code>默认合成夹具（不是历史 API 快照），基准日 2026-11-22：
+cache-cost-lab        5/5（五项全过）
+agent-safety-replay   4/5（近期已有同主题）
+old-model-news        4/5（超过 7 天）
+garden-sensor-diary   4/5（不匹配当前 AI 受众）
+hyped-agent-tools     3/5（二手聚合+标题情绪词）
+7 项 unittest 全部通过</code></pre>
+<div class="svgbox"><svg viewBox="0 0 720 120" width="100%" role="img" aria-label="五项各一分的选题启发式"><rect x="15" y="25" width="125" height="50" rx="10" fill="#00b8a9"/><rect x="150" y="25" width="125" height="50" rx="10" fill="#2d9cdb"/><rect x="285" y="25" width="125" height="50" rx="10" fill="#7c4dff"/><rect x="420" y="25" width="125" height="50" rx="10" fill="#ff6b1a"/><rect x="555" y="25" width="150" height="50" rx="10" fill="#ff2e88"/><text x="77" y="57" text-anchor="middle" fill="white" font-size="18">时效 1</text><text x="212" y="57" text-anchor="middle" fill="white" font-size="18">受众 1</text><text x="347" y="57" text-anchor="middle" fill="white" font-size="18">直接信号 1</text><text x="482" y="57" text-anchor="middle" fill="white" font-size="18">脱水初筛 1</text><text x="630" y="57" text-anchor="middle" fill="white" font-size="18">叙事轮换 1</text><text x="360" y="108" text-anchor="middle" font-size="17">合计 5 分；少一项就不再是“五阀”</text></svg></div>
+<div class="okbox">雷达的可迁移内核是候选理由、来源和草稿边界；评分只是排序启发式，不证明事实、质量或传播效果。</div>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q3</div>
+<h2>为什么"只产草稿"是设计而不是偷懒？</h2>
+<p>失真、过时或侵权内容一旦公开发布，可能带来远高于草稿阶段的纠错成本。“只产草稿”把发布决定留在人手里，雷达只负责<b>扩大候选池+给出理由+保留来源</b>。这不是说漏题永远低成本，而是把采集与发布拆成两个权限阶段。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q4</div>
+<h2>来源核对的三个层次</h2>
+<table>
+<tr><th>层次</th><th>动作</th><th>本指南实验对应</th></tr>
+<tr><td>留来源</td><td>每条候选附 URL 与信号类型</td><td>radar-draft-v2.md 逐条来源</td></tr>
+<tr><td>回源核对</td><td>用榜单数值前点回原始页</td><td>草稿页脚明示此纪律</td></tr>
+<tr><td>指标释义</td><td>★数/分数的口径与时间戳</td><td>信号字段带口径（新开7日/HN分数）</td></tr>
+</table>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[项目笔记/ai-video-pipeline]] 选题五阀</td><td>从"人肉筛选"落地为"确定性机检评分"</td></tr>
+<tr><td>[[情绪脱水测试]]</td><td>脱水阀=标题情绪词机检</td></tr>
+<tr><td>[[中继交叉印证]]</td><td>GitHub/HN 是直接平台信号；HN 外链仍需回原报道，不把讨论分当事实核验</td></tr>
+<tr><td>[[三级记忆]]（grok_bot/easel 班）</td><td>"近期内容记忆"=个人信号源，与公开信号双通道</td></tr>
+</table>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>三选题+当日价值+人选择+只草稿</td><td>✅ 引用帖明确描述</td></tr>
+<tr><td>记忆/主动提示/常驻云电脑</td><td>✅ 2026-11-22 官网产品描述（非账户实测）</td></tr>
+<tr><td>官网明确提供独立“选题雷达”功能</td><td>❓ 所读官网未作此承诺；仅原引用帖工作流</td></tr>
+<tr><td>榜单数值全准确/几秒出稿</td><td>⚠️ 无运行日志</td></tr>
+<tr><td>中国版送一亿 Token/月 Pro</td><td>❓ 无官方活动条款</td></tr>
+<tr><td>主动提醒=可代发帖/付款</td><td>❌ 主动≠授权</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q7</div>
+<h2>把雷达接到自己的晨报</h2>
+<pre><code>① 先用默认夹具验收；需要新数据时才用 --live 访问公开 API
+② 把生成的 radar-draft-v2.md 交给人工勾选，未选中的留作近期历史
+③ 把近期 topic_key 写入夹具/自己的历史库，下一轮叙事轮换才有真实依据
+④ 用选中题的后续表现校准权重；本班未配置 cron 或验证传播效果</code></pre>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>主动提示的认知边界</h2>
+<p>主动提醒是"注意力入口"不是"行动授权"。Today 类产品的主动提示帮你<b>发现</b>选题；选哪个、写不写、发不发全在人。把主动提示当授权，就是把雷达当自动驾驶——两者都不是。</p>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q9</div>
+<h2>主帖 Muse 激活段为什么不学？</h2>
+<p>主帖描述"用 Dot 操作 Muse 开通"是个人经验（支付卡信息不复述、成功与否未确认）。个人开通路径≠通用教程，且与本主题（选题雷达工作流）无关——<b>拆帖学习</b>：引用帖的工作流是学习内容，主帖的开通经历不是。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q10</div>
+<h2>动手：跑你自己的雷达（约 10 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 在 <code>today_topic_radar</code> 目录离线运行。</b><code>python -I exercise/topic_radar.py --today 2026-11-22</code>。
+<div class="expect">✅ 实测：5 条合成候选，最高 5/5，输出 radar-draft-v2.md；不联网。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 跑七项测试。</b><code>python -I exercise/test_topic_radar.py</code>。
+<div class="expect">✅ 实测 7 项通过：五项齐全、叙事/时效/来源/脱水/受众、缺日期和输入不可变。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 需要实时数据才联网。</b><code>python -I exercise/topic_radar.py --live --output exercise/live-draft.md</code>。
+<div class="expect">⚠️ 本次未重跑实时 API；历史 2026-10-28 的 11 候选记录保留，不把旧榜单当今天事实。</div></div>
+<div class="okbox"><b>如实声明</b>：无 Today 账号未实机；2026-11-22 只读官网；默认夹具明确为合成，评分不替代回源和人工发布。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>雷达三要素</b>：候选带理由/来源保留/只产草稿；</li>
+<li><b>五项启发式</b>：时效/目标受众/直接信号/标题初筛/叙事轮换；</li>
+<li><b>60 行可跑原型</b>：接 cron 即成个人晨报雷达；</li>
+<li><b>来源三层核对</b>：留源/回源/释义；</li>
+<li><b>主动≠授权的边界意识</b>。</li>
+</ol>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>内核可剥离平台</b>：候选理由+来源+只草稿，60 行复刻；</li>
+<li><b>五项启发式</b>：时效/目标受众/直接信号/标题初筛/叙事轮换，各 1 分；</li>
+<li><b>只产草稿=发布权在人</b>；</li>
+<li><b>来源三层核对</b>：留源/回源/释义；</li>
+<li><b>主动提示≠行动授权</b>。</li>
+</ul>
+</div>
+
+<div class="card" style="--accent:#06d6a0;"><div class="qnum">↗</div><h2>来源</h2><ul><li><a href="https://today.ai/">Today 官网</a>（2026-11-22 产品描述）</li><li><a href="https://x.com/LufzzLiz">原引用帖作者入口</a>（选题工作流线索，非官方功能证明）</li></ul></div>
+</div>
+<div class="footer">Today 选题工作流复核 · 2026-11-22 · 历史真实API记录+合成夹具7测试</div>
+</body>
+</html>

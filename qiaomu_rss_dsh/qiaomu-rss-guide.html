@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Qiaomu RSS 插件 · 小白指南</title>
+<style>
+:root{
+  --c-bg:#f0fff8; --c-ink:#1d2433; --c-card:#ffffff;
+  --c-orange:#ff6b1a; --c-teal:#00b8a9; --c-purple:#7c4dff;
+  --c-pink:#ff2e88; --c-yellow:#ffd60a; --c-blue:#2d9cdb; --c-green:#06d6a0; --c-red:#ef476f;
+  --grad:linear-gradient(135deg,#06d6a0 0%,#2d9cdb 55%,#7c4dff 100%);
+}
+@media print{ @page{size:A4;margin:12mm;} }
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--c-bg);color:var(--c-ink);line-height:1.75;}
+.hero{background:var(--grad);color:#fff;padding:56px 8% 48px;}
+.hero h1{font-size:2.3em;margin:0 0 10px;text-shadow:0 3px 10px rgba(0,0,0,.25);}
+.hero p{font-size:1.15em;margin:6px 0;}
+.badge{display:inline-block;background:var(--c-yellow);color:#5a3d00;font-weight:700;border-radius:999px;padding:4px 16px;margin:4px 8px 0 0;font-size:.85em;}
+.wrap{max-width:960px;margin:0 auto;padding:32px 5%;}
+.card{background:var(--c-card);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.10);padding:30px 34px;margin:34px 0;break-inside:avoid;page-break-inside:avoid;border-top:8px solid var(--accent,var(--c-green));}
+.qnum{font-size:3.2em;font-weight:900;color:var(--accent,var(--c-green));line-height:1;margin-bottom:2px;}
+h2{font-size:1.45em;margin:0 0 14px;}
+h3{font-size:1.1em;margin:20px 0 8px;color:var(--accent,var(--c-green));}
+.hl{background:linear-gradient(transparent 62%,var(--c-yellow) 62%);font-weight:800;padding:0 2px;}
+.big{font-size:1.25em;font-weight:800;}
+code{background:#f1f3f9;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;color:#b3005e;font-size:.92em;}
+pre{background:#141a2b;color:#d6e2ff;border-radius:12px;padding:16px 20px;overflow-x:auto;font-size:.85em;line-height:1.6;}
+pre code{background:none;color:inherit;padding:0;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em;}
+th{background:var(--accent,var(--c-green));color:#fff;padding:9px 10px;text-align:left;}
+td{border-bottom:1px solid #eee;padding:8px 10px;vertical-align:top;}
+tr:nth-child(even){background:#fafbfd;}
+.warnbox{background:#fff3f6;border-left:6px solid var(--c-red);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.okbox{background:#eafff8;border-left:6px solid var(--c-green);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.tipbox{background:#fffbe6;border-left:6px solid var(--c-yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;}
+.svgbox{background:#fbfcff;border:1px dashed #c9d4ea;border-radius:12px;padding:10px;margin:14px 0;text-align:center;}
+.step{border:2px solid var(--c-teal);border-radius:14px;padding:14px 18px;margin:14px 0;background:#f4fffd;}
+.step b.s{color:var(--c-teal);font-size:1.05em;}
+.expect{background:#eafff8;border:2px dashed var(--c-green);border-radius:10px;padding:10px 16px;margin-top:8px;}
+.footer{background:#141a2b;color:#8fa1c9;text-align:center;padding:26px;font-size:.85em;}
+ul{margin:8px 0;} li{margin:4px 0;}
+a{color:var(--c-purple);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Qiaomu RSS：订阅读取与文章上下文伴读</h1>
+  <p>固定 commit 349398b 源码审计 + 离线 RSS 范围实验——1500 字符只能叫“背景摘录”，不能冒充整篇；选段与真实回答引用也要分开验收</p>
+  <p>
+    <span class="badge">8工具源码确认</span><span class="badge">版本漂移实证</span><span class="badge">离线6测试通过</span><span class="badge">2026-11-22 审核修订</span>
+  </p>
+  <p style="font-size:.9em;opacity:.9;">来源：X 帖 @vista8 → joeseesun/qiaomu-rss-dsh ｜ 初学 2026-10-28 ｜ 审核修订 2026-11-22</p>
+</div>
+
+<div class="wrap">
+
+<!-- Q1 -->
+<div class="card" style="--accent:#06d6a0;">
+<div class="qnum">Q1</div>
+<h2>这个插件是什么？一句话能说清吗？</h2>
+<p><span class="big">DeepSeek Harness 的社区 RSS 阅读插件（GPL-3.0）：订阅 RSS/Atom/OPML，读原文/译文/AI 改写，并把文章或选段绑定到宿主原生 AI 对话做"伴读"。</span>普通阅读不需要模型密钥，伴读依赖宿主配置；社区插件，非 DeepSeek 官方维护。</p>
+</div>
+
+<!-- Q2 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q2</div>
+<h2>源码审计四发现（本指南实测）</h2>
+<table>
+<tr><th>审计项</th><th>实测结果</th></tr>
+<tr><td>工具面</td><td>8 个 rss_* 工具源码确认（订阅增删/频道/文章列表/阅读/搜索/刷新/生成版本）</td></tr>
+<tr><td>版本漂移</td><td>固定 commit <b>349398b</b>：README 安装段 v0.7.0，package.json 为 0.9.0；这是固定版本差异，不冒称当前 main 仍如此</td></tr>
+<tr><td>许可口径</td><td>整插件 GPL-3.0-only；内置博客名单 MIT——两者不能混用</td></tr>
+<tr><td>隐私开关</td><td>实验室收录默认关闭需邀请码；开启会把 URL 发至乔木服务并公开收录</td></tr>
+</table>
+</div>
+
+<!-- Q3 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">Q3</div>
+<h2>伴读范围：背景摘录与请求选段</h2>
+<p>初学期曾真实访问 blog.python.org；本轮不重复联网，改用明确标注的 5 篇合成 RSS 夹具。首篇清洗后 1,525 字符，背景预算 1,500：</p>
+<pre><code>[背景摘录] 1500/1525 字符；truncated=True
+[请求范围-选段] 第一段，确实存在于原文
+6 项 unittest 全部通过</code></pre>
+<div class="svgbox"><svg viewBox="0 0 720 160" width="100%" role="img" aria-label="长文背景摘录和选段"><rect x="25" y="25" width="650" height="40" rx="9" fill="#7c4dff"/><rect x="25" y="25" width="500" height="40" rx="9" fill="#2d9cdb"/><text x="275" y="52" text-anchor="middle" fill="white" font-size="18">背景摘录 1500</text><text x="612" y="52" text-anchor="middle" fill="white" font-size="16">余 25</text><rect x="25" y="90" width="250" height="40" rx="9" fill="#06d6a0"/><text x="150" y="117" text-anchor="middle" fill="white" font-size="18">请求选段</text><text x="300" y="118" font-size="17">truncated=True；不是整篇</text></svg></div>
+<p><span class="hl">截断后只能叫“背景摘录”</span>。范围声明能帮助控制语境和成本，但“回答只能引用选段”仍是待验证提示纪律；必须保存实际回答核对，不能从解析结果推断模型一定不越界。</p>
+</div>
+
+<!-- Q4 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q4</div>
+<h2>它不是什么（README 自己说清楚的边界）</h2>
+<ul>
+<li>不是 Obsidian 笔记/划线/日记工具（无这些功能）；</li>
+<li>OPML 导出只带订阅不带阅读状态；</li>
+<li>已有播客是"逐字稿阅读"不是音频转写新功能；</li>
+<li>伴读≠通用 Agent 提交工具（实验室收录是独立封闭流程）。</li>
+</ul>
+</div>
+
+<!-- Q5 -->
+<div class="card" style="--accent:#00b8a9;">
+<div class="qnum">Q5</div>
+<h2>和已有知识是什么关系？</h2>
+<table>
+<tr><th>已有概念</th><th>本次增补</th></tr>
+<tr><td>[[事实与判断分离]]</td><td>伴读=把"原文事实"和"AI 改写判断"分槽呈现</td></tr>
+<tr><td>[[上下文预算与战略压缩]]</td><td>背景摘录/请求选段分离；截断标记让信息缺失可见，不称最小充分</td></tr>
+<tr><td>[[快照契约与不可变只读]]</td><td>原文缺失不虚构=拒绝残缺假完整</td></tr>
+<tr><td>[[三级记忆]]</td><td>收藏/阅读状态=个人 L2 层，插件显式不提供笔记层</td></tr>
+</table>
+</div>
+
+<!-- Q6 -->
+<div class="card" style="--accent:#ef476f;">
+<div class="qnum">Q6</div>
+<h2>宣称可信度核查</h2>
+<table>
+<tr><th>说法</th><th>核实</th></tr>
+<tr><td>8 工具/RSS/OPML/伴读绑定</td><td>✅ 源码+README 一致</td></tr>
+<tr><td>版本验证记录</td><td>⚠️ 维护者自述（v0.6 桌面/v0.7 隔离 profile），非本轮实测</td></tr>
+<tr><td>README 安装命令版本</td><td>❌ 滞后（v0.7.0 vs 实际 0.9.0）</td></tr>
+<tr><td>普通阅读免模型密钥</td><td>✅ README 明确</td></tr>
+</table>
+</div>
+
+<!-- Q7 -->
+<div class="card" style="--accent:#5a3d00;">
+<div class="qnum">Q7</div>
+<h2>装社区插件前的版本核对三步</h2>
+<pre><code>① package.json 的 version 对比 README 安装段（本案例差两个版本）
+② Release 页最新 tag + .sha256 校验文件
+③ 官方宿主文档核对 bundle/profile 安装行为（分类阶段已核 DeepSeek 打包文档）</code></pre>
+</div>
+
+<!-- Q8 -->
+<div class="card" style="--accent:#b3005e;">
+<div class="qnum">Q8</div>
+<h2>伴读机制平移到任何 AI 阅读场景</h2>
+<p>不限于 RSS：读论文/合同/财报都可以把背景摘录与请求选段分开，并明确链接和截断状态。这是 [[RAG检索增强生成]] 的用户显式范围控制思路；但自动选首段不一定足够，实际回答是否越界仍需核验。</p>
+</div>
+
+<!-- Q9 -->
+<div class="card" style="--accent:#ff6b1a;">
+<div class="qnum">Q9</div>
+<h2>GPL-3.0-only 意味着什么</h2>
+<p>固定版本的 package.json 标注 GPL-3.0-only。通常私人使用或不对外分发的修改不触发同样的分发义务；对外分发插件或其衍生作品时，需要按 GPL 条款提供对应源代码并保留许可等。内置博客名单另标 MIT 是<b>名单数据</b>的许可，不能替代插件代码许可。具体商用与分发结构请核对许可证全文和实际法律意见，本指南不作“闭源产品必然如何”的一句话判断。</p>
+</div>
+
+<!-- Q10 -->
+<div class="card" style="--accent:#2d9cdb;">
+<div class="qnum">Q10</div>
+<h2>动手：伴读复刻（约 10 分钟）</h2>
+<div class="step"><b class="s">步骤 1 ｜ 在 <code>qiaomu_rss_dsh</code> 目录离线运行。</b><code>python -I exercise/rss_companion_demo.py</code>。
+<div class="expect">✅ 实测：5 篇合成文章，背景 1500/1525、truncated=True；不联网。</div></div>
+<div class="step"><b class="s">步骤 2 ｜ 跑六项测试。</b><code>python -I exercise/test_rss_companion.py</code>。
+<div class="expect">✅ 实测 6 项通过：5 篇解析、长/短背景、选段属于原文、精确长度和非法预算。</div></div>
+<div class="step"><b class="s">步骤 3 ｜ 需要新数据时显式指定 URL。</b><code>python -I exercise/rss_companion_demo.py --feed-url https://example.com/feed.xml</code>。
+<div class="expect">⚠️ 本次未重跑真实 feed；初学期 blog.python.org 记录保留，不把旧内容当本轮快照。</div></div>
+<div class="okbox"><b>如实声明</b>：无 DeepSeek Harness 未安装插件；固定 commit 审计与离线复刻真实执行；维护者验证记录未复测。</div>
+</div>
+
+<!-- 能力清单 -->
+<div class="card" style="--accent:#7c4dff;">
+<div class="qnum">★</div>
+<h2>这个主题给我什么能力？</h2>
+<ol>
+<li><b>伴读范围声明机制</b>（背景/选段二分）；</li>
+<li><b>社区插件审计四查</b>（工具面/版本漂移/许可口径/隐私开关）；</li>
+<li><b>版本核对三步</b>；</li>
+<li><b>GPL 传染性判断</b>；</li>
+<li><b>RAG 用户显式控制的最小实现</b>。</li>
+</ol>
+</div>
+
+<!-- 总结 -->
+<div class="card" style="--accent:#ff2e88;">
+<div class="qnum">◆</div>
+<h2>一页总结</h2>
+<ul>
+<li><b>伴读范围=背景摘录/请求选段</b>：截断状态必须显式；</li>
+<li><b>版本漂移实证</b>：README v0.7 vs 实际 0.9；</li>
+<li><b>8 工具源码确认</b>，伴读依赖宿主配置；</li>
+<li><b>AI 改写≠原文≠事实</b>；</li>
+<li><b>GPL-3.0-only 与名单 MIT 分口径</b>。</li>
+</ul>
+</div>
+
+<div class="card" style="--accent:#06d6a0;"><div class="qnum">↗</div><h2>来源</h2><ul><li><a href="https://github.com/joeseesun/qiaomu-rss-dsh">上游仓库</a>（审核固定 commit 349398b）</li><li><a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/develop/basic/publish.md">宿主打包文档</a></li><li><a href="https://x.com/vista8">原帖作者入口</a></li></ul></div>
+</div>
+<div class="footer">Qiaomu RSS 插件 · 2026-11-22 审核修订 · 固定源码+离线RSS 6测试</div>
+</body>
+</html>

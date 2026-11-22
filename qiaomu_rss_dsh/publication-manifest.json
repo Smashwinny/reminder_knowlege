@@ -1,0 +1,44 @@
+{
+  "task_id": "6665d851-dedd-4a8d-8cb2-cb2ae78b020e",
+  "topic": "Qiaomu RSS：固定源码审计与背景摘录/请求选段实验",
+  "project_dir": "qiaomu_rss_dsh",
+  "classification": "开源项目类（宿主插件）",
+  "source_urls": [
+    "https://x.com/vista8",
+    "https://github.com/joeseesun/qiaomu-rss-dsh",
+    "https://github.com/joeseesun/qiaomu-rss-dsh/commit/349398b",
+    "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/develop/basic/publish.md"
+  ],
+  "pdf": "qiaomu_rss_dsh/Qiaomu-RSS插件-小白指南-v2.pdf",
+  "html": "qiaomu_rss_dsh/qiaomu-rss-guide.html",
+  "exercise_dir": "qiaomu_rss_dsh/exercise",
+  "experiment_log": "qiaomu_rss_dsh/exercise/experiment-log.md",
+  "experiment_files": [
+    "qiaomu_rss_dsh/exercise/rss_companion_demo.py",
+    "qiaomu_rss_dsh/exercise/test_rss_companion.py",
+    "qiaomu_rss_dsh/exercise/fixtures/python-insider-sample.xml",
+    "qiaomu_rss_dsh/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/qiaomu_rss_dsh.md",
+  "vault_note_proposal": "qiaomu_rss_dsh/qiaomu_rss_dsh-vault-note-proposal.md",
+  "deliverables": [
+    "qiaomu_rss_dsh/qiaomu-rss-guide.html",
+    "qiaomu_rss_dsh/Qiaomu-RSS插件-小白指南-v2.pdf",
+    "qiaomu_rss_dsh/exercise/rss_companion_demo.py",
+    "qiaomu_rss_dsh/exercise/test_rss_companion.py",
+    "qiaomu_rss_dsh/exercise/fixtures/python-insider-sample.xml",
+    "qiaomu_rss_dsh/exercise/experiment-log.md",
+    "qiaomu_rss_dsh/qiaomu_rss_dsh-vault-note-proposal.md",
+    "vault/项目笔记/qiaomu_rss_dsh.md"
+  ],
+  "verified_facts": [
+    "固定commit349398b源码确认8个rss_*工具；README v0.7.0 vs package.json 0.9.0，GPL-3.0-only",
+    "默认合成RSS夹具不联网，背景1500/1525 truncated=True，选段属于原文；6项unittest全部通过",
+    "初学期真实blog.python.org记录与本轮分开，截断不再冒称整篇，回答引用仍需实际核验",
+    "审核版PDF从修订HTML重印并逐页渲染"
+  ],
+  "blocked_items": [
+    "无DeepSeek Harness 0.2.0-rc.2未安装插件，维护者版本验证记录未复测",
+    "本轮未重跑真实feed，未验证真实AI回答引用、宿主伴读或当前main版本漂移"
+  ]
+}

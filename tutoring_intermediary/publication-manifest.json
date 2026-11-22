@@ -1,0 +1,41 @@
+{
+  "task_id": "18868fe9-8928-44df-8230-733f52fb776a",
+  "topic": "家教中介创业复盘：首月/续费月单位收益与学科培训规章边界",
+  "project_dir": "tutoring_intermediary",
+  "classification": "知识学习类（服务中介经济学+合规）",
+  "source_urls": [
+    "https://x.com/i/article/2105594397383606272",
+    "http://www.moe.gov.cn/srcsite/A02/s5911/moe_621/202309/t20230912_1079788.html"
+  ],
+  "pdf": "tutoring_intermediary/家教中介创业复盘-小白指南-v2.pdf",
+  "html": "tutoring_intermediary/tutoring-intermediary-guide.html",
+  "exercise_dir": "tutoring_intermediary/exercise",
+  "experiment_log": "tutoring_intermediary/exercise/experiment-log.md",
+  "experiment_files": [
+    "tutoring_intermediary/exercise/tutoring_pnl.py",
+    "tutoring_intermediary/exercise/test_tutoring_pnl.py",
+    "tutoring_intermediary/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/tutoring_intermediary.md",
+  "vault_note_proposal": "tutoring_intermediary/tutoring_intermediary-vault-note-proposal.md",
+  "deliverables": [
+    "tutoring_intermediary/tutoring-intermediary-guide.html",
+    "tutoring_intermediary/家教中介创业复盘-小白指南-v2.pdf",
+    "tutoring_intermediary/exercise/tutoring_pnl.py",
+    "tutoring_intermediary/exercise/test_tutoring_pnl.py",
+    "tutoring_intermediary/exercise/experiment-log.md",
+    "tutoring_intermediary/tutoring_intermediary-vault-note-proposal.md",
+    "vault/项目笔记/tutoring_intermediary.md"
+  ],
+  "verified_facts": [
+    "首月/续费月双对照复跑：A +4936/−1464，B +14072/+1272，C +8386/+1986；A 平衡点首月5人/续费16人",
+    "6项unittest通过，续费中介费与获客归零、非法period与负学生数fail-closed",
+    "教育部53号令原文第二/十七/十八/十九条复核，删除所有家教泛化和自动安全港口径",
+    "审核版PDF从修订HTML重印并逐页渲染"
+  ],
+  "blocked_items": [
+    "文章收入数据无凭据未独立核实，未启动任何真实经营",
+    "示例不构成个案合规或法律意见，地方执行与具体资质仍需另查"
+  ],
+  "note": "经济学知识学习，不构成经营或法律建议"
+}

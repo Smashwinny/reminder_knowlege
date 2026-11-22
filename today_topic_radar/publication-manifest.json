@@ -1,0 +1,44 @@
+{
+  "task_id": "18c3612c-4197-492a-90a2-e722f38274d3",
+  "topic": "Today 引用帖选题工作流：五项启发式、来源与只产草稿",
+  "project_dir": "today_topic_radar",
+  "classification": "知识学习类（内容工作流）",
+  "source_urls": [
+    "https://x.com/LufzzLiz",
+    "https://today.ai/"
+  ],
+  "pdf": "today_topic_radar/Today选题雷达工作流-小白指南-v2.pdf",
+  "html": "today_topic_radar/today-radar-guide.html",
+  "exercise_dir": "today_topic_radar/exercise",
+  "experiment_log": "today_topic_radar/exercise/experiment-log.md",
+  "experiment_files": [
+    "today_topic_radar/exercise/topic_radar.py",
+    "today_topic_radar/exercise/test_topic_radar.py",
+    "today_topic_radar/exercise/fixtures/topic_candidates.json",
+    "today_topic_radar/exercise/radar-draft-v2.md",
+    "today_topic_radar/exercise/experiment-log.md"
+  ],
+  "vault_note": "vault/项目笔记/today_topic_radar.md",
+  "vault_note_proposal": "today_topic_radar/today_topic_radar-vault-note-proposal.md",
+  "deliverables": [
+    "today_topic_radar/today-radar-guide.html",
+    "today_topic_radar/Today选题雷达工作流-小白指南-v2.pdf",
+    "today_topic_radar/exercise/topic_radar.py",
+    "today_topic_radar/exercise/test_topic_radar.py",
+    "today_topic_radar/exercise/fixtures/topic_candidates.json",
+    "today_topic_radar/exercise/radar-draft-v2.md",
+    "today_topic_radar/exercise/experiment-log.md",
+    "today_topic_radar/today_topic_radar-vault-note-proposal.md",
+    "vault/项目笔记/today_topic_radar.md"
+  ],
+  "verified_facts": [
+    "新版五项各1分：时效/目标受众/直接信号/标题脱水初筛/叙事轮换；默认合成夹具不联网",
+    "5条合成候选输出radar-draft-v2.md，7项unittest全部通过；历史2026-10-28真实API记录与本轮分开",
+    "2026-11-22官网描述记忆/主动提示/执行/连接器/云电脑，未承诺独立选题雷达、免费无限或Token赠送",
+    "审核版PDF从修订HTML重印并逐页渲染"
+  ],
+  "blocked_items": [
+    "无Today账号未实机；本轮未重跑实时API，旧榜单不当今天事实",
+    "评分不证明事实、质量、传播效果或发布授权；原宣传Token/几秒出稿无官方条款"
+  ]
+}

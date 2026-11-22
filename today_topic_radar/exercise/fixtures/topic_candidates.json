@@ -1,0 +1,56 @@
+{
+  "description": "明确标注的合成离线夹具；不是 2026-10-28 的真实 API 快照",
+  "recent_topics": ["agent-safety"],
+  "candidates": [
+    {
+      "title": "cache-cost-lab",
+      "signal": "合成 GitHub 300★",
+      "url": "https://example.com/cache-cost-lab",
+      "desc": "AI model API cache cost comparison",
+      "source": "合成直接仓库信号",
+      "direct_signal": true,
+      "published_at": "2026-11-21",
+      "topic_key": "ai-cache"
+    },
+    {
+      "title": "agent-safety-replay",
+      "signal": "合成 HN 80 分",
+      "url": "https://example.com/agent-safety-replay",
+      "desc": "AI agent safety test replay",
+      "source": "合成直接讨论信号",
+      "direct_signal": true,
+      "published_at": "2026-11-20",
+      "topic_key": "agent-safety"
+    },
+    {
+      "title": "old-model-news",
+      "signal": "合成旧仓库 900★",
+      "url": "https://example.com/old-model-news",
+      "desc": "AI model release notes",
+      "source": "合成直接仓库信号",
+      "direct_signal": true,
+      "published_at": "2026-11-01",
+      "topic_key": "ai-models"
+    },
+    {
+      "title": "震惊：agent-tools 全疯了",
+      "signal": "合成聚合转载",
+      "url": "https://example.com/hyped-agent-tools",
+      "desc": "AI agent tools",
+      "source": "合成二手聚合页",
+      "direct_signal": false,
+      "published_at": "2026-11-22",
+      "topic_key": "agent-tools"
+    },
+    {
+      "title": "garden-sensor-diary",
+      "signal": "合成直接项目信号",
+      "url": "https://example.com/garden-sensor-diary",
+      "desc": "home garden sensor log",
+      "source": "合成直接仓库信号",
+      "direct_signal": true,
+      "published_at": "2026-11-22",
+      "topic_key": "garden"
+    }
+  ]
+}
